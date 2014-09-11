@@ -29,11 +29,12 @@ public class RegistrationRequestId2RegistrationRequestTermResolver implements Te
 
     private final static Set<String> prereqs;
 
+    private CourseRegistrationService courseRegistrationService;
+
     static {
-        Set<String> temp = new HashSet<String>(2);
+        Set<String> temp = new HashSet<>(2);
         temp.add(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName());
         temp.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        temp.add(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM.getName());
         prereqs = Collections.unmodifiableSet(temp);
     }
 
@@ -64,16 +65,22 @@ public class RegistrationRequestId2RegistrationRequestTermResolver implements Te
         String registrationRequestId = (String) resolvedPrereqs.
                 get(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName());
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        CourseRegistrationService courseRegistrationService = (CourseRegistrationService) resolvedPrereqs.get(
-                RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM.getName());
 
         RegistrationRequestInfo info;
         try {
-            info = courseRegistrationService.getRegistrationRequest(registrationRequestId, contextInfo);
+            info = getCourseRegistrationService().getRegistrationRequest(registrationRequestId, contextInfo);
         } catch (Exception ex) {
             throw new TermResolutionException("Unexpected", this, null, ex);
         }
         return info;
 
+    }
+
+    public CourseRegistrationService getCourseRegistrationService() {
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
     }
 }

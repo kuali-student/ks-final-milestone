@@ -1863,20 +1863,15 @@ the program will get the rule management service by calling the global resource 
         <property name="defaultFacts">
             <map>
                 <!--needed services-->
-                <entry key="academicRecordService" value-ref="academicRecordService"/>
-                <entry key="atpService" value-ref="AtpService"/>
                 <entry key="processService" value-ref="processService"/>
+                <entry key="populationService" value-ref="PopulationService"/>
+                <entry key="atpService" value-ref="AtpService"/>
+                <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
+                <entry key="gesService" value-ref="GesService"/>
+                <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
-                <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
-                <entry key="luiService" value-ref="LuiService"/>
                 <entry key="schedulingService" value-ref="SchedulingService"/>
-                <entry key="populationService" value-ref="PopulationService"/>
-                <entry key="exemptionService" value-ref="ExemptionService"/>
-                <entry key="identityService" value-ref="coreIdentityServiceClient"/>
-                <entry key="holdService" value-ref="HoldService"/>
-                <entry key="gesService" value-ref="GesService"/>
-                <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
                 <entry key="shouldRecordInstructionSuccesses" >
                     <bean class="java.lang.Boolean">
@@ -1887,10 +1882,16 @@ the program will get the rule management service by calling the global resource 
         </property>
         <property name="termResolvers">
             <list>
-                <bean class="org.kuali.student.core.krms.termresolver.PersonId2DeceasedDateTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.PersonId2DeceasedDateTermResolver">
+                    <property name="identityService" ref="coreIdentityServiceClient" />
+                </bean>
                 <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
-                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.DateInKeyDateRangeTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver">
+                    <property name="atpService" ref="AtpService" />
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.DateInKeyDateRangeTermResolver">
+                    <property name="atpService" ref="AtpService" />
+                </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver">
                     <property name="cluService" ref="CluService"/>
                 </bean>
@@ -1902,8 +1903,9 @@ the program will get the rule management service by calling the global resource 
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
-                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
-                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver">
+                    <property name="courseRegistrationService" ref="CourseRegistrationService" />
+                </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseTotalAttemptsTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">

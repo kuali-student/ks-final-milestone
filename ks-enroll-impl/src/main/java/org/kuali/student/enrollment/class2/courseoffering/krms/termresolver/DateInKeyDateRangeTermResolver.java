@@ -38,13 +38,14 @@ import java.util.*;
  */
 public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
 
+    private AtpService atpService;
+
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(4);
+        Set<String> prereqs = new HashSet<>(3);
         prereqs.add(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
         prereqs.add(RulesExecutionConstants.ATP_ID_TERM.getName());
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        prereqs.add(RulesExecutionConstants.ATP_SERVICE_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -55,7 +56,7 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> parameters = new HashSet<String>(1);
+        Set<String> parameters = new HashSet<>(1);
         parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY);
         return Collections.unmodifiableSet(parameters);
     }
@@ -84,8 +85,7 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
             String termId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
 
             // Milestones store start and end date information. All KeyDates are Milestones
-            AtpService atpService = (AtpService) resolvedPrereqs.get(RulesExecutionConstants.ATP_SERVICE_TERM.getName());
-            List<MilestoneInfo> mstones = atpService.getMilestonesByTypeForAtp(termId, milestoneType, context);
+            List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, milestoneType, context);
             if (mstones.isEmpty()) {
                 // The configured milestone was not found, thus, the date is not in the KeyDate range.
                 return false;
@@ -109,4 +109,11 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
         return true;
     }
 
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
 }

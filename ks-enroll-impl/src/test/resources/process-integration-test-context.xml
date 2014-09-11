@@ -60,12 +60,18 @@
         </property>
         <property name="termResolvers">
             <list>
-                <bean class="org.kuali.student.core.krms.termresolver.PersonId2DeceasedDateTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.PersonId2DeceasedDateTermResolver">
+                    <property name="identityService" ref="identityService"/>
+                </bean>
                 <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
-                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
-                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver">
+                    <property name="courseRegistrationService" ref="courseRegistrationService" />
+                </bean>
+                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver">
+                    <property name="atpService" ref="atpService" />
+                </bean>
             </list>
         </property>
     </bean>
