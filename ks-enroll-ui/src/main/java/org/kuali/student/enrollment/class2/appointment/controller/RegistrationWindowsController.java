@@ -9,9 +9,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
@@ -24,16 +22,19 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,6 +60,7 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(RegistrationWindowsController.class);
 
     private AppointmentViewHelperService viewHelperService;
 
@@ -199,7 +201,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                 return super.performRedirect(uifForm, controllerPath, urlParameters);
             }
         } catch (Exception e) {
-            //TODO: log exception
+            LOG.error("Failed to get confirm break appointments dialog", e);
             return getUIFModelAndView(uifForm);
         }
 
@@ -225,7 +227,8 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=deleteLineThroughDialog")
-    public ModelAndView deleteLineWithDialog(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, @SuppressWarnings("unused") BindingResult result, @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+    public ModelAndView deleteLineWithDialog(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, @SuppressWarnings("unused") BindingResult result,
+                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "refreshAfterDialog");
         urlParameters.put(UifParameters.VIEW_ID, AppointmentConstants.REGISTRATION_WINDOWS_MANAGEMENT_VIEW);
@@ -236,47 +239,53 @@ public class RegistrationWindowsController extends UifControllerBase {
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
 //        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
-//        removed the code that causes the light box to show and also stoped the code from redirecting
+
         try {
-//            AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
-            AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
-            uifForm.setSelectedAppointmentWindow(window);
-            if (window != null) {
+            String dialog = AppointmentConstants.Registration_Windows_ConfirmDelete_Dialog;
+            if (!hasDialogBeenDisplayed(dialog, uifForm)) {
+                AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
+                uifForm.setSelectedAppointmentWindow(window);
 
-                if (AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(window.getAppointmentWindowInfo().getStateKey())) {
-                    //need to break Assignment first
-                    //Delete the appointment slots and appointments for this window
-                    StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
-                    if (status.getIsSuccess()) {
-                        getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
-                        uifForm.removeSelectedAppointmentWindow(window);
-                        urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
-                        urlParameters.put("windowName", window.getWindowName());
+                //redirect back to client to display lightbox
+                return showDialog(dialog, uifForm, request, response);
+            }
 
-                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
-                    } else {
-                        //There was an error
-                        urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE);
-                        urlParameters.put("windowName", status.getMessage());
+            boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
+            uifForm.getDialogManager().resetDialogStatus(dialog);
+            if (!confirmDelete) {
+                return super.performRedirect(uifForm, controllerPath, urlParameters);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to get confirm delete window dialog", e);
+            return getUIFModelAndView(uifForm);
+        }
 
-                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
-                    }
-                } else {
+
+        AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
+        if (window != null) {
+            if (AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(window.getAppointmentWindowInfo().getStateKey())) {
+                //need to break Assignment first
+                //Delete the appointment slots and appointments for this window
+                StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+                if (status.getIsSuccess()) {
                     getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
                     uifForm.removeSelectedAppointmentWindow(window);
                     urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
                     urlParameters.put("windowName", window.getWindowName());
-
-                    return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
+                } else {
+                    //There was an error
+                    urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE);
+                    urlParameters.put("windowName", status.getMessage());
                 }
             } else {
-                //TODO: log window == null message
-                return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
+                getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
+                uifForm.removeSelectedAppointmentWindow(window);
+                urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
+                urlParameters.put("windowName", window.getWindowName());
             }
-        } catch (Exception e) {
-            //TODO: log exception
-            return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
         }
+
+        return super.performRedirect(uifForm, controllerPath, urlParameters);
     }
 
     @MethodAccessible

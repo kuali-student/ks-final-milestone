@@ -311,10 +311,10 @@
                              p:style="font-weight:bold;"    
                              p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"                        
                         >
-                <property name="control">
-                    <bean parent="KS-Uif-TextControl" p:size="5" />
-                </property>
-            </bean>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="5" />
+                    </property>
+                </bean>
 
                 <!-- bean entry for dropdown Appt rule type-->
                 <bean parent="KS-Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"
@@ -339,7 +339,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}"  p:clearDirtyOnAction="false" p:preSubmitCall="return kradRequest.confirm('KS-Uif-Confirmation-Dialog');"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}"  p:clearDirtyOnAction="false"/>
             </list>
         </property>
 
