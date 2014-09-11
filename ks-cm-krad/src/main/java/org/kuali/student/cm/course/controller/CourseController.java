@@ -410,45 +410,6 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Modify an existing course
-     *
-     * @param form
-     * @param courseId to modify
-     */
-    @RequestMapping(value = "/modify/{courseId}")
-    public ModelAndView initiateModify(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
-                                       final @PathVariable String courseId,
-                                       final BindingResult result,
-                                       final HttpServletRequest request,
-                                       final HttpServletResponse response) throws Exception {
-
-        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
-        form.setDataObjectClassName(CourseInfo.class.getName());
-        final ModelAndView retval = super.docHandler(form, result, request, response);
-
-        return retval;
-    }
-
-    /**
-     * Retire an existing course
-     *
-     * @param form
-     * @param courseId to retire
-     */
-    @RequestMapping(value = "/retire/{courseId}")
-    public ModelAndView initiateRetire(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
-                                       final @PathVariable String courseId,
-                                       final BindingResult result,
-                                       final HttpServletRequest request,
-                                       final HttpServletResponse response) throws Exception {
-        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE);
-        form.setDataObjectClassName(CourseInfo.class.getName());
-        final ModelAndView retval = super.docHandler(form, result, request, response);
-
-        return retval;
-    }
-
-    /**
      * Here we move the success messages displayed in UI from header to growl.
      *
      * @param form

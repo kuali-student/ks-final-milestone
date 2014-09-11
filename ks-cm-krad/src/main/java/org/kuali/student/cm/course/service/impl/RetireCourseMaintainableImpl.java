@@ -145,10 +145,6 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         }
     }
 
-    protected void updateReview(RetireCourseWrapper retireCourseWrapper, boolean shouldRepopulateRemoteData) {
-        super.updateReview(retireCourseWrapper, shouldRepopulateRemoteData);
-    }
-
     /**
      * Override the save proposal to add the attributes to proposal
      * @throws Exception

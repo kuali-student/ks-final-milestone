@@ -50,7 +50,7 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
     private String lastUpdated;
 
     public RetireCourseWrapper() {
-        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE),
+        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN),
                 CurriculumManagementConstants.CourseRetireSections.RETIRE_INFO);
     }
 
