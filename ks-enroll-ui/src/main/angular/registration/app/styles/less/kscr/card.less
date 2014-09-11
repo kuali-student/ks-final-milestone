@@ -170,7 +170,6 @@
 }
 
 .kscr-Card-statusUndo a {
-//  &:extend(.kscr-Responsive-smallFormatMax--displayNone);
   .undo-icon;
   float: right;
   margin-right: 0.5rem;
@@ -571,7 +570,7 @@
 }
 
 @media screen and (max-width: @smallFormatMax) {
-  .kscr-Responsive-scheduleWrapper {
+  .kscr-Main-scheduleWrapper {
       .kscr-Card {
         margin-top: 0.5rem;
       }
@@ -585,19 +584,19 @@
 @media screen and (min-width: @largeFormatMin) {
 
     // Main content area styles
-    .kscr-Responsive-content {
+    .kscr-Main-content--left {
         .kscr-Card {
             border: none;
             margin-top: 0.4rem;
         }
 
-        .kscr-Responsive-schedule .panel-group .panel {
+        .kscr-Main-schedule .panel-group .panel {
             margin: 0 0 1rem;
         }
     }
 
     // Sidebar styles
-    .kscr-Responsive-sidebar {
+    .kscr-Main-sidebar {
         .kscr-Card {
             border: none;
             margin: 0;
@@ -658,7 +657,7 @@
         }
 
 
-        .kscr-Responsive-cart {
+        .kscr-Main-cart {
             // Card result w/ status (e.g. processing, error, success)
             .kscr-Card-status {
                 // Don't show background shading when in large-format
@@ -667,7 +666,7 @@
                 -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
 
                 // Update items in the cart results to have a top border
-                border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
+                border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Main-cart .panel-group .panel
                 padding: 1rem 0 1rem 2.5rem;
 
                 // Hide success messages in large-format
@@ -688,7 +687,7 @@
             }
         }
 
-        .kscr-Responsive-scheduleWrapper {
+        .kscr-Main-scheduleWrapper {
             // Course card list
             .kscr-Card {
                 background-color: @whiteBackground;

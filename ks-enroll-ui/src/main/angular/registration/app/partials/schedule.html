@@ -1,4 +1,4 @@
-<div class="kscr-Responsive-scheduleWrapper" ng-class="{ 'kscr-Responsive-scheduleWrapper--active' : uiState == 'root.schedule' }">
+<div class="kscr-Main-scheduleWrapper" ng-class="{ 'kscr-Main-scheduleWrapper--active' : uiState == 'root.schedule' }">
     <div>
         <!--ScheduleMain Heading-->
         <div class="kscr-MainHeading util-Grid util-Grid--center" ng-class="{'kscr-Splash-header':!showSchedule()}">
@@ -19,16 +19,16 @@
                                           'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>Grid</span></a>
         </div>
 
-        <course-calendar class="kscr-Responsive-calendar" ng-if="showGrid()"
-                         ng-class="{'kscr-Responsive-calendar--selected' : selectedTab === 'grid'}"></course-calendar>
+        <course-calendar class="kscr-Main-calendar" ng-if="showGrid()"
+                         ng-class="{'kscr-Main-calendar--selected' : selectedTab === 'grid'}"></course-calendar>
 
-        <div class="kscr-Responsive-scheduleTab" ng-class="{'kscr-Responsive-scheduleTab--selected' : !selectedTab || selectedTab === 'list'}">
-            <div class="kscr-Responsive-schedule" ng-if="showSchedule()">
+        <div class="kscr-Main-scheduleTab" ng-class="{'kscr-Main-scheduleTab--selected' : !selectedTab || selectedTab === 'list'}">
+            <div class="kscr-Main-schedule" ng-if="showSchedule()">
                 <!-- display registered courses via the course-card directive -->
-                <div class="kscr-Responsive-registered"
+                <div class="kscr-Registered-container"
                      course-card type="{{courseTypes.registered}}" credits="registeredCredits()" schedules="getSchedule"></div>
                 <!-- display waitlisted courses via the course-card directive -->
-                <div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!showWaitlist()}"
+                <div ng-class="{'kscr-Waitlisted-container':true,'kscr-Waitlisted-container--inactive':!showWaitlist()}"
                      course-card type="{{courseTypes.waitlisted}}" credits="waitlistedCredits()" schedules="getSchedule"></div>
             </div>
 

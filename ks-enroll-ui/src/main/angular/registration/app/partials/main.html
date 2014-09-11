@@ -1,6 +1,6 @@
 <div class="kscr-Header-container">
     <!-- NG class adds a wide version of the header if we are looking at the responsive states -->
-    <div class="kscr-Header kscr-Responsive-header">
+    <div class="kscr-Header kscr-Main-header">
         <div class=" util-Grid util-Grid--center">
             <a id="ks-HomePage" href="../kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">
                 <div class="kscr-Header-logo"></div>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <nav class="Navigation kscr-Responsive-navigation">
+            <nav class="Navigation kscr-Navigation-container">
                 <span>
                     <button id="reg_menu_button" type="button" class="kscr-Menu-button-menu" ng-class="{'kscr-Menu-button-menu--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu" mask-screen="dropMenu">MENU</button>
                     <!--<button ng-if="uiState=='root.cart'||uiState=='root.schedule'" id="logout_small" class="kscr-Menu-button-menu" ng-click="logout()">LOGOUT</button>-->
@@ -55,13 +55,13 @@
 <div class="kscr-Main-contentContainer" ng-disabled="dropMenu">
     <!-- Main view area -->
     <div class="kscr-Main-content" ng-show="studentIsEligibleForTerm">
-        <div class="kscr-Responsive-maincontent">
+        <div class="kscr-Main-maincontent">
             <!-- Main view container -->
-            <div class="kscr-Responsive-content" ui-view></div>
+            <div class="kscr-Main-content--left" ui-view></div>
 
             <!-- Sidebar Container (Shown in sidebar layout in large-format only) -->
-            <div class="kscr-Responsive-sidebar">
-                <div class="kscr-Responsive-searchFormWrapper kscr-SearchForm">
+            <div class="kscr-Main-sidebar">
+                <div class="kscr-Main-searchFormWrapper kscr-SearchForm">
                     <div class="kscr-SearchForm-container">
                         <!-- Search Heading -->
                         <div class="kscr-MainHeading kscr-SearchForm-heading">
@@ -74,10 +74,10 @@
                 </div>
 
                 <!-- My Cart Container -->
-                <div ui-view="mycart" class="kscr-Responsive-cart"></div>
+                <div ui-view="mycart" class="kscr-Main-cart"></div>
 
                 <!-- Sidebar Schedule Container (Only shown on search screen) -->
-                <div class="kscr-Responsive-scheduleWrapper ng-scope" ng-if="uiState.indexOf('root.search') !== -1" ng-controller="ScheduleCtrl">
+                <div class="kscr-Main-scheduleWrapper ng-scope" ng-if="uiState.indexOf('root.search') !== -1" ng-controller="ScheduleCtrl">
                     <!-- Schedule Heading -->
                     <div class="kscr-MainHeading kscr-MainHeading-ScheduleHeading util-Grid util-Grid--center">
                         <div class="kscr-MainHeading-header util-Grid-cell" ui-sref="root.schedule">
@@ -98,12 +98,12 @@
                     <!-- Schedule -->
                     <course-calendar size="small" ng-show="selectedTab === 'grid'" ng-if="showGrid()"></course-calendar>
 
-                    <div class="kscr-Responsive-schedule" ng-show="selectedTab === 'list' || !selectedTab" ng-init="selectedTab = 'list'">
+                    <div class="kscr-Main-schedule" ng-show="selectedTab === 'list' || !selectedTab" ng-init="selectedTab = 'list'">
                         <!-- display registered courses via the course-card directive -->
-                        <div class="kscr-Responsive-registered"
+                        <div class="kscr-Registered-container"
                              course-card type="registered" credits="registeredCredits()" schedules="getSchedule"></div>
                         <!-- display waitlisted courses via the course-card directive -->
-                        <div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!showWaitlist()}"
+                        <div ng-class="{'kscr-Waitlisted-container':true,'kscr-Waitlisted-container--inactive':!showWaitlist()}"
                              course-card type="waitlist" credits="waitlistedCredits()" schedules="getSchedule"></div>
                     </div>
                 </div>

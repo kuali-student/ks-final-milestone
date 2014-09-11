@@ -46,3 +46,141 @@
         opacity: 0.5;
     }
 }
+
+.kscr-Main-header,
+.kscr-Main-maincontent {
+  // Set up outer width of site and set to be centered beyond that
+  margin: 0 auto;
+  max-width: @largeFormatMax;
+}
+
+
+.kscr-Navigation-container {
+  display: none; /* Navigation (menu button) is hidden initially */
+}
+
+.kscr-Main-logout {
+  display: block; /* show the logout button if the menu is hidden */
+}
+
+
+
+
+
+/* Styles for small-size screens */
+@media screen and (max-width: @smallFormatMax) {
+  .kscr-Navigation-container {
+    display: block; /* show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time */
+  }
+
+  .kscr-Main-logout {
+    display: none; /* hide the logout button if the menu is present */
+  }
+
+  .kscr-Main-cartWrapper {
+    display: none;
+    &--active {
+      display: block; /* show only when active */
+    }
+  }
+  .kscr-Main-scheduleWrapper {
+    display: none;
+    &--active {
+      display: block; /* show only when active */
+    }
+
+    .kscr-Main-calendar {
+      display: none;
+      margin-top: 1.5rem;
+      &--selected {
+        display: block;
+      }
+    }
+    .kscr-Main-scheduleTab {
+      display: none;
+      &--selected {
+        display: block;
+      }
+    }
+  }
+  .kscr-Main-searchFormWrapper {
+    display: none;
+  }
+}
+
+
+/* Styles for mid-size screens */
+@media screen and (max-width: @midFormatMax) {
+  .kscr-Main-schedule {
+    flex-direction: column; /* items appear vertically stacked*/
+  }
+
+}
+
+
+/* Styles for large-size screens */
+@media screen and (min-width: @largeFormatMin) {
+
+
+  .kscr-Header-termName-label {
+    display: none; // show the term label selector in large format only
+  }
+
+
+
+  // Parent container of the content & sidebar areas
+  .kscr-Main-maincontent {
+    .flexbox(); /* Used to display child elements (schedule and cart) side by side in a flexible way */
+    min-height: 100%;
+  }
+
+  // Main/left content area
+  .kscr-Main-content--left {
+    .flex(1);
+    background-color: @sectionColor;
+    padding: 0.7rem 0 0;
+
+    // Schedule container (Registered & Waitlist)
+    .kscr-Main-schedule {
+      .flex(1); /*set so that this takes up all the room left over from cart*/
+      .flexbox();/*child elements (registered and waitlist) are displayed in a flexible way*/
+      color: @primaryTextColor;
+    }
+
+  }
+
+
+  // Move the expand/collapse icon (chevron) 10px from left instead of 5px.
+  .kscr-Main-sidebar {
+    background: @bodyColorDark;
+    margin: 0;
+    padding: 0 1rem 1rem;
+    width: @largeFormatSidebarWidth; /* fixed width for sidebar */
+
+
+    // Schedule in sidebar (search only)
+    .kscr-Main-scheduleWrapper {
+      clear: both;
+      margin: 1rem 0 0;
+
+
+      // Schedule contents
+      .kscr-Main-schedule {
+        margin: 0.1rem 0;
+      }
+
+    }
+
+  }
+
+  .kscr-Main-searchWrapper .kscr-MainHeading {
+    display: none; // Hide the Search main heading in large-format
+  }
+
+  // List/Grid toggle buttons
+  .kscr-Main-scheduleWrapper {
+    .kscr-MainHeading-toggles {
+      display: none; // Hide the main buttons in large-format
+    }
+  }
+}

@@ -201,12 +201,12 @@
 
 @media screen and (max-width: @smallFormatMax) {
     // Cart header credit count
-    .kscr-Responsive-cart #credit_count_title_large {
+    .kscr-Main-cart #credit_count_title_large {
         display: none; // Don't show the large-format credit count element in small-format
     }
 
 
-  .kscr-Responsive-scheduleWrapper {
+  .kscr-Main-scheduleWrapper {
     .kscr-MainHeading-toggles {
       float: right;
       margin: 0 0.5rem 0.5rem 0;
@@ -216,12 +216,12 @@
 
 
 @media screen and (min-width: @largeFormatMin) {
-    .kscr-Responsive-cart #credit_count_title {
+    .kscr-Main-cart #credit_count_title {
         display: none; // Don't show the small-format credit count element in large-format
     }
 
     // Main content area styles
-    .kscr-Responsive-content {
+    .kscr-Main-content--left {
         // Main heading container
         .kscr-MainHeading {
             padding: 0 1rem; // No top or bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
@@ -229,7 +229,7 @@
     }
 
     // Sidebar styles
-    .kscr-Responsive-sidebar {
+    .kscr-Main-sidebar {
         // Main headers
         .kscr-MainHeading {
             padding-bottom: 0.8rem; // Make sure the heading has enough padding in large-format
@@ -239,7 +239,7 @@
             }
         }
 
-        .kscr-Responsive-cart {
+        .kscr-Main-cart {
             .kscr-MainHeading-icons  {
               display: none;
             }
@@ -260,7 +260,7 @@
             display: inline;
         }
 
-        .kscr-Responsive-scheduleWrapper {
+        .kscr-Main-scheduleWrapper {
             .kscr-MainHeading-header {
               cursor: pointer;
             }
@@ -273,7 +273,7 @@
     }
 
     // List/Grid toggle buttons
-    .kscr-Responsive-scheduleWrapper {
+    .kscr-Main-scheduleWrapper {
       .kscr-MainHeading-toggles {
         display: none; // Hide the main buttons in large-format
       }

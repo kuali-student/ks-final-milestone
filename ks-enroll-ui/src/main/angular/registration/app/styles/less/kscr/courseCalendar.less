@@ -138,7 +138,7 @@
     position: relative;
 
     .kscr-CourseCalendar-courseBlock-wrap {
-        left: -999rem; // Initialize offset to the right. This prevents them popping into place while the browser is rendering.
+        left: -999rem; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
         position: absolute;
         top: 0;
     }
@@ -425,8 +425,8 @@
         .kscr-CourseCalendar--small;
     }
 
-    .kscr-Responsive-scheduleWrapper {
-        .kscr-Responsive-calendar {
+    .kscr-Main-scheduleWrapper {
+        .kscr-Main-calendar {
             display: none;
             margin-top: 1.5rem;
 
@@ -482,8 +482,8 @@
     }
 
     // Schedule in sidebar (search only)
-    .kscr-Responsive-sidebar {
-        .kscr-Responsive-scheduleWrapper {
+    .kscr-Main-sidebar {
+        .kscr-Main-scheduleWrapper {
 
               // Course Calendar Container in Sidebar
               .kscr-CourseCalendar {
