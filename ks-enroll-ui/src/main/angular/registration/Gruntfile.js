@@ -491,10 +491,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'checkDependencies',
-        'karma',
-        'clean:dist',
         'bowercopy',
         'bower-install',
+        'karma',
+        'clean:dist',
         'less',
         'useminPrepare',
         'concurrent:dist',
