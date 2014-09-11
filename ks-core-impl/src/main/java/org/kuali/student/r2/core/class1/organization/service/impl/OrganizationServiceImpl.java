@@ -198,16 +198,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> searchForOrgIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> orgIds = new ArrayList<String>();
-        List<OrgInfo> orgs = this.searchForOrgs(criteria, contextInfo);
-
-        if (orgs != null) {
-            for (OrgInfo org : orgs) {
-                orgIds.add(org.getId());
-            }
-        }
-
-        return orgIds;
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(Org.class, criteria);
+        return results.getResults();
     }
 
     @Override
