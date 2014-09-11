@@ -17,7 +17,7 @@
     },
     {
         "messageKey": "kuali.lpr.trans.message.credit.load.reached",
-        "message": "Reached maximum credit limit <span ng-if='maxCredits'>(<strong>{{maxCredits}} credits<strong>)</span>"
+        "message": "Reached maximum credit limit <span ng-if='maxCredits'>(<strong>{{maxCredits}} credits</strong>)</span>"
     },
     {
         "messageKey": "kuali.lpr.trans.message.time.conflict",
