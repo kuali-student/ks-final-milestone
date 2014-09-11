@@ -477,8 +477,9 @@ angular.module('regCartApp')
                 };
 
                 init(true);
-                $scope.$watchCollection('registered', init);
-                $scope.$watchCollection('waitlisted', init);
+                // need to watch for changes in each course dropped flag
+                $scope.$watch('registered', init, true);
+                $scope.$watch('waitlisted', init, true);
                 $scope.$watchCollection('cart', init);
 
             }],
