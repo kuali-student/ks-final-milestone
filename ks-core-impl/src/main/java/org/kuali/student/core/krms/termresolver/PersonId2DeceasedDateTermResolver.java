@@ -37,10 +37,11 @@ public class PersonId2DeceasedDateTermResolver implements TermResolver<Date> {
 
     private final static Set<String> prereqs;
 
+    private IdentityService identityService;
+
     static {
-        Set<String> temp = new HashSet<String>(2);
+        Set<String> temp = new HashSet<>(1);
         temp.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
-        temp.add(RulesExecutionConstants.IDENTITY_SERVICE_TERM.getName());
 
         prereqs = Collections.unmodifiableSet(temp);
     }
@@ -69,9 +70,8 @@ public class PersonId2DeceasedDateTermResolver implements TermResolver<Date> {
     public Date resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
-        IdentityService identityService = (IdentityService) resolvedPrereqs.get(RulesExecutionConstants.IDENTITY_SERVICE_TERM.getName());
 
-        Entity entity = identityService.getEntity(personId);
+        Entity entity = getIdentityService().getEntity(personId);
         Date deceasedDate = null;
         if(entity.getBioDemographics().getDeceasedDate() != null) {
             try {
@@ -82,5 +82,13 @@ public class PersonId2DeceasedDateTermResolver implements TermResolver<Date> {
         }
         return deceasedDate;
 
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
     }
 }

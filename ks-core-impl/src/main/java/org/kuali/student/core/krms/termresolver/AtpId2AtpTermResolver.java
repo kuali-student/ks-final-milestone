@@ -29,11 +29,12 @@ public class AtpId2AtpTermResolver implements TermResolver<AtpInfo> {
 
     private final static Set<String> prereqs;
 
+    private AtpService atpService;
+
     static {
-        Set<String> temp = new HashSet<String>(2);
+        Set<String> temp = new HashSet<>(2);
         temp.add(RulesExecutionConstants.ATP_ID_TERM.getName());
         temp.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        temp.add(RulesExecutionConstants.ATP_SERVICE_TERM.getName());
         prereqs = Collections.unmodifiableSet(temp);
     }
 
@@ -62,14 +63,21 @@ public class AtpId2AtpTermResolver implements TermResolver<AtpInfo> {
 
         String atpId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
-        AtpService atpService = (AtpService) resolvedPrereqs.get(RulesExecutionConstants.ATP_SERVICE_TERM.getName());
         AtpInfo info;
         try {
-            info = atpService.getAtp(atpId, contextInfo);
+            info = getAtpService().getAtp(atpId, contextInfo);
         } catch (Exception ex) {
             throw new TermResolutionException("Unexpected", this, null, ex);
         }
         return info;
 
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 }
