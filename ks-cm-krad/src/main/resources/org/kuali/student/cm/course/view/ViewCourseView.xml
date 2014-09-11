@@ -382,6 +382,12 @@
         <property name="generateCompareHeaders" value="false"/>
     </bean>
 
+    <bean id="CM-ViewCourse-View-FormatCompare-Modifier" parent="CM-ViewCourse-View-FormatCompare-Modifier-parentBean"/>
+
+    <bean id="CM-ViewCourse-View-FormatCompare-Modifier-parentBean" abstract="true"
+          class="org.kuali.student.cm.uif.modifier.CourseFormatCollectionModifier">
+    </bean>
+
     <bean id="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
           p:propertyName="simpleConstraint"
           p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW}">
@@ -746,6 +752,11 @@
                       p:propertyName="anticipatedClassSize"
                       p:colSpan="1" />
             </list>
+        </property>
+        <property name="componentModifiers">
+              <list>
+                  <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and #isViewCourseView}"/>
+              </list>
         </property>
     </bean>
 

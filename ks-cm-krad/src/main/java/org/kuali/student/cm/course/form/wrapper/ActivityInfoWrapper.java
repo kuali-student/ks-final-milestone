@@ -18,6 +18,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.cm.uif.util.RenderHelper;
 
 /**
  * Wrapper for Activities for Review Proposal page. All the getters are being referenced from the krad
@@ -30,6 +31,7 @@ public class ActivityInfoWrapper {
     private Integer anticipatedClassSize;
     private String durationCount;
     private String contactHours;
+    private RenderHelper renderHelper;
 
     /**
      * Not being used from any other java classes. It's here for Spring/krad to
@@ -76,6 +78,9 @@ public class ActivityInfoWrapper {
      */
     @SuppressWarnings("unused")
     public Integer getAnticipatedClassSize() {
+        if (anticipatedClassSize == null){
+            return Integer.valueOf(0);
+        }
         return anticipatedClassSize;
     }
 
@@ -86,6 +91,14 @@ public class ActivityInfoWrapper {
     @SuppressWarnings("unused")
     public String getDurationCount() {
         return StringUtils.defaultIfEmpty(durationCount,"");
+    }
+
+    public RenderHelper getRenderHelper() {
+        return renderHelper;
+    }
+
+    public void setRenderHelper(RenderHelper renderHelper) {
+        this.renderHelper = renderHelper;
     }
 
 }
