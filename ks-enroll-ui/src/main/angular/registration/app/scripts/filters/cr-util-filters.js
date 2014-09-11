@@ -9,7 +9,7 @@ angular.module('regCartApp')
  * Take a course code in the format of ENGL101A and put a space in it to be ENGL 101A.
  *
  * Usage: {{ courseCode | courseSpace }}
- *        {{ courseCode | courseSpace:'&#8203;' }} // Non-breaking space
+ *        {{ courseCode | courseSpace:'&#8203;' }} // Zero-width space
  */
     .filter('courseSpace', function() {
         return function (courseCode, space) {

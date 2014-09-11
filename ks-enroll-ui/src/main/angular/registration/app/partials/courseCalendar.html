@@ -69,10 +69,7 @@
                                                 'kscr-CourseCalendar-courseBlock--waitlisted' : course.type === 'WAIT',
                                                 'kscr-CourseCalendar-courseBlock--inCart' : course.type === 'CART'}">
                                     <div class="kscr-CourseCalendar-courseBlock-text">
-                                        <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--truncated"
-                                              ng-pluralize count="course.conflictCount" when="{'0': course.courseCode,
-                                                                                           '1': course.courseCode.substring(0, 1) + '...',
-                                                                                           'other': course.courseCode.substring(0, 1)}"></span>
+                                        <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--truncated">{{course.truncated | courseSpace:'&#8203;'}}</span>
                                         <span class="kscr-CourseCalendar-courseBlock-label kscr-CourseCalendar-courseBlock-label--normal">{{course.courseCode | courseSpace:'&#8203;'}}</span>
                                     </div>
                                 </div>
