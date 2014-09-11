@@ -155,7 +155,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization" p:propertyName="orgName" p:required="true">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="true"/>
+                        <bean parent="KS-Uif-TextControl" p:size="28" p:disabled="true"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -268,7 +268,7 @@ limitations under the License.
                             <bean parent="KS-Uif-InputField" p:label="Organization" p:propertyName="name"
                                   p:style="font-weight:bold;white-space:nowrap;" p:additionalCssClasses="organization_id_create_hold">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="16" p:readOnly="true"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="28" p:readOnly="true"/>
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
