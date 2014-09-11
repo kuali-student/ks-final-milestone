@@ -6,6 +6,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -177,9 +178,9 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "refreshAfterDialog");
         urlParameters.put(UifParameters.VIEW_ID, AppointmentConstants.REGISTRATION_WINDOWS_MANAGEMENT_VIEW);
         urlParameters.put(UifParameters.PAGE_ID, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
-        urlParameters.put("periodId", uifForm.getPeriodId());
-        urlParameters.put("termType", uifForm.getTermType());
-        urlParameters.put("termYear", uifForm.getTermYear());
+        urlParameters.put(AppointmentConstants.URL_PARAM_PERIOD_ID, uifForm.getPeriodId());
+        urlParameters.put(AppointmentConstants.URL_PARAM_TERM_TYPE, uifForm.getTermType());
+        urlParameters.put(AppointmentConstants.URL_PARAM_TERM_YEAR, uifForm.getTermYear());
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {
@@ -229,9 +230,9 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "refreshAfterDialog");
         urlParameters.put(UifParameters.VIEW_ID, AppointmentConstants.REGISTRATION_WINDOWS_MANAGEMENT_VIEW);
         urlParameters.put(UifParameters.PAGE_ID, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
-        urlParameters.put("periodId", uifForm.getPeriodId());
-        urlParameters.put("termType", uifForm.getTermType());
-        urlParameters.put("termYear", uifForm.getTermYear());
+        urlParameters.put(AppointmentConstants.URL_PARAM_PERIOD_ID, uifForm.getPeriodId());
+        urlParameters.put(AppointmentConstants.URL_PARAM_TERM_TYPE, uifForm.getTermType());
+        urlParameters.put(AppointmentConstants.URL_PARAM_TERM_YEAR, uifForm.getTermYear());
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
 //        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
@@ -278,6 +279,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         }
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshAfterDialog")
     public ModelAndView refreshAfterDialog(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm,
                                            @SuppressWarnings("unused") BindingResult result,
@@ -293,6 +295,10 @@ public class RegistrationWindowsController extends UifControllerBase {
                 GlobalVariables.getMessageMap().addGrowlMessage("", growlMessage);
             }
         }
+
+        uifForm.setPeriodId(request.getParameter(AppointmentConstants.URL_PARAM_PERIOD_ID));
+        uifForm.setTermType(request.getParameter(AppointmentConstants.URL_PARAM_TERM_TYPE));
+        uifForm.setTermYear(request.getParameter(AppointmentConstants.URL_PARAM_TERM_YEAR));
 
         getViewHelperService(uifForm).searchForTerm(uifForm.getTermType(), uifForm.getTermYear(), uifForm);
 

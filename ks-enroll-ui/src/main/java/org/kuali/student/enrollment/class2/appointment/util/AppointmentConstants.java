@@ -32,6 +32,11 @@ public class AppointmentConstants {
     public static final String Registration_Windows_ConfirmDelete_Dialog = "KS-RegistrationWindowsManagement-ConfirmDelete-Dialog";
     public static final String Registration_Windows_ConfirmBreak_Dialog = "KS-RegistrationWindowsManagement-ConfirmBreakAppointments-Dialog";
 
+    // URL parameters
+    public static final String URL_PARAM_PERIOD_ID = "periodId";
+    public static final String URL_PARAM_TERM_TYPE = "termType";
+    public static final String URL_PARAM_TERM_YEAR = "termYear";
+
     //Message keys
     public static final String APPOINTMENT_MSG_INFO_SAVED = "info.enroll.appointment.saved";
     public static final String APPOINTMENT_MSG_INFO_ASSIGNED = "info.enroll.appointment.assigned";
