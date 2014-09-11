@@ -204,7 +204,7 @@ function fixReadOnlyInputSizes() {
         var element = jQuery(this);
         if (element.is("textarea")) {
             element.height(textAreaEmptyHeight);
-            if (element.val() != "") {
+            if (element.val() != "" && jQuery(element)[0].scrollHeight != 0) {
                 // Set the height of the text area to the scroll height.
                 element.height(jQuery(element)[0].scrollHeight);
             }
@@ -1137,7 +1137,7 @@ function filterCategoriesByTypes() {
     });
 
     if (i == 0) {
-        jQuery("#uLookupResults_layout").dataTable().fnFilter('|', 2);
+        jQuery("#uLookusults_layout").dataTable().fnFilter('|', 2);
     } else {
         jQuery("#uLookupResults_layout").dataTable().fnFilter('', 2, true, false);
         jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false);
