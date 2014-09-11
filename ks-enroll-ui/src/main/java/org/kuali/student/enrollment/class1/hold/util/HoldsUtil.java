@@ -55,7 +55,7 @@ public class HoldsUtil {
         }
 
         if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN))) {
-            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN, "%" + criteria.get(HoldsConstants.HOLD_ISSUE_DESCT_DOT_PLAIN) + "%"));
+            pList.add(like(HoldsConstants.HOLD_ISSUE_DESCT_DOT_PLAIN, "%" + criteria.get(HoldsConstants.HOLD_ISSUE_DESCR_PLAIN) + "%"));
         }
 
         if (!pList.isEmpty()) {
