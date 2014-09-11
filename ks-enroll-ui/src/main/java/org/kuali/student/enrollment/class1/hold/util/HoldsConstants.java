@@ -44,7 +44,6 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_NAME = "name";
     public static final String HOLD_ISSUE_ORG_ID = "organizationId";
     public static final String HOLD_ISSUE_ORG_NAME = "orgName";
-    public static final String HOLD_ISSUE_CODE = "code";
     public static final String HOLD_ISSUE_HOLD_CODE = "holdCode";
     public static final String HOLD_ISSUE_TYPE_KEY = "typeKey";
     public static final String HOLD_ISSUE_STATE_KEY = "stateKey";

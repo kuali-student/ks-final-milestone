@@ -29,6 +29,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,6 +53,9 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
 
+        if (!(form instanceof MaintenanceDocumentForm)){
+            throw new RuntimeException("Unexpected type: " + form);
+        }
         MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
         AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getDocumentDataObject();
 
