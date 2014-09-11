@@ -56,7 +56,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getDocumentDataObject();
 
         if(!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())){
-            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         }else{
             try {
                 super.route(form, result, request, response);
