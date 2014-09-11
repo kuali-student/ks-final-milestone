@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -23,6 +24,7 @@ import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -34,7 +36,6 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -57,6 +58,25 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     private transient CourseService courseService;
 
     private CourseStateChangeServiceImpl courseStateChangeService;
+
+    /**
+     * This is used to ignore the post processing for the "Modify This Version" proposal (also known as the "Modify No Version" proposal)
+     * because that document type does not have a new version of the course and does no state changing of the course that it's modifying. The
+     * save of the data will happen from the Controller rather than here in the post processing.
+
+     * @see ProposalMaintainableImpl#shouldIgnorePostProcessing(String)
+     *
+     * @return true if the document type of the given document is {@link CurriculumManagementConstants.DocumentTypeNames.CourseProposal#COURSE_MODIFY_ADMIN_NOVERSION}
+     */
+    protected boolean shouldIgnorePostProcessing(String documentId) {
+        String documentTypeName = getWorkflowDocumentService().getDocumentTypeName(documentId);
+        // it may be overkill to verify that the document type name is not null here, but we CANNOT allow
+        // post processing to run on a "modify this version" proposal (also known as a "modify no version" proposal)
+        if (documentTypeName == null) {
+            throw new RuntimeException("Cannot run post processing logic if we cannot find a valid documen type name");
+        }
+        return StringUtils.equals(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION, documentTypeName);
+    }
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
@@ -145,8 +165,8 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             // The current two proposal docTypes which being withdrawn will cause a course to be
             // disapproved are Create and Modify (because a new DRAFT version is created when these
             // proposals are submitted.)
-            if (CLUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(proposalDocType)
-                    || CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(proposalDocType)) {
+            if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_CREATE_DOC_TYPE_NAMES, proposalDocType)
+                    || ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, proposalDocType)) {
                 LOG.info("Will set CLU state to '{}'", DtoConstants.STATE_NOT_APPROVED);
                 // Get Clu
                 CourseInfo courseInfo = getCourseService().getCourse(
@@ -157,7 +177,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             }
             // Retire proposal is the only proposal type at this time which will not require a
             // change to the clu if withdrawn.
-            else if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
+            else if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_RETIRE_DOC_TYPE_NAMES, proposalDocType)) {
                 LOG.info("Withdrawing a retire proposal with ID'{}, will not change any CLU state as there is no new CLU object to set.",
                         proposalInfo.getId());
             }
@@ -244,7 +264,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
      * @return the CLU state to set or null if the CLU does not need it's state changed
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode, String docType) {
-        if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)) {
+        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_RETIRE_DOC_TYPE_NAMES, docType)) {
             // This is for Retire Proposal, Course State should remain active for
             // all other route statuses.
             if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
