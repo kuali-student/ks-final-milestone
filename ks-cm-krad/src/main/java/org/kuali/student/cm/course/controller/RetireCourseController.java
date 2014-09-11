@@ -30,10 +30,14 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
@@ -65,6 +69,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * This controller handles all the requests from the 'Retire Course' UI
@@ -251,6 +256,29 @@ public class RetireCourseController extends ProposalController {
         } catch (Exception e) {
             throw new RuntimeException("Could not fetch course", e);
         }
+    }
+
+
+
+    @RequestMapping(params = "methodToCall=cancel")
+    @Override
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        DocumentFormBase theForm = (DocumentFormBase) form;
+
+        RetireCourseWrapper courseWrapper = getRetireCourseWrapper(theForm);
+        String cluId = courseWrapper.getCourseInfo().getId();
+
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
+        props.put(CurriculumManagementConstants.UrlParams.COURSE_ID, cluId);
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
+
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
+
+        return super.performRedirect(theForm, courseBaseUrl, props);
     }
 
     /**

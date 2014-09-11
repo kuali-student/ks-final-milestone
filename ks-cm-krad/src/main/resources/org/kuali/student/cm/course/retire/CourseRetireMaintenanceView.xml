@@ -317,14 +317,51 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
                       p:actionLabel="Cancel"
-                      p:methodToCall="back"
+                      p:methodToCall="cancel"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CM-Proposal-Course-Retire-Footer" parent="CM-Proposal-Course-EditPage-Footer"/>
+    <bean id="CM-Proposal-Course-Retire-Footer" parent="CM-Proposal-Course-Retire-Footer-parentBean"/>
+    <bean id="CM-Proposal-Course-Retire-Footer-parentBean" parent="Uif-FooterBase" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SaveAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:actionLabel="Save and Continue"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="displayPage" value="NEXT"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:actionLabel="Save Progress"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
+                                  p:actionLabel="Cancel"
+                                  p:methodToCall="cancel"
+                                  p:style="margin-top:5px;"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="KS-HomewardPathBreadcrumbs-RetireCourse-information" parent="Uif-BreadcrumbItem">
         <property name="label" value="Retirement Information"></property>
