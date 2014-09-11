@@ -60,6 +60,9 @@ public class HoldIssueManagementController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
                               HttpServletResponse response) {
 
+        if (!(form instanceof HoldIssueManagementForm)){
+            throw new RuntimeException("Unexpected type: " + form);
+        }
         HoldIssueManagementForm holdForm = (HoldIssueManagementForm) form;
 
         holdForm.setHoldIssueResultList(searchHoldIssues(holdForm));

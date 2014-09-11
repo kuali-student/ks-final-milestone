@@ -62,6 +62,9 @@ public class AppliedHoldManagementController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
                               HttpServletResponse response) {
 
+        if (!(form instanceof AppliedHoldManagementForm)){
+            throw new RuntimeException("Unexpected type: " + form);
+        }
         AppliedHoldManagementForm holdForm = (AppliedHoldManagementForm) form;
 
         holdForm.setHoldResultList(searchAppliedHolds(holdForm));

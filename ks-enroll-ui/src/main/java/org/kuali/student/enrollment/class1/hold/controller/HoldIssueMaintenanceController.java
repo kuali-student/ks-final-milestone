@@ -66,6 +66,9 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
     public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
 
+        if (!(form instanceof DocumentFormBase)){
+            throw new RuntimeException("Unexpected type: " + form);
+        }
         DocumentFormBase documentForm = (DocumentFormBase) form;
         performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 

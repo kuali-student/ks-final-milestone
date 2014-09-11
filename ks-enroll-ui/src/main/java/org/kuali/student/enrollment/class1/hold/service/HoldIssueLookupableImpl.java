@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class1.hold.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;

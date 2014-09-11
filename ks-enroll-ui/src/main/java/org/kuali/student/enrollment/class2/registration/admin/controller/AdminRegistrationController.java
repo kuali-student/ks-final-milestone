@@ -37,7 +37,6 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistra
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -88,6 +87,9 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=refresh")
     public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
+        if (!(form instanceof AdminRegistrationForm)){
+            throw new RuntimeException("Unexpected type: " + form);
+        }
         AdminRegistrationForm adminForm = (AdminRegistrationForm) form;
         if(AdminRegConstants.REG_COLL_ID.equals(form.getUpdateComponentId())) {
             adminForm.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(adminForm.getPerson().getId(), adminForm.getTerm().getId()));
