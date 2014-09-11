@@ -36,6 +36,7 @@ angular.module('regCartApp')
             // Course object we are working with. Should be made available through a resolve: { course: courseItem }
             $scope.course = course;
             $scope.results = [];
+            $scope.statuses = STATUS;
 
 
             var confirmed = false,
@@ -91,6 +92,7 @@ angular.module('regCartApp')
 
                 // Push the course back through the confirmation process with allowWaitlist = true
                 $scope.course.allowWaitlist = true;
+                $scope.course.sourceAction = 'waitlist'; //Change the mode from register to waitlist
                 $scope.confirm();
             };
 
