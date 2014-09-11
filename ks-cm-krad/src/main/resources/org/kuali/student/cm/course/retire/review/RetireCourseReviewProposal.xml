@@ -24,6 +24,7 @@
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
              also sizes the text areas. -->
         <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
+        <property name="headerText" value="Retire Course" />
 
         <property name="items">
             <list>
