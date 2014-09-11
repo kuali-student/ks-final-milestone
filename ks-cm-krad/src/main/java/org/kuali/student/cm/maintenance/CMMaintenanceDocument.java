@@ -22,6 +22,7 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
+import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
 import org.kuali.student.cm.proposal.service.ProposalMaintainable;
@@ -106,7 +107,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
 
-        if (event instanceof SaveEvent) {
+        if ( (event instanceof SaveEvent) || (event instanceof BlanketApproveDocumentEvent) ) {
             // set the application document id to the proposal id since this is needed for some KEW and KIM processing related to collaborators
             if (getDocumentHeader() != null && getDocumentHeader().getWorkflowDocument() != null && getNewMaintainableObject().getDataObject() != null) {
                 if (ProposalMaintainable.class.isAssignableFrom(getNewMaintainableObject().getClass())) {
