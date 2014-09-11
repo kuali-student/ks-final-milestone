@@ -154,7 +154,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
         try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-                    PredicateFactory.in(HoldsConstants.HOLD_ISSUE_CODE, holdCode)));
+                    PredicateFactory.in(HoldsConstants.HOLD_ISSUE_HOLD_CODE, holdCode)));
 
             List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(query, createContextInfo());
             if (holdIssueInfos.size() == 0 || holdIssueInfos.isEmpty()) {
@@ -182,7 +182,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         if (holdCode.length() >= 3){
             try {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.like(HoldsConstants.HOLD_ISSUE_CODE, "%" + holdCode + "%"));
+                qbcBuilder.setPredicates(PredicateFactory.like(HoldsConstants.HOLD_ISSUE_HOLD_CODE, "%" + holdCode + "%"));
 
                 List<HoldIssueInfo> holdIssueInfos = HoldsResourceLoader.getHoldService().searchForHoldIssues(
                         qbcBuilder.build(), createContextInfo());
