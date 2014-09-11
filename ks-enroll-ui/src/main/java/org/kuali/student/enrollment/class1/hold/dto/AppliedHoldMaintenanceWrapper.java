@@ -18,62 +18,87 @@ package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.kuali.student.r2.core.hold.infc.HoldIssue;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Kuali Student Team
  */
 public class AppliedHoldMaintenanceWrapper implements Serializable {
 
-    private String holdCode;
-    private String firstTerm;
-    private String lastTerm;
-    private HoldIssueInfo holdIssue = new HoldIssueInfo();
-    private AppliedHoldInfo appliedHold;
+    private String action;
+    private AppliedHoldWrapper maintenanceHold;
+    private List<AppliedHoldWrapper> editingHolds;
 
     public AppliedHoldMaintenanceWrapper() {
         super();
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public AppliedHoldWrapper getMaintenanceHold() {
+        if(maintenanceHold==null){
+            maintenanceHold = new AppliedHoldWrapper();
+        }
+        return maintenanceHold;
+    }
+
+    public void setMaintenanceHold(AppliedHoldWrapper maintenanceHold) {
+        this.maintenanceHold = maintenanceHold;
+    }
+
+    public List<AppliedHoldWrapper> getEditingHolds() {
+        return editingHolds;
+    }
+
+    public void setEditingHolds(List<AppliedHoldWrapper> editingHolds) {
+        this.editingHolds = editingHolds;
+    }
+
     public String getHoldCode() {
-        return holdCode;
+        return getMaintenanceHold().getHoldCode();
     }
 
     public void setHoldCode(String holdCode) {
-        this.holdCode = holdCode;
+        getMaintenanceHold().setHoldCode(holdCode);
     }
 
     public String getFirstTerm() {
-        return firstTerm;
+        return getMaintenanceHold().getFirstTerm();
     }
 
     public void setFirstTerm(String firstTerm) {
-        this.firstTerm = firstTerm;
+        getMaintenanceHold().setFirstTerm(firstTerm);
     }
 
     public String getLastTerm() {
-        return lastTerm;
+        return getMaintenanceHold().getLastTerm();
     }
 
     public void setLastTerm(String lastTerm) {
-        this.lastTerm = lastTerm;
+        getMaintenanceHold().setLastTerm(lastTerm);
     }
 
     public HoldIssueInfo getHoldIssue() {
-        return holdIssue;
+        return getMaintenanceHold().getHoldIssue();
     }
 
     public void setHoldIssue(HoldIssueInfo holdIssue) {
-        this.holdIssue = holdIssue;
+        getMaintenanceHold().setHoldIssue(holdIssue);
     }
 
     public AppliedHoldInfo getAppliedHold() {
-        return appliedHold;
+        return getMaintenanceHold().getAppliedHold();
     }
 
     public void setAppliedHold(AppliedHoldInfo appliedHold) {
-        this.appliedHold = appliedHold;
+        getMaintenanceHold().setAppliedHold(appliedHold);
     }
 }

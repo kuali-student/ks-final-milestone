@@ -105,16 +105,31 @@ public class AppliedHoldManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=applyHold")
     public ModelAndView applyHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Properties urlParameters = this.getMaintainHoldParameters(null, form.getPerson().getId());
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_APPLY);
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
-    @RequestMapping(params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AppliedHoldResult applyHoldResult = getSelectedHoldIssue(form);
+    @RequestMapping(params = "methodToCall=editHold")
+    public ModelAndView editHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_EDIT);
+        urlParameters.put("id", getSelectedHoldIssue(form).getId());
+        return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
+    }
 
-        Properties urlParameters = this.getMaintainHoldParameters(applyHoldResult.getId(),form.getPerson().getId());
+    @RequestMapping(params = "methodToCall=expireHold")
+    public ModelAndView expireHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE);
+        urlParameters.put("id", getSelectedHoldIssue(form).getId());
+        return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
+    }
+
+    @RequestMapping(params = "methodToCall=deleteHold")
+    public ModelAndView deleteHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_DELETE);
+        urlParameters.put("id", getSelectedHoldIssue(form).getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
@@ -157,17 +172,13 @@ public class AppliedHoldManagementController extends UifControllerBase {
         return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 
-    public static Properties getMaintainHoldParameters(String applyHoldId, String personId) throws Exception {
+    public Properties getMaintainHoldParameters(AppliedHoldManagementForm form, String action) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, AppliedHoldMaintenanceWrapper.class.getName());
-        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "personId");
-        if (applyHoldId != null) {
-            urlParameters.put("id", applyHoldId);
-        }
-        if (personId != null) {
-            urlParameters.put("personId", personId);
-        }
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "personId,action");
+        urlParameters.put("personId", form.getPerson().getId());
+        urlParameters.put("action", action);
         urlParameters.put("viewName", HoldsConstants.APPLIED_HOLD_MAINTENANCE_VIEWNAME);
         return urlParameters;
     }

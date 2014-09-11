@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.hold.controller;
 
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
@@ -29,7 +30,6 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
-import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,20 +48,100 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/appliedHoldMaintenance")
 public class AppliedHoldMaintenanceController extends MaintenanceDocumentController {
 
-    @Override
-    @RequestMapping(params = "methodToCall=route")
-    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    /**
+     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
+     * action
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        if(HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(holdWrapper.getAction())) {
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EDIT.equals(holdWrapper.getAction())){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(holdWrapper.getAction())){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_EXPIRE_PAGE_ID);
+        }else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(holdWrapper.getAction())){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_DELETE_PAGE_ID);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=apply")
+    public ModelAndView apply(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
 
-        if (!(form instanceof MaintenanceDocumentForm)){
-            throw new RuntimeException("Unexpected type: " + form);
-        }
-        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm( form);
-        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) document.getDocument().getDocumentDataObject();
-
-        if(!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())){
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
-        }else{
+        } else {
+            try {
+                super.route(form, result, request, response);
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+            }
+        }
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+        return back(form, result, request, response);
+
+    }
+
+    @RequestMapping(params = "methodToCall=edit")
+    public ModelAndView edit(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
+
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        } else {
+            try {
+                super.route(form, result, request, response);
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+            }
+        }
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+        return back(form, result, request, response);
+
+    }
+
+    @RequestMapping(params = "methodToCall=expire")
+    public ModelAndView expire(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        } else {
+            try {
+                super.route(form, result, request, response);
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+            }
+        }
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+        return back(form, result, request, response);
+
+    }
+
+    @RequestMapping(params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        } else {
             try {
                 super.route(form, result, request, response);
             } catch (Exception e) {
@@ -91,7 +171,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
     public ModelAndView searchHoldIssueByCode(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
         holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
@@ -106,6 +186,11 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
      */
     protected HoldsViewHelperService getViewHelper(UifFormBase form) {
         return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
+    }
+
+    protected AppliedHoldMaintenanceWrapper getAppliedHoldWrapper(UifFormBase form) {
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm(form);
+        return (AppliedHoldMaintenanceWrapper) document.getDocument().getDocumentDataObject();
     }
 
     //Method for checking if the form is an instance of maintenanceDocumentForm, then returning the casted form

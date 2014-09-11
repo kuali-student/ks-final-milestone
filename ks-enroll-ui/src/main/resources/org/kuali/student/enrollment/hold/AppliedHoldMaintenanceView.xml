@@ -30,7 +30,6 @@ limitations under the License.
         <property name="lockingKeys">
             <list>
                 <value>appliedHold.id</value>
-                <value>appliedHold.personId</value>
             </list>
         </property>
     </bean>
@@ -45,7 +44,10 @@ limitations under the License.
         <property name="headerText" value="@{#dp.appliedHold.id == null ? 'Create Hold' : 'Edit Hold'}"/>
         <property name="items">
             <list>
-                <bean id="KS-Hold-Apply-Page" parent="KS-Hold-Apply-Page-parent"/>
+                <bean id="KS-ApplyHold-Page" parent="KS-ApplyHold-Page-parent"/>
+                <bean id="KS-EditHold-Page" parent="KS-EditHold-Page-parent"/>
+                <bean id="KS-ExpireHold-Page" parent="KS-ExpireHold-Page-parent"/>
+                <bean id="KS-DeleteHold-Page" parent="KS-DeleteHold-Page-parent"/>
             </list>
         </property>
 
@@ -82,7 +84,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-Hold-Apply-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+    <bean id="KS-ApplyHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
@@ -164,7 +166,7 @@ limitations under the License.
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased == true}">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
                                 </property>
@@ -174,7 +176,217 @@ limitations under the License.
                                           p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.holdIssue.isHoldIssueTermBased != null}">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-EditHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-EditHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-SubmitCancel" parent="KS-EditHold-SubmitCancel-parent"/>
+    <bean id="KS-EditHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="editHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="apply" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup"  >
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-ExpireHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-ExpireHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-SubmitCancel" parent="KS-ExpireHold-SubmitCancel-parent"/>
+    <bean id="KS-ExpireHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="expireHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="10" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup"  >
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-DeleteHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-DeleteHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-SubmitCancel" parent="KS-DeleteHold-SubmitCancel-parent"/>
+    <bean id="KS-DeleteHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="deleteHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="10" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup"  >
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="First Application Term" p:propertyName="firstTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>

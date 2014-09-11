@@ -39,6 +39,11 @@ public class HoldsConstants {
     public static final String HOLD_ISSUE_MAINTENANCE_VIEWNAME = "HoldIssueMaintenanceView";
     public static final String APPLIED_HOLD_MAINTENANCE_VIEWNAME = "AppliedHoldMaintenanceView";
 
+    public static final String APPLIED_HOLD_APPLY_PAGE_ID = "KS-ApplyHold-Page";
+    public static final String APPLIED_HOLD_EDIT_PAGE_ID = "KS-EditHold-Page";
+    public static final String APPLIED_HOLD_EXPIRE_PAGE_ID = "KS-ExpireHold-Page";
+    public static final String APPLIED_HOLD_DELETE_PAGE_ID = "KS-DeleteHold-Page";
+
     //Hold Issue Attributes
     public static final String HOLD_ISSUE_ID = "id";
     public static final String HOLD_ISSUE_NAME = "name";
@@ -105,6 +110,11 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY = "error.hold.issue.applied.unauthorized.apply";
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE = "error.hold.issue.applied.unauthorized.expire";
 
+    //applied hold actions
+    public static final String APPLIED_HOLDS_ACTION_APPLY = "kuali.applied.hold.apply";
+    public static final String APPLIED_HOLDS_ACTION_EDIT = "kuali.applied.hold.edit";
+    public static final String APPLIED_HOLDS_ACTION_EXPIRE = "kuali.applied.hold.expire";
+    public static final String APPLIED_HOLDS_ACTION_DELETE = "kuali.applied.hold.delete";
 
     //info Message keys
     public static final String HOLDS_ISSUE_MSG_INFO_HOLD_ISSUE_SAVE_SUCCESS = "info.enroll.save.success";

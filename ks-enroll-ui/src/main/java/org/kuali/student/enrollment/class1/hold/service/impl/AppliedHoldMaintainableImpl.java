@@ -16,42 +16,43 @@ import java.util.Map;
 
 public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
 
-    private transient HoldIssueAuthorizingOrgFacade holdIssueAuthorizingOrgFacade;
-
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        String appliedHoldId = dataObjectKeys.get("id");
-        String personId = dataObjectKeys.get("personId");
-        if (appliedHoldId == null) {
-            return setupDataObjectForCreate(personId);
+        String action = dataObjectKeys.get("action");
+
+        if (HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(action)) {
+            String personId = dataObjectKeys.get("personId");
+            return setupDataObjectForCreate(personId, action);
         } else {
-            return setupDataObjectForEdit(appliedHoldId);
+            String appliedHoldId = dataObjectKeys.get("id");
+            return setupDataObjectForEdit(appliedHoldId, action);
         }
     }
 
-    public AppliedHoldMaintenanceWrapper setupDataObjectForCreate(String personId) {
+    public AppliedHoldMaintenanceWrapper setupDataObjectForCreate(String personId, String action) {
 
         AppliedHoldMaintenanceWrapper dataObject = new AppliedHoldMaintenanceWrapper();
-        try {
-            AppliedHoldInfo appliedHold = new AppliedHoldInfo();
-            appliedHold.setEffectiveDate(new Date());
-            appliedHold.setPersonId(personId);
-            dataObject.setAppliedHold(appliedHold);
+        dataObject.setAction(action);
 
-        } catch (Exception e) {
-            convertServiceExceptionsToUI(e);
-        }
+        AppliedHoldInfo appliedHold = new AppliedHoldInfo();
+        appliedHold.setEffectiveDate(new Date());
+        appliedHold.setPersonId(personId);
+        dataObject.setAppliedHold(appliedHold);
+
         return dataObject;
     }
 
-    public AppliedHoldMaintenanceWrapper setupDataObjectForEdit(String appliedHoldId) {
+    public AppliedHoldMaintenanceWrapper setupDataObjectForEdit(String appliedHoldId, String action) {
 
         AppliedHoldMaintenanceWrapper dataObject = new AppliedHoldMaintenanceWrapper();
+        dataObject.setAction(action);
+
         try {
             AppliedHoldInfo appliedHold = HoldsResourceLoader.getHoldService().getAppliedHold(appliedHoldId, ContextUtils.createDefaultContextInfo());
-            HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHold.getHoldIssueId(), ContextUtils.createDefaultContextInfo());
             dataObject.setAppliedHold(appliedHold);
+
+            HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHold.getHoldIssueId(), ContextUtils.createDefaultContextInfo());
             dataObject.setHoldCode(holdIssueInfo.getHoldCode());
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
