@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -33,8 +34,8 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
+import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalController;
@@ -163,6 +164,7 @@ public class RetireCourseController extends ProposalController {
         try {
             //Perform Service Layer Data Dictionary validation
             CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(retireCourseWrapper.getCourseInfo());
+            ((CommonCourseMaintainable)((MaintenanceDocument) form.getDocument()).getNewMaintainableObject()).setRetirementAttributesOnCourse(courseInfoToValidate, retireCourseWrapper.getProposalInfo());
             if (StringUtils.isNotBlank(forcedStudentObjectStateKey)) {
                 courseInfoToValidate.setStateKey(forcedStudentObjectStateKey);
             }
@@ -191,85 +193,16 @@ public class RetireCourseController extends ProposalController {
                 String elementPath = null;
 
                 switch(element) {
-                    case "courseTitle":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
+                    case "retirementRationale":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.rationale.plain";
                         } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseTitle";
-                        }
-                        break;
-                    case "subjectArea":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.subjectArea";
-                        }
-                        break;
-                    case "courseNumberSuffix":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.courseNumberSuffix";
-                        }
-                        break;
-                    case "campusLocations":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".campusLocations";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.campusLocationsAsString";
-                        }
-                        break;
-                    case "startTerm":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.startTerm";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
-                        }
-                        break;
-                    case "transcriptTitle":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.transcriptTitle";
-                        }
-                        break;
-                    case "finalExamStatus":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamStatus";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatus";
-                        }
-                        break;
-                    case "finalExamRationale":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".finalExamRationale";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale";
-                        }
-                        break;
-                    case "gradingOptions":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.gradingOptions";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString";
-                        }
-                        break;
-                    case "unitsContentOwner":
-                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
-                            String collectionPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".unitsContentOwner";
-                            CollectionGroup collectionGroup = (CollectionGroup) form.getView().getViewIndex().getComponentById("CM-Proposal-Course-Governance-CurriculumOversight-Section");
-                            if (collectionGroup != null) {
-                                message = collectionGroup.getHeaderText() + ": " + message;
-                            }
-                            elementPath = collectionPath + "[0].orgId";
-                        } else {
-                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.governanceSection.curriculumOversightAsString";
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.rationale.plain";
                         }
                         break;
                     case "stateKey":    // ignore this one as it's always returned whenever a validation error is thrown
                     case "code":        // ignore this one since it is only valid for the old GWT UI
                         break;
-
                     default:
                         elementPath = KRADConstants.GLOBAL_ERRORS;
                         wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);

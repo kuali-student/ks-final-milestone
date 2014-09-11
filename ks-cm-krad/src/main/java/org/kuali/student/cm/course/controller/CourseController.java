@@ -36,7 +36,6 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
@@ -458,53 +457,6 @@ public class CourseController extends CourseRuleEditorController {
             GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
         }
     }
-
-//    /**
-//     * This will save the Course Proposal.
-//     *
-//     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-//     * @param result
-//     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-//     * @param response The intended {@link HttpServletResponse} sent back to the user
-//     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
-//     */
-//    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
-//    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-//                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-//        form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
-//
-//        ModelAndView modelAndView;
-//
-//        modelAndView = save(form, result, request, response);
-//
-//        if (GlobalVariables.getMessageMap().hasErrors()) {
-//            return modelAndView;
-//        }
-//
-//        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
-//                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&"
-//                        + KewApiConstants.COMMAND_PARAMETER + "="
-//                        + KewApiConstants.DOCSEARCH_COMMAND + "&"
-//                        + KewApiConstants.DOCUMENT_ID_PARAMETER + "="
-//                        + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
-//
-//        String nextOrCurrentPage = form.getActionParameters().get("displayPage");
-//
-//        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
-//            CourseViewSections currentSection = (CourseViewSections)courseInfoWrapper.getUiHelper().getSelectedSection();
-//            if (currentSection.ordinal() < CourseViewSections.values().length) {
-//                CourseViewSections nextSection = CourseViewSections.values()[currentSection.ordinal() + 1];
-//                courseInfoWrapper.getUiHelper().setSelectedSection(nextSection);
-//            }
-//            return getUIFModelAndView(form);
-//        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "CM-Proposal-Course-View-ReviewProposalLink")) {
-//            return getUIFModelAndView(form, getReviewPageKradPageId());
-//        } else {
-//            return getUIFModelAndView(form);
-//        }
-//    }
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=saveNewVersion")

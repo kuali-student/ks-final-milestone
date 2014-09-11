@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public interface CourseMaintainable extends ProposalMaintainable {
+public interface CourseMaintainable extends CommonCourseMaintainable {
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order 

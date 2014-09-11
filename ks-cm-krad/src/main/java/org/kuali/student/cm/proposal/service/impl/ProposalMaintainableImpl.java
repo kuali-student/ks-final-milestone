@@ -786,8 +786,11 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
             proposal.setStateKey(ProposalConstants.PROPOSAL_STATE_SAVED);     // remove proposal constant, try to use KualiStudentPostProcessorBase
             String proposalTypeKey = getProposalTypeKey();
             proposal.setTypeKey(proposalTypeKey);
-            proposal.setProposalReferenceType(getProposalReferenceType());
-            proposal.getProposalReference().add(getProposalReference());
+            String proposalReferenceId = getProposalReference();
+            if (!proposal.getProposalReference().contains(proposalReferenceId)) {
+                proposal.setProposalReferenceType(getProposalReferenceType());
+                proposal.getProposalReference().add(proposalReferenceId);
+            }
             proposal.getProposerOrg().clear();
             proposal.getProposerPerson().clear();
             proposal = getProposalService().createProposal(proposalTypeKey, proposal, ContextUtils.createDefaultContextInfo());

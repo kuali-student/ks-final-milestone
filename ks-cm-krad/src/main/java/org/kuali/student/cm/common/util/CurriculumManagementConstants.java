@@ -228,10 +228,10 @@ public class CurriculumManagementConstants {
         }
 
         /**
-         * Gets a CourseViewSections given a sectionId (aka bean name).
+         * Gets a CourseRetireSections given a sectionId (aka bean name).
          *
-         * @param id The sectionId of the CourseViewSections.
-         * @return The corresponding CourseViewSections if one matches. Otherwise, null.
+         * @param id The sectionId of the CourseRetireSections.
+         * @return The corresponding CourseRetireSections if one matches. Otherwise, null.
          */
         public static CourseRetireSections getSection(String id) {
             for (CourseRetireSections section : CourseRetireSections.values()) {

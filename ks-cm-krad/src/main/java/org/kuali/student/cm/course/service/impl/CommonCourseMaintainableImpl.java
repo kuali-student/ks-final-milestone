@@ -23,6 +23,7 @@ import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
+import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.workflow.CourseStateChangeServiceImpl;
@@ -49,7 +50,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableImpl {
+public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableImpl implements CommonCourseMaintainable {
 
     private static final Logger LOG = LoggerFactory.getLogger(CommonCourseMaintainableImpl.class);
 
@@ -298,6 +299,13 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             throw new RuntimeException("Attempted to call a retire operation using course state '" + courseState + "'");
         }
 
+        setRetirementAttributesOnCourse(courseInfo, proposalInfo);
+
+        // Save the Data to the DB
+        getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
+    }
+
+    public void setRetirementAttributesOnCourse(CourseInfo courseInfo, ProposalInfo proposalInfo) {
         // Copy the data to the object -
         // These Proposal Attribs need to go back to courseInfo Object
         // to pass validation.
@@ -330,8 +338,6 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
                 courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
             }
         }
-        // Save the Data to the DB
-        getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.createDefaultContextInfo());
     }
 
     protected CourseStateChangeServiceImpl getCourseStateChangeService() {

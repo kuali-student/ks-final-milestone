@@ -23,6 +23,6 @@ import org.kuali.student.cm.proposal.service.ProposalMaintainable;
  *
  * @author Kuali Student Team
  */
-public interface RetireCourseMaintainable extends ProposalMaintainable {
+public interface RetireCourseMaintainable extends CommonCourseMaintainable {
 
 }
