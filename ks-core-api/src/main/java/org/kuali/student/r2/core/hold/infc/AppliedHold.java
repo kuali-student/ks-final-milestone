@@ -51,7 +51,7 @@ public interface AppliedHold
 
 
     /**
-     * The date this hold was released, of null if not yet released.
+     * The date this hold was released, or null if not yet released.
      * @name Released Date
      * @deprecated Please use getExpirationDate() instead
      */
@@ -83,12 +83,29 @@ public interface AppliedHold
 
     /**
      * The Id of the Application Effective Term
+     * Used only if the Issue is term based. Must be within the range specified by
+     * HoldIssue.firstApplicationTermId and HoldIssue.lastApplicationTermId.
+     * If the effectiveTerm is null then this hold is considered valid from the beginning of time.
+     * To evaluate if a student has a hold and this is a term based issue then both the
+     * effective dates must match the specified date AND these terms must match the specified term.
+     * Note: if you want the hold to be just for a single term then you should put that term in
+     * both the applicationEffectiveTermId and the applicationExpirationTermId
+     *
      * @name Application Effective Term Id
      */
     public String getApplicationEffectiveTermId();
 
     /**
      * The Id of the Application Expiration Term
+     * Used only if the Issue is term based. Must be within the range specified by
+     * HoldIssue.firstApplicationTermId and HoldIssue.lastApplicationTermId.
+     * If the expirationTerm is null then this hold is considered valid until the end of time.
+     * The expiration term must be the same as or come after the effective term
+     * To evaluate if a student has a hold and this is a term based issue then both the
+     * effective dates must match the specified date AND these terms must match the specified term.
+     * Note: if you want the hold to be just for a single term then you should put that term in
+     * both the applicationEffectiveTermId and the applicationExpirationTermId
+     *
      * @name Application Expiration Term Id
      */
     public String getApplicationExpirationTermId();
