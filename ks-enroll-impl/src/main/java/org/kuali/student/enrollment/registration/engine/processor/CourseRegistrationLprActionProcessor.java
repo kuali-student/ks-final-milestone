@@ -242,17 +242,26 @@ public class CourseRegistrationLprActionProcessor {
             List<LprInfo> lprInfos = getLprService().getLprsByMasterLprId(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
             ArrayList<String> aoIDs = new ArrayList<>();
             for (LprInfo lprInfo : lprInfos) {
-                if (StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY)) {
+                // Right here we're only looking for registered courses. If a person drops a waitlisted course
+                // we don't fire WL processing. This is because our WL system is timestamp based, not position based.
+                // if you wanted to fire WL processing you need to add an OR WAITLIST_RG_LPR_TYPE_KEY below
+                if (StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY )) {
                     aoIDs.add(lprInfo.getLuiId());
                 }
             }
-            // Passing event and AO IDs
-            try {
-                ObjectMessage objectMessage = new ActiveMQObjectMessage();
-                objectMessage.setObject(aoIDs);
-                jmsTemplate.convertAndSend(CourseRegistrationConstants.SEAT_OPEN_QUEUE, objectMessage);
-            } catch (JMSException jmsEx) {
-                throw new RuntimeException("Error submitting open seat request.", jmsEx);
+            // check if there are any AO Ids.
+            if(aoIDs != null && !aoIDs.isEmpty()) {
+                // Passing event and AO IDs
+                try {
+                    if(LOGGER.isInfoEnabled()) {
+                        LOGGER.info("Firing " + CourseRegistrationConstants.SEAT_OPEN_QUEUE + " Event on " + aoIDs.toString());
+                    }
+                    ObjectMessage objectMessage = new ActiveMQObjectMessage();
+                    objectMessage.setObject(aoIDs);
+                    jmsTemplate.convertAndSend(CourseRegistrationConstants.SEAT_OPEN_QUEUE, objectMessage);
+                } catch (JMSException jmsEx) {
+                    throw new RuntimeException("Error submitting open seat request.", jmsEx);
+                }
             }
         }
     }
