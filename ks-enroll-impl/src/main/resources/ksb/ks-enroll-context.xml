@@ -1869,6 +1869,7 @@ the program will get the rule management service by calling the global resource 
                 <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
                 <entry key="gesService" value-ref="GesService"/>
                 <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
+                <entry key="exemptionService" value-ref="ExemptionService"/>
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
                 <entry key="schedulingService" value-ref="SchedulingService"/>
