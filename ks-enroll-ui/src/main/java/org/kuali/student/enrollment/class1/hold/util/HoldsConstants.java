@@ -129,4 +129,9 @@ public class HoldsConstants {
     public static final String APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD = "Apply Hold";
     public static final String APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD = "Expire Hold";
 
+    //Holds Url parameters
+    public static final String HOLDS_URL_PARAMETERS_ACTION = "action";
+    public static final String HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID = "appliedHoldId";
+    public static final String HOLDS_URL_PARAMETERS_PERSON_ID = "personId";
+
 }

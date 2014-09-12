@@ -5,7 +5,6 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
-import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
@@ -19,13 +18,12 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        String action = dataObjectKeys.get("action");
-
+        String action = dataObjectKeys.get(HoldsConstants.HOLDS_URL_PARAMETERS_ACTION);
         if (HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(action)) {
-            String personId = dataObjectKeys.get("personId");
+            String personId = dataObjectKeys.get(HoldsConstants.HOLDS_URL_PARAMETERS_PERSON_ID);
             return setupDataObjectForCreate(personId, action);
         } else {
-            String appliedHoldId = dataObjectKeys.get("id");
+            String appliedHoldId = dataObjectKeys.get(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID);
             return setupDataObjectForEdit(appliedHoldId, action);
         }
     }

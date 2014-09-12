@@ -240,11 +240,6 @@ limitations under the License.
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
                                 </property>
-                                <!-- Constrain to 6 digits and use a custom message. -->
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"
-                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
-                                </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
                                 <property name="control">

@@ -60,13 +60,13 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
         if(HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(holdWrapper.getAction())) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
+            return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
         } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EDIT.equals(holdWrapper.getAction())){
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
+            return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_EDIT_PAGE_ID);
         } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(holdWrapper.getAction())){
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_EXPIRE_PAGE_ID);
+            return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_EXPIRE_PAGE_ID);
         }else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(holdWrapper.getAction())){
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, HoldsConstants.APPLIED_HOLD_DELETE_PAGE_ID);
+            return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_DELETE_PAGE_ID);
         }
         return getUIFModelAndView(form);
     }
