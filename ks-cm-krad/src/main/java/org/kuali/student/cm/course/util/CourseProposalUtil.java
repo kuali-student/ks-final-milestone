@@ -94,7 +94,7 @@ public class CourseProposalUtil {
     /**
      * Checks if the Course is modifiable. A Course is modifiable if:
      * - it is the 'current' version
-     * -
+     * - There is no later version in either 'DRAFT' or 'SUPERSEDED' states
      * @param courseInfo
      * @param contextInfo
      * @return
