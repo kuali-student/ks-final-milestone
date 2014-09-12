@@ -32,7 +32,7 @@ insert into KRMS_TERM_RSLVR_T (ACTV, NM, NMSPC_CD, OUTPUT_TERM_SPEC_ID, TERM_RSL
 
 --Proposition Parameters
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
-  values ('T', 'KS-KRMS-TERM-BestEffortCreditLoad', 'kuali.prop.max.credits', 'KS-KRMS-PPT-CourseInDropOrAdj', 1, 0)
+  values ('T', 'KS-KRMS-TERM-BestEffortCreditLoad', 'kuali.prop.max.credits', 'KS-KRMS-PPT-BestEffortCreditLoad', 1, 0)
 /
 insert into KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_NO, VER_NBR)
   values ('C', 'true', 'kuali.prop.max.credits', 'KS-KRMS-PPC-BestEffortCreditLoad', 2, 0)
