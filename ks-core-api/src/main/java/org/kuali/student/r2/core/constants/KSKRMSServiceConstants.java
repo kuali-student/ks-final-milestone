@@ -5,8 +5,8 @@ package org.kuali.student.r2.core.constants;
  * User: SW Genis
  * Date: 2013/06/28
  * Time: 2:44 PM
- * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("unused")
 public class KSKRMSServiceConstants {
 
     public static final String KRMS_DISCRIMINATOR_TYPE_AGENDA = "Agenda";
@@ -276,6 +276,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
     public static final String TERM_RESOLVER_COURSE_REPEATABILITY = "CourseRepeatability";
     public static final String TERM_RESOLVER_CUSTOM_COURSE_REPEATABILITY_RULE = "CustomCourseRepeatabilityRule";
+    public static final String TERM_RESOLVER_BEST_EFFORT_CREDIT_LOAD = "BestEffortCreditLoad";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
