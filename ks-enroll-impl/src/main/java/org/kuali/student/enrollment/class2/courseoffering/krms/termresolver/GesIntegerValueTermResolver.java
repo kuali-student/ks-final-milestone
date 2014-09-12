@@ -20,11 +20,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.ges.dto.GesCriteriaInfo;
-import org.kuali.student.core.ges.dto.ValueInfo;
-import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GesTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -45,9 +42,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class GesIntegerValueTermResolver implements TermResolver<Integer> {
-
-    private GesService gesService;
+public class GesIntegerValueTermResolver extends GesTermResolverSupport<Integer> {
 
     @Override
     public String getOutput() {
@@ -74,7 +69,7 @@ public class GesIntegerValueTermResolver implements TermResolver<Integer> {
 
     @Override
     public int getCost() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -86,32 +81,15 @@ public class GesIntegerValueTermResolver implements TermResolver<Integer> {
         String atpId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
         Date asOfDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
-        GesCriteriaInfo criteria = new GesCriteriaInfo();
-        criteria.setPersonId(personId);
-        criteria.setAtpId(atpId);
-        ValueInfo value;
-        try {
-            value = gesService.evaluateValueOnDate(gesParameterKey,
-                    criteria,
-                    asOfDate,
-                    contextInfo);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-            value = null;
-        }
-
         Integer integerValue;
-
-        if (value != null) {
-            integerValue = value.getDecimalValue().intValue();
-        } else {
+        try {
+            integerValue = evaluateIntegerOnDate(gesParameterKey, contextInfo, personId, atpId, asOfDate);
+        }catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
             integerValue = null;
         }
 
         return integerValue;
     }
 
-    public void setGesService(GesService gesService) {
-        this.gesService = gesService;
-    }
 }

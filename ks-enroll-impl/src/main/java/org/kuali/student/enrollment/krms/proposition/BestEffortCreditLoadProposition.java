@@ -51,8 +51,11 @@ import java.util.Map;
 /**
  * This class is a proposition that does a credit load check for registration requests.
  *
+ * It has been deprecated in favor of BestEffortCreditLoadTermResolver.java
+ *
  * @author Kuali Student Team
  */
+@Deprecated
 public class BestEffortCreditLoadProposition extends AbstractBestEffortProposition {
 
     public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);

@@ -12,10 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * This class is a term resolver for retrieving max repeatability from the GES
+ * This class is a term resolver for retrieving max credits from the GES
  * service.
  *
- * Created by Paul Richardson on 8/19/14
+ * Created by Paul Richardson on 9/12/14
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
@@ -23,7 +23,9 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GesTermResolverSupport;
+import org.kuali.student.enrollment.krms.termresolver.BestEffortCreditLoadTermResolver;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 
 import java.util.Collections;
@@ -33,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Return an integer value for Max Repeatability from the GES service based on:
+ * Return an Float value for Max Credits from the GES service based on:
  * -- The context info (prereq)
  * -- The person id (prereq)
  * -- The atp id (prereq)
@@ -41,11 +43,11 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class MaxRepeatabilityTermResolver extends GesTermResolverSupport<Integer> {
+public class MaxCreditsTermResolver extends GesTermResolverSupport<Float> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName();
+        return RulesExecutionConstants.MAX_CREDITS_TERM.getName();
     }
 
     @Override
@@ -70,24 +72,26 @@ public class MaxRepeatabilityTermResolver extends GesTermResolverSupport<Integer
     }
 
     @Override
-    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Float resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String gesParameterKey = GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE;
+        String gesParameterKey = GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT;
 
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
         String atpId = (String) resolvedPrereqs.get(RulesExecutionConstants.ATP_ID_TERM.getName());
         Date asOfDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
-        Integer maxRepeats;
+        Float maxCredits;
         try {
-            maxRepeats = evaluateIntegerOnDate(gesParameterKey, contextInfo, personId, atpId, asOfDate);
-        } catch (Exception e) {
+            maxCredits = evaluateFloatOnDate(gesParameterKey, contextInfo, personId, atpId, asOfDate);
+        }catch (DoesNotExistException e) {
+            maxCredits = BestEffortCreditLoadTermResolver.NO_CREDIT_LIMIT;
+        }catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-            maxRepeats = null;
+            maxCredits = null;
         }
         
-        return maxRepeats;
+        return maxCredits;
     }
 
 }
