@@ -32,6 +32,10 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
     private CourseReferenceDataSectionWrapper referenceDataSection;
     private RetireCourseSectionWrapper retireCourseSection;
 
+    /**
+     * Returns the RetireCourseSectionWrapper instance
+     * @return
+     */
     public RetireCourseSectionWrapper getRetireCourseSection() {
         if (retireCourseSection == null) {
             retireCourseSection = new RetireCourseSectionWrapper();
@@ -39,10 +43,18 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
         return retireCourseSection;
     }
 
+    /**
+     * Sets the RetireCourseSectionWrapper instance
+     * @param retireCourseSection
+     */
     public void setRetireCourseSection(RetireCourseSectionWrapper retireCourseSection) {
         this.retireCourseSection = retireCourseSection;
     }
 
+    /**
+     * Returns the CourseReferenceDataSectionWrapper instance
+     * @return
+     */
     public CourseReferenceDataSectionWrapper getReferenceDataSection() {
         if (referenceDataSection == null) {
             referenceDataSection = new CourseReferenceDataSectionWrapper();
@@ -50,46 +62,84 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
         return referenceDataSection;
     }
 
+    /**
+     * Sets the CourseReferenceDataSectionWrapper instance
+     * @param referenceDataSection
+     */
     public void setReferenceDataSection(CourseReferenceDataSectionWrapper referenceDataSection) {
         this.referenceDataSection = referenceDataSection;
     }
 
+    /**
+     *  Holds the Retire Course Review section fields
+     */
     public class RetireCourseSectionWrapper {
         private String endTerm;
         private String lastTerm;
         private String publicationYear;
 
+        /**
+         *  Set the course end term
+         * @param endTerm
+         */
         public void setEndTerm(final String endTerm) {
             this.endTerm = endTerm;
         }
 
+        /**
+         * get the course end term
+         * @return String
+         */
         public String getEndTerm() {
             return endTerm;
         }
 
+        /**
+         *  Get the course last term
+         * @return String
+         */
         public String getLastTerm() {
             return lastTerm;
         }
 
+        /**
+         * set the Course last term
+         * @param lastTerm
+         */
         public void setLastTerm(String lastTerm) {
             this.lastTerm = lastTerm;
         }
 
+        /**
+         *  Returns the Publication year
+         * @return String
+         */
         public String getPublicationYear() {
             return publicationYear;
         }
 
+        /**
+         * Set the Publication year
+         * @param publicationYear
+         */
         public void setPublicationYear(String publicationYear) {
             this.publicationYear = publicationYear;
         }
 
     }
 
+    /**
+     *  Holds the Retire Course Reference Data section fields
+     */
     public class CourseReferenceDataSectionWrapper {
         private List<String> crossListings;
         private List<String> jointlyOfferedCourses;
         private List<String> curriculumOversight;
 
+        /**
+         *  Returns the cross listed courses
+         * @return List<String>
+         */
         public List<String> getCrossListings() {
             if (this.crossListings == null) {
                 crossListings = new LinkedList<String>();
@@ -97,10 +147,18 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
             return crossListings;
         }
 
+        /**
+         *  Sets the cross listed courses
+         * @param crossListings
+         */
         public void setCrossListings(List<String> crossListings) {
             this.crossListings = crossListings;
         }
 
+        /**
+         *  Returns Jointly Offered Courses
+         * @return List<String>
+         */
         public List<String> getJointlyOfferedCourses() {
             if (this.jointlyOfferedCourses == null) {
                 jointlyOfferedCourses = new LinkedList<String>();
@@ -108,10 +166,18 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
             return jointlyOfferedCourses;
         }
 
+        /**
+         * Set the Jointly Offered Courses
+         * @param jointlyOfferedCourses
+         */
         public void setJointlyOfferedCourses(List<String> jointlyOfferedCourses) {
             this.jointlyOfferedCourses = jointlyOfferedCourses;
         }
 
+        /**
+         *  Returns the list of Curriculum oversight values.
+         * @return List<String>
+         */
         public List<String> getCurriculumOversight() {
             if (this.curriculumOversight == null) {
                 curriculumOversight = new LinkedList<String>();
@@ -119,14 +185,26 @@ public class RetireCourseReviewProposalDisplay extends org.kuali.student.cm.prop
             return curriculumOversight;
         }
 
+        /**
+         *  Set the curriculum oversight list
+         * @param curriculumOversight
+         */
         public void setCurriculumOversight(List<String> curriculumOversight) {
             this.curriculumOversight = curriculumOversight;
         }
 
+        /**
+         *  Returns the curriculum oversight as semi-colon separated values
+         * @return String
+         */
         public String getCurriculumOversightAsString() {
             return StringUtils.join(getCurriculumOversight(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
 
+        /**
+         * Combines the cross listed and jointly offered courses and returns it as semi-colon separated values.
+         * @return String
+         */
         public String getJointlyOfferedAndCrossListedCoursesAsString() {
             List<String> crossListedJointlyOfferedCourseList = new LinkedList<>();
             crossListedJointlyOfferedCourseList.addAll(getJointlyOfferedCourses());

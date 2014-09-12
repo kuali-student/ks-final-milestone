@@ -316,6 +316,15 @@ public class RetireCourseController extends ProposalController {
         throw new RuntimeException("Cannot copy a Retire Proposal");
     }
 
+    /**
+     *  This is method is invoked to load the Retire Course Review proposal page.
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView
+     * @throws Exception
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
