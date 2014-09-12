@@ -34,7 +34,8 @@ import org.kuali.student.r2.core.hold.infc.AppliedHold;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
                 "descr", "holdIssueId", "personId",  "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" }) 
+                "applicationEffectiveTermId", "applicationExpirationTermId",
+                "meta", "attributes", "_futureElements" })
 
 public class AppliedHoldInfo 
     extends RelationshipInfo
@@ -53,6 +54,12 @@ public class AppliedHoldInfo
 
     @XmlElement
     private RichTextInfo descr;
+
+    @XmlElement
+    private String applicationEffectiveTermId;
+
+    @XmlElement
+    private String applicationExpirationTermId;
 
     @XmlAnyElement
     private List<Object> _futureElements;  
@@ -77,6 +84,8 @@ public class AppliedHoldInfo
             this.holdIssueId = hold.getHoldIssueId();
             this.name = hold.getName();
             this.descr = hold.getDescr();
+            this.applicationEffectiveTermId = hold.getApplicationEffectiveTermId();
+            this.applicationExpirationTermId = hold.getApplicationExpirationTermId();
         }
     }
 
@@ -128,5 +137,23 @@ public class AppliedHoldInfo
 
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String getApplicationEffectiveTermId() {
+        return applicationEffectiveTermId;
+    }
+
+    public void setApplicationEffectiveTermId(String applicationEffectiveTermId) {
+        this.applicationEffectiveTermId = applicationEffectiveTermId;
+    }
+
+    @Override
+    public String getApplicationExpirationTermId() {
+        return applicationExpirationTermId;
+    }
+
+    public void setApplicationExpirationTermId(String applicationExpirationTermId) {
+        this.applicationExpirationTermId = applicationExpirationTermId;
     }
 }

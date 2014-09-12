@@ -80,4 +80,16 @@ public interface AppliedHold
      */
     @Override
     public Date getExpirationDate();
+
+    /**
+     * The Id of the Application Effective Term
+     * @name Application Effective Term Id
+     */
+    public String getApplicationEffectiveTermId();
+
+    /**
+     * The Id of the Application Expiration Term
+     * @name Application Expiration Term Id
+     */
+    public String getApplicationExpirationTermId();
 }
