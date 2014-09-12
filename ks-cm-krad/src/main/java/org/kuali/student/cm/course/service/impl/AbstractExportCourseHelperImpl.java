@@ -22,9 +22,11 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.Fil
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -146,6 +148,42 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
         exportElement.setSectionName(sectionName);
         exportElement.setPrintType(printType);
         return exportElement;
+    }
+
+    /**
+     * This method creates exportElement for each field in "Authors and Collaborators" section and adds them to the list.
+     *
+     * @param exportElements
+     * @param proposalElementsWrapper
+     */
+    protected void populateAuthorsCollaborators(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
+
+        for(CollaboratorWrapper collabaratorWrapper : proposalElementsWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
+
+            String displayName = collabaratorWrapper.getDisplayName();
+            String actionRequest = collabaratorWrapper.getAction();
+            String permission = collabaratorWrapper.getPermission();
+            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, displayName, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
+            exportElements.add(populateExportElement(null, permission, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
+            exportElements.add(populateExportElement(null, actionRequest, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
+        }
+    }
+
+    /**
+     * This method creates exportElement for each field in "Supporting Documents" section and adds them to the list.
+     *
+     * @param exportElements
+     * @param proposalElementsWrapper
+     */
+    protected void populateSupportingDocuments(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
+
+        for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : proposalElementsWrapper.getSupportingDocs()) {
+            String description = supportingDocumentInfoWrapper.getDescription();
+            String documentName = supportingDocumentInfoWrapper.getDocumentName();
+            if (StringUtils.isNotBlank(description) || StringUtils.isNotBlank(documentName)){
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+            }
+        }
     }
 
 }

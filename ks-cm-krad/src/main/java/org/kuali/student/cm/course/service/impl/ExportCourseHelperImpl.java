@@ -458,36 +458,6 @@ public class ExportCourseHelperImpl extends AbstractExportCourseHelperImpl {
         exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Financials.JUSTIFICATION_OF_FEES, feeJustification, CurriculumManagementConstants.ProposalViewFieldLabels.Financials.SECTION_NAME, -1));
     }
 
-    /**
-     * This method creates exportElement for each field in "Authors and Collaborators" section and adds them to the list.
-     *
-     * @param exportElements
-     * @param courseInfoWrapper
-     */
-    protected void populateAuthorsCollaborators(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
-
-        for(CollaboratorWrapper collabaratorWrapper : courseInfoWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
-
-            String displayName = collabaratorWrapper.getDisplayName();
-            String actionRequest = collabaratorWrapper.getAction();
-            String permission = collabaratorWrapper.getPermission();
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, displayName, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
-            exportElements.add(populateExportElement(null, permission, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
-            exportElements.add(populateExportElement(null, actionRequest, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
-        }
-   }
-
-    protected void populateSupportingDocuments(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
-
-        for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : courseInfoWrapper.getSupportingDocs()) {
-            String description = supportingDocumentInfoWrapper.getDescription();
-            String documentName = supportingDocumentInfoWrapper.getDocumentName();
-            if (StringUtils.isNotBlank(description) || StringUtils.isNotBlank(documentName)){
-                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
-            }
-        }
-    }
-
     protected void populateCrossListCourses(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
         StringBuilder crossListedCourses = new StringBuilder("");
         for (CourseCrossListingInfo crossListing : courseInfoWrapper.getCourseInfo().getCrossListings()) {

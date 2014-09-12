@@ -22,7 +22,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -36,18 +35,15 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants.Export.FileType;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
-import org.kuali.student.cm.course.service.impl.AbstractExportCourseHelperImpl;
+import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
-import org.kuali.student.cm.course.service.impl.ExportRetireCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
@@ -68,14 +64,11 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +76,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -671,43 +663,9 @@ public class CourseController extends CourseRuleEditorController {
 
     }
 
-    @MethodAccessible
-    @ResponseBody
-    @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form, HttpServletRequest request) {
-        /*
-         * For export the "save" headers should be returned to the client. Default to true.
-         * The print action link should set this param.
-         */
-        boolean useSaveHeaders = true;
-        String saveHeader = request.getParameter(CurriculumManagementConstants.Export.UrlParams.RETURN_SAVE_HEADERS);
-        if (StringUtils.isNotBlank(saveHeader)) {
-            useSaveHeaders = Boolean.valueOf(saveHeader);
-        }
-        /*
-         * PDF is the default document type.
-         */
-        String exportFileTypeText = request.getParameter(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
-        if (StringUtils.isBlank(exportFileTypeText)) {
-            exportFileTypeText = FileType.PDF.toString();
-        }
-        FileType exportFileType = FileType.valueOf(exportFileTypeText);
-
-        Object wrapper = ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
-        AbstractExportCourseHelperImpl exportHelper = null;
-
-        if(wrapper instanceof CourseInfoWrapper) {
-            CourseInfoWrapper courseInfoWrapper =  (CourseInfoWrapper) wrapper;
-            exportHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
-        } else if(wrapper instanceof RetireCourseWrapper) {
-            RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) wrapper;
-            exportHelper = new ExportRetireCourseHelperImpl(retireCourseWrapper, exportFileType);
-        } else {
-            throw new RuntimeException("Cannot find valid ExportHelper class for wrapper object " + wrapper.getClass());
-        }
-
-        form.setRenderedInLightBox(false);
-        return exportHelper.getResponseEntity();
+    protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+        return new ExportCourseHelperImpl(wrapper, exportFileType, useSaveHeaders);
     }
 
     /**

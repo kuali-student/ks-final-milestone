@@ -20,6 +20,7 @@ package org.kuali.student.cm.course.service;
 
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.common.ui.client.util.ExportElement;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -29,6 +30,13 @@ import java.util.List;
  */
 public interface ExportCourseHelper {
 
-    public List<ExportElement> constructExportElementBasedOnView(ProposalElementsWrapper wrapper,  boolean isProposal ) ;
+    /**
+     * Generates a response for the report.
+     *
+     * @return
+     */
+    public ResponseEntity<byte[]> getResponseEntity();
+
+    public List<ExportElement> constructExportElementBasedOnView(ProposalElementsWrapper wrapper,  boolean isProposal );
 
 }

@@ -14,7 +14,7 @@
  *
  * Created by delyea on 9/8/14
  */
-package org.kuali.student.cm.proposal.controller;
+        package org.kuali.student.cm.proposal.controller;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
@@ -46,6 +46,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
+import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
@@ -67,10 +68,12 @@ import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1029,7 +1032,7 @@ public abstract class ProposalController extends RuleEditorController {
      */
     @RequestMapping(params = "methodToCall=editProposalPage")
     public ModelAndView editProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String displaySectionId = form.getActionParameters().get("displaySection");
         ProposalElementsWrapper wrapper = getProposalElementsWrapper(form);
@@ -1067,6 +1070,35 @@ public abstract class ProposalController extends RuleEditorController {
     }
 
     protected abstract void runStudentServiceValidation(DocumentFormBase form, String forcedStudentObjectStateKey);
+
+    @MethodAccessible
+    @ResponseBody
+    @RequestMapping(params = "methodToCall=export", method = RequestMethod.POST)
+    public ResponseEntity<byte[]> export(@ModelAttribute("KualiForm") DocumentFormBase form, HttpServletRequest request) {
+        /*
+         * For export the "save" headers should be returned to the client. Default to true.
+         * The print action link should set this param.
+         */
+        boolean useSaveHeaders = true;
+        String saveHeader = request.getParameter(CurriculumManagementConstants.Export.UrlParams.RETURN_SAVE_HEADERS);
+        if (StringUtils.isNotBlank(saveHeader)) {
+            useSaveHeaders = Boolean.valueOf(saveHeader);
+        }
+        /*
+         * PDF is the default document type.
+         */
+        String exportFileTypeText = request.getParameter(CurriculumManagementConstants.Export.UrlParams.EXPORT_TYPE);
+        if (StringUtils.isBlank(exportFileTypeText)) {
+            exportFileTypeText = CurriculumManagementConstants.Export.FileType.PDF.toString();
+        }
+        CurriculumManagementConstants.Export.FileType exportFileType = CurriculumManagementConstants.Export.FileType.valueOf(exportFileTypeText);
+
+        ExportCourseHelper helper = getExportHelper(form, exportFileType, useSaveHeaders);
+        form.setRenderedInLightBox(false);
+        return helper.getResponseEntity();
+    }
+
+    protected abstract ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders);
 
     protected DocumentService getSupportingDocumentService() {
         if (documentService == null) {

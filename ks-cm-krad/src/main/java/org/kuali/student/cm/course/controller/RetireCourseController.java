@@ -26,25 +26,24 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
+import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
+import org.kuali.student.cm.course.service.impl.ExportRetireCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalController;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -61,7 +60,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -220,6 +218,11 @@ public class RetireCourseController extends ProposalController {
         }
     }
 
+    protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {
+        RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+        return new ExportRetireCourseHelperImpl(wrapper, exportFileType, useSaveHeaders);
+    }
+
     /**
      * Digs the CourseInfoWrapper out of DocumentFormBase.
      *
@@ -261,7 +264,7 @@ public class RetireCourseController extends ProposalController {
     @Override
     @RequestMapping(params = "methodToCall=back")
     public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
+                             HttpServletRequest request, HttpServletResponse response) {
         DocumentFormBase theForm = (DocumentFormBase) form;
 
         RetireCourseWrapper courseWrapper = getRetireCourseWrapper(theForm);
