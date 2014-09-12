@@ -11174,6 +11174,12 @@
         </index>
     </table>
     <table name="KSEN_HOLD">
+        <column name="APP_EFF_TERM_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="APP_EXPIR_TERM_ID" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="CREATEID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
