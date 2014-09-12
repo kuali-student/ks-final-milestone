@@ -8,6 +8,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.person.dto.PersonAffiliationInfo;
 import org.kuali.student.core.person.dto.PersonInfo;
@@ -21,6 +22,7 @@ import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class1.hold.util.HoldsUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -131,8 +133,8 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                     appliedHoldResult.setConsequence("");
                     appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
                     appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
-                    appliedHoldResult.setStartTerm(holdIssue.getFirstApplicationTermId());
-                    appliedHoldResult.setEndTerm(holdIssue.getLastApplicationTermId());
+                    appliedHoldResult.setStartTerm(getTermCodeForId(holdIssue.getFirstApplicationTermId()));
+                    appliedHoldResult.setEndTerm(getTermCodeForId(holdIssue.getLastApplicationTermId()));
 
                     holdResultList.add(appliedHoldResult);
                 //}
@@ -197,6 +199,21 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         }
 
         return holdIssueCodeList;
+    }
+
+    public String getTermCodeForId(String termId) {
+        if (termId == null) {
+            return StringUtils.EMPTY;
+        }
+
+        try {
+            TermInfo term = HoldsResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
+            return term.getCode();
+        } catch (Exception e){
+            convertServiceExceptionsToUI(e);
+        }
+
+        return StringUtils.EMPTY;
     }
 
 }
