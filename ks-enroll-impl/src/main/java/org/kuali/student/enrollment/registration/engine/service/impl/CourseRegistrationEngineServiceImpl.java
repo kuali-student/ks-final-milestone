@@ -18,11 +18,11 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
+import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -75,8 +75,23 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public LprTransactionItemInfo updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
         LprTransactionItemInfo lprTransactionItem = getLprService().getLprTransactionItem(lprTransactionItemId, contextInfo);
         lprTransactionItem.setStateKey(lprTransactionItemStateKey);
-        if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey)) {
-            lprTransactionItem.getValidationResults().add(new ValidationResultInfo("", ValidationResult.ErrorLevel.ERROR, message));
+
+
+
+        if(message != null) {
+            // the lprTransResult stores messages via a key value string system
+            Map<String, Object> messageMap = RegistrationValidationResultsUtil.unmarshallResult(message);
+            String messageKey = (String) messageMap.get(CourseRegistrationConstants.REG_VALIDATION_MSG_KEY);
+
+
+            if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey)) {
+                lprTransactionItem.getValidationResults().add(new ValidationResultInfo("", ValidationResult.ErrorLevel.ERROR, message));
+            }
+
+            if (LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY.equals(messageKey)) {
+                // the person just got added to the waitlist.
+                lprTransactionItem.getValidationResults().add(new ValidationResultInfo("", ValidationResult.ErrorLevel.OK, message));
+            }
         }
         lprTransactionItem.setResultingLprId(resultingLprId);
 
