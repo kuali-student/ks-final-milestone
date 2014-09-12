@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -20,10 +20,14 @@ import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.krms.termresolver.BestEffortCreditLoadTermResolver;
 import org.kuali.student.enrollment.krms.termresolver.CluId2CluInfoTermResolver;
 import org.kuali.student.enrollment.krms.termresolver.CluId2CluVersionIndIdTermResolver;
+import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationServiceTypeStateConstants;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -54,6 +58,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
@@ -1080,7 +1086,7 @@ public class TestTermResolvers {
         //Evaluate term Resolver
         ValueInfo value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value.getDecimalValue().intValue(), 2);
+        assertEquals(2, value.getDecimalValue().intValue());
     }
 
     @Test
@@ -1105,11 +1111,33 @@ public class TestTermResolvers {
         //Evaluate term Resolver
         Integer value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value.intValue(), 2);
+        assertEquals(2, value.intValue());
     }
 
     @Test
-    public void testGesMaxRepeatabilityTermResolver() throws Exception {
+    public void testMaxRepeatabilityTermResolver() throws Exception {
+        //Setup the term resolver
+        MaxRepeatabilityTermResolver termResolver = new MaxRepeatabilityTermResolver();
+        termResolver.setGesService(gesService);
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
+        resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
+
+        //Evaluate term Resolver
+        Integer value = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(value);
+        assertEquals(2, value.intValue());
+    }
+
+    @Test
+    public void testCourseRepeatabilityTermResolver() throws Exception {
         //Setup the term resolver
         CourseRepeatabilityTermResolver termResolver = new CourseRepeatabilityTermResolver();
         termResolver.setRuleManagementService(ruleManagementService);
@@ -1132,19 +1160,19 @@ public class TestTermResolvers {
         //Evaluate term Resolver for error
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR);
+        assertEquals(CourseRepeatabilityTermResolver.MAX_REPEATABILITY_ERROR, value);
 
         //Evaluate term Resolver for warning
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 1);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING);
+        assertEquals(CourseRepeatabilityTermResolver.MAX_REPEATABILITY_WARNING, value);
 
         //Evaluate term Resolver for success
         resolvedPrereqs.put(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName(), 0);
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
+        assertEquals(CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS, value);
 
         //Evaluate term Resolver for error, but the CO in the RG should have a custom rule
         //Set the CO to an ID that has a custom Repeatability rule on it
@@ -1156,7 +1184,164 @@ public class TestTermResolvers {
 
         value = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(value);
-        assertEquals(value, CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS);
+        assertEquals(CourseRepeatabilityTermResolver.MAX_REPEATABILITY_SUCCESS, value);
+    }
+
+    @Test
+    public void testMaxCreditsTermResolver() throws Exception {
+        //Setup the term resolver
+        MaxCreditsTermResolver termResolver = new MaxCreditsTermResolver();
+        termResolver.setGesService(gesService);
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "kuali.population.student.key.everyone100000077");
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getFallTermId());
+        resolvedPrereqs.put(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                RulesExecutionConstants.MAX_CREDITS_TERM.getName());
+
+        //Evaluate term Resolver
+        Float maxCredits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(maxCredits);
+        assertEquals(new Float(20), maxCredits);
+
+        //Evaluate for a term that is not set up
+        resolvedPrereqs.put(RulesExecutionConstants.ATP_ID_TERM.getName(), dataLoader.getWinterTermId());
+        maxCredits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(maxCredits);
+        assertEquals(new Float(-1), maxCredits);
+    }
+
+    @Test
+    public void testBestEffortCreditLoadTermResolver() throws Exception {
+        //Setup the term resolver
+        BestEffortCreditLoadTermResolver termResolver = new BestEffortCreditLoadTermResolver();
+
+        //Mock a reg group
+        String mockRegGroup01 = "mock-reg-group-01";
+        RegistrationGroupInfo registrationGroupInfo = mock(RegistrationGroupInfo.class);
+        when(registrationGroupInfo.getId()).thenReturn(mockRegGroup01);
+
+        //Mock the course offering service and inject it into the term resolver
+        CourseOfferingService courceOfferingServiceMock = mock(CourseOfferingService.class);
+        when(courceOfferingServiceMock.getRegistrationGroup(mockRegGroup01, contextInfo)).thenReturn(registrationGroupInfo);
+        termResolver.setCourseOfferingService(courceOfferingServiceMock);
+
+        //Mock a registration request item
+        RegistrationRequestItemInfo requestItemInfo = mock(RegistrationRequestItemInfo.class);
+        when(requestItemInfo.getTypeKey()).thenReturn(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY);
+        when(requestItemInfo.getCredits()).thenReturn(new KualiDecimal(3));
+        when(requestItemInfo.getRegistrationGroupId()).thenReturn(mockRegGroup01);
+
+        List<CourseRegistrationInfo> existingRegistrations = new ArrayList<>();
+        List<CourseRegistrationInfo> waitlistedRegistrations = new ArrayList<>();
+        List<CourseRegistrationInfo> simulatedRegistrations = new ArrayList<>();
+
+        //Mock some course registrations
+        String mockCRID01 = "mock-cr-01";
+        CourseRegistrationInfo cr01 = new CourseRegistrationInfo();
+        CourseRegistrationInfo cr02 = new CourseRegistrationInfo();
+        CourseRegistrationInfo cr03 = new CourseRegistrationInfo();
+        cr01.setId(mockCRID01);
+        cr01.setCredits(new KualiDecimal(6));
+        cr02.setCredits(new KualiDecimal(3));
+        cr03.setCredits(new KualiDecimal(2));
+
+        //Setup prerequisites
+        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName(), requestItemInfo);
+        resolvedPrereqs.put(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName(), existingRegistrations);
+        resolvedPrereqs.put(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM.getName(), waitlistedRegistrations);
+        resolvedPrereqs.put(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM.getName(), simulatedRegistrations);
+        resolvedPrereqs.put(RulesExecutionConstants.MAX_CREDITS_TERM.getName(), 8f);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_BEST_EFFORT_CREDIT_LOAD);
+
+        //Evaluate term Resolver
+        Boolean creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertTrue(creditLoadOkay);
+
+        //Increase the credits on the added item
+        when(requestItemInfo.getCredits()).thenReturn(new KualiDecimal(9));
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(creditLoadOkay);
+
+        /*
+        Adding 3 credit course
+        One 6 credit course is registered
+        Max credits allowed: 8
+        */
+        when(requestItemInfo.getCredits()).thenReturn(new KualiDecimal(3));
+        existingRegistrations.add(cr01);
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(creditLoadOkay);
+
+        /*
+        Adding 3 credit course
+        One 3 credit course is registered
+        One 3 credit course is waitlisted
+        Max credits allowed: 8
+        */
+        cr01.setCredits(new KualiDecimal(3));
+        waitlistedRegistrations.add(cr02);
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(creditLoadOkay);
+
+        /*
+        Adding 3 credit course
+        One 3 credit course is registered
+        One 3 credit course is waitlisted
+        Max credits allowed: 8
+        countWaitlistedCoursesTowardsCreditLimit is set to false
+        */
+        termResolver.setCountWaitlistedCoursesTowardsCreditLimit(false);
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertTrue(creditLoadOkay);
+
+        /*
+        Adding 3 credit course
+        One 2 credit course is registered
+        One 2 credit course is waitlisted
+        One 2 credit course is simulated
+        Max credits allowed: 8
+        */
+        cr01.setCredits(new KualiDecimal(2));
+        cr02.setCredits(new KualiDecimal(2));
+        simulatedRegistrations.add(cr03);
+        termResolver.setCountWaitlistedCoursesTowardsCreditLimit(true);
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(creditLoadOkay);
+
+        /*
+        One 2 credit course is registered
+        One 3 credit course is waitlisted
+        One 3 credit course is simulated
+        Max credits allowed: 8
+        Updating the registered course to 3 credits
+        */
+        cr02.setCredits(new KualiDecimal(3));
+        cr03.setCredits(new KualiDecimal(3));
+        when(requestItemInfo.getExistingCourseRegistrationId()).thenReturn(mockCRID01);
+        when(requestItemInfo.getTypeKey()).thenReturn(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertFalse(creditLoadOkay);
+
+        /*
+        One 2 credit course is registered
+        One 3 credit course is waitlisted
+        One 3 credit course is simulated
+        Max credits allowed: 8
+        Updating the registered course to 1 credits
+        */
+        when(requestItemInfo.getCredits()).thenReturn(new KualiDecimal(1));
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertTrue(creditLoadOkay);
+
     }
 
     @Test

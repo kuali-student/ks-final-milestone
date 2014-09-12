@@ -15,10 +15,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  *
  * @author nwright
@@ -36,9 +32,14 @@ public class KRMSGesServiceDataLoader extends AbstractMockServicesAwareDataLoade
         _createParam(GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE, "Max Repeatable",
                 "Maximum number of times that a student can repeat a course",
                 GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
+        _createParam(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, "Max Credits",
+                "Maximum credit load for a given term",
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
 
         // values
         _createValue(GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE, 1, 2,
+                "kuali.population.student.key.everyone", AtpServiceConstants.ATP_FALL_TYPE_KEY, contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, 20,
                 "kuali.population.student.key.everyone", AtpServiceConstants.ATP_FALL_TYPE_KEY, contextInfo);
     }
 
@@ -83,17 +84,6 @@ public class KRMSGesServiceDataLoader extends AbstractMockServicesAwareDataLoade
             throw new RuntimeException("unexpected", ex);
         }
         return info;
-    }
-
-    private List<String> _splitIt(String str) {
-        if (str.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] strs = str.split(",");
-        for (int i = 0; i < strs.length; i++) {
-            strs[i] = strs[i].trim();
-        }
-        return Arrays.asList(strs);
     }
 
     public void setGesService(GesService gesService) {
