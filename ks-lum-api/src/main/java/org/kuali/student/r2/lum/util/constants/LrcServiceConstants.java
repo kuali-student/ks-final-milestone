@@ -889,6 +889,10 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_VALUE_GRADE_AUDIT = "Audit";
     public static final String RESULT_GROUP_VALUE_GRADE_LETTER = "Letter";
     public static final String RESULT_GROUP_VALUE_GRADE_PASSFAIL = "Pass/Fail";
+    public static final String RESULT_GROUP_VALUE_GRADE_PERCENTAGE = "Percentage";
+    public static final String RESULT_GROUP_VALUE_GRADE_SATISFACTORY = "Administrative Satisfactory";
+    public static final String RESULT_GROUP_VALUE_GRADE_COMPLETEDNOTATION = "Notation";
+    public static final String RESULT_GROUP_VALUE_GRADE_LETTER_PLUS_MINUS_STANDARD = "+/- Letter";
 
     // grade values group type keys
 //    public static final String RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
