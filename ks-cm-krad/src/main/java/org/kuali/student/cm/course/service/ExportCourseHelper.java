@@ -18,9 +18,8 @@
 package org.kuali.student.cm.course.service;
 
 
-import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.List;
 
@@ -30,6 +29,6 @@ import java.util.List;
  */
 public interface ExportCourseHelper {
 
-    public List<ExportElement> constructExportElementBasedOnView(CourseInfoWrapper courseInfoWrapper,  boolean isProposal ) ;
+    public List<ExportElement> constructExportElementBasedOnView(ProposalElementsWrapper wrapper,  boolean isProposal ) ;
 
 }

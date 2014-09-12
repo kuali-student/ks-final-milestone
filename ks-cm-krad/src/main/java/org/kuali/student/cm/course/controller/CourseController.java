@@ -43,8 +43,11 @@ import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
+import org.kuali.student.cm.course.service.impl.AbstractExportCourseHelperImpl;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
+import org.kuali.student.cm.course.service.impl.ExportRetireCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
@@ -692,12 +695,21 @@ public class CourseController extends CourseRuleEditorController {
         }
         FileType exportFileType = FileType.valueOf(exportFileTypeText);
 
-        // TODO -- KSCM-2759 -- convert the export to be available for all proposal types (all course types and potentially all program types?)
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
+        Object wrapper = ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        AbstractExportCourseHelperImpl exportHelper = null;
+
+        if(wrapper instanceof CourseInfoWrapper) {
+            CourseInfoWrapper courseInfoWrapper =  (CourseInfoWrapper) wrapper;
+            exportHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType);
+        } else if(wrapper instanceof RetireCourseWrapper) {
+            RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) wrapper;
+            exportHelper = new ExportRetireCourseHelperImpl(retireCourseWrapper, exportFileType);
+        } else {
+            throw new RuntimeException("Cannot find valid ExportHelper class for wrapper object " + wrapper.getClass());
+        }
 
         form.setRenderedInLightBox(false);
-        return exportCourseHelper.getResponseEntity();
+        return exportHelper.getResponseEntity();
     }
 
     /**
