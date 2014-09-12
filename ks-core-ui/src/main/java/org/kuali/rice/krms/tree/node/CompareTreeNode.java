@@ -15,8 +15,7 @@
  */
 package org.kuali.rice.krms.tree.node;
 
-import groovy.json.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -68,7 +67,7 @@ public class CompareTreeNode implements Serializable {
 
     public String getFirstElement() {
         if((this.firstElement == null) || (this.firstElement.isEmpty())){
-            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+            return StringEscapeUtils.escapeHtml(" ");
         }
         return firstElement;
     }
@@ -87,7 +86,7 @@ public class CompareTreeNode implements Serializable {
 
     public String getSecondElement() {
         if((this.secondElement == null) || (this.secondElement.isEmpty())){
-            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+            return StringEscapeUtils.escapeHtml(" ");
         }
         return secondElement;
     }
@@ -106,7 +105,7 @@ public class CompareTreeNode implements Serializable {
 
     public String getThirdElement() {
         if((this.thirdElement == null) || (this.thirdElement.isEmpty())){
-            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+            return StringEscapeUtils.escapeHtml(" ");
         }
         return thirdElement;
     }
@@ -125,7 +124,7 @@ public class CompareTreeNode implements Serializable {
 
     public String getFourthElement() {
         if((this.fourthElement == null) || (this.fourthElement.isEmpty())){
-            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+            return StringEscapeUtils.escapeHtml(" ");
         }
         return fourthElement;
     }
@@ -144,7 +143,7 @@ public class CompareTreeNode implements Serializable {
 
     public String getFithElement() {
         if((this.fithElement == null) || (this.fithElement.isEmpty())){
-            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+            return StringEscapeUtils.escapeHtml(" ");
         }
         return fithElement;
     }
