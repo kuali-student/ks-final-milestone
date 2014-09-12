@@ -35,7 +35,7 @@
             <list>
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
-                <bean parent="Uif-TabSection" >
+                <bean parent="Uif-HorizontalFieldGroup" >
                     <property name="items">
                         <list>
                             <ref bean="KS-RegistrationWindows-EditSection"/>
@@ -336,7 +336,7 @@
         <!--KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
         <!--added the presubmit call-->
         <property name="lineActions">
-            <list>
+            <list >
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="KS-Uif-Delete-ActionLink"
@@ -345,7 +345,7 @@
                       p:methodToCall="deleteLineThroughDialog"
                       p:clearDirtyOnAction="false"
                       p:render="@{!#isAddLine}"
-                      p:additionalCssClasses="icon-color">
+                      p:additionalCssClasses="ks-icon-color">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
                     </property>

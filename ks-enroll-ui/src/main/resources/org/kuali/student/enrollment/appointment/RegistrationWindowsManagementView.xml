@@ -20,7 +20,9 @@
     -->
 
     <bean id="KS-RegistrationWindowsManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
-            p:id="registrationWindowsManagementView" p:headerText="Manage Registration Windows"
+            p:id="registrationWindowsManagementView"
+            p:additionalCssClasses="ks-ManageRegistration"
+            p:headerText="Manage Registration Windows"
             p:entryPageId="selectTermForRegWindows"
             p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentViewHelperServiceImpl"
             p:formClass="org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm">
