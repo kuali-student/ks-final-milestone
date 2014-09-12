@@ -112,7 +112,10 @@
   .ksap-planner-cell {
     border-bottom: solid 1px #ddd;
     height: 27px;
-    padding: .55rem;
+    padding: 0 .5rem;
+  }
+  .ksap-planner-cell fieldset {
+    line-height: 27px;
   }
   .ksap-planner-term-backup .uif-collectionItem:last-child .ksap-planner-cell {
     border-bottom: 0;
@@ -145,6 +148,7 @@
   .ksap-planner-credits-total {
     background: #dee6eb;
     font: 1.3rem 'Lato', sans-serif;
+    line-height: 27px;
   }
 
   // Grades
@@ -161,7 +165,6 @@
   .ksap-planner-add a {
     display: block;
     font-size: 1.3rem;
-    padding: .4rem;
     text-align: center;
   }
 
@@ -174,6 +177,7 @@
     width: 15px;
     line-height: 15px;
     margin-left: .5rem;
+    margin-top: .5rem;
     text-align: center;
     vertical-align: middle;
   }
@@ -378,4 +382,28 @@
 .ksap-view .ksap-popup-detail-label { /* TODO KSAP-1981 Remove unneeded - On Planner, bookmarked list, add to plan popover. Popover needs layout changed to CSSGridLayout*/
   text-align: right;
   width: 140px;
+}
+
+
+// Quick Add Popover
+// -------------------------------------------------
+#planner_add_course_page {
+  .ksap-dialog-courseCode {
+    clear: none;
+    display: inline;
+    float: left;
+    width: 45%;
+  }
+
+  .ksap-dialog-courseCode input {
+    width:140px;
+  }
+
+  .ksap-feedback.error {
+    clear: none;
+    display: inline;
+    float: left;
+    margin-top: 10px;
+    width: 55%;
+  }
 }

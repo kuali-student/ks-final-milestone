@@ -366,7 +366,7 @@ public class PlannerController extends KsapControllerBase {
 		try {
 			List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
 			if (courses == null || courses.isEmpty()) {
-				PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
+				PlanEventUtils.sendJsonEvents(false, "Course code not found.Try again or search for a course.", response, eventList);
 				return null;
 			}
             for(Course courseTemp : courses){
@@ -381,7 +381,7 @@ public class PlannerController extends KsapControllerBase {
             }
 		} catch (IllegalArgumentException e) {
 			LOG.error(String.format("Invalid course code %s", courseCd), e);
-			PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
+			PlanEventUtils.sendJsonEvents(false, "Course code not found. Try again or search for a course.", response, eventList);
 			return null;
 		}
 
@@ -692,9 +692,9 @@ public class PlannerController extends KsapControllerBase {
             planItemInfo = KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(plan.getId(), category,
                     form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef,attributes);
         } catch (AlreadyExistsException e) {
-            LOG.warn(String.format("Course %s is already planned for %s", course.getCode(), term.getName()), e);
+            LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
             PlanEventUtils.sendJsonEvents(false,
-                    "Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
+                    course.getCode() + " is already planned for " + term.getName() + ".", response, eventList);
             return;
         }
 

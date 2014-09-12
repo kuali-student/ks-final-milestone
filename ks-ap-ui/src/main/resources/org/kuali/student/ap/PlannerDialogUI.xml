@@ -59,7 +59,8 @@
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_course_code_input" />
- 				<bean parent="planner_course_credit_input">
+                <bean parent="planner_error_placeholder" />
+ 				<!--<bean parent="planner_course_credit_input">
                      <property name="render" value="true"/>
                      <property name="control">
                          <bean parent="Uif-TextControl"/>
@@ -67,7 +68,7 @@
                      <property name="optionsFinder">
                          <null/>
                      </property>
- 				</bean>
+ 				</bean>-->
 				<bean parent="planner_course_note_input" />
                 <bean parent="planner_hidden_input" p:propertyName="backup" />
 			</list>
@@ -82,13 +83,13 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.add.button')}"
+												<bean parent="planner_submit_button"
+                                                      p:actionLabel="@{#textHelper.getText('dialog.planner.add.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_add_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
 									</bean>
-									<bean parent="planner_error_placeholder" />
 								</list>
 							</property>
 						</bean>
@@ -788,12 +789,12 @@
 	</bean>
 
     <bean id="planner_course_code_input" parent="planner_course_code_input-parent"/>
-	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input">
-		<property name="propertyName" value="courseCd" />
+	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input" p:additionalCssClasses="ksap-dialog-courseCode">
+        <property name="propertyName" value="courseCd" />
 		<property name="label" value="@{#textHelper.getText('dialog.component.course.code.label')}" />
 		<property name="control">
-			<bean parent="KS-Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
-                <property name="onDocumentReadyScript" value="jQuery('.ksap-planner-courseCode').focus();" />
+			<bean parent="KS-Uif-TextControl">
+                <property name="onDocumentReadyScript" value="jQuery('.ksap-dialog-courseCode input').focus();" />
 				<property name="watermarkText" value="@{#textHelper.getText('dialog.component.course.code.watermark')}" />
 				<property name="maxLength" value="50" />
 				 <property name="size" value ="25"/>
@@ -838,6 +839,8 @@
     </bean>
     -->
 
+    <!--
+    Remove credit input for quick add dialog
     <bean id="planner_course_credit_input" parent="planner_course_credit_input-parent"/>
  	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
         <property name="render" value="@{variableCredit}"/>
@@ -853,7 +856,7 @@
             </bean>
         </property>
  	</bean>
-
+    -->
 
     <bean id="planner_course_note_input" parent="planner_course_note_input-parent"/>
 	<bean id="planner_course_note_input-parent" abstract="true" parent="planner_dialog_input">
