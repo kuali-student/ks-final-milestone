@@ -148,7 +148,9 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
 
     @Override
     public List<RegistrationRequest> processPeopleOffOfWaitlist(List<String> aoIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
-
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("processPeopleOffOfWaitlist for " + aoIds);
+        }
         List<RegistrationRequest> createdRegRequests = new ArrayList<>();
 
         //Get an ordered list of people to process off of the waitlist
