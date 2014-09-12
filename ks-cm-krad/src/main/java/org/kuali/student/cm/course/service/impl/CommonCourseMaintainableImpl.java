@@ -18,24 +18,37 @@ package org.kuali.student.cm.course.service.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.workflow.CourseStateChangeServiceImpl;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -43,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -58,6 +72,10 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     private transient CourseService courseService;
 
     private CourseStateChangeServiceImpl courseStateChangeService;
+
+    private transient SubjectCodeService subjectCodeService;
+
+    private transient AtpService atpService;
 
     /**
      * This is used to ignore the post processing for the "Modify This Version" proposal (also known as the "Modify No Version" proposal)
@@ -358,6 +376,129 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
                 courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
             }
         }
+    }
+
+    /**
+     * Creates a List of curriculum oversight strings.
+     */
+    protected List<String> buildCurriculumOversightList(String subjectArea, List<String> unitContentOwner) {
+        List<String> oversights = new ArrayList<String>();
+
+        for (String existing : unitContentOwner) {
+            CourseCreateUnitsContentOwner courseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+            courseCreateUnitsContentOwner.setOrgId(existing);
+            populateOrgName(subjectArea, courseCreateUnitsContentOwner);
+            oversights.add(courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName());
+        }
+        return oversights;
+    }
+
+    /**
+     *  Populates the Org Name using the Subject Area and unitContentOwner
+     * @param subjectArea
+     * @param unitsContentOwner
+     * @return
+     */
+    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
+
+        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
+            return StringUtils.EMPTY;
+        }
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
+
+        List<KeyValue> departments = new ArrayList<KeyValue>();
+
+        try {
+
+            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+
+            if (result.getRows().isEmpty()) {
+                throw new RuntimeException("Invalid Org Id");
+            }
+
+            SearchResultRowInfo row = null;
+            if (subjectArea == null) {
+                // This for loop is kind of get(0) this is to avid sonar violation.
+                // without giving subjectArea Organization cannot be added. this is tricky scenario where subjectArea ia added and Orgs is chosen, but before "save" subjectArea is removed.
+                // search result returns multiple values without subjectArea.
+                // for all return result "subjectCode.resultColumn.orgLongName" will be the same.
+                for (SearchResultRowInfo resultCell : result.getRows()) {
+                    row = resultCell;
+                    break;
+                }
+            } else {
+                row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
+            }
+
+            for (final SearchResultCellInfo resultCell : row.getCells()) {
+                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
+                    break;
+                }
+            }
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Returning {}", departments);
+            }
+
+            return StringUtils.EMPTY;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     *  This method returns the Term description by passing the term id.
+     * @param term
+     * @return term description
+     */
+    protected String getTermDesc(String term) {
+
+        String result = "";
+
+        if (StringUtils.isNotEmpty(term)) {
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
+
+            QueryByCriteria qbc = qbcBuilder.build();
+            try {
+
+                List<AtpInfo> searchResult = getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
+
+                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
+
+                if (atpInfo != null) {
+                    result = atpInfo.getName();
+                }
+
+            } catch (Exception ex) {
+                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
+            }
+        }
+
+        return result;
+    }
+
+    protected AtpService getAtpService() {
+        if (atpService == null) {
+            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
+            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+        }
+        return atpService;
+    }
+
+    protected SubjectCodeService getSubjectCodeService() {
+        if (subjectCodeService == null) {
+            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+        }
+        return subjectCodeService;
     }
 
     protected CourseStateChangeServiceImpl getCourseStateChangeService() {

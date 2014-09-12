@@ -18,8 +18,6 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -74,11 +72,8 @@ import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
@@ -142,8 +137,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
     private transient OrganizationService organizationService;
 
-    private transient SubjectCodeService subjectCodeService;
-
     private transient CluService cluService;
 
     private transient LearningObjectiveService learningObjectiveService;
@@ -153,8 +146,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     private transient LRCService lrcService;
 
     private transient EnumerationManagementService enumerationManagementService;
-
-    private transient AtpService atpService;
 
     private PersonService personService;
 
@@ -451,13 +442,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         return sortedAgendas;
     }
 
-    protected SubjectCodeService getSubjectCodeService() {
-        if (subjectCodeService == null) {
-            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
-        }
-        return subjectCodeService;
-    }
-
     protected CluService getCluService() {
         if (cluService == null) {
             cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
@@ -611,60 +595,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         super.processCollectionAddBlankLine(model, collectionId, collectionPath);
     }
 
-    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
-
-        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
-            return StringUtils.EMPTY;
-        }
-
-        final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-
-        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
-        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
-
-        List<KeyValue> departments = new ArrayList<KeyValue>();
-
-        try {
-
-            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.createDefaultContextInfo());
-
-            if (result.getRows().isEmpty()) {
-                throw new RuntimeException("Invalid Org Id");
-            }
-
-            SearchResultRowInfo row = null;
-            if (subjectArea == null) {
-                // This for loop is kind of get(0) this is to avid sonar violation.
-                // without giving subjectArea Organization cannot be added. this is tricky scenario where subjectArea ia added and Orgs is chosen, but before "save" subjectArea is removed.
-                // search result returns multiple values without subjectArea.
-                // for all return result "subjectCode.resultColumn.orgLongName" will be the same.
-                for (SearchResultRowInfo resultCell : result.getRows()) {
-                    row = resultCell;
-                    break;
-                }
-            } else {
-                row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
-            }
-
-            for (final SearchResultCellInfo resultCell : row.getCells()) {
-                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
-                    break;
-                }
-            }
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Returning {}", departments);
-            }
-
-            return StringUtils.EMPTY;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * Updates the ReviewProposalDisplay object for the Course Proposal and refreshes remote data elements based on passed in @shouldRepopulateRemoteData param
      *
@@ -737,7 +667,8 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         // Update governance section
         reviewData.getGovernanceSection().getCampusLocations().clear();
         reviewData.getGovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
-        reviewData.getGovernanceSection().setCurriculumOversight(buildCurriculumOversightList());
+        reviewData.getGovernanceSection().setCurriculumOversight(
+                buildCurriculumOversightList(savedCourseInfo.getSubjectArea(),savedCourseInfo.getUnitsContentOwner()));
 
         reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
@@ -898,50 +829,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         // update supporting Documents Section on review page
         copySupportingDocumentsToReviewPages(courseInfoWrapper);
-    }
-
-    private String getTermDesc(String term) {
-
-        String result = "";
-
-        if (StringUtils.isNotEmpty(term)) {
-
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
-
-            QueryByCriteria qbc = qbcBuilder.build();
-            try {
-
-                List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
-
-                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
-
-                if (atpInfo != null) {
-                    result = atpInfo.getName();
-                }
-
-            } catch (Exception ex) {
-                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Creates a List of curriculum oversight strings.
-     */
-    protected List<String> buildCurriculumOversightList() {
-        List<String> oversights = new ArrayList<String>();
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-
-        for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
-            if (!existing.isUserEntered()) {
-                populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
-            }
-            oversights.add(existing.getRenderHelper().getOrgLongName());
-        }
-        return oversights;
     }
 
     protected List<String> updateCampusLocations(List<String> campusLocations) {
@@ -1930,14 +1817,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
                     EnumerationManagementServiceConstants.NAMESPACE, EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
-    }
-
-    protected AtpService getAtpService() {
-        if (atpService == null) {
-            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
-            atpService = (AtpService) GlobalResourceLoader.getService(qname);
-        }
-        return atpService;
     }
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery) {
