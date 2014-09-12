@@ -23,6 +23,8 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.cm.common.util.CMUtils;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,11 +41,19 @@ public class ProposalUtil {
      * @return true if the user has the access of a Curriculum Specialist as defined by Kuali Identity Management
      * for the given document type
      */
+    public static boolean isUserCurriculumSpecialist() {
+        return isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CM_PARENT_DOCUMENT_TYPE);
+    }
+
+    /**
+     * @return true if the user has the access of a Curriculum Specialist as defined by Kuali Identity Management
+     * for the given document type
+     */
     public static boolean isUserCurriculumSpecialist(String documentTypeName) {
         Map<String,String> permDetails = new HashMap();
         permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, documentTypeName);
         // method below uses 'PermissionService.hasPermissionByTemplate' because KEW does not use role qualifiers for the Initiate Document permission
-        return KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
+        return KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), ProposalPermissionTypes.CURRICULUM_SPECIALIST.getPermissionNamespace(), ProposalPermissionTypes.CURRICULUM_SPECIALIST.getPermissionTemplateName(), permDetails);
     }
 
     /**

@@ -25,7 +25,7 @@ import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.StartProposalForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,7 +52,8 @@ public class StartProposalController extends UifControllerBase {
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         StartProposalForm courseForm= new StartProposalForm();
         courseForm.setUseReviewProcess(false);
-        courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        // cannot pass in document type here because we do not now if this is a Create or a Modify
+        courseForm.setCurriculumSpecialistUser(ProposalUtil.isUserCurriculumSpecialist());
         String versionIndId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
         courseForm.setVersionIndId(versionIndId);
         String courseId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
@@ -63,7 +64,8 @@ public class StartProposalController extends UifControllerBase {
 
     protected void setUrlParameters(Properties urlParameters,UifFormBase form){
 
-        if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
+        // cannot pass in document type here because we do not now if this is a Create or a Modify
+        if (!ProposalUtil.isUserCurriculumSpecialist()) {
             // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
             urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         } else {

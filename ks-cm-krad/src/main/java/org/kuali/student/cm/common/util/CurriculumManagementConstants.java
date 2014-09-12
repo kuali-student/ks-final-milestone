@@ -97,6 +97,8 @@ public class CurriculumManagementConstants {
 
     public static class DocumentTypeNames {
 
+        public final static String CM_PARENT_DOCUMENT_TYPE = "kuali.proposal.type.course.create";
+
         public final static String[] ADMIN_DOC_TYPE_NAMES =
                 {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN, CourseProposal.COURSE_RETIRE_ADMIN};
 

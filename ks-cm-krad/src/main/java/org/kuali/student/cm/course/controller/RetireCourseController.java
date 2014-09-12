@@ -40,9 +40,9 @@ import org.kuali.student.cm.course.service.CommonCourseMaintainable;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.RetireCourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportRetireCourseHelperImpl;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalController;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -101,7 +101,7 @@ public class RetireCourseController extends ProposalController {
 
     protected String getDocumentTypeNameForProposalStart(Boolean isUseReviewProcess, HttpServletRequest request) {
         // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
-        if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
+        if (!isUseReviewProcess && !ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN)) {
             throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
                     GlobalVariables.getUserSession().getPerson().getPrincipalName()));
         }

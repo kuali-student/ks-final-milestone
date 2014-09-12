@@ -35,6 +35,7 @@ import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.http.ResponseEntity;
@@ -149,7 +150,7 @@ public class ViewCourseController extends KsUifControllerBase {
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CM_RETIRE_COURSE.replaceFirst("/", "");
 
         // if user is not a curriculum specialist, force them straight to the retire page
-        if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
+        if (!ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN)) {
             return performRedirect(form, courseBaseUrl, buildRetireCourseUrlParameters(detailedViewForm, true));
         }
 

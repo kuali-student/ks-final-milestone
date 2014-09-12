@@ -101,13 +101,13 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private String hiddenDescr;
 
     public CourseInfoWrapper() {
-        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
-                CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
+        // cannot pass document type in here because this could be Modify or Create
+        super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
     }
 
     public CourseInfoWrapper(boolean saveCourse) {
-        super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN),
-                        CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
+        // cannot pass document type in here because this could be Modify or Create
+        super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
         this.saveCourse = saveCourse;
     }
 

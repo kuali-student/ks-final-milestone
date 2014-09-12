@@ -42,13 +42,6 @@ import java.util.Properties;
 public class CourseProposalUtil {
 
     /**
-     * @return true if the user has the access of a Curriculum Specialist as defined by Kuali Identity Management
-     */
-    public static boolean isUserCurriculumSpecialist() {
-        return ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN);
-    }
-
-    /**
      * Constructs a text URL for a particular course proposal.
      */
     public static String buildCourseProposalUrl(String methodToCall, String pageId, String workflowDocId, String proposalType) {
@@ -69,8 +62,6 @@ public class CourseProposalUtil {
     /**
      * Constructs the url for view course for redirect from retire course page.
      */
-
-
     public static String getViewCourseUrl(){
 
         String cmViewCourseControllerMapping = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");

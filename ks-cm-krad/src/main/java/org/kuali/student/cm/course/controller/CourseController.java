@@ -44,9 +44,9 @@ import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
+import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
@@ -109,24 +109,31 @@ public class CourseController extends CourseRuleEditorController {
     private SubjectCodeService subjectCodeService;
 
     protected String getDocumentTypeNameForProposalStart(Boolean isUseReviewProcess, HttpServletRequest request) {
-        // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
-        if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
-            throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
-                    GlobalVariables.getUserSession().getPerson().getPrincipalName()));
-        }
         String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
         if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)){
+            // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
+            verifyCurriculumReviewOverride(isUseReviewProcess, CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN);
             return ((!isUseReviewProcess)
                     ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
         } else if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)){
+            // no need to check for curriculum review override access because curriculum review doesn't apply to modify no version
             return CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION;
         } else {
+            // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
+            verifyCurriculumReviewOverride(isUseReviewProcess, CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN);
             return ((!isUseReviewProcess)
-                ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
-                : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+                    ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN
+                    : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+        }
+    }
+
+    protected void verifyCurriculumReviewOverride(Boolean isUseReviewProcess, String documentTypeName) {
+        if (!isUseReviewProcess && !ProposalUtil.isUserCurriculumSpecialist(documentTypeName)) {
+            throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
+                    GlobalVariables.getUserSession().getPerson().getPrincipalName()));
         }
     }
 
@@ -159,7 +166,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=modifyThisVersion" )
     public ModelAndView modifyThisVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
 
@@ -184,7 +191,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=modifyNewVersion" )
     public ModelAndView modifyNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         super.createDocument(form);
 
@@ -241,7 +248,7 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_COPY)
     public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         /*
          * Just initialize the document here. Calling the super method causes the entire maintainableImpl to get serialized
          * which is too much overhead for what we need (Start create a new document and prefill the data from an existing model).
@@ -307,7 +314,7 @@ public class CourseController extends CourseRuleEditorController {
         ((CourseMaintainable) maintForm.getDocument().getNewMaintainableObject()).updateReview();
 
         if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, maintForm.getDocTypeName()) &&
-            maintForm.getWorkflowDocument().isSaved()){
+                maintForm.getWorkflowDocument().isSaved()){
 
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
             CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
@@ -325,7 +332,7 @@ public class CourseController extends CourseRuleEditorController {
         {
             wrapper.setMissingRequiredFields(false);
         }
-        
+
         return getUIFModelAndView(form, getReviewPageKradPageId());
     }
 
@@ -349,7 +356,7 @@ public class CourseController extends CourseRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=editProposalPage")
     public ModelAndView editProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         if (wrapper.getInstructorWrappers().size() == 0) {
@@ -425,7 +432,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=saveNewVersion")
     public ModelAndView saveNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         return saveProposal(form,result,request,response);
     }
 
@@ -440,7 +447,7 @@ public class CourseController extends CourseRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=approveAndActivate")
     public ModelAndView approveAndActivate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
         doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, DtoConstants.STATE_ACTIVE);
@@ -550,7 +557,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveUp")
     public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
-    throws Exception {
+            throws Exception {
 
         LoDisplayWrapperModel loModel = setupLoModel(form);
         loModel.moveUpCurrent();
@@ -564,7 +571,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveDown")
     public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
-    throws Exception {
+            throws Exception {
 
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.moveDownCurrent();
@@ -578,7 +585,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveRight")
     public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
-    throws Exception {
+            throws Exception {
 
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.indentCurrent();
@@ -592,7 +599,7 @@ public class CourseController extends CourseRuleEditorController {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveLeft")
     public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
-    throws Exception {
+            throws Exception {
 
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.outdentCurrent();

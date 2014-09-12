@@ -14,7 +14,7 @@
  *
  * Created by delyea on 9/8/14
  */
-        package org.kuali.student.cm.proposal.controller;
+package org.kuali.student.cm.proposal.controller;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
@@ -47,7 +47,6 @@ import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.proposal.service.ProposalMaintainable;
@@ -181,7 +180,7 @@ public abstract class ProposalController extends RuleEditorController {
         wrapper.getUiHelper()
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
-                .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+                .setCurriculumSpecialistUser(ProposalUtil.isUserCurriculumSpecialist(form.getDocTypeName()));
     }
 
     /**
