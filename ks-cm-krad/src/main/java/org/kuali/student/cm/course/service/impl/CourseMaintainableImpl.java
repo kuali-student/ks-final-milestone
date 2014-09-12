@@ -63,10 +63,8 @@ import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
-import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -88,7 +86,6 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -120,7 +117,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
+import static org.kuali.student.cm.common.util.CMUtils.getCluService;
+import static org.kuali.student.cm.course.util.CourseProposalUtil.isCurrentVersionOfCourse;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -440,13 +438,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         }
 
         return sortedAgendas;
-    }
-
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
-        }
-        return cluService;
     }
 
     protected LearningObjectiveService getLearningObjectiveService() {
@@ -1750,30 +1741,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     }
 
     /**
-     * @see org.kuali.student.cm.course.service.CourseMaintainable#hasInProgressProposalForCourse()
-     */
-    public boolean hasInProgressProposalForCourse() throws Exception {
-        // Fill the request with the key to identify the search
-        SearchRequestInfo request = new SearchRequestInfo("proposal.search.countForProposals");
-
-        // Add search parms.  In this case, we will use the cluId of the course
-        // we are trying to retire
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
-        if (courseInfoWrapper.getCourseInfo() == null) {
-            throw new RuntimeException("Cannot verify if retire proposal can be created without valid course");
-        }
-        request.addParam("proposal.queryParam.cluId", courseInfoWrapper.getCourseInfo().getId());
-
-        // Perform search and get the result
-        SearchResultInfo result = getProposalService().search(request, ContextUtils.getContextInfo());
-        String resultString = result.getRows().get(0).getCells().get(0).getValue();
-
-        // If there are no retire proposals enroute or in saved status/
-        // return false, else return true
-        return !("0".equals(resultString));
-    }
-
-    /**
      * Return the clu id from the canonical course that is linked to the given course offering id.
      *
      * @param refObjectId - the course offering id.
@@ -1826,7 +1793,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     protected CluInformationHelper getCluInfoHelper() {
         if (cluInfoHelper == null) {
             cluInfoHelper = new CluInformationHelper();
-            cluInfoHelper.setCluService(this.getCluService());
+            cluInfoHelper.setCluService(getCluService());
             LRCService lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
             cluInfoHelper.setLrcService(lrcService);
         }
@@ -1878,59 +1845,4 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         this.courseCopyHelper = courseCopyHelper;
     }
 
-    public CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception {
-
-        // Get id of current version of course given the version independent id
-        VersionDisplayInfo curVerDisplayInfo = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, versionIndId, contextInfo);
-        String curVerId = curVerDisplayInfo.getId();
-
-        // Return the current version of the course
-        CourseInfo currVerCourse = getCourseService().getCourse(curVerId,contextInfo);
-
-        return currVerCourse;
-    }
-
-    @Override
-
-    /**
-     * Checks if the Course is modifiable. A Course is modifiable if:
-     * - it is the 'current' version
-     * -
-     * @param courseInfo
-     * @param contextInfo
-     * @return
-     * @throws Exception
-    */
-    public boolean isModifiableCourse(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-
-        // If this is not 'current' course, return 'false' immediately
-        if(!this.isCurrentVersionOfCourse(courseInfo,contextInfo)) {
-            return false;
-        }
-
-        String versionIndId = courseInfo.getVersion().getVersionIndId();
-        Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
-
-        SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
-        request.addParam("lu.queryParam.versionIndId", versionIndId);
-        request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
-        List<String> states = new ArrayList<String>();
-        states.add(DtoConstants.STATE_DRAFT);
-        states.add(DtoConstants.STATE_SUPERSEDED);
-        request.addParam("lu.queryParam.luOptionalState", states);
-        SearchResultInfo result = getCluService().search(request, contextInfo);
-
-        String resultString = result.getRows().get(0).getCells().get(0).getValue();
-        return "0".equals(resultString);
-    }
-
-    public boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
-        String courseId = course.getId();
-        String verIndId = course.getVersion().getVersionIndId();
-
-        // Get id of current version of course given the version independent id
-        VersionDisplayInfo currentVersion = getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, verIndId, contextInfo);
-
-        return currentVersion.getId().equals(courseId) ? true : false;
-    }
 }

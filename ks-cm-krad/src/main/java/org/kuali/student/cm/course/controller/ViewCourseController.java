@@ -99,7 +99,7 @@ public class ViewCourseController extends KsUifControllerBase {
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
             ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
-            detailedViewForm.setCanRetireCourse(!((CourseMaintainable) form.getViewHelperService()).hasInProgressProposalForCourse());
+            detailedViewForm.setCanRetireCourse(!CourseProposalUtil.hasInProgressProposalForCourse(courseWrapper.getCourseInfo()));
 
             //  Load the data for the other/compare-to course.
             if (isComparison) {
@@ -109,7 +109,7 @@ public class ViewCourseController extends KsUifControllerBase {
                 ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
                 detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
             }
-            detailedViewForm.setModifiableCourse(((CourseMaintainable)form.getViewHelperService()).isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
+            detailedViewForm.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
             detailedViewForm.setComparison(isComparison);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -271,7 +271,7 @@ public class ViewCourseController extends KsUifControllerBase {
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
 
         try {
-            CourseInfo currentCourse = ((CourseMaintainable) form.getViewHelperService()).getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId(), ContextUtils.createDefaultContextInfo());
+            CourseInfo currentCourse = CourseProposalUtil.getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId(), ContextUtils.createDefaultContextInfo());
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
             courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);

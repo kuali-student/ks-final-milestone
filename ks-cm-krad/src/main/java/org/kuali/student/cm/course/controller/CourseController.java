@@ -44,6 +44,7 @@ import org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
@@ -201,7 +202,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
         CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
-        CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
+        CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId, ContextUtils.createDefaultContextInfo());
         oldMaintainble.setDataObject(compareCourseWrapper);
         oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
 
@@ -318,7 +319,7 @@ public class CourseController extends CourseRuleEditorController {
 
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
             CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
-            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(wrapper.getCourseInfo().getVersion().getVersionIndId(),ContextUtils.createDefaultContextInfo());
+            CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(wrapper.getCourseInfo().getVersion().getVersionIndId(),ContextUtils.createDefaultContextInfo());
             oldMaintainble.setDataObject(compareCourseWrapper);
             oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
 

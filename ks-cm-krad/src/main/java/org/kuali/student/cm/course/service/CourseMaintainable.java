@@ -22,9 +22,7 @@ import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.SubjectCodeWrapper;
-import org.kuali.student.cm.proposal.service.ProposalMaintainable;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -77,15 +75,4 @@ public interface CourseMaintainable extends CommonCourseMaintainable {
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 
-    public CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception;
-
-    public boolean isModifiableCourse(CourseInfo course, ContextInfo contextInfo) throws Exception;
-
-    /**
-     * We can only have one retire proposal in workflow at a time.  This method
-     * will call the proposal webservice and run a custom search that will look
-     * for any retire proposals that are in the saved or enroute state.  A
-     * count is returned and, if the count is > 0, this method will return false.
-     */
-    public boolean hasInProgressProposalForCourse() throws Exception;
 }

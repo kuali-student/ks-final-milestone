@@ -16,8 +16,17 @@
  */
 package org.kuali.student.cm.common.util;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+
+import javax.xml.namespace.QName;
 
 /**
  * This class has some common util methods available across CM.
@@ -25,6 +34,11 @@ import org.kuali.rice.krad.util.KRADConstants;
  * @author Kuali Student Team
  */
 public class CMUtils {
+
+
+    private static CourseService courseService;
+    private static CluService cluService;
+    private static ProposalService proposalService;
 
     /**
      * This method returns the url for CM Home.
@@ -40,6 +54,27 @@ public class CMUtils {
         cmHomeUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.CM_HOME_VIEW);
 
         return cmHomeUrl.toString();
+    }
+
+    public static CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseService;
+    }
+
+    public static CluService getCluService() {
+        if (cluService == null) {
+            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
+    }
+
+    public static ProposalService getProposalService() {
+        if (proposalService == null) {
+            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return proposalService;
     }
 
 }
