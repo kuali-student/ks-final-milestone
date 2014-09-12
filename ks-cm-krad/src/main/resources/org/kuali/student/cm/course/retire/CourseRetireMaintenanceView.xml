@@ -317,7 +317,7 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Admin-Cancel"
                       p:actionLabel="Cancel"
-                      p:methodToCall="cancel"
+                      p:methodToCall="back"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
             </list>
@@ -352,7 +352,7 @@
                             </bean>
                             <bean parent="Uif-ActionLink" p:id="CM-Proposal-Course-View-Cancel"
                                   p:actionLabel="Cancel"
-                                  p:methodToCall="cancel"
+                                  p:methodToCall="back"
                                   p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>

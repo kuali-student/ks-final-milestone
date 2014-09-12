@@ -262,9 +262,8 @@ public class RetireCourseController extends ProposalController {
 
     @RequestMapping(params = "methodToCall=cancel")
     @Override
-    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
-
         DocumentFormBase theForm = (DocumentFormBase) form;
 
         RetireCourseWrapper courseWrapper = getRetireCourseWrapper(theForm);
