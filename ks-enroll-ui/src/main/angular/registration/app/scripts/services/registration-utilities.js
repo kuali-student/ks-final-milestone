@@ -124,12 +124,25 @@ angular.module('regCartApp')
                 switch (order) {
                     case 'latestFirst':
                         list.sort(function(course1, course2) {
-                            return course1.createTime < course2.createTime;
+                            if( course1.createTime < course2.createTime){
+                                return 1;
+                            }else if( course1.createTime > course2.createTime){
+                                return -1;
+                            }else{
+                                return 0;
+                            }
+
                         });
                         break;
                     default:
                         list.sort(function(course1, course2) {
-                            return course1.createTime > course2.createTime;
+                            if( course1.createTime < course2.createTime){
+                                return -1;
+                            }else if( course1.createTime > course2.createTime){
+                                return 1;
+                            }else{
+                                return 0;
+                            }
                         });
                 }
             }
