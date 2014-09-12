@@ -82,7 +82,11 @@ angular.module('regCartApp')
     .constant('GRADING_OPTION', {
         audit:      'kuali.resultComponent.grade.audit',
         letter:     'kuali.resultComponent.grade.letter',
-        passFail:   'kuali.resultComponent.grade.passFail'
+        passFail:   'kuali.resultComponent.grade.passFail',
+        percentageGrade:   'kuali.resultComponent.grade.percentage',
+        satisfactory:   'kuali.resultComponent.grade.satisfactory',
+        notation:   'kuali.resultComponent.grade.completedNotation',
+        plusMinusLetter:   'kuali.result.group.grade.letter.plus.minus.standard'
     })
 
 

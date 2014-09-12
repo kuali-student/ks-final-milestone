@@ -201,6 +201,18 @@ describe('Controller: DirectRegisterCtrl', function () {
 
         scope.course.gradingOptionId = GRADING_OPTION.passFail;
         expect(scope.gradingOption()).toEqual('Pass/Fail');
+
+        scope.course.gradingOptionId = GRADING_OPTION.plusMinusLetter;
+        expect(scope.gradingOption()).toEqual('+/- Letter');
+
+        scope.course.gradingOptionId = GRADING_OPTION.percentageGrade;
+        expect(scope.gradingOption()).toEqual('Percentage');
+
+        scope.course.gradingOptionId = GRADING_OPTION.satisfactory;
+        expect(scope.gradingOption()).toEqual('Administrative Satisfactory');
+
+        scope.course.gradingOptionId = GRADING_OPTION.notation;
+        expect(scope.gradingOption()).toEqual('Notation');
     });
 
     it('should know when to show the grading option badge', function() {
@@ -211,6 +223,18 @@ describe('Controller: DirectRegisterCtrl', function () {
         expect(scope.showBadge()).toBeTruthy();
 
         scope.course.gradingOptionId = GRADING_OPTION.passFail;
+        expect(scope.showBadge()).toBeTruthy();
+
+        scope.course.gradingOptionId = GRADING_OPTION.plusMinusLetter;
+        expect(scope.showBadge()).toBeTruthy();
+
+        scope.course.gradingOptionId = GRADING_OPTION.percentageGrade;
+        expect(scope.showBadge()).toBeTruthy();
+
+        scope.course.gradingOptionId = GRADING_OPTION.satisfactory;
+        expect(scope.showBadge()).toBeTruthy();
+
+        scope.course.gradingOptionId = GRADING_OPTION.notation;
         expect(scope.showBadge()).toBeTruthy();
     });
 

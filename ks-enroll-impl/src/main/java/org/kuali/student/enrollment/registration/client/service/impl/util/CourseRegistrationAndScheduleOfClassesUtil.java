@@ -459,14 +459,24 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static String translateGradingOptionKeyToName(String gradingOptionKey) {
-        if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_AUDIT;
-        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER)) {
-            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_LETTER;
-        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_PASSFAIL;
+        switch (gradingOptionKey) {
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_AUDIT;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_LETTER;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_PASSFAIL;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_PERCENTAGE;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_SATISFACTORY;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_COMPLETEDNOTATION;
+            case LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PLUS_MINUS_STANDARD:
+                return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_LETTER_PLUS_MINUS_STANDARD;
+            default:
+                return null;
         }
-        return null;
     }
 
     private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -489,7 +499,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 if (CourseOfferingManagementSearchImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
                     if (value != null && value.startsWith("kuali.creditType.credit")) {
                         courseOfferingInfo.setCreditOptionId(value);
-                    } else if (value != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, value)) {
+                    } else if (value != null && (ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, value) || ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, value))) {
                         courseOfferingInfo.getStudentRegistrationGradingOptions().add(value);
                     }
                 }
@@ -532,7 +542,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             }
             if (resValGroupKey != null && resValGroupKey.startsWith("kuali.creditType.credit")) {
                 courseOfferingInfo.setCreditOptionId(resValGroupKey);
-            } else if (resValGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resValGroupKey)) {
+            } else if (resValGroupKey != null && (ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resValGroupKey) || ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resValGroupKey))) {
                 courseOfferingInfo.getStudentRegistrationGradingOptions().add(resValGroupKey);
             }
             hm.put(courseOfferingId, courseOfferingInfo);

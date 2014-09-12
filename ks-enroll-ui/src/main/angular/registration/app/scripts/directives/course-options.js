@@ -59,7 +59,7 @@ angular.module('regCartApp')
                         course.newGrading = GRADING_OPTION.letter;
                     } else {
                         // Default to the first item in the list
-                        course.newGrading = $scope.gradingOptions[0];
+                        course.newGrading = Object.keys($scope.course.gradingOptions)[0];
                     }
                 }
 

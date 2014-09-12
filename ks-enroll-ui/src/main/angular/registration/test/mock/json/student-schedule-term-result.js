@@ -130,7 +130,11 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "gradingOptions": {
                 "kuali.resultComponent.grade.passFail": "Pass/Fail",
                 "kuali.resultComponent.grade.letter": "Letter",
-                "kuali.resultComponent.grade.audit": "Audit"
+                "kuali.resultComponent.grade.audit": "Audit",
+                "kuali.resultComponent.grade.percentage": "Percentage",
+                "kuali.resultComponent.grade.satisfactory": "Administrative Satisfactory",
+                "kuali.resultComponent.grade.completedNotation": "Notation",
+                "kuali.result.group.grade.letter.plus.minus.standard": "+/- Letter"
             },
             "activityOfferings": [
                 {
@@ -190,7 +194,11 @@ angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermRe
             "gradingOptions": {
                 "kuali.resultComponent.grade.passFail": "Pass/Fail",
                 "kuali.resultComponent.grade.letter": "Letter",
-                "kuali.resultComponent.grade.audit": "Audit"
+                "kuali.resultComponent.grade.audit": "Audit",
+                "kuali.resultComponent.grade.percentage": "Percentage",
+                "kuali.resultComponent.grade.satisfactory": "Administrative Satisfactory",
+                "kuali.resultComponent.grade.completedNotation": "Notation",
+                "kuali.result.group.grade.letter.plus.minus.standard": "+/- Letter"
             },
             "activityOfferings": [
                 {
