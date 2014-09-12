@@ -198,15 +198,13 @@ public class CourseController extends CourseRuleEditorController {
 
         String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
 
-
         //Get the current version first and assign it at old maintainable impl for compare view
-        if (StringUtils.equals(form.getPageId(),getReviewPageKradPageId())){
-            CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
-            CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
-            CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
-            oldMaintainble.setDataObject(compareCourseWrapper);
-            oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
-        }
+
+        CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+        CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
+        CourseInfo currentVersion = oldMaintainble.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
+        oldMaintainble.setDataObject(compareCourseWrapper);
+        oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
 
