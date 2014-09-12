@@ -16,6 +16,8 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 import java.io.Serializable;
@@ -25,7 +27,7 @@ import java.io.Serializable;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
+public class OrganizationInfoWrapper extends OrgInfo implements Serializable, DisplayWrapper {
     private static final long serialVersionUID = -277262408836106453L;
     private String abbreviation;
     private String organizationName;
@@ -62,5 +64,13 @@ public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(organizationName)) {
+            return true;
+        }
+        return false;
     }
 }

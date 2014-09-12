@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DisplayWrapper;
 
 /**
  *
@@ -27,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Kuali Student Team
  */
-public class CourseCreateUnitsContentOwner {
+public class CourseCreateUnitsContentOwner implements DisplayWrapper {
 
     protected String orgId;
 
@@ -58,6 +59,14 @@ public class CourseCreateUnitsContentOwner {
 
     public void setRenderHelper(RenderHelper renderHelper) {
         this.renderHelper = renderHelper;
+    }
+
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(renderHelper.getOrgLongName())) {
+            return true;
+        }
+        return false;
     }
 
     public class RenderHelper {

@@ -15,6 +15,8 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
 /**
@@ -22,7 +24,7 @@ import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CluInstructorInfoWrapper extends CluInstructorInfo {
+public class CluInstructorInfoWrapper extends CluInstructorInfo implements DisplayWrapper {
 	
 	private static final long serialVersionUID = 7495209564517379554L;
 
@@ -59,5 +61,12 @@ public class CluInstructorInfoWrapper extends CluInstructorInfo {
 	public String getPrincipalName() {
 		return principalName;
 	}
-	
+
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(displayName)) {
+            return true;
+        }
+        return false;
+    }
 }

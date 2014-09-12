@@ -15,9 +15,8 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 
@@ -26,7 +25,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
+public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo implements DisplayWrapper {
     
     private static final long serialVersionUID = 8595074563846388089L;
 
@@ -71,6 +70,14 @@ public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
                 this.resultValue = resultValue;
         }
 
+    }
+
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(uiHelper.getResultValue())) {
+            return true;
+        }
+        return false;
     }
 
 }

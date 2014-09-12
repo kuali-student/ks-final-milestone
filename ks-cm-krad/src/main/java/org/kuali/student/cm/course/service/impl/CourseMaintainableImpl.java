@@ -584,7 +584,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
             //Before adding a new row, just make sure all the existing rows are not editable.
             for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
                 existing.getRenderHelper().setNewRow(false);
-                if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())) {
+                if (!existing.isUserEntered()) {
                     populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
                 }
             }
@@ -741,7 +741,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
-            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())) {
+            if (organizationInfoWrapper.isUserEntered()) {
                 reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
             }
         }
@@ -936,7 +936,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
-            if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())) {
+            if (!existing.isUserEntered()) {
                 populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
             }
             oversights.add(existing.getRenderHelper().getOrgLongName());
@@ -1019,7 +1019,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
             for (int i = 0; i < loWrappers.size(); i++) {
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
-                if (StringUtils.isBlank(currentLo.getLoInfo().getDescr().getPlain()) && (currentLo.getLoCategoryInfoList().isEmpty())) {
+                if (!currentLo.isUserEntered() && (currentLo.getLoCategoryInfoList().isEmpty())) {
                     continue;
                 }
 
@@ -1065,7 +1065,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
             courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
             wrapper.getRenderHelper().setNewRow(false);
-            if (StringUtils.isBlank(wrapper.getRenderHelper().getOrgLongName())) {
+            if (!wrapper.isUserEntered()) {
                 populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), wrapper);
             }
         }
@@ -1124,7 +1124,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
 
-            if (StringUtils.isNotBlank(jointInfoDisplay.getCourseCode())) {
+            if (jointInfoDisplay.isUserEntered()) {
                 courseInfoWrapper.getCourseInfo().getJoints().add(jointInfoDisplay);
             }
 
@@ -1138,7 +1138,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()) {
 
-            if (StringUtils.isBlank(rvgWrapper.getUiHelper().getResultValue())) {
+            if (!rvgWrapper.isUserEntered()) {
                 continue;
             }
 

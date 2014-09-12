@@ -2,6 +2,7 @@ package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.slf4j.Logger;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoDisplayInfoWrapper extends LoDisplayInfo {
+public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrapper {
 
     private static final long serialVersionUID = 8232176748014317444L;
 
@@ -220,5 +221,13 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
                 .append(")");
         }
         return out.toString();
+    }
+
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(getLoInfo().getDescr().getPlain())) {
+            return true;
+        }
+        return false;
     }
 }

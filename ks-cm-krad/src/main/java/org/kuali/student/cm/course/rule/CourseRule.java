@@ -126,7 +126,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         Integer item = 0;
         for (ResultValuesGroupInfoWrapper rvg : dataObject.getCreditOptionWrappers()) {
             if (StringUtils.isNotBlank(rvg.getTypeKey()) && rvg.getTypeKey().length() > 1) {
-                if(StringUtils.isBlank(rvg.getUiHelper().getResultValue())) {
+                if(!rvg.isUserEntered()) {
                     String propertyKey = CurriculumManagementConstants.DATA_OBJECT_PATH + ".creditOptionWrappers[" + item.intValue() + "]" + ".uiHelper.resultValue";
                     GlobalVariables.getMessageMap().putError(propertyKey,
                             CurriculumManagementConstants.MessageKeys.ERROR_OUTCOME_CREDIT_VALUE_REQUIRED);
@@ -145,7 +145,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
         for (CluInstructorInfoWrapper instructorDisplay : dataObject.getInstructorWrappers()) {
 
-            if (StringUtils.isBlank(instructorDisplay.getDisplayName())) {
+            if (!instructorDisplay.isUserEntered()) {
 
                 instructorToRemove.add(instructorDisplay);
 
@@ -237,7 +237,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
         for (OrganizationInfoWrapper organizationInfoWrapper : dataObject.getAdministeringOrganizations()) {
 
-            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())) {
+            if (organizationInfoWrapper.isUserEntered()) {
 
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
 
@@ -261,7 +261,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         int index = 0;
         for (LoDisplayInfoWrapper loDisplayInfoWrapper : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
             // description is always required for an LoDisplayInfo object
-            if (StringUtils.isBlank(loDisplayInfoWrapper.getLoInfo().getDescr().getPlain()) && !(loDisplayInfoWrapper.getLoCategoryInfoList().isEmpty())) {
+            if (!loDisplayInfoWrapper.isUserEntered()) {
                 String propertyKey = CurriculumManagementConstants.DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
                 GlobalVariables.getMessageMap().putError(propertyKey,CurriculumManagementConstants.MessageKeys.ERROR_COURSE_LO_DESC_REQUIRED);
                 result = false;

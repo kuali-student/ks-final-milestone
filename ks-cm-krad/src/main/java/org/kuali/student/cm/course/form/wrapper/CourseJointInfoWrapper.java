@@ -15,9 +15,11 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 
-public class CourseJointInfoWrapper extends CourseJointInfo {
+public class CourseJointInfoWrapper extends CourseJointInfo implements DisplayWrapper {
 
 	private static final long serialVersionUID = -3581960069878061510L;
 	
@@ -46,4 +48,11 @@ public class CourseJointInfoWrapper extends CourseJointInfo {
 		return courseCode;
 	}
 
+    @Override
+    public boolean isUserEntered() {
+        if (StringUtils.isNotBlank(courseCode)) {
+            return true;
+        }
+        return false;
+    }
 }
