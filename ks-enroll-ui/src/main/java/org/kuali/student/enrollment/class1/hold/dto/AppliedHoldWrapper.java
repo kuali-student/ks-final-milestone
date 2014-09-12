@@ -27,8 +27,8 @@ import java.io.Serializable;
 public class AppliedHoldWrapper implements Serializable {
 
     private String holdCode;
-    private String firstTerm;
-    private String lastTerm;
+    private String effectiveTerm;
+    private String expirationTerm;
     private HoldIssueInfo holdIssue;
     private AppliedHoldInfo appliedHold;
 
@@ -44,20 +44,20 @@ public class AppliedHoldWrapper implements Serializable {
         this.holdCode = holdCode;
     }
 
-    public String getFirstTerm() {
-        return firstTerm;
+    public String getEffectiveTerm() {
+        return effectiveTerm;
     }
 
-    public void setFirstTerm(String firstTerm) {
-        this.firstTerm = firstTerm;
+    public void setEffectiveTerm(String effectiveTerm) {
+        this.effectiveTerm = effectiveTerm;
     }
 
-    public String getLastTerm() {
-        return lastTerm;
+    public String getExpirationTerm() {
+        return expirationTerm;
     }
 
-    public void setLastTerm(String lastTerm) {
-        this.lastTerm = lastTerm;
+    public void setExpirationTerm(String expirationTerm) {
+        this.expirationTerm = expirationTerm;
     }
 
     public HoldIssueInfo getHoldIssue() {

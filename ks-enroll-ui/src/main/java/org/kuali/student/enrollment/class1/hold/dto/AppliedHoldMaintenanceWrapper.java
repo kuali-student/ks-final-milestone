@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class1.hold.dto;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -27,7 +29,16 @@ import java.util.List;
  */
 public class AppliedHoldMaintenanceWrapper implements Serializable {
 
+    /**
+     * APPLY, EDIT, EXPIRE or DELETE.
+     */
     private String action;
+
+    /**
+     * Contains the personal information for the selected student.
+     */
+    private PersonInfo person;
+
     private AppliedHoldWrapper maintenanceHold;
     private List<AppliedHoldWrapper> editingHolds;
 
@@ -43,8 +54,16 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
         this.action = action;
     }
 
+    public PersonInfo getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonInfo person) {
+        this.person = person;
+    }
+
     public AppliedHoldWrapper getMaintenanceHold() {
-        if(maintenanceHold==null){
+        if (maintenanceHold == null) {
             maintenanceHold = new AppliedHoldWrapper();
         }
         return maintenanceHold;
@@ -70,20 +89,20 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
         getMaintenanceHold().setHoldCode(holdCode);
     }
 
-    public String getFirstTerm() {
-        return getMaintenanceHold().getFirstTerm();
+    public String getEffectiveTerm() {
+        return getMaintenanceHold().getEffectiveTerm();
     }
 
-    public void setFirstTerm(String firstTerm) {
-        getMaintenanceHold().setFirstTerm(firstTerm);
+    public void setEffectiveTerm(String effectiveTerm) {
+        getMaintenanceHold().setEffectiveTerm(effectiveTerm);
     }
 
-    public String getLastTerm() {
-        return getMaintenanceHold().getLastTerm();
+    public String getExpirationTerm() {
+        return getMaintenanceHold().getExpirationTerm();
     }
 
-    public void setLastTerm(String lastTerm) {
-        getMaintenanceHold().setLastTerm(lastTerm);
+    public void setExpirationTerm(String expirationTerm) {
+        getMaintenanceHold().setExpirationTerm(expirationTerm);
     }
 
     public HoldIssueInfo getHoldIssue() {
@@ -100,5 +119,14 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
 
     public void setAppliedHold(AppliedHoldInfo appliedHold) {
         getMaintenanceHold().setAppliedHold(appliedHold);
+    }
+
+    public String getPersonHeaderInfo() {
+
+        if (person != null) {
+            return ": " + person.getName() + " (" + person.getId() + ")";
+        }
+
+        return StringUtils.EMPTY;
     }
 }

@@ -32,11 +32,6 @@ public class AppliedHoldRule extends BasicHoldsRule {
 
         AppliedHoldMaintenanceWrapper holdWrapper = (AppliedHoldMaintenanceWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
         AppliedHoldInfo appliedHold = holdWrapper.getAppliedHold();
-        HoldIssueInfo holdIssueInfo = holdWrapper.getHoldIssue();
-
-        if (StringUtils.isBlank(appliedHold.getStateKey())) {
-            appliedHold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        }
 
         HoldIssueInfo holdIssue = holdWrapper.getHoldIssue();
         appliedHold.setHoldIssueId(holdIssue.getId());
@@ -52,7 +47,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
         isValid &= validateBasicHold(appliedHold);
         isValid &= validateAppliedHold(appliedHold);
         if (holdIssue.getIsHoldIssueTermBased()) {
-            holdWrapper.setLastTerm(resolveTermCode(holdIssue.getLastApplicationTermId()));
+            holdWrapper.setExpirationTerm(resolveTermCode(holdIssue.getLastApplicationTermId()));
             isValid &= validateTerm(holdWrapper);
         } else {
             //set applied hold terms to null.
@@ -100,12 +95,12 @@ public class AppliedHoldRule extends BasicHoldsRule {
             if (appliedHold.getEffectiveDate() != null) {
                 //Check if the StartDate and EndDate is in range
                 if (!AcalCommonUtils.isValidDateRange(appliedHold.getEffectiveDate(), appliedHold.getExpirationDate())) {
-                    messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_FIRST_APPLIED_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
+                    messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
                             AcalCommonUtils.formatDate(appliedHold.getEffectiveDate()), AcalCommonUtils.formatDate(appliedHold.getExpirationDate()));
                     isValid = false;
                 }
             } else {
-                messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_FIRST_APPLIED_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED);
+                messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED);
                 isValid = false;
             }
 
@@ -125,8 +120,8 @@ public class AppliedHoldRule extends BasicHoldsRule {
     private boolean validateTerm(AppliedHoldMaintenanceWrapper holdWrapper) {
 
         boolean isValid = true;
-        if (StringUtils.isBlank(holdWrapper.getFirstTerm())) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_FIRST_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED);
+        if (StringUtils.isBlank(holdWrapper.getEffectiveTerm())) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED);
             isValid = false;
         } //else {
         //  holdIssue.setFirstApplicationTermId(resolveTermId(holdWrapper.getFirstTerm(), HoldsConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM));

@@ -76,13 +76,17 @@ public class HoldsConstants {
 
     //Applied Hold property names
     public static final String APPLIED_HOLDS_PERSON_ID = "person.id";
-    public static final String APPLIED_HOLDS_FIRST_APPLIED_DATE = "effectiveDate";
-    public static final String APPLIED_HOLDS_FIRST_TERM = "firstTerm";
+    public static final String APPLIED_HOLDS_EFFECTIVE_DATE = "effectiveDate";
+    public static final String APPLIED_HOLDS_EFFECTIVE_TERM = "effectiveTerm";
+    public static final String APPLIED_HOLDS_EXPIRATION_DATE = "effectiveDate";
+    public static final String APPLIED_HOLDS_EXPIRATION_TERM = "effectiveTerm";
     public static final String APPLIED_HOLDS_PROP_NAME = "appliedHold";
     public static final String APPLIED_HOLDS_PATH = HOLDS_DATAOBJECT_PATH;
     public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_HOLD_CODE;
-    public static final String APPLIED_HOLDS_PROP_NAME_FIRST_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_FIRST_TERM;
-    public static final String APPLIED_HOLDS_PROP_NAME_FIRST_APPLIED_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_FIRST_APPLIED_DATE;
+    public static final String APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_EFFECTIVE_TERM;
+    public static final String APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_EFFECTIVE_DATE;
+    public static final String APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_EXPIRATION_TERM;
+    public static final String APPLIED_HOLDS_PROP_NAME_EXPIRATION_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_EXPIRATION_DATE;
 
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";

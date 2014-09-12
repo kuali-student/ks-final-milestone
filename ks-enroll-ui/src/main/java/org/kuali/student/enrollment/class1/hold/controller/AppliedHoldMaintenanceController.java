@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.hold.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -30,6 +31,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,13 +61,17 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
 
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if(HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(holdWrapper.getAction())) {
+        if (HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(holdWrapper.getAction())) {
+            form.getView().setHeaderText("Apply Hold" + holdWrapper.getPersonHeaderInfo());
             return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_APPLY_PAGE_ID);
-        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EDIT.equals(holdWrapper.getAction())){
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EDIT.equals(holdWrapper.getAction())) {
+            form.getView().setHeaderText("Edit Hold(s)" + holdWrapper.getPersonHeaderInfo());
             return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_EDIT_PAGE_ID);
-        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(holdWrapper.getAction())){
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(holdWrapper.getAction())) {
+            form.getView().setHeaderText("Expire Hold(s)" + holdWrapper.getPersonHeaderInfo());
             return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_EXPIRE_PAGE_ID);
-        }else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(holdWrapper.getAction())){
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(holdWrapper.getAction())) {
+            form.getView().setHeaderText("Delete Hold(s)" + holdWrapper.getPersonHeaderInfo());
             return getUIFModelAndView(form, HoldsConstants.APPLIED_HOLD_DELETE_PAGE_ID);
         }
         return getUIFModelAndView(form);
@@ -101,6 +107,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -122,6 +129,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE,holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -143,6 +151,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE, holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_CANCELED_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -163,13 +172,13 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         DocumentFormBase documentForm = (DocumentFormBase) form;
         performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 
-        return back(form,result,request,response);
+        return back(form, result, request, response);
     }
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=searchHoldIssueByCode")
     public ModelAndView searchHoldIssueByCode(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
         holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
