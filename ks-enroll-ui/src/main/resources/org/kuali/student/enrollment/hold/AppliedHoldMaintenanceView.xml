@@ -162,7 +162,7 @@ limitations under the License.
                          </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup"  >
+                <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue != null}">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
@@ -176,7 +176,7 @@ limitations under the License.
                                           p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased != null}">
+                            <bean parent="Uif-InputField" p:label="First Applied Date" p:propertyName="appliedHold.effectiveDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
