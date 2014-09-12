@@ -27,6 +27,7 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
  */
 public enum ProposalPermissionTypes {
 
+    CURRICULUM_SPECIALIST("Curriculum Specialist User", StudentIdentityConstants.KS_NAMESPACE_CD, "Curriculum Specialist"),
     INITIATE("Initiate", KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION),
     OPEN("View", StudentIdentityConstants.KS_NAMESPACE_CD,"Open Document"),
     EDIT("Edit",KRADConstants.KNS_NAMESPACE,"Edit Document"),
