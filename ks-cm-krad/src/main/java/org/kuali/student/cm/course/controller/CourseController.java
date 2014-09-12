@@ -201,7 +201,7 @@ public class CourseController extends CourseRuleEditorController {
         //Get the current version first and assign it at old maintainable impl for compare view
 
         CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
-        CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
+        CourseMaintainable oldMaintainble = (CourseMaintainable)form.getDocument().getOldMaintainableObject();
         CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId, ContextUtils.createDefaultContextInfo());
         oldMaintainble.setDataObject(compareCourseWrapper);
         oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
@@ -210,6 +210,9 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(false);
         courseInfoWrapper.setCourseInfo(courseInfo);
+        CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
+        newMaintainble.setDataObject(courseInfoWrapper);
+        newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
 
         ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
@@ -218,8 +221,6 @@ public class CourseController extends CourseRuleEditorController {
         //  set the Curriculum review status on the uiHelper
         courseInfoWrapper.getUiHelper().setUseReviewProcess(
                 request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
-
-        form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
         Properties urlParameters = new Properties();
 
