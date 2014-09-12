@@ -26,6 +26,6 @@ public interface HoldsViewHelperService {
 
     public HoldIssueInfo searchHoldIssueByCode(String holdCode);
 
-    public boolean canApply(String holdIssueId);
+    public boolean isAuthorized(String holdIssueId, String function);
 
 }

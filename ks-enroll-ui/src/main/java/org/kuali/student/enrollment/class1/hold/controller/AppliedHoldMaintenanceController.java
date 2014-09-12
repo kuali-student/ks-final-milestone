@@ -76,7 +76,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
                               HttpServletRequest request, HttpServletResponse response) {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
+        if (!this.getViewHelper(form).isAuthorized(holdWrapper.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD)) {
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
@@ -97,7 +97,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
                              HttpServletRequest request, HttpServletResponse response) {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
+        if (!this.getViewHelper(form).isAuthorized(holdWrapper.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD)) {
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
@@ -118,8 +118,8 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
                                HttpServletRequest request, HttpServletResponse response) {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        if (!this.getViewHelper(form).isAuthorized(holdWrapper.getMaintenanceHold().getAppliedHold().getHoldIssueId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD)) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE,holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
                 super.route(form, result, request, response);
@@ -139,8 +139,8 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
                                HttpServletRequest request, HttpServletResponse response) {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if (!this.getViewHelper(form).canApply(holdWrapper.getHoldIssue().getId())) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+        if (!this.getViewHelper(form).isAuthorized(holdWrapper.getMaintenanceHold().getAppliedHold().getHoldIssueId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD)) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE, holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
                 super.route(form, result, request, response);

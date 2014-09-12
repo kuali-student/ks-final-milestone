@@ -109,6 +109,7 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED = "error.hold.issue.applied.first.date.required";
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY = "error.hold.issue.applied.unauthorized.apply";
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE = "error.hold.issue.applied.unauthorized.expire";
+    public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE = "error.hold.issue.applied.unauthorized.delete";
 
     //applied hold actions
     public static final String APPLIED_HOLDS_ACTION_APPLY = "kuali.applied.hold.apply";

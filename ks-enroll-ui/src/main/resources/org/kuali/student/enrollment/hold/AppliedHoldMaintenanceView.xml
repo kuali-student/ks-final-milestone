@@ -275,7 +275,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="expireHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
-                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:methodToCall="expire" p:actionLabel="Expire Hold" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:performDirtyValidation="false"
@@ -345,7 +345,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="deleteHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
-                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:methodToCall="delete" p:actionLabel="Delete Hold" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:performDirtyValidation="false"
