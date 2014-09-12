@@ -185,24 +185,19 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put(AppointmentConstants.URL_PARAM_TERM_YEAR, uifForm.getTermYear());
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
-        try {
-            String dialog = AppointmentConstants.Registration_Windows_ConfirmBreak_Dialog;
-            if (!hasDialogBeenDisplayed(dialog, uifForm)) {
-                AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Break Appointments");
-                uifForm.setSelectedAppointmentWindow(window);
+        String dialog = AppointmentConstants.Registration_Windows_ConfirmBreak_Dialog;
+        if (!hasDialogBeenDisplayed(dialog, uifForm) || !hasDialogBeenAnswered(dialog, uifForm)) {
+            AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Break Appointments");
+            uifForm.setSelectedAppointmentWindow(window);
 
-                //redirect back to client to display lightbox
-                return showDialog(dialog, uifForm, request, response);
-            }
+            //redirect back to client to display lightbox
+            return showDialog(dialog, uifForm, request, response);
+        }
 
-            boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
-            uifForm.getDialogManager().resetDialogStatus(dialog);
-            if (!confirmDelete) {
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed to get confirm break appointments dialog", e);
-            return getUIFModelAndView(uifForm);
+        boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
+        uifForm.getDialogManager().resetDialogStatus(dialog);
+        if (!confirmDelete) {
+            return super.performRedirect(uifForm, controllerPath, urlParameters);
         }
 
         AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
@@ -240,24 +235,19 @@ public class RegistrationWindowsController extends UifControllerBase {
 
 //        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
 
-        try {
-            String dialog = AppointmentConstants.Registration_Windows_ConfirmDelete_Dialog;
-            if (!hasDialogBeenDisplayed(dialog, uifForm)) {
-                AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
-                uifForm.setSelectedAppointmentWindow(window);
+        String dialog = AppointmentConstants.Registration_Windows_ConfirmDelete_Dialog;
+        if (!hasDialogBeenDisplayed(dialog, uifForm) || !hasDialogBeenAnswered(dialog, uifForm)) {
+            AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
+            uifForm.setSelectedAppointmentWindow(window);
 
-                //redirect back to client to display lightbox
-                return showDialog(dialog, uifForm, request, response);
-            }
+            //redirect back to client to display lightbox
+            return showDialog(dialog, uifForm, request, response);
+        }
 
-            boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
-            uifForm.getDialogManager().resetDialogStatus(dialog);
-            if (!confirmDelete) {
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
-            }
-        } catch (Exception e) {
-            LOG.error("Failed to get confirm delete window dialog", e);
-            return getUIFModelAndView(uifForm);
+        boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
+        uifForm.getDialogManager().resetDialogStatus(dialog);
+        if (!confirmDelete) {
+            return super.performRedirect(uifForm, controllerPath, urlParameters);
         }
 
 
