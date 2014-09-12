@@ -54,6 +54,8 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
         expected.setExpirationDate(new Date());
+        expected.setApplicationEffectiveTermId("termId1");
+        expected.setApplicationExpirationTermId("termId2");
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
@@ -90,6 +92,8 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
         expected.setExpirationDate(new Date());
+        expected.setApplicationEffectiveTermId("termId1");
+        expected.setApplicationExpirationTermId("termId2");
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());

@@ -66,6 +66,11 @@ public class AppliedHoldEntity
     private HoldIssueEntity holdIssue;
     @Column(name = "PERS_ID")
     private String personId;
+    @Column(name = "APP_EFF_TERM_ID")
+    private String applicationEffectiveTermId;
+    @Column(name = "APP_EXPIR_TERM_ID")
+    private String applicationExpirationTermId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<AppliedHoldAttributeEntity> attributes = new HashSet<AppliedHoldAttributeEntity>();
 
@@ -104,6 +109,8 @@ public class AppliedHoldEntity
         }
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setReleasedDate(dto.getReleasedDate());
+        this.setApplicationEffectiveTermId(dto.getApplicationEffectiveTermId());
+        this.setApplicationExpirationTermId(dto.getApplicationExpirationTermId());
 
         // dynamic attributes
         this.attributes.clear();
@@ -119,6 +126,8 @@ public class AppliedHoldEntity
         info.setName(name);
         info.setEffectiveDate(effectiveDate);
         info.setReleasedDate(releasedDate);
+        info.setApplicationEffectiveTermId(applicationEffectiveTermId);
+        info.setApplicationExpirationTermId(applicationExpirationTermId);
         info.setPersonId(personId);
         info.setTypeKey(holdType);
         info.setStateKey(holdState);
@@ -205,6 +214,22 @@ public class AppliedHoldEntity
 
     public void setPersonId(String personId) {
         this.personId = personId;
+    }
+
+    public String getApplicationEffectiveTermId() {
+        return applicationEffectiveTermId;
+    }
+
+    public void setApplicationEffectiveTermId(String applicationEffectiveTermId) {
+        this.applicationEffectiveTermId = applicationEffectiveTermId;
+    }
+
+    public String getApplicationExpirationTermId() {
+        return applicationExpirationTermId;
+    }
+
+    public void setApplicationExpirationTermId(String applicationExpirationTermId) {
+        this.applicationExpirationTermId = applicationExpirationTermId;
     }
 
     @Override

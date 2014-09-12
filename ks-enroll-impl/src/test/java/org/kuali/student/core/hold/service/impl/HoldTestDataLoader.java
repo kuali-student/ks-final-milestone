@@ -74,7 +74,7 @@ public class HoldTestDataLoader {
         holdService.createHoldIssue(issueInfo.getTypeKey(), issueInfo, context);
     }
 
-    private void loadHold(String typeKey, String stateKey, String descrFormatted, String descrPlain, String issueID, String personID, Date effectiveDate, Date releaseDate) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+    private void loadHold(String typeKey, String stateKey, String descrFormatted, String descrPlain, String issueID, String personID, Date effectiveDate, Date releaseDate, String applicationEffectiveTermId, String applicationExpirationTermId) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         AppliedHoldInfo holdInfo = new AppliedHoldInfo();
         holdInfo.setTypeKey(typeKey);
         holdInfo.setStateKey(stateKey);
@@ -83,6 +83,8 @@ public class HoldTestDataLoader {
         holdInfo.setPersonId(personID);
         holdInfo.setEffectiveDate(effectiveDate);
         holdInfo.setReleasedDate(releaseDate);
+        holdInfo.setApplicationEffectiveTermId(applicationEffectiveTermId);
+        holdInfo.setApplicationExpirationTermId(applicationExpirationTermId);
         holdService.createAppliedHold(personID, issueID, typeKey, holdInfo, context);
     }
 
