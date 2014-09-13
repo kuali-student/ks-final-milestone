@@ -1286,6 +1286,12 @@ var viewCourseView = {
             var text = jQuery(this).html().replace(/&nbsp;/g, ' ');
             jQuery(this).html(text);
         });
+    },
+
+    /* This function is called conditionally if the requisites in compare mode do not match.
+       The KRAD compare routines can't handle requesites. */
+    highlightRequisitesTableRow: function() {
+        jQuery("#CM-ViewCourse-View-Course-CourseRequisitesSection table tr:first").addClass("cm-compare-highlighter");
     }
 }
 
