@@ -1342,6 +1342,19 @@ public class TestTermResolvers {
         creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
         assertTrue(creditLoadOkay);
 
+        /*
+        Validate "no credit limit" functionality by registering for a ridiculous
+        amount of credits
+         */
+        resolvedPrereqs.put(RulesExecutionConstants.MAX_CREDITS_TERM.getName(), BestEffortCreditLoadTermResolver.NO_CREDIT_LIMIT);
+        when(requestItemInfo.getTypeKey()).thenReturn(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY);
+        when(requestItemInfo.getCredits()).thenReturn(new KualiDecimal(100));
+        cr01.setCredits(new KualiDecimal(100));
+        cr02.setCredits(new KualiDecimal(100));
+        cr03.setCredits(new KualiDecimal(100));
+        creditLoadOkay = termResolver.resolve(resolvedPrereqs, parameters);
+        assertTrue(creditLoadOkay);
+
     }
 
     @Test
