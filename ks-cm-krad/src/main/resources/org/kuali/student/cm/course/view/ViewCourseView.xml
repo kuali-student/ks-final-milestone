@@ -289,7 +289,7 @@
         <property name="url.viewId" value="CM-Proposal-Course-FindCourse"/>
     </bean>
 
-    <bean id="CM-ViewCourse-View-Course-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="@{#isCompareView ? 7 : 4}" abstract="true">
+    <bean id="CM-ViewCourse-View-Course-GridGroup" parent="Uif-GridGroup" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>course_details-grid</value>
@@ -297,8 +297,9 @@
                 <value>ks-subSection</value>
             </list>
         </property>
-        <property name="layoutManager.renderFirstRowHeader" value="@{#isCompareView}"/>
-        <property name="layoutManager.renderRowFirstCellHeader" value="@{#isCompareView}"/>
+        <property name="layoutManager.numberOfColumns" value="@{#isCompareView ? 7 : 4}" />
+        <property name="layoutManager.renderFirstRowHeader" value="@{#isCompareView}" />
+        <property name="layoutManager.renderRowFirstCellHeader" value="@{#isCompareView}" />
         <property name="componentModifiers">
           <list>
               <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
@@ -307,7 +308,6 @@
           </list>
         </property>
     </bean>
-
 
     <!-- A read-only text field. Don't need escapeHtml since this is an HTML input. -->
     <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false"
@@ -819,6 +819,11 @@
         <property name="items">
             <list>
                 <bean parent="CM-ViewCourse-View-Course-GridGroup">
+
+                    <!-- -->
+                    <property name="onDocumentReadyScript" value="@{ (#isCompareView and ! requisitesEqual) ?  'viewCourseView.highlightRequisitesTableRow()' : '' }"/>
+
+
                     <property name="items">
                         <list>
                             <bean id="CM-ViewCourse-View-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
@@ -855,8 +860,8 @@
 
     <bean id="CM-ViewCourse-View-Course-Requisites-AgendaSection" parent="CM-ViewCourse-View-Course-Requisites-AgendaSection-parent"/>
 
-    <bean id="CM-ViewCourse-View-Course-Requisites-AgendaSection-parent" parent="CM-Proposal-Course-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
-
+    <bean id="CM-ViewCourse-View-Course-Requisites-AgendaSection-parent" parent="CM-Proposal-Course-AgendaManage-Section"
+          class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
         <property name="rulePrototype">
             <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
                 <property name="items">
@@ -866,7 +871,6 @@
                 </property>
             </bean>
         </property>
-
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">

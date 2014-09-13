@@ -67,17 +67,13 @@ public class ViewCourseController extends KsUifControllerBase {
 
     /**
      * This method populates the course details model to be displayed at 'course view'.
-     *
-     * @param form
-     * @param request
-     * @return
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm, HttpServletRequest request,
                               HttpServletResponse response) {
 
-        ViewCourseForm detailedViewForm = (ViewCourseForm) form;
+        ViewCourseForm form = (ViewCourseForm) uifForm;
 
         boolean isComparison = false;
 
@@ -98,8 +94,8 @@ public class ViewCourseController extends KsUifControllerBase {
             courseWrapper.setProposalDataRequired(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
             ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
-            detailedViewForm.setCourseInfoWrapper(courseWrapper);
-            detailedViewForm.setCanRetireCourse(!CourseProposalUtil.hasInProgressProposalForCourse(courseWrapper.getCourseInfo()));
+            form.setCourseInfoWrapper(courseWrapper);
+            form.setCanRetireCourse(!CourseProposalUtil.hasInProgressProposalForCourse(courseWrapper.getCourseInfo()));
 
             //  Load the data for the other/compare-to course.
             if (isComparison) {
@@ -107,10 +103,14 @@ public class ViewCourseController extends KsUifControllerBase {
                 compareCourseWrapper.setProposalDataRequired(false);
                 ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
                 ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
-                detailedViewForm.setCompareCourseInfoWrapper(compareCourseWrapper);
+                form.setCompareCourseInfoWrapper(compareCourseWrapper);
+
+                //  See if the requisites on the two courses are equal.
+                form.setRequisitesEqual(CourseProposalUtil.isRequisitesEqual(form.getCourseInfoWrapper().getAgendas(),
+                    form.getCompareCourseInfoWrapper().getAgendas()));
             }
-            detailedViewForm.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
-            detailedViewForm.setComparison(isComparison);
+            form.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
+            form.setComparison(isComparison);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

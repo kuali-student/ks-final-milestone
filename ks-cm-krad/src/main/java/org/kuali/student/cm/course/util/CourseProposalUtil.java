@@ -21,6 +21,9 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
@@ -35,7 +38,9 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
@@ -160,4 +165,119 @@ public class CourseProposalUtil {
         return !("0".equals(resultString));
     }
 
+    /**
+     * Rule editor key mappings used in isRequisitesEqual().
+     */
+    private static final Map<String,String> ruleEditorKeyMapping = new HashMap() {
+        {   put("A", "G");
+            put("B", "H");
+            put("C", "I");
+            put("D", "J");
+            put("E", "K");
+            put("F", "L");
+            put("G", "A");
+            put("H", "B");
+            put("I", "C");
+            put("J", "D");
+            put("K", "E");
+            put("L", "F");}
+    };
+
+    /**
+     * Compares requisites by natural language. Assumes that the rule editor keys used are A-F or G-L, and that they
+     * are consistently in the same order alphabetically by key and by type: prereq, coreq, recommended, etc.
+     * @return True if the requisites are the same. Otherwise, false.
+     */
+    public static boolean isRequisitesEqual(final List<AgendaEditor> leftAgendas, final List<AgendaEditor> rightAgendas) {
+        /*
+         * Put all of the rule editors from each agenda in a single map per side.
+         */
+        Map<String, RuleEditor> leftRuleEditors = new HashMap<>();
+        Map<String, RuleEditor> rightRuleEditors = new HashMap<>();
+
+        for (AgendaEditor ae : leftAgendas) {
+            leftRuleEditors.putAll(ae.getRuleEditors());
+        }
+
+        for (AgendaEditor ae : rightAgendas) {
+            rightRuleEditors.putAll(ae.getRuleEditors());
+        }
+
+        /*  Decide if the key mapping needs to be used. Assume that the keys are either A-F and G-L though and ff the
+         *  keys are mixed then use the map. Otherwise, don't.
+         */
+        boolean useRuleEditorMapping = false;
+        if ((leftRuleEditors.containsKey("A") && rightRuleEditors.containsKey("G"))
+            || (leftRuleEditors.containsKey("G") && rightRuleEditors.containsKey("A"))) {
+            useRuleEditorMapping = true;
+        }
+
+        for (Map.Entry<String, RuleEditor> re : leftRuleEditors.entrySet()) {
+
+            String leftRuleEditorKey = re.getKey();
+            String rightRuleEditorKey = leftRuleEditorKey;
+            if (useRuleEditorMapping) {
+                rightRuleEditorKey = ruleEditorKeyMapping.get(leftRuleEditorKey);
+            }
+
+            RuleEditor leftRuleEditor = re.getValue();
+
+            //  Get the left proposition and natural language map
+            PropositionEditor leftProposition = leftRuleEditor.getPropositionEditor();
+            //  If the left proposition is null but the right isn't then the requisites are different
+            if (leftProposition == null) {
+                if (rightRuleEditors.get(ruleEditorKeyMapping.get(leftRuleEditorKey)) != null
+                        && rightRuleEditors.get(rightRuleEditorKey).getProposition() != null) {
+                    return false;
+                } else {
+                    continue; //  Both are null so go to the next item.
+                }
+            }
+            Map<String, String> leftNaturalLanguageMap = leftProposition.getNaturalLanguage();
+
+            //  Get the right rule and proposition editors
+            RuleEditor rightRuleEditor = rightRuleEditors.get(ruleEditorKeyMapping.get(leftRuleEditorKey));
+            //  If no right rule editor then the requisites are different.
+            if (rightRuleEditor == null) {
+                return false;
+            }
+            PropositionEditor rightPropositionEditor = rightRuleEditor.getPropositionEditor();
+            if (rightPropositionEditor == null) {
+                return false;
+            }
+
+            /*
+             * Compare the natural language for each proposition in both directions
+             */
+            Map<String, String> rightNaturalLanguageMap = rightPropositionEditor.getNaturalLanguage();
+            //  If the natural language maps aren't the same size then no more comparison is necessary
+            if (leftNaturalLanguageMap.size() != rightNaturalLanguageMap.size()) {
+               return false;
+            }
+
+            for (Map.Entry<String, String> leftNl : leftNaturalLanguageMap.entrySet()) {
+                String leftNlKey = leftNl.getKey();
+                String leftNlValue = leftNl.getValue();
+
+                String rightNlValue = rightNaturalLanguageMap.get(leftNlKey);
+
+                if (rightNlValue == null || ! leftNlValue.equals(rightNlValue)) {
+                    return false;
+                }
+            }
+
+            for (Map.Entry<String, String> rightNl : rightNaturalLanguageMap.entrySet()) {
+                String rightNlKey = rightNl.getKey();
+                String rightNlValue = rightNl.getValue();
+
+                String leftNlValue = rightNaturalLanguageMap.get(rightNlKey);
+
+                if (leftNlValue == null || ! rightNlValue.equals(leftNlValue)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

@@ -34,6 +34,7 @@ public class ViewCourseForm extends KSUifForm {
     private boolean useReviewProcess;
     private boolean isComparison;
     private boolean isModifiableCourse;
+    private boolean isRequisitesEqual;
 
     public ViewCourseForm(){
         viewType = CurriculumManagementConstants.ViewCourseType.COURSE_VIEW;
@@ -134,5 +135,16 @@ public class ViewCourseForm extends KSUifForm {
 
     public void setModifiableCourse(boolean isModifiableCourse) {
         this.isModifiableCourse = isModifiableCourse;
+    }
+
+    /**
+     * If in compare mode, are the two sets of requisites equal.
+     */
+    public boolean isRequisitesEqual() {
+        return isRequisitesEqual;
+    }
+
+    public void setRequisitesEqual(boolean isRequisitesEqual) {
+        this.isRequisitesEqual = isRequisitesEqual;
     }
 }
