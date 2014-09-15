@@ -36,7 +36,7 @@ INSERT INTO KRMS_PROP_T (CMPND_SEQ_NO,DESC_TXT,DSCRM_TYP_CD,PROP_ID,RULE_ID,TYP_
 
 -- Configure compound proposition
 insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID, PROP_ID) values ('kuali.prop.add.edit.date',
-                                                                     'kuali.prop.adjustment.period.is.open')
+                                                                     'kuali.prop.adj.period.is.open.for.add')
 /
 insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID, PROP_ID) values ('kuali.prop.add.edit.date',
                                                                      'kuali.prop.non.appt.period.is.open')
