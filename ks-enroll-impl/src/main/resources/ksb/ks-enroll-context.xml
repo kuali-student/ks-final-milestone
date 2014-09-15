@@ -1835,6 +1835,28 @@ the program will get the rule management service by calling the global resource 
         <entry key="R.IANK" value="2012-09-14@00:01" />
         <!-- Drop Period window closed -->
         <entry key="R.IANP" value="2012-11-10@00:01" />
+
+        <!-- Appointments -->
+        <!-- Student with appointment with system date prior to Early reg period -
+             Has appointment at 2012-03-14 15:15:00 -->
+        <entry key="a.timothyg" value="2012-03-01@00:01" />
+
+        <!-- Student with appointment with a system date prior to appointment time but within the appointment reg period -
+             Has appointment at 2012-04-14 15:30:00 -->
+        <entry key="a.tobiasj" value="2012-04-10@00:01" />
+
+        <!-- Student with appointment with a system date on or after appointment but within the appointment reg period -
+             Has appointment at 2012-05-04 15:45:00 -->
+        <entry key="a.travisc" value="2012-05-05@00:01" />
+
+        <!-- Student without appointment with a system date within the appointment reg period -->
+        <entry key="a.terrym" value="2012-04-10@00:01" />
+
+        <!-- Student without appointment with a system date during non appointment reg period -->
+        <entry key="a.susanh" value="2012-06-10@00:01" />
+
+
+
     </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
