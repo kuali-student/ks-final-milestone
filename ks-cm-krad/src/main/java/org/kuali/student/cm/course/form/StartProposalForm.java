@@ -43,6 +43,9 @@ public class StartProposalForm extends UifFormBase {
 
     private String versionComment;
 
+    private boolean isModifiableCourse;
+
+
     // disallow the curriculumSpecialistUser property to be set by the request
     @RequestProtected
     private boolean curriculumSpecialistUser;
@@ -125,6 +128,14 @@ public class StartProposalForm extends UifFormBase {
 
     public void setProposalTitle(String proposalTitle) {
         this.proposalTitle = proposalTitle;
+    }
+
+    public boolean isModifiableCourse() {
+        return this.isModifiableCourse;
+    }
+
+    public void setModifiableCourse(boolean isModifiableCourse) {
+        this.isModifiableCourse = isModifiableCourse;
     }
 
 }

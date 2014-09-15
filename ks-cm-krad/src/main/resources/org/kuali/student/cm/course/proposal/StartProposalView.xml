@@ -70,27 +70,48 @@
 
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" id="CM-Modify-Course-StartOptions"
-                      p:propertyName="startProposalCourseAction"
-                      p:required="true" p:bindingInfo.bindToForm="true"
-                      p:defaultValue="modifyThisVersion" p:style="line-height: 200%;margin-top: 8px">
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl">
-                            <property name="options">
-                                <list>
-                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
-                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
-                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
-                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_WITH_A_NEW_VERSION}" p:value="Modify with a new version"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
+                <ref bean="CM-Modify-Course-WithoutDraft-StartOptions"/>
+                <ref bean="CM-Modify-Course-WithDraft-StartOptions"/>
                 <ref bean="CM-Proposal-Course-Modify-Start-ReviewSection"/>
             </list>
         </property>
     </bean>
+
+
+    <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithoutDraft-StartOptions"
+          p:propertyName="startProposalCourseAction"
+          p:required="true" p:bindingInfo.bindToForm="true"
+          p:defaultValue="modifyThisVersion" p:render="@{!#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+        <property name="control">
+            <bean parent="KS-Uif-VerticalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
+                        <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_WITH_A_NEW_VERSION}" p:value="Modify with a new version"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithDraft-StartOptions"
+          p:propertyName="startProposalCourseAction"
+          p:required="true" p:bindingInfo.bindToForm="true"
+          p:defaultValue="modifyThisVersion"  p:render="@{#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+        <property name="control">
+            <bean parent="KS-Uif-VerticalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="startProposalView"/>
@@ -108,6 +129,13 @@
                 <ref bean="CM-Modify-Version-Start-Page" />
             </list>
         </property>
+
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="isModifiableCourse" value="modifiableCourse"/>
+            </map>
+        </property>
+
     </bean>
 
     <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection" p:style="margin-top: 20px;">
