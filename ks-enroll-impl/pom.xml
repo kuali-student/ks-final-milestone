@@ -96,12 +96,6 @@
             <artifactId>backport-util-concurrent</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- TODO: remove this, only used for the rice integration test for now -->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>${oracle.artifactId}</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- This is needed for JSON in KSB REST Services-->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -110,7 +104,6 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-xc</artifactId>
-            <version>1.9.13</version>
         </dependency>
         <!-- Rabbit MQ is being evaluated as an MQ solution-->
         <dependency>
@@ -180,17 +173,14 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kubek2k</groupId>
             <artifactId>springockito</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
