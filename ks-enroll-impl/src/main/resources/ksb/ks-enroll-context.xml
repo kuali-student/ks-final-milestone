@@ -1831,9 +1831,9 @@ the program will get the rule management service by calling the global resource 
         <entry key="R.JOHNM" value="2012-09-05@00:01" />
         <entry key="R.JONATHANT" value="2012-09-05@00:01" />
         <entry key="SYSTEM" value="2012-09-05@00:01" />
-        <!-- Drop Period window -->
+        <!-- Drop Period window: student can drop courses, but not add or edit -->
         <entry key="R.IANK" value="2012-09-14@00:01" />
-        <!-- Drop Period window closed -->
+        <!-- Drop Period window closed: student cannot drop, add, or edit -->
         <entry key="R.IANP" value="2012-11-10@00:01" />
 
         <!-- Appointments -->
@@ -1973,6 +1973,10 @@ the program will get the rule management service by calling the global resource 
                 </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.MaxCreditsTermResolver">
                     <property name="gesService" ref="GesService" />
+                </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.AppointmentWindowTermResolver">
+                    <property name="appointmentService" ref="appointmentWindowService" />
+                    <property name="atpService" ref="AtpService" />
                 </bean>
             </list>
         </property>
