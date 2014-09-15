@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -98,6 +99,7 @@ public class TestAppointmentServiceImpl {
         apptWindowInfo.setSlotRule(rule);
         apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
         apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
+        apptWindowInfo.setPeriodMilestoneId("org.kuali.EarlyRegistration");
         //
         Date startDate = createDate(2012, 3, 5, 12, 0);
         Date endDate = createDate(2012, 3, 16, 14, 0);
@@ -743,6 +745,27 @@ public class TestAppointmentServiceImpl {
         for (AppointmentInfo apptInfo: apptInfoList) {
             assertEquals(apptInfo.getSlotId(), slotInfo.getId());
         }
+    }
+
+    @Test
+    public void testGetAppointmentSlotsByPersonAndRegistrationPeriod() throws Exception{
+        before();
+        AppointmentWindowInfo windowInfo =
+                appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+        List<AppointmentSlotInfo> slotInfoList =
+                appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+        appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+        AppointmentSlotInfo slotInfo = slotInfoList.get(0);
+        List<AppointmentInfo> apptInfoList =
+                appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+        //Make sure that some of the results match without testing all 550
+        for(AppointmentInfo appointmentInfo:apptInfoList.subList(0, 10)){
+
+            List<AppointmentSlotInfo> foundSlots = appointmentService.getAppointmentSlotsByPersonAndPeriod(appointmentInfo.getPersonId(), apptWindowInfo.getPeriodMilestoneId(), contextInfo);
+            assertEquals(1, foundSlots.size());
+            assertEquals(slotInfo.getId(), foundSlots.get(0).getId());
+        }
+
     }
 
     @Test
