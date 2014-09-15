@@ -6,6 +6,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
+import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldWrapper;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -49,17 +50,29 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
     protected AppliedHoldMaintenanceWrapper setupDataObjectForEdit(String personId, String appliedHoldId, String action) {
 
         AppliedHoldMaintenanceWrapper dataObject = createBasicDataObject(personId, action);
+        if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(action)) {
+            dataObject.setMaintenanceHold(setupAppliedHoldWrapper(appliedHoldId));
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(action)) {
+            dataObject.setMaintenanceHold(setupAppliedHoldWrapper(appliedHoldId));
+        } else {
+            dataObject.setMaintenanceHold(setupAppliedHoldWrapper(appliedHoldId));
+        }
 
+        return dataObject;
+    }
+
+    protected AppliedHoldWrapper setupAppliedHoldWrapper(String appliedHoldId){
+        AppliedHoldWrapper appliedHoldWrapper = new AppliedHoldWrapper();
         try {
             AppliedHoldInfo appliedHold = HoldsResourceLoader.getHoldService().getAppliedHold(appliedHoldId, ContextUtils.createDefaultContextInfo());
-            dataObject.setAppliedHold(appliedHold);
+            appliedHoldWrapper.setAppliedHold(appliedHold);
 
             HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHold.getHoldIssueId(), ContextUtils.createDefaultContextInfo());
-            dataObject.setHoldCode(holdIssueInfo.getHoldCode());
+            appliedHoldWrapper.setHoldCode(holdIssueInfo.getHoldCode());
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
-        return dataObject;
+        return appliedHoldWrapper;
     }
 
     protected AppliedHoldMaintenanceWrapper createBasicDataObject(String personId, String action) {

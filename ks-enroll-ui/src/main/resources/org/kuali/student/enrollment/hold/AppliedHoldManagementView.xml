@@ -151,8 +151,8 @@
         <property name="headerText" value=""/>
         <property name="lineActions">
             <list>
-                <bean id="manageHoldEditLink" parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="editHold"
-                      p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
+                <!--bean id="manageHoldEditLink" parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="editHold"
+                      p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/-->
                 <bean id="manageHoldExpireLink" parent="KS-Uif-Cancel-NavigationActionLink" p:methodToCall="expireHold"
                       p:iconClass="ks-fontello-icon-block-1" p:style="color:#0088CC;"/>
                 <bean id="manageHoldDeleteLink" parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="deleteHold"

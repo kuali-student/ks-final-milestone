@@ -41,6 +41,7 @@ limitations under the License.
                   value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
+        <property name="headerText" value="@{#dp.viewHeaderInfo}"/>
         <property name="items">
             <list>
                 <bean id="KS-ApplyHold-Page" parent="KS-ApplyHold-Page-parent"/>
@@ -84,6 +85,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-ApplyHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
@@ -123,51 +125,58 @@ limitations under the License.
                 <bean id="KS-ApplyHold-HoldCode-Section" parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
-                         <list>
-                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
-                                 <property name="control">
-                                     <bean parent="KS-Uif-TextControl" p:size="8"/>
-                                 </property>
-                                 <!-- The hold code auto-complete -->
-                                 <property name="suggest">
-                                     <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
-                                         <property name="returnFullQueryObject" value="true"/>
-                                         <property name="suggestQuery">
-                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveHoldCodes"/>
-                                         </property>
-                                         <property name="templateOptions">
-                                             <map merge="true">
-                                                 <entry key="minLength" value="3"/>
-                                             </map>
-                                         </property>
-                                     </bean>
-                                 </property>
-                                 <property name="quickfinder">
-                                     <bean parent="Uif-QuickFinder">
-                                         <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
-                                         <property name="fieldConversions">
-                                             <map>
-                                                 <entry key="code" value="holdCode"/>
-                                             </map>
-                                         </property>
-                                         <property name="quickfinderAction">
-                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold" />
-                                         </property>
-                                     </bean>
-                                 </property>
-                             </bean>
-                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                   p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" />
-                         </list>
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode"
+                                  p:required="true">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="8"/>
+                                </property>
+                                <!-- The hold code auto-complete -->
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
+                                        <property name="returnFullQueryObject" value="true"/>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveHoldCodes"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="3"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName"
+                                                  value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="code" value="holdCode"/>
+                                            </map>
+                                        </property>
+                                        <property name="quickfinderAction">
+                                            <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup"
+                                                  p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold"/>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                                  p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode"/>
+                        </list>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue != null}">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term" p:propertyName="effectiveTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term"
+                                  p:propertyName="effectiveTerm" p:required="false"
+                                  p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6"
+                                          p:disabled="false"/>
                                 </property>
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
@@ -175,7 +184,8 @@ limitations under the License.
                                           p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Effective Date" p:propertyName="appliedHold.effectiveDate">
+                            <bean parent="Uif-InputField" p:label="Effective Date"
+                                  p:propertyName="appliedHold.effectiveDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
@@ -188,6 +198,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-EditHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
@@ -224,23 +235,28 @@ limitations under the License.
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode"
+                      p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10"/>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup"  >
+                <bean parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
                     <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term" p:propertyName="effectiveTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term"
+                                  p:propertyName="effectiveTerm" p:required="false"
+                                  p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6"
+                                          p:disabled="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Effective Date" p:propertyName="appliedHold.effectiveDate">
+                            <bean parent="Uif-InputField" p:label="Effective Date"
+                                  p:propertyName="appliedHold.effectiveDate">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
@@ -253,6 +269,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-ExpireHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
@@ -343,6 +360,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-DeleteHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">

@@ -18,10 +18,12 @@ package org.kuali.student.enrollment.class1.hold.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +42,6 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
     private PersonInfo person;
 
     private AppliedHoldWrapper maintenanceHold;
-    private List<AppliedHoldWrapper> editingHolds;
 
     public AppliedHoldMaintenanceWrapper() {
         super();
@@ -71,14 +72,6 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
 
     public void setMaintenanceHold(AppliedHoldWrapper maintenanceHold) {
         this.maintenanceHold = maintenanceHold;
-    }
-
-    public List<AppliedHoldWrapper> getEditingHolds() {
-        return editingHolds;
-    }
-
-    public void setEditingHolds(List<AppliedHoldWrapper> editingHolds) {
-        this.editingHolds = editingHolds;
     }
 
     public String getHoldCode() {
@@ -121,12 +114,28 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
         getMaintenanceHold().setAppliedHold(appliedHold);
     }
 
-    public String getPersonHeaderInfo() {
+    public String getViewHeaderInfo() {
 
-        if (person != null) {
-            return ": " + person.getName() + " (" + person.getId() + ")";
+        if (this.getPerson() != null) {
+            return this.getPerson().getName() + " (" + this.getPerson().getId() + ")";
         }
 
         return StringUtils.EMPTY;
+    }
+
+    public String getPageHeaderInfo() {
+
+        if (HoldsConstants.APPLIED_HOLDS_ACTION_APPLY.equals(this.getAction())) {
+            return "Apply Hold";
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EDIT.equals(this.getAction())) {
+            return "Edit Hold";
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE.equals(this.getAction())) {
+            return "Expire Hold";
+        } else if (HoldsConstants.APPLIED_HOLDS_ACTION_DELETE.equals(this.getAction())) {
+            return "Delete Hold";
+        } else {
+            return "Maintain Hold";
+        }
+
     }
 }
