@@ -300,7 +300,7 @@
     <bean id="CM-Proposal-Course-Retire-CurriculumSpecialistFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton"
+                <bean parent="Uif-PrimaryActionButton"
                       p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
                       p:actionLabel="Approve and Retire"
