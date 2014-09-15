@@ -119,6 +119,18 @@ public class CourseProposalUtil {
             return false;
         }
 
+        return isModifyNewVersion(courseInfo,contextInfo);
+    }
+
+    /**
+     * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * @param courseInfo
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+    public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+
         String versionIndId = courseInfo.getVersion().getVersionIndId();
         Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
 
@@ -133,6 +145,7 @@ public class CourseProposalUtil {
 
         String resultString = result.getRows().get(0).getCells().get(0).getValue();
         return "0".equals(resultString);
+
     }
 
     public static boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {

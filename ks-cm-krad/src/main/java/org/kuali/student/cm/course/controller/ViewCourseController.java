@@ -209,9 +209,9 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
-        urlParameters.put(UrlParams.IS_MODIFIABLE_COURSE, detailedViewForm.isModifiableCourse());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
         try {
+            urlParameters.put(UrlParams.IS_MODIFY_NEW_VERSION , CourseProposalUtil.isModifyNewVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo()));
             boolean isCourseWithVersion = CourseProposalUtil.isCourseWithVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
             urlParameters.put(UrlParams.IS_COURSE_WITH_VERSION , isCourseWithVersion);
         } catch (Exception e) {

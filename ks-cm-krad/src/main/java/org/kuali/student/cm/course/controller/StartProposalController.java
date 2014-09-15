@@ -57,7 +57,7 @@ public class StartProposalController extends UifControllerBase {
         String versionIndId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
         courseForm.setVersionIndId(versionIndId);
         String courseId = httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
-        courseForm.setModifiableCourse(new Boolean(httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.IS_MODIFIABLE_COURSE)));
+        courseForm.setModifiableCourse(new Boolean(httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.IS_MODIFY_NEW_VERSION)));
         courseForm.setCourseWithVersion(new Boolean(httpServletRequest.getParameter(CurriculumManagementConstants.UrlParams.IS_COURSE_WITH_VERSION)));
         courseForm.setCourseId(courseId);
         return courseForm;
