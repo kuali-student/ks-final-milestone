@@ -1,5 +1,6 @@
 package org.kuali.student.cm.rice;
 
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.krad.data.metadata.DataObjectMetadata;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
@@ -61,7 +62,8 @@ public class KSKRADLegacyDataAdapterImpl extends KRADLegacyDataAdapterImpl {
 
             Document result = super.findByDocumentHeaderId(c, id);
 
-            CMMaintenanceDocument newDoc = new CMMaintenanceDocument(CourseMaintainableImpl.class.getName());
+            String documentTypeName = KewApiServiceLocator.getWorkflowDocumentService().getDocumentTypeName(result.getDocumentNumber());
+            CMMaintenanceDocument newDoc = new CMMaintenanceDocument(documentTypeName);
             newDoc.setDocumentNumber(result.getDocumentNumber());
             newDoc.setDocumentHeader(result.getDocumentHeader());
             newDoc.setVersionNumber(result.getVersionNumber());
