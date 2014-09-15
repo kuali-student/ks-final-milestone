@@ -27,6 +27,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
  *
  * @author nwright
  */
+@SuppressWarnings("unused")
 public class AtpServiceConstants {
 
     /**
@@ -153,6 +154,8 @@ public class AtpServiceConstants {
     public static final String MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY = "kuali.atp.milestone.FinalExamPeriod";
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
+    public static final String MILESTONE_EARLY_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.earlyregistrationperiod";
+    public static final String MILESTONE_EARLY_REGISTRATION_PERIOD_NONAPPT_TYPE_KEY = "kuali.atp.milestone.earlyregistrationperiod.nonappointment";
     //types used for reg date check
     public static final String MILESTONE_REGISTRATION_SERVICES_OPEN_TYPE_KEY = "kuali.atp.milestone.registrationservicesopen";
     public static final String MILESTONE_PREREGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.preregistrationperiod";
