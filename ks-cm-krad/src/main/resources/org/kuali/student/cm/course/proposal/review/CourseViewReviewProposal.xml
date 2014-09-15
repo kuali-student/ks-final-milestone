@@ -584,7 +584,7 @@
         <property name="headerText" value="Cancel Proposal"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>submitcourse_dialog</value>
+                <value>confirm_submit_cancel_dialog</value>
             </list>
         </property>
         <property name="promptText"
@@ -603,7 +603,7 @@
         <property name="headerText" value="Submit Proposal"/>
         <property name="cssClasses" >
             <list merge="true">
-                <value>submitcourse_dialog</value>
+                <value>confirm_submit_cancel_dialog</value>
             </list>
         </property>
         <property name="promptText"
