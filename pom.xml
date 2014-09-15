@@ -52,7 +52,6 @@
         <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
         <cglib.nodep.version>2.1_3</cglib.nodep.version>
         <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
-        <commons.beanutils.version>1.8.3-kuali-4</commons.beanutils.version>
         <commons.digester.version>2.1</commons.digester.version>
         <commons.lang.version>2.6</commons.lang.version>
         <cxf.version>2.7.0</cxf.version>
@@ -61,6 +60,7 @@
         <dozer.version>5.3.2</dozer.version>
         <eclipselink.version>1.0</eclipselink.version>
         <ehcache.version>2.5.0</ehcache.version>
+        <elasticsearch.version>1.2.2</elasticsearch.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
         <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
         <gwt.incubator.version>2.3.0</gwt.incubator.version>
@@ -85,6 +85,7 @@
         <logkit.version>2.0</logkit.version>
         <maven.min.version>3.2.2</maven.min.version>
         <metro.version>1.4</metro.version>
+        <mockito.version>1.9.5</mockito.version>
         <mysql.version>5.1.22</mysql.version>
         <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
         <net.sf.jasperreports.fonts.version>4.0.0</net.sf.jasperreports.fonts.version>
@@ -106,6 +107,7 @@
         <spring.security-cas.version>3.1.0.RELEASE</spring.security-cas.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <spring.batch.version>2.2.5.RELEASE</spring.batch.version>
+        <springockito.version>1.0.9</springockito.version>
         <tomcat.plugin.version>1.1</tomcat.plugin.version>
         <velocity.version>1.6.4</velocity.version>
         <velocity.tools.version>2.0</velocity.tools.version>
@@ -148,8 +150,6 @@
         <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
-        <mockito.version>1.9.5</mockito.version>
-        <springockito.version>1.0.9</springockito.version>
     </properties>
     <profiles>
         <profile>
@@ -806,6 +806,11 @@
                 <type>pom</type>
             </dependency>
             <dependency>
+                <artifactId>rice-krad-theme-builder</artifactId>
+                <groupId>org.kuali.rice</groupId>
+                <version>${kuali.rice.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${kuali.rice.version}</version>
@@ -830,11 +835,6 @@
                 <artifactId>rice-it-internal-tools</artifactId>
                 <version>${kuali.rice.version}</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.kuali.commons</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${commons.beanutils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
@@ -872,6 +872,11 @@
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-core</artifactId>
                 <version>${ehcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
@@ -973,6 +978,11 @@
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-jaxrs</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-xc</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
@@ -1381,16 +1391,6 @@
                 <groupId>net.sourceforge.jexcelapi</groupId>
                 <artifactId>jxl</artifactId>
                 <version>${net.sourceforge.jexcelapi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>${oracle.artifactId}</artifactId>
-                <version>${oracle.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.opensaml</groupId>
