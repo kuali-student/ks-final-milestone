@@ -1,6 +1,7 @@
 .ks-ManageRegistration {
     & #Uif-BreadcrumbWrapper {
       height: 30px;
+      overflow: hidden;
     }
 
     &-show {
@@ -54,7 +55,7 @@
    &  > thead > tr > td,
    &  > tbody > tr > td,
    &  > tfoot > tr > td {
-      padding: 10px 5px 5px;
+      padding: 1rem 0.5rem 0.5rem 0;
    }
 }
 
@@ -77,8 +78,11 @@
 
         & label,
         & div {
-          .ks-mixin--flex;
           white-space: nowrap;
+        }
+
+        & .uif-collection-column-action div{
+          .ks-mixin--flex;
         }
     }
 }
