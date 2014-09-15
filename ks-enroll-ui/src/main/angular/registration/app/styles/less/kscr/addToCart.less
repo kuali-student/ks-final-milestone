@@ -1,14 +1,11 @@
 /**** Add to Cart Section ****/
 
 .kscr-addToCart {
-    background-color: @whiteBackground;
-    border: 1px @cardBorderColor solid;
-    border-bottom-width: 2px;
-    font-family: @secondaryFontFamily;
+    .kscr-Card-mixin();
+
     .font-size(14);
     margin: 1rem 0.5rem;
-    padding: 0 1rem 0.5rem 0;
-    position: relative;
+    padding-top: 0.75rem;
 
     /* Styles for large-size screens */
     @media screen and @lg-Min {
@@ -29,38 +26,39 @@
 }
 
 .kscr-addToCart-contents {
-    padding-left: 2.5rem;
-}
+    .util-Grid;
+    align-items: flex-end;
 
-.kscr-addToCart-cell {
-    &--courseCode {
-        .flex(1.5 1 0);
-    }
+    .kscr-addToCart-cell {
+        &--courseCode {
+            .flex(2 1 0);
+        }
 
-    &--regCode {
-        .flex(1 1 0);
-    }
+        &--regCode {
+            .flex(1 1 0);
+        }
 
-    &--button {
-        .flex(2.25 1 0);
-        text-align: right;
+        &--button {
+            .flex(2.2 1 0);
+            text-align: right;
+        }
     }
 }
 
 .kscr-addToCart-label {
     color: @secondaryTextColor;
-    display:block;
+    display: block;
     font-family: @secondaryFontFamily;
-    .font-size(13);
+    .font-size(14);
     font-weight: normal;
 }
 
 .kscr-addToCart-input {
     color: @secondaryTextColor;
     font-family: @secondaryFontFamily;
-    .font-size(13);
+    .font-size(14);
     font-weight: normal;
-    padding: 0 1rem 0 0;
+    padding: 0.25rem;
     text-transform: uppercase;
     width: 90%;
 }
