@@ -1,61 +1,28 @@
 /**** Button Styles *****/
 
 // Base button
-@buttonBackgroundColor:#F8F8F8;
-@buttonGradientColor:#EFEFEF;
-@buttonBorderColor:#BCBCBC;
-@buttonTextColor:#333333;
-
-// Base button - Disabled
-@buttonDisabledBackgroundColor:#FBFBFB;
-@buttonDisabledBorderColor:#CCCCCC;
-@buttonDisabledTextColor:#777777;
-
-// Primary button
-@buttonPrimaryBackgroundColor:#3366FF;
-@buttonPrimaryGradientColor:#003FF9;
-@buttonPrimaryBorderColor:#3333CC;
-@buttonPrimaryTextColor:#F2F2F2;
-
-// Primary button - Disabled
-@buttonPrimaryDisabledBackgroundColor:#617CDA;
-@buttonPrimaryDisabledBorderColor:#516084;
-@buttonPrimaryDisabledTextColor:#E8E8E8;
-
-@buttonRadius:4px;
-
-@defaultRadius:30px;
-
-
-// Base button
 .kscr-Button {
-    .kscr-Button-common-gradient(@buttonBackgroundColor, @buttonGradientColor, @buttonBorderColor, @buttonTextColor);
-
-    &[disabled], &:disabled {
-        background-color: @buttonDisabledBackgroundColor;
-        border-color: @buttonDisabledBorderColor;
-        color: @buttonDisabledTextColor;
-    }
+    .kscr-Button-common-gradient(@btnBaseBg1, @btnBaseBg2, @btnBaseBorder, @btnBaseText);
+    .kscr-Button-hover(@btnBaseBg1-hover, @btnBaseBg2-hover, @btnBaseBorder-hover, @btnBaseText-hover);
+    .kscr-Button-pressed(@btnBaseBg1-pressed, @btnBaseBg2-pressed, @btnBaseBorder-pressed, @btnBaseText-pressed);
+    .kscr-Button-disabled(@btnBaseBg1-disabled, @btnBaseBg2-disabled, @btnBaseBorder-disabled, @btnBaseText-disabled);
 }
 
 
 // Primary Button
 .kscr-Button--primary {
-    .kscr-Button-common-gradient(@buttonPrimaryBackgroundColor, @buttonPrimaryGradientColor, @buttonPrimaryBorderColor, @buttonPrimaryTextColor);
+    .kscr-Button-common-gradient(@btnPrimaryBg1, @btnPrimaryBg2, @btnPrimaryBorder, @btnPrimaryText);
+    .kscr-Button-hover(@btnPrimaryBg1-hover, @btnPrimaryBg2-hover, @btnPrimaryBorder-hover, @btnPrimaryText-hover);
+    .kscr-Button-pressed(@btnPrimaryBg1-pressed, @btnPrimaryBg2-pressed, @btnPrimaryBorder-pressed, @btnPrimaryText-pressed);
+    .kscr-Button-disabled(@btnPrimaryBg1-disabled, @btnPrimaryBg2-disabled, @btnPrimaryBorder-disabled, @btnPrimaryText-disabled);
 
     font-weight: bold;
-
-    &[disabled], &:disabled {
-        background-color: @buttonPrimaryDisabledBackgroundColor;
-        border-color: @buttonPrimaryDisabledBorderColor;
-        color: @buttonPrimaryDisabledTextColor;
-    }
 }
 
 
 // Outline button
 .kscr-Button--outline {
-    .kscr-Button-common(@whiteBackground, @buttonBorderColor, @buttonTextColor);
+    .kscr-Button-common(@whiteBackground, @btnBaseBorder, @btnBaseText);
 
     border-bottom-width: 1px;
 }
@@ -126,14 +93,14 @@
 
 
 // Common button styles mixin
-.kscr-Button-common(@bgColor, @borderColor, @textColor) {
-    background: @bgColor;
+.kscr-Button-common(@bg, @border, @text) {
+    background: @bg;
 
-    border: 1px solid @borderColor;
+    border: 1px solid @border;
     border-bottom-width: 2px;
     .Rounded(@buttonRadius);
 
-    color: @textColor;
+    color: @text;
 
     font-family: @secondaryFontFamily;
     .font-size(13);
@@ -160,7 +127,35 @@
 }
 
 // Button Mixin for gradient background
-.kscr-Button-common-gradient(@bgColor, @bgColor2, @borderColor, @textColor) {
-    .kscr-Button-common(@bgColor, @borderColor, @textColor); // Call the base mixin
-    .linear-gradient(@bgColor, @bgColor2);
+.kscr-Button-common-gradient(@bg1, @bg2, @border, @text) {
+    .kscr-Button-common(@bg1, @border, @text); // Call the base mixin
+    .linear-gradient(@bg1, @bg2);
+}
+
+// Hover mixin
+.kscr-Button-hover(@bg1, @bg2, @border, @text) {
+    &:hover {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+    }
+}
+
+// Pressed mixin
+.kscr-Button-pressed(@bg1, @bg2, @border, @text) {
+    &:active:not([disabled]):not(:disabled),
+    &.active:not([disabled]):not(:disabled) {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+    }
+}
+
+// Disabled mixin
+.kscr-Button-disabled(@bg1, @bg2, @border, @text) {
+    &[disabled], &:disabled {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+    }
 }
