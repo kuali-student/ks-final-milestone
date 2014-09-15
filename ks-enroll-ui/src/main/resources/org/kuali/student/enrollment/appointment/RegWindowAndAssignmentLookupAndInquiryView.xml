@@ -119,6 +119,7 @@
 
     <!-- InquiryView -->
     <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KS-Uif-InquiryView"
+        p:additionalCssClasses="ks-ManageRegistration-AppointmentWindow"
         p:headerText="Appointment Window and Assignment Detail"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
@@ -158,8 +159,6 @@
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="numberOfStudents"
                                   p:label="# of Students"
-                                  p:fieldLabel.width="40%"
-                                  p:width="60%"
                                   p:fieldLabel.renderColon="false"/>
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="numberOfSlots"
@@ -202,8 +201,6 @@
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="periodName"
                                   p:label="Period"
-                                  p:fieldLabel.width="40%"
-                                  p:width="60%"
                                   p:fieldLabel.renderColon="false"/>
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.name"
