@@ -345,7 +345,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     fnClosePopup();
 
-    popupBox.addClass("uif-tooltip");
+
     initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);

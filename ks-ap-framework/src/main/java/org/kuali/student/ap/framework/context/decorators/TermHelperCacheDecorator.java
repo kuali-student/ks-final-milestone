@@ -45,6 +45,10 @@ public class TermHelperCacheDecorator extends TermHelperDecorator {
         this.cacheManager = cacheManager;
     }
 
+    public void invalidate(){
+        getCacheManager().clearAll();
+    }
+
     @Override
     public List<Term> getTermsOpenForPlanning() {
         MultiKey cacheKey = new MultiKey(TERM_HELPER_TERMS_PREFIX, "openforplanning");

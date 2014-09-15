@@ -45,6 +45,10 @@ public class CourseHelperCacheDecorator extends CourseHelperDecorator {
         this.cacheManager = cacheManager;
     }
 
+    public void invalidate(){
+        getCacheManager().clearAll();
+    }
+
     @Override
     public Course getCurrentVersionOfCourse(String courseId) {
         MultiKey cacheKey = new MultiKey(COURSE_HELPER_COURSE_PREFIX + "course", courseId);

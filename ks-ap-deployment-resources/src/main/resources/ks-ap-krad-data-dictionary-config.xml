@@ -46,6 +46,9 @@
                     <value>classpath:ui/ConversationViewUI.xml</value>
                     <value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
 
+                    <!-- Development Utilities -->
+                    <value>classpath:org/kuali/student/ap/DevelopmentUI.xml</value>
+
                     <!-- Course Search POC -->
                     <value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
 
