@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
@@ -52,7 +51,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -63,7 +61,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
-public class TestTermResolvers {
+public class TestTermResolvers extends AbstractTermResolverTestHelper {
 
     public ContextInfo contextInfo = null;
     Map<String, Object> resolvedPrereqs = null;
@@ -1403,28 +1401,6 @@ public class TestTermResolvers {
     //Setup the term resolver
     //    NumberOfEnrollmentsForCourseTermResolver termResolver = new NumberOfEnrollmentsForCourseTermResolver();
     //}
-    @SuppressWarnings("unchecked")
-    private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output) {
-
-        //Check the term name.
-        assertEquals(output, termResolver.getOutput());
-
-        //Check if prerequisites are listed
-        validateAttributeSet("Prerequisites list does not contain ", prereqs.keySet(), termResolver.getPrerequisites());
-
-        //Check if parameters are listed
-        validateAttributeSet("Parameters list does not contain ", parameters.keySet(), termResolver.getParameterNames());
-    }
-
-    private void validateAttributeSet(String message, Set<String> names, Set<String> keys) {
-        if (keys == null) {
-            return;
-        }
-
-        for (String key : keys) {
-            assertTrue(message + key, names.contains(key));
-        }
-    }
 
     private Map<String, Object> getDefaultPrerequisites() {
         Map<String, Object> resolvedPrereqs = new HashMap<>();
