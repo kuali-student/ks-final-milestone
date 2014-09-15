@@ -167,8 +167,9 @@
                 </bean>
 
 
-                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:additionalCssClasses="ks-ManageRegistration-studentGroup"
-                      p:style="font-weight:bold;white-space:nowrap;" p:required="true"
+                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName"
+                      p:additionalCssClasses="ks-ManageRegistration-studentGroup"
+                      p:required="true"
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
@@ -195,7 +196,8 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;" p:required="true"
+                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName"
+                      p:required="true"
                       p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                      <property name="control">
@@ -291,7 +293,7 @@
                     </property>
                 </bean>
                 <bean parent="KS-Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
-                		    p:progressiveRender="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
+                		     p:progressiveRender="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                              p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                              p:style="font-weight:bold;"    
                              p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"                        
@@ -339,7 +341,7 @@
         </property>
 
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false"/>
         </property>
     </bean>
 
