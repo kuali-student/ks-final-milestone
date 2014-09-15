@@ -1,21 +1,49 @@
 .ks-ManageRegistration {
-  & #Uif-BreadcrumbWrapper {
-    height: 30px;
-  }
+    & #Uif-BreadcrumbWrapper {
+      height: 30px;
+    }
 
-  &-show {
-    margin-top: 1.7rem;
-  }
+    &-show {
+      margin-top: 1.7rem;
+    }
 
-  &--startDate, &-lastDate {
-    font-weight: normal;
-    white-space: nowrap;
-  }
+    &--startDate, &-lastDate {
+      font-weight: normal;
+      white-space: nowrap;
+    }
 
-  &-studentGroup {
-    font-weight: bold;
-    white-space: nowrap;
-  }
+    &-studentGroup {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    &-AppointmentWindow {
+        & > div {
+          float: left;
+        }
+
+        & .table-bordered {
+            border: 0 none;
+
+            & > thead > tr > th,
+            & > tbody > tr > th,
+            & > tfoot > tr > th,
+            & > thead > tr > td,
+            & > tbody > tr > td,
+            & > tfoot > tr > td {
+                border: none;
+                vertical-align: bottom;
+            }
+        }
+
+        & table.uif-gridLayout th {
+            background: none;
+
+            &[scope="row"] label {
+              float: none;
+            }
+        }
+    }
 }
 
 
@@ -27,11 +55,12 @@
    &  > tbody > tr > td,
    &  > tfoot > tr > td {
       padding: 10px 5px 5px;
-    }
+   }
 }
 
 .ks-icon-color {
   color: @link-color !important;
+
     &:hover,
     &:focus {
       color: @link-hover-color !important;
@@ -41,13 +70,15 @@
 /* Manage Registration Windows
    Windows table section
 */
-.ks-appointmentWindow-table tr {
-  border-top:  1px solid #d3d3d3;
-  border-bottom:  1px solid #d3d3d3;
+.ks-appointmentWindow-table {
+    & tr {
+      border-top:  1px solid #d3d3d3;
+      border-bottom:  1px solid #d3d3d3;
 
-    & label,
-    & div {
-      .ks-mixin--flex;
-      white-space: nowrap;
+        & label,
+        & div {
+          .ks-mixin--flex;
+          white-space: nowrap;
+        }
     }
 }
