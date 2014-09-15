@@ -136,6 +136,15 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         RetireCourseWrapper retireCourseWrapper = (RetireCourseWrapper) getDataObject();
         ProposalInfo proposal = retireCourseWrapper.getProposalInfo();
 
+        if (StringUtils.isNotBlank(retireCourseWrapper.getProposalInfo().getId())){
+            Date updateTime = proposal.getMeta().getUpdateTime();
+            if (updateTime != null){
+                retireCourseWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
+            }
+        }else{
+            retireCourseWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
+        }
+
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_END_TERM, retireCourseWrapper.getRetireEndTerm());
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED, retireCourseWrapper.getLastTerm());
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR, retireCourseWrapper.getPublicationYear());
