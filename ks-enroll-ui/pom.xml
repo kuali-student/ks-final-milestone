@@ -8,6 +8,9 @@
     </parent>
     <artifactId>ks-enroll-ui</artifactId>
     <name>KS Enroll UI</name>
+    <properties>
+        <ks.build.angular.phase>generate-resources</ks.build.angular.phase>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -128,4 +131,61 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>build-angular</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Config to automatically install nodejs/npm and run grunt build to build the registration angularJs application -->
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>0.0.16</version>
+                        <configuration>
+                            <workingDirectory>src/main/angular/registration</workingDirectory>
+                            <nodeVersion>v0.10.24</nodeVersion>
+                            <npmVersion>1.3.21</npmVersion>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <phase>${ks.build.angular.phase}</phase>
+                                <configuration>
+                                    <workingDirectory>src/main/angular/registration</workingDirectory>
+                                    <nodeVersion>v0.10.24</nodeVersion>
+                                    <npmVersion>1.3.21</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>${ks.build.angular.phase}</phase>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>grunt build</id>
+                                <goals>
+                                    <goal>grunt</goal>
+                                </goals>
+                                <phase>${ks.build.angular.phase}</phase>
+                                <configuration>
+                                    <arguments>build</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
