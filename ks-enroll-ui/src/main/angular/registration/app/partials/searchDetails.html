@@ -127,19 +127,20 @@
                 <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
                 <div class="kscr-SearchDetails-button kscr-Button-group" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()">
                     <!-- Add to Cart -->
-                    <button id="search_details_add_to_cart" name="submit" class="kscr-Button kscr-SearchDetails-button--addToCart"
-                            ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable)" ng-click="addToCart()"
+                    <button id="search_details_add_to_cart" name="submit" ng-click="addToCart()"
+                            class="kscr-Button kscr-SearchDetails-button--addToCart"
+                            ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable) || actionStatus === statuses.processing"
                             ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><span>Add to Cart</span></button>
 
                     <!-- Add to Waitlist -->
                     <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button kscr-SearchDetails-button--addToWaitlist"
-                            ng-disabled="!selectedRegGroup" ng-click="addToWaitlist()"
+                            ng-disabled="!selectedRegGroup || actionStatus === statuses.processing" ng-click="addToWaitlist()"
                             ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
 
                     <!-- Split Button Dropdown -->
-                    <button id="search_details_add_dropdown" class="kscr-Button dropdown-toggle"
-                            ng-if="(!selectedRegGroup || !selectedRegGroup.isFull) || (selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable)"
-                            data-toggle="dropdown" ng-disabled="!selectedRegGroup">
+                    <button id="search_details_add_dropdown" class="kscr-Button dropdown-toggle" data-toggle="dropdown"
+                            ng-disabled="!selectedRegGroup || actionStatus === statuses.processing"
+                            ng-if="(!selectedRegGroup || !selectedRegGroup.isFull) || (selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable)">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
