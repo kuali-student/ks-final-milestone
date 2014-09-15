@@ -128,7 +128,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Course-Retire-Right-Header-Action-Group"/>
-                <ref bean="CM-Proposal-Course-Retire-Header-Right-Group-Status"/>
+                <ref bean="CM-Proposal-Header-Right-Group-Status"/>
             </list>
         </property>
     </bean>
@@ -143,33 +143,6 @@
                 <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
                 <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
                 <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
-            </list>
-        </property>
-    </bean>
-
-    <bean id="CM-Proposal-Course-Retire-Header-Right-Group-Status" parent="KS-Unified-Right-Header-Group-Status" p:render="@{!#workflowDoc.initiated and #dataObject.proposalInfo.meta!= null}">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Unified-Right-Header-Group-Status-Modified" p:messageText="@{(#dataObject.proposalInfo.meta eq null) ? '': 'Last modified by ' + {#dataObject.proposalInfo.meta.updateId} + ' on ' + {#dataObject.lastUpdated}}"/>
-                            <bean parent="Uif-VerticalBoxGroup" p:id="CM-Proposal-Status-Lozenge">
-                                <property name="items">
-                                    <list>
-                                        <bean id="CM-Proposal-Status-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{#dataObject.proposalInfo.stateKey eq 'Saved'}"/>
-                                        <bean id="CM-Proposal-Status-Cancelled-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Cancelled" p:render="@{#dataObject.proposalInfo.stateKey eq 'Cancelled'}"/>
-                                        <bean id="CM-Proposal-Status-Enroute-Lozenge" parent="KS-Lozenge-Teal-Uif-Message" p:messageText="Enroute" p:render="@{#dataObject.proposalInfo.stateKey eq 'Enroute'}"/>
-                                        <bean id="CM-Proposal-Status-Withdrawn-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Withdrawn" p:render="@{#dataObject.proposalInfo.stateKey eq 'Withdrawn'}"/>
-                                        <bean id="CM-Proposal-Status-Approved-Lozenge" parent="KS-Lozenge-Teal-Uif-Message" p:messageText="Approved" p:render="@{#dataObject.proposalInfo.stateKey eq 'Approved'}"/>
-                                        <bean id="CM-Proposal-Status-Rejected-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Rejected" p:render="@{#dataObject.proposalInfo.stateKey eq 'Rejected'}"/>
-                                        <bean id="CM-Proposal-Status-Exception-Lozenge" parent="KS-Lozenge-Red-Uif-Message" p:messageText="Exception" p:render="@{#dataObject.proposalInfo.stateKey eq 'Exception'}"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
