@@ -241,20 +241,14 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="startTime" p:label="Start Time"
-                      p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
-                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
+                <bean parent="KS-Uif-InputField" p:label="Start Time" p:propertyName="startTime"
+                      p:additionalCssClasses="uif-boxLayoutHorizontalItem" p:forceSessionPersistence="true" p:disableNativeAutocomplete="true"
+                      p:required="true" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
+                      p:refreshWhenChangedPropertyNames="#lp.appointmentWindowInfo.endTime">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
+                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern"
+                              p:onBlurScript="timeFieldOnBlur(e);"/>
                     </property>
                 </bean>
 
@@ -277,21 +271,12 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="endTime" p:label="Closing Time" p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField" p:label="Closing Time" p:propertyName="endTime"
+                      p:additionalCssClasses="uif-boxLayoutHorizontalItem" p:disableNativeAutocomplete="true" p:forceSessionPersistence="true"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                    </property>
-
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
-                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
+                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern"
+                              p:onBlurScript="timeFieldOnBlur(e);"/>
                     </property>
                 </bean>
 

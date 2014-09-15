@@ -146,7 +146,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         ///First save selected window
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Assign Students");
-        boolean isValid = getViewHelperService(uifForm).validateApptWidnow(window, false);
+        boolean isValid = getViewHelperService(uifForm).validateApptWindow(window, uifForm, false);
         if (isValid) {
             boolean isSaved = getViewHelperService(uifForm).saveApptWindow(window);
 
@@ -458,7 +458,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         if (date == null) {
             return null;
         }
-        return DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(date);
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(date);
     }
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm) {

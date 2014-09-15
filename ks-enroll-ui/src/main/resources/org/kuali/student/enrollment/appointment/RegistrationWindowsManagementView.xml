@@ -47,6 +47,12 @@
             </list>
         </property>
 
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/timeentry.js</value>
+            </list>
+        </property>
+
         <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
         <!--merge must be set true to include the yes-no dialog from the parent view
             The alternative to this is to include <ref bean="KS-Uif-Confirmation-Dialog and remove the merge="true"-->

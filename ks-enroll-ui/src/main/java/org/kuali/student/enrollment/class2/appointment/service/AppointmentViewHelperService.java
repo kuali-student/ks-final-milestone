@@ -36,8 +36,8 @@ public interface AppointmentViewHelperService extends ViewHelperService {
                     DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException;
     public boolean saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
                     DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException;
-    public boolean validateApptWidnow(AppointmentWindowWrapper appointmentWindowWrapper);
-    public boolean validateApptWidnow(AppointmentWindowWrapper appointmentWindowWrapper, boolean validateForUniqueness);
+    public boolean validateApptWindow(AppointmentWindowWrapper appointmentWindowWrapper);
+    public boolean validateApptWindow(AppointmentWindowWrapper appointmentWindowWrapper, RegistrationWindowsManagementForm form, boolean validateForUniqueness);
 
 
 }

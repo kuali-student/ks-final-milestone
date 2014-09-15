@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -44,6 +46,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -180,24 +183,57 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         form.setPeriodMilestones(periodMilestones);
     }
 
-    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow) {
-        return validateApptWidnow(apptWindow, true);
+    // Base validation method for new window
+    public boolean validateApptWindow(AppointmentWindowWrapper apptWindow) {
+        return validateApptWindow(apptWindow, true);
     }
 
-    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow, boolean validateForUniqueness) {
+    // Validation method called externally, will route to new or existing window validation as appropriate
+    public boolean validateApptWindow(AppointmentWindowWrapper apptWindow, RegistrationWindowsManagementForm form, boolean validateForUniqueness) {
+        if (form.getAppointmentWindows() != null && form.getAppointmentWindows().contains(apptWindow)) {
+            return validateApptWindow(apptWindow, form.getAppointmentWindows().indexOf(apptWindow), validateForUniqueness);
+        }
+
+        return validateApptWindow(apptWindow, validateForUniqueness);
+    }
+
+    // Validation method for new window
+    private boolean validateApptWindow(AppointmentWindowWrapper apptWindow, boolean validateForUniqueness) {
+        return validateApptWindow(apptWindow, "newCollectionLines['appointmentWindows']", validateForUniqueness);
+    }
+
+    // Validation method for existing windows
+    private boolean validateApptWindow(AppointmentWindowWrapper apptWindow, int windowIndex, boolean validateForUniqueness) {
+        return validateApptWindow(apptWindow, "appointmentWindows[" + windowIndex + "]", validateForUniqueness);
+    }
+
+    private boolean validateApptWindow(AppointmentWindowWrapper apptWindow, String errorKey, boolean validateForUniqueness) {
         boolean isValid = true;
         //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
         //  2) a window end date is required for uniform
         String windowTypeKey = apptWindow.getWindowTypeKey();
 
+        String startTime = StringUtils.substringBefore(apptWindow.getStartTime(), " ");
+        String startTimeAmPm = StringUtils.substringAfter(apptWindow.getStartTime(), " ");
+        String endTime = "";
+        String endTimeAmPm = "";
+
+        if (StringUtils.isNotBlank(apptWindow.getEndTime())) {
+            endTime = StringUtils.substringBefore(apptWindow.getEndTime(), " ");
+            endTimeAmPm = StringUtils.substringAfter(apptWindow.getEndTime(), " ");
+        }
+
+
         // Check to make sure the Window name is not duplicated with in the period
         if (validateForUniqueness) {
             try {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("periodMilestoneId", apptWindow.getPeriodKey()), PredicateFactory.equal("name", apptWindow.getWindowName())));
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.equal("periodMilestoneId", apptWindow.getPeriodKey()),
+                        PredicateFactory.equal("name", apptWindow.getWindowName())));
                 QueryByCriteria criteria = qbcBuilder.build();
                 if (getAppointmentService().searchForAppointmentWindows(criteria, new ContextInfo()).size() > 0) {
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].appointmentWindowInfo.name",
+                    GlobalVariables.getMessageMap().putError(errorKey + ".appointmentWindowInfo.name",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD);
                     isValid = false;
                 }
@@ -208,80 +244,64 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
             if (apptWindow.getEndDate() == null) {
-                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                GlobalVariables.getMessageMap().putError(errorKey + ".endDate",
                         AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
                 isValid = false;
             }
-            if (apptWindow.getEndTime() == null) {
-                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endTime",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
-                isValid = false;
-            }
-            if (apptWindow.getEndTime().isEmpty()) {
-                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endTimeAmPm",
+            if (StringUtils.isBlank(endTime)) {
+                GlobalVariables.getMessageMap().putError(errorKey + ".endTime",
                         AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
                 isValid = false;
             }
         }
 
-
-        if (apptWindow.getStartDate() == null || StringUtils.isEmpty(apptWindow.getStartTime()) || StringUtils.isEmpty(apptWindow.getStartTimeAmPm())) {
+        // 3) start date and time are a required field
+        if (apptWindow.getStartDate() == null || StringUtils.isEmpty(startTime)) {
             if (apptWindow.getStartDate() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startDate",
+                GlobalVariables.getMessageMap().putError(errorKey + ".startDate",
                         AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD);
-            } else if (apptWindow.getStartDate() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startTime",
+            }
+            if (StringUtils.isBlank(startTime)) {
+                GlobalVariables.getMessageMap().putError(errorKey + ".startTime",
                         AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD);
-            } else {
-                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startTimeAmPm",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD);
             }
             isValid = false;
         } else {
             // 4) when end date is not null, start/end date should be in the date range of the selected period
-            // Aslo check to make sure the end date is not before the start date
+            // Also, check to make sure the end date is not before the start date
             String periodId = apptWindow.getPeriodKey();
             try {
                 KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
+
+                // Clear out the time value on the dates
                 Date periodStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(DateFormatters.DEFAULT_DATE_FORMATTER.format(period.getStartDate()));
                 Date periodEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(DateFormatters.DEFAULT_DATE_FORMATTER.format(period.getEndDate()));
 
                 if (apptWindow.getEndDate() != null && apptWindow.getEndDate().before(apptWindow.getStartDate())) {
-                    GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endDate",
+                    GlobalVariables.getMessageMap().putError(errorKey + ".endDate",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     isValid = false;
                 }
                 if (periodStartDate.after(apptWindow.getStartDate()) || periodEndDate.before(apptWindow.getStartDate())) {
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].startDate",
+                    GlobalVariables.getMessageMap().putError(errorKey + ".startDate",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
                     isValid = false;
                 }
                 if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
                     if (periodStartDate.after(apptWindow.getEndDate()) || periodEndDate.before(apptWindow.getEndDate())) {
-                        GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                        GlobalVariables.getMessageMap().putError(errorKey + ".endDate",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
                         isValid = false;
                     }
                 }
 
                 // 5) when end date is not null, end time cannot be before the start time
-                //if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
-                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && ((apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm()) || (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) ))) {
-                    Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
-                    Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
-                    if (end.before(start)) {
-                        GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endTime",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME);
-                        isValid = false;
-                    }
-
-                    // 6) when end date is not null, end time AM-PM cannot be before the start time
-                    if (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) {
-                        GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endTimeAmPm",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM);
-                        isValid = false;
-                    }
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && !validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
+                    GlobalVariables.getMessageMap().putError(errorKey + ".endTime",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME);
+                    isValid = false;
                 }
+
             } catch (Exception e) {
                 LOG.error("Fail to find periods for a selected term.", e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
@@ -290,7 +310,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
 
         try {
-            Map<String, String> fieldValues = new HashMap<String, String>();
+            Map<String, String> fieldValues = new HashMap<>();
             fieldValues.put("name", apptWindow.getAssignedPopulationName());
             QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
             List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
@@ -311,119 +331,23 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return isValid;
     }
 
-    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow, int windowIndex) {
-        boolean isValid = true;
-        //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
-        //  2) a window end date is required for uniform
-        String windowTypeKey = apptWindow.getWindowTypeKey();
-
-        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
-            if (apptWindow.getEndDate() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
-                isValid = false;
-            }
-            if (apptWindow.getEndTime() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[windowIndex].endTime",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
-                isValid = false;
-            }
-            if (apptWindow.getEndTime().isEmpty()) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endTimeAmPm",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
-                isValid = false;
-            }
-        }
-
-        // 3) start date, time and AmPm are a required field
-        if (apptWindow.getStartDate() == null || StringUtils.isEmpty(apptWindow.getStartTime()) || StringUtils.isEmpty(apptWindow.getStartTimeAmPm())) {
-            if (apptWindow.getStartDate() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startDate",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD);
-            } else if (apptWindow.getStartDate() == null) {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startTime",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD);
-            } else {
-                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startTimeAmPm",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD);
-            }
-            isValid = false;
+    private boolean validateTime(String startTime, String startAmPm, String endTime, String endAmPm) {
+        //Set Date objects
+        KSDateTimeFormatter timeFormatter = new KSDateTimeFormatter("hh:mm aa");
+        DateTime startingTime = timeFormatter.getFormatter().parseDateTime(startTime + " " + startAmPm);
+        DateTime endingTime = timeFormatter.getFormatter().parseDateTime(endTime + " " + endAmPm);
+        //Compare and throw exception if start time is after end time
+        if (DateTimeComparator.getInstance().compare(startingTime, endingTime) < 0) {
+            return true;
         } else {
-            // 4) when end date is not null, start/end date should be in the date range of the selected period
-            // Aslo check to make sure the end date is not before the start date
-            String periodId = apptWindow.getPeriodKey();
-            try {
-                KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
-                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().before(apptWindow.getStartDate())) {
-                    GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
-                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
-                    isValid = false;
-                }
-                if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
-                    GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startDate",
-                            AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
-                    isValid = false;
-                }
-                if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
-                    if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
-                        GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
-                        isValid = false;
-                    }
-                }
-
-                // 5) when end date is not null, end time cannot be before the start time
-                //if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
-                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && ((apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm()) || (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) ))) {
-                    Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
-                    Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
-                    if (end.before(start)) {
-                        GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endTime",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME);
-                        isValid = false;
-                    }
-
-                    // 6) when end date is not null, end time AM-PM cannot be before the start time
-                    if (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) {
-                        GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endTimeAmPm",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM);
-                        isValid = false;
-                    }
-                }
-
-            } catch (Exception e) {
-                LOG.error("Fail to find periods for a selected term.", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
-                isValid = false;
-            }
+            return false;
         }
-
-        try {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("name", apptWindow.getAssignedPopulationName());
-            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
-            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
-
-            if (populationInfoList == null || populationInfoList.isEmpty()) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("addRegistrationWindowCollection", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, apptWindow.getAssignedPopulationName());
-                isValid = false;
-            } else {
-                int firstPopulationInfo = 0;
-                apptWindow.setAssignedPopulationName(populationInfoList.get(firstPopulationInfo).getName());
-                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(firstPopulationInfo).getId());
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return isValid;
     }
 
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues) {
         String populationName = fieldValues.get("name");
 
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         if (StringUtils.isNotBlank(populationName)) {
             predicates.add(PredicateFactory.equalIgnoreCase("name", populationName));
             predicates.add(PredicateFactory.and(PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY)));
@@ -439,10 +363,21 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         boolean isSave = true;
         //Copy the form data from the wrapper to the bean.
         AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
+
+        String startTime = StringUtils.substringBefore(appointmentWindowWrapper.getStartTime(), " ");
+        String startTimeAmPm = StringUtils.substringAfter(appointmentWindowWrapper.getStartTime(), " ");
+        String endTime = "";
+        String endTimeAmPm = "";
+
+        if (StringUtils.isNotBlank(appointmentWindowWrapper.getEndTime())) {
+            endTime = StringUtils.substringBefore(appointmentWindowWrapper.getEndTime(), " ");
+            endTimeAmPm = StringUtils.substringAfter(appointmentWindowWrapper.getEndTime(), " ");
+        }
+
         appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
         appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-        appointmentWindowInfo.setStartDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
-        appointmentWindowInfo.setEndDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
+        appointmentWindowInfo.setStartDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getStartDate(), startTime, startTimeAmPm));
+        appointmentWindowInfo.setEndDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getEndDate(), endTime, endTimeAmPm));
 
         //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
         if (appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()) {
@@ -484,17 +419,19 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if (form.getAppointmentWindows() != null) {
             int windowIndex = 0;
             for (AppointmentWindowWrapper appointmentWindowWrapper : form.getAppointmentWindows()) {
-                boolean isValid = validateApptWidnow(appointmentWindowWrapper, windowIndex);
+                boolean isValid = validateApptWindow(appointmentWindowWrapper, windowIndex, false);
                 if (isValid) {
                     isApptWindowSaved = saveApptWindow(appointmentWindowWrapper);
-                    if (!isApptWindowSaved)
+                    if (!isApptWindowSaved) {
                         allWindowsSaved = isApptWindowSaved;
+                    }
                 }
                 windowIndex++;
             }
             //Add a success message
-            if (isApptWindowSaved)
+            if (isApptWindowSaved) {
                 GlobalVariables.getMessageMap().addGrowlMessage("", AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
+            }
         }
         return allWindowsSaved;
     }
@@ -525,11 +462,11 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         boolean isValid = true;
         if (newLine instanceof AppointmentWindowWrapper) {
             AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) newLine;
-            isValid = validateApptWidnow(apptWindow);
+            isValid = validateApptWindow(apptWindow);
             if (isValid) {
                 try {
                     //need to persist the window that has passed the validation to DB
-                    saveApptWindow((AppointmentWindowWrapper) newLine);
+                    saveApptWindow(apptWindow);
                     //Add a success message
                     GlobalVariables.getMessageMap().addGrowlMessage("", AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
