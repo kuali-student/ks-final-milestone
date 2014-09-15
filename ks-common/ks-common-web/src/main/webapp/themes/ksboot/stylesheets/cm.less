@@ -49,10 +49,6 @@ h3.uif-headerText a {
     margin-top: 10px;
 }
 
-.ks-review-capitalise {
-    text-transform: capitalize;
-}
-
 /*
  * Styling for the course and course proposal lookup pages.
  */
@@ -62,9 +58,7 @@ h3.uif-headerText a {
     display: inline;
 }
 
-.ks-cm-find-course-proposal .uif-message {
-    line-height: 45px;
-}
+/* Set the style for create proposal start page message */
 
 .ks-cm-create-course-message-text .uif-message {
   font-family: "Helvetica Neue", arial, helvetica, sans-serif;
@@ -110,7 +104,13 @@ h3.uif-headerText a {
     margin-right: 15px;
 }
 
+.ks-cm-find-course-proposal .uif-message {
+  line-height: 45px;
+}
+
 /* find course proposal end */
+
+/* Course rule styling start */
 
 .tree-bar-button {
     background-image: url('./images/buttonNormal.png');
@@ -141,6 +141,8 @@ h3.uif-headerText a {
     padding-right: 0em;
     padding-left: 0em;
 }
+
+/* Course rule styling end */
 
 /* Generate classes like cm-lo-indent-0,cm-lo-indent-50 etc for LO:*/
 .generate-margin-left(1000);
@@ -315,9 +317,19 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     margin-left: 10px;
 }
 
+
+.lo_lightbox_name {
+  margin-top: 17px;
+}
+
+button#CM-Proposal-Course-LoCategory-AddCategory {
+  background-color: rgb(50, 118, 177);
+  border-color: rgb(40, 94, 142);
+}
+
 /*  End Learning Objectives widget styling */
 
-/* Review section styling */
+/* Review section styling start */
 
 /* Float the required indicator message to the left side of the label */
 #CM-Proposal-Review-Course-Page .uif-label .uif-requiredMessage {
@@ -414,19 +426,28 @@ table tr.cm-compare-highlighter td {
     margin-bottom: 10px;
 }
 
-/* end */
+/* Review section styling end */
+
+/* View Course Styling start */
 
 #CM-ViewCourseView-Outcome-Details table tr {
-    float: left;
+    float: left; /* Float the outcome table to the left */
     clear: both;
 }
 
 #CM-ViewCourseView-Format-Details table tr {
-    float: left;
+    float: left; /* Float the format table to the left */
     clear: both;
 }
 
-/* Remove the input styling */
+.viewcourseview-header-status {
+  padding-top: 20px !important; /* Override the padding-top set by .ks-unified-header-rightGroup-container */
+}
+
+
+/* View Course Styling end */
+
+/* Remove the input styling start */
 .cm_readonly_input textarea:focus {
     outline: none;
     -webkit-box-shadow: none;
@@ -455,6 +476,8 @@ table tr.cm-compare-highlighter td {
     padding: 0px 6px;
 }
 
+/* Remove the input styling end */
+
 .course_detail_subsection {
     padding: 4px; /* Padding for the sub-sections on view course and review proposal */
 }
@@ -478,6 +501,8 @@ table tr.cm-compare-highlighter td {
     border-bottom-width: 1px;
     padding-bottom: 0px;
 }
+
+/* Course format and outcomes styling start */
 
 [id^="course_format_table_"] > tbody> tr > td:first-child {
     background: #D7D7D7;
@@ -509,11 +534,6 @@ table tr.cm-compare-highlighter td {
 .course_format_activity_collection {
     margin-top: 10px;
     margin-left: 5px;
-}
-
-.ks-review-captialize {
-    text-transform: capitalize;
-    height: 18px;
 }
 
 .course-format-right-group {
@@ -551,6 +571,16 @@ table tr.cm-compare-highlighter td {
     margin-bottom: 1em;
 }
 
+/* Course format and outcomes styling end */
+
+
+/* capitalizes the first letter of the word. Used to display the value for Audit, pass/fail and end term */
+.ks-review-captialize {
+  text-transform: capitalize;
+  height: 18px;
+}
+
+/* Curriculum Oversight styling */
 .cm-CurriculumOversight-subtext .uif-instructionalMessage {
     display: inline-block;
 }
@@ -597,74 +627,74 @@ table tr.cm-compare-highlighter td {
 
     .nav-tabs >
 
-li > a {
-    border-radius: 5px 0px 0px 5px;
-}
-
-/* Get rid of the focus outline on the active tab item. */
-.nav-tabs >
-
-li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-    outline: 0px;
-}
-
-/* Darkens the top item's top border */
-.nav-tabs li:first-child {
-    border-top: 1px solid #888888;
-}
-
-.nav-tabs >
-
-li {
-    border: 1px solid #888888;
-    padding-right: 0;
-}
-
-.nav-tabs li {
-/* Make the left corners round and the right ones square*/
-    .border-radius-individual(5px, 0, 0, 5px);
-}
-
-.nav-tabs li a {
-    width: 100%; /* Make the action links in the tab panel extend all the way across */
-    color: #000000;
-    padding-top: 6px;
-    padding-right: 0;
-    padding-bottom: 6px;
-    padding-left: 15px;
-
-/* Make the left corners round and the right ones square*/
-    .border-radius-individual(5px, 0, 0, 5px);
-}
-
-a {
-    cursor: pointer;
-    box-shadow: none;
-}
-
-/*#course_tabs_tabs .ui-tabs-panel {*/
-> div {
-    border: 0; /* Remove the border/line from the top of the sections */
-
-    padding: 1em !important;
-    float: right;
-    width: 70em;
-}
-
-/* Validations icons on the tab items need to float right. */
-.uif-validationImage {
-    float: right;
-    padding-right: 5px;
-}
-
-/* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
-table.uif-gridLayout {
-    display: inherit;
-}
-
+    li > a {
+        border-radius: 5px 0px 0px 5px;
     }
+
+    /* Get rid of the focus outline on the active tab item. */
+    .nav-tabs >
+
+    li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        outline: 0px;
+    }
+
+    /* Darkens the top item's top border */
+    .nav-tabs li:first-child {
+        border-top: 1px solid #888888;
+    }
+
+    .nav-tabs >
+
+    li {
+        border: 1px solid #888888;
+        padding-right: 0;
+    }
+
+    .nav-tabs li {
+    /* Make the left corners round and the right ones square*/
+        .border-radius-individual(5px, 0, 0, 5px);
+    }
+
+    .nav-tabs li a {
+        width: 100%; /* Make the action links in the tab panel extend all the way across */
+        color: #000000;
+        padding-top: 6px;
+        padding-right: 0;
+        padding-bottom: 6px;
+        padding-left: 15px;
+
+/* Make the left corners round and the right ones square*/
+    .border-radius-individual(5px, 0, 0, 5px);
+    }
+
+    a {
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    /*#course_tabs_tabs .ui-tabs-panel {*/
+    > div {
+        border: 0; /* Remove the border/line from the top of the sections */
+
+        padding: 1em !important;
+        float: right;
+        width: 70em;
+    }
+
+    /* Validations icons on the tab items need to float right. */
+    .uif-validationImage {
+        float: right;
+        padding-right: 5px;
+    }
+
+    /* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
+    table.uif-gridLayout {
+        display: inherit;
+    }
+
+}
 
 .ui-tabs-vertical-left .nav-tabs {
     width: 15em;
@@ -729,14 +759,17 @@ div {
     margin-top: 15px;
 }
 
+/* styling review proposal link position */
 #CM-Proposal-Course-View-ReviewProposalLink a {
     margin-left: 22px;
 }
 
+/* styling the link color in requisites section */
 .CourseRequisites-DisclosureLinks a {
   color: #0088cc;
 }
 
+/* Make the tab position fixed */
 #course_tabs_tabList {
     position: fixed;
 }
@@ -768,15 +801,14 @@ div {
     padding-left: 6px;
 }
 
+/* positioning review proposal error message action link */
 #review_proposal_ReviewErrorMessageActionLink {
     margin-right: 15pt;
     margin-top: 0px;
     box-shadow: none;
 }
 
-.lo_lightbox_name {
-    margin-top: 17px;
-}
+/* comments section styling start */
 
 #comments-StackedSection {
     .uif-collectionItem.uif-boxCollectionItem,
@@ -790,6 +822,34 @@ div {
     }
 }
 
+[id^="CM-Proposal-Course-Comment-Add-Field_"] > textarea {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  line-height: 18px;
+  color: #000000;
+}
+
+[id^="CM-Proposal-Course-Comment-Add-Field_"] > pre {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  line-height: 18px;
+  color: #000000;
+}
+
+#CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo {
+  background: #D9EDF7;
+  color: #2A617D;
+  border: 1px solid #BCE8F1;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+p.lineHeight130 {
+  line-height: 130%;
+}
+/* comments section styling end */
+
+/* Authors and collaborators positioning in review page start */
 #AuthorsAndCollaborators-Review-section table.uif-gridLayout th[scope="row"] label {
     padding-top: 8px;
 }
@@ -797,37 +857,7 @@ div {
 #CM-Proposal-Review-AuthorsCollaborators-Section table.uif-gridLayout th[scope="row"] {
     width: 100px;
 }
-
-[id^="CM-Proposal-Course-Comment-Add-Field_"] > textarea {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1em;
-    line-height: 18px;
-    color: #000000;
-}
-
-[id^="CM-Proposal-Course-Comment-Add-Field_"] > pre {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1em;
-    line-height: 18px;
-    color: #000000;
-}
-
-#CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo {
-    background: #D9EDF7;
-    color: #2A617D;
-    border: 1px solid #BCE8F1;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-p.lineHeight130 {
-    line-height: 130%;
-}
-
-button#CM-Proposal-Course-LoCategory-AddCategory {
-    background-color: rgb(50, 118, 177);
-    border-color: rgb(40, 94, 142);
-}
+/* Authors and collaborators positioning in review page end */
 
 .open>.dropdown-menu{
   left: -30px;
@@ -837,6 +867,7 @@ fieldset .uif-actionLink{
   font-weight: normal;
 }
 
+/* Supporting documents download link styling start */
 .supporting-doc-download-link a {
   color: #0088cc;
 }
@@ -844,9 +875,10 @@ fieldset .uif-actionLink{
 .supporting-doc-download-link a:hover, a:focus {
   color: #005580;
 }
+/* Supporting documents download link styling end */
 
+/* Decision rationale and submit/cancel dialogs styling start */
 /* This is used to position the buttons as well as the header in the submit and cancel course confirm dialogs*/
-
 .confirm_submit_cancel_dialog {
   .uif-dialogHeader{
     background:none;
@@ -952,21 +984,29 @@ approve, return to previous, reject, blanket approve, withdraw and acknowledge*/
   float: left;
 }
 
-.viewcourseview-header-status {
-  padding-top: 20px !important; /* Override the padding-top set by .ks-unified-header-rightGroup-container */
+#CM-DecisionRationale-RequiredMessage {
+  background-color: @state-error-bg;
 }
+/* Decision rationale and submit/cancel dialogs styling end */
 
+/* Header styling for course maintenance view and retire course maintenance view */
 .cm-unified-header-rightGroup-action {
     margin-top: 0px;
     float: right;
 }
 
-#CM-Proposal-Course-LinkGroup-CopyProposal {
-  margin-top: -10px;
+#CM-Proposal-Header-Right-Group-Status {
+  padding-top: 20px;
 }
 
-#CM-DecisionRationale-RequiredMessage {
-  background-color: @state-error-bg;
+#CM-Proposal-Course-Right-Header-Action-Group {
+  padding-right: 20px;
+}
+/* Header styling for course maintenance view and retire course maintenance view */
+
+/* styling for copy proposal */
+#CM-Proposal-Course-LinkGroup-CopyProposal {
+  margin-top: -10px;
 }
 
 /* CM Footer classes.
@@ -990,17 +1030,11 @@ approve, return to previous, reject, blanket approve, withdraw and acknowledge*/
  */
 
 
+/* to draw a dotted line under the header in export light box */
 #CM-Export-Lightbox-Header {
     border-bottom: @dottedLineBorder;
 }
 
-#CM-Proposal-Header-Right-Group-Status {
-    padding-top: 20px;
-}
-
-#CM-Proposal-Course-Right-Header-Action-Group {
-  padding-right: 20px;
-}
 
 
 /*
