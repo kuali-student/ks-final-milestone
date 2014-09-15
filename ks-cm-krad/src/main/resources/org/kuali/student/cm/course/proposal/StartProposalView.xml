@@ -81,7 +81,7 @@
     <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithoutDraft-StartOptions"
           p:propertyName="startProposalCourseAction"
           p:required="true" p:bindingInfo.bindToForm="true"
-          p:defaultValue="modifyThisVersion" p:render="@{!#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+          p:defaultValue="modifyThisVersion" p:render="@{#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
         <property name="control">
             <bean parent="KS-Uif-VerticalRadioControl">
                 <property name="options">
@@ -99,7 +99,7 @@
     <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithDraft-StartOptions"
           p:propertyName="startProposalCourseAction"
           p:required="true" p:bindingInfo.bindToForm="true"
-          p:defaultValue="modifyThisVersion"  p:render="@{#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+          p:defaultValue="modifyThisVersion"  p:render="@{!#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
         <property name="control">
             <bean parent="KS-Uif-VerticalRadioControl">
                 <property name="options">
