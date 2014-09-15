@@ -1084,10 +1084,8 @@ public class DefaultPlanHelper implements PlanHelper {
         LOG.info("Retrieve Completed Records: {}",System.currentTimeMillis());
         List<StudentCourseRecordInfo> completedRecords = retrieveCourseRecords(learningPlan.getStudentId());
         LOG.info("Retrieve PlanItems: {}",System.currentTimeMillis());
-        Principal student = KimApiServiceLocator.getIdentityService().
-                getPrincipal(learningPlan.getStudentId());
 
-        List<CourseRegistrationInfo> registeredRecords=retrieveRegistrationRecords(student.getEntityId());
+        List<CourseRegistrationInfo> registeredRecords=retrieveRegistrationRecords(learningPlan.getStudentId());
 
         List<PlanItem> planItems = retrieveCoursePlanItems(learningPlan.getId());
         LOG.info("Create Planner Items: {}",System.currentTimeMillis());

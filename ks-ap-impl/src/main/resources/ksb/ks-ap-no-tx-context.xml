@@ -205,11 +205,11 @@
         <!-- setup fake registration records until better reference data is available -->
         <property name="fakeRegistrations">
             <list>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Spring,BSCI441</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,ENGL201</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,HIST137</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,PHYS404</value>
-                <value type="java.lang.String[]">janeDoe,kuali.atp.2011Fall,ENGL101</value>
+                <value type="java.lang.String[]">1100,kuali.atp.2012Spring,BSCI441</value>
+                <value type="java.lang.String[]">1100,kuali.atp.2012Fall,ENGL201</value>
+                <value type="java.lang.String[]">1100,kuali.atp.2012Fall,HIST137</value>
+                <value type="java.lang.String[]">1100,kuali.atp.2012Fall,PHYS404</value>
+                <value type="java.lang.String[]">KS-7344,kuali.atp.2011Fall,ENGL101</value>
             </list>
         </property>
         <property name="courseOfferingService" ref="CourseOfferingService"/>

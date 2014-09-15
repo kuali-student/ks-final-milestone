@@ -304,7 +304,9 @@ extends AcademicPlanServiceDecorator
 
     private LearningPlanInfo checkPlanAccess(LearningPlanInfo plan,String principalId)
             throws PermissionDeniedException {
-        if (isStudent(principalId)&& principalId.equals(plan.getStudentId())) {
+        if (isStudent(principalId)
+                && KimApiServiceLocator.getPersonService().getPerson(principalId).getEntityId()
+                    .equals(plan.getStudentId())) {
                 return plan;
         } else if (isAdvisor(principalId) && plan.getShared()) {
                 return plan;

@@ -40,7 +40,7 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 						"User is in adviser mode, but no student id was set in the session. (This shouldn't happen and should be reported).");
 			}
 		} else {
-			studentId = session.getPerson().getPrincipalId();
+			studentId = session.getPerson().getEntityId();
 		}
 		return studentId;
 	}
