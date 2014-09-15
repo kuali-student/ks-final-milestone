@@ -89,7 +89,7 @@ public class AppointmentWindowTermResolver implements TermResolver<Boolean> {
 
         try {
             // Find the milestones for the term's advanced registration period
-            String keydateTypeParameter = AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY;
+            String keydateTypeParameter = AtpServiceConstants.MILESTONE_EARLY_REGISTRATION_PERIOD_TYPE_KEY;
             List<MilestoneInfo> milestones = atpService.getMilestonesByTypeForAtp(atpId, keydateTypeParameter, contextInfo);
             for (MilestoneInfo milestone:milestones) {
                 String milestoneId = milestone.getId();

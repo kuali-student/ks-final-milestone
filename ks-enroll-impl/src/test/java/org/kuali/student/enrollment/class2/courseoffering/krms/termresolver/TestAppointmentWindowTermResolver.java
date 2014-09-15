@@ -64,7 +64,7 @@ public class TestAppointmentWindowTermResolver extends AbstractTermResolverTestH
 
         // set up atp service
         AtpService atpService = mock(AtpService.class);
-        when(atpService.getMilestonesByTypeForAtp(atpId, AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY, contextInfo)).thenReturn(milestones);
+        when(atpService.getMilestonesByTypeForAtp(atpId, AtpServiceConstants.MILESTONE_EARLY_REGISTRATION_PERIOD_TYPE_KEY, contextInfo)).thenReturn(milestones);
 
         // set up appointment slots
         appointmentSlots = new ArrayList<>();
