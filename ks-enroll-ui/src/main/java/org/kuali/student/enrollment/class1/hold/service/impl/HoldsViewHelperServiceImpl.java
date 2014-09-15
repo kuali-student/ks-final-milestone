@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class1.hold.util.HoldsUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -51,8 +52,8 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     public List<HoldIssueResult> searchHolds(HoldIssueManagementForm holdIssueFrom) {
 
         try {
-            Map<String, String> searchCriteria = new HashMap<String,String>();
-            searchCriteria.put(HoldsConstants.HOLD_ISSUE_NAME,holdIssueFrom.getName());
+            Map<String, String> searchCriteria = new HashMap<String, String>();
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_NAME, holdIssueFrom.getName());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_TYPE_KEY, holdIssueFrom.getTypeKey());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_STATE_KEY, holdIssueFrom.getState());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_ORG_ID, holdIssueFrom.getOrganizationId());
@@ -67,8 +68,6 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         }
         return null;
     }
-
-
 
 
     @Override
@@ -122,7 +121,8 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
-                //if(holdIssue.getMaintainHistoryOfApplicationOfHold()){
+                if ((holdIssue.getMaintainHistoryOfApplicationOfHold() && getStateInfo(appliedHoldInfo.getStateKey()).getName().matches(HoldServiceConstants.HOLD_RELEASED_STATE)) ||
+                        (holdIssue.getMaintainHistoryOfApplicationOfHold() == false && getStateInfo(appliedHoldInfo.getStateKey()).getName().matches(HoldServiceConstants.HOLD_ACTIVE_STATE))) {
                     appliedHoldResult.setId(appliedHoldInfo.getId());
                     appliedHoldResult.setHoldIssue(holdIssue);
                     appliedHoldResult.setHoldName(holdIssue.getName());
@@ -137,7 +137,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                     appliedHoldResult.setEndTerm(getTermCodeForId(holdIssue.getLastApplicationTermId()));
 
                     holdResultList.add(appliedHoldResult);
-                //}
+                }
             }
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
@@ -146,7 +146,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     }
 
     @Override
-    public boolean isAuthorized(String holdIssueId, String function){
+    public boolean isAuthorized(String holdIssueId, String function) {
         return HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().canPerformFunction(SecurityUtils.getCurrentUserId(),
                 holdIssueId, function);
     }
@@ -176,11 +176,11 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
      * @param holdCode
      * @return List<String> holdIssueCodeList
      */
-    public List<String> retrieveHoldCodes( String holdCode) {
+    public List<String> retrieveHoldCodes(String holdCode) {
 
         List<String> holdIssueCodeList = new ArrayList<String>();
 
-        if (holdCode.length() >= 3){
+        if (holdCode.length() >= 3) {
             try {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.like(HoldsConstants.HOLD_ISSUE_HOLD_CODE, "%" + holdCode + "%"));
@@ -209,11 +209,10 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         try {
             TermInfo term = HoldsResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
             return term.getCode();
-        } catch (Exception e){
+        } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
 
         return StringUtils.EMPTY;
     }
-
 }
