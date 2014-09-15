@@ -15,10 +15,8 @@
  */
 package org.kuali.student.enrollment.class1.hold.controller;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
@@ -82,6 +80,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());

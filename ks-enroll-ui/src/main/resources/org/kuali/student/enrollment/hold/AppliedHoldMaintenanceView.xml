@@ -107,7 +107,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="applyHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
-                      p:methodToCall="route" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:methodToCall="apply" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:performDirtyValidation="false"
