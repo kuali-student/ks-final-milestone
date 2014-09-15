@@ -200,8 +200,10 @@ angular.module('regCartApp')
                     deferred.reject($scope.userMessage);
                 } else if (error.status === 400) {
                     //Additional options are required
-                    showAdditionalOptionsModal(error.data, function(course) {
+                    showAdditionalOptionsModal(error.data).then(function(course) {
                         addCourseToCart(course, deferred);
+                    }, function(result) {
+                        deferred.reject(result);
                     });
                     $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
@@ -497,11 +499,13 @@ angular.module('regCartApp')
 
             if (!course.credits || !course.gradingOptionId) {
                 // Show the additional options modal if either the credit or grading options have not been set
-                showAdditionalOptionsModal(course, function(newCourse) {
+                showAdditionalOptionsModal(course).then(function(newCourse) {
                     course.gradingOptionId = newCourse.gradingOptionId;
                     course.credits = newCourse.credits;
 
                     registerForCourse(course, deferred);
+                }, function(result) {
+                    deferred.reject(result);
                 });
 
                 return deferred.promise;
@@ -552,8 +556,8 @@ angular.module('regCartApp')
         }
 
         // Show the Additional Options Modal Dialog allowing the user to select the specific credit & grading option they would like.
-        function showAdditionalOptionsModal(cartItem, callback) {
-            $modal.open({
+        function showAdditionalOptionsModal(cartItem) {
+            var modal = $modal.open({
                 backdrop: 'static',
                 templateUrl: 'partials/additionalOptions.html',
                 size: 'sm',
@@ -570,7 +574,7 @@ angular.module('regCartApp')
 
                     $scope.dismissAdditionalOptions = function () {
                         console.log('Dismissing credits and grading');
-                        $scope.$close(true);
+                        $scope.$dismiss('cancel');
                     };
 
                     var submitted = false;
@@ -582,12 +586,13 @@ angular.module('regCartApp')
                             $scope.newCartItem.credits = $scope.newCartItem.newCredits;
                             $scope.newCartItem.gradingOptionId = $scope.newCartItem.newGrading;
 
-                            callback($scope.newCartItem);
-                            $scope.$close(true);
+                            $scope.$close($scope.newCartItem);
                         }
                     };
                 }]
             });
+
+            return modal.result;
         }
 
         function standardizeCourseData(course) {

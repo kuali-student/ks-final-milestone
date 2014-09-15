@@ -14,6 +14,7 @@ angular.module('regCartApp')
     function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
         console.log('>> SearchDetailsCtrl');
 
+        $scope.statuses = STATUS;
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
         $scope.course = null;          // Handle on the course
 
@@ -193,7 +194,7 @@ angular.module('regCartApp')
         // Helper method for performing the action (addToCart, directRegister, addToWaitlist)
         function performAction(actionType, eventAction) {
             $scope.actionType = actionType;
-            $scope.actionStatus = null;
+            $scope.actionStatus = STATUS.processing;
 
             var course = angular.copy($scope.course);
             course.courseCode = course.courseOfferingCode;
@@ -212,8 +213,11 @@ angular.module('regCartApp')
                 $scope.actionStatus = STATUS.success;
             }, function(reason) {
                 // Bubble up the error if there was one
-                if (reason !== 'cancel') { // 'cancel' comes when the Direct Reg modal is canceled/closed
+                console.log(reason);
+                if (reason && reason !== 'cancel' && reason !== 'escape key press') { // 'cancel' comes when the Direct Reg modal is canceled/closed
                     $scope.actionStatus = STATUS.error;
+                } else {
+                    $scope.removeActionMessage();
                 }
             });
         }
