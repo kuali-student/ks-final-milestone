@@ -211,9 +211,9 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
         try {
-            urlParameters.put(UrlParams.IS_MODIFY_NEW_VERSION , CourseProposalUtil.isModifyNewVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo()));
-            boolean isCourseWithVersion = CourseProposalUtil.isCourseWithVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
-            urlParameters.put(UrlParams.IS_COURSE_WITH_VERSION , isCourseWithVersion);
+            urlParameters.put(CurriculumManagementConstants.UrlParams.IS_MODIFY_NEW_VERSION, new Boolean(CourseProposalUtil.isModifyNewVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo())).toString());
+            Boolean isCourseWithVersion = CourseProposalUtil.isCourseWithVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
+            urlParameters.put(UrlParams.IS_COURSE_WITH_VERSION , isCourseWithVersion.toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
