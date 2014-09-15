@@ -10,21 +10,21 @@
     padding: 0 1rem 0.5rem 0;
     position: relative;
 
-  /* Styles for large-size screens */
-  @media screen and @lg-Min {
-    .kscr-Main-sidebar .kscr-Main-cart & {
-      border: none;
-      margin: 0.1rem 0 0.1rem 0;
+    /* Styles for large-size screens */
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+            border: none;
+            margin: 0.1rem 0 0.1rem 0;
+        }
     }
-  }
 }
 
-.kscr-addToCart-heading{
+.kscr-addToCart-heading {
     cursor: pointer;
     padding: 0.5rem 0 0.5rem 2.5rem;
 }
 
-.kscr-addToCart-header{
+.kscr-addToCart-header {
     color: @secondaryTextColor;
 }
 
@@ -32,7 +32,22 @@
     padding-left: 2.5rem;
 }
 
-.kscr-addToCart-label{
+.kscr-addToCart-cell {
+    &--courseCode {
+        .flex(1.5 1 0);
+    }
+
+    &--regCode {
+        .flex(1 1 0);
+    }
+
+    &--button {
+        .flex(2.25 1 0);
+        text-align: right;
+    }
+}
+
+.kscr-addToCart-label {
     color: @secondaryTextColor;
     display:block;
     font-family: @secondaryFontFamily;
@@ -40,20 +55,22 @@
     font-weight: normal;
 }
 
-.kscr-addToCart-input{
+.kscr-addToCart-input {
     color: @secondaryTextColor;
     font-family: @secondaryFontFamily;
     .font-size(13);
     font-weight: normal;
+    padding: 0 1rem 0 0;
     text-transform: uppercase;
+    width: 90%;
 }
 
-.kscr-addToCart-button{
-    margin-right: 1rem;
-}
-
-.kscr-addToCart-button button{
-    width: 9.2rem;
+.kscr-addToCart-button {
+    // Show a processing icon when the action is processing
+    .kscr-addToCart--processing & > span {
+        background: @processingGif no-repeat left center;
+        padding-left: 2.5rem;
+    }
 }
 
 

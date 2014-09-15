@@ -146,6 +146,7 @@ angular.module('regCartApp')
             deferred = deferred || $q.defer();
 
             $scope.courseAdded = false; // reset cursor focus
+            $scope.addToCartStatus = STATUS.processing;
 
             if (course.courseCode) {
                 course.courseCode = course.courseCode.toUpperCase();
@@ -177,6 +178,7 @@ angular.module('regCartApp')
                 }, 2000);
 
                 $scope.courseAdded = true; // refocus cursor back to course code
+                $scope.addToCartStatus = STATUS.success;
 
                 deferred.resolve(response);
             }, function (error) {
@@ -196,6 +198,7 @@ angular.module('regCartApp')
                     }
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
+                    $scope.addToCartStatus = STATUS.error;
 
                     deferred.reject($scope.userMessage);
                 } else if (error.status === 400) {
@@ -203,15 +206,18 @@ angular.module('regCartApp')
                     showAdditionalOptionsModal(error.data).then(function(course) {
                         addCourseToCart(course, deferred);
                     }, function(result) {
+                        $scope.courseAdded = true; // refocus cursor back to course code
+                        $scope.addToCartStatus = null;
+
                         deferred.reject(result);
                     });
-                    $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
                     errorText = error.data.genericMessage + ' for ' + TermsService.getSelectedTerm().termName;
                     $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
+                    $scope.addToCartStatus = STATUS.error;
 
                     deferred.reject($scope.userMessage);
                 }

@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div class="kscr-addToCart">
+    <div class="kscr-addToCart kscr-addToCart--{{addToCartStatus}}">
         <div ng-click="isCollapsed = !isCollapsed" class="kscr-addToCart-heading">
             <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"></i></span>
             <div class="kscr-addToCart-header" id="add_to_cart">Add to Cart</div>
@@ -61,14 +61,17 @@
             <form novalidate name="form" ng-submit="addRegGroupToCart();">
                 <fieldset>
                     <div class="util-Grid">
-                        <div class="util-Grid-cell"><input placeholder="CHEM237" id="courseCode" class="kscr-addToCart-input" type="text" size="9" maxlength="8" ng-model="courseCode" focus-once="courseAdded"/></div>
-                        <div class="util-Grid-cell"><input placeholder="1001" id="regCode" class="kscr-addToCart-input" type="text" size="4" maxlength="4" ng-model="regCode" /></div>
-                        <div class="util-Grid-cell kscr-addToCart-button"><button id="submit" name="submit" class="kscr-Button">Add to Cart</button></div>
-                    </div>
-                    <div class="util-Grid">
-                        <div class="util-Grid-cell"><label for="courseCode" class="kscr-addToCart-label" >Course Code</label></div>
-                        <div class="util-Grid-cell"><label for="regCode" class="kscr-addToCart-label">Section</label></div>
-                        <div class="util-Grid-cell"></div>
+                        <div class="kscr-addToCart-cell kscr-addToCart-cell--courseCode">
+                            <input placeholder="CHEM237" id="courseCode" class="kscr-addToCart-input" type="text" size="9" maxlength="8" ng-model="courseCode" focus-once="courseAdded" />
+                            <label for="courseCode" class="kscr-addToCart-label">Course Code</label>
+                        </div>
+                        <div class="kscr-addToCart-cell kscr-addToCart-cell--regCode">
+                            <input placeholder="1001" id="regCode" class="kscr-addToCart-input" type="text" size="4" maxlength="4" ng-model="regCode" />
+                            <label for="regCode" class="kscr-addToCart-label">Section</label>
+                        </div>
+                        <div class="kscr-addToCart-cell kscr-addToCart-cell--button">
+                            <button id="submit" name="submit" class="kscr-Button kscr-addToCart-button" ng-disabled="addToCartStatus === statuses.processing"><span>Add to Cart</span></button>
+                        </div>
                     </div>
                 </fieldset>
             </form>
