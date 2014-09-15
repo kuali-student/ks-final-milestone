@@ -844,7 +844,9 @@ fieldset .uif-actionLink{
   color: #005580;
 }
 
-.submitcourse_dialog {
+/* This is used to position the buttons as well as the header in the submit and cancel course confirm dialogs*/
+
+.confirm_submit_cancel_dialog {
   .uif-dialogHeader{
     background:none;
     margin-bottom: 0px;
@@ -861,6 +863,9 @@ fieldset .uif-actionLink{
   padding-left:5px;
 }
 
+/* This is used to position the buttons, header and the width of the decision rationale that appears for
+approve, return to previous, reject, blanket approve, withdraw and acknowledge*/
+
 .decisionrationale_dialog{
   width: 580px;
   .uif-dialogHeader {
@@ -876,6 +881,8 @@ fieldset .uif-actionLink{
     padding-left: 350px;
   }
 }
+
+/* setting the width, height and position the buttons, message and header for retire dialog as per wireframe*/
 
 .retire_dialog {
   width: 500px;
@@ -904,6 +911,8 @@ fieldset .uif-actionLink{
   padding-top: 10px;
 }
 
+/* set the padding for button text for acknowledge dialog*/
+
 .decisionrationale_acknowledgedialog {
   .ui-button-text-only {
     padding: 0px;
@@ -913,6 +922,8 @@ fieldset .uif-actionLink{
   }
 }
 
+/* set the height and position the buttons for withdraw dialog*/
+
 .decisionrationale_withdrawdialog {
   height: 320px;
   fieldset[data-type="RadioSet"] {
@@ -920,6 +931,8 @@ fieldset .uif-actionLink{
     padding-top: 20px;
   }
 }
+
+/* Set the position for displaying the error message when decision rationale not entered */
 
 #CM-DecisionRationale-Approve-Message,
 #CM-DecisionRationale-BlanketApprove-Message, #CM-DecisionRationale-Acknowledge-Message,
