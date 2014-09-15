@@ -113,7 +113,6 @@
         <dependency>
             <artifactId>rice-krad-theme-builder</artifactId>
             <groupId>org.kuali.rice</groupId>
-            <version>${kuali.rice.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

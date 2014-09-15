@@ -96,7 +96,6 @@
         <dependency>
             <artifactId>rice-it-krms</artifactId>
             <groupId>org.kuali.rice</groupId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.openjpa</groupId>
@@ -108,13 +107,6 @@
             <artifactId>antlr</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- TODO: remove this, only used for the rice integration test for now -->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>${oracle.artifactId}</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- end -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-krms</artifactId>
