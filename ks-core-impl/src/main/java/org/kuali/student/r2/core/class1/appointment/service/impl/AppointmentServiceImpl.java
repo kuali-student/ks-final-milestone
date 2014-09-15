@@ -397,7 +397,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional(readOnly = true)
     public List<AppointmentSlotInfo> getAppointmentSlotsByPersonAndPeriod(String personId, String periodMilestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<AppointmentSlotEntity> entities = appointmentSlotDao.getAppointmentSlotsByPersonAndPeriod(personId, periodMilestoneId);
+        List<AppointmentSlotInfo> infoList = new ArrayList<AppointmentSlotInfo>();
+        for (AppointmentSlotEntity entity : entities) {
+            AppointmentSlotInfo slotInfo = entity.toDto();
+            infoList.add(slotInfo);
+        }
+        return infoList;
     }
 
     @Override

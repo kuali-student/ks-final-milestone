@@ -36,4 +36,10 @@ public class AppointmentSlotDao extends GenericEntityDao<AppointmentSlotEntity> 
         return em.createQuery("FROM AppointmentSlotEntity a WHERE a.apptWinEntity.id = :apptWindowId ORDER BY a.startDate ASC")
                 .setParameter("apptWindowId", apptWindowId).getResultList();
     }
+
+
+    public List<AppointmentSlotEntity> getAppointmentSlotsByPersonAndPeriod(String personId, String periodMilestoneId) {
+        return em.createQuery("SELECT appointment.slotEntity FROM AppointmentEntity appointment WHERE appointment.personId = :personId AND appointment.slotEntity.apptWinEntity.periodMilestoneId = :periodMilestoneId")
+                .setParameter("personId", personId).setParameter("periodMilestoneId", periodMilestoneId).getResultList();
+    }
 }
