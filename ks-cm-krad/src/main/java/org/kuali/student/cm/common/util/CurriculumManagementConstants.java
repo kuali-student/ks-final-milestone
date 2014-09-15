@@ -88,6 +88,8 @@ public class CurriculumManagementConstants {
         public static final String COMPARE_COURSE_ID = "compareCourseId";
         public static final String VERSION_IND_ID = "VersionIndId";
         public static final String VERSION_COMMENT = "versionComment";
+        public static final String IS_MODIFIABLE_COURSE = "isModifiableCourse";
+        public static final String IS_COURSE_WITH_VERSION = "isCourseWithVersion";
 
         /**
          * A flag which indicates whether workflow should be used or not.

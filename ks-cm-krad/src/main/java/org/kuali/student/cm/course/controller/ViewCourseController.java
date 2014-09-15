@@ -102,12 +102,12 @@ public class ViewCourseController extends KsUifControllerBase {
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
                 compareCourseWrapper.setProposalDataRequired(false);
                 ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable)form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
+                ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
                 form.setCompareCourseInfoWrapper(compareCourseWrapper);
 
                 //  See if the requisites on the two courses are equal.
                 form.setRequisitesEqual(CourseProposalUtil.isRequisitesEqual(form.getCourseInfoWrapper().getAgendas(),
-                    form.getCompareCourseInfoWrapper().getAgendas()));
+                        form.getCompareCourseInfoWrapper().getAgendas()));
             }
             form.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
             form.setComparison(isComparison);
@@ -209,8 +209,14 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
-        urlParameters.put("isModifiableCourse",detailedViewForm.isModifiableCourse());
+        urlParameters.put(UrlParams.IS_MODIFIABLE_COURSE, detailedViewForm.isModifiableCourse());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
+        try {
+            boolean isCourseWithVersion = CourseProposalUtil.isCourseWithVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
+            urlParameters.put(UrlParams.IS_COURSE_WITH_VERSION , isCourseWithVersion);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return performRedirect(form, courseBaseUrl, urlParameters);
     }
 
@@ -222,7 +228,7 @@ public class ViewCourseController extends KsUifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.CREATE_COURSE_VIEW);
-        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION);
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());

@@ -32,10 +32,12 @@ import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +84,11 @@ public class CourseProposalUtil {
         cmViewCourseUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
 
         return cmViewCourseUrl.toString();
+    }
+
+    public static boolean isCourseWithVersion(String cluId, ContextInfo context) throws Exception {
+        List<VersionDisplayInfo> versions = CMUtils.getCluService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
+        return (versions.size()>0);
     }
 
     public static CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception {

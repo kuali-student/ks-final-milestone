@@ -294,7 +294,7 @@
     <!--  Review Process for Modify Course -->
 
     <bean id="CM-Proposal-Course-Modify-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
-          p:progressiveRender="@{startProposalCourseAction eq 'modifyNewVersion'}" p:style="margin-top: 35px;">
+          p:progressiveRender="@{startProposalCourseAction eq 'modifyNewVersion' or !#isCourseWithVerison }" p:style="margin-top: 35px;">
         <property name="headerText" value="Review Process"/>
         <property name="cssClasses">
             <list merge="true">

@@ -45,6 +45,7 @@ public class StartProposalForm extends UifFormBase {
 
     private boolean isModifiableCourse;
 
+    private boolean isCourseWithVersion;
 
     // disallow the curriculumSpecialistUser property to be set by the request
     @RequestProtected
@@ -136,6 +137,14 @@ public class StartProposalForm extends UifFormBase {
 
     public void setModifiableCourse(boolean isModifiableCourse) {
         this.isModifiableCourse = isModifiableCourse;
+    }
+
+    public boolean isCourseWithVersion() {
+        return this.isCourseWithVersion;
+    }
+
+    public void setCourseWithVersion(boolean isCourseWithVersion) {
+        this.isCourseWithVersion = isCourseWithVersion;
     }
 
 }
