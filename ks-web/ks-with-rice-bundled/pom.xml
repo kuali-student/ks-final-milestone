@@ -58,11 +58,6 @@
                         <artifactId>${oracle.artifactId}</artifactId>
                         <version>${oracle.version}</version>
                     </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
-                    </dependency>
                 </dependencies>
             </plugin>
             <!-- end -->
@@ -83,11 +78,6 @@
                         <groupId>com.oracle</groupId>
                         <artifactId>${oracle.artifactId}</artifactId>
                         <version>${oracle.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
