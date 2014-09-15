@@ -90,6 +90,7 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_COURSEIDS_BY_VERSION_IND_ID_KEY = "kuali.search.type.ksap.coursesearch.cluid.by.versionIndependentId";
     public static final String KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY = "kuali.search.type.ksap.coursesearch.versionIndependentId.by.cluid";
     public static final String KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY = "kuali.search.type.ksap.lui.name.by.lui.id";
+    public static final String KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY = "kuali.search.type.ksap.clu.find.current.version.id";
 
 
     // Custom Search Result Column Keys
@@ -134,6 +135,7 @@ public class CourseSearchConstants {
         public static final String COURSE_SUBJECT_SUFFIX = "courseSubjectSuffix"; //e.g. 101
         public static final String START_DATE = "startDate";
         public static final String END_DATE = "endDate";
+        public static final String CURRENT_DATE = "currentDate";
         public static final String VERSION_IND_ID = "versionIndependentId";
     }
 

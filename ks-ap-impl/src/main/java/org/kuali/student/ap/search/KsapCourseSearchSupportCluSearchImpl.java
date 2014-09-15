@@ -17,6 +17,7 @@ package org.kuali.student.ap.search;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -36,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractHardwiredImpl {
@@ -60,6 +62,7 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
     public static final TypeInfo KSAP_SEARCH_COURSEID_TITLE_AND_STATUS_BY_SUBJ_CD;
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID;
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE;
+    public static final TypeInfo KSAP_SEARCH_FIND_CURRENT_VERSION_ID;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -140,6 +143,14 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
         info.setDescr(new RichTextHelper().fromPlain("Lookup Course IDs and titles by Subject and Course code"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE = info;
+
+         // Creates search that retrieves All Course IDs and titles for a given subject and course code
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
+        info.setName("Lookup Course IDs and titles by Subject and Course code");
+        info.setDescr(new RichTextHelper().fromPlain("Lookup Course IDs and titles by Subject and Course code"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_SEARCH_FIND_CURRENT_VERSION_ID = info;
     }
 
     /**
@@ -176,6 +187,8 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             return KSAP_SEARCH_GENERAL_EDUCATION_BY_COURSEID;
         } else if (CourseSearchConstants.COURSE_SEARCH_FOR_COURSE_ID.equals(searchTypeKey)) {
             return KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE;
+        }else if (CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY.equals(searchTypeKey)) {
+            return KSAP_SEARCH_FIND_CURRENT_VERSION_ID;
         }
 
         // If no matching search type is found throw exception
@@ -205,6 +218,8 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             resultInfo = searchForGeneralEducationValuesByVersionIndependentId(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE.getKey())) {
             resultInfo = searchForCourseBySubjectAndCode(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_FIND_CURRENT_VERSION_ID.getKey())) {
+            resultInfo = findCurrentVersionId(searchRequestInfo, contextInfo);
         }else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -528,6 +543,46 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_TITLE, (String)resultRow[1]);
             resultInfo.getRows().add(row);
         }
+
+        return resultInfo;
+    }
+
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key KSAP_SEARCH_FIND_CURRENT_VERSION_ID.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo findCurrentVersionId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException{
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        Date date = KsapHelperUtil.getCurrentDate();
+        String versionId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.VERSION_IND_ID);
+
+        // Create sql string
+        String queryStr = "SELECT" +
+                "        clu.id" +
+                "        FROM" +
+                "        KSLU_CLU clu" +
+                "        WHERE" +
+                "        clu.VER_IND_ID = :versionIndependentId" +
+                "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
+                "    AND (clu.ST = 'Active' OR clu.ST = 'Superseded' OR clu.ST = 'Retired')" +
+                "    AND clu.EFF_DT <= :currentDate" +
+                "    AND (clu.EXPIR_DT >= :currentDate OR clu.EXPIR_DT IS NULL)" +
+                "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
+
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(CourseSearchConstants.SearchParameters.CURRENT_DATE, date);
+        query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionId);
+        Object result = query.getSingleResult();
+
+        // Compile results
+        SearchResultRowInfo row = new SearchResultRowInfo();
+        row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)result);
+        resultInfo.getRows().add(row);
 
         return resultInfo;
     }

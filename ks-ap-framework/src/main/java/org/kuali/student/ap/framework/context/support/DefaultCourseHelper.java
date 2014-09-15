@@ -12,6 +12,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
@@ -241,44 +242,56 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		}
 	}
 
+    /**
+     * Uses a custom query to translate the course id into the id of a defined version.
+     * Query uses the courses independent version id and the current date to retrieve the id of the course version where
+     * the effective date <= current date <= expiration date
+     *
+     * @see org.kuali.student.ap.framework.context.CourseHelper#getCurrentVersionIdOfCourse(String)
+     */
 	@Override
 	public String getCurrentVersionIdOfCourse(String courseId) {
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        Course course;
-        VersionDisplayInfo currentVersion;
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
+        List<SearchResultRowInfo> rows = null;
+        String currentCourseId = null;
         try {
-            course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
-            currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), contextInfo);
-        } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
-            throw new IllegalArgumentException("Course service failure", e);
+            Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
+            request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, course.getVersion().getVersionIndId());
+            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
+            if(row !=null){
+                currentCourseId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.CLU_ID);
+            }
+        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException | DoesNotExistException e) {
+            throw new IllegalArgumentException("Search service failure", e);
         }
-        if (currentVersion != null)
-            return currentVersion.getId();
-        return null;
+
+        return currentCourseId;
 	}
 
     @Override
     public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         // Retrieve course information using the course code entered by the user
-        CourseInfo course;
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        VersionDisplayInfo currentVersion = null;
-        try {
-            currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
-        } catch (DoesNotExistException e) {
-            LOG.warn("No Current Version of Course Found, try to use the Latest Version.", e);
-            try {
-                currentVersion = KsapFrameworkServiceLocator.getCluService().getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndependentId, contextInfo);
-            } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e1) {
-                LOG.warn("No Latest Version of Course Found.");
-                throw new IllegalArgumentException("Clu service failure", e1);
-            }
-        } catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
-            throw new IllegalArgumentException("Clu service failure", e);
-         }
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
+        List<SearchResultRowInfo> rows = null;
+        String currentCourseId = null;
+        Course course;
 
         try {
-            course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
+            request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionIndependentId);
+            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
+            if(row !=null){
+                currentCourseId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.CLU_ID);
+            }
+        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        }
+
+        try {
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentCourseId, contextInfo);
         } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Course service failure", e);
          }
