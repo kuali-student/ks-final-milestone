@@ -32,7 +32,6 @@ import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
@@ -91,6 +90,15 @@ public class CourseProposalUtil {
         return (versions.size()>0);
     }
 
+    /**
+     * Returns the current course version of the given  version independent id such that the returned course :
+     *  - version start date is before 'now'
+     *  - version end date is after 'now' or is not set
+     * @param versionIndId
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
     public static CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception {
 
         // Get id of current version of course given the version independent id

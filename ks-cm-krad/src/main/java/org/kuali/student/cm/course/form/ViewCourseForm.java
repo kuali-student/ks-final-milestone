@@ -121,6 +121,10 @@ public class ViewCourseForm extends KSUifForm {
         this.useReviewProcess = useReviewProcess;
     }
 
+    /**
+     * Returns true if this is course comparison view
+     *
+     */
     public boolean isComparison() {
         return this.isComparison;
     }
@@ -128,6 +132,11 @@ public class ViewCourseForm extends KSUifForm {
     public void setComparison(boolean isComparison) {
         this.isComparison = isComparison;
     }
+
+    /**
+     * Returns true if this course is modifiable
+     *
+     */
 
     public boolean isModifiableCourse() {
         return this.isModifiableCourse;
