@@ -174,6 +174,7 @@ public class CourseController extends CourseRuleEditorController {
         super.createDocument(form);
         CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
 
+        courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
         ProposalInfo proposalInfo = new ProposalInfo();
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
@@ -207,6 +208,7 @@ public class CourseController extends CourseRuleEditorController {
         oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
+        courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(false);
         courseInfoWrapper.setCourseInfo(courseInfo);
