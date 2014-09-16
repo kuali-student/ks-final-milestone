@@ -99,9 +99,18 @@ public class StartProposalController extends UifControllerBase {
             urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID,((StartProposalForm)form).getVersionIndId());
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, startProposalCourseAction);
             urlParameters.put(CourseController.UrlParams.MODIFY_ACTION, startProposalCourseAction);
+
+            boolean isCSUser = ProposalUtil.isUserCurriculumSpecialist();
+            //If CS user and selects no curriculum review
+            if (!isCSUser || (isCSUser && ((StartProposalForm)form).isUseReviewProcess())) {
+                urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.REVIEW_COURSE_PROPOSAL_PAGE);
+            } else {
+                urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
+            }
         }
         else if(StringUtils.equalsIgnoreCase(startProposalCourseAction,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION)){
             urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID , ((StartProposalForm)form).getCourseId()) ;
+            urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE);
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, startProposalCourseAction);
         }
 
