@@ -200,7 +200,21 @@ public class AcademicRecordServicePersistenceMockImpl implements AcademicRecordS
 
     @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecords(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+        List<StudentCourseRecordInfo> studentCourseRecordsFiltered = new ArrayList<>();
+
+        // Get course records from the map
+        List<StudentCourseRecordInfo> studentCourseRecords = studentToCourseRecordsMap.get(personId);
+
+        if (studentCourseRecords != null && !studentCourseRecords.isEmpty()) {
+//            for (StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
+//                **** filter records here
+//            }
+            studentCourseRecordsFiltered=studentCourseRecords;
+        } else {
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+        }
+
+        return studentCourseRecordsFiltered;
     }
 
     @Override

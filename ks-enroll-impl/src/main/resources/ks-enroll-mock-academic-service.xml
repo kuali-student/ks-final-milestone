@@ -23,6 +23,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="A"
+          p:calculatedGradeValue="A"
           p:creditsAttempted="2"
           p:creditsEarned="2"
             />
@@ -36,6 +37,7 @@
           p:termId="kuali.atp.2010Fall"
           p:termName="Fall 2010"
           p:assignedGradeValue="A"
+          p:calculatedGradeValue="A"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -49,6 +51,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="B+"
+          p:calculatedGradeValue="B+"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -62,6 +65,7 @@
           p:termId="kuali.atp.2009Fall"
           p:termName="Fall 2009"
           p:assignedGradeValue="B"
+          p:calculatedGradeValue="B"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -75,6 +79,7 @@
           p:termId="kuali.atp.2012Spring"
           p:termName="Spring 2012"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -88,6 +93,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="A"
+          p:calculatedGradeValue="A"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -101,6 +107,7 @@
           p:termId="kuali.atp.2011Spring"
           p:termName="Spring 2011"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -114,6 +121,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
           p:isRepeated="true"
@@ -128,6 +136,7 @@
           p:termId="kuali.atp.2010Spring"
           p:termName="Spring 2010"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -141,6 +150,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="B"
+          p:calculatedGradeValue="B"
           p:creditsAttempted="3"
           p:creditsEarned="3"
           p:isRepeated="true"
@@ -155,6 +165,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="kuali.result.value.grade.admin.i"
+          p:calculatedGradeValue="I"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -168,6 +179,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="kuali.result.value.grade.admin.i"
+          p:calculatedGradeValue="I"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -181,6 +193,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="W"
+          p:calculatedGradeValue="W"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -194,6 +207,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="I"
+          p:calculatedGradeValue="I"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -207,6 +221,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="C"
+          p:calculatedGradeValue="C"
           p:creditsAttempted="4"
           p:creditsEarned="4"
             />
@@ -220,6 +235,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="A-"
+          p:calculatedGradeValue="A-"
           p:creditsAttempted="3"
           p:creditsEarned="3"
         />
@@ -233,6 +249,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="A"
+          p:calculatedGradeValue="A"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -246,6 +263,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="B"
+          p:calculatedGradeValue="B"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -259,6 +277,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="A+"
+          p:calculatedGradeValue="A+"
           p:creditsAttempted="1"
           p:creditsEarned="1"
             />
@@ -272,6 +291,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="D+"
+          p:calculatedGradeValue="D+"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -285,6 +305,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />
@@ -298,6 +319,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="C-"
+          p:calculatedGradeValue="C-"
           p:creditsAttempted="1"
           p:creditsEarned="1"
             />
@@ -311,6 +333,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="D"
+          p:calculatedGradeValue="D"
           p:creditsAttempted="3"
           p:creditsEarned="3"
             />
@@ -324,6 +347,7 @@
           p:termId="kuali.atp.2011Fall"
           p:termName="Fall 2011"
           p:assignedGradeValue="F"
+          p:calculatedGradeValue="F"
           p:creditsAttempted="3"
           p:creditsEarned="0"
             />

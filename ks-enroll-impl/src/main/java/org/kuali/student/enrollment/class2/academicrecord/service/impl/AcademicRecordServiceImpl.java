@@ -86,7 +86,23 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
             String personId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return academicRecordServiceCurrent.getCompletedCourseRecords(personId, context);
+        boolean historyDoesNotExist = false;
+
+        List<StudentCourseRecordInfo> courseRecords;
+
+        // Get historical data
+        try {
+            courseRecords = academicRecordServiceHistory.getCompletedCourseRecords(personId,context);
+        } catch (DoesNotExistException ex) {
+            courseRecords = new ArrayList<>();
+            historyDoesNotExist = true;
+        }
+
+        if (historyDoesNotExist) {
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+        }
+
+        return courseRecords;
     }
 
     @Override
