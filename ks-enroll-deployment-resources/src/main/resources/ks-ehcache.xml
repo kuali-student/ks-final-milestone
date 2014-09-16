@@ -62,4 +62,12 @@
             <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
         </searchable>
     </cache>
+
+    <!-- GES Service Cache for Rollover-->
+    <cache name="gesServiceCacheRollover" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="21600"  >
+        <searchable>
+            <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
+        </searchable>
+    </cache>
+
 </ehcache>

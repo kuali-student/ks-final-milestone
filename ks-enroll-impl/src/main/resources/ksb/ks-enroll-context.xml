@@ -37,7 +37,7 @@
     <alias name="courseRegistrationServiceProcessCheckDecorator" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
     <alias name="exemptionServiceMapImpl" alias="ExemptionService" />
-    <alias name="gesServiceCacheDecorator" alias="GesService" />
+    <alias name="gesServiceRolloverEvaluationDecorator" alias="GesService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
     <alias name="examServiceImpl" alias="ExamService" />
@@ -2002,7 +2002,13 @@ the program will get the rule management service by calling the global resource 
         <property name="nextDecorator" ref="gesServiceImpl" />
     </bean>
 
+    <bean id="gesServiceRolloverEvaluationDecorator" class="org.kuali.student.enrollment.ges.service.decorators.GesServiceRolloverEvaluationDecorator" >
+        <property name="courseService" ref="CourseService" />
+        <property name="nextDecorator" ref="gesServiceCacheDecorator" />
+    </bean>
+
     <bean id="gesServiceImpl" class="org.kuali.student.core.ges.service.impl.GesServiceImpl" >
+        <property name="atpService" ref="AtpService" />
         <property name="parameterDao" ref="parameterDao" />
         <property name="valueDao" ref="valueDao" />
     </bean>
