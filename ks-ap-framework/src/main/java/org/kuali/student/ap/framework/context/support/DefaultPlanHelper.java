@@ -124,7 +124,26 @@ public class DefaultPlanHelper implements PlanHelper {
             } catch (PermissionDeniedException e) {
                 throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
             } catch (OperationFailedException e) {
-                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+                //Check for unique-key (studentId) violation... (key added to prevent > 1 plan per student)
+                if (e.getMessage().matches("org\\.hibernate\\.exception\\.ConstraintViolationException.*")) {
+                    //now we can just try to retrieve plan...it should already exist
+                    try {
+                        learningPlans = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
+                                studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN,
+                                KsapFrameworkServiceLocator.getContext().getContextInfo());
+                        if (learningPlans!=null && !learningPlans.isEmpty()) {
+                            defaultPlan =  KSCollectionUtils.getRequiredZeroElement(learningPlans);
+                        } else {
+                            throw new RuntimeException(String.format("Could not fetch plan for user [%s]: not found",
+                                    studentId));
+                        }
+                    } catch (Exception e2) {
+                        throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId),
+                                e2);
+                    }
+                } else {
+                    throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+                }
             } catch (AlreadyExistsException e) {
                 throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
             } catch (MissingParameterException e) {
