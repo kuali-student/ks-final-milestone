@@ -25,5 +25,33 @@
     <!--Add dumb TermHelperMock to support AcademicPlanServiceTest-->
     <bean id="ksapTermHelper" class="org.kuali.student.ap.test.mock.TermHelperMockTest" />
 
+    <bean parent="ksapFrameworkServiceLocator">
+        <property name="searchService" ref ="ksSearchService"/>
+    </bean>
+    <bean id="ksSearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list merge="true">
+                <ref bean="KsapCourseSearchCluSearchImpl"/>
+                <ref bean="KsapCourseSearchSupportCluSearchImpl"/>
+                <ref bean="KsapLuiSearchImpl"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KsapCourseSearchCluSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchCluSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapCourseSearchSupportCluSearchImpl" class="org.kuali.student.ap.search.mock.KsapCourseSearchSupportCluSearchMockImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapLuiSearchImpl" class="org.kuali.student.ap.search.KsapLuiSearchServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+    <bean id="enrollEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
 
 </beans>

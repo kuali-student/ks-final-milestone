@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -127,6 +128,7 @@ public class AcademicPlanServiceTstHelper {
         info.setStateKey("Active");
         info.setCourseTitle(courseTitle);
         info.setName(courseTitle);
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2014"));
         List<ResultValuesGroupInfo> creditOptions = Arrays.asList(this._createCreditOptions(credits, contextInfo));
         info.setCreditOptions(creditOptions);
         try {

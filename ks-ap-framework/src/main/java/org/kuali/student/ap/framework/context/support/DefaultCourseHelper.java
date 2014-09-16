@@ -257,12 +257,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         String currentCourseId = null;
         try {
             Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
-            request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, course.getVersion().getVersionIndId());
-            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
-            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
-            if(row !=null){
-                currentCourseId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.CLU_ID);
-            }
+            currentCourseId = getCurrentVersionIdOfCourseFromVersionId(course.getVersion().getVersionIndId());
         } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Search service failure", e);
         }
@@ -276,19 +271,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
         List<SearchResultRowInfo> rows = null;
-        String currentCourseId = null;
+        String currentCourseId = getCurrentVersionIdOfCourseFromVersionId(versionIndependentId);
         Course course;
-
-        try {
-            request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionIndependentId);
-            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
-            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
-            if(row !=null){
-                currentCourseId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.CLU_ID);
-            }
-        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
-            throw new IllegalArgumentException("Search service failure", e);
-        }
 
         try {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentCourseId, contextInfo);
@@ -437,5 +421,29 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                 sortedTerms.add(projectedTerms.get(typeKey));
         }
         return sortedTerms;
+    }
+
+    /**
+     * Retrieves the clu id for the current version of a course using the independent version id
+     *
+     * @param versionId - Version id for the course
+     * @return Clu id for the current version of the course.
+     */
+    protected String getCurrentVersionIdOfCourseFromVersionId(String versionId){
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
+        List<SearchResultRowInfo> rows = null;
+        String currentCourseId = null;
+        try {
+            request.addParam(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionId);
+            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
+            if(row !=null){
+                currentCourseId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.CLU_ID);
+            }
+        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        }
+        return currentCourseId;
     }
 }

@@ -577,12 +577,14 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CURRENT_DATE, date);
         query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionId);
-        Object result = query.getSingleResult();
+        List<Object[]> results = query.getResultList();
 
         // Compile results
-        SearchResultRowInfo row = new SearchResultRowInfo();
-        row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)result);
-        resultInfo.getRows().add(row);
+        for(Object[] resultRow : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow[0]);
+            resultInfo.getRows().add(row);
+        }
 
         return resultInfo;
     }

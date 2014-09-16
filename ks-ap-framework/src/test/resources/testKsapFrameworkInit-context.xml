@@ -17,7 +17,7 @@
     <bean id="kualiConfigurationService" class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" depends-on="configContext" />
 
 
-    <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
+    <bean id="ksapFrameworkServiceLocator" class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="ksapContext" ref="ksapContext"/>
         <property name="ksapTextHelper" ref="ksapTextHelper"/>
         <property name="ksapTermHelper" ref="ksapTermHelper"/>
