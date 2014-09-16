@@ -37,6 +37,11 @@ public class AppliedHoldResult extends UifFormBase {
     private String endTerm;
     private HoldIssueInfo holdIssue;
 
+    private boolean isCheckedByCluster;
+
+    private boolean enableExpireButton = false;
+    private boolean enableDeleteButton = false;
+
     public String getId() {
         return id;
     }
@@ -115,5 +120,29 @@ public class AppliedHoldResult extends UifFormBase {
 
     public void setHoldIssue(HoldIssueInfo holdIssue) {
         this.holdIssue = holdIssue;
+    }
+
+    public boolean getIsCheckedByCluster() {
+        return isCheckedByCluster;
+    }
+
+    public void setIsCheckedByCluster(boolean checkedByCluster) {
+        isCheckedByCluster = checkedByCluster;
+    }
+
+    public boolean isEnableExpireButton() {
+        return enableExpireButton;
+    }
+
+    public void setEnableExpireButton(boolean enableExpireButton) {
+        this.enableExpireButton = enableExpireButton;
+    }
+
+    public boolean isEnableDeleteButton() {
+        return enableDeleteButton;
+    }
+
+    public void setEnableDeleteButton(boolean enableDeleteButton) {
+        this.enableDeleteButton = enableDeleteButton;
     }
 }

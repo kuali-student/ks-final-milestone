@@ -41,7 +41,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Properties;
 
 /**
@@ -117,11 +119,27 @@ public class AppliedHoldManagementController extends UifControllerBase {
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
+    @RequestMapping(params = "methodToCall=expireHoldToolbar")
+    public ModelAndView expireHoldToolbar(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE);
+        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, prepareEDConfirmationView(form).getId());
+        return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
+    }
+
     @RequestMapping(params = "methodToCall=expireHold")
     public ModelAndView expireHold(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE);
         urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, getSelectedHoldIssue(form).getId());
+        return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
+    }
+
+    @RequestMapping(params = "methodToCall=deleteHoldToolbar")
+    public ModelAndView deleteHoldToolbar(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_DELETE);
+        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, prepareEDConfirmationView(form).getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
@@ -182,5 +200,18 @@ public class AppliedHoldManagementController extends UifControllerBase {
         urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_ACTION, action);
         urlParameters.put("viewName", HoldsConstants.APPLIED_HOLD_MAINTENANCE_VIEWNAME);
         return urlParameters;
+    }
+
+    public AppliedHoldResult prepareEDConfirmationView(AppliedHoldManagementForm form) throws Exception{
+
+        List<AppliedHoldResult> holdResultList = form.getHoldResultList();
+
+        for(AppliedHoldResult holdResult : holdResultList) {
+            if(holdResult.getIsCheckedByCluster()) {
+                return holdResult;
+            }
+        }
+
+        return null;
     }
 }
