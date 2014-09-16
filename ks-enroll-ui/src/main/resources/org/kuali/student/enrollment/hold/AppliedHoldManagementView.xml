@@ -113,10 +113,10 @@
                             <bean id="KS-Hold-ToolBar-Add-Applied-Hold" parent="KS-Hold-ToolBar-Add-parent"
                                   p:methodToCall="applyHold" p:disabled="false"/>
                             <bean id="KS-Hold-ToolBar-Expire-Applied-Hold" parent="KS-Hold-ToolBar-Expire-parent"
-                                  p:methodToCall="expireHoldToolbar" p:disabled="false" />
+                                  p:methodToCall="expireHoldToolbar"/>
                             <!--p:disabled="@{!isCheckedByCluster}"-->
                             <bean id="KS-Hold-ToolBar-Delete-Applied-Hold" parent="KS-Hold-ToolBar-Delete-parent"
-                                  p:methodToCall="deleteHoldToolbar" p:disabled="false" />
+                                  p:methodToCall="deleteHoldToolbar"/>
                             <!--p:disabled="@{!isCheckedByCluster}"-->
                         </list>
                     </property>
@@ -168,9 +168,7 @@
     </bean>
 
     <bean id="KS-AppliedHold-SearchResults" parent="KS-AppliedHold-ResultSection"
-          p:propertyName="holdResultList" p:onDocumentReadyScript="addCheckboxToColumnHeader(1, 'KS-AppliedHold-SearchResults',
-                                            &quot;handleToolbar('KS-AppliedHold-SearchResults', ['enableExpireButton', 'enableDeleteButton'],
-                                            ['KS-Hold-ToolBar-Expire-Applied-Hold', 'KS-Hold-ToolBar-Delete-Applied-Hold']);&quot;)">
+          p:propertyName="holdResultList">
         <property name="headerText" value=""/>
         <property name="lineActions">
             <list>

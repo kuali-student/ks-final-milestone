@@ -39,8 +39,8 @@ public class AppliedHoldResult extends UifFormBase {
 
     private boolean isCheckedByCluster;
 
-    private boolean enableExpireButton = false;
-    private boolean enableDeleteButton = false;
+    private boolean enableExpireButton = true;
+    private boolean enableDeleteButton = true;
 
     public String getId() {
         return id;
