@@ -105,8 +105,8 @@
                                 </property>
                             </bean>
 
-                            <bean id="CM-Proposal-RetireCourse-OtherComment" parent="CM-InputField"
-                                  p:label="Other Comments" p:propertyName="otherComment.plain" >
+                            <bean id="CM-Proposal-RetireCourse-RetirementComment" parent="CM-InputField"
+                                  p:label="Other Retire Comments" p:propertyName="retirementComment.plain" >
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">

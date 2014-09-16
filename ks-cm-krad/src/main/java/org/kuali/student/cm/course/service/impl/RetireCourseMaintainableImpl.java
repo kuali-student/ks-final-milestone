@@ -113,10 +113,10 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         courseWrapper.setRetireEndTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_END_TERM));
         courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
         courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
-        RichTextInfo otherComment = new RichTextInfo();
-        otherComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
-        otherComment.setFormatted(otherComment.getPlain());
-        courseWrapper.setOtherComment(otherComment);
+        RichTextInfo retirementComment = new RichTextInfo();
+        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+        retirementComment.setFormatted(retirementComment.getPlain());
+        courseWrapper.setRetirementComment(retirementComment);
 
         courseWrapper.getUnitsContentOwner().clear();
         for (String orgId : course.getUnitsContentOwner()) {
@@ -148,8 +148,8 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_END_TERM, retireCourseWrapper.getRetireEndTerm());
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED, retireCourseWrapper.getLastTerm());
         addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR, retireCourseWrapper.getPublicationYear());
-        if (retireCourseWrapper.getOtherComment() != null) {
-            addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS, retireCourseWrapper.getOtherComment().getPlain());
+        if (retireCourseWrapper.getRetirementComment() != null) {
+            addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS, retireCourseWrapper.getRetirementComment().getPlain());
         }
 
         super.saveProposal();
@@ -250,10 +250,10 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         reviewProposalDisplay.getRetireCourseSection().setEndTerm(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM)));
         reviewProposalDisplay.getRetireCourseSection().setLastTerm(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED)));
         reviewProposalDisplay.getRetireCourseSection().setPublicationYear(getTermDesc(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR)));
-        RichTextInfo otherComment = new RichTextInfo();
-        otherComment.setPlain(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
-        otherComment.setFormatted(otherComment.getPlain());
-        retireCourseWrapper.setOtherComment(otherComment);
+        RichTextInfo retirementComment = new RichTextInfo();
+        retirementComment.setPlain(new AttributeHelper(retireCourseWrapper.getProposalInfo().getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+        retirementComment.setFormatted(retirementComment.getPlain());
+        retireCourseWrapper.setRetirementComment(retirementComment);
 
         reviewProposalDisplay.getReferenceDataSection().getCrossListings().clear();
         if (!retireCourseWrapper.getCourseInfo().getCrossListings().isEmpty()) {

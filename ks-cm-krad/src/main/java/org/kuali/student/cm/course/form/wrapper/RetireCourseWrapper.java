@@ -17,37 +17,22 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.form.wrapper.ReviewProposalDisplay;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Wrapper for Retire Course
  *
  * @author Kuali Student Team
  */
-public class RetireCourseWrapper extends ProposalElementsWrapper implements Serializable {
+public class RetireCourseWrapper extends CommonCourseDataWrapper implements Serializable {
 
-    private CourseInfo courseInfo = new CourseInfo();
     private RetireCourseReviewProposalDisplay reviewProposalDisplay =  new RetireCourseReviewProposalDisplay();
 
-    private String lastTerm;
-    private String publicationYear;
-    private RichTextInfo otherComment;
     private String retireEndTerm;
     private String retireStartTerm;
-    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
-
-    private String userId = "";
-
-    private String lastUpdated;
 
     public RetireCourseWrapper() {
         super(ProposalUtil.isUserCurriculumSpecialist(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN),
@@ -56,41 +41,6 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
 
     public RetireCourseWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         super(curriculumSpecialistUser, selectedSection);
-    }
-
-    public CourseInfo getCourseInfo() {
-        return courseInfo;
-    }
-
-    public void setCourseInfo(CourseInfo courseInfo) {
-        this.courseInfo = courseInfo;
-    }
-
-    public String getLastTerm() {
-        return lastTerm;
-    }
-
-    public void setLastTerm(String lastTerm) {
-        this.lastTerm = lastTerm;
-    }
-
-    public String getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(String publicationYear) {
-        this.publicationYear = publicationYear;
-    }
-
-    public RichText getOtherComment() {
-        if (otherComment == null) {
-            otherComment = new RichTextInfo();
-        }
-        return otherComment;
-    }
-
-    public void setOtherComment(RichTextInfo otherComment) {
-        this.otherComment = otherComment;
     }
 
     public String getRetireEndTerm() {
@@ -110,22 +60,6 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.reviewProposalDisplay = reviewProposalDisplay;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     public String getRetireStartTerm() {
         return retireStartTerm;
     }
@@ -134,19 +68,4 @@ public class RetireCourseWrapper extends ProposalElementsWrapper implements Seri
         this.retireStartTerm = retireStartTerm;
     }
 
-    /**
-     *  This gets the unitContentOwner which is used for Workflow routing process to Retire a course.
-     * @return
-     */
-    public List<CourseCreateUnitsContentOwner> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
-    /**
-     *  This sets the unitContentOwner which is used for Workflow routing process to Retire a course
-     * @param unitsContentOwner
-     */
-    public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
 }

@@ -18,9 +18,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * Base class for all the wrappers around CourseInfo.
  */
-public class CourseInfoWrapper extends ProposalElementsWrapper implements Serializable {
+public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serializable {
 
     /**
      * A boolean to identify when proposal data is required for the Review Page.
@@ -48,15 +46,11 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
     private List<String> campusLocations;
-    private CourseInfo courseInfo = new CourseInfo();
 
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
 
     private String crossListingDisclosureSection;
-    private String userId = "";
-    private String lastUpdated = "";
     private String unitsContentOwnerToAdd = "";
-    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
     private String finalExamStatus;
     private boolean audit;
     private boolean passFail;
@@ -251,64 +245,12 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
         this.crossListingDisclosureSection = argCrossListingDisclosureSection;
     }
 
-    public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    public List<CourseCreateUnitsContentOwner> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
     }
 
     public String getUnitsContentOwnerToAdd() {
         return unitsContentOwnerToAdd;
-    }
-
-    /**
-     * Gets the value of lastUpdated
-     *
-     * @return the value of lastUpdated
-     */
-    public String getLastUpdated() {
-        return this.lastUpdated;
-    }
-
-    /**
-     * Sets the value of lastUpdated
-     *
-     * @param argLastUpdated Value to assign to this.lastUpdated
-     */
-    public void setLastUpdated(final String argLastUpdated) {
-        this.lastUpdated = argLastUpdated;
-    }
-
-    /**
-     * Gets the value of userId
-     *
-     * @return the value of userId
-     */
-    public String getUserId() {
-        return this.userId;
-    }
-
-    /**
-     * Sets the value of userId
-     *
-     * @param argUserId Value to assign to this.userId
-     */
-    public void setUserId(final String argUserId) {
-        this.userId = argUserId;
-    }
-
-    public CourseInfo getCourseInfo() {
-        return courseInfo;
-    }
-
-    public void setCourseInfo(CourseInfo courseInfo) {
-        this.courseInfo = courseInfo;
     }
 
     public List<CluInstructorInfoWrapper> getInstructorWrappers() {

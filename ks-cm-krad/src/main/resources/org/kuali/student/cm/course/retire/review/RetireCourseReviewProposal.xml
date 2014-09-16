@@ -177,8 +177,8 @@
                                   p:propertyName="reviewProposalDisplay.retireCourseSection.lastTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Last Course Catalog Publication Year" id="CM-Proposal-Review-RetireCourse-PublicationYear"
                                   p:propertyName="reviewProposalDisplay.retireCourseSection.publicationYear"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Other Comments" id="CM-Proposal-Review-RetireCourse-OtherComment"
-                                  p:propertyName="otherComment.plain"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Other Comments" id="CM-Proposal-Review-RetireCourse-RetirementComment"
+                                  p:propertyName="retirementComment.plain"/>
                         </list>
                     </property>
                 </bean>
