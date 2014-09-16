@@ -39,7 +39,7 @@ public class CMUtils {
     private static CourseService courseService;
     private static CluService cluService;
     private static ProposalService proposalService;
-
+    private static Object lockObject = new Object();
     /**
      * This method returns the url for CM Home.
      *
@@ -57,17 +57,25 @@ public class CMUtils {
     }
 
     public static CourseService getCourseService() {
-        if (courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseService;
+        return  (CourseService) CMUtils.getService(CMUtils.courseService, CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
     }
 
     public static CluService getCluService() {
-        if (cluService == null) {
-            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return  (CluService) CMUtils.getService(CMUtils.cluService, CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART);
+    }
+
+    public static <T extends Object> T getService(T service, String nameSpace, String localPart) {
+        if (service == null) {
+            // 1. Synchronization overhead is incurred only when service == null, just first initialization
+            // 2. Perhaps it is better to have lock object per service in case lookup blocks other threads,
+            // but current impl of GlobalResourceLoader initializes by the time App context is up, so won't block
+            synchronized(CMUtils.lockObject) {
+                if (service == null) {
+                    service = GlobalResourceLoader.getService(new QName(nameSpace, localPart));
+                }
+            }
         }
-        return cluService;
+        return service;
     }
 
     public static ProposalService getProposalService() {
