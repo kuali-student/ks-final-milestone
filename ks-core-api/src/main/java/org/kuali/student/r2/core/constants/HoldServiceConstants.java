@@ -141,8 +141,6 @@ public class HoldServiceConstants {
     public static final String HOLD_ACTIVE_STATE_KEY = "kuali.hold.state.active";
     public static final String HOLD_RELEASED_STATE_KEY = "kuali.hold.state.released";
     public static final String HOLD_CANCELED_STATE_KEY = "kuali.hold.state.canceled";
-    public static final String HOLD_RELEASED_STATE = "Released";
-    public static final String HOLD_ACTIVE_STATE = "Active";
     public static final String[] STUDENT_HOLD_PROCESS_KEYS = {HOLD_ACTIVE_STATE_KEY,
         HOLD_RELEASED_STATE_KEY,
         HOLD_CANCELED_STATE_KEY};
