@@ -17,9 +17,18 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import java.util.List;
@@ -57,6 +66,20 @@ public class CourseOfferingServiceUtil {
             }
         }
         return null;
+    }
+
+    public static boolean evaluateRolloverGesParameter (String parameterKey, String atpId, String courseId, GesService gesService, ContextInfo context)
+            throws InvalidParameterException,
+            DoesNotExistException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setAtpId(atpId);
+        criteria.setCourseId(courseId);
+
+        ValueInfo value = gesService.evaluateValue(GesServiceConstants.PARAMETER_KEY_ROLLOVER_INSTRUCTOR_INFORMATION_INCLUDE, criteria, context);
+        return value.getBooleanValue();
     }
 
 
