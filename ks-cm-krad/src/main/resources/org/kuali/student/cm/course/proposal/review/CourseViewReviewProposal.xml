@@ -62,6 +62,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink"/>
+                <ref bean="CM-ViewCourse-View-Course-VersionNumberColumns"/>
                 <ref bean="CM-Proposal-Review-Course-CourseSection"/>
                 <ref bean="CM-Proposal-Review-Course-GovernanceSection"/>
                 <ref bean="CM-Proposal-Review-Course-CourseLogisticsSection"/>

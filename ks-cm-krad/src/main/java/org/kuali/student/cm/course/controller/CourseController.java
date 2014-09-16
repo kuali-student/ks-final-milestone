@@ -206,6 +206,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId, ContextUtils.createDefaultContextInfo());
         oldMaintainble.setDataObject(compareCourseWrapper);
         oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
+        compareCourseWrapper.setVersionText("Original Course");
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
         courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
@@ -215,6 +216,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
         newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
+        courseInfoWrapper.setVersionText("Proposal");
 
         ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
@@ -328,6 +330,8 @@ public class CourseController extends CourseRuleEditorController {
             CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(wrapper.getCourseInfo().getVersion().getVersionIndId(),ContextUtils.createDefaultContextInfo());
             oldMaintainble.setDataObject(compareCourseWrapper);
             oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
+            compareCourseWrapper.setVersionText("Original Course");
+            wrapper.setVersionText("Proposal");
 
         }
 
