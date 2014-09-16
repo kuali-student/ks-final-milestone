@@ -75,7 +75,8 @@ public class CourseStateChangeServiceImpl {
                     updateStatementTreeViewInfoState(currVerCourse, contextInfo);
 
                 }
-                
+
+                // TODO KSCM-2812 - the hard coded values for keys below should be coming from a constants class
                 // Pilot Course Creates come through here the 2nd time and
                 // gets Retired but first, add fields which are required only for Retired State
                 courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Pilot Course"));
