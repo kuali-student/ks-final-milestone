@@ -105,6 +105,11 @@
     text-transform: uppercase;
     width: 80%;
 
+    & a {
+        .font-size(14);
+        text-decoration: none;
+    }
+
     &--processing {
         .kscr-Mainheading-styles();
         .spinner-big-icon; // Processing icon mixin
@@ -168,6 +173,10 @@
         text-decoration: none;
         text-transform: uppercase;
 
+        .glyphicon {
+            margin-right: 0.5rem;
+        }
+
         &:first-child {
             border-left: none;
         }
@@ -181,6 +190,7 @@
 
         &--selected > span {
             background: @bodyColorDark;
+            cursor: text;
         }
     }
 }
@@ -261,9 +271,6 @@
         }
 
         .kscr-Main-scheduleWrapper {
-            .kscr-MainHeading-header {
-              cursor: pointer;
-            }
 
             // Toggles
             .kscr-MainHeading-toggles {

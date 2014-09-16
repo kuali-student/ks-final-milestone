@@ -80,17 +80,25 @@
                 <div class="kscr-Main-scheduleWrapper ng-scope" ng-if="uiState.indexOf('root.search') !== -1" ng-controller="ScheduleCtrl">
                     <!-- Schedule Heading -->
                     <div class="kscr-MainHeading kscr-MainHeading-ScheduleHeading util-Grid util-Grid--center">
-                        <div class="kscr-MainHeading-header util-Grid-cell" ui-sref="root.schedule">
+                        <div class="kscr-MainHeading-header util-Grid-cell">
                             My Schedule
-                            <span class="kscr-MainHeading-link-icon">&#x00bb;</span>
+                        <div>
+                            <a href="" ui-sref="root.schedule">
+                                View <span class="kscr-MainHeading-link-icon">&#x00bb;</span>
+                            </a>
+                        </div>
                         </div>
                         <div class="kscr-MainHeading-toggles">
                             <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'" ng-disabled="!showGrid()"
                                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'list' || !selectedTab,
-                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>List</span></a>
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }">
+                                <span><i class="glyphicon glyphicon-list"></i>List</span>
+                            </a>
                             <a class="kscr-MainHeading-toggle" ng-click="selectedTab = 'grid'" ng-disabled="!showGrid()"
                                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'grid',
-                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>Grid</span></a>
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }">
+                                <span><i class="glyphicon glyphicon-calendar"></i>Grid</span>
+                            </a>
                         </div>
                         <div class="util-Grid--clearfix"></div>
                     </div>

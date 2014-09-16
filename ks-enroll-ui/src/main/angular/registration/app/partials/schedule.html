@@ -13,10 +13,14 @@
         <div class="kscr-MainHeading-toggles" ng-show="showSchedule() || showGrid()" ng-init="selectedTab = 'list'">
             <a id="scheduleToggleToList" class="kscr-MainHeading-toggle" ng-click="selectedTab = 'list'"
                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'list' || !selectedTab,
-                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>List</span></a>
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }">
+                <span><i class="glyphicon glyphicon-list"></i>List</span>
+            </a>
             <a id="scheduleToggleToGrid" class="kscr-MainHeading-toggle" ng-click="selectedTab = 'grid'"
                ng-class="{'kscr-MainHeading-toggle--selected' : selectedTab === 'grid',
-                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }"><span>Grid</span></a>
+                                          'kscr-MainHeading-toggle--disabled' : !showGrid() }">
+                <span><i class="glyphicon glyphicon-calendar"></i>Grid</span>
+            </a>
         </div>
 
         <course-calendar class="kscr-Main-calendar" ng-if="showGrid()"
