@@ -25,7 +25,7 @@ UPDATE KRMS_RULE_T SET PROP_ID = 'kuali.prop.drop.or.adjustment.is.open' WHERE R
 
 -- Term
 INSERT INTO KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
-  VALUES ('Drop period is open for a term', 'KS-KRMS-TERM-DropPeriodOpenForTerm', 'KS-KRMS-TS-DateInTermKeyDate', 0)
+  VALUES ('Drop period is open for a term', 'KS-KRMS-TERM-DropPeriodOpenForTerm', 'KS-KRMS-TS-CurrentCourseWithinKeydate', 0)
 /
 
 -- Term Params: Configure the specific term key date to check against.
@@ -47,7 +47,7 @@ INSERT INTO KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_
 
   -- Term
 INSERT INTO KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
-  VALUES ('Schedule Adjustment is open for a term', 'KS-KRMS-TERM-AdjustmentOpenForTerm', 'KS-KRMS-TS-DateInTermKeyDate', 0)
+  VALUES ('Schedule Adjustment is open for a term', 'KS-KRMS-TERM-AdjustmentOpenForTerm', 'KS-KRMS-TS-CurrentCourseWithinKeydate', 0)
 /
 
 -- Term Params: Configure the specific term key date to check against.

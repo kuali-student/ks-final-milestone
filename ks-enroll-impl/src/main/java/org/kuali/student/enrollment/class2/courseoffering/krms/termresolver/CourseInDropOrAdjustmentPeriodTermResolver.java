@@ -40,8 +40,11 @@ import java.util.Set;
  * 1) Student action date (when he clicked on register for specific course(s)/term should be
  * within start and end date of the Registration Adjustment Period
  *
+ * Deprecated: this term resolver has been replaced with a compound proposition
+ *
  * @author Kuali Student Team
  */
+@Deprecated
 public class CourseInDropOrAdjustmentPeriodTermResolver extends KeyDateTermResolverSupport<Boolean> {
 
     @Override
