@@ -52,8 +52,11 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 @Entity
 @Table(name = "KSEN_GES_VALUE")
 @NamedQueries({
-        @NamedQuery(name = "ValueEntity.getIdsByType", query = "select id from ValueEntity where typeKey = :type")
-        , @NamedQuery(name = "ValueEntity.getByParameter", query = "select a from ValueEntity a where parameterKey = :parameterKey")
+        @NamedQuery(name = "ValueEntity.getIdsByType", query = "select id from ValueEntity where typeKey = :type"),
+        @NamedQuery(name = "ValueEntity.getByParameter", query = "select a from ValueEntity a where parameterKey = :parameterKey"),
+        @NamedQuery(name = "ValueEntity.getValuesByParameters", query = "select v from ValueEntity v where v.parameterKey in (:parameterKeys) and (v.stateKey = :stateKey)"),
+        @NamedQuery(name = "ValueEntity.getValuesByParametersWithAtpCriteria",
+                query = "select v from ValueEntity v where v.parameterKey in (:parameterKeys) and (v.atpId = :atpId or v.atpTypeKey = :atpTypeKey or (v.atpId IS NULL and v.atpTypeKey IS NULL)) and (v.stateKey = :stateKey) order by v.parameterKey, v.priority, v.atpId, v.atpTypeKey")
 })
 public class ValueEntity extends MetaEntity
         implements AttributeOwner<ValueAttributeEntity> {

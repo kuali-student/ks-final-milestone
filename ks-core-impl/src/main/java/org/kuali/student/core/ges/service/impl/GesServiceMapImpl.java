@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.core.ges.dto.ParameterGroupInfo;
+import org.kuali.student.core.ges.service.model.ValueEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -107,6 +108,16 @@ public class GesServiceMapImpl implements MockService, GesService {
             }
         }
         return list;
+    }
+
+    @Override
+    public List<String> getParameterKeysForParameterGroup(String parameterGroupKey, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+        // UNKNOWN
+        throw new OperationFailedException("getParameterKeysForParameterGroup has not been implemented");
     }
 
     @Override
@@ -379,6 +390,15 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, GesCriteriaInfo criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+        return new ArrayList<ValueInfo>();
+    }
+
+    @Override
     public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
@@ -618,6 +638,16 @@ public class GesServiceMapImpl implements MockService, GesService {
             PermissionDeniedException
     {
         // UNKNOWN
+        throw new OperationFailedException ("invalid configuration");
+    }
+
+    @Override
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException
+            , DoesNotExistException {
         throw new OperationFailedException ("invalid configuration");
     }
 

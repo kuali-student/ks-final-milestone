@@ -31,5 +31,11 @@ public class ParameterDao extends GenericEntityDao<ParameterEntity> {
 		return query.getResultList();
 	}
 
+    public List<String> getParameterKeysForParameterGroup(String parameterGroupKey) {
+        Query query = em.createNamedQuery(ParameterEntity.PARAMETER_QUERY_GET_PARAM_KEYS_FOR_PARAMGRP_KEY);
+        query.setParameter("paramGrpKey", parameterGroupKey);
+        return query.getResultList();
+    }
+
 }
 

@@ -80,8 +80,8 @@ public class ParameterGroupEntity extends MetaEntity
     private final Set<ParameterGroupAttributeEntity> attributes = new HashSet<ParameterGroupAttributeEntity>();
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_GES_PARM_GRP_JN_GES_PARM", joinColumns = @JoinColumn(name = "GES_PARM_GRP_ID"), inverseJoinColumns = @JoinColumn(name = "GES_PARM_ID"))
-    private List<ParameterEntity> parameterList;
+    @JoinTable(name = "KSEN_GES_PARM_GRP_JN_GES_PARM", joinColumns = {@JoinColumn(name = "GES_PARM_GRP_ID")}, inverseJoinColumns = {@JoinColumn(name = "GES_PARM_ID")})
+    private Set<ParameterEntity> parameters;
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -177,12 +177,12 @@ public class ParameterGroupEntity extends MetaEntity
         this.descrFormatted = descrFormatted;
     }
 
-    public List<ParameterEntity> getParameterList() {
-        return parameterList;
+    public Set<ParameterEntity> getParameters() {
+        return parameters;
     }
 
-    public void setParameterList(List<ParameterEntity> parameterList) {
-        this.parameterList = parameterList;
+    public void setParameters(Set<ParameterEntity> parameters) {
+        this.parameters = parameters;
     }
 
     @Override

@@ -17,6 +17,7 @@
 package org.kuali.student.core.ges.service.impl;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.student.core.ges.dto.ParameterGroupInfo;
 import org.kuali.student.core.ges.service.dao.ParameterDao;
 import org.kuali.student.core.ges.service.dao.ValueDao;
@@ -44,6 +45,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -57,6 +60,7 @@ public class GesServiceImpl implements GesService
     private CriteriaLookupService parameterCriteriaLookupService;
     // Criteria Lookup for this object
     private CriteriaLookupService valueCriteriaLookupService;
+    private AtpService atpService;
 
 	public void setParameterDao(ParameterDao parameterDao) {
 		this.parameterDao = parameterDao;
@@ -140,6 +144,17 @@ public class GesServiceImpl implements GesService
 		return parameterDao.getIdsByType(parameterTypeKey);
 
 	}
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getParameterKeysForParameterGroup(String parameterGroupKey, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        return parameterDao.getParameterKeysForParameterGroup(parameterGroupKey);
+    }
 
 	@Override
 	@Transactional(readOnly = true)
@@ -445,6 +460,46 @@ public class GesServiceImpl implements GesService
 		return list;
 	}
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException
+            , DoesNotExistException {
+        List<ValueEntity> entities = valueDao.getValuesByParameters(parameterKeys);
+        List<ValueInfo> list = new ArrayList<ValueInfo> (entities.size());
+        for (ValueEntity entity: entities) {
+            list.add (entity.toDto ());
+        }
+        return list;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, GesCriteriaInfo criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException
+            , DoesNotExistException {
+        List<ValueEntity> entities = null;
+
+        if (StringUtils.isBlank(criteria.getAtpId())) {
+            entities = valueDao.getValuesByParameters(parameterKeys);
+        } else {
+            AtpInfo atp = atpService.getAtp(criteria.getAtpId(), contextInfo);
+            entities = valueDao.getValuesByParametersWithAtpCriteria(parameterKeys, criteria.getAtpId(), atp.getTypeKey());
+        }
+
+        List<ValueInfo> list = new ArrayList<ValueInfo> (entities.size());
+        for (ValueEntity entity: entities) {
+            list.add (entity.toDto ());
+        }
+        return list;
+    }
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
@@ -525,10 +580,9 @@ public class GesServiceImpl implements GesService
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException
-    {
-        // UNKNOWN
-        throw new OperationFailedException ("invalid configuration");
+            PermissionDeniedException,
+            DoesNotExistException {
+        return this.getValuesByParameters(this.getParameterKeysForParameterGroup(parameterGroupKey, contextInfo), criteria, contextInfo);
     }
 
     public List<ValueInfo> evaluateValuesForParameterGroupOnDate (String parameterGroupKey, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
@@ -704,6 +758,14 @@ public class GesServiceImpl implements GesService
     {
         // UNKNOWN
         throw new OperationFailedException ("invalid configuration");
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 }
 

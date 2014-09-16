@@ -9,6 +9,8 @@ import net.sf.ehcache.search.Query;
 import net.sf.ehcache.search.Result;
 import net.sf.ehcache.search.Results;
 import org.apache.commons.collections.keyvalue.MultiKey;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
@@ -29,10 +31,12 @@ import java.util.List;
 
 public class GesServiceCacheDecorator extends GesServiceDecorator {
     protected static final String GES_SERVICE_CACHE = "gesServiceCache";
+    protected static final String GES_SERVICE_CATHE_ROLLOVER = "gesServiceCacheRollover";
 
 
     private CacheManager cacheManager;
     private Cache cache;
+    private boolean isRollover = false;
 
 
     public CacheManager getCacheManager() {
@@ -64,6 +68,28 @@ public class GesServiceCacheDecorator extends GesServiceDecorator {
         }
         return result;
 
+    }
+
+    @Override
+    public List<ValueInfo> evaluateValuesForParameterGroup (String parameterGroupKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            DoesNotExistException {
+        if (StringUtils.equals(parameterGroupKey, GesServiceConstants.GES_PARAMETER_GROUP_KEY_ROLLOVER)) {
+            this.isRollover = true;
+        }
+
+        MultiKey cacheKey = new MultiKey(parameterGroupKey,criteria);
+        List<ValueInfo> result = (List<ValueInfo>)pullCachedValue(cacheKey);
+        if (result == null){
+            result = getNextDecorator().evaluateValuesForParameterGroup(parameterGroupKey, criteria, contextInfo);
+            saveCachedValue(cacheKey,result);
+        } else{
+            result = copyValues(result);
+        }
+        return result;
     }
 
     @Override
@@ -159,9 +185,14 @@ public class GesServiceCacheDecorator extends GesServiceDecorator {
         return null;
     }
 
-    public Cache getCache(){
-        if (cache == null){
-           cache = getCacheManager().getCache(GES_SERVICE_CACHE);
+    public Cache getCache() {
+        if (cache == null) {
+            if (this.isRollover) {
+                cache = getCacheManager().getCache(GES_SERVICE_CATHE_ROLLOVER);
+            } else {
+                cache = getCacheManager().getCache(GES_SERVICE_CACHE);
+            }
+
         }
         return cache;
     }

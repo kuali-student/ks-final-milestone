@@ -44,13 +44,14 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 @Entity
 @Table(name = "KSEN_GES_PARM")
 @NamedQueries({
-        @NamedQuery(name = "ParameterEntity.getIdsByType",
-                query = "select id from ParameterEntity where typeKey = :type")
+        @NamedQuery(name = "ParameterEntity.getIdsByType", query = "select id from ParameterEntity where typeKey = :type"),
+        @NamedQuery(name = "ParameterEntity.getParameterKeysForParameterGroup", query = "select p.id from ParameterEntity p join p.parameterGroups g where g.id = :paramGrpKey")
 })
 public class ParameterEntity extends MetaEntity
         implements AttributeOwner<ParameterAttributeEntity> {
 
     public static final String PARAMETER_QUERY_GET_IDS_BY_TYPE = "ParameterEntity.getIdsByType";
+    public static final String PARAMETER_QUERY_GET_PARAM_KEYS_FOR_PARAMGRP_KEY = "ParameterEntity.getParameterKeysForParameterGroup";
 
     ////////////////////
     // DATA FIELDS
@@ -80,8 +81,8 @@ public class ParameterEntity extends MetaEntity
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<ParameterAttributeEntity> attributes = new HashSet<ParameterAttributeEntity>();
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "parameterList")
-    private List<ParameterGroupEntity> parameterGroupList;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "parameters")
+    private Set<ParameterGroupEntity> parameterGroups;
 
 
     //////////////////////////
@@ -199,12 +200,12 @@ public class ParameterEntity extends MetaEntity
         this.requireUniquePriorities = requireUniquePriorities;
     }
 
-    public List<ParameterGroupEntity> getParameterGroupList() {
-        return parameterGroupList;
+    public Set<ParameterGroupEntity> getParameterGroups() {
+        return parameterGroups;
     }
 
-    public void setParameterGroupList(List<ParameterGroupEntity> parameterGroupList) {
-        this.parameterGroupList = parameterGroupList;
+    public void setParameterGroups(Set<ParameterGroupEntity> parameterGroups) {
+        this.parameterGroups = parameterGroups;
     }
 
     @Override

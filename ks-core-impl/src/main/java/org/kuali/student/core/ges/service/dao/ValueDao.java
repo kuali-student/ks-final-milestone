@@ -16,9 +16,11 @@
 package org.kuali.student.core.ges.service.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.service.model.ValueEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
@@ -36,6 +38,32 @@ public class ValueDao extends GenericEntityDao<ValueEntity> {
 		query.setParameter("parameterKey", parameterKey);
 		return query.getResultList();
 	}
+
+    public List<ValueEntity> getValuesByParameters(List<String> parameterKeys) {
+        if (!parameterKeys.isEmpty()) {
+            Query query = em.createNamedQuery("ValueEntity.getValuesByParameters");
+            query.setParameter("parameterKeys", parameterKeys);
+            query.setParameter("stateKey", GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
+            return query.getResultList();
+        } else {
+            return new ArrayList<ValueEntity>();
+        }
+
+    }
+
+    public List<ValueEntity> getValuesByParametersWithAtpCriteria(List<String> parameterKeys, String atpId, String atpTypeKey) {
+        if (!parameterKeys.isEmpty()) {
+            Query query = em.createNamedQuery("ValueEntity.getValuesByParametersWithAtpCriteria");
+            query.setParameter("parameterKeys", parameterKeys);
+            query.setParameter("atpId", atpId);
+            query.setParameter("atpTypeKey", atpTypeKey);
+            query.setParameter("stateKey", GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
+            return query.getResultList();
+        } else {
+            return new ArrayList<ValueEntity>();
+        }
+
+    }
 
 }
 
