@@ -275,21 +275,13 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         }
 
-        // If item is in wishlist use existing entry instead of creating new.
-        boolean create = wishlistPlanItem == null;
+        // Fill in basic information
         PlanItemInfo planItemInfo;
-        if (create) {
-            planItemInfo = new PlanItemInfo();
-            planItemInfo.setCategory(category);
-            planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-            planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-            planItemInfo.setLearningPlanId(learningPlanId);
-        } else {
-            assert learningPlanId.equals(wishlistPlanItem.getLearningPlanId()) : learningPlanId + " " +
-                    wishlistPlanItem.getLearningPlanId();
-            planItemInfo = new PlanItemInfo(wishlistPlanItem);
-            planItemInfo.setCategory(category);
-        }
+        planItemInfo = new PlanItemInfo();
+        planItemInfo.setCategory(category);
+        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
+        planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+        planItemInfo.setLearningPlanId(learningPlanId);
 
         // Fill in course information
         planItemInfo.setRefObjectId(ref.getRefObjectId());
@@ -309,15 +301,15 @@ public class DefaultPlanHelper implements PlanHelper {
         planItemInfo.getAttributes().addAll(attributes);
 
         try {
-            if (create) {
-                // If creating new add it to the database
-                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
-                                KsapFrameworkServiceLocator.getContext().getContextInfo());
-            } else {
-                // If using wish list item update it
-                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
-                                planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            // If already in wishlist delete existing object
+            if(wishlistPlanItem != null){
+                KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(wishlistPlanItem.getId(),
+                        KsapFrameworkServiceLocator.getContext().getContextInfo());
             }
+
+            // If creating new add it to the database
+            planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (AlreadyExistsException e) {
             LOG.warn("Reference " + ref.getRefObjectType() + " "+ ref.getRefObjectId() + " is already planned", e);
             throw e;
@@ -332,9 +324,6 @@ public class DefaultPlanHelper implements PlanHelper {
         } catch (OperationFailedException e) {
             throw new IllegalStateException("LP service failure", e);
         } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("LP service failure", e);
-        } catch (VersionMismatchException e) {
-            // TODO: ksap-1012 handle VersionMismatchException appropriately
             throw new IllegalStateException("LP service failure", e);
         }
 
