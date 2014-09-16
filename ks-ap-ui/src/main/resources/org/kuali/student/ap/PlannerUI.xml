@@ -437,7 +437,7 @@
                     <property name="messageText" value="&#160;" />
                     <property name="additionalCssClasses">
                         <list merge="true">
-                            <value>ks-fontello-icon-hollow-circled-plus</value>
+                            <value>ks-fontello-icon-attention</value>
                         </list>
                     </property>
                     <property name="toolTip">
