@@ -1,3 +1,8 @@
+-- DO NOT COPY AND PASTE THIS COMMENT.  VIOLATORS WILL LOSE COMMIT ACCESS.
+-- KEY1:MjAxMy0wOS0yMC1TZXRDb3Vyc2VPZmZlcmluZ3NGaW5hbERyaXZlckF0cmlidXRlcy5zcWw=
+-- KEY2:UkVGRVJFTkNF
+-- TYPE:REFERENCE
+
 BEGIN
   for LUI_REC in (select lui.id
                     from KSEN_LUI lui, ksen_lui_attr t
