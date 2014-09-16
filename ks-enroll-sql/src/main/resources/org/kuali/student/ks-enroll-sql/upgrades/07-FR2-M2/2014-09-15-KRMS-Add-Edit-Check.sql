@@ -52,7 +52,7 @@ UPDATE KRMS_RULE_T SET PROP_ID = 'kuali.prop.add.edit.date' WHERE RULE_ID = 'kua
 -- Schedule Adjustment Term (for add/edit)
 INSERT INTO KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
   VALUES ('Schedule Adjustment is open for a term (add)', 'KS-KRMS-TERM-AdjustmentOpenForTermAdd',
-          'KS-KRMS-TS-DateInTermKeyDate', 0)
+          'KS-KRMS-TS-CurrentCourseWithinKeydate', 0)
 /
 
 -- Term Params: Configure the specific term key date to check against.
@@ -77,7 +77,7 @@ INSERT INTO KRMS_PROP_PARM_T (PARM_TYP_CD, PARM_VAL, PROP_ID, PROP_PARM_ID, SEQ_
 -- Non-Appointment registration term
 INSERT INTO KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
   VALUES ('Non-appt reg period is open for a term', 'KS-KRMS-TERM-NonApptRegOpenForTerm',
-          'KS-KRMS-TS-DateInTermKeyDate', 0)
+          'KS-KRMS-TS-CurrentCourseWithinKeydate', 0)
 /
 
 -- Term Params: Configure the specific term key date to check against.
