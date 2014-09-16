@@ -12,7 +12,6 @@ import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -43,12 +42,11 @@ public class AppliedHoldRule extends BasicHoldsRule {
             appliedHold.setExpirationDate(holdIssue.getLastAppliedDate());
         }
 
-
         isValid &= validateBasicHold(appliedHold);
         isValid &= validateAppliedHold(appliedHold);
         if (holdIssue.getIsHoldIssueTermBased()) {
-            holdWrapper.setExpirationTerm(resolveTermCode(holdIssue.getLastApplicationTermId()));
-            isValid &= validateTerm(holdWrapper);
+            appliedHold.setApplicationExpirationTermId(holdIssue.getLastApplicationTermId());
+            isValid &= validateTerm(holdWrapper, appliedHold);
         } else {
             //set applied hold terms to null.
         }
@@ -85,19 +83,26 @@ public class AppliedHoldRule extends BasicHoldsRule {
 
         try {
 
-            //Check if hold already applied to student?/Date based? TODO: KSENROLL-14775
-            List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getActiveAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
-                    appliedHold.getPersonId(), createContextInfo());
-            if (appliedHolds.size() > 0) {
-                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_ALREADY_APPLIED);
-                isValid = false;
-            }
             if (appliedHold.getEffectiveDate() != null) {
                 //Check if the StartDate and EndDate is in range
                 if (!AcalCommonUtils.isValidDateRange(appliedHold.getEffectiveDate(), appliedHold.getExpirationDate())) {
                     messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
                             AcalCommonUtils.formatDate(appliedHold.getEffectiveDate()), AcalCommonUtils.formatDate(appliedHold.getExpirationDate()));
                     isValid = false;
+                } else {
+                    List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
+                            appliedHold.getPersonId(), createContextInfo());
+                    for (AppliedHoldInfo existingAppliedHold : appliedHolds) {
+                        if (existingAppliedHold.getExpirationDate() == null) {
+                            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_ACTIVE_HOLD_CODE_ALREADY_APPLIED);
+                            isValid = false;
+                        } else {
+                            if (appliedHold.getEffectiveDate().before(existingAppliedHold.getExpirationDate())) {
+                                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXISTING_HOLD_CODE_INVALID_DATE_RANGE);
+                                isValid = false;
+                            }
+                        }
+                    }
                 }
             } else {
                 messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED);
@@ -117,24 +122,18 @@ public class AppliedHoldRule extends BasicHoldsRule {
      * @param holdWrapper
      * @return True if the validation succeeds. Otherwise, false.
      */
-    private boolean validateTerm(AppliedHoldMaintenanceWrapper holdWrapper) {
+    private boolean validateTerm(AppliedHoldMaintenanceWrapper holdWrapper, AppliedHoldInfo appliedHold) {
 
         boolean isValid = true;
         if (StringUtils.isBlank(holdWrapper.getEffectiveTerm())) {
             GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED);
             isValid = false;
-        } //else {
-        //  holdIssue.setFirstApplicationTermId(resolveTermId(holdWrapper.getFirstTerm(), HoldsConstants.HOLD_ISSUE_PROP_NAME_FIRST_TERM));
-        //  if (holdIssue.getFirstApplicationTermId() == null) {
-        //      isValid = false;
-        //  }
-        //}
-        //if (!StringUtils.isBlank(holdWrapper.getLastTerm())) {
-        //   holdIssue.setLastApplicationTermId(resolveTermId(holdWrapper.getLastTerm(), HoldsConstants.HOLD_ISSUE_PROP_NAME_LAST_TERM));
-        //    if (holdIssue.getLastApplicationTermId() == null) {
-        //       isValid = false;
-        //   }
-        //}
+        } else {
+            appliedHold.setApplicationEffectiveTermId(resolveTermId(holdWrapper.getEffectiveTerm(), HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM));
+          if (appliedHold.getApplicationEffectiveTermId() == null) {
+              isValid = false;
+          }
+        }
         return isValid;
     }
 
