@@ -131,6 +131,11 @@ public class StartProposalForm extends UifFormBase {
         this.proposalTitle = proposalTitle;
     }
 
+    /**
+     * This method return 'true' if
+     * - There is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * @return
+     */
     public boolean isModifiableCourse() {
         return this.isModifiableCourse;
     }
@@ -139,6 +144,11 @@ public class StartProposalForm extends UifFormBase {
         this.isModifiableCourse = isModifiableCourse;
     }
 
+    /**
+     * This method returns 'true' if given course have 1 or more versions, else 'false'.
+     *
+     * @return
+     */
     public boolean isCourseWithVersion() {
         return this.isCourseWithVersion;
     }
@@ -146,5 +156,4 @@ public class StartProposalForm extends UifFormBase {
     public void setCourseWithVersion(boolean isCourseWithVersion) {
         this.isCourseWithVersion = isCourseWithVersion;
     }
-
 }

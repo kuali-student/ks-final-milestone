@@ -85,9 +85,17 @@ public class CourseProposalUtil {
         return cmViewCourseUrl.toString();
     }
 
+    /**
+     * This method returns true if given course have 1 or more version, else false.
+     *
+     * @param cluId
+     * @param context
+     * @return
+     * @throws Exception
+     */
     public static boolean isCourseWithVersion(String cluId, ContextInfo context) throws Exception {
         List<VersionDisplayInfo> versions = CMUtils.getCluService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
-        return (versions.size()>0);
+        return !(versions.isEmpty());
     }
 
     /**
