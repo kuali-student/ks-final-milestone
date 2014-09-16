@@ -79,6 +79,14 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private boolean saveCourse = true;
 
     /**
+     * For modify proposals this is the text for the end term that will be applied to the currently active
+     * course when/if the draft course is made active.
+     */
+    public String getCurrentCourseEndTerm() {
+        return "org.kuali.atp.someTerm";
+    }
+
+    /**
      * This is a display property for the course version (e.g. "Version 2 (current version)") on View Course compare view.
      */
     public String getVersionText() {
@@ -121,7 +129,6 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     public void setCurrentVersion(boolean currentVersion) {
         this.currentVersion = currentVersion;
     }
-
 
     public Date getEffectiveDate() {
         return effectiveDate;

@@ -159,6 +159,9 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
         @RequestProtected
         boolean useReviewProcess;
 
+        @RequestProtected
+        boolean modifyWithNewVersionProposal = false;
+
         // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
         @RequestAccessible
         Map<String,String> dialogExplanations;
@@ -195,6 +198,17 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
          */
         public boolean isAdminProposal() {
             return isCurriculumSpecialistUser() && !isUseReviewProcess();
+        }
+
+        /**
+         * Returns true if the proposal is a modify which will create a new version of the proposed entity (e.g. course).
+         */
+        public boolean isModifyWithNewVersionProposal() {
+            return modifyWithNewVersionProposal;
+        }
+
+        public void setModifyWithNewVersionProposal(boolean modifyWithNewVersionProposal) {
+            this.modifyWithNewVersionProposal = modifyWithNewVersionProposal;
         }
 
         public Map<String, String> getDialogExplanations() {
@@ -249,5 +263,4 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
             }
         }
     }
-
 }

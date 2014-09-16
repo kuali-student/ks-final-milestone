@@ -99,7 +99,11 @@
                             <property name="iconToolTipText" value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>
                         </bean>
                     </property>
-                    </bean>
+                </bean>
+
+                <bean id="CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm" parent="Uif-DataField"
+                    p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTerm" p:fieldLabel.renderColon="false"
+                    p:render="@{#uiHelper.modifyWithNewVersionProposal}"/>
             </list>
         </property>
     </bean>

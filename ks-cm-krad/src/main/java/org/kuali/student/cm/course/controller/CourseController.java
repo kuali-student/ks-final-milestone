@@ -198,7 +198,7 @@ public class CourseController extends CourseRuleEditorController {
 
         String versionIndId = request.getParameter(CurriculumManagementConstants.UrlParams.VERSION_IND_ID);
 
-        //Get the current version first and assign it at old maintainable impl for compare view
+        // Get the current version first and assign it at old maintainable impl for compare view
 
         CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
         CourseMaintainable oldMaintainble = (CourseMaintainable)form.getDocument().getOldMaintainableObject();
@@ -222,6 +222,9 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setUseReviewProcess(
                 request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
 
+        //  Set the modify flag in the UI helper.
+        courseInfoWrapper.getUiHelper().setModifyWithNewVersionProposal(true);
+
         Properties urlParameters = new Properties();
 
         //  CS creating a Modify Admin Proposal with curric review
@@ -234,7 +237,7 @@ public class CourseController extends CourseRuleEditorController {
             return performRedirect(form, courseBaseUrl, urlParameters);
         }
         //  CS creating a Modify Admin Proposal (no curric review)
-        else{
+        else {
             // Set the request redirect to false so that the user stays on the same page
             form.setRequestRedirected(false);
             //redirect back to client to display confirm dialog
