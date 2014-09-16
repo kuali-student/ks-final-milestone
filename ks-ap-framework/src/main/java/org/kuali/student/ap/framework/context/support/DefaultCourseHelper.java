@@ -265,20 +265,22 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         return currentCourseId;
 	}
 
+    /**
+     *
+     * @see org.kuali.student.ap.framework.context.CourseHelper#getCurrentVersionOfCourseByVersionIndependentId(String)
+     */
     @Override
     public Course getCurrentVersionOfCourseByVersionIndependentId(String versionIndependentId) {
         // Retrieve course information using the course code entered by the user
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
-        List<SearchResultRowInfo> rows = null;
         String currentCourseId = getCurrentVersionIdOfCourseFromVersionId(versionIndependentId);
         Course course;
-
         try {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentCourseId, contextInfo);
         } catch (PermissionDeniedException | MissingParameterException | InvalidParameterException | OperationFailedException | DoesNotExistException e) {
             throw new IllegalArgumentException("Course service failure", e);
-         }
+        }
+
         return course;
     }
 
@@ -425,6 +427,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
     /**
      * Retrieves the clu id for the current version of a course using the independent version id
+     * First attempts to use ksap definition of current
+     * If no course found with ksap definition use enrollment definition
      *
      * @param versionId - Version id for the course
      * @return Clu id for the current version of the course.
@@ -443,6 +447,26 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             }
         } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
             throw new IllegalArgumentException("Search service failure", e);
+        }
+
+        // If no current version is found use latest version (enrollment definition
+        if(currentCourseId==null){
+            LOG.warn("No valid current version of course found, using latests version");
+            try {
+                VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService()
+                        .getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI,versionId,contextInfo);
+                currentCourseId = currentVersion.getId();
+            } catch (DoesNotExistException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (InvalidParameterException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (MissingParameterException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (OperationFailedException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (PermissionDeniedException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            }
         }
         return currentCourseId;
     }

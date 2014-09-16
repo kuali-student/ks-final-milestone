@@ -36,6 +36,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
@@ -577,14 +578,16 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CURRENT_DATE, date);
         query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID, versionId);
-        List<Object[]> results = query.getResultList();
+        SearchResultRowInfo row = new SearchResultRowInfo();
 
-        // Compile results
-        for(Object[] resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String)resultRow[0]);
-            resultInfo.getRows().add(row);
+        // Compile Results
+        try{
+            Object result = query.getSingleResult();
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String) result);
+        }catch(NoResultException e){
+            row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, null);
         }
+        resultInfo.getRows().add(row);
 
         return resultInfo;
     }

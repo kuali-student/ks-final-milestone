@@ -1035,23 +1035,6 @@ public class DefaultPlanHelper implements PlanHelper {
 
         // Retrieve Current Version of related course
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
-        if(course == null){
-            LOG.warn("No valid current version of course found");
-            try {
-                VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCourseService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI,planItem.getRefObjectId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
-                course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("No Current version of course found",e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException("No Current version of course found",e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException("No Current version of course found",e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException("No Current version of course found",e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException("No Current version of course found",e);
-            }
-        }
 
         newPlannerItem.setCourseId(course.getId());
         newPlannerItem.setCourseCode(course.getCode());
