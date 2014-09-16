@@ -1142,7 +1142,8 @@ public class DefaultPlanHelper implements PlanHelper {
             completedRecords = KsapFrameworkServiceLocator.getAcademicRecordService().getCompletedCourseRecords(
                     studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("AR lookup failure", e);
+            completedRecords=new ArrayList<>();
+//            throw new IllegalArgumentException("AR lookup failure", e);
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("AR lookup failure", e);
         } catch (MissingParameterException e) {
