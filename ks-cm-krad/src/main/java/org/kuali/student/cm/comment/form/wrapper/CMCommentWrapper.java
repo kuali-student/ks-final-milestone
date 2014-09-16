@@ -17,8 +17,8 @@
 package org.kuali.student.cm.comment.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.uif.util.DTOWrapper;
 import org.kuali.student.cm.uif.util.RenderHelper;
+import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 
@@ -26,7 +26,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
  *
  * @author Kuali Student Team
  */
-public class CMCommentWrapper implements DTOWrapper, Comparable<CMCommentWrapper> {
+public class CMCommentWrapper extends DTOWrapperBase implements Comparable<CMCommentWrapper> {
 
     protected CommentInfo commentInfo;
     protected CreateCourseRenderHelper renderHelper;

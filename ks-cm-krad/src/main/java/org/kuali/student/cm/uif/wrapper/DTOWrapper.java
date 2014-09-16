@@ -14,14 +14,21 @@
  *
  * Created by venkat on 5/23/14
  */
-package org.kuali.student.cm.uif.util;
+package org.kuali.student.cm.uif.wrapper;
+
+import java.util.Map;
 
 /**
+ * Base for all the CM DTO wrappers.
  *
  * @author Kuali Student Team
  */
 public interface DTOWrapper {
 
     public boolean isNewDto();
+
+    public Map<String,Object> getExtensionData();
+
+    public void putExtensionData(String key,Object value);
 
 }

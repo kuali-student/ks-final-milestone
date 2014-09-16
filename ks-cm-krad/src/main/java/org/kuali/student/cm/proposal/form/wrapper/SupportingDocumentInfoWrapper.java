@@ -16,8 +16,8 @@
 package org.kuali.student.cm.proposal.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
 import org.kuali.student.common.util.DisplayWrapper;
-import org.kuali.student.cm.uif.util.DTOWrapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import java.util.Arrays;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class SupportingDocumentInfoWrapper implements DTOWrapper, DisplayWrapper {
+public class SupportingDocumentInfoWrapper extends DTOWrapperBase implements DisplayWrapper {
 
 	private static final long serialVersionUID = -1L;
     

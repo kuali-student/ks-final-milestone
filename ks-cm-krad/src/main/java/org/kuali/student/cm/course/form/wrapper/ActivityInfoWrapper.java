@@ -19,13 +19,14 @@ package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.uif.util.RenderHelper;
+import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
 
 /**
  * Wrapper for Activities for Review Proposal page. All the getters are being referenced from the krad
  * markup xml at CourseViewReviewProposal.xml
  *
  */
-public class ActivityInfoWrapper {
+public class ActivityInfoWrapper extends DTOWrapperBase {
 
     private String activityType;
     private Integer anticipatedClassSize;
