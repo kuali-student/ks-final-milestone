@@ -53,7 +53,7 @@ public class GesServiceConstants
 
     // Parameter Group Keys
     // -------------------------
-    public static final String GES_PARAMETER_GROUP_KEY_ROLLOVER = "kuali.student.ges.parametergroup.key.rollover";
+    public static final String GES_PARAMETER_GROUP_KEY_ROLLOVER = "kuali.ges.parametergroup.key.rollover";
 
     /**
      * known parameters
@@ -81,6 +81,8 @@ public class GesServiceConstants
     public static final String PARAMETER_KEY_ROLLOVER_ACTIVITYOFFERING_COLOCATED_INCLUDE = "kuali.ges.parameter.key.rollover.activityofferingscolocation.include";
     public static final String PARAMETER_KEY_ROLLOVER_CLU_VERSIONS_INCLUDE = "kuali.ges.parameter.key.rollover.cluversions.include";
     public static final String PARAMETER_KEY_ROLLOVER_COURSEOFFERING_REQUISITES_INCLUDE = "kuali.ges.parameter.key.rollover.requisitesaddedincourseoffering.include";
+
+    public static final String PARAMETER_KEY_ROLLOVER_PREFIX = "kuali.ges.parameter.key.rollover";
 
 
 }

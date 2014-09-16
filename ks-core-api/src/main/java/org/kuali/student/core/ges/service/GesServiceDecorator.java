@@ -75,6 +75,11 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
+    public List<String> getParameterKeysForParameterGroup(String parameterGroupKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getParameterKeysForParameterGroup(parameterGroupKey,contextInfo);
+    }
+
+    @Override
     public List<String> searchForParameterKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().searchForParameterKeys(criteria,contextInfo);
     }
@@ -155,6 +160,16 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        return getNextDecorator().getValuesByParameters(parameterKeys, contextInfo);
+    }
+
+    @Override
+    public List<ValueInfo> getValuesByParameters(List<String> parameterKeys, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        return getNextDecorator().getValuesByParameters(parameterKeys, criteria, contextInfo);
+    }
+
+    @Override
     public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().evaluateValues(parameterKey,criteria, contextInfo);
     }
@@ -184,7 +199,7 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValueInfo> evaluateValuesForParameterGroup(String parameterGroupKey, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValueInfo> evaluateValuesForParameterGroup(String parameterGroupKey, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         return getNextDecorator().evaluateValuesForParameterGroup(parameterGroupKey, criteria, contextInfo);
     }
 

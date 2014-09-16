@@ -125,6 +125,28 @@ public interface GesService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a list of Parameter Keys by Parameter Group Key
+     *
+     * @param parameterGroupKey a Parameter Group Key
+     * @param contextInfo      information containing the principalId and
+     *                         locale information about the caller of the service operation
+     * @return a list of Parameter identifiers that are associated with a parameter group
+     *         or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException parameterTypeKey or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getParameterKeysForParameterGroup(@WebParam(name = "parameterGroupKey") String parameterGroupKey,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Searches for Parameters based on the criteria and returns
      * a list of Parameter keys which match the search
      * criteria.
@@ -579,6 +601,49 @@ public interface GesService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a list of values associated with the given particular parameter keys.
+     *
+     * @param parameterKeys the list of keys for the parameters associated with the values that will be returned.
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return A list of values associated with the given parameter keys
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException parameterKey or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValueInfo> getValuesByParameters(@WebParam(name = "parameterKeys") List<String> parameterKeys,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException, DoesNotExistException;
+
+
+    /**
+     * Retrieves a list of values associated with the given particular parameter keys and retricted by the criteria.
+     *
+     * @param parameterKeys the list of keys for the parameters associated with the values that will be returned.
+     * @param criteria    the criteria that restricts the values returned by this method.
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return A list of values associated with the given parameter keys
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException parameterKey or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValueInfo> getValuesByParameters(@WebParam(name = "parameterKeys") List<String> parameterKeys,
+                                                 @WebParam(name = "criteria") GesCriteriaInfo criteria,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException, DoesNotExistException;
+
+    /**
      * Retrieves a list of values associated with a particular parameter
      * that are applicable based on the evaluation of the given criteria.
      * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.
@@ -799,7 +864,8 @@ public interface GesService {
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException,
+            DoesNotExistException;
 
 
     /**
