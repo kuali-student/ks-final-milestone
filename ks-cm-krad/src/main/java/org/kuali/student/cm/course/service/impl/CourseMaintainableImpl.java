@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -1391,11 +1392,17 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
     public void retrieveDataObject() {
         super.retrieveDataObject();
+
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
         try {
-            CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
             populateCourseAndReviewData(getProposalInfo().getProposalReference().get(0),dataObject);
         } catch (Exception e) {
             throw new RuntimeException("Caught Exception while populating Course data", e);
+        }
+
+        //  This needs to be moved to a method.
+        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, getDocumentTypeName())) {
+            dataObject.getUiHelper().setModifyWithNewVersionProposal(true);
         }
     }
 
@@ -1458,6 +1465,11 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         if (courseWrapper.getAdministeringOrganizations().isEmpty()) {
             courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
         }
+
+        /*
+         * Calculate the end term for the current course and store the display text.
+         */
+        courseWrapper.setCurrentCourseEndTerm("Foo 2014");
 
         populateAuditOnWrapper();
         populateFinalExamOnWrapper();
@@ -1526,7 +1538,9 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     /**
      * This method loads course information and populate to <class>CourseInfoWrapper</class> and also to
      * <class>ReviewProposalDisplay</class> for display purpose at 'review proposal' and 'view course'.
-     *
+
+     * @param courseId The id of the course to load.
+     * @param courseWrapper The data object to populate.
      * @throws Exception
      */
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper) throws Exception {
@@ -1535,6 +1549,10 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
     /**
      * Same as above, but adds the option to load version data.
+     *
+     * @param courseId The id of the course to load.
+     * @param courseWrapper The data object to populate.
+     * @param loadVersionData A flag to indicate whether version info should be looked up and populated.
      */
     public void populateCourseAndReviewData(String courseId, CourseInfoWrapper courseWrapper, boolean loadVersionData) throws Exception {
 

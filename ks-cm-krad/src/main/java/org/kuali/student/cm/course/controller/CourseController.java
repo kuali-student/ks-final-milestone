@@ -80,7 +80,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This controller handles all the requests from the 'Create a Course' UI.
+ * Handles all the requests from the Add/Edit a Course Proposal UI.
  */
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE)
@@ -215,9 +215,6 @@ public class CourseController extends CourseRuleEditorController {
         //  set the Curriculum review status on the uiHelper
         courseInfoWrapper.getUiHelper().setUseReviewProcess(
                 request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
-
-        //  Set the modify flag in the UI helper.
-        courseInfoWrapper.getUiHelper().setModifyWithNewVersionProposal(true);
 
         Properties urlParameters = new Properties();
 
@@ -693,7 +690,21 @@ public class CourseController extends CourseRuleEditorController {
 
 
         return performRedirect(form, courseBaseUrl, urlParameters);
+    }
 
+    /**
+     * Handler for component refresh of the CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm data field.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=refreshCurrentCourseStartTerm")
+    public ModelAndView refreshCurrentCourseStartTerm(@ModelAttribute("KualiForm") DocumentFormBase form) {
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
+
+        //  Look up the end term and set it here
+        courseInfoWrapper.setCurrentCourseEndTerm(new java.util.Date().toString());
+
+        return getUIFModelAndView(form);
     }
 
     protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {

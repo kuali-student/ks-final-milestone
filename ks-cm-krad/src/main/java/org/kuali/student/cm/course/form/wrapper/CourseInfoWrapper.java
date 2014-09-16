@@ -69,6 +69,8 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
     private boolean currentVersion = true;
     private String versionText;
 
+    private String currentCourseEndTerm;
+
     //Whether to save a course or not. This is useful for modify new version
     private boolean disableSaving = false;
 
@@ -77,7 +79,11 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
      * course when/if the draft course is made active.
      */
     public String getCurrentCourseEndTerm() {
-        return "org.kuali.atp.someTerm";
+        return currentCourseEndTerm;
+    }
+
+    public void setCurrentCourseEndTerm(String currentCourseEndTerm) {
+         this.currentCourseEndTerm = currentCourseEndTerm;
     }
 
     /**

@@ -24,7 +24,7 @@
                     </property>
 
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshEndTerm();"/>
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshEndTerm(); @{#uiHelper.modifyWithNewVersionProposal ? 'refreshCurrentCourseEndTerm();' : ''}"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true" />
@@ -102,8 +102,9 @@
                 </bean>
 
                 <bean id="CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm" parent="Uif-DataField"
-                    p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTerm" p:fieldLabel.renderColon="false"
-                    p:render="@{#uiHelper.modifyWithNewVersionProposal}"/>
+                    p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTerm"
+                    p:fieldLabel.renderColon="false"   p:forceSessionPersistence="true"
+                    p:render="@{#uiHelper.modifyWithNewVersionProposal and #dataObject.courseInfo.startTerm != null }"/>
             </list>
         </property>
     </bean>
