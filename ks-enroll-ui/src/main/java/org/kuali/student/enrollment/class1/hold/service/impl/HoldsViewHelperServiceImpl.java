@@ -104,6 +104,8 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
     /**
      * This method is used to search for holds applied to a person and map them to AppliedHoldResult
+     * Only released holds that have the maintain history option enabled will be displayed.
+     * All active holds will be displayed regardless of the maintain history option.
      *
      * @param holdFrom
      * @return List holdResultList
@@ -121,6 +123,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
+                //Check if the hold has the Maintain History Option set to true when the hold is in released state
                 if ((holdIssue.getMaintainHistoryOfApplicationOfHold() && getStateInfo(appliedHoldInfo.getStateKey()).getName().matches(HoldServiceConstants.HOLD_RELEASED_STATE)) ||
                         (holdIssue.getMaintainHistoryOfApplicationOfHold() == false && getStateInfo(appliedHoldInfo.getStateKey()).getName().matches(HoldServiceConstants.HOLD_ACTIVE_STATE))) {
                     appliedHoldResult.setId(appliedHoldInfo.getId());
