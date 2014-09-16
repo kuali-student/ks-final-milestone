@@ -56,8 +56,6 @@ import java.util.Set;
 public class ParameterGroupEntity extends MetaEntity
         implements AttributeOwner<ParameterGroupAttributeEntity> {
 
-    //public static final String PARAMETER_QUERY_GET_IDS_BY_TYPE = "ParameterEntity.getIdsByType";
-
     ////////////////////
     // DATA FIELDS
     ////////////////////

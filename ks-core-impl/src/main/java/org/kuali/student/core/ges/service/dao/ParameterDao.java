@@ -26,13 +26,13 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 public class ParameterDao extends GenericEntityDao<ParameterEntity> {
 
 	public List<String> getIdsByType(String type) {
-		Query query = em.createNamedQuery(ParameterEntity.PARAMETER_QUERY_GET_IDS_BY_TYPE);
+		Query query = em.createNamedQuery(ParameterEntity.GES_PARAMETER_GET_IDS_BY_TYPE);
 		query.setParameter("type", type);
 		return query.getResultList();
 	}
 
     public List<String> getParameterKeysForParameterGroup(String parameterGroupKey) {
-        Query query = em.createNamedQuery(ParameterEntity.PARAMETER_QUERY_GET_PARAM_KEYS_FOR_PARAMGRP_KEY);
+        Query query = em.createNamedQuery(ParameterEntity.GES_PARAMETER_GET_PARAM_KEYS_FOR_PARAM_GRP);
         query.setParameter("paramGrpKey", parameterGroupKey);
         return query.getResultList();
     }

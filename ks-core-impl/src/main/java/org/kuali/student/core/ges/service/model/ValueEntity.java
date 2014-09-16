@@ -52,14 +52,20 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 @Entity
 @Table(name = "KSEN_GES_VALUE")
 @NamedQueries({
-        @NamedQuery(name = "ValueEntity.getIdsByType", query = "select id from ValueEntity where typeKey = :type"),
-        @NamedQuery(name = "ValueEntity.getByParameter", query = "select a from ValueEntity a where parameterKey = :parameterKey"),
-        @NamedQuery(name = "ValueEntity.getValuesByParameters", query = "select v from ValueEntity v where v.parameterKey in (:parameterKeys) and (v.stateKey = :stateKey)"),
-        @NamedQuery(name = "ValueEntity.getValuesByParametersWithAtpCriteria",
+        @NamedQuery(name = ValueEntity.GES_VALUE_GET_IDS_BY_TYPE, query = "select id from ValueEntity where typeKey = :type"),
+        @NamedQuery(name = ValueEntity.GES_VALUE_GET_BY_PARAMETER, query = "select a from ValueEntity a where parameterKey = :parameterKey"),
+        @NamedQuery(name = ValueEntity.GES_VALUE_GET_VALUES_BY_PARAMETERS, query = "select v from ValueEntity v where v.parameterKey in (:parameterKeys) and (v.stateKey = :stateKey)"),
+        @NamedQuery(name = ValueEntity.GES_VALUE_GET_VALUES_BY_PARAMETERS_WITH_CRITERIA,
                 query = "select v from ValueEntity v where v.parameterKey in (:parameterKeys) and (v.atpId = :atpId or v.atpTypeKey = :atpTypeKey or (v.atpId IS NULL and v.atpTypeKey IS NULL)) and (v.stateKey = :stateKey) order by v.parameterKey, v.priority, v.atpId, v.atpTypeKey")
 })
 public class ValueEntity extends MetaEntity
         implements AttributeOwner<ValueAttributeEntity> {
+
+    public static final String GES_VALUE_GET_IDS_BY_TYPE = "ValueEntity.getIdsByType";
+    public static final String GES_VALUE_GET_BY_PARAMETER = "ValueEntity.getByParameter";
+    public static final String GES_VALUE_GET_VALUES_BY_PARAMETERS = "ValueEntity.getValuesByParameters";
+    public static final String GES_VALUE_GET_VALUES_BY_PARAMETERS_WITH_CRITERIA = "ValueEntity.getValuesByParametersWithAtpCriteria";
+
 
     @Column(name = "GES_VALUE_TYPE", nullable = false)
     private String typeKey;

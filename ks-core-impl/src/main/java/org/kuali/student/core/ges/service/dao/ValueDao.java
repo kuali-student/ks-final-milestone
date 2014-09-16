@@ -28,20 +28,20 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 public class ValueDao extends GenericEntityDao<ValueEntity> {
 
 	public List<String> getIdsByType(String type) {
-		Query query = em.createNamedQuery("ValueEntity.getIdsByType");
+		Query query = em.createNamedQuery(ValueEntity.GES_VALUE_GET_IDS_BY_TYPE);
 		query.setParameter("type", type);
 		return query.getResultList();
 	}
 
 	public List<ValueEntity> getByParameter(String parameterKey) {
-		Query query = em.createNamedQuery("ValueEntity.getByParameter");
+		Query query = em.createNamedQuery(ValueEntity.GES_VALUE_GET_BY_PARAMETER);
 		query.setParameter("parameterKey", parameterKey);
 		return query.getResultList();
 	}
 
     public List<ValueEntity> getValuesByParameters(List<String> parameterKeys) {
         if (!parameterKeys.isEmpty()) {
-            Query query = em.createNamedQuery("ValueEntity.getValuesByParameters");
+            Query query = em.createNamedQuery(ValueEntity.GES_VALUE_GET_VALUES_BY_PARAMETERS);
             query.setParameter("parameterKeys", parameterKeys);
             query.setParameter("stateKey", GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
             return query.getResultList();
@@ -53,7 +53,7 @@ public class ValueDao extends GenericEntityDao<ValueEntity> {
 
     public List<ValueEntity> getValuesByParametersWithAtpCriteria(List<String> parameterKeys, String atpId, String atpTypeKey) {
         if (!parameterKeys.isEmpty()) {
-            Query query = em.createNamedQuery("ValueEntity.getValuesByParametersWithAtpCriteria");
+            Query query = em.createNamedQuery(ValueEntity.GES_VALUE_GET_VALUES_BY_PARAMETERS_WITH_CRITERIA);
             query.setParameter("parameterKeys", parameterKeys);
             query.setParameter("atpId", atpId);
             query.setParameter("atpTypeKey", atpTypeKey);

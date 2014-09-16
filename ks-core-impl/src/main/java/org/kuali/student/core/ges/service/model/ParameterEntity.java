@@ -44,14 +44,14 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 @Entity
 @Table(name = "KSEN_GES_PARM")
 @NamedQueries({
-        @NamedQuery(name = "ParameterEntity.getIdsByType", query = "select id from ParameterEntity where typeKey = :type"),
-        @NamedQuery(name = "ParameterEntity.getParameterKeysForParameterGroup", query = "select p.id from ParameterEntity p join p.parameterGroups g where g.id = :paramGrpKey")
+        @NamedQuery(name = ParameterEntity.GES_PARAMETER_GET_IDS_BY_TYPE, query = "select id from ParameterEntity where typeKey = :type"),
+        @NamedQuery(name = ParameterEntity.GES_PARAMETER_GET_PARAM_KEYS_FOR_PARAM_GRP, query = "select p.id from ParameterEntity p join p.parameterGroups g where g.id = :paramGrpKey")
 })
 public class ParameterEntity extends MetaEntity
         implements AttributeOwner<ParameterAttributeEntity> {
 
-    public static final String PARAMETER_QUERY_GET_IDS_BY_TYPE = "ParameterEntity.getIdsByType";
-    public static final String PARAMETER_QUERY_GET_PARAM_KEYS_FOR_PARAMGRP_KEY = "ParameterEntity.getParameterKeysForParameterGroup";
+    public static final String GES_PARAMETER_GET_IDS_BY_TYPE = "ParameterEntity.getIdsByType";
+    public static final String GES_PARAMETER_GET_PARAM_KEYS_FOR_PARAM_GRP = "ParameterEntity.getParameterKeysForParameterGroup";
 
     ////////////////////
     // DATA FIELDS
