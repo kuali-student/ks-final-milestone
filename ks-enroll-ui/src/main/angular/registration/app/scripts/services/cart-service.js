@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CartService', ['$q', 'URLS', 'ServiceUtilities', function CartService($q, URLS, ServiceUtilities) {
+    .service('CartService', ['$q', 'URLS', 'RegUtil', 'ServiceUtilities', function CartService($q, URLS, RegUtil, ServiceUtilities) {
 
         var cartCredits = 0;
         var cartCourseCount = 0;
@@ -63,7 +63,7 @@ angular.module('regCartApp')
         };
 
         this.isCourseInCart = function(course) {
-            return ServiceUtilities.isCourseInList(course, this.getCartCourses());
+            return RegUtil.isCourseInList(course, this.getCartCourses());
         };
 
         // Server API Methods

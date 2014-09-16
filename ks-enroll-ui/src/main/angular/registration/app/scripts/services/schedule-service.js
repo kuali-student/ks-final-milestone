@@ -144,17 +144,11 @@ angular.module('regCartApp')
             };
 
             this.removeRegisteredCourse = function(course) {
-                // dropped flag needs to persist
-                this.getRegisteredCourses()[this.getRegisteredCourses().indexOf(course)].dropped = true;
-
                 this.setRegisteredCredits(parseFloat(this.getRegisteredCredits()) - parseFloat(course.credits));
                 this.setRegisteredCourseCount(parseInt(this.getRegisteredCourseCount()) - 1);
             };
 
             this.removeWaitlistedCourse = function(course) {
-                // dropped flag needs to persist
-                this.getWaitlistedCourses()[this.getWaitlistedCourses().indexOf(course)].dropped = true;
-
                 this.setWaitlistedCredits(parseFloat(this.getWaitlistedCredits()) - parseFloat(course.credits));
                 this.setWaitlistedCourseCount(this.getWaitlistedCourses().length);
             };
@@ -183,11 +177,11 @@ angular.module('regCartApp')
 
 
             this.isCourseRegistered = function(course) {
-                return ServiceUtilities.isCourseInList(course, this.getRegisteredCourses());
+                return RegUtil.isCourseInList(course, this.getRegisteredCourses());
             };
 
             this.isCourseWaitlisted = function(course) {
-                return ServiceUtilities.isCourseInList(course, this.getWaitlistedCourses());
+                return RegUtil.isCourseInList(course, this.getWaitlistedCourses());
             };
 
 

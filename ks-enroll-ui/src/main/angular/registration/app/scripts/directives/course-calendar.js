@@ -1,14 +1,88 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CourseCalendarDataParser', ['GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
-    function CourseCalendarDataParser(GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
-        var conflictMap;
+    .service('CourseCalendarDataParser', ['$q', 'GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
+    function CourseCalendarDataParser($q, GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
+        var cart,
+            registered,
+            waitlisted;
+
+        var calendar,
+            conflictMap,
+            dirty = false;
+
+
+        this.getCalendar = function() {
+            if (!calendar || dirty) {
+                // Build the calendar if it hasn't been built or if it is dirty
+                calendar = buildCalendar();
+            }
+
+            return calendar;
+        };
+
+        this.setCart = function(courses) {
+            var old = cart;
+            cart = angular.copy(courses); // Use copies so we don't check against the same array instance
+
+            if (shouldRebuild(cart, old)) {
+                dirty = true;
+            }
+
+            return dirty;
+        };
+
+        this.setRegistered = function(courses) {
+            var old = registered;
+            registered = angular.copy(courses); // Use copies so we don't check against the same array instance
+
+            if (shouldRebuild(registered, old)) {
+                dirty = true;
+            }
+
+            return dirty;
+        };
+
+        this.setWaitlisted = function(courses) {
+            var old = waitlisted;
+            waitlisted = angular.copy(courses); // Use copies so we don't check against the same array instance
+
+            if (shouldRebuild(waitlisted, old)) {
+                dirty = true;
+            }
+
+            return dirty;
+        };
+
+        /*
+         Checks if data in a given list has changed
+         */
+        function shouldRebuild(newList, oldList) {
+            if (!angular.isArray(oldList) || !angular.isArray(newList) || newList.length !== oldList.length) {
+                // Always rebuild if the old or new lists aren't arrays
+                return true;
+            }
+
+            for (var i = 0; i < oldList.length; i++) {
+                var oldCourse = oldList[i],
+                    newCourse = RegUtil.getCourseFromList(oldCourse, newList);
+
+                if (newCourse === null || (newCourse.dropped && !oldCourse.dropped)) {
+                    // Rebuild if the newCourse doesn't exist or if it has been dropped
+                    return true;
+                }
+            }
+
+            // No changes have been detected, don't rebuild
+            return false;
+        }
 
         /*
          Returns formatted data for display in the course calendar
          */
-        this.buildCalendar = function(registered, waitlisted, cart) {
+        function buildCalendar() {
+            dirty = false;
+
             conflictMap = {};
 
             // First, we split the data up by days
@@ -39,7 +113,7 @@ angular.module('regCartApp')
             GlobalVarsService.updateConflicts(waitlisted, 'WAIT');
 
             return calendar;
-        };
+        }
 
         /*
          Monday through Friday are always shown, so they should be initialized
@@ -349,7 +423,7 @@ angular.module('regCartApp')
                 conflictMap[regGroupId] = [];
             }
             var matchFound = false;
-            for (var i=0; i<conflictMap[regGroupId].length; i++) {
+            for (var i = 0; i < conflictMap[regGroupId].length; i++) {
                 if (angular.equals(conflictMap[regGroupId][i], conflictOffering)) {
                     matchFound = true;
                     break;
@@ -459,28 +533,69 @@ angular.module('regCartApp')
                     $scope.times.push(new Date(0, 0, 0, i, 0, 0, 0));
                 }
 
+
+                $scope.days = [];
+
+                var redrawing = false;
+                function redraw() {
+                    if (redrawing) {
+                        return;
+                    }
+
+                    redrawing = true;
+                    $timeout(function() {
+                        redrawing = false;
+
+                        var calendar = CourseCalendarDataParser.getCalendar();
+
+                        // Update the visible time range if it has changed
+                        var visibleMin = Math.floor(calendar.timeRange[0] / 60) * 60,
+                            visibleMax = Math.ceil(calendar.timeRange[1] / 60) * 60;
+
+                        if ($scope.visibleTimeRange.length === 0) {
+                            $scope.visibleTimeRange = [ visibleMin, visibleMax ];
+                        } else {
+                            if (!$scope.visibleTimeRange[0] || $scope.visibleTimeRange[0] !== visibleMin) {
+                                $scope.visibleTimeRange[0] = visibleMin;
+                            }
+
+                            if (!$scope.visibleTimeRange[1] || $scope.visibleTimeRange[1] !== visibleMax) {
+                                $scope.visibleTimeRange[1] = visibleMax;
+                            }
+                        }
+
+                        // Opportunity for further optimization:
+                        // It would be better to selectively add/remove rather than reset whole hog
+                        $scope.days = calendar.days;
+
+                    }, 50); // Delay a bit to pool up any redraws happening in quick succession
+                }
+
+
                 $scope.registered = ScheduleService.getRegisteredCourses();
                 $scope.waitlisted = ScheduleService.getWaitlistedCourses();
                 $scope.cart = CartService.getCartCourses();
 
-
-                var init = function(list) {
-                    if (list) {
-                        var calendar = CourseCalendarDataParser.buildCalendar($scope.registered, $scope.waitlisted, $scope.cart);
-                        $scope.visibleTimeRange = [
-                            Math.floor(calendar.timeRange[0] / 60) * 60,
-                            Math.ceil(calendar.timeRange[1] / 60) * 60
-                        ];
-
-                        $scope.days = calendar.days;
+                $scope.$watch('registered', function(list) {
+                    var changed = CourseCalendarDataParser.setRegistered(list);
+                    if (changed) {
+                        redraw();
                     }
-                };
+                }, true);
+                $scope.$watch('waitlisted', function(list) {
+                    var changed = CourseCalendarDataParser.setWaitlisted(list);
+                    if (changed) {
+                        redraw();
+                    }
+                }, true);
+                $scope.$watchCollection('cart', function(list) {
+                    var changed = CourseCalendarDataParser.setCart(list);
+                    if (changed) {
+                        redraw();
+                    }
+                });
 
-                init(true);
-                // need to watch for changes in each course dropped flag
-                $scope.$watch('registered', init, true);
-                $scope.$watch('waitlisted', init, true);
-                $scope.$watchCollection('cart', init);
+                redraw();
 
             }],
             link: function(scope, element) {

@@ -213,7 +213,6 @@ angular.module('regCartApp')
                 $scope.actionStatus = STATUS.success;
             }, function(reason) {
                 // Bubble up the error if there was one
-                console.log(reason);
                 if (reason && reason !== 'cancel' && reason !== 'escape key press') { // 'cancel' comes when the Direct Reg modal is canceled/closed
                     $scope.actionStatus = STATUS.error;
                 } else {

@@ -144,6 +144,7 @@ angular.module('regCartApp')
                             case COURSE_TYPES.waitlisted:
                                 // After all the processing is complete, update the new Schedule counts.
                                 ScheduleService.removeWaitlistedCourse(course);
+                                ScheduleService.addDroppedWaitlisted(course);
 
                                 // need a count on how many success drop message for WL are opened. So if there are no WL courses
                                 // when we "X" the last success drop message the "Waitlisted" section name would disappear
@@ -152,6 +153,7 @@ angular.module('regCartApp')
                             case COURSE_TYPES.registered:
                                 // After all the processing is complete, update the new Schedule counts.
                                 ScheduleService.removeRegisteredCourse(course);
+                                ScheduleService.addDroppedRegistered(course);
 
                                 // need a count on how many success drop message are opened. So if there are no courses when we "X" the last
                                 // success drop message the section can be replaced by the splash screen (unless there are waitlisted courses)

@@ -184,11 +184,9 @@ angular.module('regCartApp')
                     var message;
                     switch ($scope.type) {
                         case COURSE_TYPES.registered:
-                            ScheduleService.addDroppedRegistered(course);
                             message = '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully';
                             break;
                         case COURSE_TYPES.waitlisted:
-                            ScheduleService.addDroppedWaitlisted(course);
                             message = 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully';
                             break;
                     }

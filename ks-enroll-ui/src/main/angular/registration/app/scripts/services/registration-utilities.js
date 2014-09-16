@@ -114,6 +114,46 @@ angular.module('regCartApp')
         };
 
         /**
+         * Locate and return a course from a list of courses
+         *
+         * @param c course to match on
+         * @param list of courses
+         * @returns {course}
+         */
+        this.getCourseFromList = function(c, list) {
+            var course = c;
+            if (angular.isString(c)) {
+                course = {
+                    masterLprId: c,
+                    regGroupId: c
+                };
+            }
+
+            var listCourse = null;
+            for (var i = 0; i < list.length; i++) {
+                if ((angular.isDefined(list[i].regGroupId) && list[i].regGroupId === course.regGroupId) ||
+                    (angular.isDefined(list[i].masterLprId) && list[i].masterLprId === course.masterLprId)) {
+
+                    listCourse = list[i];
+                    break;
+                }
+            }
+
+            return listCourse;
+        };
+
+        /**
+         * Global method for seeing if a course is present in a list of courses
+         *
+         * @param c course to match on
+         * @param list of courses
+         * @returns {boolean}
+         */
+        this.isCourseInList = function (c, list) {
+            return this.getCourseFromList(c, list) !== null;
+        };
+
+        /**
          * Sort a course list by a specified order
          *
          * @param list of courses
