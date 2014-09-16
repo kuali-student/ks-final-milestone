@@ -35,17 +35,7 @@
             <list>
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
-                <bean parent="Uif-HorizontalFieldGroup" >
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-RegistrationWindows-EditSection"/>
-                            <!--<ref bean="KS-RegistrationAppointments-EditSection"/>-->
-                        </list>
-                    </property>
-                    <!--<property name="tabsWidget.templateOptionsJSString">-->
-                    <!--<value> { selected: @{defaultSelectedTabIndex} } </value>-->
-                    <!--</property>-->
-                </bean>
+                <ref bean="KS-RegistrationWindows-EditSection"/>
             </list>
         </property>
 
@@ -64,6 +54,7 @@
     <!-- Appointment Window Edit Section -->
     <bean id="KS-RegistrationWindows-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:style="min-width:70em;"
             p:headerText="Registration Windows">
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <ref bean="KS-RegistrationWindows-PeriodSection"/>
@@ -108,19 +99,22 @@
     </bean>
 
     <!-- This is a collection of AppointmentWindows -->
-    <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-Disclosure-TableCollectionSection"
+    <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="12" p:render="@{showAddWindows}"
-            p:headerText="Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
-            p:propertyName="appointmentWindows" p:layoutManager.renderSequenceField="false"
-            p:layoutManager.generateAutoSequence="false"
-            p:layoutManager.separateAddLine="false"
-            p:layoutManager.richTable.disableTableSort="true"
-            p:addLineLabel.messageText=""
-            p:layoutManager.richTable.render="false"
-            p:layoutManager.applyAlternatingRowStyles="false"
-            p:id="addRegistrationWindowCollection"
-            p:additionalCssClasses="ks-appointmentWindow-table">
+          p:disclosure.render="false"
+          p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+          p:propertyName="appointmentWindows" p:layoutManager.renderSequenceField="false"
+          p:layoutManager.generateAutoSequence="false"
+          p:layoutManager.separateAddLine="false"
+          p:layoutManager.richTable.disableTableSort="true"
+          p:addLineLabel.messageText=""
+          p:layoutManager.richTable.render="false"
+          p:layoutManager.applyAlternatingRowStyles="false"
+          p:id="addRegistrationWindowCollection"
+          p:additionalCssClasses="ks-appointmentWindow-table">
         <!-- used for custom line separators -->
+
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
         <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
         <property name="collectionLookup" >
@@ -341,7 +335,7 @@
         </property>
 
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label=""/>
         </property>
     </bean>
 
