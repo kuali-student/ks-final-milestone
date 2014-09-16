@@ -976,7 +976,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
-        if (courseInfoWrapper.isSaveCourse()) {
+        if (!courseInfoWrapper.isDisableSaving()) {
             try {
                 LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
                 updateAndSaveCourseInfo();

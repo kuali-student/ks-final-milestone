@@ -201,22 +201,22 @@ public class CourseController extends CourseRuleEditorController {
 
         // Get the current version first and assign it at old maintainable impl for compare view
 
-        CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
-        CourseMaintainable oldMaintainble = (CourseMaintainable)form.getDocument().getOldMaintainableObject();
-        CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId, ContextUtils.createDefaultContextInfo());
-        oldMaintainble.setDataObject(compareCourseWrapper);
-        oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
-        compareCourseWrapper.setVersionText("Original Course");
+//        CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
+//        CourseMaintainable oldMaintainble = (CourseMaintainable)form.getDocument().getOldMaintainableObject();
+//        CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId, ContextUtils.createDefaultContextInfo());
+//        oldMaintainble.setDataObject(compareCourseWrapper);
+//        oldMaintainble.populateCourseAndReviewData(currentVersion.getId(),compareCourseWrapper);
+//        compareCourseWrapper.setVersionText("Original Course");
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
         courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
 
-        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(false);
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(true);
         courseInfoWrapper.setCourseInfo(courseInfo);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
         newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
-        courseInfoWrapper.setVersionText("Proposal");
+//        courseInfoWrapper.setVersionText("Proposal");
 
         ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
@@ -232,21 +232,21 @@ public class CourseController extends CourseRuleEditorController {
         Properties urlParameters = new Properties();
 
         //  CS creating a Modify Admin Proposal with curric review
-        if(request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.FALSE.toString())) {
+//        if(request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.FALSE.toString())) {
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveNewVersion");
             urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
             urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
             String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
             return performRedirect(form, courseBaseUrl, urlParameters);
-        }
-        //  CS creating a Modify Admin Proposal (no curric review)
-        else {
-            // Set the request redirect to false so that the user stays on the same page
-            form.setRequestRedirected(false);
-            //redirect back to client to display confirm dialog
-            return getUIFModelAndView(form, getReviewPageKradPageId());
-        }
+//        }
+//        //  CS creating a Modify Admin Proposal (no curric review)
+//        else {
+//            // Set the request redirect to false so that the user stays on the same page
+//            form.setRequestRedirected(false);
+//            //redirect back to client to display confirm dialog
+//            return getUIFModelAndView(form, getReviewPageKradPageId());
+//        }
     }
 
     /**
@@ -440,11 +440,68 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+    /**
+     * This is a workaround to bypass the transaction issue involved with 'modifyNewVersion' method here. We're
+     * redirecting the user to this method for saving a new modify version. It's not intended to use elsewhere.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=saveNewVersion")
     public ModelAndView saveNewVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return saveProposal(form,result,request,response);
+        ModelAndView modelAndView = saveProposal(form, result, request, response);
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+        wrapper.setDisableSaving(false);
+
+        return modelAndView;
+    }
+
+    /**
+     * Saves the proposal. Actual save happens at the base class 'ProposalController'. Once save is successful without
+     * errors and if the page to be displayed is review page, we need to make sure all the validation errors are shown
+     * to the user at review page and footer buttons are enabled/disabled accordingly.
+     *
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
+    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ModelAndView modelAndView = super.saveProposal(form,result,request,response);
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return modelAndView;
+        }
+
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+
+        /**
+         * After save, if we're directing user to the review proposal page, make sure to display the validations
+         * and enable/disable the submit button accordingly.
+         */
+//        if (StringUtils.equals(form.getPageId(),getReviewPageKradPageId())){
+//            Properties urlParameters = new Properties();
+//            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, getProposalReviewMethodToCall());
+//            urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+//            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
+//            urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
+//            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
+//            return performRedirect(form, courseBaseUrl, urlParameters);
+//        }
+
+        return modelAndView;
+
     }
 
     /**

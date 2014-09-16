@@ -76,7 +76,7 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
     private String versionText;
 
     //Whether to save a course or not. This is useful for modify new version
-    private boolean saveCourse = true;
+    private boolean disableSaving = false;
 
     /**
      * For modify proposals this is the text for the end term that will be applied to the currently active
@@ -113,10 +113,10 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
         super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
     }
 
-    public CourseInfoWrapper(boolean saveCourse) {
+    public CourseInfoWrapper(boolean disableSaving) {
         // cannot pass document type in here because this could be Modify or Create
         super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
-        this.saveCourse = saveCourse;
+        this.disableSaving = disableSaving;
     }
 
     /**
@@ -221,8 +221,12 @@ public class CourseInfoWrapper extends ProposalElementsWrapper implements Serial
         return this.finalExamStatus;
     }
 
-    public boolean isSaveCourse() {
-        return saveCourse;
+    public void setDisableSaving(boolean disableSaving) {
+        this.disableSaving = disableSaving;
+    }
+
+    public boolean isDisableSaving() {
+        return disableSaving;
     }
 
     /**
