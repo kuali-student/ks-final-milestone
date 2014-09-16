@@ -45,6 +45,8 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 
 	private transient String creditString;
 
+    private List<String> statusMessages;
+
     // PlannerItem types
     public static final String BLANK_ITEM = "BlankItem";
     public static final String COURSE_RECORD_ITEM = "CourseRecord";
@@ -257,5 +259,22 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 
     public void setMeta(Meta meta) {
         this.meta = meta;
+    }
+
+    public List<String> getStatusMessages() {
+        return statusMessages;
+    }
+
+    public void setStatusMessages(List<String> statusMessages) {
+        this.statusMessages = statusMessages;
+    }
+
+    public String getStatusMessagesForUI(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String message : statusMessages){
+            stringBuilder.append(message+"<br>");
+        }
+
+        return stringBuilder.toString();
     }
 }

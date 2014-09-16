@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -61,7 +62,10 @@ import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
@@ -996,24 +1000,39 @@ public class DefaultPlanHelper implements PlanHelper {
      * @see org.kuali.student.ap.framework.context.PlanHelper#createPlannerItem(org.kuali.student.ap.academicplan.infc.PlanItem)
      */
     public PlannerItem createPlannerItem(PlanItem planItem){
+        List<String> statusMessages = new ArrayList<String>();
+
         PlannerItem newPlannerItem = new PlannerItem();
         newPlannerItem.setType(PlannerItem.PLAN_ITEM);
-
-        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
-        if(course == null){
-           LOG.warn("No Current version of course found");
-           throw new RuntimeException("No Current version of course found");
-        }
-
         newPlannerItem.setUniqueId(UUID.randomUUID().toString());
         try{
             newPlannerItem.setTermId(KSCollectionUtils.getRequiredZeroElement(planItem.getPlanTermIds()));
         }catch (OperationFailedException e){
-            LOG.warn(String.format("No Term id found for %s", course.getCode()), e);
+            LOG.warn(String.format("No Term id found for %s", planItem.getId()), e);
         }
         newPlannerItem.setLearningPlanId(planItem.getLearningPlanId());
         newPlannerItem.setPlanItemId(planItem.getId());
         newPlannerItem.setCategory(planItem.getCategory());
+
+        // Retrieve Current Version of related course
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
+        if(course == null){
+            LOG.warn("No valid current version of course found");
+            try {
+                VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCourseService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI,planItem.getRefObjectId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+                course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (DoesNotExistException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (InvalidParameterException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (MissingParameterException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (OperationFailedException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            } catch (PermissionDeniedException e) {
+                throw new RuntimeException("No Current version of course found",e);
+            }
+        }
 
         newPlannerItem.setCourseId(course.getId());
         newPlannerItem.setCourseCode(course.getCode());
@@ -1042,38 +1061,34 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         //Find any associated plan items of the registration group variety
-        List<String> registrationGroupCodes = new ArrayList<String>();
-        PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
-        List<String> planItemIdsForRegGroups = planItemInfo.getAttributeValueList(AcademicPlanServiceConstants.
-                PLAN_ITEM_RELATION_TYPE_COURSE2RG);
-
-        List<String> regGroupIds = new ArrayList<String>();
-
-        //Get the registration group IDs
-        for (String planItemIdForRegGroup : planItemIdsForRegGroups) {
-            PlanItem planItemForRegGroup = KsapFrameworkServiceLocator.getPlanHelper().getPlanItem(planItemIdForRegGroup);
-            regGroupIds.add(planItemForRegGroup.getRefObjectId());
-        }
-
-        //Look up the reg groups
-        List<RegistrationGroupInfo> regGroups = null;
-        for(String regGroupId : regGroupIds){
-            SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
-            request.addParam(CourseSearchConstants.SearchParameters.LUI_ID,regGroupId);
-            try {
-                SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(
-                        request,KsapFrameworkServiceLocator.getContext().getContextInfo());
-                String regGroupName = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
-                        results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_NAME);
-                registrationGroupCodes.add(regGroupName);
-            } catch ( InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
-                throw new IllegalStateException("CO lookup failure", e);
-            }
-        }
+        List<String> registrationGroupCodes = getRegistrationGroupCodes(planItem);
         if (registrationGroupCodes.size() > 0) {
             newPlannerItem.setRegistrationGroupCodes(registrationGroupCodes);
         }
+
+        statusMessages.addAll(validateCourseItem(course,newPlannerItem));
+        newPlannerItem.setStatusMessages(statusMessages);
+
         return newPlannerItem;
+    }
+
+    protected List<String> validateCourseItem(Course course, PlannerItem plannerItem){
+        List<String> statusMessages = new ArrayList<String>();
+        String termName = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannerItem.getTermId()).getTermName();
+        if(course.getStateKey().equals(DtoConstants.STATE_SUSPENDED)){
+            statusMessages.add(course.getCode() + " is suspended for " + termName);
+        } else if(course.getStateKey().equals(DtoConstants.STATE_RETIRED)){
+            if(course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
+                statusMessages.add(course.getCode() + " is not scheduled for " + termName);
+            }
+        }
+        if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(plannerItem.getTermId())){
+            if(!KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course).contains(plannerItem.getTermId())){
+                statusMessages.add(course.getCode() + " is not scheduled for " + termName);
+            }
+        }
+
+        return statusMessages;
     }
 
     /**
@@ -1558,5 +1573,46 @@ public class DefaultPlanHelper implements PlanHelper {
 
         return term;
 
+    }
+
+    /**
+     * Retrieves a list of registration codes repersented by plan items linked to the course item.
+     *
+     * @param planItem - Course Item in the plan
+     * @return A list of registration codes for groups planned
+     */
+    protected List<String> getRegistrationGroupCodes(PlanItem planItem){
+
+        //Find any associated plan items of the registration group variety
+        List<String> registrationGroupCodes = new ArrayList<String>();
+        PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
+        List<String> planItemIdsForRegGroups = planItemInfo.getAttributeValueList(AcademicPlanServiceConstants.
+                PLAN_ITEM_RELATION_TYPE_COURSE2RG);
+
+        List<String> regGroupIds = new ArrayList<String>();
+
+        //Get the registration group IDs
+        for (String planItemIdForRegGroup : planItemIdsForRegGroups) {
+            PlanItem planItemForRegGroup = KsapFrameworkServiceLocator.getPlanHelper().getPlanItem(planItemIdForRegGroup);
+            regGroupIds.add(planItemForRegGroup.getRefObjectId());
+        }
+
+        //Look up the reg groups
+        List<RegistrationGroupInfo> regGroups = null;
+        for(String regGroupId : regGroupIds){
+            SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
+            request.addParam(CourseSearchConstants.SearchParameters.LUI_ID,regGroupId);
+            try {
+                SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(
+                        request,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                String regGroupName = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
+                        results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_NAME);
+                registrationGroupCodes.add(regGroupName);
+            } catch ( InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
+                throw new IllegalStateException("CO lookup failure", e);
+            }
+        }
+
+        return registrationGroupCodes;
     }
 }

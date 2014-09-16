@@ -432,6 +432,18 @@
         </property>
         <property name="items">
             <list>
+                <bean p:id="@{#line.uniqueId}_statusMessage" parent="Uif-Message">
+                    <property name="render" value="@{!#empty(#line.statusMessagesForUI)}"/>
+                    <property name="messageText" value="&#160;" />
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-fontello-icon-hollow-circled-plus</value>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <bean parent="KSAP-Tooltip" p:tooltipContent="@{#line.statusMessagesForUI}"/>
+                    </property>
+                </bean>
                 <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
                     <property name="messageText"
                               value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
