@@ -136,8 +136,8 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                     appliedHoldResult.setConsequence("");
                     appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
                     appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
-                    appliedHoldResult.setStartTerm(getTermCodeForId(holdIssue.getFirstApplicationTermId()));
-                    appliedHoldResult.setEndTerm(getTermCodeForId(holdIssue.getLastApplicationTermId()));
+                    appliedHoldResult.setStartTerm(getTermCodeForId(appliedHoldInfo.getApplicationEffectiveTermId()));
+                    appliedHoldResult.setEndTerm(getTermCodeForId(appliedHoldInfo.getApplicationExpirationTermId()));
 
                     holdResultList.add(appliedHoldResult);
                 }
