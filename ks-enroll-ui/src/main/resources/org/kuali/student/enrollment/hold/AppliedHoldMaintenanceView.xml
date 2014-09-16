@@ -150,7 +150,7 @@ limitations under the License.
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:label="Effective Date"
-                                  p:propertyName="appliedHold.effectiveDate">
+                                  p:propertyName="appliedHold.effectiveDate" p:required="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>

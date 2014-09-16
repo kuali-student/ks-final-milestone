@@ -105,7 +105,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
                     }
                 }
             } else {
-                messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_APPLIED_DATE_REQUIRED);
+                messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_REQUIRED);
                 isValid = false;
             }
 
@@ -126,7 +126,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
 
         boolean isValid = true;
         if (StringUtils.isBlank(holdWrapper.getEffectiveTerm())) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_FIRST_TERM_REQUIRED);
+            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_REQUIRED);
             isValid = false;
         } else {
             appliedHold.setApplicationEffectiveTermId(resolveTermId(holdWrapper.getEffectiveTerm(), HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM));
