@@ -113,4 +113,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
         UPDATE_BOOKMARK_TOTAL,
         UPDATE_PLAN_ITEM_STATUS
 	}
+
+    // Validation Messages
+    public static final String PLANNER_VALIDATION_MESSAGE_SUSPENDED = "planner.item.validation.suspended";
+    public static final String PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED = "planner.item.validation.scheduled.not";
 }

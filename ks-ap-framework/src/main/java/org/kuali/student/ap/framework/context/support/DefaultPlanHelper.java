@@ -1074,25 +1074,6 @@ public class DefaultPlanHelper implements PlanHelper {
         return newPlannerItem;
     }
 
-    protected List<String> validateCourseItem(Course course, PlannerItem plannerItem){
-        List<String> statusMessages = new ArrayList<String>();
-        String termName = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannerItem.getTermId()).getTermName();
-        if(course.getStateKey().equals(DtoConstants.STATE_SUSPENDED)){
-            statusMessages.add(course.getCode() + " is suspended for " + termName);
-        } else if(course.getStateKey().equals(DtoConstants.STATE_RETIRED)){
-            if(course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
-                statusMessages.add(course.getCode() + " is not scheduled for " + termName);
-            }
-        }
-        if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(plannerItem.getTermId())){
-            if(!KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course).contains(plannerItem.getTermId())){
-                statusMessages.add(course.getCode() + " is not scheduled for " + termName);
-            }
-        }
-
-        return statusMessages;
-    }
-
     /**
      *
      * @see org.kuali.student.ap.framework.context.PlanHelper#getPlannerCalendarTerms(org.kuali.student.r2.core.acal.infc.Term)
@@ -1616,5 +1597,42 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         return registrationGroupCodes;
+    }
+
+    /**
+     * Validates the course for the planner item and returns a list of any status messages found
+     * Validations:
+     * Course is suspended
+     * Course is retired and past expiration date
+     * Term is in progress and course has no offered course offerings
+     *
+     * @param course - Course repersented in the planner item
+     * @param plannerItem - Planner item being created
+     * @return A list of messages based on the validation
+     */
+    protected List<String> validateCourseItem(Course course, PlannerItem plannerItem){
+        List<String> statusMessages = new ArrayList<String>();
+        String termName = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannerItem.getTermId())
+                .getLongName();
+
+        if(course.getStateKey().equals(DtoConstants.STATE_SUSPENDED)){
+            statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
+                    PLANNER_VALIDATION_MESSAGE_SUSPENDED,course.getCode(),termName));
+        } else if(course.getStateKey().equals(DtoConstants.STATE_RETIRED)){
+            if(course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
+                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
+                        PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode(),termName));
+            }
+        }
+
+        if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(plannerItem.getTermId())){
+            if(!KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course).contains(
+                    plannerItem.getTermId())){
+                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
+                        PlanConstants.PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode(),termName));
+            }
+        }
+
+        return statusMessages;
     }
 }
