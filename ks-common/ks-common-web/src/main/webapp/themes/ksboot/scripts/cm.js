@@ -998,6 +998,15 @@ function refreshEndTerm() {
     }
 }
 
+/*
+ * For modify course proposals, updates the current course end term when the start term of the draft course
+ * is updated.
+ */
+function refreshCurrentCourseEndTerm() {
+   // Component id, methodToCall
+   retrieveComponent('CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm', 'refreshCurrentCourseStartTerm');
+}
+
 function hideName() {
     var criteria = jQuery('#searchByCriteria_control').val();
     if (criteria == 'ORGANIZATIONTYPE') {
