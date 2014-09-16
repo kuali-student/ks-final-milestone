@@ -17,10 +17,15 @@ package org.kuali.student.ap.planner.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
+import org.kuali.student.r2.lum.course.infc.Course;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public interface PlannerViewHelperService extends ViewHelperService{
 
@@ -34,4 +39,20 @@ public interface PlannerViewHelperService extends ViewHelperService{
      * @return Filled in form for displaying the Add to Plan Dialog for Courses
      */
     public UifFormBase loadAddToPlanDialogForm(UifFormBase submittedForm, AddCourseToPlanForm dialogForm, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * Helps with adding courses to the student's plan.
+     * Creates a new or retrieves an existing learning plan item and fills in the proper information before
+     * saving it to the database.
+     *
+     * @param plan - The student's learning plan
+     * @param form - Form containing all information entered for the new plan item
+     * @param course - Course plan item is being created for
+     * @param termId - Id of the term course is being added to
+     * @param response - Service response object
+     * @throws java.io.IOException -
+     * @throws javax.servlet.ServletException
+     */
+    public void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
+                                 HttpServletResponse response) throws IOException, ServletException;
 }

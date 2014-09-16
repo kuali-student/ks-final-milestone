@@ -17,22 +17,41 @@ package org.kuali.student.ap.planner.service.impl;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
+import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implements PlannerViewHelperService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PlannerViewHelperServiceImpl.class);
 
     /**
      * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadAddToPlanDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.AddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -46,7 +65,12 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         dialogForm.setCourseId(courseId);
         dialogForm.setCourseCode(course.getCode());
         dialogForm.setCourseTitle(course.getCourseTitle());
-        dialogForm.setUniqueId(UUID.randomUUID().toString());
+        String uniqueId = ((PlannerFormImpl)submittedForm).getUniqueId();
+        if(uniqueId==null){
+            dialogForm.setUniqueId(UUID.randomUUID().toString());
+        }else{
+            dialogForm.setUniqueId(uniqueId);
+        }
 
         // Set Credits to display for course
         String creditString = CreditsFormatter.formatCredits(course);
@@ -91,6 +115,64 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         dialogForm.setPlannedTermIds(plannedTermIds);
 
         return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#finishAddCourse(org.kuali.student.ap.academicplan.infc.LearningPlan, org.kuali.student.ap.planner.PlannerForm, org.kuali.student.r2.lum.course.infc.Course, String, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
+                                 HttpServletResponse response) throws IOException, ServletException {
+        AcademicPlanServiceConstants.ItemCategory category = form.isBackup() ? AcademicPlanServiceConstants.ItemCategory.BACKUP
+                : AcademicPlanServiceConstants.ItemCategory.PLANNED;
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+
+        PlanItem planItemInfo;
+        List<String> planTermIds = new ArrayList<String>(1);
+        planTermIds.add(termId);
+        TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE, course.getVersion().getVersionIndId());
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+
+        // Check for existing bookmark items for
+        PlanItem wishlistPlanItem = null;
+        List<PlanItem> existingPlanItems =  KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(plan.getId());
+        if (existingPlanItems != null && planItemRef != null){
+            for (PlanItem existingPlanItem : existingPlanItems) {
+                if (!KsapFrameworkServiceLocator.getPlanHelper().isSame(existingPlanItem, planItemRef) || wishlistPlanItem != null){
+                    continue;
+                }
+
+                // If item has no term then record it
+                if (AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(existingPlanItem.getCategory())){
+                    wishlistPlanItem = existingPlanItem;
+                }
+            }
+        }
+
+
+        try {
+            planItemInfo = KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(plan.getId(), category,
+                    form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef,attributes);
+        } catch (AlreadyExistsException e) {
+            LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
+            PlanEventUtils.sendJsonEvents(false,
+                    course.getCode() + " is already planned for " + term.getName() + ".", response, eventList);
+            return;
+        }
+
+        // Create json strings for displaying action's response and updating the planner screen.
+        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
+        if(wishlistPlanItem != null){
+            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
+        }
+
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
+        PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
+                response, eventList);
     }
 
 }

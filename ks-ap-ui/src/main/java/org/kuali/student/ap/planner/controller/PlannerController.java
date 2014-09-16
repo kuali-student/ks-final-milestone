@@ -386,7 +386,8 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // Add the course to the plan
-		finishAddCourse(plan, form, course, termId, response);
+        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
+                .finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
@@ -414,7 +415,8 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // Add course to plan
-		finishAddCourse(plan, form, course, termId, response);
+        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
+                .finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
@@ -547,7 +549,8 @@ public class PlannerController extends KsapControllerBase {
 		form.populateFromPlanItem();
 
         // Add the course to the plan
-		finishAddCourse(plan, form, course, termId, response);
+        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
+                .finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
@@ -663,53 +666,6 @@ public class PlannerController extends KsapControllerBase {
 	}
 
     /**
-     * Helps with adding courses to the student's plan.
-     * Creates a new or retrieves an existing learning plan item and fills in the proper information before
-     * saving it to the database.
-     *
-     * @param plan - The student's learning plan
-     * @param form - Form containing all information entered for the new plan item
-     * @param course - Course plan item is being created for
-     * @param termId - Id of the term course is being added to
-     * @param response - Service response object
-     * @throws IOException -
-     * @throws ServletException
-     */
-    private void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
-                                 HttpServletResponse response) throws IOException, ServletException {
-        AcademicPlanServiceConstants.ItemCategory category = form.isBackup() ? AcademicPlanServiceConstants.ItemCategory.BACKUP
-                : AcademicPlanServiceConstants.ItemCategory.PLANNED;
-        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
-        JsonObjectBuilder eventList = Json.createObjectBuilder();
-
-
-        PlanItem planItemInfo;
-        List<String> planTermIds = new ArrayList<String>(1);
-        planTermIds.add(termId);
-        TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE, course.getVersion().getVersionIndId());
-        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        try {
-            planItemInfo = KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(plan.getId(), category,
-                    form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef,attributes);
-        } catch (AlreadyExistsException e) {
-            LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
-            PlanEventUtils.sendJsonEvents(false,
-                    course.getCode() + " is already planned for " + term.getName() + ".", response, eventList);
-            return;
-        }
-
-        // Create json strings for displaying action's response and updating the planner screen.
-        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
-
-        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
-        PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
-                response, eventList);
-    }
-
-    /**
      * Handles submissions from the bookmark add dialog.
      * Validates the course and adds it to the students plan.
      */
@@ -749,7 +705,8 @@ public class PlannerController extends KsapControllerBase {
         }
 
         // Add the course to the plan
-        finishAddCourse(plan, form, course, termId, response);
+        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
+                .finishAddCourse(plan, form, course, termId, response);
         return null;
     }
 
@@ -811,7 +768,8 @@ public class PlannerController extends KsapControllerBase {
         }
 
         // Add the course to the plan
-        finishAddCourse(plan, form, course, termId, response);
+        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
+                .finishAddCourse(plan, form, course, termId, response);
         return null;
     }
 
