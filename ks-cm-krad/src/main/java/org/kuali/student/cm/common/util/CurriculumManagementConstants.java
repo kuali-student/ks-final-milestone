@@ -350,6 +350,13 @@ public class CurriculumManagementConstants {
     public static final String PROPOSED_OTHER_COMMENTS = "courseRetireOtherComments";
 
     /**
+     * Following are keys used only to store data in the CourseInfo object
+     */
+    public static final String COURSE_ATTRIBUTE_RETIREMENT_RATIONALE = "retirementRationale";
+    public static final String COURSE_ATTRIBUTE_LAST_TERM_OFFERED = "lastTermOffered";
+    public static final String COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR = "lastPublicationYear";
+
+    /**
      * This delimiter to use when rendering collections as a String.
      */
     public static final String COLLECTION_ITEMS_DELIMITER = "; ";

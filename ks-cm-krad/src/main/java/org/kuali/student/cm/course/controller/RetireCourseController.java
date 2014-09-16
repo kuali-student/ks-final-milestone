@@ -196,7 +196,7 @@ public class RetireCourseController extends ProposalController {
                 String elementPath = null;
 
                 switch(element) {
-                    case "retirementRationale":
+                    case CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE:
                         if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.RETIRE_COURSE_PAGE, form.getPageId())) {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".proposalInfo.rationale.plain";
                         } else {

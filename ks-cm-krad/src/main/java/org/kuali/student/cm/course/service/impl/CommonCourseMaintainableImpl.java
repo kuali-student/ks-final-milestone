@@ -352,14 +352,14 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             if (proposalInfo.getRationale() != null) {
                 rationale = proposalInfo.getRationale().getPlain();
             }
-            String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm");
-            String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastTermOffered");
-            String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get("proposedLastCourseCatalogYear");
+            String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM);
+            String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED);
+            String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR);
 
             courseInfo.setEndTerm(proposedEndTerm);
-            courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", rationale));
-            courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", proposedLastTermOffered));
-            courseInfo.getAttributes().add(new AttributeInfo("lastPublicationYear", proposedLastCourseCatalogYear));
+            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, rationale));
+            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedLastTermOffered));
+            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, proposedLastCourseCatalogYear));
 
             // lastTermOffered is a special case field, as it is required upon retire state
             // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
@@ -372,8 +372,8 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out)
             // into "courseInfo.lastTermOffered" to pass validation.
             if ((proposalInfo != null) && (courseInfo != null)
-                    && (courseInfo.getAttributeValue("lastTermOffered") == null)) {
-                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", new AttributeHelper(proposalInfo.getAttributes()).get("proposedEndTerm")));
+                    && (courseInfo.getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED) == null)) {
+                courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedEndTerm));
             }
         }
     }
