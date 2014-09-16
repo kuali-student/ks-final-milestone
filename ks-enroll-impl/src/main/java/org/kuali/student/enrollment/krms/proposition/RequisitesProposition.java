@@ -78,7 +78,7 @@ public class RequisitesProposition extends AbstractLeafProposition {
         return ruleTypes;
     }
 
-    public void setRuleType(List<String> ruleTypes) {
+    public void setRuleTypes(List<String> ruleTypes) {
         this.ruleTypes = ruleTypes;
     }
 
@@ -108,7 +108,7 @@ public class RequisitesProposition extends AbstractLeafProposition {
     private PropositionResult executeRuleForRegGroupAndType(ExecutionEnvironment environment, RegistrationGroup regGroup) {
 
         RequisitesEvaluator evaluator = new RequisitesEvaluator();
-        KrmsTypeDefinition agendaTypeInfo = evaluator.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD,                this.getAgendaType());
+        KrmsTypeDefinition agendaTypeInfo = evaluator.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, this.getAgendaType());
 
         // Build the KRMS agenda and other startup objects to execute
         List<RuleDefinition> rules = new ArrayList<RuleDefinition>();

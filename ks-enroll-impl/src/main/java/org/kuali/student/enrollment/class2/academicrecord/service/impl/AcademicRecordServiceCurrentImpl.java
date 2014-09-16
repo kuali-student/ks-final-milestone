@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -37,7 +36,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -184,8 +182,22 @@ public class AcademicRecordServiceCurrentImpl implements AcademicRecordService {
     }
 
     @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<>();
+        try {
+            List<CourseOfferingInfo> courseOfferings = courseOfferingService.getCourseOfferingsByCourse(courseId, contextInfo);
+            List<CourseRegistrationInfo> regs = new ArrayList<>();
+            for(CourseOfferingInfo courseOffering : courseOfferings) {
+               regs.addAll(courseRegService.getCourseRegistrationsByStudentAndCourseOffering(personId, courseOffering.getId(), contextInfo));
+            }
+            getCompletedCourseRecords(courseRecords, regs, contextInfo);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e);
+        }
+
+        return courseRecords;
     }
 
     @Override

@@ -122,8 +122,30 @@ public class AcademicRecordServicePersistenceMockImpl implements AcademicRecordS
     }
 
     @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<StudentCourseRecordInfo> studentCourseRecordsFiltered = new ArrayList<>();
+
+        // Get course records from the map
+        List<StudentCourseRecordInfo> studentCourseRecords = studentToCourseRecordsMap.get(personId);
+
+        if (studentCourseRecords != null && !studentCourseRecords.isEmpty()) {
+            for (StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
+                /*
+                The "course id" is actually the version independent id of the clu. For
+                mock purposes only it is stored as the id of the student course record.
+                 */
+                if ((studentCourseRecord.getId().equals(courseId)) &&
+                        (studentCourseRecord.getAssignedGradeValue() != null || studentCourseRecord.getAdministrativeGradeValue() != null)) {
+                    studentCourseRecordsFiltered.add(studentCourseRecord);
+                }
+            }
+        } else {
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+        }
+
+        return studentCourseRecordsFiltered;
     }
 
     @Override

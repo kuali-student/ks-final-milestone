@@ -28,7 +28,14 @@
                     </bean>
                 </entry>
                 <entry key="kuali.prop.course.requisites">
-                    <bean class="org.kuali.student.enrollment.krms.proposition.RequisitesProposition"/>
+                    <bean class="org.kuali.student.enrollment.krms.proposition.RequisitesProposition">
+                        <property name="agendaType" value="kuali.krms.agenda.type.course.enrollmentEligibility"/>
+                        <property name="ruleTypes">
+                            <list>
+                                <value>kuali.krms.rule.type.course.academicReadiness.antireq</value>
+                            </list>
+                        </property>
+                    </bean>
                 </entry>
                 <entry key="kuali.prop.credit.limit">
                     <bean class="org.kuali.student.enrollment.krms.proposition.CreditLimitProposition"/>

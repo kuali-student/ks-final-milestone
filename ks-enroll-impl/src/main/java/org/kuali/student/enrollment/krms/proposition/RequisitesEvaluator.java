@@ -60,7 +60,7 @@ public class RequisitesEvaluator extends KRMSEvaluator {
 
     private static final String ruleManagementServiceConst = "ruleManagementService";
     private static final String krmsTypeRepositoryServiceConst = "krmsTypeRepositoryService";
-    private static final String termRepositoryServiceConst = "termRepositoryServiceConst";
+    private static final String termRepositoryServiceConst = "termRepositoryService";
 
     public EngineResults evaluateRules(Map<Term, Object> facts, List<RuleDefinition> rules) {
 

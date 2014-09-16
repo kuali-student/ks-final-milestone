@@ -137,8 +137,34 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 	}
 
     @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not yet implemented!");
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        boolean historyDoesNotExist = false;
+        boolean currentDoesNotExist = false;
+
+        List<StudentCourseRecordInfo> courseRecords;
+
+        // Get historical data
+        try {
+            courseRecords = academicRecordServiceHistory.getCompletedCourseRecordsForCourse(personId, courseId, contextInfo);
+        } catch (DoesNotExistException ex) {
+            courseRecords = new ArrayList<>();
+            historyDoesNotExist = true;
+        }
+
+        // Get current data
+        try {
+            courseRecords.addAll(academicRecordServiceCurrent.getCompletedCourseRecordsForCourse(personId, courseId, contextInfo));
+        } catch (DoesNotExistException ex) {
+            currentDoesNotExist = true;
+        }
+
+        if (historyDoesNotExist && currentDoesNotExist) {
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+        }
+
+        return courseRecords;
     }
 
     @Override
