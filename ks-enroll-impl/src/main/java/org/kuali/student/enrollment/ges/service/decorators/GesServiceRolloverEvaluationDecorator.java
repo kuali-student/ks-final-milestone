@@ -110,6 +110,7 @@ public class GesServiceRolloverEvaluationDecorator extends GesServiceDecorator {
             } else {
                 hasDefaultValue = true;
                 defaultValueIndex = valueMap.get(parameterKey).indexOf(value);
+                break;
             }
         }
 
