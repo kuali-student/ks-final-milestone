@@ -28,8 +28,10 @@ import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.wrapper.CommonCourseDataWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
+import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -39,6 +41,7 @@ import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -484,6 +487,51 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         }
 
         return result;
+    }
+
+    /**
+     * Populates the wrapper objects used on the create course proposal and course view pages.
+     *
+     * @param proposalElementsWrapper The wrapper to populate.
+     */
+    @Override
+    public void populateWrapperData(ProposalElementsWrapper proposalElementsWrapper) throws Exception {
+        CommonCourseDataWrapper courseWrapper = (CommonCourseDataWrapper) proposalElementsWrapper;
+
+        courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
+        courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
+        RichTextInfo retirementComment = new RichTextInfo();
+        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+        retirementComment.setFormatted(retirementComment.getPlain());
+        courseWrapper.setRetirementComment(retirementComment);
+
+        /*
+         * Curriculum Oversight
+         */
+        courseWrapper.getUnitsContentOwner().clear();
+        for (String orgId : courseWrapper.getCourseInfo().getUnitsContentOwner()) {
+            CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
+            orgWrapper.setOrgId(orgId);
+            populateOrgName(courseWrapper.getCourseInfo().getSubjectArea(), orgWrapper);
+            courseWrapper.getUnitsContentOwner().add(orgWrapper);
+        }
+
+        if (courseWrapper.getCourseInfo().getUnitsContentOwner() == null) {
+            courseWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        }
+
+        //  Only add an add-line if the collection is empty.
+        if (courseWrapper.getUnitsContentOwner().isEmpty()) {
+            CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+            newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+            courseWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+        }
+
+        //  Omit authors and collaborators for course view
+        if (courseWrapper.isProposalDataRequired()) {
+            super.populateWrapperData(courseWrapper);
+        }
+
     }
 
     protected AtpService getAtpService() {

@@ -32,6 +32,13 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
 
     private CourseInfo courseInfo = new CourseInfo();
 
+    /**
+     * A boolean to identify when proposal data is required for the Review Page.
+     *
+     * This data is not needed in the case where the display is for ViewCourse only.
+     */
+    private boolean proposalDataRequired = true;
+
     private String lastTerm;
     private String publicationYear;
     private RichTextInfo retirementComment;
@@ -51,6 +58,20 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
 
     public void setCourseInfo(CourseInfo courseInfo) {
         this.courseInfo = courseInfo;
+    }
+
+    /**
+     * @see #proposalDataRequired
+     */
+    public boolean isProposalDataRequired() {
+        return proposalDataRequired;
+    }
+
+    /**
+     * @see #proposalDataRequired
+     */
+    public void setProposalDataRequired(boolean proposalDataRequired) {
+        this.proposalDataRequired = proposalDataRequired;
     }
 
     /**

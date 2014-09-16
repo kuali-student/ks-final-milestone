@@ -111,20 +111,7 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         courseWrapper.setRetireStartTerm(getTermDesc(course.getStartTerm()));
         // copy data from proposal to wrapper object
         courseWrapper.setRetireEndTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_END_TERM));
-        courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
-        courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
-        RichTextInfo retirementComment = new RichTextInfo();
-        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
-        retirementComment.setFormatted(retirementComment.getPlain());
-        courseWrapper.setRetirementComment(retirementComment);
 
-        courseWrapper.getUnitsContentOwner().clear();
-        for (String orgId : course.getUnitsContentOwner()) {
-            CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
-            orgWrapper.setOrgId(orgId);
-            populateOrgName(course.getSubjectArea(), orgWrapper);
-            courseWrapper.getUnitsContentOwner().add(orgWrapper);
-        }
     }
 
     /**

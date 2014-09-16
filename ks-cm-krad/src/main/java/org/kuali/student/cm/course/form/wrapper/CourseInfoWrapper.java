@@ -31,13 +31,6 @@ import java.util.List;
  */
 public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serializable {
 
-    /**
-     * A boolean to identify when proposal data is required for the Review Page.
-     *
-     * This data is not needed in the case where the display is for ViewCourse only.
-     */
-    private boolean proposalDataRequired = true;
-
     private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
 
     private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
@@ -144,20 +137,6 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
-    }
-
-    /**
-     * @see #proposalDataRequired
-     */
-    public boolean isProposalDataRequired() {
-        return proposalDataRequired;
-    }
-
-    /**
-     * @see #proposalDataRequired
-     */
-    public void setProposalDataRequired(boolean proposalDataRequired) {
-        this.proposalDataRequired = proposalDataRequired;
     }
 
     public boolean isAudit() {

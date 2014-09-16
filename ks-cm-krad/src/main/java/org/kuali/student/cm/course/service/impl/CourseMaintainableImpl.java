@@ -1416,28 +1416,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         CourseInfoWrapper courseWrapper = (CourseInfoWrapper) proposalElementsWrapper;
         CourseInfo course = courseWrapper.getCourseInfo();
         /*
-         * Curriculum Oversight
-         */
-        courseWrapper.getUnitsContentOwner().clear();
-        for (String orgId : course.getUnitsContentOwner()) {
-            CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
-            orgWrapper.setOrgId(orgId);
-            populateOrgName(course.getSubjectArea(), orgWrapper);
-            courseWrapper.getUnitsContentOwner().add(orgWrapper);
-        }
-
-        if (courseWrapper.getCourseInfo().getUnitsContentOwner() == null) {
-            courseWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-        }
-
-        //  Only add an add-line if the collection is empty.
-        if (courseWrapper.getUnitsContentOwner().isEmpty()) {
-            CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-            newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-            courseWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
-        }
-
-        /*
          * Instructors
          */
         courseWrapper.getInstructorWrappers().clear();
@@ -1480,11 +1458,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         populateLearningObjectives();
         populateRequisities(courseWrapper,course.getId());
 
-        //  Omit authors and collaborators for course view
-        if (courseWrapper.isProposalDataRequired()) {
-            super.populateWrapperData(courseWrapper);
-        }
-
+        super.populateWrapperData(courseWrapper);
     }
 
     /**
