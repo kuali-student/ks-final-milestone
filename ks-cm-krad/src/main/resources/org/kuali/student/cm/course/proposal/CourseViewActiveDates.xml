@@ -102,7 +102,7 @@
                 </bean>
 
                 <bean id="CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm" parent="Uif-DataField"
-                    p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTerm"
+                    p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTermShortName"
                     p:fieldLabel.renderColon="false"   p:forceSessionPersistence="true"
                     p:render="@{#uiHelper.modifyWithNewVersionProposal and #dataObject.courseInfo.startTerm != null }"/>
             </list>

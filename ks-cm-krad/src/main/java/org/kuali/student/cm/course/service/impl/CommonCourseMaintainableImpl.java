@@ -31,6 +31,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CommonCourseDataWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.service.CommonCourseMaintainable;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.service.impl.ProposalMaintainableImpl;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -40,6 +41,7 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -117,11 +119,13 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     @Override
     protected void processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
 
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String courseId = getCourseId(proposalInfo);
-        String prevEndTermAtpId = new AttributeHelper(proposalInfo.getAttributes()).get("prevEndTerm");
 
         // Get the current "existing" courseInfo
-        CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.createDefaultContextInfo());
+        CourseInfo courseInfo = getCourseService().getCourse(courseId, contextInfo);
+
+        String prevEndTermAtpId = CourseProposalUtil.getEndTermShortNameForCurrentCourse(courseInfo.getStartTerm(), contextInfo);
 
         // Get the new state the course should now change to
         String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
@@ -132,14 +136,14 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
                 case DtoConstants.STATE_ACTIVE:
                     // Change the state using the effective date as the version start date
                     // update course and save it for retire if state = retire
-                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
+                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, contextInfo);
                     break;
                 case DtoConstants.STATE_RETIRED:
                     // Retire By Proposal will come through here, extra data will need
                     // to be copied from the proposalInfo to the courseInfo fields before
                     // the save happens.
                     retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
-                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, ContextUtils.createDefaultContextInfo());
+                    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId, contextInfo);
                     break;
                 default:
                     updateCourseIfNecessary(statusChangeEvent, newCourseState, courseInfo, proposalInfo);

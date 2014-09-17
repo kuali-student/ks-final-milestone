@@ -911,7 +911,7 @@
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" id="CM-ViewCourseView-ActiveDates-CurrentCourseEndTerm"
-                                p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTerm"
+                                p:label="Currently Active Version's End Term" p:propertyName="currentCourseEndTermShortName"
                                 p:render="@{#uiHelper.modifyWithNewVersionProposal}"/>
                         </list>
                     </property>
