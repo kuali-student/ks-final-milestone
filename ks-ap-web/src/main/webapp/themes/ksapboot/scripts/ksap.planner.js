@@ -355,7 +355,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     fnClosePopup();
 
-
+    popupBox.addClass("uif-tooltip");
     initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
@@ -381,6 +381,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     //@TODO: ksap-2006 Convert to icon font instead of image
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
+    }
 
     runHiddenScripts(id + "_popup");
 
