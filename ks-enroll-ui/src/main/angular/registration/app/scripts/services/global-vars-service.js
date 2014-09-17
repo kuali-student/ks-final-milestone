@@ -77,8 +77,12 @@ angular.module('regCartApp')
         Updates an array of offerings with any conflicts for each one
          */
         this.updateConflicts = function(courseList, type) {
+            if (!angular.isArray(courseList)) {
+                return;
+            }
+
             var conflictMap = this.getConflictMap();
-            for (var i=0; i<courseList.length; i++) {
+            for (var i = 0; i < courseList.length; i++) {
                 var course = courseList[i];
                 var conflicts = conflictMap[course.regGroupId];
                 if (!angular.equals(course.conflicts, conflicts)) {

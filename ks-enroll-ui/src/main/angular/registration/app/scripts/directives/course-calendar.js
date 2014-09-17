@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CourseCalendarDataParser', ['$q', 'GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
-    function CourseCalendarDataParser($q, GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
+    .service('CourseCalendarDataParser', ['GRID_CONSTANTS', 'DAY_CONSTANTS', 'RegUtil', 'GlobalVarsService',
+    function CourseCalendarDataParser(GRID_CONSTANTS, DAY_CONSTANTS, RegUtil, GlobalVarsService) {
         var cart,
             registered,
             waitlisted;
@@ -370,7 +370,7 @@ angular.module('regCartApp')
                         course.truncated = course.courseCode.substring(0, 1) + '...';
                         break;
                     default:
-                        course.courseCode.substring(0, 1);
+                        course.truncated = course.courseCode.substring(0, 1);
                 }
             });
 

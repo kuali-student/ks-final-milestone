@@ -13,14 +13,18 @@ angular.module('regCartApp')
          */
         this.convertTimeStringToTime = function(str) {
             var colonIndex = str.indexOf(':'),
-                h = str.substring(0, colonIndex),
-                m = str.substring(colonIndex + 1, str.indexOf(' ')),
+                h = parseInt(str.substring(0, colonIndex)),
+                m = parseInt(str.substring(colonIndex + 1, colonIndex + 3)),
                 isPm = str.toLowerCase().indexOf('pm') !== -1;
 
-            var time = parseInt(h) * 60;
-            time += parseInt(m);
+            if (!isPm && h === 12) {
+                // 12am should be reset to 0 hours
+                h = 0;
+            }
 
-            if (isPm && h !== '12') {
+            var time = (h * 60) + m;
+
+            if (isPm && h !== 12) {
                 time += (60 * 12);
             }
 
