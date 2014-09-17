@@ -119,7 +119,7 @@ public class CourseController extends CourseRuleEditorController {
             return ((!isUseReviewProcess)
                     ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN
                     : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
-        } else if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION)){
+        } else if (StringUtils.equals(methodToCall,CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_THIS_VERSION)){
             // no need to check for curriculum review override access because curriculum review doesn't apply to modify no version
             return CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION;
         } else {
