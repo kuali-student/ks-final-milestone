@@ -4,7 +4,7 @@
       overflow: hidden;
     }
 
-    &-show {
+    &-button {
       margin-top: 1.7rem;
     }
 
@@ -16,6 +16,10 @@
     &-studentGroup {
       font-weight: bold;
       white-space: nowrap;
+
+        & a {
+          white-space: nowrap;
+        }
     }
 
     &-AppointmentWindow {
@@ -44,6 +48,10 @@
               float: none;
             }
         }
+    }
+
+    select.input-sm {
+        height: 33px;
     }
 }
 
@@ -88,5 +96,13 @@
         & .uif-collection-column-action div{
           .ks-mixin--flex;
         }
+    }
+}
+
+#KS-RegistrationWindowsManagement-ConfirmDelete-Dialog {
+    width: 16em;
+
+    & fieldset {
+        padding-top: 1rem;
     }
 }
