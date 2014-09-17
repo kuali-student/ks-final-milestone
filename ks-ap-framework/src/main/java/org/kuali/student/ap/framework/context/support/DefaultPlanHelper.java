@@ -15,10 +15,7 @@
 
 package org.kuali.student.ap.framework.context.support;
 
-import org.elasticsearch.search.aggregations.metrics.percentiles.InternalPercentiles;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants.ItemCategory;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
@@ -63,10 +60,7 @@ import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
@@ -1410,9 +1404,11 @@ public class DefaultPlanHelper implements PlanHelper {
             PlannerItem addPlanned = new PlannerItem();
             addPlanned.setType(PlannerItem.ADD_ITEM);
             addPlanned.setTermId(term.getTermId());
+            addPlanned.setCategory(ItemCategory.PLANNED);
             PlannerItem addBackup = new PlannerItem();
             addBackup.setType(PlannerItem.ADD_ITEM);
             addBackup.setTermId(term.getTermId());
+            addBackup.setCategory(ItemCategory.BACKUP);
             planned.add(addPlanned);
             backup.add(addBackup);
         }

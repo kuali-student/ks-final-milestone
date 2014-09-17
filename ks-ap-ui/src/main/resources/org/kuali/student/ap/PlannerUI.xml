@@ -664,7 +664,7 @@
                 <bean parent="Uif-ActionLink"
                       p:actionLabel="@{#textHelper.getText('planner.body.add.course')}"
                       p:actionScript="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);"
-                      p:id="@{#line.termId}_Planned_Addcourse">
+                      p:id="@{#line.termId}_@{#line.categoryString}_Addcourse">
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
