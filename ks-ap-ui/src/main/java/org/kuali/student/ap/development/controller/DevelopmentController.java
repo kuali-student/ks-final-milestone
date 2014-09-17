@@ -39,6 +39,8 @@ import java.io.IOException;
 @RequestMapping(value = "/ksapdevelopment/**")
 public class DevelopmentController extends KsapControllerBase {
 
+
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new DevelopmentForm();
@@ -64,8 +66,7 @@ public class DevelopmentController extends KsapControllerBase {
     public ModelAndView invalidateCache(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request,
                               HttpServletResponse response) {
-        ((TermHelperCacheDecorator) KsapFrameworkServiceLocator.getTermHelper()).invalidate();
-        ((CourseHelperCacheDecorator) KsapFrameworkServiceLocator.getCourseHelper()).invalidate();
+        ((TermHelperCacheDecorator) KsapFrameworkServiceLocator.getTermHelper()).getCacheManager().clearAll();
 
         return getUIFModelAndView(form);
     }
