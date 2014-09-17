@@ -15,6 +15,7 @@
 
 package org.kuali.student.ap.framework.context.support;
 
+import org.elasticsearch.search.aggregations.metrics.percentiles.InternalPercentiles;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -75,6 +76,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1049,6 +1051,20 @@ public class DefaultPlanHelper implements PlanHelper {
         RichText descr = planItem.getDescr();
         if (descr != null){
             newPlannerItem.setCourseNote(descr.getPlain());
+        }
+
+        // If course is in progress and registration is closed remove any remaining reg group items
+        if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(newPlannerItem.getTermId())){
+            if(!KsapFrameworkServiceLocator.getTermHelper().isRegistrationOpen(newPlannerItem.getTermId())){
+                Iterator iter = planItem.getAttributes().iterator();
+                while(iter.hasNext()){
+                    AttributeInfo attributeInfo = (AttributeInfo)iter.next();
+                    if(attributeInfo.getKey().equals(AcademicPlanServiceConstants.PLAN_ITEM_RELATION_TYPE_COURSE2RG)){
+                        KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(attributeInfo.getValue());
+                        iter.remove();
+                    }
+                }
+            }
         }
 
         //Find any associated plan items of the registration group variety
