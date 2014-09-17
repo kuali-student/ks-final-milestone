@@ -82,7 +82,7 @@
                             </bean>
                             <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
                             <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false"
-                                  p:additionalCssClasses="ks-ManageRegistration-show"/>
+                                  p:additionalCssClasses="ks-ManageRegistration-button"/>
                         </list>
                    </property>
                 </bean>

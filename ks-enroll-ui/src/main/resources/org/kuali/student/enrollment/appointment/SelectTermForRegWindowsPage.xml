@@ -53,21 +53,16 @@
                                     <bean parent="NumericPatternConstraint"/>
                                 </property>
                             </bean>
+                            <bean parent="KS-Uif-SecondaryActionButton"
+                                  p:additionalCssClasses="ks-ManageRegistration-button"
+                                  p:performClientSideValidation="true"
+                                  p:actionLabel="Search"
+                                  p:methodToCall="searchForTerm"/>
+
                         </list>
                     </property>
                 </bean>
             </list>
-        </property>
-
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 </beans>
