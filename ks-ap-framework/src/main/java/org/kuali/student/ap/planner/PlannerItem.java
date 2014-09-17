@@ -105,6 +105,14 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 		return termId;
 	}
 
+    /**
+     * Get an XML safe representation of the termId by replacing "." with "-"
+     * @return A termId with all occurrences of "." replaced with "-"
+     */
+    public String getXmlSafeTermId() {
+        return termId.replace(".", "-");
+    }
+
 	public void setTermId(String termId) {
 		this.termId = termId;
 	}
