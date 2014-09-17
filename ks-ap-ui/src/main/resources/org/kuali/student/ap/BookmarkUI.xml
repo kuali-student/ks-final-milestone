@@ -401,7 +401,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-ActionLink" p:render="true">
-                                            <property name="id" value="@{#line.planItemId}_addLink"/>
+                                            <property name="id" value="@{#line.courseDetailsWrapper.courseCode}_addLink"/>
                                             <property name="cssClasses">
                                                 <list>
                                                     <value>ks-fontello-icon-hollow-circled-plus</value>
