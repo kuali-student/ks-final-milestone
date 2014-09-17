@@ -137,7 +137,7 @@ public class HoldServiceMapImpl
         List<AppliedHoldInfo> list = new ArrayList<AppliedHoldInfo>();
         for (AppliedHoldInfo info : holdMap.values()) {
             if (personId.equals(info.getPersonId())) {
-                if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
+                if (info.getStateKey().equals(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY)) {
                 	
                 	 if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                             list.add(new AppliedHoldInfo(info));
@@ -180,7 +180,7 @@ public class HoldServiceMapImpl
         for (AppliedHoldInfo info : holdMap.values()) {
             if (issueId.equals(info.getHoldIssueId())) {
                 if (personId.equals(info.getPersonId())) {
-                    if (info.getStateKey().equals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
+                    if (info.getStateKey().equals(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY)) {
                         if (EffectiveDateUtils.isTargetDateEffective(info.getEffectiveDate(), info.getReleasedDate(), now)) {
                                 list.add(info);
                         }
