@@ -28,7 +28,7 @@
         <property name="formClass" value="org.kuali.student.cm.course.form.ViewCourseForm" />
         <property name="viewHelperServiceClass"
                           value="org.kuali.student.cm.course.service.impl.CourseMaintainableImpl"/>
-        <property name="onDocumentReadyScript" value="viewCourseView.removeNonBreakingSpacesFromPreTags()"/>
+        <property name="onDocumentReadyScript" value="common.removeNonBreakingSpacesFromPreTags()"/>
         <property name="singlePageView" value="true" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -180,7 +180,7 @@
                             <bean id="CM-VersionHistory-Button" parent="Uif-SecondaryActionButton"
                                 p:ajaxSubmit="false"
                                 p:jumpToIdAfterSubmit="TOP"
-                                p:actionScript="showViewInLightBox('@{#ConfigProperties['application.url']}/kr-krad/course_versions?viewId=CourseVersionsView&amp;methodToCall=showVersionHistory&amp;#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$UrlParams).VERSION_INDEPENDENT_ID}=@{courseInfoWrapper.courseInfo.version.versionIndId}');"
+                                p:actionScript="common.showViewInLightBox('@{#ConfigProperties['application.url']}/kr-krad/course_versions?viewId=CourseVersionsView&amp;methodToCall=showVersionHistory&amp;#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$UrlParams).VERSION_INDEPENDENT_ID}=@{courseInfoWrapper.courseInfo.version.versionIndId}');"
                                 p:performClientSideValidation="false"
                                 p:actionLabel="Version History"/>
                         </list>
