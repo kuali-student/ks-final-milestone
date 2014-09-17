@@ -201,9 +201,21 @@ function ksapPlannerUpdatePlanItem (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerRemovePlanItem (data) {
-    jQuery("#" + data.uid).fadeOut(250, function(){
-        jQuery(this).parent().remove();
-    });
+    var target = jQuery("#" + data.uid);
+    if(target.length){
+        target.fadeOut(250, function(){
+            jQuery(this).parent().remove();
+        });
+    }else{
+        if(data.category=="wishlist"){
+            var bookmarkList = jQuery("#bookmark_summary");
+            var bookmark = bookmarkList.find("[data-planitemid='"+data.planItemId+"'].ksap-bookmark-widget-row");
+            bookmark.fadeOut(250, function(){
+                // remove contianing li
+                jQuery(this).parent("li").remove();
+            });
+        }
+    }
 }
 
 /**
@@ -381,7 +393,6 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     //@TODO: ksap-2006 Convert to icon font instead of image
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
-    }
 
     runHiddenScripts(id + "_popup");
 
