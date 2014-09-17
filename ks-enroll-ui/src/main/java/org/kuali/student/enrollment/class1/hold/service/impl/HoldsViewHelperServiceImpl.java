@@ -125,6 +125,9 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
                 if (!holdIssue.getMaintainHistoryOfApplicationOfHold() && appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_RELEASED_STATE_KEY)) {
                     continue;
                 }
+                if (appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_CANCELED_STATE_KEY)) {
+                    continue;
+                }
 
                 AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 appliedHoldResult.setId(appliedHoldInfo.getId());
