@@ -5,6 +5,8 @@ import org.kuali.rice.krms.api.engine.Term;
 @SuppressWarnings("unused")
 public class RulesExecutionConstants {
 
+    private RulesExecutionConstants() {}
+
     private static final String personId = "kuali.term.prerequisite.personId";
     private static final String contextInfo = "kuali.term.prerequisite.contextInfo";
 
@@ -59,6 +61,7 @@ public class RulesExecutionConstants {
     public static final Term SCHEDULE_ADJUSTMENT_END_TERM = new Term("scheduleAdjustmentEnd");
     public static final Term DROP_PERIOD_END_TERM = new Term("dropPeriodEnd");
     public static final Term MAX_CREDITS_TERM = new Term("maxCredits");
+    public static final Term COURSE_ADD_DATES_TERM = new Term("courseAddDates");
     // services
     public static final Term KRMS_EVALUATOR_TERM = new Term("krmsEvaluator");
     public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
