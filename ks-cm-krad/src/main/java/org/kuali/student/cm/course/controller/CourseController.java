@@ -301,7 +301,7 @@ public class CourseController extends CourseRuleEditorController {
         ((CourseMaintainable) maintForm.getDocument().getNewMaintainableObject()).updateReview();
 
         if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, maintForm.getDocTypeName()) &&
-                maintForm.getWorkflowDocument().isSaved()){
+                !maintForm.getWorkflowDocument().isApproved()){
 
             CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
             CourseMaintainable oldMaintainble = (CourseMaintainable)((MaintenanceDocumentForm)form).getDocument().getOldMaintainableObject();
