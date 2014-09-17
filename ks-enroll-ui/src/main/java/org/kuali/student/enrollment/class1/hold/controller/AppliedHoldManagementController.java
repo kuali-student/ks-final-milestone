@@ -122,8 +122,13 @@ public class AppliedHoldManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=expireHoldToolbar")
     public ModelAndView expireHoldToolbar(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AppliedHoldResult appliedHold = prepareEDConfirmationView(form);
+        if (!this.getViewHelper(form).isAuthorized(appliedHold.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD)) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE,appliedHold.getHoldIssue().getHoldCode());
+            return getUIFModelAndView(form);
+        }
         Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE);
-        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, prepareEDConfirmationView(form).getId());
+        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, appliedHold.getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
@@ -138,8 +143,14 @@ public class AppliedHoldManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteHoldToolbar")
     public ModelAndView deleteHoldToolbar(@ModelAttribute("KualiForm") AppliedHoldManagementForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        AppliedHoldResult appliedHold = prepareEDConfirmationView(form);
+        if (!this.getViewHelper(form).isAuthorized(appliedHold.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_EXPIRE_HOLD)) {
+            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE,appliedHold.getHoldIssue().getHoldCode());
+            return getUIFModelAndView(form);
+        }
         Properties urlParameters = this.getMaintainHoldParameters(form, HoldsConstants.APPLIED_HOLDS_ACTION_DELETE);
-        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, prepareEDConfirmationView(form).getId());
+        urlParameters.put(HoldsConstants.HOLDS_URL_PARAMETERS_APPLIED_HOLD_ID, appliedHold.getId());
         return super.performRedirect(form, HoldsConstants.APPLIED_HOLD_BASEURL, urlParameters);
     }
 
