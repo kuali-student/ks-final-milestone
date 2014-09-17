@@ -89,7 +89,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
                     messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
                             AcalCommonUtils.formatDate(appliedHold.getEffectiveDate()), AcalCommonUtils.formatDate(appliedHold.getExpirationDate()));
                     isValid = false;
-                } else {
+                } else if (appliedHold.getId() == null) {
                     List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
                             appliedHold.getPersonId(), createContextInfo());
                     for (AppliedHoldInfo existingAppliedHold : appliedHolds) {
