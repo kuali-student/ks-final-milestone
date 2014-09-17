@@ -710,6 +710,10 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
+    <foreignKey foreignTableName="KSEN_AR_STU_CRS_REC" localTableName="KSEN_AR_STU_CRS_REC_ATTR" name="KSEN_AR_SCR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
     <foreignKey foreignTableName="KSEN_ATPATP_RELTN" localTableName="KSEN_ATPATP_RELTN_ATTR" name="KSEN_ATPATP_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
@@ -10197,6 +10201,124 @@
             <size value="255"/>
         </column>
         <index name="KSEN_APPT_WINDOW_ATTR_IF1">
+            <column>OWNER_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_AR_STU_CRS_REC">
+        <column name="ACTIVITY_CD" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ADMIN_GRD_SCALE_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ADMIN_GRD_VALUE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="AR_SCR_STATE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="AR_SCR_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ASSIGNED_GRD_SCALE_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ASSIGNED_GRD_VALUE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CALC_GRD_SCALE_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CALC_GRD_VALUE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CNT_TOWARD_CREDITS_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="COURSE_BEGIN_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="COURSE_CD" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="COURSE_END_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="COURSE_OFFERING_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="COURSE_REG_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="COURSE_TITLE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATEID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" nullable="false" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="CREDITS_ATTEMPED" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREDITS_EARNED" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREDITS_FOR_GPA" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="PERS_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="REPEATED_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="SOURCE_TYPE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TERM_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TERM_NAME" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="19"/>
+        </column>
+        <index name="KSEN_AR_STU_CRS_REC_I1">
+            <column>AR_SCR_TYPE</column>
+        </index>
+    </table>
+    <table name="KSEN_AR_STU_CRS_REC_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_AR_SCR_ATTR_FK1">
             <column>OWNER_ID</column>
         </index>
     </table>
