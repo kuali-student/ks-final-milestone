@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -69,6 +70,9 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
 
             HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHold.getHoldIssueId(), ContextUtils.createDefaultContextInfo());
             appliedHoldWrapper.setHoldCode(holdIssueInfo.getHoldCode());
+            appliedHoldWrapper.setEffectiveTerm(getTermCodeForId(appliedHold.getApplicationEffectiveTermId()));
+            appliedHoldWrapper.setExpirationTerm(getTermCodeForId(appliedHold.getApplicationExpirationTermId()));
+            appliedHoldWrapper.setHoldIssue(holdIssueInfo);
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
@@ -120,6 +124,21 @@ public class AppliedHoldMaintainableImpl extends KSMaintainableImpl {
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         super.processAfterEdit(document, requestParameters);
         document.getDocumentHeader().setDocumentDescription(HoldsConstants.MODIFY_HOLD_ISSUE_DOCUMENT_TEXT);
+    }
+
+    public String getTermCodeForId(String termId) {
+        if (termId == null) {
+            return StringUtils.EMPTY;
+        }
+
+        try {
+            TermInfo term = HoldsResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
+            return term.getCode();
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
+        }
+
+        return StringUtils.EMPTY;
     }
 
 }
