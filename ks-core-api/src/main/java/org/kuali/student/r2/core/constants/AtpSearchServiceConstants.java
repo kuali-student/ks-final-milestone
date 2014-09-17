@@ -54,6 +54,7 @@ public class AtpSearchServiceConstants {
     public static final String ATP_ADVANCED_QUERYPARAM_ATP_TYPE = "atp.advancedAtpSearchParam.atpType";
     public static final String ATP_ADVANCED_QUERYPARAM_ATP_YEAR = "atp.advancedAtpSearchParam.atpYear";
     public static final String ATP_ADVANCED_QUERYPARAM_ATP_SHORT_NAME = "atp.advancedAtpSearchParam.atpShortName";
+    public static final String ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive";
     public static final String ATP_ADVANCED_ATP_SEARCH_PARAM_OPTIONAL_ATP_IDS = "atp.advancedAtpSearchParam.optionalAtpIds";
 
     public static final String ATP_RESULTCOLUMN_ATP_ID = "atp.resultColumn.atpId";
