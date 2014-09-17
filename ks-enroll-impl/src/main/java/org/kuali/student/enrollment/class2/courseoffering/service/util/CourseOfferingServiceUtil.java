@@ -78,7 +78,7 @@ public class CourseOfferingServiceUtil {
         criteria.setAtpId(atpId);
         criteria.setCourseId(courseId);
 
-        ValueInfo value = gesService.evaluateValue(GesServiceConstants.PARAMETER_KEY_ROLLOVER_INSTRUCTOR_INFORMATION_INCLUDE, criteria, context);
+        ValueInfo value = gesService.evaluateValue(parameterKey, criteria, context);
         return value.getBooleanValue();
     }
 
