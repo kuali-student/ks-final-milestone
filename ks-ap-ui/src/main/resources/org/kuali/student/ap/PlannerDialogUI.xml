@@ -8,6 +8,8 @@
     <bean id="PlannerDialog-FormView-parent" abstract="true" parent="KSAPBaseFormView">
 
 		<property name="id" value="PlannerDialog-FormView" />
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.planner.service.impl.PlannerViewHelperServiceImpl"/>
         <property name="header">
             <bean parent="Uif-HeaderFour">
                 <property name="headerText" value="&#160;" />

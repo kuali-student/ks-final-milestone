@@ -9,6 +9,8 @@
 	<bean id="Planner-FormView-parent" abstract="true" parent="KSAPFormView">
 		<property name="id" value="Planner-FormView" />
         <property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.planner.service.impl.PlannerViewHelperServiceImpl"/>
         <property name="cssClasses">
 			<list merge="true">
 				<value>ksap-view</value>
@@ -634,6 +636,11 @@
     <bean id="KSAP-Planner-Item-BlankItem" parent="KSAP-Planner-Item-BlankItem-parent"/>
     <bean id="KSAP-Planner-Item-BlankItem-parent" parent="KSAP-Planner-Item-Base">
         <property name="render" value="@{#line.type == 'BlankItem'}"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-planner-cell-blank</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField">

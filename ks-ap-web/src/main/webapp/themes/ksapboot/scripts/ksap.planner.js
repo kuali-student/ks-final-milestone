@@ -138,14 +138,17 @@ function ksapPlannerAddPlanItem (data) {
         }else{
             itemElement.find(".coursenote").removeClass("invisible");
         }
+
+        var addDiv = jQuery(".ksap-planner-section." + termUid + ".ksap-planner-term-" + data.category + " .ksap-planner-add");
+        var addDivParent = addDiv.parent();
         itemElement.find("input[data-for='"+data.uid+"']")
             .removeAttr("script")
             .attr("name", "script");
         itemElement
             .attr("id", data.uid+"_wrap")
-            .attr("class", "uif-collectionItem uif-boxCollectionItem")
-            .appendTo(".ksap-planner-section." + termUid + ".ksap-planner-term-" + data.category)
-            .css({backgroundColor:"#ffc"})
+            .attr("class", "uif-collectionItem uif-boxCollectionItem");
+        addDivParent.before(itemElement);
+        itemElement.css({backgroundColor:"#ffc"})
             .hide()
             .fadeIn(250, function() {
                 var bucket = jQuery("ksap-planner-footer.ksap-planner-term-" + data.category + "." + termUid);
@@ -159,6 +162,13 @@ function ksapPlannerAddPlanItem (data) {
             });
         //Set static ids on some element for AFTs
         ksapSetStaticCourseIDs(data.uid + "_code", data.uid + "_courseNote");
+
+        // If there are blank slots remove one
+        var blankDivs = jQuery(".ksap-planner-section." + termUid + ".ksap-planner-term-" + data.category + " .ksap-planner-cell-blank");
+        if(blankDivs.length){
+            blankDivs.first().parent().remove();
+        }
+
     }
 
     // Change status on the course search page
