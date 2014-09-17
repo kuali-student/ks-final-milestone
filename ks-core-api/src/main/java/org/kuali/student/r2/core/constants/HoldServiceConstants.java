@@ -134,16 +134,24 @@ public class HoldServiceConstants {
 //    public static final String ACCESS_GRADES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.access.grades";
 //    public static final String BURSAR_REFUND_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.bursar.refund";
 //    public static final String VERIFICATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.verification";
+
     /**
-     * STATES FOR holds
+     * Applied Hold Lifecycle states
      */
-    public static final String STUDENT_HOLD_PROCESS_KEY = "kuali.hold.process.student";
-    public static final String HOLD_ACTIVE_STATE_KEY = "kuali.hold.state.active";
-    public static final String HOLD_RELEASED_STATE_KEY = "kuali.hold.state.released";
-    public static final String HOLD_CANCELED_STATE_KEY = "kuali.hold.state.canceled";
-    public static final String[] STUDENT_HOLD_PROCESS_KEYS = {HOLD_ACTIVE_STATE_KEY,
-        HOLD_RELEASED_STATE_KEY,
-        HOLD_CANCELED_STATE_KEY};
+    public static final String APPLIED_HOLD_LIFECYCLE_KEY = "kuali.hold.appliedhold.lifecycle";
+    public static final String APPLIED_HOLD_ACTIVE_STATE_KEY = "kuali.hold.appliedhold.state.active";
+    public static final String APPLIED_HOLD_OPEN_STATE_KEY = "kuali.hold.appliedhold.state.open";
+    public static final String APPLIED_HOLD_EXPIRED_STATE_KEY = "kuali.hold.appliedhold.state.expired";
+    public static final String APPLIED_HOLD_CANCELED_STATE_KEY = "kuali.hold.appliedhold.state.canceled";
+    public static final String APPLIED_HOLD_DELETED_STATE_KEY = "kuali.hold.appliedhold.state.deleted";
+    public static final String[] STUDENT_HOLD_LIFECYCLE_KEYS = {
+            APPLIED_HOLD_ACTIVE_STATE_KEY,
+            APPLIED_HOLD_OPEN_STATE_KEY,
+            APPLIED_HOLD_EXPIRED_STATE_KEY,
+            APPLIED_HOLD_CANCELED_STATE_KEY,
+            APPLIED_HOLD_DELETED_STATE_KEY
+    };
+
     /**
      * STATES FOR hold ISSUES
      */
