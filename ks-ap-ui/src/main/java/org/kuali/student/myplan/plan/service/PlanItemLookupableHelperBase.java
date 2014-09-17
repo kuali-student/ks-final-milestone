@@ -1,22 +1,15 @@
 package org.kuali.student.myplan.plan.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.comment.CommentConstants;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -30,6 +23,12 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base lookup helper for plan items.
@@ -170,6 +169,6 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 
 	public void setCourseDetailsInquiryService(
 			CourseDetailsInquiryHelperImpl courseDetailsInquiryService) {
-        this.courseDetailsInquiryHelper = courseDetailsInquiryHelper;
+        this.courseDetailsInquiryHelper = courseDetailsInquiryService;
 	}
 }
