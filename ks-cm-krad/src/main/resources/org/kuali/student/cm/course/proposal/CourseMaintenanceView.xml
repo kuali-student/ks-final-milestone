@@ -228,7 +228,7 @@
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-CreateCourse" parent="Uif-BreadcrumbItem">
-        <property name="label" value="Create Course"/>
+        <property name="label" value="@{(#uiHelper.isStringExistsInArray(#form.docTypeName,T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames).COURSE_CREATE_DOC_TYPE_NAMES) ? 'Create Course' : 'Modify Course') }"/>
     </bean>
 
     <bean id="CourseInfoMaintenanceDocument-Base" parent="CourseInfoMaintenanceDocument-Base-parent" abstract="true"/>
@@ -482,7 +482,7 @@
 
     <bean id="CM-Proposal-Course-Create-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
         <property name="header" ref="CM-Proposal-Course-Create-Header"/>
-        <property name="headerText" value="Create Course"/>
+        <property name="headerText" value="@{(#uiHelper.isStringExistsInArray(#form.docTypeName,T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames).COURSE_CREATE_DOC_TYPE_NAMES) ? 'Create Course' : 'Modify Course') }"/>
         <property name="footer.items">
             <list>
                 <bean parent="CM-Proposal-Course-Create-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>

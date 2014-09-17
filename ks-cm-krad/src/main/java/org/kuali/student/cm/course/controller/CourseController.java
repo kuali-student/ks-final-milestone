@@ -183,6 +183,9 @@ public class CourseController extends CourseRuleEditorController {
         form.setDataObjectClassName(CourseInfo.class.getName());
         form.getDocument().getNewMaintainableObject().setDataObject(courseInfoWrapper);
 
+        //Given temporary fix to set DocTypeName. May need some proper validation to set DocTypeName
+        form.setDocTypeName(CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY);
+
         return getUIFModelAndView(form);
     }
 
