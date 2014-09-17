@@ -364,6 +364,8 @@ limitations under the License.
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
+                            <ref bean="KS-SelectedAppliedHoldDeleteConfirmation-WarningMessage"/>
+                            <ref bean="KS-DeleteHold-Section-Info"/>
                             <ref bean="KS-DeleteHold-HoldSection"/>
                         </list>
                     </property>
@@ -380,7 +382,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="deleteHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
-                      p:methodToCall="delete" p:actionLabel="Delete Hold" p:performClientSideValidation="true"
+                      p:methodToCall="delete" p:actionLabel="Delete Hold"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:performDirtyValidation="false"
@@ -395,11 +397,6 @@ limitations under the License.
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="10" p:disabled="true"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-HorizontalBoxGroup"  >
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
@@ -417,25 +414,47 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup"  >
-                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-Section-Info" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+          p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Applied Hold"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.name"/>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Hold Code"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdCode"/>
+                <bean parent="KS-Uif-InputField" p:label="Category"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-SelectedAppliedHoldDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection" >
+        <property name="headerText"
+                  value=""/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items" >
+            <list>
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Expiration Term" p:propertyName="expirationTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
-                                </property>
-                                <!-- Constrain to 6 digits and use a custom message. -->
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"
-                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Expiration Date" p:propertyName="appliedHold.expirationDate">
-                                <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to permanently delete the following Applied Hold(s) from the student."
+                                  p:render="true"/>
+                            <!--iF we decide to delete more than one Applied hold-->
+                            <!--<bean parent="Uif-Message"
+                                  p:messageText="Affected Activities:  @{selectedToDeleteList.size()}"/>-->
                         </list>
                     </property>
                 </bean>
