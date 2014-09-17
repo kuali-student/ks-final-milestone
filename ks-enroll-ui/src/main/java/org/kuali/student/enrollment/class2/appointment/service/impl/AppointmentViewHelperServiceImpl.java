@@ -23,10 +23,14 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
@@ -66,6 +70,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -480,6 +485,77 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             super.performAddLineValidation(model, newLine, collectionId, collectionPath);
         }
         return isValid;
+    }
+
+    /**
+     * There's a bug fix in KRAD so overriding.
+     * https://jira.kuali.org/browse/KULRICE-10684
+     * Validation errors were blanking out the addline
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void processCollectionAddLine(ViewModel model, String collectionId, String collectionPath) {
+        if (!(model instanceof ViewModel)) {
+            return;
+        }
+
+        ViewModel viewModel = (ViewModel) model;
+
+        if (collectionId == null) {
+            logAndThrowRuntime(
+                    "Unable to get collection group component for Id: " + collectionPath + " path: " + collectionPath);
+        }
+
+        // now get the new line we need to add
+        BindingInfo addLineBindingInfo = (BindingInfo) viewModel.getViewPostMetadata().getComponentPostData(
+                collectionId, UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);
+        Object addLine = ObjectPropertyUtils.getPropertyValue(model, addLineBindingInfo.getBindingPath());
+        if (addLine == null) {
+            logAndThrowRuntime("Add line instance not found for path: " + addLineBindingInfo.getBindingPath());
+        }
+
+        processAndAddLineObject(viewModel, addLine, collectionId, collectionPath);
+
+    }
+    /**
+     * There's a bug fix in KRAD so overriding.
+     * https://jira.kuali.org/browse/KULRICE-10684
+     * Validation errors were blanking out the addline
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void processAndAddLineObject(ViewModel viewModel, Object newLine, String collectionId,
+                                           String collectionPath) {
+        String addLinePlacement = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.ADD_LINE_PLACEMENT);
+
+        // get the collection instance for adding the new line
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
+        if (collection == null) {
+            logAndThrowRuntime("Unable to get collection property from model for path: " + collectionPath);
+        }
+
+        processBeforeAddLine(viewModel, newLine, collectionId, collectionPath);
+
+        boolean isValidLine = performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+        if (isValidLine) {
+            // Adding an empty list because this item does not need to be further processed, but needs to init
+            // a new add line
+            List<Object> lineDataObjects = new ArrayList<Object>();
+            viewModel.getViewPostMetadata().getAddedCollectionObjects().put(collectionId, lineDataObjects);
+
+            int addedIndex = addLine(collection, newLine, addLinePlacement.equals("TOP"));
+            // now link the added line, this is important in situations where perhaps the collection element is
+            // bi-directional and needs to point back to it's parent
+            linkAddedLine(viewModel, collectionPath, addedIndex);
+
+            if (viewModel instanceof UifFormBase) {
+                ((UifFormBase) viewModel).getAddedCollectionItems().add(newLine);
+            }
+            processAfterAddLine(viewModel, newLine, collectionId, collectionPath, isValidLine);
+        }
     }
 
     public AcademicCalendarService getAcalService() {
