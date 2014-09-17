@@ -71,11 +71,11 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
      * For modify proposals this is the text for the end term that will be applied to the currently active
      * course when/if the draft course is made active.
      */
-    public String getCurrentCourseEndTerm() {
+    public String getCurrentCourseEndTermShortName() {
         return currentCourseEndTerm;
     }
 
-    public void setCurrentCourseEndTerm(String currentCourseEndTerm) {
+    public void setCurrentCourseEndTermShortName(String currentCourseEndTerm) {
          this.currentCourseEndTerm = currentCourseEndTerm;
     }
 

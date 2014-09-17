@@ -32,13 +32,22 @@ import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +61,8 @@ import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COU
  * @author Kuali Student Team
  */
 public class CourseProposalUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CourseProposalUtil.class);
 
     /**
      * Constructs a text URL for a particular course proposal.
@@ -316,4 +327,65 @@ public class CourseProposalUtil {
 
         return true;
     }
+
+    public static String getEndTermShortNameForCurrentCourse(String startTermAtpId, ContextInfo contextInfo)  {
+
+        List<String> termTypeKeys = new ArrayList<String>();
+        List<EndTermResult> endTermResults = new ArrayList<EndTermResult>();
+
+        if (startTermAtpId == null) {
+            return null;
+        }
+        // This initial list of term keys is from gwt, the correct way is to consult Duration in the Type Service, which is currently out of scope for CM work
+        termTypeKeys.add("kuali.atp.type.Spring");
+        termTypeKeys.add("kuali.atp.type.Fall");
+        termTypeKeys.add("kuali.atp.type.Winter");
+        termTypeKeys.add("kuali.atp.type.Summer");
+        final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
+        atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
+        atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, startTermAtpId);
+        try {
+            SearchResultInfo searchResult = CMUtils.getAtpService().search(atpSearchRequest, contextInfo);
+            if (searchResult.getRows().size() > 0) {
+                for (SearchResultRowInfo row : searchResult.getRows()) {
+                    List<SearchResultCellInfo> srCells = row.getCells();
+                    if (srCells != null && srCells.size() > 0) {
+                        EndTermResult endTermResult = new EndTermResult();
+                        for (SearchResultCellInfo cell : srCells) {
+                            if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())) {
+                                endTermResult.atpId = cell.getValue();
+                            }
+                            // Note:End date is a required field on ATP
+                            if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())) {
+                                endTermResult.endDate = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(cell.getValue());
+                            }
+                            if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
+                                endTermResult.shortName = cell.getValue();
+                            }
+                        }
+                        endTermResults.add(endTermResult);
+                    }
+                }
+            }
+            Collections.sort(endTermResults, new Comparator<EndTermResult>() {
+                public int compare(EndTermResult first, EndTermResult second) {
+                    // Sort descending order
+                    return second.endDate.compareTo(first.endDate);
+                }
+            });
+        } catch (Exception e) {
+            LOG.error("Error obtaining EndTerm", e);
+            throw new RuntimeException(e);
+        }
+        return endTermResults.get(0).shortName;
+    }
+
+    private static class EndTermResult {
+        private String atpId;
+        private String shortName;
+        private Date endDate;
+
+    }
 }
+
+

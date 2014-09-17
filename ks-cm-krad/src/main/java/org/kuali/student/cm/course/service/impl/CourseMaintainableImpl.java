@@ -1447,7 +1447,8 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         /*
          * Calculate the end term for the current course and store the display text.
          */
-        courseWrapper.setCurrentCourseEndTerm("Foo 2014");
+        String startTerm = courseWrapper.getCourseInfo().getStartTerm();
+        courseWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getEndTermShortNameForCurrentCourse(startTerm, ContextUtils.createDefaultContextInfo()));
 
         populateAuditOnWrapper();
         populateFinalExamOnWrapper();

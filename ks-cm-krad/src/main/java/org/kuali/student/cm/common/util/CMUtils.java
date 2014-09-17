@@ -19,6 +19,8 @@ package org.kuali.student.cm.common.util;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -39,6 +41,7 @@ public class CMUtils {
     private static CourseService courseService;
     private static CluService cluService;
     private static ProposalService proposalService;
+    private static AtpService atpService;
     private static Object lockObject = new Object();
     /**
      * This method returns the url for CM Home.
@@ -62,6 +65,10 @@ public class CMUtils {
 
     public static CluService getCluService() {
         return  (CluService) CMUtils.getService(CMUtils.cluService, CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART);
+    }
+
+    public static AtpService getAtpService() {
+        return  (AtpService) CMUtils.getService(CMUtils.atpService, AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
     }
 
     public static <T extends Object> T getService(T service, String nameSpace, String localPart) {

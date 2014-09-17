@@ -219,7 +219,7 @@ public class CourseController extends CourseRuleEditorController {
         Properties urlParameters = new Properties();
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveModifyVersion");
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
@@ -696,13 +696,12 @@ public class CourseController extends CourseRuleEditorController {
      * Handler for component refresh of the CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm data field.
      */
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=refreshCurrentCourseStartTerm")
-    public ModelAndView refreshCurrentCourseStartTerm(@ModelAttribute("KualiForm") DocumentFormBase form) {
+    @RequestMapping(params = "methodToCall=refreshCurrentCourseEndTerm")
+    public ModelAndView refreshCurrentCourseEndTerm(@ModelAttribute("KualiForm") DocumentFormBase form) {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
 
-        //  Look up the end term and set it here
-        courseInfoWrapper.setCurrentCourseEndTerm(new java.util.Date().toString());
+        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getEndTermShortNameForCurrentCourse(startTerm, ContextUtils.createDefaultContextInfo()));
 
         return getUIFModelAndView(form);
     }
