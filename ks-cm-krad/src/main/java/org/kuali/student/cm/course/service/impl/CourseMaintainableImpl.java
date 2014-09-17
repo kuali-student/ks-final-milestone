@@ -1574,7 +1574,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
                 courseWrapper.getCourseInfo().getVersion().getSequenceNumber(), currentCourseSuffix));
     }
 
-    protected void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId) {
+    public void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId) {
 
         if (StringUtils.isNotBlank(courseId)) {
 

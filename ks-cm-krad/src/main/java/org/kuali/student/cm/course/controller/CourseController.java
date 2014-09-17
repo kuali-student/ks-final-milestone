@@ -216,6 +216,11 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setUseReviewProcess(
                 request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
 
+        //Get the current version requisities and clear out all the ids, sothat requisites will be created new for this proposal.
+        CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
+        newMaintainble.populateRequisities(courseInfoWrapper,currentVersion.getId());
+        newMaintainble.getCourseCopyHelper().resetRequisites(courseInfoWrapper);
+
         Properties urlParameters = new Properties();
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveModifyVersion");

@@ -75,4 +75,8 @@ public interface CourseMaintainable extends CommonCourseMaintainable {
 
     public CourseInfoWrapper copyCourse(String sourceCourseId) throws Exception;
 
+    public void populateRequisities(CourseInfoWrapper courseInfoWrapper, String courseId);
+
+    public CourseCopyHelper getCourseCopyHelper();
+
 }

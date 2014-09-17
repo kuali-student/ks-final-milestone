@@ -165,7 +165,7 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
     /**
      * Removes IDs and other properties from the data object so that new entities are created on persist.
      */
-    protected void resetRequisites(RuleManagementWrapper dataObject) {
+    public void resetRequisites(RuleManagementWrapper dataObject) {
         for (AgendaEditor agenda : dataObject.getAgendas()) {
             agenda.setContextId(null);
             agenda.setFirstItemId(null);

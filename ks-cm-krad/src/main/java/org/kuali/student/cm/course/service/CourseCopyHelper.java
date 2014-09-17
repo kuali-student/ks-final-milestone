@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.course.service;
 
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -28,5 +29,7 @@ public interface CourseCopyHelper {
     public void cleanUpCourseWrapperOnCopy(CourseInfoWrapper target);
 
     public void copyCourse(CourseInfo source, CourseInfo target);
+
+    public void resetRequisites(RuleManagementWrapper dataObject);
 
 }

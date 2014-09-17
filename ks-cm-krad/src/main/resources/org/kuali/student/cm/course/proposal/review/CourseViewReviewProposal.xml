@@ -200,7 +200,9 @@
                             <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
                                 <property name="items">
                                     <list>
-                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection"/>
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
+                                            <property name="agendaPrototype.fieldBindingObjectPath" value="document.newMaintainableObject.dataObject"/>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
@@ -209,8 +211,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
-                                            <property name="bindingInfo.bindingObjectPath" value="document.oldMaintainableImpl.dataObject"/>
-                                            <property name="bindingInfo.bindToForm" value="true"/>
+                                            <property name="agendaPrototype.fieldBindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
                                         </bean>
                                     </list>
                                 </property>
