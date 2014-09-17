@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -47,9 +48,8 @@ public class AppliedHoldRule extends BasicHoldsRule {
         if (holdIssue.getIsHoldIssueTermBased()) {
             appliedHold.setApplicationExpirationTermId(holdIssue.getLastApplicationTermId());
             isValid &= validateTerm(holdWrapper, appliedHold);
-        } else {
-            //set applied hold terms to null.
         }
+        isValid &= validateHoldsDates(appliedHold, holdIssue);
 
         return isValid;
     }
@@ -125,16 +125,109 @@ public class AppliedHoldRule extends BasicHoldsRule {
     private boolean validateTerm(AppliedHoldMaintenanceWrapper holdWrapper, AppliedHoldInfo appliedHold) {
 
         boolean isValid = true;
+        HoldIssueInfo holdIssue = holdWrapper.getHoldIssue();
         if (StringUtils.isBlank(holdWrapper.getEffectiveTerm())) {
             GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_REQUIRED);
             isValid = false;
         } else {
             appliedHold.setApplicationEffectiveTermId(resolveTermId(holdWrapper.getEffectiveTerm(), HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM));
-          if (appliedHold.getApplicationEffectiveTermId() == null) {
-              isValid = false;
-          }
+            if (appliedHold.getApplicationEffectiveTermId() == null) {
+                isValid = false;
+            } else {
+                try {
+                    //validate terms Dates
+                    TermInfo effectiveTerm = null;
+                    TermInfo expirationTerm = null;
+                    TermInfo firstTerm = null;
+                    TermInfo lastTerm = null;
+                    firstTerm = searchForTermIdById(holdIssue.getFirstApplicationTermId());
+                    effectiveTerm = searchForTermIdById(appliedHold.getApplicationEffectiveTermId());
+
+                    if (appliedHold.getApplicationExpirationTermId() != null) {
+                        expirationTerm = searchForTermIdById(appliedHold.getApplicationExpirationTermId());
+
+                    }
+                    if (holdIssue.getLastApplicationTermId() != null) {
+                        lastTerm = searchForTermIdById(holdIssue.getLastApplicationTermId());
+                    }
+
+                    if (effectiveTerm != null && firstTerm != null) {
+                        if (!isDateBiggerThanOrEqual(effectiveTerm.getStartDate(), firstTerm.getStartDate())) {
+                            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM,
+                                    HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_AFTER_INVALID_DATE_RANGE, firstTerm.getCode());
+                            isValid = false;
+                        }
+                        if (lastTerm != null){
+                            if (!isDateSmallerThanOrEqual(effectiveTerm.getStartDate(), lastTerm.getEndDate())) {
+                                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_TERM,
+                                        HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_BEFORE_INVALID_DATE_RANGE, lastTerm.getCode());
+                                isValid = false;
+                            }
+                        }
+                    }
+                    if (expirationTerm != null && firstTerm != null ) {
+
+                        if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), firstTerm.getStartDate())) {
+                            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
+                                   HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_AFTER_INVALID_DATE_RANGE, firstTerm.getCode());
+                            isValid = false;
+                        }
+                        if (lastTerm != null) {
+                            if (!isDateSmallerThanOrEqual(expirationTerm.getEndDate(), lastTerm.getEndDate())) {
+                                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
+                                        HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, lastTerm.getCode());
+                                isValid = false;
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    //  Capture the error if the service call fails.
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+                }
+            }
         }
         return isValid;
     }
+
+    private boolean validateHoldsDates(AppliedHoldInfo appliedHold, HoldIssueInfo holdIssue) {
+
+        boolean isValid = true;
+        MessageMap messages = GlobalVariables.getMessageMap();
+
+        try {
+            if (appliedHold.getEffectiveDate() != null) {
+                if (!isDateBiggerThanOrEqual(appliedHold.getEffectiveDate(), holdIssue.getFirstAppliedDate())) {
+                    GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE,
+                           HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_AFTER_INVALID_DATE_RANGE,  AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()));
+                    isValid = false;
+                }
+
+                if (!isDateSmallerThanOrEqual(appliedHold.getEffectiveDate(), holdIssue.getLastAppliedDate())) {
+                    GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE,
+                           HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_BEFORE_INVALID_DATE_RANGE, AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()) );
+                    isValid = false;
+                }
+            }
+
+            if (appliedHold.getExpirationDate() != null) {
+                if (!isDateBiggerThanOrEqual(appliedHold.getExpirationDate(), holdIssue.getFirstAppliedDate())) {
+                    GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_DATE,
+                           HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_AFTER_INVALID_DATE_RANGE, AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()));
+                    isValid = false;
+                }
+                if (!isDateSmallerThanOrEqual(appliedHold.getExpirationDate(), holdIssue.getLastAppliedDate())) {
+                    GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_DATE,
+                           HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_BEFORE_INVALID_DATE_RANGE, AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
+                    isValid = false;
+                }
+            }
+        } catch (Exception e) {
+            //  Capture the error if the service call fails.
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+        return isValid;
+    }
+
 
 }

@@ -115,6 +115,14 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY = "error.hold.issue.applied.unauthorized.apply";
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE = "error.hold.issue.applied.unauthorized.expire";
     public static final String APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE = "error.hold.issue.applied.unauthorized.delete";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_AFTER_INVALID_DATE_RANGE = "error.hold.issue.applied.effective.term.afterrange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_TERM_BEFORE_INVALID_DATE_RANGE = "error.hold.issue.applied.effective.term.beforerange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_AFTER_INVALID_DATE_RANGE= "error.hold.issue.applied.expiration.term.afterrange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE= "error.hold.issue.applied.expiration.term.beforerange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_AFTER_INVALID_DATE_RANGE = "error.hold.issue.applied.effective.date.afterrange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_BEFORE_INVALID_DATE_RANGE = "error.hold.issue.applied.effective.date.beforerange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_AFTER_INVALID_DATE_RANGE = "error.hold.issue.applied.expiration.date.afterrange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_BEFORE_INVALID_DATE_RANGE = "error.hold.issue.applied.expiration.date.beforerange.invalid";
 
     //applied hold actions
     public static final String APPLIED_HOLDS_ACTION_APPLY = "kuali.applied.hold.apply";

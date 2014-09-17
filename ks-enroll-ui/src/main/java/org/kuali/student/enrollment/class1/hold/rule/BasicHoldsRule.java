@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,6 +75,28 @@ public class BasicHoldsRule extends KsMaintenanceDocumentRuleBase {
         return termInfo;
     }
 
+
+    public static boolean isDateBiggerThanOrEqual(Date firstDate, Date secondDate) {
+        if (firstDate != null && secondDate != null) {
+            if (firstDate.after(secondDate) || firstDate.equals(secondDate)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isDateSmallerThanOrEqual(Date firstDate, Date secondDate) {
+        if (firstDate != null && secondDate != null) {
+            if (firstDate.before(secondDate) || firstDate.equals(secondDate)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
     protected ContextInfo createContextInfo() {
         return ContextUtils.createDefaultContextInfo();
     }
