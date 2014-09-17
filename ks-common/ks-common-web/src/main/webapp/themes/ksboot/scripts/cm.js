@@ -44,26 +44,6 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
 }
 
 /**
- * Shows the comment view in a lightbox. To always get the view from the server, we need to have unique url sothat fancy
- * box not caches the html. Here, we're adding the datetime to make sure url random
- *
- * @param href
- */
-function showViewInLightBox(href) {
-    if (!Date.now) {
-        Date.now = function () {
-            return new Date().getTime();
-        };
-    }
-    var href1 = href + "&fake=" + Date.now();
-    showLightboxUrl(href1);
-}
-
-function closeCommentUndo() {
-    jQuery("#CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo").hide();
-}
-
-/**
  * Initialize the Review Course Proposal page.
  */
 function onProposalReviewLoad() {
@@ -78,8 +58,12 @@ function onProposalReviewLoad() {
         jQuery(window).off('scroll.' + leftNavPositioningEventNamespace);
     }
 
+    //  Removed the non-breaking spaces from <pre/>s
+    common.removeNonBreakingSpacesFromPreTags();
+
     fixReadOnlyInputSizes();
 
+    fixComparisonDataSizes();
 }
 
 /**
@@ -193,6 +177,17 @@ function setupReviewPage(validate) {
     jQuery.watermark.showAll();
 
     time(false, "page-setup");
+}
+
+/**
+ *  Fix the width of the comparison data to match the size of the read only input fields if it exists.
+ */
+function fixComparisonDataSizes() {
+     //  This will have to be reworked for use outside of review course proposal.
+     var w = jQuery("#CM-ViewCourseView-CourseInfo-Course-Titlenew_control").width();
+     jQuery("pre").each(function (index) {
+         jQuery(this).width(w + "px");
+     });
 }
 
 /**
@@ -1286,17 +1281,41 @@ function fixLeftNavElementPositioningForRetire(initial) {
     }
 }
 
+function closeCommentUndo() {
+    jQuery("#CM-Proposal-Course-Comment-CloseCommentDeleteUndoInfo").hide();
+}
+
 /**
- * Scripts related to the View Course view
+ * Common scripts.
  */
-var viewCourseView = {
+var common = {
     removeNonBreakingSpacesFromPreTags: function() {
         jQuery("pre").each(function (index) {
             var text = jQuery(this).html().replace(/&nbsp;/g, ' ');
             jQuery(this).html(text);
         });
     },
+    /**
+     * Shows the comment view in a lightbox. To always get the view from the server, we need to have unique url so that fancy
+     * box not caches the html. Here, we're adding the datetime to make sure url random
+     *
+     * @param href
+     */
+    showViewInLightBox: function(href) {
+        if (!Date.now) {
+            Date.now = function () {
+                return new Date().getTime();
+            };
+        }
+        var href1 = href + "&fake=" + Date.now();
+        showLightboxUrl(href1);
+    }
+}
 
+/**
+ * Scripts related to the View Course view
+ */
+var viewCourseView = {
     /* This function is called conditionally if the requisites in compare mode do not match.
        The KRAD compare routines can't handle requesites. */
     highlightRequisitesTableRow: function() {
