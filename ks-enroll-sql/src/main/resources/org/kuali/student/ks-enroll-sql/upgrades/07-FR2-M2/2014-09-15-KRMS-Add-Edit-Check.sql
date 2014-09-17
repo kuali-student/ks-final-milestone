@@ -139,3 +139,13 @@ SET
 WHERE
   ID = 'kuali.check.registration.open'
 /
+
+-- Update process instructions with new messaging
+UPDATE
+  KSEN_PROCESS_INSTRN
+SET
+  MESG_FORMATTED='"messageKey":"kuali.lpr.trans.message.course.not.open","details":$courseAddDates',
+  UPDATETIME = TO_DATE( '2014-09-15', 'YYYY-MM-DD' )
+WHERE
+  ID in ('0f6e519c-7552-486b-aa0f-30595fa4d2ac', '01CC67C7-6A46-82C3-E050-007F010105C1', '01CC67C7-6A4E-82C3-E050-007F010105C1')
+/

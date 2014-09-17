@@ -20,7 +20,7 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         },
         {
             "messageKey": "kuali.lpr.trans.message.credit.load.reached",
-            "message": "Reached maximum credit limit <span ng-if='maxCredits'>(<strong>{{maxCredits}} credits<strong>)</span>"
+            "message": "Reached maximum credit limit <span ng-if='maxCredits'>(<strong>{{maxCredits}} credits</strong>)</span>"
         },
         {
             "messageKey": "kuali.lpr.trans.message.time.conflict",
@@ -48,23 +48,18 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.not.open",
-            "message": "Registration is not currently open"
-        },
-        {
-            "messageKey": "kuali.lpr.trans.message.course.not.open.early",
-            "message": "First day of Registration is not until {{startDate}}"
-        },
-        {
-            "messageKey": "kuali.lpr.trans.message.course.not.open.late",
-            "message": "Reason: Last day of Registration was {{endDate}}"
+            "message": "<span ng-if='details.appointmentSlot'>Registration Appointment is {{details.appointmentSlot}}</span>\
+                    <span ng-if='details.noAppointment'>No Registration Appointment Scheduled</span>\
+                    <span ng-if='details.startDate'>First day of Registration is not until {{details.startDate}}</span>\
+                    <span ng-if='details.endDate'>Last day of Registration was {{details.endDate}}</span>"
         },
         {
             "messageKey": "kuali.lpr.trans.message.drop.period.closed",
-            "message": "Reason: Last day to drop was {{endDate}}"
+            "message": "Last day to drop was {{endDate}}"
         },
         {
             "messageKey": "kuali.lpr.trans.message.edit.period.closed",
-            "message": "Reason: Last day to modify was {{endDate}}"
+            "message": "Last day to modify was {{endDate}}"
         },
         {
             "messageKey": "kuali.lpr.trans.message.course.grade.incomplete",

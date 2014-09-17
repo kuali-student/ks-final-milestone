@@ -38,8 +38,12 @@ import java.util.Set;
  * Returns the first day that the student is allowed to register for the given reg group.
  * Date is formatted as a String: mm/dd/yyyy
  *
+ * This has been deprecated and replaced with CourseAddDatesTermResolver, which provides a more complete picture of
+ * the relevant dates if a registration request fails date checks.
+ *
  * @author Kuali Student Team
  */
+@Deprecated
 public class ScheduleAdjustmentStartTermResolver extends KeyDateTermResolverSupport<String> {
 
     @Override

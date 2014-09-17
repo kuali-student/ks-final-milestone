@@ -18,12 +18,11 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AppointmentTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
-import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -43,11 +42,10 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class AppointmentWindowTermResolver implements TermResolver<Boolean> {
+public class AppointmentWindowTermResolver extends AppointmentTermResolverSupport<Boolean> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppointmentWindowTermResolver.class);
 
-    private AppointmentService appointmentService;
     private AtpService atpService;
 
     @Override
@@ -91,24 +89,16 @@ public class AppointmentWindowTermResolver implements TermResolver<Boolean> {
             // Find the milestones for the term's advanced registration period
             String keydateTypeParameter = AtpServiceConstants.MILESTONE_EARLY_REGISTRATION_PERIOD_TYPE_KEY;
             List<MilestoneInfo> milestones = atpService.getMilestonesByTypeForAtp(atpId, keydateTypeParameter, contextInfo);
-            for (MilestoneInfo milestone:milestones) {
-                String milestoneId = milestone.getId();
-
-                // Find the appointment slots for the person/period
-                List<AppointmentSlotInfo> appointmentSlots = appointmentService.getAppointmentSlotsByPersonAndPeriod(personId, milestoneId, contextInfo);
-
-                for (AppointmentSlotInfo appointmentSlot:appointmentSlots) {
-                    // See if the current date falls in the appointment slot
-                    DateTime startDate = new DateTime(appointmentSlot.getStartDate());
-                    if (appointmentSlot.getEndDate() != null) {
-                        DateTime endDate = new DateTime(appointmentSlot.getEndDate());
-                        slotFound = (currentDate.compareTo(startDate) >= 0 && currentDate.compareTo(endDate) <= 0);
-                    } else {
-                        slotFound = currentDate.compareTo(startDate) >= 0;
-                    }
-                    if (slotFound) {
-                        break;
-                    }
+            // Get all appointment slots
+            List<AppointmentSlotInfo> appointmentSlots = getAppointmentSlotsForPerson(milestones, personId, contextInfo);
+            // See if the current date falls in one of the appointment slots
+            for (AppointmentSlotInfo appointmentSlot:appointmentSlots) {
+                DateTime startDate = new DateTime(appointmentSlot.getStartDate());
+                if (appointmentSlot.getEndDate() != null) {
+                    DateTime endDate = new DateTime(appointmentSlot.getEndDate());
+                    slotFound = (currentDate.compareTo(startDate) >= 0 && currentDate.compareTo(endDate) <= 0);
+                } else {
+                    slotFound = currentDate.compareTo(startDate) >= 0;
                 }
                 if (slotFound) {
                     break;
@@ -124,8 +114,8 @@ public class AppointmentWindowTermResolver implements TermResolver<Boolean> {
         return slotFound;
     }
 
-    public void setAppointmentService(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
+    public AtpService getAtpService() {
+        return atpService;
     }
 
     public void setAtpService(AtpService atpService) {

@@ -270,22 +270,30 @@ describe('Directive: ValidationMessage', function() {
             var data = {
                     messageKey: VALIDATION_ERROR_TYPE.courseNotOpen
                 },
-                course = { courseCode: 'code1' };
+                course = { courseCode: 'code1' },
+                appointmentSlot = 'March 14, 2012, 3:15 PM',
+                startDate = '9/10/2014',
+                endDate = '10/10/2014';
 
-            // Base case
-            expect(compile(data, course)).toContain('Registration is not currently open');
+            // Too Early for Reg Appt
+            data.details = {};
+            data.details.appointmentSlot = appointmentSlot;
+            expect(compile(data, course).trim()).toBe('Registration Appointment is '+appointmentSlot);
 
-            // With parameters
-            data.startDate = '09/10/2014';
-            data.endDate = '10/10/2014';
+            // No Appointment
+            data.details = {};
+            data.details.noAppointment = true;
+            expect(compile(data, course).trim()).toBe('No Registration Appointment Scheduled');
 
             // Registration not yet available
-            data.actionDate = '09/09/2014';
-            expect(compile(data, course)).toBe('First day of Registration is not until 09/10/2014');
+            data.details = {};
+            data.details.startDate = startDate;
+            expect(compile(data, course).trim()).toBe('First day of Registration is not until '+startDate);
 
             // Registration window has passed
-            data.actionDate = '10/11/2014';
-            expect(compile(data, course)).toBe('Reason: Last day of Registration was 10/10/2014');
+            data.details = {};
+            data.details.endDate = endDate;
+            expect(compile(data, course).trim()).toBe('Last day of Registration was '+endDate);
         });
     });
 
