@@ -1377,7 +1377,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         return courseInfo;
     }
 
-
     /**
      * Copied this method from CourseDataService
      * This method calculates code for course and cross listed course.
@@ -1395,13 +1394,26 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
         try {
-            populateCourseAndReviewData(getProposalInfo().getProposalReference().get(0),dataObject);
+            populateCourseAndReviewData(getProposalInfo().getProposalReference().get(0), dataObject);
         } catch (Exception e) {
             throw new RuntimeException("Caught Exception while populating Course data", e);
         }
 
-        //  This needs to be moved to a method.
-        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, getDocumentTypeName())) {
+        finalizeUiHelper();
+    }
+
+    /**
+     * Performs the final initialization of the UI Helper class.
+     */
+    protected void finalizeUiHelper() {
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
+
+        String docId = dataObject.getProposalInfo().getWorkflowId();
+        String docTypeName = findDocumentTypeName(docId);
+
+        //  Set the flag for a modify a course with a new version.
+        //  Kinda feels we should just be setting the doc type and put the logic in the UI Helper.
+        if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, docTypeName)) {
             dataObject.getUiHelper().setModifyWithNewVersionProposal(true);
         }
     }

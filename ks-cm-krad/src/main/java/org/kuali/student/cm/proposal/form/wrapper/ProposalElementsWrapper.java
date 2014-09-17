@@ -160,8 +160,7 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
         @RequestProtected
         boolean useReviewProcess;
 
-        @RequestProtected
-        boolean modifyWithNewVersionProposal = false;
+        private boolean modifyWithNewVersionProposal = false;
 
         // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
         @RequestAccessible

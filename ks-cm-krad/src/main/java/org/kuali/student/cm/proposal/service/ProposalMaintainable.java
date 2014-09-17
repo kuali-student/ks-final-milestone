@@ -46,4 +46,5 @@ public interface ProposalMaintainable extends CMMaintainable {
 
     public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception;
 
+    public String findDocumentTypeName(String docId);
 }

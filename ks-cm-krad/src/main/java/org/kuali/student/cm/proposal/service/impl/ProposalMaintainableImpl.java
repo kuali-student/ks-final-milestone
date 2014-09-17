@@ -119,6 +119,24 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         return ((ProposalElementsWrapper)getDataObject()).getProposalInfo();
     }
 
+    /**
+     * Warning: Because we have multiple doc types per data object this method will not reliably return
+     * the actual doc type for the proposal. If you really need the doc type use findDocumentTypeName().
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return super.getDocumentTypeName();
+    }
+
+    /**
+     * Uses the workflow document service to look up the document type given a document id.
+     * @return The document type of the given doc id.
+     */
+    @Override
+    public String findDocumentTypeName(String docId) {
+       return KewApiServiceLocator.getWorkflowDocumentService().getDocumentTypeName(docId);
+    }
+
     public void retrieveDataObject() {
         try {
             ProposalElementsWrapper dataObject = (ProposalElementsWrapper) getDataObject();
@@ -127,7 +145,6 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         } catch (Exception e) {
             throw new RuntimeException("Caught Exception while populating Proposal data", e);
         }
-
     }
 
     /**
@@ -920,7 +937,6 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         }
 
     }
-
 
     @Override
     public void addCustomContainerComponents(ViewModel model, Container container) {
