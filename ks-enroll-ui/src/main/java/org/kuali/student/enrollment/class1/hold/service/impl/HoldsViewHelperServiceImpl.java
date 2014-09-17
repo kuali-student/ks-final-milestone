@@ -114,32 +114,33 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
     public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom) {
 
         List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
-        List<AppliedHoldInfo> appliedHoldInfoList;
 
         try {
-            appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getPerson().getId(), createContextInfo());
+            List<AppliedHoldInfo> appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getPerson().getId(), createContextInfo());
 
             for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfoList) {
 
-                AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
                 //Check if the hold has the Maintain History Option set to true when the hold is in released state
-                if (!(holdIssue.getMaintainHistoryOfApplicationOfHold() == false && appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_RELEASED_STATE_KEY))) {
-                    appliedHoldResult.setId(appliedHoldInfo.getId());
-                    appliedHoldResult.setHoldIssue(holdIssue);
-                    appliedHoldResult.setHoldName(holdIssue.getName());
-                    appliedHoldResult.setCode(holdIssue.getHoldCode());
-                    appliedHoldResult.setState(getStateInfo(appliedHoldInfo.getStateKey()).getName());
-                    appliedHoldResult.setTypeKey(holdIssue.getTypeKey());
-                    //Consequence lookup needed
-                    appliedHoldResult.setConsequence("");
-                    appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
-                    appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
-                    appliedHoldResult.setStartTerm(getTermCodeForId(appliedHoldInfo.getApplicationEffectiveTermId()));
-                    appliedHoldResult.setEndTerm(getTermCodeForId(appliedHoldInfo.getApplicationExpirationTermId()));
-
-                    holdResultList.add(appliedHoldResult);
+                if (!holdIssue.getMaintainHistoryOfApplicationOfHold() && appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_RELEASED_STATE_KEY)) {
+                    continue;
                 }
+
+                AppliedHoldResult appliedHoldResult = new AppliedHoldResult();
+                appliedHoldResult.setId(appliedHoldInfo.getId());
+                appliedHoldResult.setHoldIssue(holdIssue);
+                appliedHoldResult.setHoldName(holdIssue.getName());
+                appliedHoldResult.setCode(holdIssue.getHoldCode());
+                appliedHoldResult.setState(getStateInfo(appliedHoldInfo.getStateKey()).getName());
+                appliedHoldResult.setTypeKey(holdIssue.getTypeKey());
+                //Consequence lookup needed
+                appliedHoldResult.setConsequence("");
+                appliedHoldResult.setStartDate(appliedHoldInfo.getEffectiveDate());
+                appliedHoldResult.setEndDate(appliedHoldInfo.getExpirationDate());
+                appliedHoldResult.setStartTerm(getTermCodeForId(appliedHoldInfo.getApplicationEffectiveTermId()));
+                appliedHoldResult.setEndTerm(getTermCodeForId(appliedHoldInfo.getApplicationExpirationTermId()));
+
+                holdResultList.add(appliedHoldResult);
             }
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
