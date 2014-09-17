@@ -663,7 +663,7 @@
         <property name="dataAttributes">
             <map>
                 <entry key="termid" value="@{#line.termId}" />
-                <entry key="backup" value="false" />
+                <entry key="backup" value="@{#line.categoryString == 'backup' ? 'true' : 'false'}" />
             </map>
         </property>
         <property name="items">
