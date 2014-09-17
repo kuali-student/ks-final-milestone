@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.proposal.form.wrapper;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.bind.RequestProtected;
@@ -25,7 +26,6 @@ import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -264,16 +264,7 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
         }
 
         public boolean isStringExistsInArray(String searchString, String[] stringsArray) {
-
-            if(stringsArray==null) {
-                return false;
-            }
-
-            List<String> stringsList = Arrays.asList(stringsArray);
-
-            boolean result = stringsList.contains(searchString);
-
-            return result;
+            return ArrayUtils.contains(stringsArray, searchString);
         }
     }
 }

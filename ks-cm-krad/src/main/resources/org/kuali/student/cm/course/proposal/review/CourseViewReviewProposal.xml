@@ -37,7 +37,7 @@
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list merge="true">
-                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ReviewCourse"/>
             </list>
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
@@ -410,6 +410,12 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ReviewCourse" parent="Uif-BreadcrumbItem">
+        <property name="label" value=" @{(#isCreateProposal) ? 'Create Course' : 'Modify Course'}"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
     </bean>
 
     <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
