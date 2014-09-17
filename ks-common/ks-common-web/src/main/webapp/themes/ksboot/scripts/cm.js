@@ -1405,3 +1405,9 @@ var courseVersions = {
         });
     }
 }
+
+function courseRetireErrorStyling(isCurriculumSpecialist) {
+    if (!isCurriculumSpecialist) {
+       jQuery("#CM-Proposal-Course-Retire-Page").addClass("retire_messages");
+    }
+}
