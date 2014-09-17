@@ -366,7 +366,6 @@ limitations under the License.
                         <list>
                             <ref bean="KS-SelectedAppliedHoldDeleteConfirmation-WarningMessage"/>
                             <ref bean="KS-DeleteHold-Section-Info"/>
-                            <ref bean="KS-DeleteHold-HoldSection"/>
                         </list>
                     </property>
                 </bean>
@@ -391,32 +390,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-DeleteHold-HoldSection" parent="Uif-VerticalBoxSection">
-        <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-bottom:10px;"/>
-        <property name="headerText" value="Hold Details"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup"  >
-                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term" p:propertyName="effectiveTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="true"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:label="Effective Date" p:propertyName="appliedHold.effectiveDate">
-                                <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl" p:size="10" p:disabled="true"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
     <bean id="KS-DeleteHold-Section-Info" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
           p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
@@ -427,7 +400,7 @@ limitations under the License.
                 <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Hold Code"
                       p:fieldLabel.renderColon="false" p:propertyName="holdCode"/>
                 <bean parent="KS-Uif-InputField" p:label="Category"
-                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.typeKey"  p:readOnly="true">
+                      p:fieldLabel.renderColon="false" p:colSpan="3" p:propertyName="holdIssue.typeKey"  p:readOnly="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -435,6 +408,9 @@ limitations under the License.
                         <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
+                <bean parent="Uif-InputField" p:label="Effective Date"  p:colSpan="3" p:propertyName="appliedHold.effectiveDate" p:readOnly="true"/>
+                <bean parent="KS-Uif-InputField-LabelTop" p:colSpan="3" p:label="Effective Term" p:propertyName="effectiveTerm"
+                      p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}" p:readOnly="true"/>
             </list>
         </property>
     </bean>
