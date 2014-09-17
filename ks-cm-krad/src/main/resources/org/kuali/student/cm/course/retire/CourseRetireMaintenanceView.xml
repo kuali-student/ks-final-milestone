@@ -304,6 +304,7 @@
                       p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
                       p:actionLabel="Approve and Retire"
+                      p:onClickScript="courseRetireErrorStyling(@{#uiHelper.adminProposal})"
                       p:methodToCall="approveAndRetire"
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and (!#workflowDoc.initiated) and #uiHelper.adminProposal}"/>
@@ -311,6 +312,7 @@
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
                       p:performClientSideValidation="true"
+                      p:onClickScript="courseRetireErrorStyling(@{#uiHelper.adminProposal})"
                       p:actionLabel="Save Progress"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"
                       p:jumpToIdAfterSubmit="TOP">
@@ -334,6 +336,7 @@
                             <bean parent="Uif-SaveAction"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="saveProposal"
+                                  p:onClickScript="courseRetireErrorStyling(@{#uiHelper.curriculumSpecialistUser})"
                                   p:actionLabel="Save and Continue"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
@@ -346,6 +349,7 @@
                             <bean parent="Uif-SecondaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="saveProposal"
+                                  p:onClickScript="courseRetireErrorStyling(@{#uiHelper.curriculumSpecialistUser})"
                                   p:actionLabel="Save Progress"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
