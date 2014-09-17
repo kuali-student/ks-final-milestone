@@ -122,10 +122,10 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
 
                 HoldIssueInfo holdIssue = HoldsResourceLoader.getHoldService().getHoldIssue(appliedHoldInfo.getHoldIssueId(), createContextInfo());
                 //Check if the hold has the Maintain History Option set to true when the hold is in released state
-                if (!holdIssue.getMaintainHistoryOfApplicationOfHold() && appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_RELEASED_STATE_KEY)) {
+                if (!holdIssue.getMaintainHistoryOfApplicationOfHold() && appliedHoldInfo.getStateKey().matches(HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY)) {
                     continue;
                 }
-                if (appliedHoldInfo.getStateKey().matches(HoldServiceConstants.HOLD_CANCELED_STATE_KEY)) {
+                if (appliedHoldInfo.getStateKey().matches(HoldServiceConstants.APPLIED_HOLD_CANCELED_STATE_KEY)) {
                     continue;
                 }
 

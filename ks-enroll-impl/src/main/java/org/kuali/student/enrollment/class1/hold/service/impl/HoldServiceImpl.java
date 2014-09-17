@@ -194,7 +194,7 @@ public class HoldServiceImpl
             OperationFailedException,
             PermissionDeniedException {
         AppliedHoldInfo info = this.getAppliedHold(holdId, context);
-        info.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+        info.setStateKey(HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY);
         info.setReleasedDate(new Date());
         try {
             return updateAppliedHold(holdId, info, context);
@@ -444,7 +444,7 @@ public class HoldServiceImpl
             OperationFailedException,
             PermissionDeniedException {
         Date now = new Date();
-        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByPersonAndState(personId, HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        List<AppliedHoldEntity> entities = this.appliedHoldDao.getByPersonAndState(personId, HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
         for (AppliedHoldEntity entity : entities) {
             AppliedHoldInfo info = entity.toDto();
@@ -483,7 +483,7 @@ public class HoldServiceImpl
             PermissionDeniedException {
         Date now = new Date();
         List<AppliedHoldEntity> entities = this.appliedHoldDao.getByIssuePersonAndState(issueId, personId,
-                HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+                HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         List<AppliedHoldInfo> result = new ArrayList<AppliedHoldInfo>(entities.size());
         for (AppliedHoldEntity entity : entities) {
             AppliedHoldInfo info = entity.toDto();

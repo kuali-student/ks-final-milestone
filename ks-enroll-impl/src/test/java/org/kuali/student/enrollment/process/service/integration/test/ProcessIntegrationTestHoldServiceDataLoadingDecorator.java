@@ -66,7 +66,7 @@ public class ProcessIntegrationTestHoldServiceDataLoadingDecorator extends HoldS
     private AppliedHoldInfo _createHold(String personId, HoldIssueInfo issue, ContextInfo context)  {
         AppliedHoldInfo hold = new AppliedHoldInfo();
         hold.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
-        hold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        hold.setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         hold.setHoldIssueId(issue.getId());
         hold.setName(issue.getName());
         Date effDate = null;

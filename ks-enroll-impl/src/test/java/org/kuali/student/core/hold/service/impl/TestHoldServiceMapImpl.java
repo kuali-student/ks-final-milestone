@@ -259,7 +259,7 @@ public class TestHoldServiceMapImpl {
         expected.setApplicationEffectiveTermId("termId1");
         expected.setApplicationExpirationTermId("termId2");
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
-        expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        expected.setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
         AppliedHoldInfo actual = holdService.createAppliedHold(expected.getPersonId(), expected.getHoldIssueId(), expected.getTypeKey(), expected,
                 callContext);
@@ -290,7 +290,7 @@ public class TestHoldServiceMapImpl {
         expected.setDescr(new RichTextHelper().fromPlain(expected.getDescr().getPlain() + " updated"));
         expected.setEffectiveDate(new Date(expected.getEffectiveDate().getTime() - 1000));
         expected.setExpirationDate(new Date());
-        expected.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+        expected.setStateKey(HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY);
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = holdService.updateAppliedHold(expected.getId(), expected, callContext);
         assertEquals(expected.getId(), actual.getId());
@@ -326,7 +326,7 @@ public class TestHoldServiceMapImpl {
         finAidHoldStudent1.setApplicationEffectiveTermId("termId1");
         finAidHoldStudent1.setApplicationExpirationTermId("termId2");
         finAidHoldStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
-        finAidHoldStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        finAidHoldStudent1.setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         finAidHoldStudent1 = holdService.createAppliedHold(finAidHoldStudent1.getPersonId(), 
                 finAidHoldStudent1.getHoldIssueId(),
                 finAidHoldStudent1.getTypeKey(), finAidHoldStudent1,
@@ -342,7 +342,7 @@ public class TestHoldServiceMapImpl {
         acadHoldActiveStudent1.setApplicationEffectiveTermId("termId1");
         acadHoldActiveStudent1.setApplicationExpirationTermId("termId2");
         acadHoldActiveStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
-        acadHoldActiveStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        acadHoldActiveStudent1.setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         acadHoldActiveStudent1 = holdService.createAppliedHold(acadHoldActiveStudent1.getPersonId(), 
                 acadHoldActiveStudent1.getHoldIssueId(),
                 acadHoldActiveStudent1.getTypeKey(), acadHoldActiveStudent1,
@@ -359,7 +359,7 @@ public class TestHoldServiceMapImpl {
         acadHoldActiveInstructor1.setApplicationEffectiveTermId("termId1");
         acadHoldActiveInstructor1.setApplicationExpirationTermId("termId2");
         acadHoldActiveInstructor1.setTypeKey(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY);
-        acadHoldActiveInstructor1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+        acadHoldActiveInstructor1.setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
         acadHoldActiveInstructor1 = holdService.createAppliedHold(acadHoldActiveInstructor1.getPersonId(),
                 acadHoldActiveInstructor1.getHoldIssueId(), acadHoldActiveInstructor1.getTypeKey(), acadHoldActiveInstructor1,
                 callContext);

@@ -80,7 +80,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
-                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -102,7 +102,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
         } else {
             try {
-                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -124,7 +124,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_EXPIRE,holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
-                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
@@ -146,7 +146,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
             GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_DELETE, holdWrapper.getMaintenanceHold().getHoldCode());
         } else {
             try {
-                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.HOLD_CANCELED_STATE_KEY);
+                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_CANCELED_STATE_KEY);
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
