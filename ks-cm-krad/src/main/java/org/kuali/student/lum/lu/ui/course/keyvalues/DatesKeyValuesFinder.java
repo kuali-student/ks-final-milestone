@@ -53,9 +53,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.in("typeKey", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,
-                AtpServiceConstants.ATP_MINI_MESTER_1_A_TYPE_KEY, AtpServiceConstants.ATP_MINI_MESTER_1_B_TYPE_KEY,
-                AtpServiceConstants.ATP_SESSION_1_TYPE_KEY, AtpServiceConstants.ATP_SESSION_2_TYPE_KEY));
+                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY ));
 
         QueryByCriteria qbc = qbcBuilder.build();
         try {
