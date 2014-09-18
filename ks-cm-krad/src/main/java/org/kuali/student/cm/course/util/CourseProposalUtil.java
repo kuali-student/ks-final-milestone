@@ -64,7 +64,7 @@ public class CourseProposalUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseProposalUtil.class);
 
-    public enum Position {BEFORE, AFTER};
+    public enum Position {PREVIOUS, NEXT};
 
     /**
      * Constructs a text URL for a particular course proposal.
@@ -330,6 +330,18 @@ public class CourseProposalUtil {
         return true;
     }
 
+    /**
+     *  Returns the previous or next term to the given term of interest, subject to types listed here
+     *  Note: Ideally we should send ATP Types based on the Duration Type grouping that the given term belongs to.
+     *        This should be considered when CM starts using Type Service
+     *
+     * @param termAtpId
+     * @param position  'PREVIOUS' finds the term which is right before 'termAptId'
+     *                  and 'NEXT' finds the term right after 'termAtpId'
+     * @param contextInfo
+     * @return  If no matching results are found, return empty TermResult with null values - KRAD handles 'null' fine
+     */
+
     public static TermResult getTermForCurrentCourse(String termAtpId, Position position, ContextInfo contextInfo)  {
 
         List<String> termTypeKeys = new ArrayList<String>();
@@ -338,14 +350,16 @@ public class CourseProposalUtil {
         if (termAtpId == null) {
             return null;
         }
-        // This initial list of term keys is from gwt, the correct way is to consult Duration in the Type Service, which is currently out of scope for CM work
+        // Note: The  correct design  is to consult Duration Type grouping in the Type Service
+        // (using the Duration Type of supplied 'termAtpId'). This is currently out of scope for CM work, as Type Service is
+        // not used
         termTypeKeys.add("kuali.atp.type.Spring");
         termTypeKeys.add("kuali.atp.type.Fall");
         termTypeKeys.add("kuali.atp.type.Winter");
         termTypeKeys.add("kuali.atp.type.Summer");
         final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
-        if (position == Position.BEFORE) {
+        if (position == Position.PREVIOUS) {
             atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
         }
         try {
