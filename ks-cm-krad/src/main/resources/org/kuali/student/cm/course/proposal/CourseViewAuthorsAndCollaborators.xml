@@ -12,7 +12,7 @@
 
 
 
-    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent" p:render="@{!#isModifyRetireCourse}"/>
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent"/>
     <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent" parent="Uif-VerticalBoxSubSection" abstract="true">
         <property name="additionalCssClasses">
             <list merge="true">
