@@ -175,6 +175,13 @@
         <ref bean="atp.fieldDescriptor.id" />
     </search:queryParam>
 
+    <search:queryParam id="atp.advancedAtpSearchParam.atpEndDateBeforeStartDateAtpConstraintIdExclusive"
+                       parent="atp.advancedAtpSearchParam.atpEndDateBeforeStartDateAtpConstraintIdExclusive-parent" />
+    <search:queryParam id="atp.advancedAtpSearchParam.atpEndDateBeforeStartDateAtpConstraintIdExclusive-parent"
+                       optional="true" abstract="true">
+        <ref bean="atp.fieldDescriptor.id" />
+    </search:queryParam>
+
 	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName"
 		parent="atp.advancedAtpSearchParam.atpTypeName-parent" />
 	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName-parent"
@@ -774,6 +781,9 @@
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
 				</entry>
+                <entry  key="atp.advancedAtpSearchParam.atpEndDateBeforeStartDateAtpConstraintIdExclusive">
+                    <value>(:atp_advancedAtpSearchParam_atpEndDateBeforeStartDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.startDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateBeforeStartDateAtpConstraintIdExclusive)))</value>
+                </entry>
                 <entry  key="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive">
                     <value>(:atp_advancedAtpSearchParam_atpStartDateAfterEndDateAtpConstraintIdExclusive IS NULL OR (atp.startDate &gt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpStartDateAfterEndDateAtpConstraintIdExclusive)))</value>
                 </entry>
