@@ -101,6 +101,7 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_CREDIT_LOAD_REACHED_MESSAGE_KEY = "kuali.lpr.trans.message.credit.load.reached";
     public static final String LPRTRANS_ITEM_TIME_CONFLICT_MESSAGE_KEY = "kuali.lpr.trans.message.time.conflict";
     public static final String LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY = "kuali.lpr.trans.message.reggroup.notoffered";
+    public static final String LPRTRANS_ITEM_FAILED_ANTI_REQUISITES_MESSAGE_KEY = "kuali.lpr.trans.message.failed.antirequisites";
 
     // transaction item states
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
