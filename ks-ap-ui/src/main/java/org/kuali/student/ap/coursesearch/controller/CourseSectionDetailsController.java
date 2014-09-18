@@ -27,11 +27,8 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -46,9 +43,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -197,7 +191,9 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         BigDecimal creditValue = null;
         if (isVariableCreditCourse) {
             String credits = request.getParameter("credits");
-            creditValue = new BigDecimal(credits);
+            if (credits != null) {
+                creditValue = new BigDecimal(credits);
+            }
         }
         List<String> terms = new ArrayList<String>();
         terms.add(regGroup.getTermId());
