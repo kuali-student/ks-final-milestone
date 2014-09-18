@@ -166,7 +166,7 @@ public class SearchBackedTable extends Composite {
 		tableModel.setRows(resultRows);
 		pagingScrollTable = builder.build(tableModel);
 		pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);		
-		if(tableStyleName != "")
+		if(!"".equals(tableStyleName))
 			pagingScrollTable.setStyleName(tableStyleName);
 		layout.clear();
 		layout.add(pagingScrollTable);

@@ -271,7 +271,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         	                fieldValue = fieldValue.replaceAll("Different Org", "   * Different Org");
                 
         	            linkElement.setFieldValue(fieldValue);
-        	            if (linkElement.getValue() != ""){
+        	            if (!"".equals(linkElement.getValue())) {
         	                if (linkElement.getSubset() == null){
         	                    linkElement.setPrintType(ExportElement.LIST);
         	                } else {
@@ -307,7 +307,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                     SpanPanel header = (SpanPanel) child;
                     text = header.getExportFieldValue();
                 }
-                if (child instanceof KSLabel && (text != null) && (text != "")) {
+                if (child instanceof KSLabel && text != null && !"".equals(text)) {
                 	KSLabel countLabel = (KSLabel) child;
                 	text = text + countLabel.getText();
                 }

@@ -187,7 +187,7 @@ public class CourseStateChangeServiceImpl {
 						.getVersion().getVersionIndId(), contextInfo);
 
             Long startSeq = Long.valueOf(1);
-			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
+			if (!isCurrent && !currVerCourse.getId().equals(thisVerCourse.getId())) {
 				startSeq = currVerCourse.getVersion().getSequenceNumber() + 1;
 			}
 
