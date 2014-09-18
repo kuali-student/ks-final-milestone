@@ -28,7 +28,10 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         },
         {
             "messageKey": "kuali.lpr.trans.message.reggroup.notoffered",
-            "message": "Course {{courseCode}} ({{regGroupCode}}) is not offered in the selected term"
+            "message": "<span ng-if='state === states.lui.canceled'>{{courseCode}} ({{regGroupCode}}) is cancelled for {{termName}}</span>\
+                        <span ng-if='state === states.lui.invalid'>{{courseCode}} ({{regGroupCode}}) does not exist for {{termName}}</span>\
+                        <span ng-if='!state || state === states.lui.pending'>{{courseCode}} ({{regGroupCode}}) is not offered for {{termName}}</span>\
+                        <span ng-if='state === states.lui.suspended'>{{courseCode}} ({{regGroupCode}}) is suspended for {{termName}}</span>"
         },
         {
             "messageKey": "kuali.lpr.trans.message.waitlist.available",
@@ -49,9 +52,9 @@ angular.module('mockTransactionMessages', []).value('transactionMessages',
         {
             "messageKey": "kuali.lpr.trans.message.course.not.open",
             "message": "<span ng-if='details.appointmentSlot'>Registration Appointment is {{details.appointmentSlot}}</span>\
-                    <span ng-if='details.noAppointment'>No Registration Appointment Scheduled</span>\
-                    <span ng-if='details.startDate'>First day of Registration is not until {{details.startDate}}</span>\
-                    <span ng-if='details.endDate'>Last day of Registration was {{details.endDate}}</span>"
+                        <span ng-if='details.noAppointment'>No Registration Appointment Scheduled</span>\
+                        <span ng-if='details.startDate'>First day of Registration is not until {{details.startDate}}</span>\
+                        <span ng-if='details.endDate'>Last day of Registration was {{details.endDate}}</span>"
         },
         {
             "messageKey": "kuali.lpr.trans.message.drop.period.closed",

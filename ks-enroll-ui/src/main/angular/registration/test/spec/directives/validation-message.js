@@ -25,10 +25,19 @@ describe('Directive: ValidationMessage', function() {
         }
     };
 
+    var mockTermsService = {
+        getSelectedTerm: function() {
+            return {
+                termName: 'Fall 2012'
+            };
+        }
+    };
+
     // provide a mock MessageService
     beforeEach(function() {
         module(function ($provide) {
             $provide.value('MessageService', mockMessageService);
+            $provide.value('TermsService', mockTermsService);
         });
     });
 
@@ -49,7 +58,7 @@ describe('Directive: ValidationMessage', function() {
         el = $compile('<validation-message message="data" course="course"></validation-message>')(scope);
         scope.$digest();
 
-        return el.text();
+        return el.text().trim();
     }
 
     function filterWithCourse(errorType, course) {
@@ -278,23 +287,51 @@ describe('Directive: ValidationMessage', function() {
             // Too Early for Reg Appt
             data.details = {};
             data.details.appointmentSlot = appointmentSlot;
-            expect(compile(data, course).trim()).toBe('Registration Appointment is '+appointmentSlot);
+            expect(compile(data, course)).toBe('Registration Appointment is '+appointmentSlot);
 
             // No Appointment
             data.details = {};
             data.details.noAppointment = true;
-            expect(compile(data, course).trim()).toBe('No Registration Appointment Scheduled');
+            expect(compile(data, course)).toBe('No Registration Appointment Scheduled');
 
             // Registration not yet available
             data.details = {};
             data.details.startDate = startDate;
-            expect(compile(data, course).trim()).toBe('First day of Registration is not until '+startDate);
+            expect(compile(data, course)).toBe('First day of Registration is not until '+startDate);
 
             // Registration window has passed
             data.details = {};
             data.details.endDate = endDate;
-            expect(compile(data, course).trim()).toBe('Last day of Registration was '+endDate);
+            expect(compile(data, course)).toBe('Last day of Registration was '+endDate);
         });
+    });
+
+    describe('registration group not offered', function() {
+        it('should format the message correctly', inject(function(STATE) {
+            var data = {
+                    messageKey: VALIDATION_ERROR_TYPE.regGroupNotOffered
+                },
+                course = {
+                    courseCode: 'code1',
+                    regGroupCode: 'rgCode1'
+                };
+
+            // Base case
+            data.state = '';
+            expect(compile(data, course)).toBe('code1 (rgCode1) is not offered for Fall 2012');
+
+            data.state = STATE.lui.canceled;
+            expect(compile(data, course)).toBe('code1 (rgCode1) is cancelled for Fall 2012');
+
+            data.state = STATE.lui.invalid;
+            expect(compile(data, course)).toBe('code1 (rgCode1) does not exist for Fall 2012');
+
+            data.state = STATE.lui.pending;
+            expect(compile(data, course)).toBe('code1 (rgCode1) is not offered for Fall 2012');
+
+            data.state = STATE.lui.suspended;
+            expect(compile(data, course)).toBe('code1 (rgCode1) is suspended for Fall 2012');
+        }));
     });
 
 });

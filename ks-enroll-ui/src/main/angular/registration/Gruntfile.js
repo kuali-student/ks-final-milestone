@@ -53,14 +53,26 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch:{
             js:{
-                files:['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/components/{,*/}*.js', '!<%= yeoman.app %>/components/{,*/}*.spec.js'], // Any .js files in /scripts/ but exclude .spec.js files in /components/.
-                tasks:['newer:jshint:all'],
+                files:[
+                    '<%= yeoman.app %>/scripts/{,*/}*.js',
+                    '<%= yeoman.app %>/components/{,*/}*.js',
+                    '!<%= yeoman.app %>/components/{,*/}*.spec.js', // Any .js files in /scripts/ but exclude .spec.js files in /components/.
+                    '<%= yeoman.app %>/json/{,*/}*.json'
+                ],
+                tasks:[
+                    'newer:jshint:all'
+                    // ,'karma' // Uncomment to automatically run the tests after changes
+                ],
                 options:{
                     livereload:true
                 }
             },
             jsTest:{
-                files:['test/spec/{,*/}*.js', '<%= yeoman.app %>/components/{,*/}*.spec.js'],
+                files:[
+                    'test/spec/{,*/}*.js',
+                    'test/mock/{,*/}*.json',
+                    '<%= yeoman.app %>/components/{,*/}*.spec.js'
+                ],
                 tasks:['newer:jshint:test', 'karma']
             },
             styles:{
@@ -112,6 +124,7 @@ module.exports = function (grunt) {
 
                         // Serve static files.
                         options.base.forEach(function(base) {
+                            console.log('Static file: ', options);
                             middlewares.push(connect.static(base));
                         });
 

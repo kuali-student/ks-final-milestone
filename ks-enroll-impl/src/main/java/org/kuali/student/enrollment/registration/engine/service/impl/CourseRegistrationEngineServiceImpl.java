@@ -304,16 +304,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         //Create a message to send through the registration engine
         RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap, contextInfo);
 
-        //Check if reg group is in offered state. If not -> reg item should be in failed state
-        for (RegistrationRequestItemInfo regRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
-            if (!regGroupIdToRegGroupMap.get(regRequestItem.getRegistrationGroupId()).getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)) {
-                regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-                ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(regRequestItem);
-                regRequestItem.getValidationResults().add(new ValidationResultInfo(vr));
-            }
-        }
-
-        registrationRequestInfo = getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
+        getCourseRegistrationService().updateRegistrationRequest(registrationRequestInfo.getId(), registrationRequestInfo, contextInfo);
 
         return registrationMessage;
     }

@@ -1929,6 +1929,7 @@ the program will get the rule management service by calling the global resource 
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver">
                     <property name="courseRegistrationService" ref="CourseRegistrationService" />
                 </bean>
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.RegistrationGroupStateTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.StudentWithGradeForCourseTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseTotalAttemptsTermResolver" />
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRecordForStudentTermResolver">

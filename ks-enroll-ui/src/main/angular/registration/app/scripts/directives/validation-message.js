@@ -22,12 +22,19 @@ angular.module('regCartApp')
                 data: '=message',
                 course: '=?' // optional handle on the course
             },
-            controller: ['$scope', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'MessageService',
-            function($scope, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, MessageService) {
+            controller: ['$scope', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'STATE', 'MessageService', 'TermsService',
+            function($scope, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, STATE, MessageService, TermsService) {
 
                 // Make the data object available at the root level to the formatted messages
                 if (angular.isObject($scope.data)) {
                     angular.extend($scope, $scope.data);
+                }
+
+                $scope.states = STATE;
+
+                var selectedTerm = TermsService.getSelectedTerm();
+                if (selectedTerm) {
+                    $scope.termName = TermsService.getSelectedTerm().termName;
                 }
 
 
@@ -193,7 +200,6 @@ angular.module('regCartApp')
                             $scope.regGroupCode = course.regGroupCode;
                         }
                     }
-
 
 
 

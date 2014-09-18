@@ -29,9 +29,17 @@ angular.module('regCartApp')
         };
 
         return {
+            // LUI states (RegGroups)
+            lui: {
+                canceled:   'kuali.lui.registration.group.state.canceled',
+                invalid:    'kuali.lui.registration.group.state.invalid',
+                offered:    'kuali.lui.registration.group.state.offered',
+                pending:    'kuali.lui.registration.group.state.pending',
+                suspended:  'kuali.lui.registration.group.state.suspended'
+            },
+
             // LPR transaction states
             lpr: lprStates,
-
 
             // Aggregated states - used to map states to statuses in GlobalVarsService
             action: [
@@ -101,7 +109,7 @@ angular.module('regCartApp')
     .constant('VALIDATION_ERROR_TYPE', {
         maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
         timeConflict: 'kuali.lpr.trans.message.time.conflict',
-        reggroupNotOffered: 'kuali.lpr.trans.message.reggroup.notoffered',
+        regGroupNotOffered: 'kuali.lpr.trans.message.reggroup.notoffered',
         waitlistAvailable: 'kuali.lpr.trans.message.waitlist.available',        //"No seats available."
         waitlistWaitlisted: 'kuali.lpr.trans.message.waitlist.waitlisted',      //"Waitlisted" ??? Is it error or success? Status 'waitlist'
         waitlistFull: 'kuali.lpr.trans.message.waitlist.full',                  //"No seats available.<br/>(Waitlist full)"
