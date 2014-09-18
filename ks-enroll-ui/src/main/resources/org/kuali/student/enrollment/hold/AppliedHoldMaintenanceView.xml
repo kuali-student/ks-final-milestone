@@ -126,9 +126,10 @@ limitations under the License.
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                          <list>
+                             <!--TODO-->
                             <ref bean="KS-ApplyHold-HoldCode-Section-CodeInput"/>
                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode"/>
+                                  p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" p:style="margin-top:19px"/>
                         </list>
                     </property>
                 </bean>
@@ -162,7 +163,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-ApplyHold-HoldCode-Section-CodeInput" parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode" p:required="true">
+    <bean id="KS-ApplyHold-HoldCode-Section-CodeInput" parent="KS-Uif-InputField" p:label="Hold Code" p:propertyName="holdCode"
+          p:required="true" p:additionalCssClasses="ks-uif-quickFinder">
         <property name="control">
             <bean parent="KS-Uif-TextControl" p:size="8"/>
         </property>
@@ -189,7 +191,8 @@ limitations under the License.
                     </map>
                 </property>
                 <property name="quickfinderAction">
-                    <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues" p:actionLabel="Find a Hold" />
+                    <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues"
+                          p:actionLabel="Find a Hold" />
                 </property>
             </bean>
         </property>
