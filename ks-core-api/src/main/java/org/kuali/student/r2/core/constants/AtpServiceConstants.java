@@ -162,7 +162,8 @@ public class AtpServiceConstants {
     public static final String MILESTONE_SCHEDULE_ADJUSTMENT_PERIOD_TYPE_KEY = "kuali.atp.milestone.scheduleadjustmentperiod";
     public static final String MILESTONE_DROP_PERIOD_TYPE_KEY = "kuali.atp.milestone.dropperiod";
     //registration period group type (used in type-type relations to group registration periods)
-    public static final String MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY = "kuali.milestone.type.group.appt.regperiods";
+//    public static final String MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY = "kuali.milestone.type.group.appt.regperiods";
+    public static final String MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY = "kuali.milestone.type.group.registration";
 
     // holidays
     public static final String MILESTONE_HOLIDAY_GROUPING_TYPE_KEY = "kuali.milestone.type.group.holiday";
