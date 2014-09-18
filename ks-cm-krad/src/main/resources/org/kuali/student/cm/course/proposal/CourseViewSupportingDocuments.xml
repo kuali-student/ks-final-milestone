@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-SupportingDocument-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-SupportingDocument-Section" parent="CM-Proposal-Course-View-VerticalBoxSection" p:render="@{!#isModifyRetireCourse}">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header">
             <bean parent="CM-IconHeader">

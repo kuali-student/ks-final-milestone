@@ -126,6 +126,7 @@
                 <entry key="isCompareView" value="pageId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CoursePageIds).REVIEW_COURSE_PROPOSAL_PAGE and document.oldMaintainableObject.dataObject.courseInfo.id != null"/>
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="isCreateProposal" value="document.newMaintainableObject.dataObject.uiHelper.isStringExistsInArray(docTypeName,T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames).COURSE_CREATE_DOC_TYPE_NAMES)"/>
+                <entry key="isModifyRetireCourse" value="document.newMaintainableObject.dataObject.courseInfo.stateKey eq 'Retired'" />
             </map>
         </property>
         <property name="header.rightGroup">
@@ -463,6 +464,10 @@
         <property name="documentTypeName" value="kuali.proposal.type.course.modify.admin"/>
     </bean>
 
+    <bean id="CourseInfoAdminModifyNoVersionMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.modify.admin.noversion"/>
+    </bean>
+
     <!--
         Each course details tab/section extends this
     -->
@@ -509,6 +514,7 @@
                             <ref bean="CM-Proposal-Course-Financial-Section"/>
                             <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
                             <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
+                            <!--<ref bean="CM-Proposal-Course-RetireInfo-Section" />-->
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
