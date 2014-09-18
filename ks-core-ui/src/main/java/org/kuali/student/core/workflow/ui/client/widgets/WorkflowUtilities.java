@@ -884,7 +884,7 @@ public class WorkflowUtilities{
 
                         @Override
                         public void onKeyUp(KeyUpEvent event) {
-                            if(!rationaleEditor.getText().trim().isEmpty() && !(((KSPicker) (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget())).getDisplayValue() == "") ){
+                            if (!rationaleEditor.getText().trim().isEmpty() && !"".equals(((KSPicker) approveDialogView.getField("proposal/prevEndTerm").getFieldWidget()).getDisplayValue())) {
                                 approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
                             } else {
                                 approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
@@ -898,7 +898,7 @@ public class WorkflowUtilities{
 
                             @Override
                             public void onSelectionChange(SelectionChangeEvent event) {
-                                if(!rationaleEditor.getText().trim().isEmpty() && !(((KSPicker) (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget())).getDisplayValue() == "")  ){
+                                if (!rationaleEditor.getText().trim().isEmpty() && !"".equals(((KSPicker) approveDialogView.getField("proposal/prevEndTerm").getFieldWidget()).getDisplayValue())) {
                                     approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
                                 } else {
                                     approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
