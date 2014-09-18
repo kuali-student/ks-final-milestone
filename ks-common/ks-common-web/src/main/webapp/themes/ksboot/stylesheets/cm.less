@@ -18,7 +18,7 @@ pre {
     color: #000000;
     background: inherit;
     margin-bottom: 0px;
-    word-break: break-word;
+    word-break: break-word !important;
 }
 
 /* Labels in the header link group should be on the left. */
@@ -385,9 +385,14 @@ table tr.cm-compare-highlighter td {
     background-color: @diff-highlight-color;
 }
 
+/* Make the left column width on Review Proposal fixed width on review proposal and view course */
+#CM-ViewCourse-View-Course-PageSections .uif-gridGroup > table > tbody > tr > th:first-child,
+#CM-Proposal-Review-Course-Page .uif-gridGroup > table > tbody > tr > th:first-child {
+    width: 220px;
+}
+
 /* These rules are all special handling for the compare view "column header" section in compare mode. */
 #CM-ViewCourse-View-Course-VersionNumberColumns th:first-child {
-  width: 263px; /* Sizing for the left column of the version section in compare view */
   border-bottom: 0px !important;
 }
 #CM-ViewCourse-View-Course-VersionNumberColumns th {
