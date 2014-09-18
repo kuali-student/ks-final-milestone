@@ -122,11 +122,11 @@ public class TimeConflictCalculator {
         Map<String, List<TimeSlotInfo>> primaryTimeSlotMap = primaryContainer.getAoToTimeSlotMap();
         Map<String, List<TimeSlotInfo>> otherTimeSlotMap = otherContainer.getAoToTimeSlotMap();
 
-        for(String primaryAoId : primaryTimeSlotMap.keySet()){
-            List<TimeSlotInfo> primaryAoTimeSlots = primaryTimeSlotMap.get(primaryAoId);
+        for(Map.Entry<String, List<TimeSlotInfo>> entry: primaryTimeSlotMap.entrySet()){
+            List<TimeSlotInfo> primaryAoTimeSlots = entry.getValue();
 
-            for(String otherAoId : otherTimeSlotMap.keySet()){
-                List<TimeSlotInfo> otherAoTimeSlots = otherTimeSlotMap.get(otherAoId);
+            for(Map.Entry<String, List<TimeSlotInfo>> otherEntry: otherTimeSlotMap.entrySet()){
+                List<TimeSlotInfo> otherAoTimeSlots = otherEntry.getValue();
 
                 for (TimeSlotInfo timeSlotInfo: primaryAoTimeSlots){
                     for (TimeSlotInfo otherTimeSlot: otherAoTimeSlots) {
@@ -142,8 +142,8 @@ public class TimeConflictCalculator {
                                 conflict.getConflictingItemMap().put(otherContainer.getId(), new ArrayList<String>());
                             }
                             List<String> conflictingOtherAoIds = conflict.getConflictingItemMap().get(otherContainer.getId());
-                            if(!conflictingOtherAoIds.contains(otherAoId)){
-                                conflictingOtherAoIds.add(otherAoId);
+                            if(!conflictingOtherAoIds.contains(otherEntry.getKey())){
+                                conflictingOtherAoIds.add(otherEntry.getKey());
                             }
                         }
                     }

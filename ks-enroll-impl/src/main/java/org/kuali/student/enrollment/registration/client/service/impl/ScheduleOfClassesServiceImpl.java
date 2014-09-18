@@ -752,10 +752,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         courseSearchResult.setRegGroupsOffered(false);
         if (!hmActivityOfferings.isEmpty()) {
             List<String> aoIDs = new ArrayList<>();
-            for (String key : hmActivityOfferings.keySet()) {
+            for (Map.Entry<String, StudentScheduleActivityOfferingResult> entry: hmActivityOfferings.entrySet()) {
                 // checking if there are offered reg groups for given CO, if no RGs for given AO -> remove that AO
-                if (!hmActivityOfferings.get(key).getRegGroupInfos().isEmpty()) {
-                    aoIDs.add(key);
+                if (!entry.getValue().getRegGroupInfos().isEmpty()) {
+                    aoIDs.add(entry.getKey());
                     if (!courseSearchResult.isRegGroupsOffered()) {
                         courseSearchResult.setRegGroupsOffered(true);
                     }
