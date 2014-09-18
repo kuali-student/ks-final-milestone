@@ -168,6 +168,13 @@
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
 
+    <search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive"
+                       parent="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive-parent" />
+    <search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive-parent"
+                       optional="true" abstract="true">
+        <ref bean="atp.fieldDescriptor.id" />
+    </search:queryParam>
+
 	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName"
 		parent="atp.advancedAtpSearchParam.atpTypeName-parent" />
 	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName-parent"
@@ -484,6 +491,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
+            <ref bean="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
             <ref bean="atp.advancedAtpSearchParam.atpYear"/>
 		</search:queryParams>
@@ -766,6 +774,9 @@
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
 				</entry>
+                <entry  key="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive">
+                    <value>(:atp_advancedAtpSearchParam_atpStartDateAfterEndDateAtpConstraintIdExclusive IS NULL OR (atp.startDate &gt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpStartDateAfterEndDateAtpConstraintIdExclusive)))</value>
+                </entry>
 
                 <entry  key="atp.advancedAtpSearchParam.atpYear">
                     <value>YEAR(atp.startDate) &lt;= :atp_advancedAtpSearchParam_atpYear AND YEAR(atp.endDate) >= :atp_advancedAtpSearchParam_atpYear</value>
