@@ -794,12 +794,13 @@
 	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input" p:additionalCssClasses="ksap-dialog-courseCode">
         <property name="propertyName" value="courseCd" />
 		<property name="label" value="@{#textHelper.getText('dialog.component.course.code.label')}" />
+        <property name="id" value="@{term.id}_code" />
 		<property name="control">
 			<bean parent="KS-Uif-TextControl">
                 <property name="onDocumentReadyScript" value="jQuery('.ksap-dialog-courseCode input').focus();" />
 				<property name="watermarkText" value="@{#textHelper.getText('dialog.component.course.code.watermark')}" />
 				<property name="maxLength" value="50" />
-				 <property name="size" value ="25"/>
+				<property name="size" value ="25"/>
 			</bean>
 		</property>
 	</bean>
@@ -866,6 +867,7 @@
 		<property name="propertyName" value="courseNote" />
 		<property name="label" value="@{#textHelper.getText('dialog.component.course.notes.label')}" />
         <property name="fieldLabel.renderColon" value="false"/>
+        <property name="id" value="@{term.id}_notes" />
 		<property name="control">
 			<bean parent="Uif-TextAreaControl" p:watermarkText="@{#textHelper.getText('dialog.component.course.notes.watermark')}"
 				p:maxLength="500">
