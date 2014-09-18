@@ -702,8 +702,9 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView refreshCurrentCourseEndTerm(@ModelAttribute("KualiForm") DocumentFormBase form) {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
+        String endTermShortName = CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo()).getShortName();
 
-        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo()).getShortName());
+        courseInfoWrapper.setCurrentCourseEndTermShortName(endTermShortName);
 
         return getUIFModelAndView(form);
     }

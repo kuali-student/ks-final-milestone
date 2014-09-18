@@ -354,7 +354,7 @@ public class CourseProposalUtil {
         final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
         if (position.equals(Position.PREVIOUS)) {
-            atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
+            atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_BEFORE_START_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
         }
         else if (position.equals(Position.NEXT)) {
             atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_START_DATE_AFTER_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
