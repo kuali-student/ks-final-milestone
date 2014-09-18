@@ -473,10 +473,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		//Check if this field is responsible for processing its own validation results
 		if(getFieldWidget() instanceof ValidationProcessable){
 			if(((ValidationProcessable)getFieldWidget()).shouldProcessValidationResult(vr)){
-				if (fieldName != null && fieldName.trim() != "")
-					return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr, fieldName);
-				else	
-					return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr);
+				if (fieldName != null && !"".equals(fieldName.trim())) {
+                    return ((ValidationProcessable) getFieldWidget()).processValidationResult(vr, fieldName);
+                } else {
+                    return ((ValidationProcessable) getFieldWidget()).processValidationResult(vr);
+                }
 			}
 		}
 		
