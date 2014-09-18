@@ -392,7 +392,7 @@ public class DefaultTermHelper implements TermHelper {
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Acal lookup failure", e);
         }
-        boolean isRegistrationOpen = false;
+        boolean isRegistrationOpen = true;
         if(endOfScheduleAdjustment!=null){
             isRegistrationOpen = !endOfScheduleAdjustment.getEndDate().before(now);
         }
