@@ -867,7 +867,7 @@
 		<property name="propertyName" value="courseNote" />
 		<property name="label" value="@{#textHelper.getText('dialog.component.course.notes.label')}" />
         <property name="fieldLabel.renderColon" value="false"/>
-        <property name="id" value="@{term.code}_@{backup == false ? 'planned' : 'backup'}_notes" />
+        <property name="id" value="notes" />
 		<property name="control">
 			<bean parent="Uif-TextAreaControl" p:watermarkText="@{#textHelper.getText('dialog.component.course.notes.watermark')}"
 				p:maxLength="500">
