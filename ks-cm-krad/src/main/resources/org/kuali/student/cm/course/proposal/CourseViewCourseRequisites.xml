@@ -91,7 +91,7 @@ Custom RulePrototype for Requisites on Course Review screen.
                       p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
-                            <ref bean="CM-Proposal-Course-ViewTree-Section"/>
+                            <bean parent="CM-Proposal-Course-ViewTree-Section"/>
                         </list>
                     </property>
                 </bean>

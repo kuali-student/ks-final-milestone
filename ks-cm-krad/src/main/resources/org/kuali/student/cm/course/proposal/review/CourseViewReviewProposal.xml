@@ -208,17 +208,16 @@
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
                                             <property name="agendaPrototype.fieldBindingObjectPath" value="document.newMaintainableObject.dataObject"/>
+                                            <property name="bindingInfo.bindingObjectPath" value="document.newMaintainableObject.dataObject"/>
                                         </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean id="CM-Proposal-Course-Requisites-CollectionSection2" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" p:readOnly="true">
+                            <bean id="CM-CurrentCourse-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" p:readOnly="true">
                                 <property name="render" value="@{#isCompareView}"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
-                                            <property name="agendaPrototype.fieldBindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
-                                        </bean>
+                                        <bean parent="CM-CurrentCourse-Requisites-AgendaSection"/>
                                     </list>
                                 </property>
                             </bean>
@@ -231,6 +230,38 @@
                     </property>
                 </bean>
             </list>
+        </property>
+    </bean>
+
+    <bean id="CM-CurrentCourse-Requisites-AgendaSection" parent="CM-CurrentCourse-Requisites-AgendaSection-parent"/>
+
+    <bean id="CM-CurrentCourse-Requisites-AgendaSection-parent" parent="CM-Proposal-Course-AgendaManage-Section"
+          class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+        <property name="agendaPrototype.fieldBindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+        <property name="bindingInfo.bindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+        <property name="rulePrototype">
+            <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+                <property name="items">
+                    <list>
+                        <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+                            <property name="items">
+                                <list>
+                                    <bean id="CM-Proposal-Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                                          p:cssClasses="ks-form-panel">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="CM-Proposal-Course-ViewTree-Section">
+                                                    <property name="bindingInfo.bindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
