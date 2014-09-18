@@ -500,7 +500,7 @@
                   value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs">
+                <bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!#isModifyRetireCourse}">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
@@ -512,9 +512,31 @@
                             <ref bean="CM-Proposal-CourseRequisites-Section"/>
                             <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
                             <ref bean="CM-Proposal-Course-Financial-Section"/>
-                            <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Create-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section" p:render="@{!#isModifyRetireCourse}"/>
-                            <bean id="CM-Proposal-Course-SupportingDocument-Create-Section" parent="CM-Proposal-Course-SupportingDocument-Section" p:render="@{!#isModifyRetireCourse}"/>
-                            <bean id="CM-Course-Modify-RetireInfo-Section" parent="CM-Course-Modify-RetireInfo-Section-parent" p:render="@{#isModifyRetireCourse}"/>
+                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                            <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
+                        </list>
+                    </property>
+                    <property name="tabsWidget.templateOptionsJSString">
+                        <value>
+                            { selected: @{#uiHelper.selectedSection.ordinal() - 1} }
+                        </value>
+                    </property>
+                    <property name="tabsWidget.position" value="LEFT"/>
+                </bean>
+
+                <bean parent="Uif-TabGroup" p:id="modify_course_tabs" p:render="@{#isModifyRetireCourse}">
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                            <ref bean="CM-Proposal-Course-Governance-Section"/>
+                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                            <ref bean="CM-Proposal-Course-Financial-Section"/>
+                            <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
