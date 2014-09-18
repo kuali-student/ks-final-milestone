@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.uif.modifier;
 
+import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifPropertyPaths;
@@ -23,6 +24,7 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.field.DataField;
+import org.kuali.rice.krad.uif.field.DataFieldBase;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.SpaceField;
 import org.kuali.rice.krad.uif.layout.GridLayoutManager;
@@ -46,6 +48,19 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
+
+    /**
+     * Properties which should not get highlighting or compare-to data.
+     */
+    private List<String> excludeProperties = new ArrayList<>();
+
+    public List<String> getExcludeProperties() {
+        return excludeProperties;
+    }
+
+    public void setExcludeProperties(List<String> excludeProperties) {
+        this.excludeProperties = excludeProperties;
+    }
 
     @Override
     public void performModification(Object model, Component component) {
@@ -120,6 +135,19 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
 
         for (Component item : group.getItems()) {
 
+            boolean excluded = false;
+            if (item instanceof DataFieldBase) {
+                String bindingPath = ((DataFieldBase) item).getBindingInfo().getBindingPath();
+                if (StringUtils.isNotBlank(bindingPath)) {
+                    for (String exclude : getExcludeProperties()) {
+                        if (bindingPath.endsWith(exclude)) {
+                            excluded = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             String rowCSS = "";
             int defaultSuffix = 0;
             boolean suppressLabel = false;
@@ -146,19 +174,25 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
                     ((Field) compareItem).getFieldLabel().setRender(false);
                 }
 
-                // do value comparison
+                // Do value comparison if, among other things, this component hasn't been excluded.
                 if (performValueChangeComparison && comparable.isHighlightValueChange() && !comparable
-                        .isCompareToForValueChange()) {
+                        .isCompareToForValueChange() && ! excluded) {
                     boolean valueChanged = performValueComparison(group, compareItem, model,
                             compareValueObjectBindingPath);
 
                     if (valueChanged){
                         rowCSS = "cm-compare-highlighter";
                     }
+                }
 
+                //  If this is an excluded component then don't display the right-column/compare-to data.
+                //  Typically it won't exist but if it does it won't be displayed.
+                if (excluded) {
+                    item.setStyle("display: none;");
                 }
 
                 comparisonItems.add(compareItem);
+
                 defaultSuffix++;
 
                 suppressLabel = true;

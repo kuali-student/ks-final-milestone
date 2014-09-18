@@ -1456,12 +1456,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
             courseWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
         }
 
-        /*
-         * Calculate the end term for the current course and store the display text.
-         */
-        String startTerm = courseWrapper.getCourseInfo().getStartTerm();
-        courseWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getEndTermShortNameForCurrentCourse(startTerm, ContextUtils.createDefaultContextInfo()));
-
+        populateCurrentCourseEndTermShortName();
         populateAuditOnWrapper();
         populateFinalExamOnWrapper();
         populatePassFailOnWrapper();
@@ -1472,6 +1467,30 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         populateRequisities(courseWrapper,course.getId());
 
         super.populateWrapperData(courseWrapper);
+    }
+
+    /*
+     * Calculate the end term for the current course and store the display text if this is a modify proposal and
+     * the courseInfo state is draft.
+     */
+    protected void populateCurrentCourseEndTermShortName() {
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
+
+        boolean isModify = false;
+
+        String docId = dataObject.getProposalInfo().getWorkflowId();
+        //  If we don't know the docId then don't load the data.
+        if (StringUtils.isNotBlank(docId)) {
+            String docTypeName = findDocumentTypeName(docId);
+            if (ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.COURSE_MODIFY_DOC_TYPE_NAMES, docTypeName)) {
+                isModify = true;
+            }
+        }
+
+        if (dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT) && isModify) {
+            String startTerm = dataObject.getCourseInfo().getStartTerm();
+            dataObject.setCurrentCourseEndTermShortName(CourseProposalUtil.getEndTermShortNameForCurrentCourse(startTerm, ContextUtils.createDefaultContextInfo()));
+        }
     }
 
     /**

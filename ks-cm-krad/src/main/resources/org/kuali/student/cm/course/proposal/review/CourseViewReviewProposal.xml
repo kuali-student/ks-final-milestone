@@ -92,6 +92,12 @@
           </list>
         </property>
         <property name="generateCompareHeaders" value="false"/>
+        <property name="excludeProperties">
+            <list>
+                <value>proposalInfo.name</value>
+                <value>currentCourseEndTermShortName</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
