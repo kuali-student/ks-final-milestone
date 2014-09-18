@@ -342,21 +342,15 @@ public class CourseProposalUtil {
      * @return  If no matching results are found, return empty TermResult with null values - KRAD handles 'null' fine
      */
 
-    public static List<TermResult> getTerm(String termAtpId, Position position, ContextInfo contextInfo)  {
+    public static List<TermResult> getTerm(String termAtpId, List<String> termTypeKeys, Position position, ContextInfo contextInfo)  {
 
-        List<String> termTypeKeys = new ArrayList<String>();
+
         List<TermResult> termResults = new ArrayList<TermResult>();
 
         if (termAtpId == null) {
             return null;
         }
-        // Note: The  correct design  is to consult Duration Type grouping in the Type Service
-        // (using the Duration Type of supplied 'termAtpId'). This is currently out of scope for CM work, as Type Service is
-        // not used
-        termTypeKeys.add("kuali.atp.type.Spring");
-        termTypeKeys.add("kuali.atp.type.Fall");
-        termTypeKeys.add("kuali.atp.type.Winter");
-        termTypeKeys.add("kuali.atp.type.Summer");
+
         final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
         if (position.equals(Position.PREVIOUS)) {
@@ -408,7 +402,17 @@ public class CourseProposalUtil {
 
     public static TermResult getPreviousTerm(String startTermAtpId, ContextInfo contextInfo)  {
 
-        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, Position.PREVIOUS, contextInfo);
+        List<String> termTypeKeys = new ArrayList<String>();
+
+        // Note: The  correct design  is to consult Duration Type grouping in the Type Service
+        // (using the Duration Type of supplied 'termAtpId'). This is currently out of scope for CM work, as Type Service is
+        // not used
+        termTypeKeys.add("kuali.atp.type.Spring");
+        termTypeKeys.add("kuali.atp.type.Fall");
+        termTypeKeys.add("kuali.atp.type.Winter");
+        termTypeKeys.add("kuali.atp.type.Summer");
+
+        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.PREVIOUS, contextInfo);
 
         if (termResults.size() < 1) {
             return new TermResult();
@@ -430,7 +434,12 @@ public class CourseProposalUtil {
      */
     public static List<TermResult> getNextTerms(String startTermAtpId, ContextInfo contextInfo)  {
 
-        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, Position.PREVIOUS, contextInfo);
+        List<String> termTypeKeys = new ArrayList<String>();
+        // Changed to just Spring & Fall  types per Functional requirement (kscm-2792)
+        termTypeKeys.add("kuali.atp.type.Spring");
+        termTypeKeys.add("kuali.atp.type.Fall");
+
+        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.PREVIOUS, contextInfo);
 
         Collections.sort(termResults, new Comparator<TermResult>() {
             public int compare(TermResult first, TermResult second) {
