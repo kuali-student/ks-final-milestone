@@ -90,7 +90,7 @@ public interface CourseHelper {
      * @param courseCd Course code used to find all courses
      * @return List of Course objects
      */
-	List<Course> getCoursesByCode(String courseCd);
+	Course getCourseByCode(String courseCd);
 
     /**
      * Determines whether a course is in a specific term.

@@ -229,17 +229,26 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 
 	@Override
-	public List<Course> getCoursesByCode(String courseCd) {
-		try {
-            String cleanedCourseCd = StringUtils.remove(courseCd," ").toUpperCase();
+	public Course getCourseByCode(String courseCd) {
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_COURSEID_BY_COURSECODE_KEY);
+        List<SearchResultRowInfo> rows = null;
+        String versionId = null;
+        try {
+            request.addParam(CourseSearchConstants.SearchParameters.CODE, courseCd);
+            rows = KsapFrameworkServiceLocator.getSearchService().search(request,contextInfo).getRows();
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(rows);
+            if(row !=null){
+                versionId = KsapHelperUtil.getCellValue(row,CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID);
+            }
+        } catch (MissingParameterException | InvalidParameterException | OperationFailedException | PermissionDeniedException e) {
+            throw new IllegalArgumentException("Search service failure", e);
+        }
+        if(versionId == null) return null;
 
-			return new ArrayList<Course>(KsapFrameworkServiceLocator.getCourseService()
-					.searchForCourses(
-							QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
-                                    cleanedCourseCd)), KsapFrameworkServiceLocator.getContext().getContextInfo()));
-		} catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
-			throw new IllegalArgumentException("Course lookup error", e);
-		}
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(versionId);
+
+        return course;
 	}
 
     /**
@@ -252,8 +261,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	@Override
 	public String getCurrentVersionIdOfCourse(String courseId) {
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY);
-        List<SearchResultRowInfo> rows = null;
         String currentCourseId = null;
         try {
             Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);

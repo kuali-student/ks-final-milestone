@@ -362,28 +362,12 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // Retrieve course information using the course code entered by the user
-		Course course=null;
-		try {
-			List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
-			if (courses == null || courses.isEmpty()) {
-				PlanEventUtils.sendJsonEvents(false, "Course code not found.Try again or search for a course.", response, eventList);
-				return null;
-			}
-            for(Course courseTemp : courses){
-                if(courseTemp.getStateKey().equals("Active")){
-                    course=courseTemp;
-                    break;
-                }
-            }
-            if (course == null) {
-                PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not active", response, eventList);
-                return null;
-            }
-		} catch (IllegalArgumentException e) {
-			LOG.error(String.format("Invalid course code %s", courseCd), e);
-			PlanEventUtils.sendJsonEvents(false, "Course code not found. Try again or search for a course.", response, eventList);
-			return null;
-		}
+		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
+        if (course == null) {
+            PlanEventUtils.sendJsonEvents(false, "Course code not found. Try again or search for a course.", response, eventList);
+            return null;
+        }
+
 
         // Add the course to the plan
         ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())

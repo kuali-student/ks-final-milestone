@@ -71,7 +71,7 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public List<Course> getCoursesByCode(String courseCd) {
+    public Course getCourseByCode(String courseCd) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -64,6 +64,7 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_VERSION_IND_ID;
     public static final TypeInfo KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE;
     public static final TypeInfo KSAP_SEARCH_FIND_CURRENT_VERSION_ID;
+    public static final TypeInfo KSAP_SEARCH_COURSEID_BY_COURSECODE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -152,6 +153,14 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
         info.setDescr(new RichTextHelper().fromPlain("Lookup Course IDs and titles by Subject and Course code"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_SEARCH_FIND_CURRENT_VERSION_ID = info;
+
+         // Creates search that retrieves All Course IDs and titles for a given subject and course code
+        info = new TypeInfo();
+        info.setKey(CourseSearchConstants.KSAP_SEARCH_COURSEID_BY_COURSECODE_KEY);
+        info.setName("Lookup Course ID by the course code");
+        info.setDescr(new RichTextHelper().fromPlain("Lookup Course ID by the course code"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        KSAP_SEARCH_COURSEID_BY_COURSECODE = info;
     }
 
     /**
@@ -190,6 +199,8 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             return KSAP_SEARCH_COURSEIDS_BY_SUBJECT_AND_CODE;
         }else if (CourseSearchConstants.KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY.equals(searchTypeKey)) {
             return KSAP_SEARCH_FIND_CURRENT_VERSION_ID;
+        }else if (CourseSearchConstants.KSAP_SEARCH_COURSEID_BY_COURSECODE_KEY.equals(searchTypeKey)) {
+            return KSAP_SEARCH_COURSEID_BY_COURSECODE;
         }
 
         // If no matching search type is found throw exception
@@ -221,6 +232,8 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             resultInfo = searchForCourseBySubjectAndCode(searchRequestInfo, contextInfo);
         }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_FIND_CURRENT_VERSION_ID.getKey())) {
             resultInfo = findCurrentVersionId(searchRequestInfo, contextInfo);
+        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), KSAP_SEARCH_COURSEID_BY_COURSECODE.getKey())) {
+            resultInfo = findCourseByCourseCode(searchRequestInfo, contextInfo);
         }else {
             // If no matching search is found throw exception
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -586,6 +599,49 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, (String) result);
         }catch(NoResultException e){
             row.addCell(CourseSearchConstants.SearchResultColumns.CLU_ID, null);
+        }
+        resultInfo.getRows().add(row);
+
+        return resultInfo;
+    }
+
+    /**
+     * Routed To from search method based on search type key pasted in the search request.
+     * Used to create and execute for search type key COURSE_SEARCH_FOR_COURSE_ID.
+     *
+     * @see #search(org.kuali.student.r2.core.search.dto.SearchRequestInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    protected SearchResultInfo findCourseByCourseCode(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, OperationFailedException{
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String code = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.CODE).toUpperCase();
+
+
+        // Create sql string
+        String queryStr = "SELECT DISTINCT" +
+                "        clu.VER_IND_ID" +
+                "        FROM" +
+                "        KSLU_CLU clu," +
+                "        KSLU_CLU_IDENT id" +
+                "        WHERE" +
+                "        clu.offic_clu_id = id.id" +
+                "        AND UPPER(trim( id.CD )) = :" + CourseSearchConstants.SearchParameters.CODE +
+                "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
+                "    AND (clu.ST = 'Active' OR clu.ST = 'Superseded' OR clu.ST = 'Retired')" +
+                "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
+
+        // Set params and execute search
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
+
+        // Compile Results
+        SearchResultRowInfo row = new SearchResultRowInfo();
+        try{
+            Object result = query.getSingleResult();
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String) result);
+        }catch(NoResultException e){
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, null);
         }
         resultInfo.getRows().add(row);
 

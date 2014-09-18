@@ -88,8 +88,8 @@ public class CourseHelperDecorator implements CourseHelper {
     }
 
     @Override
-    public List<Course> getCoursesByCode(String courseCd) {
-        return getNextDecorator().getCoursesByCode(courseCd);
+    public Course getCourseByCode(String courseCd) {
+        return getNextDecorator().getCourseByCode(courseCd);
     }
 
     @Override

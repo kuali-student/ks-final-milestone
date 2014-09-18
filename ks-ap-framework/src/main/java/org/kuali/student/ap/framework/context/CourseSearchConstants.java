@@ -91,6 +91,7 @@ public class CourseSearchConstants {
     public static final String KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY = "kuali.search.type.ksap.coursesearch.versionIndependentId.by.cluid";
     public static final String KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY = "kuali.search.type.ksap.lui.name.by.lui.id";
     public static final String KSAP_SEARCH_FIND_CURRENT_VERSION_ID_KEY = "kuali.search.type.ksap.clu.find.current.version.id";
+    public static final String KSAP_SEARCH_COURSEID_BY_COURSECODE_KEY = "ksap.lu.find.courseid.by.courseCode";
 
 
     // Custom Search Result Column Keys
