@@ -31,17 +31,17 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dao.PopulationDao;
 import org.kuali.student.r2.core.population.dao.PopulationRuleDao;
-import org.kuali.student.r2.core.population.model.PopulationEntity;
-import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import org.kuali.student.r2.core.population.dto.PopulationCategoryInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.model.PopulationEntity;
+import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -73,14 +73,14 @@ public class PopulationServiceImpl implements PopulationService {
         popEntity.setUpdateId(contextInfo.getPrincipalId());
         popEntity.setUpdateTime(contextInfo.getCurrentDate());
         populationDao.persist(popEntity);
-        
+
         populationDao.getEm().flush();
         return popEntity.toDto();
     }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public PopulationInfo updatePopulation( String populationId, PopulationInfo populationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public PopulationInfo updatePopulation(String populationId, PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         PopulationEntity popEntity = populationDao.find(populationId);
         if (null != popEntity) {
             popEntity.fromDTO(populationInfo);
@@ -96,7 +96,7 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deletePopulation( String populationId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deletePopulation(String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
@@ -123,7 +123,7 @@ public class PopulationServiceImpl implements PopulationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PopulationInfo> getPopulationsByIds(List<String> populationIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationInfo> getPopulationsByIds(List<String> populationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationsByIds");
     }
 
@@ -140,8 +140,8 @@ public class PopulationServiceImpl implements PopulationService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // For now, do it the simple-minded way
         List<PopulationEntity> popEntityList = populationDao.getPopulationsForPopulationRule(populationRuleId);
-        List<PopulationInfo> popInfos = new ArrayList<PopulationInfo>();
-        for (PopulationEntity entity: popEntityList) {
+        List<PopulationInfo> popInfos = new ArrayList<>();
+        for (PopulationEntity entity : popEntityList) {
             PopulationInfo info = entity.toDto();
             popInfos.add(info);
         }
@@ -152,9 +152,9 @@ public class PopulationServiceImpl implements PopulationService {
     // ============================= PopulationRule start =============================
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey, 
-    PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) 
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey,
+                                                   PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
         populationRuleInfo.setTypeKey(populationRuleTypeKey);
         PopulationRuleEntity popRuleEntity = new PopulationRuleEntity(populationRuleInfo);
@@ -163,16 +163,16 @@ public class PopulationServiceImpl implements PopulationService {
         popRuleEntity.setUpdateId(contextInfo.getPrincipalId());
         popRuleEntity.setUpdateTime(contextInfo.getCurrentDate());
         // Have to explicitly fetch PopulationInfo and convert it to PopulationEntity for child populations
-        Set<PopulationEntity> childPops = new HashSet<PopulationEntity>();
+        Set<PopulationEntity> childPops = new HashSet<>();
         if (populationRuleInfo.getChildPopulationIds() != null) {
-            for (String id: populationRuleInfo.getChildPopulationIds()) {
+            for (String id : populationRuleInfo.getChildPopulationIds()) {
                 PopulationEntity entity = populationDao.find(id);
                 childPops.add(entity);
             }
         }
         popRuleEntity.setChildPopulations(childPops);
         populationRuleDao.persist(popRuleEntity);
-        
+
         populationRuleDao.getEm().flush();
         return popRuleEntity.toDto();
     }
@@ -186,9 +186,9 @@ public class PopulationServiceImpl implements PopulationService {
             popRuleEntity.setUpdateId(contextInfo.getPrincipalId());
             popRuleEntity.setUpdateTime(contextInfo.getCurrentDate());
             // Have to explicitly fetch PopulationInfo and convert it to PopulationEntity for child populations
-            Set<PopulationEntity> childPops = new HashSet<PopulationEntity>();
+            Set<PopulationEntity> childPops = new HashSet<>();
             if (populationRuleInfo.getChildPopulationIds() != null) {
-                for (String id: populationRuleInfo.getChildPopulationIds()) {
+                for (String id : populationRuleInfo.getChildPopulationIds()) {
                     PopulationEntity entity = populationDao.find(id);
                     childPops.add(entity);
                 }
@@ -228,7 +228,7 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public List<PopulationRuleInfo> getPopulationRulesByIds(List<String> populationRuleIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationRuleInfo> getPopulationRulesByIds(List<String> populationRuleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationRulesByIds");
     }
 
@@ -247,60 +247,67 @@ public class PopulationServiceImpl implements PopulationService {
         if (popRuleEntity == null) {
             throw new DoesNotExistException("No Population Rule found for Population: " + populationId);
         }
-        PopulationRuleInfo ruleInfo = popRuleEntity.toDto();
-        return ruleInfo;
+        return popRuleEntity.toDto();
     }
     // ============================= PopulationRule end =============================
 
     @Override
-    public Boolean isMemberAsOfDate( String personId,  String populationId,  Date date,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Boolean isMemberAsOfDate(String personId, String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("isMemberAsOfDate");
     }
 
     @Override
-    public List<String> getMembersAsOfDate( String populationId,  Date date,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getMembersAsOfDate");
+    public List<String> getMembersAsOfDate(String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationRuleInfo populationRule = getPopulationRuleForPopulation(populationId, contextInfo);
+
+        //Only handle the simple case of populations rules that are static lists of people right now
+        if (PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY.equals(populationRule.getTypeKey())) {
+            return new ArrayList<>(populationRule.getPersonIds());
+        }
+
+        //Return null otherwise
+        return null;
     }
 
     @Override
-    public List<String> searchForPopulationIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForPopulationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("searchForPopulationIds");
     }
 
     @Override
-    public List<PopulationInfo> searchForPopulations(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationInfo> searchForPopulations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-            GenericQueryResults<PopulationEntity> results = criteriaLookupService.lookup(PopulationEntity.class, criteria);
-            List<PopulationInfo> populations = new ArrayList<PopulationInfo>(results.getResults().size());
-            for (PopulationEntity pe : results.getResults()) {
-                try {
-                    PopulationInfo pi = this.getPopulation(pe.getId(), contextInfo);
-                    populations.add(pi);
-                } catch (DoesNotExistException ex) {
-                    throw new OperationFailedException(pe.getId(), ex);
-                }
+        GenericQueryResults<PopulationEntity> results = criteriaLookupService.lookup(PopulationEntity.class, criteria);
+        List<PopulationInfo> populations = new ArrayList<>(results.getResults().size());
+        for (PopulationEntity pe : results.getResults()) {
+            try {
+                PopulationInfo pi = this.getPopulation(pe.getId(), contextInfo);
+                populations.add(pi);
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(pe.getId(), ex);
             }
-            return populations;
+        }
+        return populations;
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, String populationTypeKey, 
-    PopulationInfo populationInfo,  ContextInfo contextInfo) 
+    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, String populationTypeKey,
+                                                         PopulationInfo populationInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //throw new UnsupportedOperationException("validatePopulation");
-        return new ArrayList<ValidationResultInfo>();
+        return new ArrayList<>();
     }
 
     @Override
-    public List<String> searchForPopulationRuleIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForPopulationRuleIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("searchForPopulationRuleIds");
     }
 
     @Override
-    public List<PopulationRuleInfo> searchForPopulationRules(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationRuleInfo> searchForPopulationRules(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         GenericQueryResults<PopulationRuleEntity> results = criteriaLookupService.lookup(PopulationRuleEntity.class, criteria);
-        List<PopulationRuleInfo> populationRules = new ArrayList<PopulationRuleInfo>(results.getResults().size());
+        List<PopulationRuleInfo> populationRules = new ArrayList<>(results.getResults().size());
         for (PopulationRuleEntity pre : results.getResults()) {
             try {
                 PopulationRuleInfo pri = this.getPopulationRule(pre.getId(), contextInfo);
@@ -313,9 +320,9 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulationRule(String validationTypeKey, PopulationRuleInfo populationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validatePopulationRule(String validationTypeKey, PopulationRuleInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //throw new UnsupportedOperationException("validatePopulationRule");
-        return new ArrayList<ValidationResultInfo>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -323,17 +330,17 @@ public class PopulationServiceImpl implements PopulationService {
     public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         PopulationEntity popEntity = populationDao.find(populationId);
         // Strictly not needed, but is a good check to make sure the populationRule is valid (exception thrown if not valid)
-        PopulationRuleEntity popRuleEntity = populationRuleDao.find(populationRuleId);
+        populationRuleDao.find(populationRuleId);
         popEntity.setPopulationRuleId(populationRuleId);
         try {
-            popEntity = populationDao.merge(popEntity);
+            populationDao.merge(popEntity);
         } catch (VersionMismatchException e) {
-            throw new OperationFailedException("failed to apply population rule(id="+populationRuleId+") to population (id=" + populationId + ")" , e);
+            throw new OperationFailedException("failed to apply population rule(id=" + populationRuleId + ") to population (id=" + populationId + ")", e);
 
         }
-        
+
         populationDao.getEm().flush();
-        
+
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
@@ -349,79 +356,80 @@ public class PopulationServiceImpl implements PopulationService {
         }
         popEntity.setPopulationRuleId(null); // Presumably, setting to null does the trick.
         try {
-            popEntity = populationDao.merge(popEntity);
+            populationDao.merge(popEntity);
         } catch (VersionMismatchException e) {
-            throw new OperationFailedException("failed to remove population rule(id="+populationRuleId+") from population (id=" + populationId + ")" , e);
+            throw new OperationFailedException("failed to remove population rule(id=" + populationRuleId + ") from population (id=" + populationId + ")", e);
         }
-        
+
         populationDao.getEm().flush();
-        
+
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
     }
 
     @Override
-    public PopulationCategoryInfo getPopulationCategory(String populationCategoryId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public PopulationCategoryInfo getPopulationCategory(String populationCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationCategory");
     }
 
     @Override
-    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(List<String> populationCategoryIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationCategoryInfo> getPopulationCategoriesByIds(List<String> populationCategoryIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationCategoriesByIds");
     }
 
     @Override
-    public List<String> getPopulationCategoryIdsByType(String populationTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getPopulationCategoryIdsByType(String populationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationCategoryIdsByType");
     }
 
     @Override
-    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation( String populationId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationCategoryInfo> getPopulationCategoriesForPopulation(String populationId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getPopulationCategoriesForPopulation");
     }
 
     @Override
-    public List<String> searchForPopulationCategoryIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForPopulationCategoryIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("searchForPopulationCategoryIds");
     }
 
     @Override
-    public List<PopulationCategoryInfo> searchForPopulationCategories(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PopulationCategoryInfo> searchForPopulationCategories(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("searchForPopulationCategories");
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulationCategory(String validationTypeKey,  String populationCategoryTypeKey,PopulationCategoryInfo populationCategoryInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validatePopulationCategory(String validationTypeKey, String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("validatePopulationCategory");
     }
 
     @Override
-    public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo,  ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("createPopulationCategory");
     }
 
     @Override
-    public PopulationCategoryInfo updatePopulationCategory(String populationCategoryId, PopulationCategoryInfo populationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public PopulationCategoryInfo updatePopulationCategory(String populationCategoryId, PopulationCategoryInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("updatePopulationCategory");
     }
 
     @Override
-    public StatusInfo deletePopulationCategory(String populationCategoryId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deletePopulationCategory(String populationCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("deletePopulationCategory");
     }
 
     @Override
-    public StatusInfo addPopulationToPopulationCategory( String populationId, String populationCategoryId,  ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo addPopulationToPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("addPopulationToPopulationCategory");
     }
 
     @Override
-    public StatusInfo removePopulationFromPopulationCategory( String populationId, String populationCategoryId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo removePopulationFromPopulationCategory(String populationId, String populationCategoryId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("removePopulationFromPopulationCategory");
     }
 
     // Setters/getters
+    @SuppressWarnings("unused")
     public PopulationDao getPopulationDao() {
         return populationDao;
     }
@@ -430,6 +438,7 @@ public class PopulationServiceImpl implements PopulationService {
         this.populationDao = populationDao;
     }
 
+    @SuppressWarnings("unused")
     public PopulationRuleDao getPopulationRuleDao() {
         return populationRuleDao;
     }
