@@ -17,10 +17,11 @@
 function processCheckbox() {
 
     jQuery(".uif-checkboxControl").change(function(){
-                jQuery(".uif-checkboxControl").prop('checked',false);
-                jQuery(this).attr('checked',true);
+        if(jQuery(this).attr('checked')){
+            jQuery(".uif-checkboxControl").prop('checked',false);
+            jQuery(this).attr('checked',true);
+        }
     });
-
 }
 
 function clearCheckBoxSelection(){
