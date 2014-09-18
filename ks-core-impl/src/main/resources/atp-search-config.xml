@@ -498,6 +498,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
+            <ref bean="atp.advancedAtpSearchParam.atpEndDateBeforeStartDateAtpConstraintIdExclusive" />
             <ref bean="atp.advancedAtpSearchParam.atpStartDateAfterEndDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
             <ref bean="atp.advancedAtpSearchParam.atpYear"/>
