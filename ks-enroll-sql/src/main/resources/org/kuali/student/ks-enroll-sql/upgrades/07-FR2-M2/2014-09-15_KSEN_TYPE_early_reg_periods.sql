@@ -24,7 +24,7 @@ insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATE
                          DESCR_FORMATTED, DESCR_PLAIN, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE,
                          NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, END_DT, ID)
   values ('031F39F1-883E-13BB-E050-007F010115A6', 0, 'admin', TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'admin',
-          TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'kuali.milestone.state.Draft',
+          TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'kuali.milestone.state.Official',
           'kuali.atp.milestone.earlyregistrationperiod', '', 'test', '1', '1', '0', '0', 'Early Registration Period',
           '', TIMESTAMP '2012-03-10 00:00:00.0', TIMESTAMP '2012-05-10 23:59:59.9',
           '031F39F1-883D-13BB-E050-007F010115A6')
@@ -38,7 +38,7 @@ insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATE
                          DESCR_FORMATTED, DESCR_PLAIN, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE,
                          NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, END_DT, ID)
   values ('031F39F1-8840-13BB-E050-007F010115A6', 0, 'admin', TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'admin',
-          TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'kuali.milestone.state.Draft',
+          TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'kuali.milestone.state.Official',
           'kuali.atp.milestone.earlyregistrationperiod.nonappointment', '', 'test', '1', '1', '0', '0',
           'Non Appointment Registration Period', '', TIMESTAMP '2012-05-11 00:00:00.0',
           TIMESTAMP '2012-08-28 23:59:59.9', '031F39F1-883F-13BB-E050-007F010115A6')
