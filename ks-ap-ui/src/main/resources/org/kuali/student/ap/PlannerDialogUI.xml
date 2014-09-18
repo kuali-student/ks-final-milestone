@@ -794,7 +794,7 @@
 	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input" p:additionalCssClasses="ksap-dialog-courseCode">
         <property name="propertyName" value="courseCd" />
 		<property name="label" value="@{#textHelper.getText('dialog.component.course.code.label')}" />
-        <property name="id" value="@{term.code}_@{backup == false ? 'planned' : 'backup'}_code" />
+        <property name="id" value="code" />
 		<property name="control">
 			<bean parent="KS-Uif-TextControl">
                 <property name="onDocumentReadyScript" value="jQuery('.ksap-dialog-courseCode input').focus();" />
