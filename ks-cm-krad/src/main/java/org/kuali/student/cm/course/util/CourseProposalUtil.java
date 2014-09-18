@@ -64,6 +64,8 @@ public class CourseProposalUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseProposalUtil.class);
 
+    public enum Position {BEFORE, AFTER};
+
     /**
      * Constructs a text URL for a particular course proposal.
      */
@@ -328,12 +330,12 @@ public class CourseProposalUtil {
         return true;
     }
 
-    public static String getEndTermShortNameForCurrentCourse(String startTermAtpId, ContextInfo contextInfo)  {
+    public static TermResult getTermForCurrentCourse(String termAtpId, Position position, ContextInfo contextInfo)  {
 
         List<String> termTypeKeys = new ArrayList<String>();
-        List<EndTermResult> endTermResults = new ArrayList<EndTermResult>();
+        List<TermResult> termResults = new ArrayList<TermResult>();
 
-        if (startTermAtpId == null) {
+        if (termAtpId == null) {
             return null;
         }
         // This initial list of term keys is from gwt, the correct way is to consult Duration in the Type Service, which is currently out of scope for CM work
@@ -343,32 +345,34 @@ public class CourseProposalUtil {
         termTypeKeys.add("kuali.atp.type.Summer");
         final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
-        atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, startTermAtpId);
+        if (position == Position.BEFORE) {
+            atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
+        }
         try {
             SearchResultInfo searchResult = CMUtils.getAtpService().search(atpSearchRequest, contextInfo);
             if (searchResult.getRows().size() > 0) {
                 for (SearchResultRowInfo row : searchResult.getRows()) {
                     List<SearchResultCellInfo> srCells = row.getCells();
                     if (srCells != null && srCells.size() > 0) {
-                        EndTermResult endTermResult = new EndTermResult();
+                        TermResult termResult = new TermResult();
                         for (SearchResultCellInfo cell : srCells) {
                             if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())) {
-                                endTermResult.atpId = cell.getValue();
+                                termResult.atpId = cell.getValue();
                             }
                             // Note:End date is a required field on ATP
                             if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())) {
-                                endTermResult.endDate = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(cell.getValue());
+                                termResult.endDate = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(cell.getValue());
                             }
                             if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_SHORT_NAME.equals(cell.getKey())){
-                                endTermResult.shortName = cell.getValue();
+                                termResult.shortName = cell.getValue();
                             }
                         }
-                        endTermResults.add(endTermResult);
+                        termResults.add(termResult);
                     }
                 }
             }
-            Collections.sort(endTermResults, new Comparator<EndTermResult>() {
-                public int compare(EndTermResult first, EndTermResult second) {
+            Collections.sort(termResults, new Comparator<TermResult>() {
+                public int compare(TermResult first, TermResult second) {
                     // Sort descending order
                     return second.endDate.compareTo(first.endDate);
                 }
@@ -377,17 +381,28 @@ public class CourseProposalUtil {
             LOG.error("Error obtaining EndTerm", e);
             throw new RuntimeException(e);
         }
-        if (endTermResults.size() < 1) {
+        if (termResults.size() < 1) {
             return null;
         }
-        return endTermResults.get(0).shortName;
+        return termResults.get(0);
     }
 
-    private static class EndTermResult {
+    public static class TermResult {
         private String atpId;
         private String shortName;
         private Date endDate;
 
+        public String getAtpId() {
+            return atpId;
+        }
+
+        public String getShortName() {
+            return shortName;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
     }
 }
 

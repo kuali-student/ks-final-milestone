@@ -125,7 +125,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         // Get the current "existing" courseInfo
         CourseInfo courseInfo = getCourseService().getCourse(courseId, contextInfo);
 
-        String prevEndTermAtpId = CourseProposalUtil.getEndTermShortNameForCurrentCourse(courseInfo.getStartTerm(), contextInfo);
+        String prevEndTermAtpId = CourseProposalUtil.getTermForCurrentCourse(courseInfo.getStartTerm(), CourseProposalUtil.Position.BEFORE, contextInfo).getAtpId();
 
         // Get the new state the course should now change to
         String newCourseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());

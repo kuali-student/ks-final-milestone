@@ -717,7 +717,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
 
-        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getEndTermShortNameForCurrentCourse(startTerm, ContextUtils.createDefaultContextInfo()));
+        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getTermForCurrentCourse(startTerm, CourseProposalUtil.Position.BEFORE, ContextUtils.createDefaultContextInfo()).getShortName());
 
         return getUIFModelAndView(form);
     }
