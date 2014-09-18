@@ -936,7 +936,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         // The Key Date Type should not be null
         if(StringUtils.isEmpty(KeyDateType)) {
             GlobalVariables.getMessageMap().putError(keyDatePath + "." + keyDateTypeRef, CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
-            return result = false;
+            return false;
         }
 
         // Start Date not null, Start Time null, End Date null, End Time not null - illegal
