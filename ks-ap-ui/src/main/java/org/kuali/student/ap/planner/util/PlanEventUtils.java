@@ -328,7 +328,7 @@ public class PlanEventUtils {
 			addEvent.add("credits", CreditsFormatter.trimCredits(planItem
 					.getCredits().toString()));
 		} else {
-			addEvent.add("credits", CreditsFormatter.formatCredits(course));
+			addEvent.add("credits", CreditsFormatter.formatCreditsShortVersion(course));
 		}
         if (planItem.getDescr() != null && planItem.getDescr().getPlain()!=null && !planItem.getDescr().getPlain().isEmpty()) {
                 addEvent.add("courseNote", planItem.getDescr().getPlain());
