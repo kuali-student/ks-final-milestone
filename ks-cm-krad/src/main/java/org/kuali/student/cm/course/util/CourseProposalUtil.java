@@ -342,7 +342,7 @@ public class CourseProposalUtil {
      * @return  If no matching results are found, return empty TermResult with null values - KRAD handles 'null' fine
      */
 
-    public static TermResult getTermForCurrentCourse(String termAtpId, Position position, ContextInfo contextInfo)  {
+    public static List<TermResult> getTerm(String termAtpId, Position position, ContextInfo contextInfo)  {
 
         List<String> termTypeKeys = new ArrayList<String>();
         List<TermResult> termResults = new ArrayList<TermResult>();
@@ -376,6 +376,9 @@ public class CourseProposalUtil {
                             if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_ID.equals(cell.getKey())) {
                                 termResult.atpId = cell.getValue();
                             }
+                            if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_START_DATE.equals(cell.getKey())) {
+                                termResult.startDate = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(cell.getValue());
+                            }
                             // Note:End date is a required field on ATP
                             if (AtpSearchServiceConstants.ATP_RESULTCOLUMN_ATP_END_DATE.equals(cell.getKey())) {
                                 termResult.endDate = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(cell.getValue());
@@ -388,35 +391,71 @@ public class CourseProposalUtil {
                     }
                 }
             }
-            Collections.sort(termResults, new Comparator<TermResult>() {
-                public int compare(TermResult first, TermResult second) {
-                    // Sort descending order
-                    return second.endDate.compareTo(first.endDate);
-                }
-            });
+
         } catch (Exception e) {
-            LOG.error("Error obtaining EndTerm", e);
+            LOG.error("Error obtaining terms", e);
             throw new RuntimeException(e);
         }
+        return termResults;
+    }
+
+    /**
+     *  Returns previous term to the supplied term
+     * @param startTermAtpId
+     * @param contextInfo
+     * @return  If there is no previous term, return empty TermResult (KRAD can handle null, if getShortName is used)
+     */
+
+    public static TermResult getPreviousTerm(String startTermAtpId, ContextInfo contextInfo)  {
+
+        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, Position.PREVIOUS, contextInfo);
+
         if (termResults.size() < 1) {
             return new TermResult();
         }
+        Collections.sort(termResults, new Comparator<TermResult>() {
+            public int compare(TermResult first, TermResult second) {
+                // Sort descending order of endDate
+                return second.endDate.compareTo(first.endDate);
+            }
+        });
         return termResults.get(0);
+    }
+
+    /**
+     * Returns next terms to the supplied term in ascending order of startDate
+     * @param startTermAtpId
+     * @param contextInfo
+     * @return
+     */
+    public static List<TermResult> getNextTerms(String startTermAtpId, ContextInfo contextInfo)  {
+
+        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, Position.PREVIOUS, contextInfo);
+
+        Collections.sort(termResults, new Comparator<TermResult>() {
+            public int compare(TermResult first, TermResult second) {
+                // Sort ascending order of startDate
+                return first.startDate.compareTo(second.startDate);
+            }
+        });
+        return termResults;
     }
 
     public static class TermResult {
         private String atpId;
         private String shortName;
         private Date endDate;
+        private Date startDate;
 
         public String getAtpId() {
             return atpId;
         }
-
         public String getShortName() {
             return shortName;
         }
-
+        public Date getStartDate() {
+            return endDate;
+        }
         public Date getEndDate() {
             return endDate;
         }

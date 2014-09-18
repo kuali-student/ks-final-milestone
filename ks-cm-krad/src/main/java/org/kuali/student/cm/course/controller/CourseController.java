@@ -180,7 +180,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setCourseInfo(courseInfo);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
-        newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
+        newMaintainble.populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
 
         ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
@@ -717,7 +717,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
 
-        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getTermForCurrentCourse(startTerm, CourseProposalUtil.Position.PREVIOUS, ContextUtils.createDefaultContextInfo()).getShortName());
+        courseInfoWrapper.setCurrentCourseEndTermShortName(CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo()).getShortName());
 
         return getUIFModelAndView(form);
     }

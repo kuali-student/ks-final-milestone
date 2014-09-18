@@ -1489,7 +1489,10 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         if (dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT) && isModify) {
             String startTerm = dataObject.getCourseInfo().getStartTerm();
-            dataObject.setCurrentCourseEndTermShortName(CourseProposalUtil.getTermForCurrentCourse(startTerm, CourseProposalUtil.Position.PREVIOUS, ContextUtils.createDefaultContextInfo()).getShortName());
+            if (startTerm != null) {
+                String endTermShortName = CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo()).getShortName();
+                dataObject.setCurrentCourseEndTermShortName(endTermShortName);
+            }
         }
     }
 
