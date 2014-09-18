@@ -305,6 +305,7 @@ public class RetireCourseController extends ProposalController {
             form.setRequestRedirected(false);
             // Hide all the workflow action buttons on the review proposal page while the document is still in Enroute state(It is being processed at the back-end)
             retireCourseWrapper.getUiHelper().setPendingWorkflowAction(true);
+            ((RetireCourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
             //redirect back to client to display confirm dialog
             return getUIFModelAndView(form, getReviewPageKradPageId());
         } else {
