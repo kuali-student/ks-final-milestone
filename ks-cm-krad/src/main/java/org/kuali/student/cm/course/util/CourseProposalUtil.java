@@ -382,7 +382,7 @@ public class CourseProposalUtil {
             throw new RuntimeException(e);
         }
         if (termResults.size() < 1) {
-            return null;
+            return new TermResult();
         }
         return termResults.get(0);
     }
