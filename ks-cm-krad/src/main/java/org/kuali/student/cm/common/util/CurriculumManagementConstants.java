@@ -365,6 +365,8 @@ public class CurriculumManagementConstants {
     public static final String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
     public static final String COLLECTION_ITEM_PLURAL_END = "(s)";
 
+    public static final String YES_LABEL = "Yes";
+    public static final String NO_LABEL = "No";
     /**
      * LO dynamic attribute keys.
      */
@@ -445,7 +447,7 @@ public class CurriculumManagementConstants {
             public static String VERSION_CODES = "Version Codes";
 
             public static String INSTRUCTOR = "Instructor(s)";
-            public static String DESCRIPTION_AND_RATIONALE = "Description and Rationale";
+            public static String DESCRIPTION = "Description";
             public static String PROPOSAL_RATIONALE = "Proposal Rationale";
         }
 
@@ -463,12 +465,12 @@ public class CurriculumManagementConstants {
             public static String SECTION_NAME = "Course Logistics";
 
             public static String TERM = "Term";
-            public static String DURATION_TYPE = "Duration Type";
-            public static String DURATION_COUNT = "Duration Count";
+            public static String DURATION = "Duration";
             public static String ASSESSMENT_SCALE = "Assessment Scale";
             public static String AUDIT = "Audit";
             public static String PASS_FAIL_TRANSCRIPT_GRADE = "Pass Fail Transcript Grade";
             public static String FINAL_EXAM_STATUS = "Final Exam Status";
+            public static String FINAL_EXAM_RATIONALE = "Final Exam Rationale";
             public static String OUTCOME = "Outcome";
             public static String TYPE = "Type";
             public static String CREDITS = "Credits";

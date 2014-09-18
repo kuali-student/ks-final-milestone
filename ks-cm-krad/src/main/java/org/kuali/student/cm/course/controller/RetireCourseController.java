@@ -220,7 +220,7 @@ public class RetireCourseController extends ProposalController {
 
     protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {
         RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
-        return new ExportRetireCourseHelperImpl(wrapper, exportFileType, useSaveHeaders);
+        return new ExportRetireCourseHelperImpl(wrapper, exportFileType, useSaveHeaders, true);
     }
 
     /**

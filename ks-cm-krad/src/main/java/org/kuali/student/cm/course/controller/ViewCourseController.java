@@ -266,7 +266,7 @@ public class ViewCourseController extends KsUifControllerBase {
         ViewCourseForm detailedViewForm = (ViewCourseForm) form;
         CourseInfoWrapper courseInfoWrapper = detailedViewForm.getCourseInfoWrapper();
 
-        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType, useSaveHeaders);
+        ExportCourseHelperImpl exportCourseHelper = new ExportCourseHelperImpl(courseInfoWrapper, exportFileType, useSaveHeaders, false);
 
         return exportCourseHelper.getResponseEntity();
     }

@@ -45,6 +45,7 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
     private FileType exportFileType;
     private String fileName;
     private boolean saveDocument = true;
+    private boolean isProposal = false;
 
     private ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
 
@@ -55,8 +56,9 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
      * @param exportFileType The metadata for the type of file to output.
      * @param saveDocument If 'true' sets the document headers to values which encourage the web browers to display a
      *                     "save as" dialog. Otherwise, sets them values which encourage the browser to open the document..
+     * @param isProposal true, if it is a proposal or false
      */
-    public AbstractExportCourseHelperImpl(ProposalElementsWrapper wrapper, String fileName, FileType exportFileType, boolean saveDocument) {
+    public AbstractExportCourseHelperImpl(ProposalElementsWrapper wrapper, String fileName, FileType exportFileType, boolean saveDocument, boolean isProposal) {
         this.wrapper = wrapper;
         this.exportFileType = exportFileType;
 
@@ -64,6 +66,7 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
         this.fileName = fileName.replaceAll("[^A-Za-z0-9]", "_") + "."  + exportFileType.getFileSuffix();
 
         this.saveDocument = saveDocument;
+        this.isProposal = isProposal;
     }
 
     public CourseInfoWrapper getCourseInfoWrapper() {
@@ -80,6 +83,14 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
 
     public boolean isSaveDocument() {
         return this.saveDocument;
+    }
+
+    public boolean isProposal() {
+        return isProposal;
+    }
+
+    public void setProposal(boolean isProposal) {
+        this.isProposal = isProposal;
     }
 
     /**
@@ -114,7 +125,7 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
         byte[] bytes = null;
 
         //  Create the data object.
-        List<ExportElement> exportElements = constructExportElementBasedOnView(wrapper, false);
+        List<ExportElement> exportElements = constructExportElementBasedOnView(wrapper, isProposal);
 
         switch (this.exportFileType) {
             case PDF:
@@ -184,6 +195,18 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
                 exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
             }
         }
+    }
+
+    /**
+     *  Here we remove the trailing delimiter in a String object.
+     * @param value
+     * @return String
+     */
+    protected String removeEndDelimiter(String value) {
+        if (StringUtils.isNotBlank(value) && value.endsWith(CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER)) {
+            value = value.substring(0, value.length() - 2);
+        }
+        return value;
     }
 
 }

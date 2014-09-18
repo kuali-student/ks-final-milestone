@@ -33,7 +33,7 @@ public class ExportRetireCourseHelperImpl extends AbstractExportCourseHelperImpl
      * @param exportFileType The metadata for the type of file to output.
      */
     public ExportRetireCourseHelperImpl(RetireCourseWrapper retireCourseWrapper, FileType exportFileType) {
-        super(retireCourseWrapper, retireCourseWrapper.getProposalInfo().getName(), exportFileType, true);
+        super(retireCourseWrapper, retireCourseWrapper.getProposalInfo().getName(), exportFileType, true, false);
     }
 
     /**
@@ -43,9 +43,10 @@ public class ExportRetireCourseHelperImpl extends AbstractExportCourseHelperImpl
      * @param exportFileType The metadata for the type of file to output.
      * @param saveDocument If 'true' sets the document headers to values which encourage the web browers to display a
      *                     "save as" dialog. Otherwise, sets them values which encourage the browser to open the document..
+     * @param isProposal true, if it is a proposal or false
      */
-    public ExportRetireCourseHelperImpl(RetireCourseWrapper retireCourseWrapper, FileType exportFileType, boolean saveDocument) {
-        super(retireCourseWrapper, retireCourseWrapper.getProposalInfo().getName(), exportFileType, saveDocument);
+    public ExportRetireCourseHelperImpl(RetireCourseWrapper retireCourseWrapper, FileType exportFileType, boolean saveDocument, boolean isProposal) {
+        super(retireCourseWrapper, retireCourseWrapper.getProposalInfo().getName(), exportFileType, saveDocument, isProposal);
     }
 
     /**
@@ -85,7 +86,7 @@ public class ExportRetireCourseHelperImpl extends AbstractExportCourseHelperImpl
         exportElements.add(exportCourseTitle);
 
         String proposalTitle = retireCourseWrapper.getProposalInfo().getName();
-        ExportElement exportProposalTitle = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.COURSE_TITLE, proposalTitle, CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
+        ExportElement exportProposalTitle = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.PROPOSAL_TITLE, proposalTitle, CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportProposalTitle);
 
         String transcriptCourseTitle = retireCourseWrapper.getCourseInfo().getTranscriptTitle();
@@ -101,7 +102,7 @@ public class ExportRetireCourseHelperImpl extends AbstractExportCourseHelperImpl
         exportElements.add(exportCourseNumber);
 
         String description  = (retireCourseWrapper.getCourseInfo().getDescr() != null) ? retireCourseWrapper.getCourseInfo().getDescr().getPlain() : "";
-        ExportElement exportDescription = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.DESCRIPTION_AND_RATIONALE, description , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
+        ExportElement exportDescription = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.DESCRIPTION, description , CurriculumManagementConstants.ProposalViewFieldLabels.CourseInformation.SECTION_NAME, -1);
         exportElements.add(exportDescription);
 
         String proposalRationale = (retireCourseWrapper.getProposalInfo().getRationale() != null) ? retireCourseWrapper.getProposalInfo().getRationale().getPlain() : "";
@@ -124,18 +125,19 @@ public class ExportRetireCourseHelperImpl extends AbstractExportCourseHelperImpl
         StringBuilder campusLocations = new StringBuilder();
         for(String campusLocation : retireCourseWrapper.getCourseInfo().getCampusLocations()){
             campusLocations.append(campusLocation);
-            campusLocations.append(";");
+            campusLocations.append(CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
         ExportElement exportCampusLocation = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CAMPUS_LOCATION, campusLocations.toString(),CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
         exportElements.add(exportCampusLocation);
 
-        String curriculumOversight = "";
+        String curriculumOversight = StringUtils.EMPTY;
         for(CourseCreateUnitsContentOwner courseCreateUnitsContentOwner  : retireCourseWrapper.getUnitsContentOwner()){
             if (StringUtils.isNotBlank(courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName())){
-                curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName() + ";";
+                curriculumOversight = curriculumOversight  + courseCreateUnitsContentOwner.getRenderHelper().getOrgLongName() + CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER;
             }
         }
-        ExportElement exportCurriculumOversight = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CURRICULUM_OVERSIGHT, curriculumOversight,CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
+        ExportElement exportCurriculumOversight = populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.Governance.CURRICULUM_OVERSIGHT,
+                removeEndDelimiter(curriculumOversight), CurriculumManagementConstants.ProposalViewFieldLabels.Governance.SECTION_NAME, -1);
         exportElements.add(exportCurriculumOversight);
     }
 

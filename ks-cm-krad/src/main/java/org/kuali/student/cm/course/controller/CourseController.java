@@ -713,7 +713,7 @@ public class CourseController extends CourseRuleEditorController {
 
     protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-        return new ExportCourseHelperImpl(wrapper, exportFileType, useSaveHeaders);
+        return new ExportCourseHelperImpl(wrapper, exportFileType, useSaveHeaders, true);
     }
 
     /**
