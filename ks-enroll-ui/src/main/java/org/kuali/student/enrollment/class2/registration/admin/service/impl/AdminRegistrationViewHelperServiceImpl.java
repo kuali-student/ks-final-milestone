@@ -190,8 +190,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             //TODO: KSENROLL-13558 :work around for incorrect Data
             List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(studentId.toUpperCase());
             for (Principal principal : principals) {
-                courseRegistrationInfos.addAll(AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(principal.getPrincipalId(), termCode, createContextInfo()));
-
+                courseRegistrationInfos.addAll(AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(
+                        principal.getPrincipalId(), termCode, createContextInfo()));
             }
 
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
