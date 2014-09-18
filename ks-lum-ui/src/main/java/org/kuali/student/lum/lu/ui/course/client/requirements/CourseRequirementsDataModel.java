@@ -290,9 +290,9 @@ public class CourseRequirementsDataModel {
     }
 
     public Integer getInternalCourseReqID(StatementTreeViewInfo rule) {
-        for(Integer key : courseReqInfos.keySet()) {
-            if (courseReqInfos.get(key) ==  rule) {
-                return key;
+        for(Map.Entry<Integer, StatementTreeViewInfo> entry: courseReqInfos.entrySet()) {
+            if (entry.getValue().equals(rule)) {
+                return entry.getKey();
             }
         }
 
@@ -387,8 +387,8 @@ public class CourseRequirementsDataModel {
             return true;
         }
 
-        for(Integer key : courseReqState.keySet()) {
-            if (!courseReqState.get(key).equals(origCourseReqState.get(key))) {
+        for(Map.Entry<Integer, requirementState> entry: courseReqState.entrySet()) {
+            if (!entry.getValue().equals(origCourseReqState.get(entry.getKey()))) {
                 return true;
             }
         }
@@ -399,8 +399,9 @@ public class CourseRequirementsDataModel {
     public void revertRuleChanges() {
         courseReqInfos = new HashMap<Integer, StatementTreeViewInfo>();
         courseReqState = new HashMap<Integer, requirementState>();
-        for(Integer key : origCourseReqInfos.keySet()) {
-            courseReqInfos.put(key, RulesUtil.clone(origCourseReqInfos.get(key)));
+        for(Map.Entry<Integer, StatementTreeViewInfo> entry: origCourseReqInfos.entrySet()) {
+            int key = entry.getKey();
+            courseReqInfos.put(key, RulesUtil.clone(entry.getValue()));
             courseReqState.put(key, origCourseReqState.get(key));
         }
     }

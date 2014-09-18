@@ -311,9 +311,9 @@ public class ProgramRequirementsDataModel {
     }
 
     public Integer getInternalProgReqID(ProgramRequirementInfo progReqInfo) {
-        for(Integer key : progReqInfos.keySet()) {
-            if (progReqInfos.get(key) == progReqInfo) {
-                return key;
+        for(Map.Entry<Integer, ProgramRequirementInfo> entry: progReqInfos.entrySet()) {
+            if (entry.getValue().equals(progReqInfo)) {
+                return entry.getKey();
             }
         }
 
@@ -404,8 +404,8 @@ public class ProgramRequirementsDataModel {
             return true;
         }
 
-        for(Integer key : progReqState.keySet()) {
-            if (!progReqState.get(key).equals(origProgReqState.get(key))) {
+        for(Map.Entry<Integer, requirementState> entry: progReqState.entrySet()) {
+            if (!entry.getValue().equals(origProgReqState.get(entry.getKey()))) {
                 return true;
             }
         }
@@ -422,8 +422,9 @@ public class ProgramRequirementsDataModel {
     public void revertRuleChanges() {
         progReqInfos = new HashMap<Integer, ProgramRequirementInfo>();
         progReqState = new HashMap<Integer, requirementState>();
-        for(Integer key : origProgReqInfos.keySet()) {
-            progReqInfos.put(key, cloneProgReq(origProgReqInfos.get(key)));
+        for(Map.Entry<Integer, ProgramRequirementInfo> entry : origProgReqInfos.entrySet()) {
+            int key = entry.getKey();
+            progReqInfos.put(key, cloneProgReq(entry.getValue()));
             progReqState.put(key, origProgReqState.get(key));
         }
     }
