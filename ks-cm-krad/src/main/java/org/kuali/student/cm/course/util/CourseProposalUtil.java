@@ -331,7 +331,7 @@ public class CourseProposalUtil {
     }
 
     /**
-     *  Returns the previous or next term to the given term of interest, subject to types listed here
+     *  Returns the previous or next term to the supplied term, subject to ATP types of interest
      *  Note: Ideally we should send ATP Types based on the Duration Type grouping that the given term belongs to.
      *        This should be considered when CM starts using Type Service
      *
@@ -359,8 +359,11 @@ public class CourseProposalUtil {
         termTypeKeys.add("kuali.atp.type.Summer");
         final SearchRequestInfo atpSearchRequest = new SearchRequestInfo(AtpSearchServiceConstants.ATP_SEARCH_ADVANCED);
         atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_TYPE, termTypeKeys);
-        if (position == Position.PREVIOUS) {
+        if (position.equals(Position.PREVIOUS)) {
             atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
+        }
+        else if (position.equals(Position.NEXT)) {
+            atpSearchRequest.addParam(AtpSearchServiceConstants.ATP_ADVANCED_QUERYPARAM_ATP_START_DATE_AFTER_END_DATE_CONSTRAINT_EXCLUSIVE, termAtpId);
         }
         try {
             SearchResultInfo searchResult = CMUtils.getAtpService().search(atpSearchRequest, contextInfo);
@@ -418,6 +421,7 @@ public class CourseProposalUtil {
             return endDate;
         }
     }
+
 }
 
 
