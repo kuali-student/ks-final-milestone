@@ -36,7 +36,9 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.population.dao.PopulationRuleDao;
+import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
+import org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -56,6 +58,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -91,7 +94,7 @@ public class TestTermResolvers extends AbstractTermResolverTestHelper {
     private CourseOfferingService courseOfferingService;
 
     @Resource(name = "populationService")
-    private PopulationService populationService;
+    private PopulationServiceImpl populationService;
 
     @Resource(name = "lrcService")
     private LRCService lrcService;
@@ -1471,6 +1474,9 @@ public class TestTermResolvers extends AbstractTermResolverTestHelper {
     }
 
     private void loadPopulationData() throws Exception {
+        PopulationRuleDao populationRuleDaoMock = mock(PopulationRuleDao.class);
+        when(populationRuleDaoMock.getPopulationRuleByPopulationId(anyString())).thenReturn(new PopulationRuleEntity());
+        populationService.setPopulationRuleDao(populationRuleDaoMock);
         populationService.getMembersAsOfDate("SENIOR_ONLY_STUDENTS", new Date(), contextInfo);
         populationService.getMembersAsOfDate("kuali.population.student.key.everyone", new Date(), contextInfo);
     }
