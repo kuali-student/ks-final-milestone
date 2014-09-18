@@ -951,31 +951,6 @@ public class TestTermResolvers extends AbstractTermResolverTestHelper {
     }
 
     @Test
-    public void testCourseRegisteredCountTermResolver() throws Exception {
-        //Setup the term resolver
-        CourseRegisteredCountTermResolver termResolver = new CourseRegisteredCountTermResolver();
-
-        StudentCourseRecordInfo registeredCourse = new StudentCourseRecordInfo();
-        registeredCourse.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_REGISTERED);
-
-        List<StudentCourseRecordInfo> courseRecordList = new ArrayList<>();
-        courseRecordList.addAll(studentToCourseRecordsMap.get("KS-5213")); // R.JESSICAL
-        courseRecordList.add(registeredCourse);
-
-        //Setup data for test
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT, courseRecordList);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COURSE_REGISTERED_COUNT);
-
-        //Evaluate Term Resolver
-        Integer registeredCount = termResolver.resolve(resolvedPrereqs, parameters);
-        assertNotNull(registeredCount);
-        assertEquals(registeredCount.intValue(), 1);
-    }
-
-    @Test
     public void testCourseTotalAttemptsTermResolver() throws Exception {
         //Setup the term resolver
         CourseTotalAttemptsTermResolver termResolver = new CourseTotalAttemptsTermResolver();
