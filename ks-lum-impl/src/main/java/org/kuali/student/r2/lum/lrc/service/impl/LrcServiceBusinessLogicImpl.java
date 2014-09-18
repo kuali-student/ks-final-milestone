@@ -53,7 +53,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             throws InvalidParameterException {
 
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE)) {
-            return LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD + creditValue;
+            return LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + creditValue;
         }
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL)) {
             return LrcServiceConstants.RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + creditValue;
@@ -166,7 +166,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE)) {
             StringBuilder sb = new StringBuilder();
-            sb.append(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD);
+            sb.append(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE);
             sb.append(creditValueMin).append("-").append(creditValueMax);
             if (!creditValueIncrement.equals("1")) {
                 sb.append(".by.").append(creditValueIncrement);
@@ -339,8 +339,8 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             StringBuilder sb = new StringBuilder();
 
             // so the base string has a "." at the end... remove it
-            String baseType = LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD.substring(0,
-                                LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD.length() - 1);
+            String baseType = LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.substring(0,
+                                LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() - 1);
 
             sb.append(baseType);
             sb.append(".");
