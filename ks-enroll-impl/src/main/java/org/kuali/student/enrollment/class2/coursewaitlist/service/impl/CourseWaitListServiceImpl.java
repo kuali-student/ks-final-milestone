@@ -507,7 +507,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
                 courseRegistration.setGradingOptionId(rvgKey);
             } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
                 //This will be replaced with just the key in the future
-                courseRegistration.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() + 1)));
+                courseRegistration.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length())));
             }
         }
         courseRegistration.setId(rgLpr.getId());

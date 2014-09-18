@@ -1377,7 +1377,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     // Setting grading and credit options
     private void setGradingAndCreditOptionsForCourseOfferingDetails(CourseOfferingDetailsSearchResult courseSearchResult, String resultValuesGroupKey, ContextInfo contextInfo) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        if (!StringUtils.isEmpty(resultValuesGroupKey) && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+        if (!StringUtils.isEmpty(resultValuesGroupKey) && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
             courseSearchResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
         } else {
             if (!courseSearchResult.getGradingOptions().containsKey(resultValuesGroupKey)) {

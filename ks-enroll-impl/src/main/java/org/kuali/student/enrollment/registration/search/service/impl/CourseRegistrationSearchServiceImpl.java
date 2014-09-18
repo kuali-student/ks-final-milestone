@@ -759,7 +759,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    KSEN_LPR_RESULT_VAL_GRP credits " +
                         "ON " +
                         "    credits.LPR_ID = lpr.id " +
-                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%' " +
                         "LEFT OUTER JOIN " +
                         "    KSEN_LPR_RESULT_VAL_GRP grading " +
                         "ON " +
@@ -1086,7 +1086,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    KSEN_LPR_TRANS_ITEM_RVG credits " +
                 "ON " +
                 "    credits.LPR_TRANS_ITEM_ID = lprti.id " +
-                "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
+                "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%' " +
                 "LEFT OUTER JOIN " +
                 "    KSEN_LPR_TRANS_ITEM_RVG grading " +
                 "ON " +

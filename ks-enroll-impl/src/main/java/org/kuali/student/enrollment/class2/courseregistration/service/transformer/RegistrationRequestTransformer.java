@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseregistration.service.transform
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -39,6 +40,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -112,11 +114,7 @@ public class RegistrationRequestTransformer {
         if (credits != null) {
             String creditStr = credits.bigDecimalValue().setScale(1).toPlainString();
 
-            ResultValueInfo resultValueInfo =
-                    getLrcService().getResultValueForScaleAndValue(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE,
-                            creditStr, context);
-            // This gets more complex if it's actual credits
-            item.getResultValuesGroupKeys().add(resultValueInfo.getKey());
+            item.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + creditStr);
         }
         String gradingOptionId = requestItem.getGradingOptionId();
         if (gradingOptionId != null) {
@@ -222,8 +220,8 @@ public class RegistrationRequestTransformer {
             } else if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) { // "kuali.result.value.credit.degree"
             	// FIXME KSENROLL-11466
                 // requestItem.setCredits(s);
-                ResultValueInfo resultValueInfo = getLrcService().getResultValue(s, context);
-                String creditStr = resultValueInfo.getValue();
+                List<ResultValueInfo> resultValueInfo = getLrcService().getResultValuesForResultValuesGroups(Arrays.asList(new String[]{s}), context);
+                String creditStr = KSCollectionUtils.getRequiredZeroElement(resultValueInfo).getValue();
                 KualiDecimal credit = new KualiDecimal(creditStr);
                 requestItem.setCredits(credit);
             } else {

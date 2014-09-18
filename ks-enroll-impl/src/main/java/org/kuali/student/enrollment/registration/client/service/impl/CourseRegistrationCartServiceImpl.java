@@ -482,7 +482,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             //Check if this is a new cart item and create a new object if so
             if (!lastCartItemId.equals(cartItemId)) {
                 //If so, create the new cart item
-                String creditsStr = StringUtils.substringAfterLast(credits, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
+                String creditsStr = StringUtils.substringAfterLast(credits, LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE);
                 currentCartItem = new CartItemResult();
                 currentCartItem.setCartItemId(cartItemId);
                 if (!StringUtils.isEmpty(crossList) && !StringUtils.equals(crossList, courseCode)) {

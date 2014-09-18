@@ -515,7 +515,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         } else {
                             studentScheduleCourseResult.setWaitlisted(false);
                         }
-                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
                             studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                         } else {
                             if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
@@ -591,7 +591,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         } else {
                             studentScheduleCourseResult.setWaitlisted(false);
                         }
-                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                        if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
                             studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                         } else {
                             studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
