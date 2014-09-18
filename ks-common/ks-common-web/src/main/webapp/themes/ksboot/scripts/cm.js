@@ -999,7 +999,7 @@ function refreshEndTerm() {
  */
 function refreshCurrentCourseEndTerm() {
    // Component id, methodToCall
-   retrieveComponent('CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm', 'refreshCurrentCourseStartTerm');
+   retrieveComponent('CM-Proposal-Course-ActiveDates-CurrentCourseEndTerm', 'refreshCurrentCourseEndTerm');
 }
 
 function hideName() {
