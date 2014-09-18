@@ -48,3 +48,10 @@ insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEI
           TO_DATE('2014-09-15', 'YYYY-MM-DD'), 'kuali.atp.2012Fall', '031F39F1-883F-13BB-E050-007F010115A6',
           '031F39F1-8841-13BB-E050-007F010115A6')
 /
+insert into KSEN_TYPETYPE_RELTN (CREATEID, CREATETIME, EFF_DT, EXPIR_DT, ID, OBJ_ID, OWNER_TYPE_ID, RANK, RELATED_TYPE_ID, TYPETYPE_RELTN_STATE, TYPETYPE_RELTN_TYPE, UPDATEID, UPDATETIME, VER_NBR)
+  values ('SYSTEMLOADER', TIMESTAMP '2012-03-01 00:00:00', null, null, 'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.earlyregistrationperiod', null, 'kuali.milestone.type.group.registration', 0, 'kuali.atp.milestone.earlyregistrationperiod', 'kuali.type.type.relation.state.active', 'kuali.type.type.relation.type.group', null, null, 0)
+/
+
+insert into KSEN_TYPETYPE_RELTN (CREATEID, CREATETIME, EFF_DT, EXPIR_DT, ID, OBJ_ID, OWNER_TYPE_ID, RANK, RELATED_TYPE_ID, TYPETYPE_RELTN_STATE, TYPETYPE_RELTN_TYPE, UPDATEID, UPDATETIME, VER_NBR)
+  values ('SYSTEMLOADER', TIMESTAMP '2012-03-01 00:00:00', null, null, 'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.earlyregistrationperiod.nonappointment', null, 'kuali.milestone.type.group.registration', 0, 'kuali.atp.milestone.earlyregistrationperiod.nonappointment', 'kuali.type.type.relation.state.active', 'kuali.type.type.relation.type.group', null, null, 0)
+/
