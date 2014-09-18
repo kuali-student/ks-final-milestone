@@ -174,27 +174,13 @@ public class CourseController extends CourseRuleEditorController {
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
 
         CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
-        courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
 
-        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(true);
-        courseInfoWrapper.setCourseInfo(courseInfo);
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
-        newMaintainble.populateCourseAndReviewData(courseInfo.getId(), courseInfoWrapper);
-
-        ProposalInfo proposalInfo = new ProposalInfo();
-        courseInfoWrapper.setProposalInfo(proposalInfo);
-        proposalInfo.setName(courseInfo.getCourseTitle());
-
-        Properties urlParameters = new Properties();
-
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "saveModifyVersion");
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
-        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
-        urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
-
-        return performRedirect(form, courseBaseUrl, urlParameters);
+        newMaintainble.populateCourseAndReviewData(courseId,courseInfoWrapper);
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
+        return getUIFModelAndView(form);
     }
 
 

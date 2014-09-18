@@ -502,10 +502,10 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     public void populateWrapperData(ProposalElementsWrapper proposalElementsWrapper) throws Exception {
         CommonCourseDataWrapper courseWrapper = (CommonCourseDataWrapper) proposalElementsWrapper;
 
-        courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
-        courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
+        courseWrapper.setLastTerm(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED));
+        courseWrapper.setPublicationYear(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR));
         RichTextInfo retirementComment = new RichTextInfo();
-        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE));
         retirementComment.setFormatted(retirementComment.getPlain());
         courseWrapper.setRetirementComment(retirementComment);
 

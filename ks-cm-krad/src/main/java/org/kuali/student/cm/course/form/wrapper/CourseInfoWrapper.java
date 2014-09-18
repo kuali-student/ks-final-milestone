@@ -48,6 +48,8 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
     private boolean audit;
     private boolean passFail;
     private String finalExamRationale;
+
+    private String retirementRationale;
     // do we need this?
     private Boolean showAll;
     private LoDisplayWrapperModel loDisplayWrapperModel = new LoDisplayWrapperModel();
@@ -322,6 +324,14 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     public void setFormats(List<FormatInfo> formats) {
         this.formats = formats;
+    }
+
+    public String getRetirementRationale() {
+        return retirementRationale;
+    }
+
+    public void setRetirementRationale(String retirementRationale) {
+        this.retirementRationale = retirementRationale;
     }
 
 }

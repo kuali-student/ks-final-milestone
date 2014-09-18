@@ -514,7 +514,7 @@
                             <ref bean="CM-Proposal-Course-Financial-Section"/>
                             <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Create-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section" p:render="@{!#isModifyRetireCourse}"/>
                             <bean id="CM-Proposal-Course-SupportingDocument-Create-Section" parent="CM-Proposal-Course-SupportingDocument-Section" p:render="@{!#isModifyRetireCourse}"/>
-                            <!--<ref bean="CM-Proposal-Course-RetireInfo-Section" />-->
+                            <bean id="CM-Course-Modify-RetireInfo-Section" parent="CM-Course-Modify-RetireInfo-Section-parent" p:render="@{#isModifyRetireCourse}"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
