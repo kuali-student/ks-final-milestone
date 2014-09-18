@@ -377,6 +377,9 @@ public class CourseProposalUtil {
             LOG.error("Error obtaining EndTerm", e);
             throw new RuntimeException(e);
         }
+        if (endTermResults.size() < 1) {
+            return null;
+        }
         return endTermResults.get(0).shortName;
     }
 
