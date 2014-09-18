@@ -113,6 +113,7 @@ public class CourseSearchConstants {
         public static final String COURSE_VERSION_INDEPENDENT_ID = "course.versionIndId";
         public static final String COURSE_CREDITS = "course.credits";
         public static final String LUI_NAME = "lui.name";
+        public static final String LUI_STATE = "lui.lui_state";
     }
 
     // Custom Search Parameter Keys

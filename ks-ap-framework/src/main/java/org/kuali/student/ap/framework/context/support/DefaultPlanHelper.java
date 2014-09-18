@@ -35,6 +35,7 @@ import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.ap.planner.PlannerTermNote;
+import org.kuali.student.ap.planner.RegCodeListPropertyEditor;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -53,6 +54,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -1062,7 +1064,7 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         //Find any associated plan items of the registration group variety
-        List<String> registrationGroupCodes = getRegistrationGroupCodes(planItem);
+        List<String> registrationGroupCodes = validateAndGetRegistrationGroupCodes(planItem, statusMessages);
         if (registrationGroupCodes.size() > 0) {
             newPlannerItem.setRegistrationGroupCodes(registrationGroupCodes);
         }
@@ -1566,7 +1568,7 @@ public class DefaultPlanHelper implements PlanHelper {
      * @param planItem - Course Item in the plan
      * @return A list of registration codes for groups planned
      */
-    protected List<String> getRegistrationGroupCodes(PlanItem planItem){
+    protected List<String> validateAndGetRegistrationGroupCodes(PlanItem planItem, List<String> statusMessages){
 
         //Find any associated plan items of the registration group variety
         List<String> registrationGroupCodes = new ArrayList<String>();
@@ -1582,6 +1584,9 @@ public class DefaultPlanHelper implements PlanHelper {
             regGroupIds.add(planItemForRegGroup.getRefObjectId());
         }
 
+        List <String> canceledRGCodes = new ArrayList<String>();
+        List <String> suspendedRGCodes = new ArrayList<String>();
+
         //Look up the reg groups
         List<RegistrationGroupInfo> regGroups = null;
         for(String regGroupId : regGroupIds){
@@ -1590,15 +1595,59 @@ public class DefaultPlanHelper implements PlanHelper {
             try {
                 SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(
                         request,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                if(results==null || results.getRows().size() == 0){
+                    statusMessages.add("The planned section is not available any more.");
+                    return registrationGroupCodes;
+                }
                 String regGroupName = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
                         results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_NAME);
                 registrationGroupCodes.add(regGroupName);
+                String regGroupState = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
+                        results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_STATE);
+                if(!regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)){
+                    if(regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
+                        canceledRGCodes.add(regGroupName);
+                    } else if(regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY)){
+                        suspendedRGCodes.add(regGroupName);
+                    }
+                }
             } catch ( InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
-                throw new IllegalStateException("CO lookup failure", e);
+                throw new IllegalStateException("RG lookup failure", e);
             }
         }
-
+        if (!canceledRGCodes.isEmpty()) {
+            generateWarningMessage(statusMessages, canceledRGCodes, true, false);
+        }
+        if (!suspendedRGCodes.isEmpty()) {
+            generateWarningMessage(statusMessages, suspendedRGCodes, false, true);
+        }
         return registrationGroupCodes;
+    }
+
+    private void generateWarningMessage(List<String> statusMessages, List<String> rgCodes, boolean isCanceled, boolean isSuspended) {
+        try {
+            if (rgCodes.size() == 1){
+                if (isCanceled){
+                    statusMessages.add("Section "+KSCollectionUtils.getOptionalZeroElement(rgCodes).toString()+" has been canceled.");
+                }
+                else if(isSuspended){
+                    statusMessages.add("Section "+KSCollectionUtils.getOptionalZeroElement(rgCodes).toString()+" has been suspended.");
+                }
+            }
+            else if(rgCodes.size()>1){
+                RegCodeListPropertyEditor editor = new RegCodeListPropertyEditor();
+                editor.setValue(rgCodes);
+                if (isCanceled){
+                    statusMessages.add("Sections "+ editor.getAsText()+" have been canceled.");
+                }
+                else if (isSuspended){
+                    statusMessages.add("Section "+editor.getAsText()+" has been suspended.");
+                }
+
+            }
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Fail to display Regitration Group Code", e);
+        }
     }
 
     /**

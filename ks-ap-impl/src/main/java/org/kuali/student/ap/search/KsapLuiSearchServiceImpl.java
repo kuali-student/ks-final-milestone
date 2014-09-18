@@ -131,7 +131,7 @@ public class KsapLuiSearchServiceImpl extends SearchServiceAbstractHardwiredImpl
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         KSAP_SEARCH_COURSEIDS_BY_TERM_SCHEDULED = info;
 
-         // Create search that retrieves a reg group name using the id of the reg group
+         // Create search that retrieves a reg group name and status using the id of the reg group
         info = new TypeInfo();
         info.setKey(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
         info.setName("Lui Name Search By lui Id");
@@ -534,7 +534,7 @@ public class KsapLuiSearchServiceImpl extends SearchServiceAbstractHardwiredImpl
 
         // Create sql string
         String queryStr = "SELECT" +
-                "    lui.NAME";
+                "    lui.NAME, lui.LUI_STATE";
         queryStr = queryStr +
                 "    FROM" +
                 "    KSEN_LUI lui ";
@@ -544,12 +544,13 @@ public class KsapLuiSearchServiceImpl extends SearchServiceAbstractHardwiredImpl
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.LUI_ID, luiId);
-        List<Object> results = query.getResultList();
+        List<Object[]> results = query.getResultList();
 
         // Compile results
-        for(Object resultRow : results){
+        for(Object[] resultRow  : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(CourseSearchConstants.SearchResultColumns.LUI_NAME, (String)resultRow);
+            row.addCell(CourseSearchConstants.SearchResultColumns.LUI_NAME, (String)resultRow[0]);
+            row.addCell(CourseSearchConstants.SearchResultColumns.LUI_STATE, (String)resultRow[1]);
             resultInfo.getRows().add(row);
         }
 
