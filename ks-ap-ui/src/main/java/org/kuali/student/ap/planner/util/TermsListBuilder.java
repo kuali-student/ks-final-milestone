@@ -33,7 +33,7 @@ public class TermsListBuilder extends UifKeyValuesFinderBase {
 	@Override
 	public List<KeyValue> getKeyValues(ViewModel model) {
 		List<KeyValue> keyValues = new java.util.ArrayList<KeyValue>();
-        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getTermsOpenForPlanning();
+        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getPlanningTerms();
 
         for (Term term : terms) {
             AddCourseToPlanForm form = (AddCourseToPlanForm) model;

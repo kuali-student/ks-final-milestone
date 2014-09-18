@@ -40,13 +40,6 @@ public interface TermHelper {
 	void frontLoadForPlanner(String firstAtpId);
 
     /**
-     * Creates a list of terms considered open for planning
-     *
-     * @return A full List of terms allowing planning
-     */
-    public List<Term> getTermsOpenForPlanning();
-
-    /**
 	 * Look up a term by ATP ID.
 	 * 
 	 * @param atpId

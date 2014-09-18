@@ -99,85 +99,6 @@ public class DefaultTermHelper implements TermHelper {
 
 	}
 
-    /**
-     * Gets the Terms open for planning based on:
-     * 1. the current date
-     * 2. the config parameter PlanConstants.PLAN_FUTURE_YEAR
-     * 3. the "last date to add" classes (...in applicable terms)
-     *
-     * note-worthy assumption:  the Academic Calendar has been published for all future years & their assoc'd terms.
-     *
-     * @see  org.kuali.student.ap.framework.context.TermHelper#getTermsOpenForPlanning()
-     */
-    @Override
-    public List<Term> getTermsOpenForPlanning() {
-        Term currentTerm = null;
-        try {
-            currentTerm = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm();
-        } catch (IllegalArgumentException iae) {
-            // No current term.  Null is fine.
-        }
-
-        Date startDate = KsapHelperUtil.getCurrentDate();
-        Calendar c = Calendar.getInstance();
-        if (currentTerm != null) {
-            startDate = currentTerm.getStartDate();
-        }
-        int futureYears = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty(
-                PlanConstants.PLAN_FUTURE_YEARS));
-        c.add(Calendar.YEAR, futureYears);
-        List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startDate,
-                c.getTime());
-        calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
-
-        Term end = calendarTerms.get(calendarTerms.size()-1);
-
-        // Gets all terms in the academic year to round off the list
-        List<Term> endYear= KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
-
-        endYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(endYear,true);
-
-        for(Term t : endYear){
-            if(t.getStartDate().compareTo(end.getStartDate())>0){
-                calendarTerms.add(t);
-            }
-        }
-
-        List<Term> termsAvailableForPlanning = new ArrayList<>();
-
-        //...now remove any term(s) that have passed lastDayToAddClasses
-        for (Term term: calendarTerms){
-            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-            KeyDateInfo lastDayToAddClasses = null;
-            try {
-                lastDayToAddClasses = getLastDayToAddClassesForTerm(term.getId(), contextInfo);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("Acal lookup failure", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("Acal lookup failure", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("Acal lookup failure", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("Acal lookup failure", e);
-            } catch (DoesNotExistException e){
-                throw new IllegalStateException("Acal lookup failure", e);
-            }
-
-            if(lastDayToAddClasses == null || lastDayToAddClasses.getEndDate() == null){
-                termsAvailableForPlanning.add(term);
-            }else{
-                //Can add up to AND including last day to add
-                if ( KsapHelperUtil.getCurrentDate().after(lastDayToAddClasses.getEndDate())){
-                    continue;
-                } else {
-                    termsAvailableForPlanning.add(term);
-                }
-            }
-        }
-
-        return termsAvailableForPlanning;
-    }
-
     @Override
 	public Term getTerm(String atpId) {
         Term term;
@@ -681,31 +602,11 @@ public class DefaultTermHelper implements TermHelper {
     public List<Term> getCurrentTermsBasedOnKeyDate() {
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         List<Term> currentTermsForCourseSearch = new ArrayList<Term>();
-        try {
-            List<Term> rv = getCurrentTerms();
-            for (Term term:rv){
-                KeyDateInfo lastDayToAddClasses = getLastDayToAddClassesForTerm(term.getId(), contextInfo);
-                if(lastDayToAddClasses == null || lastDayToAddClasses.getEndDate() == null){
-                    currentTermsForCourseSearch.add(term);
-                }else{
-                    //Can add up to AND including last day to add
-                    if ( KsapHelperUtil.getCurrentDate().after(lastDayToAddClasses.getEndDate())){
-                        continue;
-                    }else{
-                        currentTermsForCourseSearch.add(term);
-                    }
-                }
+        List<Term> rv = getCurrentTerms();
+        for (Term term:rv){
+            if(KsapFrameworkServiceLocator.getTermHelper().isRegistrationOpen(term.getId())){
+                currentTermsForCourseSearch.add(term);
             }
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Acal lookup failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Acal lookup failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("Acal lookup failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("Acal lookup failure", e);
-        } catch (DoesNotExistException e){
-            throw new IllegalStateException("Acal lookup failure", e);
         }
 
         return currentTermsForCourseSearch;
@@ -854,6 +755,7 @@ public class DefaultTermHelper implements TermHelper {
         searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_TYPES, keydateTypes);
         SearchResultInfo searchResult = KsapFrameworkServiceLocator.getAtpService().search(searchRequest, context);
         if(searchResult.getRows().size()== 0){
+
             //No lastDayToAddClasses has been defined for the specified term
             return lastDayToAddClasses;
         }

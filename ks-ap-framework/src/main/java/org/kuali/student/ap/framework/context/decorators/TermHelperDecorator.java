@@ -46,11 +46,6 @@ public class TermHelperDecorator implements TermHelper {
     }
 
     @Override
-    public List<Term> getTermsOpenForPlanning() {
-        return getNextDecorator().getTermsOpenForPlanning();
-    }
-
-    @Override
     public Term getTerm(String atpId) {
         return getNextDecorator().getTerm(atpId);
     }

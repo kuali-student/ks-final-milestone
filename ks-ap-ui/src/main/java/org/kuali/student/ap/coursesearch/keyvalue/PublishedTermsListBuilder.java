@@ -62,8 +62,9 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
                 LOG.warn("There is more than one current term.");
             }
             for (Term term : currentTerms) {
-                keyValues.add(new ConcreteKeyValue(term.getId(), term.getName()
-                    + suffix));
+                if(KsapFrameworkServiceLocator.getTermHelper().isPlanning(term.getId())){
+                    keyValues.add(new ConcreteKeyValue(term.getId(), term.getName() + suffix));
+                }
             }
         }
 
@@ -74,8 +75,9 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
             futureTerms=KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(futureTerms, true);
 			// Add the individual term items.
 			for (Term term : futureTerms)
-				keyValues.add(new ConcreteKeyValue(term.getId(), term.getName()
-						+ suffix));
+                if(KsapFrameworkServiceLocator.getTermHelper().isPlanning(term.getId())){
+				keyValues.add(new ConcreteKeyValue(term.getId(), term.getName() + suffix));
+                }
 		}
 
 		// Append and additional items to the list.

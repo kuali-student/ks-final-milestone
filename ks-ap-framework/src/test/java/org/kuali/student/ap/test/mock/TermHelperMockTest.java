@@ -17,11 +17,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class TermHelperMockTest implements TermHelper {
-    @Override
-    public List<Term> getTermsOpenForPlanning() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     /**
      * Front-load term and academic calendar data for the planner based on the
      * earliest ATP ID.

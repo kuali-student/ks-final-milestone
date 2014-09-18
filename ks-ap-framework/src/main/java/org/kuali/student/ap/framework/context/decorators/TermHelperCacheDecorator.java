@@ -46,24 +46,6 @@ public class TermHelperCacheDecorator extends TermHelperDecorator {
     }
 
     @Override
-    public List<Term> getTermsOpenForPlanning() {
-        MultiKey cacheKey = new MultiKey(TERM_HELPER_TERMS_PREFIX, "openforplanning");
-        Cache cache = getCacheManager().getCache(TERM_HELPER_CACHE);
-        Element cachedResult = cache.get(cacheKey);
-        Object result;
-        if (cachedResult == null) {
-            LOG.debug("Cache ({}) miss for search of {}", cache.getName(), "openforplanning");
-            result = getNextDecorator().getTermsOpenForPlanning();
-            cache.put(new Element(cacheKey, result));
-        } else {
-            LOG.debug("Cache ({}) hit for search of {}", cache.getName(), "openforplanning");
-            result = cachedResult.getValue();
-        }
-
-        return (List<Term>) result;
-    }
-
-    @Override
     public Term getTerm(String atpId) {
         MultiKey cacheKey = new MultiKey(TERM_HELPER_TERMS_PREFIX, atpId);
         Cache cache = getCacheManager().getCache(TERM_HELPER_CACHE);
