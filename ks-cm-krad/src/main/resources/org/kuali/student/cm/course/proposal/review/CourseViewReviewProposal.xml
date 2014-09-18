@@ -92,6 +92,7 @@
           </list>
         </property>
         <property name="generateCompareHeaders" value="false"/>
+        <!-- These are property names of items that should not be compared. -->
         <property name="excludeProperties">
             <list>
                 <value>proposalInfo.name</value>
@@ -226,6 +227,9 @@
                     <property name="componentModifiers">
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
+                          <!-- Row highlighing when requisites do not match -->
+                          <bean class="org.kuali.student.cm.uif.modifier.RequisitesCompareModifier" p:runPhase="FINALIZE"
+                                p:runCondition="@{#isCompareView}"/>
                       </list>
                     </property>
                 </bean>

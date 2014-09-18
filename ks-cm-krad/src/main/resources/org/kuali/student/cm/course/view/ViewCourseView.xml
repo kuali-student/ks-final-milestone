@@ -819,15 +819,9 @@
         <property name="items">
             <list>
                 <bean parent="CM-ViewCourse-View-Course-GridGroup">
-
-                    <!-- -->
-                    <property name="onDocumentReadyScript" value="@{ (#isCompareView and ! requisitesEqual) ?  'viewCourseView.highlightRequisitesTableRow()' : '' }"/>
-
-
                     <property name="items">
                         <list>
                             <bean id="CM-ViewCourse-View-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
-
                                 <property name="items">
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
@@ -851,6 +845,9 @@
                     <property name="componentModifiers">
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
+                          <!-- Row highlighing when requisites do not match -->
+                          <bean class="org.kuali.student.cm.uif.modifier.RequisitesCompareModifier" p:runPhase="FINALIZE"
+                                  p:runCondition="@{#isCompareView}"/>
                       </list>
                     </property>
                 </bean>

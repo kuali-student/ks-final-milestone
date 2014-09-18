@@ -135,6 +135,7 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
 
         for (Component item : group.getItems()) {
 
+            //  Determine if this property is in the exclude list.
             boolean excluded = false;
             if (item instanceof DataFieldBase) {
                 String bindingPath = ((DataFieldBase) item).getBindingInfo().getBindingPath();
@@ -204,7 +205,7 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
         }
 
         if (group.getLayoutManager() instanceof GridLayoutManager) {
-            ((GridLayoutManager)group.getLayoutManager()).setRowCssClasses(rowCssClasses);
+            ((GridLayoutManager) group.getLayoutManager()).setRowCssClasses(rowCssClasses);
         }
         // update the group's list of components
         group.setItems(comparisonItems);

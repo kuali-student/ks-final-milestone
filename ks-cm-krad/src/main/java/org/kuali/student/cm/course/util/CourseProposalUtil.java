@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
 
@@ -215,24 +216,6 @@ public class CourseProposalUtil {
     }
 
     /**
-     * Rule editor key mappings used in isRequisitesEqual().
-     */
-    private static final Map<String,String> ruleEditorKeyMapping = new HashMap() {
-        {   put("A", "G");
-            put("B", "H");
-            put("C", "I");
-            put("D", "J");
-            put("E", "K");
-            put("F", "L");
-            put("G", "A");
-            put("H", "B");
-            put("I", "C");
-            put("J", "D");
-            put("K", "E");
-            put("L", "F");}
-    };
-
-    /**
      * Compares requisites by natural language. Assumes that the rule editor keys used are A-F or G-L, and that they
      * are consistently in the same order alphabetically by key and by type: prereq, coreq, recommended, etc.
      * @return True if the requisites are the same. Otherwise, false.
@@ -252,22 +235,16 @@ public class CourseProposalUtil {
             rightRuleEditors.putAll(ae.getRuleEditors());
         }
 
-        /*  Decide if the key mapping needs to be used. Assume that the keys are either A-F and G-L though and ff the
-         *  keys are mixed then use the map. Otherwise, don't.
-         */
-        boolean useRuleEditorMapping = false;
-        if ((leftRuleEditors.containsKey("A") && rightRuleEditors.containsKey("G"))
-            || (leftRuleEditors.containsKey("G") && rightRuleEditors.containsKey("A"))) {
-            useRuleEditorMapping = true;
+        if (leftRuleEditors.size() != rightRuleEditors.size()) {
+            return false;
         }
+
+        Map<String, String> ruleEditorMap = buildRuleEditorMap(leftRuleEditors, rightRuleEditors);
 
         for (Map.Entry<String, RuleEditor> re : leftRuleEditors.entrySet()) {
 
             String leftRuleEditorKey = re.getKey();
-            String rightRuleEditorKey = leftRuleEditorKey;
-            if (useRuleEditorMapping) {
-                rightRuleEditorKey = ruleEditorKeyMapping.get(leftRuleEditorKey);
-            }
+            String rightRuleEditorKey = ruleEditorMap.get(leftRuleEditorKey);
 
             RuleEditor leftRuleEditor = re.getValue();
 
@@ -275,7 +252,7 @@ public class CourseProposalUtil {
             PropositionEditor leftProposition = leftRuleEditor.getPropositionEditor();
             //  If the left proposition is null but the right isn't then the requisites are different
             if (leftProposition == null) {
-                if (rightRuleEditors.get(ruleEditorKeyMapping.get(leftRuleEditorKey)) != null
+                if (rightRuleEditors.get(rightRuleEditorKey) != null
                         && rightRuleEditors.get(rightRuleEditorKey).getProposition() != null) {
                     return false;
                 } else {
@@ -285,7 +262,7 @@ public class CourseProposalUtil {
             Map<String, String> leftNaturalLanguageMap = leftProposition.getNaturalLanguage();
 
             //  Get the right rule and proposition editors
-            RuleEditor rightRuleEditor = rightRuleEditors.get(ruleEditorKeyMapping.get(leftRuleEditorKey));
+            RuleEditor rightRuleEditor = rightRuleEditors.get(rightRuleEditorKey);
             //  If no right rule editor then the requisites are different.
             if (rightRuleEditor == null) {
                 return false;
@@ -329,6 +306,30 @@ public class CourseProposalUtil {
 
         return true;
     }
+
+    /**
+     * Assuming that the rule editors are in alphabetical order, creates a map of the corresponding keys from left to right.
+     * @param leftRuleEditors The rule editors on the left side of the compare.
+     * @param rightRuleEditors The rule editors on the right.
+     * @return A key mapping for rule editors.
+     */
+    private static Map<String, String> buildRuleEditorMap(Map<String, RuleEditor> leftRuleEditors, Map<String, RuleEditor> rightRuleEditors) {
+        Map<String, String> ruleEditorMap = new HashMap<>();
+
+        List<String> leftKeys = new ArrayList<>(leftRuleEditors.keySet());
+        Collections.sort(leftKeys);
+
+        List<String> rightKeys = new ArrayList<>(rightRuleEditors.keySet());
+        Collections.sort(rightKeys);
+
+        int index = 0;
+        for (String key : leftKeys) {
+            ruleEditorMap.put(key, rightKeys.get(index));
+            index++;
+        }
+        return ruleEditorMap;
+    }
+
 
     /**
      *  Returns the previous or next term to the supplied term, subject to ATP types of interest
