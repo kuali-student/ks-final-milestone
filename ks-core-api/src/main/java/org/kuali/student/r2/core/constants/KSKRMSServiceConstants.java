@@ -278,6 +278,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_CUSTOM_COURSE_REPEATABILITY_RULE = "CustomCourseRepeatabilityRule";
     public static final String TERM_RESOLVER_BEST_EFFORT_CREDIT_LOAD = "BestEffortCreditLoad";
     public static final String TERM_RESOLVER_APPOINTMENT_WINDOW = "AppointmentWindow";
+    public static final String TERM_RESOLVER_REG_GROUP_STATE = "RegGroupState";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
