@@ -61,7 +61,7 @@
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.already.registered",
-        "message": "You are already registered for {{cluCode}}."
+        "message": "You are already registered for {{courseCode}}."
     },
     {
         "messageKey": "kuali.lpr.trans.message.course.already.taken",

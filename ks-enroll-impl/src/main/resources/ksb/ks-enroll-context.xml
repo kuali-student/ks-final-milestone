@@ -1987,7 +1987,9 @@ the program will get the rule management service by calling the global resource 
                     <property name="appointmentService" ref="appointmentWindowService" />
                     <property name="atpService" ref="AtpService" />
                 </bean>
-                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegisteredCountTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegisteredCountTermResolver">
+                    <property name="courseOfferingService" ref="CourseOfferingService" />
+                </bean>
             </list>
         </property>
     </bean>
