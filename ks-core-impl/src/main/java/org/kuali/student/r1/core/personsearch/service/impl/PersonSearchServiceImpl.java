@@ -76,8 +76,8 @@ public class PersonSearchServiceImpl implements SearchService {
     @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException {
         final List<TypeInfo> searchTypes =  new ArrayList<TypeInfo>(searchOperations.size());
-        for (String searchKey : searchOperations.keySet()) {
-            SearchOperation so = searchOperations.get (searchKey);
+        for (Map.Entry<String, SearchOperation> entry: searchOperations.entrySet()) {
+            SearchOperation so = entry.getValue();
             searchTypes.add(toTypeInfo(so.getType()));
         }
         return searchTypes;

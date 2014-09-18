@@ -174,8 +174,8 @@ public class MultiplicityConfiguration {
         	parent.hideLabel();
         }
         copy.setParent(parent);
-        for (Integer row  : getFields().keySet()) {
-            List<MultiplicityFieldConfiguration> fields = getFields().get(row);
+        for (Map.Entry<Integer, List<MultiplicityFieldConfiguration>> entry: getFields().entrySet()) {
+            List<MultiplicityFieldConfiguration> fields = entry.getValue();
             for (MultiplicityFieldConfiguration fieldConfig : fields) {
                 MultiplicityFieldConfiguration newfieldConfig = new MultiplicityFieldConfiguration(fieldConfig.getFieldPath(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(), fieldConfig.getFieldWidgetInitializer());
                 newfieldConfig.setOptional(fieldConfig.isOptional());

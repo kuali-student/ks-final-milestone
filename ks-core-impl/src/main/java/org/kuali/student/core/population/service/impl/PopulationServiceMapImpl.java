@@ -149,8 +149,9 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
         // the population rule whose id is specified, add the population (the key) to
         // list of returned populations.
 
-        for (String populationId: populationRulePopulationMap.keySet()) {
-            if (populationRuleId.equals (populationRulePopulationMap.get(populationId).getId())) {
+        for (Map.Entry<String, PopulationRuleInfo> entry: populationRulePopulationMap.entrySet()) {
+            if (populationRuleId.equals(entry.getValue().getId())) {
+                String populationId = entry.getKey();
                 try {
                     list.add(getPopulation(populationId, contextInfo));
                 } catch (Exception e) {

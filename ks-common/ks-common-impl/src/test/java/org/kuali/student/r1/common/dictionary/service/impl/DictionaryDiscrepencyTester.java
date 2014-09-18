@@ -33,7 +33,7 @@ public class DictionaryDiscrepencyTester
  private boolean processSubstructures = false;
  private int level;
  private Map<String, ObjectStructureDefinition> subStructuresToProcess =
-                                                new LinkedHashMap ();
+                                                new LinkedHashMap<>();
  private Set<ObjectStructureDefinition> subStructuresAlreadyProcessed;
 
  public DictionaryDiscrepencyTester (String name,
@@ -193,9 +193,9 @@ public class DictionaryDiscrepencyTester
                                  new HashSet ();
   subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
     subStructuresAlreadyProcessed);
-  for (String subName : this.subStructuresToProcess.keySet ())
+  for (Map.Entry<String, ObjectStructureDefinition> entry : this.subStructuresToProcess.entrySet())
   {
-   ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
+   ObjectStructureDefinition subOs = entry.getValue();
    if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (
      subOs))
    {
@@ -203,7 +203,7 @@ public class DictionaryDiscrepencyTester
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryDiscrepencyTester formatter =
-                        new DictionaryDiscrepencyTester (subName, subOs.getName (),
+                        new DictionaryDiscrepencyTester (entry.getKey(), subOs.getName (),
                                                  subOs,
                                                  subStructuresAlreadyProcessed,
                                                  level + 1,

@@ -59,9 +59,9 @@ public class SearchConfigFormatter
 
  public String formatForWiki ()
  {
-  for (String name : this.searchInfoTypeMap.keySet ())
+  for (Map.Entry<String, SearchTypeInfo> entry: this.searchInfoTypeMap.entrySet())
   {
-   formatSearchType (name, this.searchInfoTypeMap.get (name));
+   formatSearchType (entry.getKey(), entry.getValue());
   }
 
   return builder.toString ();

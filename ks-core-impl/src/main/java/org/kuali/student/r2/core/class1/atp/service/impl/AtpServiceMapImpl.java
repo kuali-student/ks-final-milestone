@@ -253,13 +253,13 @@ public class AtpServiceMapImpl implements AtpService, MockService {
             OperationFailedException,
             PermissionDeniedException {
         List<AtpInfo> list = new ArrayList<AtpInfo>();
-        for (String atpId : this.milestonesForAtp.keySet()) {
-            Set<String> milestoneIds = this.milestonesForAtp.get(atpId);
+        for (Map.Entry<String, Set<String>> entry : this.milestonesForAtp.entrySet()) {
+            Set<String> milestoneIds = entry.getValue();
             if (milestoneIds.contains(milestoneId)) {
                 try {
-                    list.add(this.getAtp(atpId, contextInfo));
+                    list.add(this.getAtp(entry.getKey(), contextInfo));
                 } catch (DoesNotExistException ex) {
-                    throw new OperationFailedException("atp id not found but still linked to a milestone " + atpId);
+                    throw new OperationFailedException("atp id not found but still linked to a milestone " + entry.getKey());
                 }
             }
         }
@@ -648,12 +648,10 @@ public class AtpServiceMapImpl implements AtpService, MockService {
             PermissionDeniedException {
         List<String> atpRltnList = new ArrayList<String>();
 
-        Set<String> atpRltnIds = atpAtpRelations.keySet();
-
-        for (String id : atpRltnIds) {
-            AtpAtpRelationInfo rltn = atpAtpRelations.get(id);
+        for (Map.Entry<String, AtpAtpRelationInfo> entry: atpAtpRelations.entrySet()) {
+            AtpAtpRelationInfo rltn = entry.getValue();
             if (rltn.getTypeKey().equalsIgnoreCase(atpAtpRelationTypeKey)) {
-                atpRltnList.add(id);
+                atpRltnList.add(entry.getKey());
             }
         }
         return atpRltnList;
@@ -666,10 +664,8 @@ public class AtpServiceMapImpl implements AtpService, MockService {
             PermissionDeniedException {
         List<AtpAtpRelationInfo> atpRltnList = new ArrayList<AtpAtpRelationInfo>();
 
-        Set<String> atpRltnIds = atpAtpRelations.keySet();
-
-        for (String id : atpRltnIds) {
-            AtpAtpRelationInfo rltn = atpAtpRelations.get(id);
+        for (Map.Entry<String, AtpAtpRelationInfo> entry: atpAtpRelations.entrySet()) {
+            AtpAtpRelationInfo rltn = entry.getValue();
             if (rltn.getAtpId().equals(atpId) || rltn.getRelatedAtpId().equals(atpId)) {
                 atpRltnList.add(new AtpAtpRelationInfo(rltn));
             }

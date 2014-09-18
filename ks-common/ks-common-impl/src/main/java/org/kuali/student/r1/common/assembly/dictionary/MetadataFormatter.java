@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.assembly.dictionary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
@@ -192,10 +193,9 @@ public class MetadataFormatter {
 			StringBuilder type = new StringBuilder();
 			type.append("LIST of ");
 			String comma = "";
-			for (String key : fieldMeta.getProperties().keySet()) {
+			for (Map.Entry<String, Metadata> entry: fieldMeta.getProperties().entrySet()) {
 				type.append(comma);
-				type.append(fieldMeta.getProperties().get(key).getDataType()
-						.toString());
+				type.append(entry.getValue().getDataType().toString());
 				comma = ", ";
 			}
 			return type.toString();
@@ -391,12 +391,12 @@ public class MetadataFormatter {
   bldr.append (" " + lm.getWidget ());
   String and = " with option ";
   if (lm.getWidgetOptions () != null) {
-   for (LookupMetadata.WidgetOption wo: lm.getWidgetOptions ().keySet ())
+   for (Map.Entry<LookupMetadata.WidgetOption, String> entry: lm.getWidgetOptions ().entrySet())
    {
     bldr.append (" and ");
-    bldr.append (wo);
+    bldr.append (entry.getKey());
     bldr.append ("=");
-    bldr.append (lm.getWidgetOptions ().get (wo));
+    bldr.append (entry.getValue());
    }
   }
 		and = "";

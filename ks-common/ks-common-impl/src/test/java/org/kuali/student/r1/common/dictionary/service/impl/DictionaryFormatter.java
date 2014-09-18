@@ -33,7 +33,7 @@ public class DictionaryFormatter
  private boolean processSubstructures = false;
  private int level;
  private Map<String, ObjectStructureDefinition> subStructuresToProcess =
-                                                new LinkedHashMap ();
+                                                new LinkedHashMap<>();
  private Set<ObjectStructureDefinition> subStructuresAlreadyProcessed;
 
  public DictionaryFormatter (String name,
@@ -184,12 +184,12 @@ public class DictionaryFormatter
 //  builder.append ("======= end dump of object structure definition ========");
   builder.append (rowSeperator);
   Set<ObjectStructureDefinition> subStructuresAlreadyProcessedBeforeProcessingSubStructures =
-                                 new HashSet ();
+                                 new HashSet<>();
   subStructuresAlreadyProcessedBeforeProcessingSubStructures.addAll (
     subStructuresAlreadyProcessed);
-  for (String subName : this.subStructuresToProcess.keySet ())
+  for (Map.Entry<String, ObjectStructureDefinition> entry : this.subStructuresToProcess.entrySet())
   {
-   ObjectStructureDefinition subOs = this.subStructuresToProcess.get (subName);
+   ObjectStructureDefinition subOs = entry.getValue();
    if ( ! subStructuresAlreadyProcessedBeforeProcessingSubStructures.contains (
      subOs))
    {
@@ -197,7 +197,7 @@ public class DictionaryFormatter
 //    System.out.println ("formatting substructure " + subName);
     Class<?> subClazz = getClass (subOs.getName ());
     DictionaryFormatter formatter =
-                        new DictionaryFormatter (subName, subOs.getName (),
+                        new DictionaryFormatter (entry.getKey(), subOs.getName (),
                                                  subOs,
                                                  subStructuresAlreadyProcessed,
                                                  level + 1,
