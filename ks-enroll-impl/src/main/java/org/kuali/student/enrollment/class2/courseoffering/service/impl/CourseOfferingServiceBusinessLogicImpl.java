@@ -7,6 +7,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
@@ -15,6 +17,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseO
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
+import org.kuali.student.enrollment.class2.courseoffering.service.util.CourseOfferingServiceUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
@@ -214,6 +217,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public void setCourseOfferingServiceExtender(CourseOfferingServiceExtender courseOfferingServiceExtender) {
         this.courseOfferingServiceExtender = courseOfferingServiceExtender;
     }
+
+    @Resource
+    private GesService gesService;
+
+    public GesService getGesService() {
+        return gesService;
+    }
+
+    public void setGesService(GesService gesService) {
+        this.gesService = gesService;
+    }
     // ----------------------------------------------------------------
 
     private boolean generateExamOfferings;
@@ -289,7 +303,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos,
                                                                  ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException {
         Map<String, List<ActivityOfferingInfo>> foIdsToAOList = new HashMap<String, List<ActivityOfferingInfo>>();
         for (FormatOfferingInfo sourceFo: fos) {
             // Make the call with the additional contextAttributes
@@ -311,11 +325,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      */
     private boolean
     _createSourceTermIdToTargetTermIdMapping(Map<String, List<ActivityOfferingInfo>> foIdsToAoList,
-                                 String sourceTermId, String targetTermId,
-                                 Map<String, String> sourceTermIdToTargetTermId,
-                                 ContextInfo contextInfo)
+                                             String sourceTermId, String targetTermId,
+                                             Map<String, String> sourceTermIdToTargetTermId,
+                                             ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException {
         sourceTermIdToTargetTermId.clear();
         // Note: even if sourceTermId and targetTermId are the same, we still need to create the map
         //       for sourceTermIdToTargetTermId
@@ -324,7 +338,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         sourceTermTypeToTermId.put(sourceTerm.getTypeKey(), sourceTermId);
         // Scan through AOs for subterm IDs
         //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
-       for(Map.Entry<String, List<ActivityOfferingInfo>> entry: foIdsToAoList.entrySet()) {
+        for(Map.Entry<String, List<ActivityOfferingInfo>> entry: foIdsToAoList.entrySet()) {
             List<ActivityOfferingInfo> aos = entry.getValue();
             for (ActivityOfferingInfo ao: aos) {
                 String termId = ao.getTermId();
@@ -380,21 +394,43 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // Alas, rollover and copy CO use this code, and they behave differently
         TermInfo targetTerm = acalService.getTerm(targetTermId, context);
         boolean sourceTermSameAsTarget;
-        boolean isTrueRollover = false; // true, if this is really part of rollover
-        boolean isCopyCourseOffering = false; //  true, if used in copy CO (negation of isTrueRollover)
+        boolean isRollover = false; // true, if this is really part of rollover
+        boolean isCopyCourseOffering = false; //  true, if used in copy CO (negation of isRollover)
 
         String rolloverId = context.getAttributeValue(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY);
         if (rolloverId == null) {
             // Happens if we aren't doing a rolloverSoc
             rolloverId = rolloverAssist.getRolloverId(); // Create one just for this CO rollover
             isCopyCourseOffering = true;
-            isTrueRollover = false;
+            isRollover = false;
         } else {
             // Assume we are doing rollover if this ID is being passed.
-            isTrueRollover = true;
+            isRollover = true;
             isCopyCourseOffering = false;
         }
         CourseOfferingInfo sourceCo = coService.getCourseOffering(sourceCoId, context);
+
+        //evaluate Rollover GES configurations
+        if (isRollover) {
+            //evaluate GES configure for instructor include/exclude
+            optionKeys.remove(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+            if (!CourseOfferingServiceUtil.evaluateRolloverGesParameter(GesServiceConstants.PARAMETER_KEY_ROLLOVER_INSTRUCTOR_INFORMATION_INCLUDE, targetTermId, sourceCo.getCourseId(), gesService, context)) {
+                optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+            }
+
+            //evaluate GES configure for cancelled AO include/exclude
+            optionKeys.remove(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+            if (!CourseOfferingServiceUtil.evaluateRolloverGesParameter(GesServiceConstants.PARAMETER_KEY_ROLLOVER_ACTIVITYOFFERING_CANCELLED_INCLUDE, targetTermId, sourceCo.getCourseId(), gesService, context)) {
+                optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+            }
+
+            //evaluate GES configure for scheduling information include/exclude
+            optionKeys.remove(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+            if (!CourseOfferingServiceUtil.evaluateRolloverGesParameter(GesServiceConstants.PARAMETER_KEY_ROLLOVER_SCHEDULING_INFORMATION_INCLUDE, targetTermId, sourceCo.getCourseId(), gesService, context)) {
+                optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+            }
+        }
+
         // Determine if source/target term is same
         sourceTermSameAsTarget = sourceCo.getTermId().equals(targetTerm.getId());
 
@@ -485,7 +521,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
                 ActivityOfferingInfo targetAo;
                 CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
-                if (!isTrueRollover) {
+                if (!isRollover) {
                     // Handles the copy CO scenario
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
@@ -531,7 +567,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // process final exam offerings for target course offering if service is configured and
         // check option keys, could be set to ignore eo generation from ui.
         if(isGenerateExamOfferings() &&
-            (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY))) {
+                (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY))) {
             ExamOfferingContext examOfferingContext = new ExamOfferingContext(targetCo);
             examOfferingContext.setFoIdToListOfAOs(foIdsToAOList);
             examOfferingContext.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context));
@@ -653,9 +689,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     private CourseWaitListInfo _RCO_copyNonsharedWaitlist(CourseWaitListInfo waitListInfo,
-                                            ActivityOfferingInfo targetAo,
-                                            FormatOfferingInfo targetFo,
-                                            ContextInfo context)
+                                                          ActivityOfferingInfo targetAo,
+                                                          FormatOfferingInfo targetFo,
+                                                          ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
         waitListInfo.setId(null);
@@ -756,7 +792,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
         targetCo = coService.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
-        
+
         // have to copy rules AFTER CO is created because the link is by the CO id
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy rules from cannonical too
@@ -809,11 +845,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     private List<ActivityOfferingClusterInfo>
     _RCO_rolloverActivityOfferingClusters(FormatOfferingInfo sourceFo, FormatOfferingInfo targetFo,
-                                                       ContextInfo context,
-                                                       Map<String, String> sourceAoIdToTargetAoId)
+                                          ContextInfo context,
+                                          Map<String, String> sourceAoIdToTargetAoId)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                   PermissionDeniedException, OperationFailedException, DataValidationErrorException,
-                   ReadOnlyException {
+            PermissionDeniedException, OperationFailedException, DataValidationErrorException,
+            ReadOnlyException {
 
         List<ActivityOfferingClusterInfo> sourceClusterList =
                 coService.getActivityOfferingClustersByFormatOffering(sourceFo.getId(), context);
@@ -833,8 +869,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys,
                                                                 ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException,
-                   PermissionDeniedException, VersionMismatchException {
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException {
 
         CourseOfferingInfo co = coService.getCourseOffering(courseOfferingId, context);
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
@@ -846,7 +882,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throw new OperationFailedException("unexpected", ex);
         }
         // TODO: continue traversing down the formats and activities updating from the canonical
-        
+
         // copy rules from canonical
         courseOfferingTransformer.copyRulesFromCanonical(course, co, optionKeys, context);
         return co;
@@ -857,7 +893,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
                                                                           List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException {
+            MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(courseOfferingInfo.getCourseId());
@@ -918,8 +954,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException,
-                   PermissionDeniedException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException {
 
         List<BulkStatusInfo>rgChanges = new ArrayList<BulkStatusInfo>();
         // check for any existing registration groups
@@ -935,14 +971,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         for (String aocId : aocIdList) {
             try {
                 List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(aocId, contextInfo);
-                
+
                 rgChanges.addAll(changes);
             } catch (Exception e) {
                 throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
             }
         }
 
-       
+
         return rgChanges;
     }
 
@@ -962,7 +998,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<BulkStatusInfo> generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Initializes coService
         _initServices();
         return this.generateRegGroupsForClusterHelper(activityOfferingClusterId, contextInfo, false, new ArrayList<RegistrationGroupInfo>(), null, null, null);
@@ -986,12 +1022,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * @throws PermissionDeniedException
      */
     private List<BulkStatusInfo> generateRegGroupsForClusterHelper(String activityOfferingClusterId,
-                                                                         ContextInfo contextInfo,
-                                                                         boolean useCaching,
-                                                                         List<RegistrationGroupInfo> regGroupCache,
-                                                                         ActivityOfferingClusterInfo clusterCache,
-                                                                         FormatOfferingInfo foForCluster,
-                                                                         List<ActivityOfferingInfo> aosInClusterCache)
+                                                                   ContextInfo contextInfo,
+                                                                   boolean useCaching,
+                                                                   List<RegistrationGroupInfo> regGroupCache,
+                                                                   ActivityOfferingClusterInfo clusterCache,
+                                                                   FormatOfferingInfo foForCluster,
+                                                                   List<ActivityOfferingInfo> aosInClusterCache)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();

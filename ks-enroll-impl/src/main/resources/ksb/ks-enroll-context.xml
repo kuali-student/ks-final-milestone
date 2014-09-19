@@ -371,6 +371,7 @@
         <property name="roomService" ref="RoomService"/>
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
         <property name="generateExamOfferings" value="${ks.enroll.examoffering.generateOnRollover.defaultvalue}" />
+        <property name="gesService" ref="GesService"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 

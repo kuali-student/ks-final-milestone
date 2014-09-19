@@ -85,12 +85,12 @@ public class GesServiceRolloverEvaluationDecorator extends GesServiceDecorator {
 
         List<ValueInfo> valueInfoList = this.evaluateValuesForParameterGroup(GesServiceConstants.GES_PARAMETER_GROUP_KEY_ROLLOVER, criteria, contextInfo);
         if (valueInfoList.isEmpty()) {
-            throw new OperationFailedException("No values are configured for the parameters of the parameter group: kuali.ges.parametergroup.key.rollover");
+            throw new DoesNotExistException("No values are configured for the parameters of the parameter group: " + GesServiceConstants.GES_PARAMETER_GROUP_KEY_ROLLOVER);
         }
 
         Map<String, List<ValueInfo>> valueMap = generateGesEvaluationValueMap(valueInfoList);
         if (!valueMap.containsKey(parameterKey) || valueMap.get(parameterKey)==null || valueMap.get(parameterKey).isEmpty()) {
-            throw new OperationFailedException("Parameter: " + parameterKey + " is not active or no values are configured for it.");
+            throw new DoesNotExistException("Parameter: " + parameterKey + " is not active or no values are configured for it.");
         }
 
         CourseInfo courseInfo = getCourseService().getCourse(criteria.getCourseId(), contextInfo);
@@ -117,7 +117,7 @@ public class GesServiceRolloverEvaluationDecorator extends GesServiceDecorator {
         if (hasDefaultValue) {
             return valueMap.get(parameterKey).get(defaultValueIndex);
         } else {
-            throw new OperationFailedException("Parameter: " + parameterKey + " is not active or no values are configured for it.");
+            throw new DoesNotExistException("No values are applied to the course: " + criteria.getCourseId());
         }
 
     }
