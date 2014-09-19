@@ -185,9 +185,11 @@ function setupReviewPage(validate) {
 function fixComparisonDataSizes() {
      //  This will have to be reworked for use outside of review course proposal.
      var w = jQuery("#CM-ViewCourseView-CourseInfo-Course-Titlenew_control").width();
-     jQuery("pre").each(function (index) {
-         jQuery(this).width(w + "px");
-     });
+    if ( w != null && w != 0 ) {
+         jQuery("pre").each(function (index) {
+             jQuery(this).width(w + "px");
+         });
+    }
 }
 
 /**
