@@ -371,7 +371,11 @@ public class DefaultTermHelper implements TermHelper {
     }
 
     /**
-     * Registration is considered open so long as the schedule adjustment period has not ended.
+     * Registration is considered open:
+     * There exist a first day to add classes : Registration Open Key date start date
+     * There exist a last day to add classes : Schedule Adjustment Period key date end date
+     * Current date is after start date
+     * Current date is before last date
      *
      * @see org.kuali.student.ap.framework.context.TermHelper#isRegistrationOpen(String)
      */
@@ -379,8 +383,10 @@ public class DefaultTermHelper implements TermHelper {
     public boolean isRegistrationOpen(String termId) {
         Date now = KsapHelperUtil.getCurrentDate();
         KeyDateInfo endOfScheduleAdjustment = null;
+        KeyDateInfo registrationServiceOpen = null;
         try {
             endOfScheduleAdjustment = getLastDayToAddClassesForTerm(termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            registrationServiceOpen = getFirstDayToAddClassesForTerm(termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("Acal lookup failure", e);
         } catch (InvalidParameterException e) {
@@ -392,9 +398,13 @@ public class DefaultTermHelper implements TermHelper {
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Acal lookup failure", e);
         }
-        boolean isRegistrationOpen = true;
-        if(endOfScheduleAdjustment!=null){
-            isRegistrationOpen = !endOfScheduleAdjustment.getEndDate().before(now);
+        boolean isRegistrationOpen = false;
+        if(endOfScheduleAdjustment != null && registrationServiceOpen != null){
+            if(endOfScheduleAdjustment.getEndDate().after(now)){
+                if(registrationServiceOpen.getStartDate().before(now)){
+                    isRegistrationOpen = true;
+                }
+            }
         }
         return isRegistrationOpen;
     }
@@ -768,13 +778,10 @@ public class DefaultTermHelper implements TermHelper {
             return lastDayToAddClasses;
         }
         List<String> keyDateIds = new ArrayList<String>();
-        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
-        int firstSearchResultCellInfo = 0;
-        // Extract out IDs.  Each row should have one cell with one key, so just grab the value (which is an ID)
+
+        // Extract out IDs.
         for (SearchResultRowInfo row: searchResult.getRows()) {
-            List<SearchResultCellInfo> cells = row.getCells();
-            String id = cells.get(firstSearchResultCellInfo).getValue(); // keydate ID
-            keyDateIds.add(id);
+            keyDateIds.add(KsapHelperUtil.getCellValue(row,"milestone.resultColumn.milestoneId"));
         }
         int first = 0;
         if (keyDateIds.size()>=1){
@@ -783,6 +790,41 @@ public class DefaultTermHelper implements TermHelper {
             lastDayToAddClasses= KsapFrameworkServiceLocator.getAcademicCalendarService().getKeyDate(keyDateIds.get(first), context);
         }
         return lastDayToAddClasses;
+    }
+
+    /*
+    *  retrieve LastDayToAddClasses KeydateInfo for a sepcified term
+    */
+    private KeyDateInfo getFirstDayToAddClassesForTerm(String termId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException {
+        KeyDateInfo  firstDayToAddClasses = null;
+        // Find the registration/instructional milestone types.  These appear to, collectively,
+        // constitute the keydate types.
+        SearchRequestInfo searchRequest = new SearchRequestInfo(
+                AtpSearchServiceConstants.ATP_SEARCH_MILESTONE_IDS_BY_ATP_ID);
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_ATP_ID, termId);
+        //Specify the type key for "First Day to Add Classes"
+        List<String> keydateTypes = new ArrayList<String>();
+        keydateTypes.add(AtpServiceConstants.MILESTONE_REGISTRATION_SERVICES_OPEN_TYPE_KEY);
+        // Make query
+        searchRequest.addParam(AtpSearchServiceConstants.ATP_QUERYPARAM_MILESTONE_TYPES, keydateTypes);
+        SearchResultInfo searchResult = KsapFrameworkServiceLocator.getAtpService().search(searchRequest, context);
+        if(searchResult.getRows().size()== 0){
+            //No firstDayToAddClasses has been defined for the specified term
+            return firstDayToAddClasses;
+        }
+        List<String> keyDateIds = new ArrayList<String>();
+        // Extract out IDs.
+        for (SearchResultRowInfo row: searchResult.getRows()) {
+            keyDateIds.add(KsapHelperUtil.getCellValue(row,"milestone.resultColumn.milestoneId"));
+        }
+        int first = 0;
+        if (keyDateIds.size()>=1){
+            //normally the KS application prevents to create more than one instance for firstDayToAddClasses
+            //if return more than one, we only take the first one
+            firstDayToAddClasses= KsapFrameworkServiceLocator.getAcademicCalendarService().getKeyDate(keyDateIds.get(first), context);
+        }
+        return firstDayToAddClasses;
     }
 
     private Term getFirstPlanningTerm(){
