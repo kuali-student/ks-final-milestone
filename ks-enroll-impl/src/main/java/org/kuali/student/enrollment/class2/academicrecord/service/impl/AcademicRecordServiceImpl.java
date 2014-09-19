@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -8,13 +9,19 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,11 +81,76 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
     }
 
     @Override
+    public List<String> searchForStudentCourseRecordIds(QueryByCriteria criteria,
+                                                        ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(QueryByCriteria criteria,
+                                                                       ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentCourseRecord(String validationTypeKey,
+                                                                  String studentCourseRecordTypeKey,
+                                                                  StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
     public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
             String personId, String termId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return academicRecordServiceCurrent.getAttemptedCourseRecordsForTerm(personId, termId, context);
+    }
+
+    @Override
+    public StudentCourseRecordInfo getStudentCourseRecord(String studentCourseRecordId,
+                                                          ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(List<String> studentCourseRecordIds,
+                                                                      ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public List<String> getStudentCourseRecordIdsByType(String studentCourseRecordTypeKey,
+                                                        ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
     }
 
     @Override
@@ -112,8 +184,46 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return academicRecordServiceCurrent.getCompletedCourseRecordsForTerm(personId, termId, context);
 	}
-	
-	@Override
+
+    @Override
+    public StudentCourseRecordInfo createStudentCourseRecord(String personId, String studentCourseRecordTypeKey,
+                                                             StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
+    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
 	public GPAInfo getGPAForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,

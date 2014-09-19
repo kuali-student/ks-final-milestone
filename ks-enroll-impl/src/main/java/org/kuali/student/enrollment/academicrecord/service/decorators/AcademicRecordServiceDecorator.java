@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.academicrecord.service.decorators;
 
 import java.util.List;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -25,11 +27,16 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import javax.jws.WebParam;
 
@@ -54,6 +61,31 @@ public class AcademicRecordServiceDecorator
             OperationFailedException,
             PermissionDeniedException {
         return nextDecorator.getAttemptedCourseRecordsForTerm(personId, termId, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo getStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecord(studentCourseRecordId, contextInfo);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(List<String> studentCourseRecordIds,
+                                                                      ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordsByIds(studentCourseRecordIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getStudentCourseRecordIdsByType(String studentCourseRecordTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordIdsByType(studentCourseRecordTypeKey, contextInfo);
     }
 
     @Override
@@ -87,6 +119,31 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
+    public List<String> searchForStudentCourseRecordIds(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return nextDecorator.searchForStudentCourseRecordIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentCourseRecords(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentCourseRecord(String validationTypeKey,
+                                                                  String studentCourseRecordTypeKey,
+                                                                  StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStudentCourseRecord(validationTypeKey, studentCourseRecordTypeKey,
+                studentCourseRecordInfo, contextInfo);
+    }
+
+    @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId,
             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
@@ -104,6 +161,39 @@ public class AcademicRecordServiceDecorator
             OperationFailedException,
             PermissionDeniedException {
         return nextDecorator.getCompletedCourseRecordsForTerm(personId, termId, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo createStudentCourseRecord(String personId,
+                                                             String studentCourseRecordTypeKey,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        return nextDecorator.createStudentCourseRecord(personId, studentCourseRecordTypeKey,
+                studentCourseRecord, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException {
+        return nextDecorator.updateStudentCourseRecord(studentCourseRecordId, studentCourseRecord, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteStudentCourseRecord(studentCourseRecordId, contextInfo);
     }
 
     @Override

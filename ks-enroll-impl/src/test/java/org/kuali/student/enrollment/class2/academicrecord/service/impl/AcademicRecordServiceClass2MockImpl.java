@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
@@ -35,11 +36,16 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,6 +177,58 @@ public class AcademicRecordServiceClass2MockImpl implements
         return courseRecords;
     }
 
+    @Override
+    public StudentCourseRecordInfo getStudentCourseRecord(String studentCourseRecordId,
+                                                          ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        for (StudentCourseRecordInfo courseRecord : courseRecordInfoList) {
+            if (courseRecord.getId().equals(studentCourseRecordId)) {
+                return courseRecord;
+            }
+        }
+        throw new DoesNotExistException("No course records for studentCourseRecordId = " + studentCourseRecordId);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(List<String> studentCourseRecordIds,
+                                                                      ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+        for (StudentCourseRecordInfo courseRecord : courseRecordInfoList) {
+            if (studentCourseRecordIds.contains(courseRecord.getId())) {
+                courseRecords.add(courseRecord);
+            }
+        }
+        return courseRecords;
+    }
+
+    @Override
+    public List<String> getStudentCourseRecordIdsByType(String studentCourseRecordTypeKey,
+                                                        ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        List<String> ids = new ArrayList<String>();
+        for (StudentCourseRecordInfo courseRecord : courseRecordInfoList) {
+            if (courseRecord.getTypeKey().equals(studentCourseRecordTypeKey)) {
+                ids.add(courseRecord.getId());
+            }
+        }
+        return ids;
+    }
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#getCompletedCourseRecords(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
@@ -216,6 +274,39 @@ public class AcademicRecordServiceClass2MockImpl implements
             studentCourseRecords.addAll(getStudentCourseRecordsForCourse(personId, courseId, contextInfo));
         }
         return studentCourseRecords;
+    }
+
+    @Override
+    public List<String> searchForStudentCourseRecordIds(QueryByCriteria criteria,
+                                                        ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("searchForStudentCourseRecordIds not yet implemented");
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(QueryByCriteria criteria,
+                                                                       ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("searchForStudentCourseRecords not yet implemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentCourseRecord(String validationTypeKey,
+                                                                  String studentCourseRecordTypeKey,
+                                                                  StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("validateStudentCourseRecord not yet implemented");
     }
 
     /* (non-Javadoc)
@@ -269,6 +360,44 @@ public class AcademicRecordServiceClass2MockImpl implements
             }
         }
         return courseRecords;
+    }
+
+    @Override
+    public StudentCourseRecordInfo createStudentCourseRecord(String personId, String studentCourseRecordTypeKey,
+                                                             StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        throw new OperationFailedException("createStudentCourseRecord not yet implemented");
+    }
+
+    @Override
+    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+        throw new OperationFailedException("updateStudentCourseRecord not yet implemented");
+    }
+
+    @Override
+    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("deleteStudentCourseRecord not yet implemented");
     }
 
     /* (non-Javadoc)
