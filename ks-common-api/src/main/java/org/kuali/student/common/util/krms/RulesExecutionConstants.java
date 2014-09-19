@@ -79,6 +79,7 @@ public class RulesExecutionConstants {
     public static final Term POPULATION_SERVICE_TERM = new Term("populationService");
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
     public static final Term GES_SERVICE_TERM = new Term("gesService");
+    public static final Term REQUISITES_SERVICE_TERM = new Term("requisitesService");
     // factories
     public static final Term RULE_FACTORY_TERM = new Term("ruleFactory");
     public static final Term PROPOSITION_FACTORY_TERM = new Term("propositionFactory");
