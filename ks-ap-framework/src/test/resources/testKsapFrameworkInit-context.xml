@@ -138,4 +138,6 @@
     <bean id ="courseSeatCountServiceMockImpl"
           class="org.kuali.student.ap.test.mock.CourseSeatCountServiceMockImpl"/>
 
+    <bean id="gesService" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl"/>
+
 </beans>
