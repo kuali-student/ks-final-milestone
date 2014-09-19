@@ -26,7 +26,6 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
-import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -51,40 +50,10 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        List<CourseProposalUtil.TermResult> termResults = new ArrayList<CourseProposalUtil.TermResult>();
-
-        if (model instanceof MaintenanceDocumentForm) {
-            MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
-            if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper){
-                CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-                if( StringUtils.isEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())){
-                    keyValues = getStartTerms(model);
-                }else if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
-                    termResults = CourseProposalUtil.getNextTerms(courseInfoWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
-                }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
-                    courseInfoWrapper.getCourseInfo().setEndTerm(null);
-                }
-
-            } else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
-                RetireCourseWrapper retireCourseWrapper = ((RetireCourseWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-                termResults = CourseProposalUtil.getNextTerms(retireCourseWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
-            }
-        }
-        for (CourseProposalUtil.TermResult result : termResults) {
-            keyValues.add(new ConcreteKeyValue(result.getAtpId() , result.getShortName()));
-        }
-
-        return keyValues;
-    }
-
-
-
-    public List<KeyValue> getStartTerms(ViewModel model) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.in("typeKey", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY ));
+                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,AtpServiceConstants.ATP_WINTER_TYPE_KEY ));
 
         QueryByCriteria qbc = qbcBuilder.build();
         try {
@@ -93,9 +62,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
 
             sortResultList(searchResult);
 
-            for (AtpInfo result : searchResult) {
-                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
-            }
+            populateAtpInfoWithStartEndDateCheck(model, keyValues, searchResult);
 
         } catch (Exception ex) {
             throw new RuntimeException("Could not retrieve the ATP duration Dates", ex);
@@ -104,9 +71,58 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     *
+     * populates the AtpInfo for the list This method is used to ensures that EndDate is
+     * always greater than startDate.
+     * 
+     * @param model
+     * @param keyValues
+     * @param searchResult
+     */
+    private void populateAtpInfoWithStartEndDateCheck(ViewModel model, List<KeyValue> keyValues,
+            List<AtpInfo> searchResult) {
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
+
+            if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper){
+                CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+                if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
+
+                    for (int i = 0; i < searchResult.size(); i++) {
+                        if (courseInfoWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                            break;
+                        }
+                        else {
+                            searchResult.remove(searchResult.get(i));
+                            i--;
+                        }
+                    }
+                }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
+                    courseInfoWrapper.getCourseInfo().setEndTerm(null);
+                }
+            } else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
+                RetireCourseWrapper retireCourseWrapper = ((RetireCourseWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+                for (int i = 0; i < searchResult.size(); i++) {
+                    if (retireCourseWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                        break;
+                    }
+                    else {
+                        searchResult.remove(searchResult.get(i));
+                        i--;
+                    }
+                }
+            }
+
+            for (AtpInfo result : searchResult) {
+                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
+            }
+
+        }
+    }
+
+    /**
+     * 
      * Sorts the resultList in Asc order
-     *
+     * 
      * @param searchResult
      */
     private void sortResultList(List<AtpInfo> searchResult) {
@@ -125,8 +141,4 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         }
         return atpService;
     }
-
-
-
-
 }
