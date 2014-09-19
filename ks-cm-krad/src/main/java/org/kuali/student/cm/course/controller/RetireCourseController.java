@@ -261,26 +261,6 @@ public class RetireCourseController extends ProposalController {
         }
     }
 
-    @Override
-    @RequestMapping(params = "methodToCall=back")
-    public ModelAndView back(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
-        DocumentFormBase theForm = (DocumentFormBase) form;
-
-        RetireCourseWrapper courseWrapper = getRetireCourseWrapper(theForm);
-        String cluId = courseWrapper.getCourseInfo().getId();
-
-        Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
-        props.put(CurriculumManagementConstants.UrlParams.COURSE_ID, cluId);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
-
-        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
-
-        return super.performRedirect(theForm, courseBaseUrl, props);
-    }
-
     /**
      * This will approve and retire an admin retire proposal.
      *

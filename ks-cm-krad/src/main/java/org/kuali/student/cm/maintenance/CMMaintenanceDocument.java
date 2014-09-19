@@ -114,6 +114,8 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
                     ProposalInfo proposalInfo = ((ProposalMaintainable)getNewMaintainableObject()).getProposalInfo();
                     if (proposalInfo != null) {
                         getDocumentHeader().getWorkflowDocument().setApplicationDocumentId(proposalInfo.getId());
+                    } else {
+                        LOG.warn("No ProposalInfo object found for document with id: " + getDocumentHeader().getWorkflowDocument().getDocumentId());
                     }
                 }
             }
