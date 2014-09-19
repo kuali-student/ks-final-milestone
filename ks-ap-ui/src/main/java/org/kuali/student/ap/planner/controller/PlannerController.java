@@ -17,6 +17,7 @@ import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
+import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -71,6 +72,7 @@ public class PlannerController extends KsapControllerBase {
     private static final String PLANNER_CALENDAR_FORM = "PlannerCalendar-FormView";
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
 	private static final String ADD_TO_PLAN_DIALOG_FORM = "KSAP-AddToPlanDialog-FormView";
+	private static final String QUICKADD_TO_PLAN_DIALOG_FORM = "KSAP-QuickAddToPlanDialog-FormView";
 
 	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
@@ -754,7 +756,7 @@ public class PlannerController extends KsapControllerBase {
     }
 
     /**
-     * Loads the initial information for any dialog screen opened in the planner.
+     * Loads the initial information for the normal add dialog screen.
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=startAddCourseToPlanDialog")
@@ -778,6 +780,36 @@ public class PlannerController extends KsapControllerBase {
 
         UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
                 .loadAddToPlanDialogForm(form,dialogForm,request,response);
+
+        return getUIFModelAndView(completedForm);
+
+    }
+
+    /**
+     * Loads the initial information for the quick add dialog screen opened in the planner.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startQuickAddCourseToPlanDialog")
+    public ModelAndView startQuickAddCourseToPlanDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                                   HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+        if (plan == null)
+            return null;
+
+        QuickAddCourseToPlanForm dialogForm = new QuickAddCourseToPlanForm();
+        super.start(dialogForm, request, response);
+
+        // Copy information from original view
+        dialogForm.setFormPostUrl(form.getFormPostUrl());
+        dialogForm.setRequestUrl(form.getRequestUrl());
+
+        dialogForm.setViewId(QUICKADD_TO_PLAN_DIALOG_FORM);
+        dialogForm.setView(super.getViewService().getViewById(QUICKADD_TO_PLAN_DIALOG_FORM));
+
+
+        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                .loadQuickAddToPlanDialogForm(form,dialogForm,request,response);
 
         return getUIFModelAndView(completedForm);
 

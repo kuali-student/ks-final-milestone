@@ -30,6 +30,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
+import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -113,6 +114,21 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
         List<String> plannedTermIds = KsapFrameworkServiceLocator.getPlanHelper().getTermIdsForPlanItems(planItems);
         dialogForm.setPlannedTermIds(plannedTermIds);
+
+        return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadQuickAddToPlanDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadQuickAddToPlanDialogForm(UifFormBase submittedForm, QuickAddCourseToPlanForm dialogForm, HttpServletRequest request, HttpServletResponse response){
+        String termId = request.getParameter("termId");
+        boolean backup = Boolean.parseBoolean(request.getParameter("backup"));
+
+        dialogForm.setTermId(termId);
+        dialogForm.setBackup(backup);
+        dialogForm.setTermName(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId).getLongName());
 
         return dialogForm;
     }

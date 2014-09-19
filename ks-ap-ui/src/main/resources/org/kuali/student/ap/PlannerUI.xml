@@ -659,7 +659,7 @@
         </property>
         <property name="render" value="@{#line.type == 'AddItem'}"/>
         <property name="onClickScript"
-                  value="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);" />
+                  value="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startQuickAddCourseToPlanDialog', this, e);" />
         <property name="dataAttributes">
             <map>
                 <entry key="termid" value="@{#line.termId}" />
@@ -670,11 +670,12 @@
             <list>
                 <bean parent="Uif-ActionLink"
                       p:actionLabel="@{#textHelper.getText('planner.body.add.course')}"
-                      p:actionScript="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startDialog', this, e);"
+                      p:actionScript="ksapOpenPlanDialog('planner_add_course_page', 'planner', 'startQuickAddCourseToPlanDialog', this, e);"
                       p:id="@{#line.termId}_@{#line.categoryString}_Addcourse">
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
+                            <entry key="backup" value="@{#line.categoryString == 'backup' ? 'true' : 'false'}" />
                         </map>
                     </property>
                     <property name="additionalCssClasses">
