@@ -73,8 +73,11 @@ import java.util.Map;
 /**
  * This class is a proposition that does a time conflict check for registration requests.
  *
+ * Deprecated and replaced by BestEffortTimeConflictTermResolver.java
+ *
  * @author Kuali Student Team
  */
+@Deprecated
 public class BestEffortTimeConflictProposition extends AbstractBestEffortProposition {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(BestEffortTimeConflictProposition.class);

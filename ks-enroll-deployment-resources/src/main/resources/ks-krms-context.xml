@@ -22,11 +22,6 @@
     <bean id="customPropositionTypeService" class="org.kuali.student.core.krms.proposition.CustomPropositionTypeService">
         <property name="propositionMap">
             <map>
-                <entry key="kuali.prop.best.effort.time.conflict">
-                    <bean class="org.kuali.student.enrollment.krms.proposition.BestEffortTimeConflictProposition">
-                        <property name="countWaitlistedCoursesTowardsTimeConflict" value="true"/>
-                    </bean>
-                </entry>
                 <entry key="kuali.prop.course.antirequisites">
                     <bean class="org.kuali.student.enrollment.krms.proposition.RequisitesProposition">
                         <property name="agendaType" value="kuali.krms.agenda.type.course.enrollmentEligibility"/>
