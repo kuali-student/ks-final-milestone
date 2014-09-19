@@ -153,8 +153,23 @@ public class CourseProposalUtil {
             return false;
         }
 
-        return isModifyNewVersion(courseInfo,contextInfo);
+        return hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo);
     }
+
+    /**
+     * A course cannot be modified to new version if:
+     * - There is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * - There is no version in "in progress" 'RETIRE' state.
+     * @param courseInfo
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+
+    public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+        return (hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo) && hasInProgressProposalForCourse(courseInfo));
+    }
+
 
     /**
      * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
@@ -163,7 +178,7 @@ public class CourseProposalUtil {
      * @return
      * @throws Exception
      */
-    public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+    public static boolean hasInprogressDraftOrSupersededVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
 
         String versionIndId = courseInfo.getVersion().getVersionIndId();
         Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
