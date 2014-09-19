@@ -77,4 +77,9 @@
             <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
         </searchable>
     </cache>
+
+    <!-- These caches are for Requisites. -->
+    <cache name="agendaCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="agendaItemCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+
 </ehcache>
