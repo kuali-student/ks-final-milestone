@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl', ['$scope', '$modal', '$timeout', '$q', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'COURSE_TYPES', 'GENERAL_ERROR_TYPE',
-        'GlobalVarsService', 'MessageService', 'TermsService', 'CartService', 'ScheduleService', 'RegUtil',
-    function ($scope, $modal, $timeout, $q, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES, GENERAL_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService, ScheduleService, RegUtil) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', '$q', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK',
+        'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'VALIDATION_ERROR_TYPE', 'GlobalVarsService', 'MessageService',
+        'TermsService', 'CartService', 'ScheduleService', 'RegUtil',
+    function ($scope, $modal, $timeout, $q, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES,
+              GENERAL_ERROR_TYPE, VALIDATION_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService,
+              ScheduleService, RegUtil) {
         console.log('>> CartCtrl');
 
         $scope.states = STATE;
@@ -416,9 +419,19 @@ angular.module('regCartApp')
                                     }
                                     break;
 
-                                case STATUS.waitlist:
-                                case STATUS.action: // waitlist action available
+                                case STATUS.waitlist: // add to waitlist successful
                                     cartResultItem.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(cartResultItem.status);
+                                    break;
+                                case STATUS.action: // waitlist action available
+                                    // remove all messages that are not related to the waitlist
+                                    for (var i = cartResultItem.statusMessages.length - 1; i>=0; i--) {
+                                        var messageKey = cartResultItem.statusMessages[i].messageKey;
+                                        if (angular.isString(messageKey)) {
+                                            if (messageKey !== VALIDATION_ERROR_TYPE.waitlistAvailable) {
+                                                cartResultItem.statusMessages.splice(i, 1);
+                                            }
+                                        }
+                                    }
                                     break;
                             }
                         }
@@ -463,8 +476,14 @@ angular.module('regCartApp')
                         success++;
                         break;
                     case STATUS.waitlist: // Waitlist action successful
-                        success++; // Also increment the successes
-                        waitlisted++;
+                        // if waitlist success is the only message, show a success icon, otherwise show an info icon
+                        if (angular.isArray(item.statusMessages) && item.statusMessages.length > 1) {
+                            info++;
+                            item.status = STATUS.info;
+                        } else {
+                            success++; // Also increment the successes
+                            waitlisted++;
+                        }
                         break;
                     case STATUS.action: // Waitlist action available
                         waitlist++;
