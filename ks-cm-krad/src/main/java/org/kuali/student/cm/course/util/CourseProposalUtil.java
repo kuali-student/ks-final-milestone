@@ -439,7 +439,7 @@ public class CourseProposalUtil {
         termTypeKeys.add("kuali.atp.type.Spring");
         termTypeKeys.add("kuali.atp.type.Fall");
 
-        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.PREVIOUS, contextInfo);
+        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.NEXT, contextInfo);
 
         Collections.sort(termResults, new Comparator<TermResult>() {
             public int compare(TermResult first, TermResult second) {
