@@ -352,6 +352,11 @@ function ksapDisableTermsAsPlanned(inputElementId) {
     }
 }
 
+
+/**
+ * Planner Quick Add - Code Input Field and Submit Button
+ *
+ */
 function ksapQuickAddCodeInput() {
     var input = jQuery('.ksap-dialog-courseCode input')
     var submit = jQuery("#popupForm").find("#submit_dialog_button");
