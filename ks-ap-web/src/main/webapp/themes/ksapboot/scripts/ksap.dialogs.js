@@ -281,10 +281,12 @@ function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
     } else {
         // Display error response message on dialog
         var feedback = jQuery("#popupForm").find(".ksap-feedback");
+        var input =  jQuery("#popupForm").find("#code_control"); //For Planner Quick Add Dialog
         feedback.empty().append("<span/>").text(response.message);
         feedback.addClass("error");
         feedback.removeClass("success");
         feedback.show();
+        input.addClass("error");
     }
 }
 
@@ -325,7 +327,9 @@ function ksapOpenPlanDialog(pageId, action, methodToCall, target, e) {
     };
     jQuery.extend(retrieveData);
     ksapOpenDialog(pageId, action, methodToCall, target, e, retrieveData)
+
 }
+
 
 /**
  * Handles marking planned terms as disabled in the "Add to Plan" dialog.
@@ -346,4 +350,18 @@ function ksapDisableTermsAsPlanned(inputElementId) {
             option.next().attr('selected', 'selected');
         }
     }
+}
+
+function ksapQuickAddCodeInput() {
+    var input = jQuery('.ksap-dialog-courseCode input')
+    var submit = jQuery("#popupForm").find("#submit_dialog_button");
+    input.focus();
+    input.change(function() {
+        if (input.val() == '') {
+            submit.addClass("disabled");
+        }
+        else {
+            submit.removeClass("disabled");
+        }
+    });
 }

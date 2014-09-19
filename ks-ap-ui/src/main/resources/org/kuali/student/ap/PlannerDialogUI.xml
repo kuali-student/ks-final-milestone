@@ -87,7 +87,8 @@
 											<list>
 												<bean parent="planner_submit_button"
                                                       p:actionLabel="@{#textHelper.getText('dialog.planner.add.button')}"
-                                                      p:actionScript="ksapSubmitDialog('planner_add_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_add_course_page',e);"
+                                                      p:additionalCssClasses="disabled"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -121,7 +122,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.term.edit.button')}"
+												<bean parent="planner_submit_button"
+                                                      p:actionLabel="@{#textHelper.getText('dialog.planner.term.edit.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_edit_term_note_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
@@ -797,7 +799,7 @@
         <property name="id" value="code" />
 		<property name="control">
 			<bean parent="KS-Uif-TextControl">
-                <property name="onDocumentReadyScript" value="jQuery('.ksap-dialog-courseCode input').focus();" />
+                <property name="onDocumentReadyScript" value="ksapQuickAddCodeInput()" />
 				<property name="watermarkText" value="@{#textHelper.getText('dialog.component.course.code.watermark')}" />
 				<property name="maxLength" value="50" />
 				<property name="size" value ="25"/>

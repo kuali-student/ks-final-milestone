@@ -356,10 +356,6 @@ public class PlannerController extends KsapControllerBase {
 		String termId = form.getTermId();
 
 		String courseCd = form.getCourseCd();
-		if (!StringUtils.hasText(courseCd)) {
-			PlanEventUtils.sendJsonEvents(false, "Course code required", response, eventList);
-			return null;
-		}
 
         // Retrieve course information using the course code entered by the user
 		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
