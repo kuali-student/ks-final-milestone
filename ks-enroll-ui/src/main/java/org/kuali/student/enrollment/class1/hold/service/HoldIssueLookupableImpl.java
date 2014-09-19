@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class1.hold.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
@@ -34,8 +34,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class HoldIssueLookupableImpl extends LookupableImpl {
-
+public class HoldIssueLookupableImpl extends KSLookupableImpl {
 
     @Override
     public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {

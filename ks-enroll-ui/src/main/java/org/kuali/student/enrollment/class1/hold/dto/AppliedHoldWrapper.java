@@ -61,9 +61,6 @@ public class AppliedHoldWrapper implements Serializable {
     }
 
     public HoldIssueInfo getHoldIssue() {
-        if(holdIssue == null) {
-            holdIssue = new HoldIssueInfo();
-        }
         return holdIssue;
     }
 

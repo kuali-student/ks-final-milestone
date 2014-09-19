@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.class1.hold.controller;
 
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRefreshBuild;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
@@ -179,8 +181,22 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
-            return getUIFModelAndView(form);
+            holdWrapper.setHoldIssue(null);
         }
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=refresh")
+    public ModelAndView refresh(@ModelAttribute("KualiForm") final UifFormBase form, BindingResult result,
+                                final HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ViewLifecycle.encapsulateLifecycle(form.getView(), form, form.getViewPostMetadata(), null, request, response,
+                new ViewLifecycleRefreshBuild());
+
+        AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
+        holdWrapper.setHoldIssue(this.getViewHelper(form).searchHoldIssueByCode(holdWrapper.getHoldCode()));
+
         return getUIFModelAndView(form);
     }
 

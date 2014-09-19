@@ -106,7 +106,7 @@ limitations under the License.
     <bean id="KS-ApplyHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean id="applyHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:disabled="@{#dp.maintenanceHold.holdIssue.id eq null}"
+                <bean id="applyHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:disabled="@{#dp.maintenanceHold.holdIssue eq null}"
                       p:methodToCall="apply" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
@@ -128,12 +128,19 @@ limitations under the License.
                          <list>
                              <!--TODO-->
                             <ref bean="KS-ApplyHold-HoldCode-Section-CodeInput"/>
-                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" p:style="margin-top:19px"/>
+                            <!--<bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"-->
+                                  <!--p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" p:style="margin-top:19px"/>-->
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue.id != null}">
+                <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue != null}">
+                    <property name="refreshWhenChangedPropertyNames">
+                        <list>
+                            <value>#dp.holdCode</value>
+                            <value>holdCode</value>
+                        </list>
+                    </property>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
@@ -196,6 +203,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
     </bean>
 
     <bean id="KS-EditHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
