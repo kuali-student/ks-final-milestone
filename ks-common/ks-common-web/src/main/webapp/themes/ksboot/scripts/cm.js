@@ -1400,3 +1400,19 @@ function courseRetireErrorStyling(isCurriculumSpecialist) {
        jQuery("#CM-Proposal-Course-Retire-Page").addClass("retire_messages");
     }
 }
+
+/**
+ * This function performs a ajax call and fixes the left Nav overlaying issues after the successful ajax call
+ */
+function submitCancelDialog() {
+
+    var fixLeftNavElementPositioningOnDialogClose = function() {
+        if (jQuery('#CM-Proposal-Course-Retire-View').length) {
+            fixLeftNavElementPositioningForRetire(true);
+        }
+        if (jQuery('#CM-Proposal-Course-Create-View').length) {
+            fixLeftNavElementPositioning(true);
+        }
+    }
+    submitForm('cancel', {}, false, true, fixLeftNavElementPositioningOnDialogClose);
+}
