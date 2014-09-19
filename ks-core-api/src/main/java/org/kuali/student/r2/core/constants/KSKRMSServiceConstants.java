@@ -226,7 +226,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_SPEC_COMPLETEDCOURSEFORTERM = "CompletedCourseForTerm";
     public static final String TERM_SPEC_COMPLETEDCOURSEPRIORTOTERM = "CompletedCoursePriorToTerm";
     public static final String TERM_SPEC_COMPLETEDCOURSEBETWEENTERMS = "CompletedCourseBetweenTerms";
-    public static final String TERM_SPEC_POPULATION= "Population";
+    public static final String TERM_SPEC_POPULATION = "Population";
     public static final String TERM_SPEC_INSTRUCTORPERMISSION = "InstructorPermission";
     public static final String TERM_SPEC_MATCHINGTIMESLOT = "MatchingTimeSlot";
     public static final String TERM_SPEC_MATCHINGCOURSE = "MatchingCourse";
@@ -271,12 +271,13 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COURSE_RECORD_FOR_STUDENT = "CourseRecordForStudent";
     public static final String TERM_RESOLVER_GES_VALUE = "GesValue";
     public static final String TERM_RESOLVER_GES_INTEGER_VALUE = "GesIntegerValue";
-    public static final String TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE= "GradeForCourse";
+    public static final String TERM_RESOLVER_STUDENT_WITH_GRADE_FOR_COURSE = "GradeForCourse";
     public static final String TERM_RESOLVER_COURSE_COMPLETED_ATTEMPTS = "CourseCompletedAttempts";
     public static final String TERM_RESOLVER_COURSE_REGISTERED_COUNT = "CourseRegisteredCount";
     public static final String TERM_RESOLVER_COURSE_REPEATABILITY = "CourseRepeatability";
     public static final String TERM_RESOLVER_CUSTOM_COURSE_REPEATABILITY_RULE = "CustomCourseRepeatabilityRule";
     public static final String TERM_RESOLVER_BEST_EFFORT_CREDIT_LOAD = "BestEffortCreditLoad";
+    public static final String TERM_RESOLVER_BEST_EFFORT_TIME_CONFLICT = "BestEffortTimeConflict";
     public static final String TERM_RESOLVER_APPOINTMENT_WINDOW = "AppointmentWindow";
     public static final String TERM_RESOLVER_REG_GROUP_STATE = "RegGroupState";
 
