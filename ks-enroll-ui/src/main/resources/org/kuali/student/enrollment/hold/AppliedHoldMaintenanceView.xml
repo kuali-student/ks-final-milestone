@@ -134,13 +134,6 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue != null}">
-                    <property name="refreshWhenChangedPropertyNames">
-                        <list>
-                            <value>#dp.holdCode</value>
-                            <value>holdCode</value>
-                        </list>
-                    </property>
-                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
@@ -168,6 +161,8 @@ limitations under the License.
                 </bean>
             </list>
         </property>
+        <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+        <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
     </bean>
 
     <bean id="KS-ApplyHold-HoldCode-Section-CodeInput" parent="KS-Uif-InputField" p:label="Hold Code" p:propertyName="holdCode"
@@ -203,7 +198,6 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-        <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
     </bean>
 
     <bean id="KS-EditHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
