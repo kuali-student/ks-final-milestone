@@ -3,7 +3,7 @@
 describe('Directive: ValidationMessage', function() {
 
     // load the module
-    beforeEach(module('regCartApp', 'mockTransactionMessages'));
+    beforeEach(module('regCartApp', 'mockData'));
 
     var $compile,
         scope,

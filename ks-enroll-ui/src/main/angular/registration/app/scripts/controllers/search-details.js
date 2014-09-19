@@ -91,14 +91,13 @@ angular.module('regCartApp')
                                         ao.honors === 'true') {
                                     $scope.additionalInfo = true;
                                 }
-
                             });
 
                             // initialize flags
                             angular.forEach(aoType.formattedOfferings, function(formattedOffering) {
                                 var ao = aoMap[formattedOffering.aoId];
                                 ao.flags = {};
-                                formattedOffering.flags=ao.flags;
+                                formattedOffering.flags = ao.flags;
                             });
                         });
                     }
@@ -109,8 +108,8 @@ angular.module('regCartApp')
                     $scope.loading = false;     // Course done loading
                     $scope.course = result;
 
-                    $scope.updateAOStates();
                     $scope.singleRegGroup = singleRegGroup();
+                    $scope.updateAOStates();
                 } else {
                     $scope.loading = false; // Course loaded
                     console.log('Course load completed but not the most recent, ignoring: "' + courseId + '" !== "' + lastCourseId + '"');
@@ -224,7 +223,7 @@ angular.module('regCartApp')
         // Clear out the action message when the remove button is clicked (X)
         $scope.removeActionMessage = function() {
             $scope.actionType = null;
-            $scope.actionStatus = false;
+            $scope.actionStatus = null;
         };
 
 
@@ -312,13 +311,16 @@ angular.module('regCartApp')
          * Method for determining which activity offerings to show in the table
          */
         $scope.updateAOStates = function() {
-            angular.forEach($scope.course.activityOfferingTypes, function(aoType) {
+            for (var i = 0; i < $scope.course.activityOfferingTypes.length; i++) {
+                var aoType = $scope.course.activityOfferingTypes[i];
                 if (aoType.showAll && $scope.isAOTypeSelected(aoType)) {
                     // Reset the showAll if this AOType is selected
                     aoType.showAll = false;
                 }
 
-                angular.forEach(aoType.activityOfferings, function(ao) {
+                for (var j = 0; j < aoType.activityOfferings.length; j++) {
+                    var ao = aoType.activityOfferings[j];
+
                     ao.flags.selected = isAOSelected(ao);
                     ao.flags.disabled = !isAOCompatible(ao); // AO is disabled if it is not compatible with the selected AOs
 
@@ -331,8 +333,8 @@ angular.module('regCartApp')
                     } else {
                         ao.flags.hidden = true;
                     }
-                });
-            });
+                }
+            }
         };
 
         /*
@@ -354,12 +356,12 @@ angular.module('regCartApp')
                     var rg = selectableRegGroups[regGroupId];
 
                     for (var i = 0; i < rg.activityOfferingIds.length; i++) {
-                        //a forEach loops is needed here because this is a map
-                        angular.forEach($scope.aoMap, function(ao) {
+                        for (var aoId in $scope.aoMap) {
+                            var ao = $scope.aoMap[aoId];
                             if (ao.activityOfferingId === rg.activityOfferingIds[i]) {
                                 selectAO(ao);
                             }
-                        });
+                        }
                     }
 
                     $scope.updateAOStates();
@@ -467,7 +469,7 @@ angular.module('regCartApp')
          */
         function getSelectedAOByType(aoType) {
             // Allow a string value or the object itself to be passed in
-            if (typeof aoType === 'object' && angular.isDefined(aoType.activityOfferingType)) {
+            if (angular.isObject(aoType) && angular.isDefined(aoType.activityOfferingType)) {
                 aoType = aoType.activityOfferingType;
             }
 
@@ -569,7 +571,7 @@ angular.module('regCartApp')
             // Select the AO
             $scope.selectedAOs.push(ao);
 
-            if (!suppressSelection) {
+            if (!(suppressSelection || false)) {
                 ao.flags.selected = true;
             }
         }

@@ -59,10 +59,7 @@ module.exports = function (grunt) {
                     '!<%= yeoman.app %>/components/{,*/}*.spec.js', // Any .js files in /scripts/ but exclude .spec.js files in /components/.
                     '<%= yeoman.app %>/json/{,*/}*.json'
                 ],
-                tasks:[
-                    'newer:jshint:all'
-                    // ,'karma' // Uncomment to automatically run the tests after changes
-                ],
+                tasks:['newer:jshint:all'],
                 options:{
                     livereload:true
                 }
@@ -70,7 +67,7 @@ module.exports = function (grunt) {
             jsTest:{
                 files:[
                     'test/spec/{,*/}*.js',
-                    'test/mock/{,*/}*.json',
+                    'test/mock/{,*/}*',
                     '<%= yeoman.app %>/components/{,*/}*.spec.js'
                 ],
                 tasks:['newer:jshint:test', 'karma']
@@ -124,7 +121,6 @@ module.exports = function (grunt) {
 
                         // Serve static files.
                         options.base.forEach(function(base) {
-                            console.log('Static file: ', options);
                             middlewares.push(connect.static(base));
                         });
 

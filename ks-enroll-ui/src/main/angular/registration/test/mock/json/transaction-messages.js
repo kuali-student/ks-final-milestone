@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mockTransactionMessages', []).value('transactionMessages',
+angular.module('mockData').value('transactionMessages',
     [
         {
             "messageKey": "kuali.cr.cart.message.course.code.and.section.required",

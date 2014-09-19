@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mockStudentScheduleTermResult', []).value('studentScheduleTermResult', {
+angular.module('mockData').value('studentScheduleTermResult', {
     "userId": "admin",
     "term": {
         "termName": "Fall 2012",

@@ -192,7 +192,7 @@ describe('Directive: CourseCalendar', function () {
 describe('Service: CourseCalendarDataParser', function() {
 
     // load the service's module
-    beforeEach(module('regCartApp', 'mockStudentScheduleTermResult'));
+    beforeEach(module('regCartApp', 'mockData'));
 
     var service,
         schedule,

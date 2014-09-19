@@ -29,12 +29,14 @@ module.exports = function(config) {
       // HTML Partials
       '**/*.html',
 
+      // Mock Data
+      //'../test/mock/*.js',
+      '../test/mock/mock-data.js',
+      '../test/mock/{,*/}*.js',
+
       // Tests
       'components/{,*/}*.spec.js',
-      '../test/spec/**/*.js',
-
-      //'../test/mock/*.js',
-      '../test/mock/**/*.js'
+      '../test/spec/{,*/}*.js'
     ],
 
     // list of files / patterns to exclude

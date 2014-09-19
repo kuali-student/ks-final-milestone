@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mockSearchResults', []).value('searchResults', [
+angular.module('mockData').value('searchResults', [
     {
         "courseId": "6174b010-29a2-4ce7-a45d-2e6bf5e2293d",
         "courseCode": "CHEM232",

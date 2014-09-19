@@ -3,7 +3,7 @@
 describe('Service: RegUtil', function () {
 
     // load the service's module
-    beforeEach(module('regCartApp', 'mockStudentScheduleTermResult'));
+    beforeEach(module('regCartApp', 'mockData'));
 
     var RegUtil;
 

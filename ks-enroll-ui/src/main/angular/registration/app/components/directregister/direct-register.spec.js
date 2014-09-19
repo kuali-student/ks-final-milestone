@@ -3,7 +3,7 @@
 describe('Controller: DirectRegisterCtrl', function () {
 
     // load the controller's module
-    beforeEach(module('regCartApp', 'mockStudentScheduleTermResult'));
+    beforeEach(module('regCartApp', 'mockData'));
 
     var ctrl,
         scope,

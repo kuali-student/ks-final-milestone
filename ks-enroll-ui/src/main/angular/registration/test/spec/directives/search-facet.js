@@ -3,7 +3,7 @@
 describe('Directive: SearchFacet', function () {
 
     // load the service's module, mock results, & template
-    beforeEach(module('regCartApp', 'mockSearchResults', 'partials/searchFacet.html'));
+    beforeEach(module('regCartApp', 'mockData', 'partials/searchFacet.html'));
 
     var $compile,
         scope,
