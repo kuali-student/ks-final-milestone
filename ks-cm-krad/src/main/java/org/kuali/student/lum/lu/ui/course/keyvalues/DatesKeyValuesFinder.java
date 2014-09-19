@@ -57,11 +57,14 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
             if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper){
                 CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-                if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
+                if( StringUtils.isEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())){
+                    keyValues = getStartTerms(model);
+                }else if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
                     termResults = CourseProposalUtil.getNextTerms(courseInfoWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
                 }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
                     courseInfoWrapper.getCourseInfo().setEndTerm(null);
                 }
+
             } else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
                 RetireCourseWrapper retireCourseWrapper = ((RetireCourseWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
                 termResults = CourseProposalUtil.getNextTerms(retireCourseWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
@@ -73,6 +76,57 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
 
         return keyValues;
     }
+
+
+
+    public List<KeyValue> getStartTerms(ViewModel model) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.in("typeKey", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
+                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY ));
+
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,
+                    ContextUtils.createDefaultContextInfo());
+
+            sortResultList(searchResult);
+
+            for (AtpInfo result : searchResult) {
+                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
+            }
+
+        } catch (Exception ex) {
+            throw new RuntimeException("Could not retrieve the ATP duration Dates", ex);
+        }
+        return keyValues;
+    }
+
+    /**
+     *
+     * Sorts the resultList in Asc order
+     *
+     * @param searchResult
+     */
+    private void sortResultList(List<AtpInfo> searchResult) {
+        Collections.sort(searchResult, new Comparator<AtpInfo>() {
+            public int compare(AtpInfo m1, AtpInfo m2) {
+                return m1.getCode().compareTo(m2.getCode());
+            }
+        });
+    }
+
+    private AtpService getAtpService() {
+        if (atpService == null)
+        {
+            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
+            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+        }
+        return atpService;
+    }
+
+
 
 
 }
