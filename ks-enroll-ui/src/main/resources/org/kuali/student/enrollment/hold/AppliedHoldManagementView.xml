@@ -23,6 +23,7 @@
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="true"/>
         <property name="headerText" value="Applied Holds@{personHeaderInfo}"/>
+        <property name="applyDirtyCheck" value="false"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
         <property name="formClass"
