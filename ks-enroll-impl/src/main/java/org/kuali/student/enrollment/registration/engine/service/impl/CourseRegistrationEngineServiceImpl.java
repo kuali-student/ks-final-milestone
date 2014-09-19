@@ -179,7 +179,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         lpr.setAtpId(atpId);
         lpr.setCrossListedCode(crossList);
         if (!StringUtils.isEmpty(credits)) {
-            lpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_GROUP_KEY_CREDIT_DEGREE_PREFIX + credits);
+            lpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + credits);
         }
         if (!StringUtils.isEmpty(gradingOptionKey)) {
             lpr.getResultValuesGroupKeys().add(gradingOptionKey);
@@ -473,7 +473,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
         updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
         if (!StringUtils.isEmpty(credits)) {
-            updatedCoLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_GROUP_KEY_CREDIT_DEGREE_PREFIX + credits);
+            updatedCoLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + credits);
         }
         if (!StringUtils.isEmpty(gradingOptionId)) {
             updatedCoLpr.getResultValuesGroupKeys().add(gradingOptionId);
@@ -532,7 +532,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
         masterLpr.setResultValuesGroupKeys(new ArrayList<String>());
         if (!StringUtils.isEmpty(credits)) {
-            masterLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_GROUP_KEY_CREDIT_DEGREE_PREFIX + credits);
+            masterLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + credits);
         }
         if (!StringUtils.isEmpty(gradingOptionId)) {
             masterLpr.getResultValuesGroupKeys().add(gradingOptionId);

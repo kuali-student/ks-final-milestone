@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  *
@@ -108,8 +109,8 @@ public class ProcessIntegrationTestCourseOfferingServiceDataLoadingDecorator ext
 
     private ResultValuesGroupInfo _createCreditOptions(String credits, ContextInfo context) {
         ResultValuesGroupInfo info = new ResultValuesGroupInfo();
-        info.setKey("kuali.creditType.credit.degree." + credits);
-        info.setName(credits);
+        info.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + credits);
+                info.setName(credits);
         info.setResultValueKeys(Arrays.asList(credits));
         return info;
     }

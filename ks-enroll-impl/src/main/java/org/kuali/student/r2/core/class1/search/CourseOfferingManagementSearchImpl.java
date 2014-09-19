@@ -247,7 +247,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         queryStr = queryStr +
                 "    WHERE" +
                 "    lui.id = ident.lui.id" +
-                "    AND lui.luiType = 'kuali.lui.type.course.offering'" +
+                "    AND lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
                 "    AND lui.atpId = :atpId " +
                 "    AND ident.code = :courseCode ";
 
@@ -285,7 +285,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         "FROM KSEN_LUI_RESULT_VAL_GRP luiRes " +
                         "WHERE luiRes.LUI_ID = :courseOfferingId " +
                         "  AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
-                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%')";
+                        "       OR luiRes.RESULT_VAL_GRP_ID like '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE +"%')";
 
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, searchCOID);
@@ -315,9 +315,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
                         "ON luiRes.LUI_ID = luiId.LUI_ID " +
                         "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
-                        "     OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
+                        "     OR luiRes.RESULT_VAL_GRP_ID like '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%') " +
                         "WHERE lui.ID = luiId.LUI_ID " +
-                        "  AND lui.LUI_TYPE = 'kuali.lui.type.course.offering' " +
+                        "  AND lui.LUI_TYPE = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
                         "    AND lui.ATP_ID = :atpId " +
                         "    AND luiId.LUI_CD = :courseCode ";
 
@@ -458,7 +458,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         if (includePassFailAuditAndHonorsResults){
             query = query +
-                    "    LEFT JOIN lui.luiCodes luiCodes with luiCodes.type = 'kuali.lu.code.honorsOffering'  ";
+                    "    LEFT JOIN lui.luiCodes luiCodes with luiCodes.type = '" + LuiServiceConstants.HONORS_LU_CODE + "' ";
         }
 
         query = query +
@@ -471,7 +471,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         query = query +
                 "    WHERE" +
                 "    lui.id = ident.lui.id" +
-                "    AND lui.luiType = 'kuali.lui.type.course.offering'" +
+                "    AND lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
                 "    AND lui.atpId = '" + searchAtpId + "' " +
                 "    AND lrc_rvg1.id = lui_rvg1" +
                 "    AND lrc_rvg1.resultScaleId = '" + LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE + "' " +

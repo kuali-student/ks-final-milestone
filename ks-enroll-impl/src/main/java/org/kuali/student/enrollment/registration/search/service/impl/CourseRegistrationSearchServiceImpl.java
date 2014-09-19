@@ -45,6 +45,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ import java.util.Map;
  */
 public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Resource
     private EntityManager entityManager;
 
@@ -124,6 +126,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LUI_IDS = "luiIds";
         public static final String CO_ID = "courseOfferingId";
         public static final String COURSE_CODE = "courseCode";
+        public static final String RVG_IDS = "rvgIds";
         public static final String PERSON_ID = "personId";
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
@@ -407,7 +410,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     /**
      * A quick way to get up-to-date information on a course offering's AO seat counts and RG waitlist counts
-     * @param searchRequestInfo
+     *
+     * @param searchRequestInfo search request
      * @return search results
      * @throws OperationFailedException
      */
@@ -461,6 +465,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -469,7 +474,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i++].toString());
-            row.addCell(SearchResultColumns.WAITLIST_COUNT, resultRow[i++].toString());
+            row.addCell(SearchResultColumns.WAITLIST_COUNT, resultRow[i].toString());
             resultInfo.getRows().add(row);
         }
 
@@ -480,9 +485,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
      * Grabs a view of Course Offering information that is the basis for the registration course search
      * Optional search parameters of term ids and lui ids can be passed in to limit the search.
      *
-     * @param searchRequestInfo
+     * @param searchRequestInfo search request
      * @return search results
-     * @throws OperationFailedException
      */
     private SearchResultInfo searchForCOSearchInfo(SearchRequestInfo searchRequestInfo) {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -550,10 +554,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "        GROUP BY\n" +
                         "            luiid) freeseats on freeseats.luiid=lui.id\n" +
                         "    INNER JOIN KSEN_LUI_RESULT_VAL_GRP credits on credits.LUI_ID = lui.id\n" +
-                        "    LEFT OUTER JOIN KSEN_LUI_LU_CD honorsCd on honorsCd.lui_id = luiId and honorsCd.lui_lucd_type = 'kuali.lu.code.honorsOffering'\n" +
+                        "    LEFT OUTER JOIN KSEN_LUI_LU_CD honorsCd on honorsCd.lui_id = luiId and honorsCd.lui_lucd_type = '" + LuiServiceConstants.HONORS_LU_CODE + "'\n" +
                         "WHERE\n" +
                         "    lui.LUI_TYPE='" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "'\n" +
-                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%'\n" +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%'\n" +
                         (atpIds == null || atpIds.isEmpty() ? "" : "AND lui.ATP_ID IN(:atpIds)\n") + //Optional parameter to filter by luiids
                         (luiIds == null || luiIds.isEmpty() ? "" : "AND lui.ID IN(:luiIds)\n"); //Optional parameter to filter by term
 
@@ -566,6 +570,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             query.setParameter(SearchParameters.LUI_IDS, luiIds);
         }
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -610,7 +615,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
      * <p/>
      * Using this information you can go line by line to see who gets in the AO and who does not.
      *
-     * @param searchRequestInfo
+     * @param searchRequestInfo search request
      * @return search results
      * @throws OperationFailedException
      */
@@ -659,6 +664,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIds);
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -759,12 +765,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    KSEN_LPR_RESULT_VAL_GRP credits " +
                         "ON " +
                         "    credits.LPR_ID = lpr.id " +
-                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%' " +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%' " +
                         "LEFT OUTER JOIN " +
                         "    KSEN_LPR_RESULT_VAL_GRP grading " +
                         "ON " +
                         "    grading.LPR_ID = lpr.id " +
-                        "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                        "AND grading.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE + ".%' " +
                         "LEFT OUTER JOIN " +
                         "    KSEN_ATP atp " +
                         "ON " +
@@ -793,6 +799,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         if (!StringUtils.isEmpty(atpId)) {
             query.setParameter(SearchParameters.ATP_ID, atpId);
         }
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -835,7 +843,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
      * kuali.lpr.type.registrant.registration.group && kuali.lpr.state.registered // registered for a reg group
      * or
      * kuali.lpr.type.waitlist.registration.group && kuali.lpr.state.active // waitlisted for a reg group
-     * @param searchRequestInfo  Must have a list of LUI_IDS passed in.
+     *
+     * @param searchRequestInfo Must have a list of LUI_IDS passed in.
      * @return count, lui_id, and lpr_type
      */
     private SearchResultInfo searchForSeatCountsByRGIds(SearchRequestInfo searchRequestInfo) {
@@ -863,7 +872,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    lpr.lpr_type ";
 
 
-
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.LUI_IDS, luiIds);
 
@@ -873,6 +881,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
         query.setParameter("rgWlState", LprServiceConstants.ACTIVE_STATE_KEY);
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -881,7 +890,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i] == null ? null : (resultRow[i]).toString());
             i++;
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i]);
 
             resultInfo.getRows().add(row);
         }
@@ -945,6 +954,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIds);
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -985,7 +995,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "    KSEN_LRC_RVG_RESULT_VALUE rvg2Val " +
                         "ON " +
                         "    rvg2Val.RVG_ID=rvg.id " +
-                        "AND rvg.id LIKE 'kuali.creditType.credit.degree.%' " +
+                        "AND rvg.id LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%' " +
                         "LEFT OUTER JOIN " +
                         "    KSEN_LRC_RESULT_VALUE rvgVal " +
                         "ON " +
@@ -998,6 +1008,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.LUI_IDS, luiIds);
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1006,7 +1017,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RVG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RVG_NAME, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.RVG_VALUE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RVG_VALUE, (String) resultRow[i]);
 
             resultInfo.getRows().add(row);
         }
@@ -1086,12 +1097,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    KSEN_LPR_TRANS_ITEM_RVG credits " +
                 "ON " +
                 "    credits.LPR_TRANS_ITEM_ID = lprti.id " +
-                "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit.degree.%' " +
+                "AND credits.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%' " +
                 "LEFT OUTER JOIN " +
                 "    KSEN_LPR_TRANS_ITEM_RVG grading " +
                 "ON " +
                 "    grading.LPR_TRANS_ITEM_ID = lprti.id " +
-                "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                "AND grading.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE + ".%' " +
                 "WHERE " +
                 "    lprt.REQUESTING_PERS_ID = :personId " +
                 "AND ( lprt.LPR_TRANS_TYPE= :lprtType " +
@@ -1131,6 +1142,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             query.setParameter(SearchParameters.CART_ID, cartId);
         }
 
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1159,7 +1171,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             BigDecimal endTimeMs = (BigDecimal) resultRow[i++];
             row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.GRADING, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.GRADING, (String) resultRow[i]);
 
             resultInfo.getRows().add(row);
         }
@@ -1226,8 +1238,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             query.setParameter(SearchParameters.ATP_ID, atpId);
         }
         if (!CollectionUtils.isEmpty(lprTypes)) {
-              query.setParameter(SearchParameters.LPR_TYPE, lprTypes);
+            query.setParameter(SearchParameters.LPR_TYPE, lprTypes);
         }
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1289,6 +1303,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.TYPE_KEY, typeKey);
         // For some reason, this only returns a list of strings (probably since only one item is being
         // queried for).
+        @SuppressWarnings("unchecked")
         List<String> results = query.getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -1319,8 +1334,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "FROM KSEN_LUI_IDENT luiId, KSEN_LUI lui " +
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
                         "ON luiRes.LUI_ID = lui.ID " +
-                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
-                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
+                        "AND (luiRes.RESULT_VAL_GRP_ID in (:rvgIds)" +
+                        "       OR luiRes.RESULT_VAL_GRP_ID like '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = lui.ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
@@ -1338,6 +1353,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.LUI_IDS, luiIds);
+        query.setParameter(SearchParameters.RVG_IDS, Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1371,6 +1389,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "WHERE lui.ID IN (:activityOfferingIds) ";
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIdsList);
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1378,7 +1398,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
-            BigDecimal maxSeats = (BigDecimal) resultRow[i++];
+            BigDecimal maxSeats = (BigDecimal) resultRow[i];
             if (maxSeats != null) {
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(maxSeats.intValue()));
             } else {
@@ -1409,6 +1429,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIdsList);
         query.setParameter(SearchParameters.AO_TYPES, aoTypes);
+
+        @SuppressWarnings("unchecked")
         List<BigDecimal> countList = query.getResultList();
         BigDecimal countBig = KSCollectionUtils.getRequiredZeroElement(countList);
         int count = countBig.intValue();
@@ -1424,8 +1446,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     /**
      * Lets you search for AO-student LPRs based on a list of AO ids, and lpr states
      *
-     * @param searchRequestInfo
-     * @return
+     * @param searchRequestInfo search request
+     * @return Search results
      * @throws OperationFailedException
      */
     private SearchResultInfo searchForAoLprs(SearchRequestInfo searchRequestInfo)
@@ -1450,6 +1472,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         if (lprStateListIsNonEmpty) {
             query.setParameter(SearchParameters.LPR_STATES, lprStateList);
         }
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1459,7 +1483,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LPR_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.PERSON_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.PERSON_ID, (String) resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -1496,6 +1520,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         if (lprStateList != null && !lprStateList.isEmpty()) {
             query.setParameter(SearchParameters.LPR_STATES, lprStateList);
         }
+
+        @SuppressWarnings("unchecked")
         List<String> results = query.getResultList();
 
         for (String resultRow : results) {
@@ -1508,8 +1534,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     }
 
     private SearchResultInfo searchForCoAndAoInfoByCoId(SearchRequestInfo searchRequestInfo)
-            throws MissingParameterException, OperationFailedException
-    {
+            throws MissingParameterException, OperationFailedException {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         SearchResultInfo resultInfo = new SearchResultInfo();
 
@@ -1536,9 +1561,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         // looking for grading and credit options for given CO
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP coRes " +
                         "ON coRes.LUI_ID = coId.LUI_ID " +
-                            // getStudentRegGradingOptionsStr only includes Audit and Pass/Fail (as Letter is default), so want to add Letter to display
-                        "AND (coRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + "," + getGradingOptionsStr() + ")" +
-                        "     OR coRes.RESULT_VAL_GRP_ID LIKE 'kuali.creditType.credit%') " +
+                        // getStudentRegGradingOptionsStr only includes Audit and Pass/Fail (as Letter is default), so want to add Letter to display
+                        "AND (coRes.RESULT_VAL_GRP_ID in (:rvgIds)" +
+                        "     OR coRes.RESULT_VAL_GRP_ID LIKE '" + LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE + "%') " +
                         // looking for cross-listed courses for given CO
                         "LEFT OUTER JOIN KSEN_LUI_IDENT coClId " +
                         "ON coClId.LUI_ID = coId.LUI_ID " +
@@ -1589,11 +1614,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         // Honors
                         "left outer join KSEN_LUI_LU_CD honorsCd " +
-                        "on honorsCd.lui_id = ao.id and honorsCd.lui_lucd_type = 'kuali.lu.code.honorsOffering' " +
+                        "on honorsCd.lui_id = ao.id and honorsCd.lui_lucd_type = '" + LuiServiceConstants.HONORS_LU_CODE + "' " +
                         "WHERE coId.LUI_ID = co.ID " +
 //                        "  AND coId.LUI_ID_TYPE = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
                         "  AND coId.LUI_ID_STATE = '" + LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY + "' " +
-                        "  AND co.LUI_TYPE = 'kuali.lui.type.course.offering' " +
+                        "  AND co.LUI_TYPE = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' " +
                         "  AND co.ID = :courseOfferingId " +
                         "  AND coId.LUI_CD = :courseCode " +
                         " ORDER BY aoId.LUI_CD";
@@ -1601,6 +1626,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, requestHelper.getParamAsString(SearchParameters.CO_ID));
         query.setParameter(SearchParameters.COURSE_CODE, requestHelper.getParamAsString(SearchParameters.COURSE_CODE));
+        query.setParameter(SearchParameters.RVG_IDS, getRvgIds());
+
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -1666,33 +1694,17 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         return resultInfo;
     }
 
+    private List<String> getRvgIds() {
+        List<String> rvgIds = new ArrayList<>();
+        rvgIds.addAll(Arrays.asList(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS));
+        rvgIds.addAll(Arrays.asList(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS));
+        return rvgIds;
+    }
+
     private static String commaString(List<String> items) {
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
     }
 
-    // getting all possible student registration grading options
-    private String getStudentRegGradingOptionsStr() {
-        String[] studentRegGradingOptions = CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS;
-        StringBuilder bld = new StringBuilder();
-        for (String studentRegGradingOption : studentRegGradingOptions) {
-            bld.append(",'");
-            bld.append(studentRegGradingOption);
-            bld.append("'");
-        }
-        return bld.toString().substring(1);
-    }
-
-    // getting all possible student registration grading options
-    private String getGradingOptionsStr() {
-        String[] gradingOptions = CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS;
-        StringBuilder bld = new StringBuilder();
-        for (String gradingOption : gradingOptions) {
-            bld.append(",'");
-            bld.append(gradingOption);
-            bld.append("'");
-        }
-        return bld.toString().substring(1);
-    }
 
     public EntityManager getEntityManager() {
         return entityManager;
