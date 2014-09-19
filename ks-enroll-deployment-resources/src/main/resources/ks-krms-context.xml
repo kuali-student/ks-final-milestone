@@ -27,14 +27,10 @@
                         <property name="countWaitlistedCoursesTowardsTimeConflict" value="true"/>
                     </bean>
                 </entry>
-                <entry key="kuali.prop.course.requisites">
+                <entry key="kuali.prop.course.antirequisites">
                     <bean class="org.kuali.student.enrollment.krms.proposition.RequisitesProposition">
                         <property name="agendaType" value="kuali.krms.agenda.type.course.enrollmentEligibility"/>
-                        <property name="ruleTypes">
-                            <list>
-                                <value>kuali.krms.rule.type.course.academicReadiness.antireq</value>
-                            </list>
-                        </property>
+                        <property name="ruleType" value="kuali.krms.rule.type.course.academicReadiness.antireq"/>
                     </bean>
                 </entry>
                 <entry key="kuali.prop.credit.limit">

@@ -59,10 +59,6 @@ public class NumberOfCompletedCoursesTermResolver extends AcademicRecordTermReso
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
-        if(personId.equals("KS-2094")){
-            return 1;
-        }
-
         //Create a counter so that we can check that the student completed all of the courses.
         int clusCompleted = 0;
         try {

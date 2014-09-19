@@ -52,9 +52,8 @@ public class PropositionFactoryHardwiredImpl extends
             return prop;
         }
         if (ruleId.equals(RULE_ID_REQUISITES)) {
-            List<String> ruleTypes = new ArrayList<String>();
-            ruleTypes.add(KSKRMSServiceConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_ANTIREQ);
-            Proposition prop = new RequisitesProposition(KSKRMSServiceConstants.AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY, ruleTypes);
+            Proposition prop = new RequisitesProposition(KSKRMSServiceConstants.AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY,
+                    KSKRMSServiceConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_ANTIREQ);
             return prop;
         }
         return super.getProposition(ruleId, contextInfo);

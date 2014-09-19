@@ -1895,6 +1895,7 @@ the program will get the rule management service by calling the global resource 
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
                 <entry key="schedulingService" value-ref="SchedulingService"/>
+                <entry key="requisitesService" value-ref="requisitesServiceCachedImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
                 <entry key="shouldRecordInstructionSuccesses" >
                     <bean class="java.lang.Boolean">
@@ -1994,6 +1995,10 @@ the program will get the rule management service by calling the global resource 
         </property>
     </bean>
     <bean id="ruleFactoryImpl" class="org.kuali.student.core.krms.rule.RuleFactoryImpl" >
+    </bean>
+
+    <bean id="requisitesServiceCachedImpl" class="org.kuali.student.enrollment.class2.courseoffering.krms.service.impl.RequisitesServiceCachedImpl">
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="populationServiceEvaluationDecorator" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
