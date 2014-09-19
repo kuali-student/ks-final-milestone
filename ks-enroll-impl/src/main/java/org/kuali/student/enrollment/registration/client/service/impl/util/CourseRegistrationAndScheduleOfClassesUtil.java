@@ -32,7 +32,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -122,7 +121,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     private static Map<String, Integer> activityPriorityMap = null;
 
-    public static String getTermId(String termId, String termCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public static String getTermId(String termId, String termCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!StringUtils.isEmpty(termId)) {
             return termId;
         }
@@ -131,11 +130,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             return null;
         }
 
-        return KSCollectionUtils.getRequiredZeroElement(getTermsByTermCode(termCode)).getTermId();
+        return KSCollectionUtils.getRequiredZeroElement(getTermsByTermCode(termCode, contextInfo)).getTermId();
     }
 
-    public static List<TermSearchResult> getTermsByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<AtpInfo> atpInfos = getAtpService().getAtpsByCode(termCode, ContextUtils.createDefaultContextInfo());
+    public static List<TermSearchResult> getTermsByTermCode(String termCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<AtpInfo> atpInfos = getAtpService().getAtpsByCode(termCode, contextInfo);
         return getTermSearchResultsFromAtpInfos(atpInfos);
     }
 
@@ -352,11 +351,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * Based on the input, get the RegGroupSearchResult. There are two ways to find it (termCode, courseCode, regGroupName)
      * or just the regGroupId.
      *
-     * @param termCode the term code
-     * @param courseCode the course code
+     * @param termCode     the term code
+     * @param courseCode   the course code
      * @param regGroupCode the reg group code
-     * @param regGroupId the reg group id
-     * @param contextInfo context info
+     * @param regGroupId   the reg group id
+     * @param contextInfo  context info
      * @return RegGroupSearchResult
      * @throws PermissionDeniedException
      * @throws MissingParameterException
@@ -417,13 +416,13 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
     }
 
-    public static CourseOfferingInfo getCourseOfferingIdCreditGrading(String courseOfferingId, String courseCode, String termId, String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public static CourseOfferingInfo getCourseOfferingIdCreditGrading(String courseOfferingId, String courseCode, String termId, String termCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         if (!StringUtils.isEmpty(courseOfferingId)) {
-            return searchForCreditsGradingByCourseOfferingId(courseOfferingId);
+            return searchForCreditsGradingByCourseOfferingId(courseOfferingId, contextInfo);
         }
 
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-        List<CourseOfferingInfo> courseOfferingInfos = searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(courseCode, termId);
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
+        List<CourseOfferingInfo> courseOfferingInfos = searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(courseCode, termId, contextInfo);
 
         return KSCollectionUtils.getRequiredZeroElement(courseOfferingInfos);
     }
@@ -479,12 +478,12 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
     }
 
-    private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CREDIT_REGGRADING_BY_COID_SEARCH_KEY);
 
         searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
 
-        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, ContextUtils.createDefaultContextInfo());
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, contextInfo);
 
         CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
         courseOfferingInfo.setId(courseOfferingId);
@@ -497,7 +496,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                     value = cellInfo.getValue();
                 }
                 if (CourseOfferingManagementSearchImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
-                    if (value != null && value.startsWith("kuali.creditType.credit")) {
+                    if (value != null && value.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
                         courseOfferingInfo.setCreditOptionId(value);
                     } else if (value != null && (ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, value) || ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, value))) {
                         courseOfferingInfo.getStudentRegistrationGradingOptions().add(value);
@@ -509,7 +508,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return courseOfferingInfo;
     }
 
-    private static List<CourseOfferingInfo> searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private static List<CourseOfferingInfo> searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(String courseCode, String atpId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<CourseOfferingInfo> resultList = new ArrayList<>();
         HashMap<String, CourseOfferingInfo> hm = new HashMap<>();
 
@@ -518,7 +517,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
         searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, atpId);
 
-        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, ContextUtils.createDefaultContextInfo());
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, contextInfo);
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
             String courseOfferingId = "", resValGroupKey = "";
@@ -540,7 +539,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             } else {
                 courseOfferingInfo = hm.get(courseOfferingId);
             }
-            if (resValGroupKey != null && resValGroupKey.startsWith("kuali.creditType.credit")) {
+            if (resValGroupKey != null && resValGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
                 courseOfferingInfo.setCreditOptionId(resValGroupKey);
             } else if (resValGroupKey != null && (ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resValGroupKey) || ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resValGroupKey))) {
                 courseOfferingInfo.getStudentRegistrationGradingOptions().add(resValGroupKey);
@@ -558,46 +557,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return resultList;
     }
 
-    /**
-     * A faster way to get default names
-     *
-     * @param personIds a List of entity id strings
-     * @return EntityDefaultQueryResults with only default names populated
-     */
-    private static List<EntityNameBo> getInstructorsInfoFromKimFast(List<String> personIds) {
-
-        //Find all the principals
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        //Create a query to get default names
-        qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(
-                PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, personIds.toArray()),
-                PredicateFactory.equal("defaultValue", Boolean.TRUE),
-                PredicateFactory.equal(KIMPropertyConstants.Entity.ACTIVE, Boolean.TRUE)
-        );
-
-        criteria = qbcBuilder.build();
-
-        //Get a handle to the dataObjectService. If this doesnt work then an exception will be thrown and
-        // the normal search for default entities will take over
-        DataObjectService dataObjectService = GlobalResourceLoader.getService("dataObjectService");
-
-        //Do the search
-        QueryResults<EntityNameBo> results = dataObjectService.findMatching(EntityNameBo.class, criteria);
-
-        return results.getResults();
-    }
 
     private static List<EntityNameBo> getInstructorsInfoFromKim(List<String> personIds) {
-        //Find all the principals
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
         //Create a query to get default names
-        qbcBuilder = QueryByCriteria.Builder.create();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
                 PredicateFactory.in(KIMPropertyConstants.Entity.ENTITY_ID, personIds.toArray()),
                 PredicateFactory.equal("defaultValue", Boolean.TRUE),

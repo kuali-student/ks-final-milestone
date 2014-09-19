@@ -77,8 +77,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
 
-    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY="kuali.cr.learningplan.message.course.code.not.found";
-    private static final String LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY ="kuali.cr.learningplan.message.learningplan.not.configured";
+    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY = "kuali.cr.learningplan.message.course.code.not.found";
+    private static final String LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY = "kuali.cr.learningplan.message.learningplan.not.configured";
 
     private LprService lprService;
     private ScheduleOfClassesService scheduleOfClassesService;
@@ -129,11 +129,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     @Override
     public Response clearScheduleRS(String termId, String termCode) {
-        Response.ResponseBuilder response = null;
+        Response.ResponseBuilder response;
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
 
             // in case it errors
             UserMessageResult userMessage = new UserMessageResult();
@@ -142,33 +142,33 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
 
-            if(contextInfo.getPrincipalId() != null && !contextInfo.getPrincipalId().isEmpty()
+            if (contextInfo.getPrincipalId() != null && !contextInfo.getPrincipalId().isEmpty()
                     && termId != null && !termId.isEmpty()) {
-                StudentScheduleTermResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId,termCode);
+                StudentScheduleTermResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId, termCode);
 
                 List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
-                if(scheduleResult != null){
-                    if(scheduleResult.getRegisteredCourseOfferings() != null){
+                if (scheduleResult != null) {
+                    if (scheduleResult.getRegisteredCourseOfferings() != null) {
                         coursesToDrop.addAll(scheduleResult.getRegisteredCourseOfferings());
                     }
 
-                    if(scheduleResult.getWaitlistCourseOfferings() != null){
+                    if (scheduleResult.getWaitlistCourseOfferings() != null) {
                         coursesToDrop.addAll(scheduleResult.getWaitlistCourseOfferings());
                     }
 
                     List<String> masterLprIds = new ArrayList<>(coursesToDrop.size());
-                    for(StudentScheduleCourseResult courseResult : coursesToDrop){
+                    for (StudentScheduleCourseResult courseResult : coursesToDrop) {
                         masterLprIds.add(courseResult.getMasterLprId());
                     }
 
-                    if(!masterLprIds.isEmpty()) {
+                    if (!masterLprIds.isEmpty()) {
                         response = Response.ok(dropRegistrationGroupsLocal(contextInfo, masterLprIds, termId));
-                    }else{
+                    } else {
                         userMessage.setGenericMessage("Could not find any courses in your schedule.");
                         response = getResponse(Response.Status.NOT_FOUND, userMessage);
                     }
                 }
-            }else {
+            } else {
                 userMessage.setGenericMessage("User and term must not be empty when clearing schedule.");
             }
 
@@ -201,11 +201,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
             termId = "";
         } else {
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
         }
 
         String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(userId).getId();
-        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId , termId, contextInfo);
+        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId, termId, contextInfo);
 
         StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
 
@@ -225,7 +225,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItem(courseCode, regGroupId, null, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateScheduleItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -240,7 +240,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, null, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -311,7 +311,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
 
         // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
-        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode, contextInfo);
 
         // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
         credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
@@ -377,7 +377,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
         String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
 
-        for(LprInfo masterLpr : masterLprs){
+        for (LprInfo masterLpr : masterLprs) {
             RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
             regReqItems.add(registrationRequestItem);
         }
@@ -410,31 +410,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     /**
-     * This method retrieves waitlist data for the person
-     *
-     * @param userId Person Id
-     * @param termId Term Key
-     * @return StudentScheduleCourseResults
-     * @throws OperationFailedException
-     * @throws InvalidParameterException
-     */
-    private List<StudentScheduleTermResult> getWaitlistByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
-
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
-
-        List<String> lprTypeParameters=new ArrayList<String>();
-        lprTypeParameters.add(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY);
-        lprTypeParameters.add(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
-        lprTypeParameters.add(LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY);
-
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_TYPE, lprTypeParameters);
-
-        return searchRegistrationScheduleByPersonAndTerm(searchRequest, contextInfo);
-    }
-
-    /**
      * This method calls the search service to retrieve registration schedule data for the person
      *
      * @param searchRequest Seach request info
@@ -448,11 +423,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         String userId = requestHelper.getParamAsString(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID);
         String termId = requestHelper.getParamAsString(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID);
 
-        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
-        List<String> activityOfferingList = new ArrayList<String>();
-        HashMap<String, StudentScheduleCourseResult> hmCourseOffering = new HashMap<String, StudentScheduleCourseResult>();
-        HashMap<String, TermSearchResult> hmTermInfo = new HashMap<String, TermSearchResult>();
-        HashMap<String, List<String>> hmTerm = new HashMap<String, List<String>>();
+        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<>();
+        List<String> activityOfferingList = new ArrayList<>();
+        HashMap<String, StudentScheduleCourseResult> hmCourseOffering = new HashMap<>();
+        HashMap<String, TermSearchResult> hmTermInfo = new HashMap<>();
+        HashMap<String, List<String>> hmTerm = new HashMap<>();
 
         SearchResultInfo searchResult;
         try {
@@ -475,7 +450,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 String luiId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
                 String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
                 String personLuiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE);
-                String lprState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_STATE);
                 String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
                 String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
                 String crossList = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CROSSLIST);
@@ -534,7 +508,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                                 weekdays, startTimeMs, endTimeMs);
 
                         // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
-                        HashMap<String, StudentScheduleActivityOfferingResult> aoHm = new HashMap<String, StudentScheduleActivityOfferingResult>();
+                        HashMap<String, StudentScheduleActivityOfferingResult> aoHm = new HashMap<>();
                         for (StudentScheduleActivityOfferingResult activityOfferingResult : studentScheduleCourseResult.getActivityOfferings()) {
                             aoHm.put(activityOfferingResult.getActivityOfferingId(), activityOfferingResult);
                         }
@@ -547,13 +521,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                             // adding schedule to AO
-                            List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                            List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                             scheduleComponents.add(scheduleComponent);
                             activityOffering.setScheduleComponents(scheduleComponents);
 
                             // adding AO to result
                             if (studentScheduleCourseResult.getActivityOfferings().isEmpty()) {
-                                List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+                                List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
                                 activityOfferings.add(activityOffering);
                                 studentScheduleCourseResult.setActivityOfferings(activityOfferings);
                             } else {
@@ -605,7 +579,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         studentScheduleCourseResult.setRegGroupCode(luiName);
                         hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
                     } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
-                        List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+                        List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<>();
                         StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
                         // AO basic info
                         activityOffering.setActivityOfferingId(luiId);
@@ -613,7 +587,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                         // Scheduling info
-                        List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                        List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<>();
                         ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
                                 weekdays, startTimeMs, endTimeMs);
                         scheduleComponents.add(scheduleComponent);
@@ -633,11 +607,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                 // Adding all course offerings for the particular term
                 if (!hmTerm.containsKey(termId)) {
-                    List<String> masterLprIds = new ArrayList<String>();
+                    List<String> masterLprIds = new ArrayList<>();
                     masterLprIds.add(masterLprId);
                     hmTerm.put(termId, masterLprIds);
                     TermSearchResult termInfo = new TermSearchResult();
-                    termInfo = new TermSearchResult();
                     termInfo.setTermId(atpId);
                     termInfo.setTermCode(atpCode);
                     termInfo.setTermName(atpName);
@@ -650,14 +623,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
 
             // getting instructor info for AOs
-            Map<String, List<InstructorSearchResult>> hmAOInstructors = new HashMap<String, List<InstructorSearchResult>>();
+            Map<String, List<InstructorSearchResult>> hmAOInstructors = new HashMap<>();
             if (!activityOfferingList.isEmpty()) {
                 hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(activityOfferingList, contextInfo);
             }
 
             for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
-                List<StudentScheduleCourseResult> studentScheduleRegisteredCourseResults = new ArrayList<StudentScheduleCourseResult>();
-                List<StudentScheduleCourseResult> studentScheduleWaitlistCourseResults = new ArrayList<StudentScheduleCourseResult>();
+                List<StudentScheduleCourseResult> studentScheduleRegisteredCourseResults = new ArrayList<>();
+                List<StudentScheduleCourseResult> studentScheduleWaitlistCourseResults = new ArrayList<>();
                 TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
                 List<String> masterLuiIds = pair.getValue();
                 for (String masterLuiId : masterLuiIds) {
@@ -685,75 +658,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
         }
 
-        return studentScheduleTermResults;
-    }
-
-
-    private static int toMins(String s) {
-        String[] hourMin = s.split(":");
-        if (hourMin.length == 2) {
-            int hour = Integer.parseInt(hourMin[0]);
-            int mins = Integer.parseInt(hourMin[1]);
-            int hoursInMins = hour * 60;
-            return hoursInMins + mins;
-        }
-        return -1;
-    }
-    /**
-     * This method call search service to retrieve registration schedule data for the person
-     *
-     * @param userId Person Id
-     * @param termId Term Key
-     * @return StudentScheduleCourseResults
-     * @throws OperationFailedException
-     * @throws InvalidParameterException
-     */
-    private List<StudentScheduleTermResult> getRegistrationAndWaitlistScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
-
-        SearchResultInfo searchResult;
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
-        }
-
-        String lastTerm = "";
-        String lastLprId = "";
-        String lastAoType = "";
-        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            String lprType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TYPE);
-            String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
-            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
-            String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
-            String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
-            String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
-            String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
-            String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
-            String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
-            aoName = (aoName != null && aoName.length() >= 3 ? aoName.substring(0, 3).toUpperCase() : "");
-            String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
-            String courseName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
-            String courseDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
-            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
-            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
-            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
-            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
-            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
-            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
-            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
-            String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
-
-            if (!lastTerm.equals(atpId)) {
-
-            }
-
-        }
         return studentScheduleTermResults;
     }
 
@@ -808,21 +712,26 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
 
             if (!resultValueInfos.isEmpty()) {
-                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    credits = resultValueInfos.get(firstValue).getValue(); // fixed credits
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
-                    if (credits.isEmpty() || (Float.valueOf(credits) < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue()))
-                            || (Float.valueOf(credits) > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()))) {
-                        throw new InvalidParameterException("Credits are incorrect");
-                    }
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
-                    List<String> creditOptions = new ArrayList<String>();
-                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
-                        creditOptions.add(resultValueInfo.getValue());
-                    }
-                    if (credits.isEmpty() || !creditOptions.contains(credits)) {
-                        throw new InvalidParameterException("Credits are incorrect");
-                    }
+                switch (typeKey) {
+                    case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED:
+                        credits = resultValueInfos.get(firstValue).getValue(); // fixed credits
+
+                        break;
+                    case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE:   // range
+                        if (credits.isEmpty() || (Float.valueOf(credits) < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue()))
+                                || (Float.valueOf(credits) > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()))) {
+                            throw new InvalidParameterException("Credits are incorrect");
+                        }
+                        break;
+                    case LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE:   // multiple
+                        List<String> creditOptions = new ArrayList<>();
+                        for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                            creditOptions.add(resultValueInfo.getValue());
+                        }
+                        if (credits.isEmpty() || !creditOptions.contains(credits)) {
+                            throw new InvalidParameterException("Credits are incorrect");
+                        }
+                        break;
                 }
             }
         }
@@ -830,23 +739,23 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    private RegistrationRequestInfo updateScheduleItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private RegistrationRequestInfo updateScheduleItem(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
     }
 
-    private RegistrationRequestInfo updateWaitlistEntry(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private RegistrationRequestInfo updateWaitlistEntry(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode,regGroupId, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
 
     }
 
     /*
      * Utility method to update any kind of schedule item (registered, waitlisted, etc)
      */
-    private RegistrationRequestInfo updateRegistrationItem(String courseCode, String regGroupId, String regGroupCode, String masterLprId, String termId, String credits,
-                                                      String gradingOptionId, ContextInfo contextInfo, String typeKey)
+    private RegistrationRequestInfo updateRegistrationItem(String courseCode, String regGroupId, String masterLprId, String termId, String credits,
+                                                           String gradingOptionId, ContextInfo contextInfo, String typeKey)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
             AlreadyExistsException {
@@ -862,7 +771,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, regGroupId,
                 masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
-        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
+        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
         registrationRequestInfo.setTermId(termId);
@@ -879,7 +788,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         int firstValue = 0;
-        List<String> creditOptions = new ArrayList<String>();
+        List<String> creditOptions = new ArrayList<>();
 
         //Lookup the selected credit option and set from persisted values
         if (!creditOptionId.isEmpty()) {
@@ -908,7 +817,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     /**
      * All info about a registration request can be found in the LprTransaction. get the lpr transaction and transform
      * it into something useful.
-     *
+     * <p/>
      * This method has been temporarily set as public because the TestCourseRegistrationEngine is relying on it...
      *
      * @param regReqId    registration request id
@@ -945,15 +854,15 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setNewLuiId(lprTransactionItemInfo.getNewLuiId());
             resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
-            for(ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()){
+            for (ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()) {
                 resultItem.getMessages().add(validationResult.getMessage());
 
                 //Translate some "pseudo" states for ease in the ui to indicate if waitlists are available or was added to waitlist, etc.
-                if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
-                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)){
+                if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
+                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
                     resultItem.setState(CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
-                } else if(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
-                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)){
+                } else if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(lprTransactionItemInfo.getStateKey()) &&
+                        validationResult.getMessage().contains(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
                     resultItem.setState(CourseRegistrationClientService.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
                 }
             }
@@ -972,22 +881,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            if(getAcademicPlanService() == null){
+            if (getAcademicPlanService() == null) {
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY)).build();
             }
 
-           // get the learning plan for this student
+            // get the learning plan for this student
             List<LearningPlanInfo> learningPlans = getAcademicPlanService().getLearningPlansForStudentByType(contextInfo.getPrincipalId(), AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, contextInfo);
 
-            if(learningPlans == null || learningPlans.isEmpty()){
+            if (learningPlans == null || learningPlans.isEmpty()) {
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
             }
 
             // get the plan items
             List<PlanItemInfo> allPlanItems = new ArrayList<>();
-            for(LearningPlanInfo lpi : learningPlans){
+            for (LearningPlanInfo lpi : learningPlans) {
                 List<PlanItemInfo> planItemsTemp = getAcademicPlanService().getPlanItemsInPlan(lpi.getId(), contextInfo);
-                if(planItemsTemp != null && !planItemsTemp.isEmpty()){
+                if (planItemsTemp != null && !planItemsTemp.isEmpty()) {
                     allPlanItems.addAll(planItemsTemp);
                 }
             }
@@ -996,45 +905,45 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             List<String> rgsToLookup = new ArrayList<>();
 
             // get only the plans for this term
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
             List<PlanItemInfo> termPlanItems = new ArrayList<>();
-            for(PlanItemInfo planItemInfo : allPlanItems){
-                if(planItemInfo.getPlanTermIds().contains(termId)){
+            for (PlanItemInfo planItemInfo : allPlanItems) {
+                if (planItemInfo.getPlanTermIds().contains(termId)) {
                     termPlanItems.add(planItemInfo);
 
                     // add additional lookup ids to their lists
-                    if(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
+                    if (LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
                         coursesToLookup.add(planItemInfo.getRefObjectId());
-                    } else if(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(planItemInfo.getRefObjectType())){
+                    } else if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
                         rgsToLookup.add(planItemInfo.getRefObjectId());
                     }
                 }
             }
 
-            if(termPlanItems == null || termPlanItems.isEmpty()){
+            if (termPlanItems.isEmpty()) {
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
             }
 
             // clu verIndId -> courseSearchResult
             Map<String, CourseSearchResult> courseInfoMap = new HashMap<>();
-            if(!coursesToLookup.isEmpty()){
+            if (!coursesToLookup.isEmpty()) {
                 // Learning plan gives us the version independent id. We need to convert those into clu Ids
                 Map<String, String> cluToVidMap = convertCluVersionIndIdToCluId(coursesToLookup, contextInfo);
                 List<String> cluIds = new ArrayList<>(cluToVidMap.keySet());
 
-                List<CourseSearchResult> courseInfoResults = searchForCourseInfo(cluIds,termId, contextInfo);
-                if(courseInfoResults != null){
-                    for(CourseSearchResult courseInfoResult : courseInfoResults){
+                List<CourseSearchResult> courseInfoResults = searchForCourseInfo(cluIds, termId, contextInfo);
+                if (courseInfoResults != null) {
+                    for (CourseSearchResult courseInfoResult : courseInfoResults) {
                         courseInfoMap.put(cluToVidMap.get(courseInfoResult.getCluId()), courseInfoResult);
                     }
                 }
             }
 
             Map<String, RegGroupSearchResult> regGroupMap = new HashMap<>();
-            if(!rgsToLookup.isEmpty()){
-                for(String rgId : rgsToLookup) {
+            if (!rgsToLookup.isEmpty()) {
+                for (String rgId : rgsToLookup) {
                     RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().getRegGroup(rgId, contextInfo);
-                    if(regGroupSearchResult != null){
+                    if (regGroupSearchResult != null) {
                         regGroupMap.put(regGroupSearchResult.getRegGroupId(), regGroupSearchResult);
 
                         // we'll need course info objects for both the reg groups and the course offerings
@@ -1046,7 +955,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             // Now we have all the plans... lets convert them into something the user wants to see
             List<LearningPlanItemResult> lpResults = new ArrayList<>(termPlanItems.size());
-            for(PlanItemInfo planItemInfo : termPlanItems){
+            for (PlanItemInfo planItemInfo : termPlanItems) {
                 LearningPlanItemResult lpiResult = new LearningPlanItemResult();
                 lpiResult.setCategory(planItemInfo.getCategory().toString());
                 lpiResult.setLearningPlanId(planItemInfo.getLearningPlanId());
@@ -1055,7 +964,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 lpiResult.setRefObjectType(planItemInfo.getRefObjectType());
                 lpiResult.setCluId(courseInfoMap.get(planItemInfo.getRefObjectId()).getCluId());  // both clus and reg groups have course results mapped to the ref object key
                 // build the label for the item
-                lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(),planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap ));
+                lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(), planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap));
                 lpResults.add(lpiResult);
             }
 
@@ -1070,33 +979,34 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     /**
      * create a map of cluId to VersionIndIds
-     * @param versionIndependentIds
-     * @param contextInfo
-     * @return
+     *
+     * @param versionIndependentIds list of version independent ids of clus
+     * @param contextInfo           context of the call
+     * @return mapping of clu ids to clu version independent ids
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    private Map<String,String> convertCluVersionIndIdToCluId(List<String> versionIndependentIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+    private Map<String, String> convertCluVersionIndIdToCluId(List<String> versionIndependentIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
         Map<String, String> cluToVidMap = new HashMap<>();
 
-        for(String versionIndependentId : versionIndependentIds) {
+        for (String versionIndependentId : versionIndependentIds) {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.equal("version.versionIndId", versionIndependentId));
 
             List<String> cluIds = getCluService().searchForCluIds(qbcBuilder.build(), contextInfo);
 
-            cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds),versionIndependentId);
+            cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds), versionIndependentId);
         }
         return cluToVidMap;
     }
 
-    private String getLearningPlanCourseLabel(String refObjectid, String refObjectType, Map<String, CourseSearchResult> courseInfoMap, Map<String, RegGroupSearchResult> regGroupMap ) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        String label = new String();
-        if(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(refObjectType)) {
+    private String getLearningPlanCourseLabel(String refObjectid, String refObjectType, Map<String, CourseSearchResult> courseInfoMap, Map<String, RegGroupSearchResult> regGroupMap) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        String label = "";
+        if (LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(refObjectType)) {
             label = courseInfoMap.get(refObjectid).getCourseCode();
-        } else if(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(refObjectType)){
+        } else if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(refObjectType)) {
             CourseSearchResult courseSearchResult = courseInfoMap.get(refObjectid);
             label = courseSearchResult.getCourseCode() + " (" + regGroupMap.get(refObjectid).getRegGroupName() + ")";
         }
@@ -1105,10 +1015,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     /**
      * return courseSearchResult objects based on the cluIds and term id passed in.
-     * @param cluIds
-     * @param termId
-     * @param context
-     * @return
+     *
+     * @param cluIds  clu ids to search for
+     * @param termId  term to search for
+     * @param context context of the call
+     * @return List of course search results
      * @throws MissingParameterException
      * @throws InvalidParameterException
      * @throws OperationFailedException
@@ -1118,22 +1029,21 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     protected List<CourseSearchResult> searchForCourseInfo(List<String> cluIds, String termId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
         List<CourseSearchResult> courseInfoResults = new ArrayList<>();
 
-        for(String cluId : cluIds) {
-            List<CourseSearchResult> courseInfoResultsTemp =  getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(termId, cluId, context);
-            if(courseInfoResultsTemp != null && !courseInfoResultsTemp.isEmpty()) {
+        for (String cluId : cluIds) {
+            List<CourseSearchResult> courseInfoResultsTemp = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(termId, cluId, context);
+            if (courseInfoResultsTemp != null && !courseInfoResultsTemp.isEmpty()) {
                 courseInfoResults.addAll(courseInfoResultsTemp);
             }
         }
 
 
-       return courseInfoResults;
+        return courseInfoResults;
 
     }
 
     /**
      * The academic plan service is NOT part of ENR so it should* not be injected. Instead, pull it from the GRL if
      * it exists.
-     * @return
      */
     private AcademicPlanService getAcademicPlanService() {
         if (academicPlanService == null) {
@@ -1149,7 +1059,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     /**
      * The CLU service is NOT part of ENR so it should* not be injected. Instead, pull it from the GRL if
      * it exists.
-     * @return
      */
     public CluService getCluService() {
         if (cluService == null) {

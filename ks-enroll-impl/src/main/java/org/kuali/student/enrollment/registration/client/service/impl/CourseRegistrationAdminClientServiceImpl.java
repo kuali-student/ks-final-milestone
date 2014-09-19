@@ -151,7 +151,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
             if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
                 lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
             } else {
-                termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+                termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
                 lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPersonAndAtp(personId, termId, contextInfo);
             }
             for (LprInfo lprInfo : lprs) {
@@ -173,7 +173,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
             // get termId
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
 
             super.clearCartByPerson(personId,termId,contextInfo);
             response = Response.noContent();

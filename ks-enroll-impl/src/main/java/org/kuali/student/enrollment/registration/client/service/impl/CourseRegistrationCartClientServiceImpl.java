@@ -358,7 +358,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             // get termId
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
 
             if(contextInfo.getPrincipalId() == null || contextInfo.getPrincipalId().isEmpty()
                     || termId == null || termId.isEmpty()){

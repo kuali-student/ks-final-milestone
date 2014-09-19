@@ -9,7 +9,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
@@ -40,15 +39,17 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     private static final String EXCEPTION_MSG = "Exception Thrown";
 
 
-
     /**
      * COURSE SEARCH *
      */
 
     @Override
     public Response searchForCourseOfferings(@QueryParam("termId") String termId, @QueryParam("termCode") String termCode, @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         //Look up the term id if only term code is passed in
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
 
         //Query based on title and description, boost title so it's more important than description
         //This type of query grabs only the score/match with the highest score
@@ -79,10 +80,10 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
         //If any of the terms are not course codes, do a full text search in the title and description
         //This will bubble up multi term matches ("American Literature" will score higher for
         //"African American Literature" than "World Literature"
-        if(!fullTextMatchTerms.isEmpty()){
+        if (!fullTextMatchTerms.isEmpty()) {
             BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
-            for(String term : fullTextMatchTerms){
+            for (String term : fullTextMatchTerms) {
                 boolQuery.should(QueryBuilders.prefixQuery("longName", term).boost(0.3f));
                 boolQuery.should(QueryBuilders.prefixQuery("courseDescription", term).boost(0.1f));
             }
@@ -150,9 +151,9 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
-
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         try {
-            List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferingsLocal(courseOfferingId, termId, termCode, courseCode);
+            List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferingsLocal(courseOfferingId, termId, termCode, courseCode, contextInfo);
             response = Response.ok(activityOfferingSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -169,9 +170,9 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
-
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         try {
-            List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypesLocal(courseOfferingId, termId, termCode, courseCode);
+            List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypesLocal(courseOfferingId, termId, termCode, courseCode, contextInfo);
             response = Response.ok(activityTypeSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -188,9 +189,9 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
-
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         try {
-            List<InstructorSearchResult> instructorSearchResults = searchForInstructorsLocal(courseOfferingId, activityOfferingId, termId, termCode, courseCode);
+            List<InstructorSearchResult> instructorSearchResults = searchForInstructorsLocal(courseOfferingId, activityOfferingId, termId, termCode, courseCode, contextInfo);
             response = Response.ok(instructorSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
@@ -222,9 +223,9 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     @Override
     public Response searchForTerms(String termCode, boolean isActiveTerms) {
         Response.ResponseBuilder response;
-
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         try {
-            List<TermSearchResult> termSearchResults = searchForTermsLocal(termCode, isActiveTerms);
+            List<TermSearchResult> termSearchResults = searchForTermsLocal(termCode, isActiveTerms, contextInfo);
             response = Response.ok(termSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);
