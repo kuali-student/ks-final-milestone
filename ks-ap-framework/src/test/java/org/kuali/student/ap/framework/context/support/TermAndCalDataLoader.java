@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -100,6 +101,11 @@ public class TermAndCalDataLoader {
         loadAtpAtpRel("ksapAtpNow-ksapAtpNow2", yesterday, tomorrow, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ksapAtpNow", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "ksapAtpNow2");
         loadAtpAtpRel("ksapAtpNow-ksapAtpFuture", yesterday, tomorrow, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ksapAtpNow", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "ksapAtpFuture");
 
+        loadMStone("RegistrationNow",lastWeek,dayAfterTomorrow,"kuali.atp.milestone.registrationservicesopen","kuali.milestone.state.Draft",true);
+        loadMStone("ScheduleAdjustmentNow",yesterday,tomorrow,"kuali.atp.milestone.scheduleadjustmentperiod","kuali.milestone.state.Draft",true);
+
+        loadAtpMstoneReltn("RegistrationNow","ksapAtpNow2");
+        loadAtpMstoneReltn("ScheduleAdjustmentNow","ksapAtpNow2");
     }
 
 
@@ -196,5 +202,24 @@ public class TermAndCalDataLoader {
         info.setRelatedAtpId(relatedAtpId);
 
         this.atpService.createAtpAtpRelation(atpId, relatedAtpId, type, info, KsapFrameworkServiceLocator.getContext().getContextInfo());
+    }
+
+    private void loadMStone(String id,Date startDate,Date endDate, String type, String state, boolean isDateRange)
+            throws Exception{
+        MilestoneInfo info = new MilestoneInfo();
+        info.setId(id);
+        info.setStartDate(startDate);
+        info.setEndDate(endDate);
+        info.setTypeKey(type);
+        RichTextInfo descrText = new RichTextInfo("test","test");
+        info.setDescr(descrText);
+        info.setStateKey(state);
+        info.setIsDateRange(isDateRange);
+        info.setRelativeAnchorMilestoneId("");
+        this.atpService.createMilestone(type,info, KsapFrameworkServiceLocator.getContext().getContextInfo());
+    }
+
+    private void loadAtpMstoneReltn(String milestoneId, String atpId) throws Exception{
+        this.atpService.addMilestoneToAtp(milestoneId,atpId,KsapFrameworkServiceLocator.getContext().getContextInfo());
     }
 }
