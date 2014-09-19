@@ -355,6 +355,11 @@ public class CurriculumManagementConstants {
     public static final String COURSE_ATTRIBUTE_RETIREMENT_RATIONALE = "retirementRationale";
     public static final String COURSE_ATTRIBUTE_LAST_TERM_OFFERED = "lastTermOffered";
     public static final String COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR = "lastPublicationYear";
+    public static final String COURSE_ATTRIBUTE_RETIREMENT_COMMENT = "retirementComment";
+    /**
+     * @deprecated the below property was used in CM 2.x but removed for CM 3.0
+     */
+    public static final String COURSE_ATTRIBUTE_SPECIAL_CIRCUMSTANCES = "specialCircumstances";
 
     /**
      * This delimiter to use when rendering collections as a String.

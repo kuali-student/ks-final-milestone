@@ -128,7 +128,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="CM-Proposal-Course-CourseInfo-Rationale" parent="CM-InputField" p:render="@{!#isModifyRetireCourse}"
+                            <bean id="CM-Proposal-Course-CourseInfo-Rationale" parent="CM-InputField" p:render="@{!#isModifyNoNewVersion}"
                                 p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
 
                                 <property name="instructionalText"
@@ -170,7 +170,7 @@
         <property name="items">
             <list>
                 <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
-                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CM-Proposal-Course-CourseInfo-ProposalTitle" p:render="@{!#isModifyRetireCourse}"
+                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CM-Proposal-Course-CourseInfo-ProposalTitle" p:render="@{!#isModifyNoNewVersion}"
                       p:propertyName="proposalInfo.name">
                     <property name="fieldLabel.richLabelMessage">
                         <bean parent="CM-IconLabelMessage">

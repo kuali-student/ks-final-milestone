@@ -362,11 +362,13 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             String proposedEndTerm = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_END_TERM);
             String proposedLastTermOffered = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED);
             String proposedLastCourseCatalogYear = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR);
+            String retirementComment = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS);
 
             courseInfo.setEndTerm(proposedEndTerm);
             courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, rationale));
             courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedLastTermOffered));
             courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, proposedLastCourseCatalogYear));
+            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT, retirementComment));
 
             // lastTermOffered is a special case field, as it is required upon retire state
             // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
@@ -486,7 +488,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
                 }
 
             } catch (Exception ex) {
-                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
+                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex, ex);
             }
         }
 
@@ -502,12 +504,34 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     public void populateWrapperData(ProposalElementsWrapper proposalElementsWrapper) throws Exception {
         CommonCourseDataWrapper courseWrapper = (CommonCourseDataWrapper) proposalElementsWrapper;
 
-        courseWrapper.setLastTerm(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED));
-        courseWrapper.setPublicationYear(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR));
-        RichTextInfo retirementComment = new RichTextInfo();
-        retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE));
-        retirementComment.setFormatted(retirementComment.getPlain());
-        courseWrapper.setRetirementComment(retirementComment);
+        // if proposal data is used then load the retirement information from the ProposalInfo
+        if (courseWrapper.isProposalDataUsed()) {
+            courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
+            courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
+            RichTextInfo retirementComment = new RichTextInfo();
+            retirementComment.setPlain(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS));
+            retirementComment.setFormatted(retirementComment.getPlain());
+            courseWrapper.setRetirementComment(retirementComment);
+        }
+        // if proposal data is NOT used then load the retirement information from the CourseInfo
+        else {
+            // add in retirement rationale
+            courseWrapper.setLastTerm(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED));
+            courseWrapper.setPublicationYear(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR));
+            /*
+               Retirement comment is complicated because older documents from CM 2.x and before were using the dynamic attribute "specialCircumstances" so
+               we might have to fetch the data from there is no updated retirement comment exists from a CM 3.0 or later save
+             */
+            String retirementCommentString = courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT);
+            if (StringUtils.isBlank(retirementCommentString)) {
+                // we find that the CM 3.0 and later value is blank, so try to get the value from the older deprecated property
+                retirementCommentString = courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_SPECIAL_CIRCUMSTANCES);
+            }
+            RichTextInfo retirementComment = new RichTextInfo();
+            retirementComment.setPlain(retirementCommentString);
+            retirementComment.setFormatted(retirementCommentString);
+            courseWrapper.setRetirementComment(retirementComment);
+        }
 
         /*
          * Curriculum Oversight
@@ -532,10 +556,18 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         }
 
         //  Omit authors and collaborators for course view
-        if (courseWrapper.isProposalDataRequired()) {
+        if (courseWrapper.isProposalDataUsed()) {
             super.populateWrapperData(courseWrapper);
         }
 
+    }
+
+    @Override
+    protected void saveProposal() throws Exception {
+        CommonCourseDataWrapper dataWrapper = (CommonCourseDataWrapper) getDataObject();
+        if (dataWrapper.isProposalDataUsed()) {
+            super.saveProposal();
+        }
     }
 
     protected AtpService getAtpService() {

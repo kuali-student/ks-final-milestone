@@ -459,9 +459,17 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        super.processAfterNew(document, requestParameters);
-
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        if (courseInfoWrapper.isProposalDataUsed()) {
+            super.processAfterNew(document, requestParameters);
+        }
+
+        if (!courseInfoWrapper.isDisableCourseDefaulting()) {
+            courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+            courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
+            courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
+        }
 
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         courseInfoWrapper.setUserId(ContextUtils.createDefaultContextInfo().getPrincipalId());
@@ -472,11 +480,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
         courseInfoWrapper.setAgendas(getAgendasForRef(courseInfoWrapper.getRefDiscriminatorType(), courseInfoWrapper.getRefObjectId()));
 
-        courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
         courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
-        courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
-
-        courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
 
         // Initialize Curriculum Oversight if it hasn't already been.
         if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
@@ -795,7 +799,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         /**
          * Populate 'Proposal' specific model
          */
-        if (courseInfoWrapper.isProposalDataRequired()) {
+        if (courseInfoWrapper.isProposalDataUsed()) {
             updateSupportingDocumentsForReviewPages(courseInfoWrapper);
             updateProposalDataForReviewPages(reviewData, shouldRepopulateRemoteData);
         }
@@ -869,10 +873,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
             courseInfoWrapper.getCourseInfo().getDescr().setPlain(courseDescription);
         }
 
-        //Clear collection fields (those with matching 'wrapper' collections)
-        courseInfoWrapper.getCourseInfo().getInstructors().clear();
-        courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
-
         courseInfoWrapper.getCourseInfo().getInstructors().clear();
 
         if (courseInfoWrapper.getInstructorWrappers() != null) {
@@ -888,6 +888,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         /*
          * Learning Objectives
          */
+        courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
             List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
             List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
@@ -931,14 +932,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         // Set derived course fields before saving/updating
         courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
-        if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
-            Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
-            if (updateTime != null){
-                courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
-            }
-        }else{
-            courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
-        }
 
         courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
@@ -977,13 +970,11 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
-        if (!courseInfoWrapper.isDisableSaving()) {
-            try {
-                LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
-                updateAndSaveCourseInfo();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
+            updateAndSaveCourseInfo();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
@@ -991,6 +982,16 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
 
         super.saveDataObject();
+
+        // now that we've saved the proposal in the super call... we can try to update the updateTime
+        if (StringUtils.isNotBlank(courseInfoWrapper.getProposalInfo().getId())){
+            Date updateTime = courseInfoWrapper.getProposalInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(updateTime));
+            }
+        }else{
+            courseInfoWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
+        }
     }
 
     /**

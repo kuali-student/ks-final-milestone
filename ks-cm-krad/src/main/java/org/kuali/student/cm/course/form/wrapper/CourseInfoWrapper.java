@@ -66,8 +66,8 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     private String currentCourseEndTermShortName;
 
-    //Whether to save a course or not. This is useful for modify new version
-    private boolean disableSaving = false;
+    // decides whether to set default data on the CourseInfo object at the save point
+    private boolean disableCourseDefaulting = false;
 
     /**
      * For modify proposals this is the text for the end term that will be applied to the currently active
@@ -106,12 +106,6 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
     public CourseInfoWrapper() {
         // cannot pass document type in here because this could be Modify or Create
         super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
-    }
-
-    public CourseInfoWrapper(boolean disableSaving) {
-        // cannot pass document type in here because this could be Modify or Create
-        super(ProposalUtil.isUserCurriculumSpecialist(), CurriculumManagementConstants.CourseViewSections.COURSE_INFO);
-        this.disableSaving = disableSaving;
     }
 
     /**
@@ -193,6 +187,14 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
         this.loDisplayWrapperModel = loDisplayWrapperModel;
     }
 
+    public boolean isDisableCourseDefaulting() {
+        return disableCourseDefaulting;
+    }
+
+    public void setDisableCourseDefaulting(boolean disableCourseDefaulting) {
+        this.disableCourseDefaulting = disableCourseDefaulting;
+    }
+
     /**
      * Gets the value of finalExamStatus
      *
@@ -200,14 +202,6 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
      */
     public String getFinalExamStatus() {
         return this.finalExamStatus;
-    }
-
-    public void setDisableSaving(boolean disableSaving) {
-        this.disableSaving = disableSaving;
-    }
-
-    public boolean isDisableSaving() {
-        return disableSaving;
     }
 
     /**

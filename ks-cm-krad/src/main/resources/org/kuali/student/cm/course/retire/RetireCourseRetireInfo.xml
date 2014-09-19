@@ -20,11 +20,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CM-Proposal-Course-RetireInfo-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+    <bean id="CM-Proposal-Course-RetireInfo-SectionBase" parent="CM-Proposal-Course-RetireInfo-SectionBase-parentBean"/>
+    <bean id="CM-Proposal-Course-RetireInfo-SectionBase-parentBean" abstract="true" parent="CM-Proposal-Course-View-VerticalBoxSection">
         <property name="headerText" value="Retirement Information"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
+    </bean>
+
+    <!-- BELOW BEAN USED FOR RETIRE DOCUMENTS -->
+    <bean id="CM-Proposal-Course-RetireInfo-Section" parent="CM-Proposal-Course-RetireInfo-SectionBase">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSubSection">
@@ -45,11 +50,8 @@
         </property>
     </bean>
 
-    <bean id="CM-Course-Modify-RetireInfo-Section-parent" parent="CM-Proposal-Course-View-VerticalBoxSection">
-        <property name="headerText" value="Retirement Information"/>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
+    <!-- BELOW BEAN USED FOR MODIFY THIS VERSION DOCUMENTS ONLY -->
+    <bean id="CM-Course-Modify-RetireInfo-Section-parent" parent="CM-Proposal-Course-RetireInfo-SectionBase">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSubSection">
@@ -64,6 +66,23 @@
                     </property>
                 </bean>
             </list>
+        </property>
+    </bean>
+
+    <!-- BELOW BEAN USED FOR MODIFY THIS VERSION DOCUMENTS ONLY -->
+    <bean id="CM-Modify-RetireCourse-Rationale" parent="CM-InputField"
+          p:label="Rationale for Retirement" p:propertyName="retirementRationale">
+        <property name="simpleConstraint">
+            <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
+        </property>
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-charcount-max-255</value>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -82,22 +101,6 @@
         <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
         <property name="simpleConstraint">
             <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
-        </property>
-        <property name="control">
-            <bean parent="Uif-LargeTextAreaControl">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>cm-charcount-max-255</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="CM-Modify-RetireCourse-Rationale" parent="CM-InputField"
-          p:label="Rationale for Retirement" p:propertyName="retirementRationale">
-        <property name="simpleConstraint">
-        <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
         </property>
         <property name="control">
             <bean parent="Uif-LargeTextAreaControl">

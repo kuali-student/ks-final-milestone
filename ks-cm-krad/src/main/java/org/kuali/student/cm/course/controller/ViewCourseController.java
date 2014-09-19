@@ -91,7 +91,7 @@ public class ViewCourseController extends KsUifControllerBase {
         try {
             //  Load the data for the primary/courseId course (including the version data).
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            courseWrapper.setProposalDataRequired(false);
+            courseWrapper.setProposalDataUsed(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
             ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
             form.setCourseInfoWrapper(courseWrapper);
@@ -100,7 +100,7 @@ public class ViewCourseController extends KsUifControllerBase {
             //  Load the data for the other/compare-to course.
             if (isComparison) {
                 CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
-                compareCourseWrapper.setProposalDataRequired(false);
+                compareCourseWrapper.setProposalDataUsed(false);
                 ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
                 ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
                 form.setCompareCourseInfoWrapper(compareCourseWrapper);
@@ -193,10 +193,9 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, RetireCourseWrapper.class.getName());
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId()));
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         return urlParameters;
-
     }
 
     @RequestMapping(params = "methodToCall=modifyCourseCurriculumSpecialist")
@@ -280,7 +279,7 @@ public class ViewCourseController extends KsUifControllerBase {
         try {
             CourseInfo currentCourse = CourseProposalUtil.getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId(), ContextUtils.createDefaultContextInfo());
             CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            courseWrapper.setProposalDataRequired(false);
+            courseWrapper.setProposalDataUsed(false);
             ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
             ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);

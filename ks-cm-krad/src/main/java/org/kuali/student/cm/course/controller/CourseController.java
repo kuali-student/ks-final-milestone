@@ -26,7 +26,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -45,15 +45,11 @@ import org.kuali.student.cm.course.service.CourseMaintainable;
 import org.kuali.student.cm.course.service.ExportCourseHelper;
 import org.kuali.student.cm.course.service.impl.ExportCourseHelperImpl;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.cm.proposal.controller.ProposalControllerTransactionHelper;
 import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -173,16 +169,68 @@ public class CourseController extends CourseRuleEditorController {
 
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
 
-        CourseInfo courseInfo = getCourseService().getCourse( courseId , ContextUtils.createDefaultContextInfo());
-
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
+        courseInfoWrapper.setProposalDataUsed(false);
+        courseInfoWrapper.setDisableCourseDefaulting(true);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
         newMaintainble.populateCourseAndReviewData(courseId,courseInfoWrapper);
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
+        form.getDocument().getDocumentHeader().setDocumentDescription("Admin Modify: " + courseInfoWrapper.getCourseInfo().getCourseTitle());
         return getUIFModelAndView(form);
     }
 
+    /**
+     *
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=completeModifyThisVersion" )
+    public ModelAndView completeModifyThisVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if(dialogId != null) {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            dm.setCurrentDialogId(null);
+        }
+
+        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.SUBMIT_CONFIRMATION_DIALOG;
+        if ( ! hasDialogBeenDisplayed(dialog, form)) {
+            CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+            // TODO KSCM-2836 -- validations fire if these proposal fields aren't filled out even thought we don't use proposalInfo on this document
+            if (wrapper.getProposalInfo() == null) {
+                wrapper.setProposalInfo(new ProposalInfo());
+            }
+            wrapper.getProposalInfo().getRationale().setFormatted("dummy");
+            wrapper.getProposalInfo().getRationale().setPlain("dummy");
+            wrapper.getProposalInfo().setName("dummy");
+            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
+
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                //redirect back to client to display confirm dialog
+                return showDialog(dialog, form, request, response);
+            }
+        } else {
+            if (hasDialogBeenAnswered(dialog, form)) {
+                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
+                if (confirmSubmit) {
+                    // do a manual save of the course
+                    // blanket approve the document so it doesn't 'stop' anywhere regardless of nodes
+                    performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
+                    form.getDialogManager().removeDialog(dialog);
+                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+                    return performRedirect(form, CourseProposalUtil.getViewCourseUrl(courseInfoWrapper.getCourseInfo().getId()));
+                } else {
+                    form.getDialogManager().removeDialog(dialog);
+                }
+            } else {
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        return getUIFModelAndView(form);
+    }
 
     /**
      *
@@ -199,7 +247,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
         courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
 
-        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper(true);
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
         courseInfoWrapper.setCourseInfo(courseInfo);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
@@ -401,26 +449,6 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Here we move the success messages displayed in UI from header to growl.
-     *
-     * @param form
-     * @param action
-     * @param checkSensitiveData
-     */
-    @Override
-    protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
-        ProposalControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "proposalControllerTransactionHelper", ProposalControllerTransactionHelper.class.getSimpleName()));
-        helper.performWorkflowActionSuper(form, action, checkSensitiveData, this);
-        List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
-        if (infoMessages != null) {
-            for (ErrorMessage message : infoMessages) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, message.getErrorKey(), message.getMessageParameters());
-            }
-            GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
-        }
-    }
-
-    /**
      * This is a workaround to bypass the transaction issue involved with 'modifyNewVersion' method here. We're
      * redirecting the user to this method for saving a new modify version. It's not intended to use elsewhere.
      *
@@ -436,8 +464,6 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView saveModifyVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = saveProposal(form, result, request, response);
-        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-        wrapper.setDisableSaving(false);
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return modelAndView;
@@ -787,6 +813,13 @@ public class CourseController extends CourseRuleEditorController {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.startTerm";
                         } else {
                             elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.startTerm";
+                        }
+                        break;
+                    case "endTerm":
+                        if (StringUtils.equals(CurriculumManagementConstants.CoursePageIds.CREATE_COURSE_PAGE, form.getPageId())) {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".courseInfo.endTerm";
+                        } else {
+                            elementPath = CurriculumManagementConstants.DATA_OBJECT_PATH + ".reviewProposalDisplay.activeDatesSection.endTerm";
                         }
                         break;
                     case "transcriptTitle":

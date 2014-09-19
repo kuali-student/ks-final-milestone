@@ -85,17 +85,22 @@ public class CourseProposalUtil {
     }
 
     /**
-     * Constructs the url for view course for redirect from retire course page.
+     * Constructs the url for view course for the given courseId value
+     *
+     * NOTE: Will add a return location to the CM Homepage
      */
-    public static String getViewCourseUrl(){
+    public static String getViewCourseUrl(String courseId){
+        String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
+        return UrlFactory.parameterizeUrl(courseBaseUrl, buildViewCourseUrlProperties(courseId));
+    }
 
-        String cmViewCourseControllerMapping = CurriculumManagementConstants.ControllerRequestMappings.VIEW_COURSE.replaceFirst("/", "");
-
-        StringBuilder cmViewCourseUrl = new StringBuilder(cmViewCourseControllerMapping);
-        cmViewCourseUrl.append("?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=").append(KRADConstants.START_METHOD);
-        cmViewCourseUrl.append("&" + UifConstants.UrlParams.VIEW_ID + "=").append(CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
-
-        return cmViewCourseUrl.toString();
+    public static Properties buildViewCourseUrlProperties(String courseId) {
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+        props.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.VIEW_COURSE_VIEW);
+        props.put(CurriculumManagementConstants.UrlParams.COURSE_ID, courseId);
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
+        return props;
     }
 
     /**

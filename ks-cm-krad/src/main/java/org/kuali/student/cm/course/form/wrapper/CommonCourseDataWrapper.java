@@ -37,7 +37,7 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
      *
      * This data is not needed in the case where the display is for ViewCourse only.
      */
-    private boolean proposalDataRequired = true;
+    private boolean proposalDataUsed = true;
 
     private String lastTerm;
     private String publicationYear;
@@ -61,17 +61,17 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
     }
 
     /**
-     * @see #proposalDataRequired
+     * @see #proposalDataUsed
      */
-    public boolean isProposalDataRequired() {
-        return proposalDataRequired;
+    public boolean isProposalDataUsed() {
+        return proposalDataUsed;
     }
 
     /**
-     * @see #proposalDataRequired
+     * @see #proposalDataUsed
      */
-    public void setProposalDataRequired(boolean proposalDataRequired) {
-        this.proposalDataRequired = proposalDataRequired;
+    public void setProposalDataUsed(boolean proposalDataUsed) {
+        this.proposalDataUsed = proposalDataUsed;
     }
 
     /**
