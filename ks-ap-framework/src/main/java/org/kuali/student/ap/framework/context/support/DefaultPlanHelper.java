@@ -38,6 +38,8 @@ import org.kuali.student.ap.planner.PlannerTermNote;
 import org.kuali.student.ap.planner.RegCodeListPropertyEditor;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -54,6 +56,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -1663,27 +1666,53 @@ public class DefaultPlanHelper implements PlanHelper {
      */
     protected List<String> validateCourseItem(Course course, PlannerItem plannerItem){
         List<String> statusMessages = new ArrayList<String>();
-        String termName = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(plannerItem.getTermId())
-                .getLongName();
 
-        if(course.getStateKey().equals(DtoConstants.STATE_SUSPENDED)){
-            statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
-                    PLANNER_VALIDATION_MESSAGE_SUSPENDED,course.getCode(),termName));
-        } else if(course.getStateKey().equals(DtoConstants.STATE_RETIRED)){
-            if(course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
+         //Check for suspended/canceled CO's ...if SOC (for term) is published
+        if (KsapFrameworkServiceLocator.getTermHelper().isTermSocPublished(plannerItem.getTermId())
+                && (KsapFrameworkServiceLocator.getTermHelper().isCurrentTerm(plannerItem.getTermId())
+                    || KsapFrameworkServiceLocator.getTermHelper().isFutureTerm(plannerItem.getTermId()))) {
+            List<CourseOfferingInfo> coList=new ArrayList<>();
+            try {
+                coList = KsapFrameworkServiceLocator.getCourseOfferingService()
+                        .getCourseOfferingsByCourseAndTerm(course.getId(),plannerItem.getTermId(),
+                                KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (DoesNotExistException e) {
+                coList = new ArrayList<>();
+            } catch (InvalidParameterException|MissingParameterException|OperationFailedException|PermissionDeniedException e) {
+                throw new RuntimeException(String.format("Error retrieving Offerings for Course(%s) & term(%s): %s",
+                        course.getCode(),plannerItem.getTermId(),e.getMessage()),e);
+            }
+            if (coList==null) {
+                coList= new ArrayList<>();
+            }
+            int totalCoCnt=0;
+            int suspendedCoCnt = 0;
+            int cancelledCoCnt = 0;
+            int offeredCoCnt=0;
+            for (CourseOfferingInfo co : coList) {
+                if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equals( co.getStateKey())) {
+                    ++offeredCoCnt;
+                } else if (LuiServiceConstants.LUI_CO_STATE_SUSPENDED_KEY.equals( co.getStateKey())) {
+                    ++suspendedCoCnt;
+                } else if (LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY.equals( co.getStateKey())) {
+                    ++cancelledCoCnt;
+                }
+                ++totalCoCnt;
+            }
+            if (suspendedCoCnt==0&&cancelledCoCnt==0&&offeredCoCnt==0) {
                 statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
-                        PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode(),termName));
+                        PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode()));
+            } else if (offeredCoCnt==0 && (suspendedCoCnt>0 && cancelledCoCnt==0)) {
+                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
+                        PLANNER_VALIDATION_MESSAGE_SUSPENDED,course.getCode()));
+            } else if (offeredCoCnt==0 && (suspendedCoCnt==0 && cancelledCoCnt>0)) {
+                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
+                        PLANNER_VALIDATION_MESSAGE_CANCELED,course.getCode()));
+            } else if (offeredCoCnt==0 && (suspendedCoCnt>0 && cancelledCoCnt>0)) {
+                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
+                        PLANNER_VALIDATION_MESSAGE_SUSPENDED_OR_CANCELED,course.getCode()));
             }
         }
-
-        if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(plannerItem.getTermId())){
-            if(!KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course).contains(
-                    plannerItem.getTermId())){
-                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
-                        PlanConstants.PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode(),termName));
-            }
-        }
-
         return statusMessages;
     }
 }

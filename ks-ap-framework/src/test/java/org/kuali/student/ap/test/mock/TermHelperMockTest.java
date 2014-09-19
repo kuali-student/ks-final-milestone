@@ -370,4 +370,9 @@ public class TermHelperMockTest implements TermHelper {
     public String getFirstTermIdOfCurrentAcademicYear() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean isTermSocPublished(String termAtpId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

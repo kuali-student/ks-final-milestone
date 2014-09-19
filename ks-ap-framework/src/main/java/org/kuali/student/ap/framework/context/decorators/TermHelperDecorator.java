@@ -204,4 +204,9 @@ public class TermHelperDecorator implements TermHelper {
     public String getFirstTermIdOfCurrentAcademicYear() {
         return getNextDecorator().getFirstTermIdOfCurrentAcademicYear();
     }
+
+    @Override
+    public boolean isTermSocPublished(String termAtpId) {
+        return getNextDecorator().isTermSocPublished(termAtpId);
+    }
 }

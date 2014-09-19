@@ -663,6 +663,14 @@ public class DefaultTermHelper implements TermHelper {
         return futureTerms;
     }
 
+    @Override
+    public boolean isTermSocPublished(String termAtpId) {
+        SocInfo socInfo = getPublishedSocForTerm(termAtpId);
+        return socInfo!=null
+                && socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
+
+    }
+
     private  List<Term> getTermsWithPublishedSOC(List<Term> inputTerms) {
         List<Term> returnTerms = new ArrayList<Term>();
         for (Term term : inputTerms){

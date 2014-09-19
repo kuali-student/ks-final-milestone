@@ -291,4 +291,11 @@ public interface TermHelper {
      * @return The term id
      */
     public String getFirstTermIdOfCurrentAcademicYear();
+
+    /**
+     * Check to see if the SOC state of the term published.
+     * @param termAtpId termId
+     * @return
+     */
+    boolean isTermSocPublished(String termAtpId);
 }
