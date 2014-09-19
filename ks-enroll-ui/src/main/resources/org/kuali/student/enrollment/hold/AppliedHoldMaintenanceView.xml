@@ -320,7 +320,9 @@ limitations under the License.
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Expiration Term" p:propertyName="expirationTerm" p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Expiration Term" p:propertyName="expirationTerm"
+                                  p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}"
+                                  p:fieldLabel.renderColon="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
                                 </property>
@@ -440,7 +442,7 @@ limitations under the License.
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to @{#dp.action == 'kuali.applied.hold.expire' ? 'expire' : 'permanently delete'} the following Applied Hold(s) from the student."
+                                  p:messageText="You are about to @{#dp.action == 'kuali.applied.hold.expire' ? 'expire' : 'permanently delete'} the following Applied Hold from the student."
                                   p:render="true"/>
                             <!--iF we decide to delete more than one Applied hold-->
                             <!--<bean parent="Uif-Message"

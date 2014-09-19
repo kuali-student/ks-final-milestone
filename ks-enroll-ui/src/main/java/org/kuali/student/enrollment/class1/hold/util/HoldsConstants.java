@@ -78,8 +78,8 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_PERSON_ID = "person.id";
     public static final String APPLIED_HOLDS_EFFECTIVE_DATE = "effectiveDate";
     public static final String APPLIED_HOLDS_EFFECTIVE_TERM = "effectiveTerm";
-    public static final String APPLIED_HOLDS_EXPIRATION_DATE = "effectiveDate";
-    public static final String APPLIED_HOLDS_EXPIRATION_TERM = "effectiveTerm";
+    public static final String APPLIED_HOLDS_EXPIRATION_DATE = "expirationDate";
+    public static final String APPLIED_HOLDS_EXPIRATION_TERM = "expirationTerm";
     public static final String APPLIED_HOLDS_PROP_NAME = "appliedHold";
     public static final String APPLIED_HOLDS_PATH = HOLDS_DATAOBJECT_PATH;
     public static final String APPLIED_HOLDS_PROP_NAME_CODE =  APPLIED_HOLDS_PATH + "." + HOLD_ISSUE_HOLD_CODE;
