@@ -161,7 +161,7 @@
                         <bean parent="CM-RequiredConstraints-Enroute"/>
                     </property>
                 </bean>
-                <bean id="CM-Proposal-Course-Logistics-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="true"
+                <bean id="CM-Proposal-Course-Logistics-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
                       p:progressiveRender="#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'"
                       p:propertyName="finalExamRationale">
                     <property name="control">
