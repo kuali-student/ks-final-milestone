@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.academicrecord.service;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -22,11 +23,16 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 
 import javax.jws.WebParam;
@@ -74,6 +80,78 @@ public interface AcademicRecordService {
                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a single StudentCourseRecord by a StudentCourseRecord Id.
+     *
+     * @param studentCourseRecordId the Id of the StudentCourseRecord
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the StudentCourseRecordInfo
+     * @throws DoesNotExistException studentCourseRecordId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StudentCourseRecordInfo getStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCourseRecords from a list of
+     * StudentCourseRecords Ids. The returned list may be in any order
+     * and if duplicate Ids are supplied, a unique set may or may not
+     * be returned.
+     *
+     * @param studentCourseRecordIds a list of StudentCourseRecord identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of StudentCourseRecords
+     * @throws DoesNotExistException an Id in studentCourseRecordIds
+     *         is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordIds, an Id
+     *         in studentCourseRecordId, or contextInfo is missing or
+     *         null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(@WebParam(name = "studentCourseRecordIds") List<String> studentCourseRecordIds,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCourseRecord Ids by StudentCourseRecord Type.
+     *
+     * @param studentCourseRecordTypeKey the identifier of a
+     *        StudentCourseRecord Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of StudentCourseRecord identifiers matching
+     *         studentCourseRecordTypeKey or an empty list if none
+     *         found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordTypeKey or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStudentCourseRecordIdsByType(@WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
@@ -145,6 +223,87 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
+     * Searches for StudentCourseRecord Ids that meet the given search
+     * criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of the service
+     *        operation
+     * @return a list of StudentCredentialRecordIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForStudentCourseRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentCourseRecords that meet the given search
+     * criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of the service
+     *        operation
+     * @return a list of StudentCourseRecords
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a StudentCourseRecord. If an identifier is present
+     * for the StudentCourseRecord and a record is found for that
+     * identifier, the validation checks if the StudentCourseRecord
+     * can be updated to the new values.  If an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the StudentCourseRecord with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param studentCourseRecordTypeKey the identifier for the
+     *        StudentCourseRecord Type to be validated
+     * @param studentCourseRecordInfo the studentCourseRecord to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey or
+     *         studentCourseRecordTypeKey is not found
+     * @throws InvalidParameterException studentCourseRecordInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey,
+     *         studentCourseRecordTypeKey, studentCourseRecordInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentCourseRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordInfo") StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * This method returns a list of StudentCourseRecord for a student for a
      * given course
      *
@@ -193,6 +352,101 @@ public interface AcademicRecordService {
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(@WebParam(name = "personId") String personId,
                                                                           @WebParam(name = "termId") String termId,
                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new StudentCourseRecord. The StudentCourseRecord Id,
+     * Type, and Meta information may not be set in the supplied data
+     * object.
+     *
+     * @param personId the Id of the student
+     * @param studentCourseRecordTypeKey the identifier for the
+     *        StudentCourseRecord Type
+     * @param studentCourseRecord the data with which to create
+     *        the StudentCourseRecord
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new StudentCourseRecordInfo
+     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException studentCourseRecordTypeKey does
+     *         not exist or is not supported
+     * @throws InvalidParameterException studentCourseRecordInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordTypeKey,
+     *         studentCourseRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     */
+    public StudentCourseRecordInfo createStudentCourseRecord(@WebParam(name = "personId") String personId,
+                                                             @WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                             @WebParam(name = "studentCourseRecord") StudentCourseRecordInfo studentCourseRecord,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing StudentCourseRecord. The
+     * StudentCourseRecord Id, Type, and Meta information may not be
+     * changed.
+     *
+     * @param studentCourseRecordId the identifier for the
+     *        StudentCourseRecord to be updated
+     * @param studentCourseRecord the new data for the StudentCourseRecord
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated StudentCourseRecord
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException studentCourseRecordId is not found
+     * @throws InvalidParameterException studentCourseRecordInfo or
+     *         conetxtInfo is not valid
+     * @throws MissingParameterException studentCourseRecordId,
+     *         studentCourseRecordInfo, or contextInfo is missing or
+     *         null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at changing information designated as read only
+     * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
+     */
+    public StudentCourseRecordInfo updateStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                             @WebParam(name = "studentCourseRecord") StudentCourseRecordInfo studentCourseRecord,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing StudentCourseRecord.
+     *
+     * @param studentCourseRecordId the identifier for the
+     *        StudentCourseRecord to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
