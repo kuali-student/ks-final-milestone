@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.registration.client.service.exception.Missin
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
+import org.kuali.student.enrollment.util.KSIdentityServiceHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -79,10 +80,15 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     private LprService lprService;
     private AtpService atpService;
     private ScheduleOfClassesService scheduleOfClassesService;
+    private KSIdentityServiceHelper ksIdentityServiceHelper;
+    private Map<String, Integer> activityPriorityMap;
 
 
     @Override
     public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
+        if(cartId == null || cartId.isEmpty()){
+            throw new MissingParameterException("cartId cannot be null");
+        }
 
         //Make sure that the user is the owner of the cart!
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
@@ -164,7 +170,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     protected RegistrationRequestInfo addCourseToRegRequest(String regRequestId, String regGroupId, String gradingOptionId, String credits, String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
         // Create new reg request item and add it to the cart
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(contextInfo.getPrincipalId());
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, regGroupId, null, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(contextInfo.getPrincipalId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
@@ -229,8 +235,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         if(cartResult == null){
             // we were getting NPE on the next method when under heavy load. Adding additional debug.
-            String technicalInfo = String.format("Error: cartResult == null. Technical Info:(cartRequestorId:[%s] cartTermId:[%s] newCartItemId:[%s] )",
-                    contextInfo.getPrincipalId(), updatedRegReq.getTermId(), newRegReqItem.getId());
+            String technicalInfo = String.format("Error: cartResult == null. Technical Info:(cartId:[%s] cartRequestorId:[%s] cartTermId:[%s] newCartItemId:[%s] )",
+                    updatedRegReq.getId(), contextInfo.getPrincipalId(), updatedRegReq.getTermId(), newRegReqItem.getId());
             throw new NullPointerException(technicalInfo);
         }
         CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
@@ -325,7 +331,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
 
         //Check that it is the users' cart
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
         if (!StringUtils.equals(cartRegistrationRequest.getRequestorId(), contextInfo.getPrincipalId())) {
             throw new PermissionDeniedException("User does not have permission to edit items on this registration cart");
         }
@@ -450,6 +455,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         String lastAoName = "";
         String lastCartId = "";
         String lastCartState = "";
+        String lastCartType = "";
+        String lastTermId = "";
         CartItemResult currentCartItem = new CartItemResult();
         ActivityOfferingScheduleResult aoSched = new ActivityOfferingScheduleResult();
         CartResult cartResult = new CartResult();
@@ -459,6 +466,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             String cartId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ID);
             String cartItemId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_ID);
             String cartState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_STATE);
+            String cartType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_TYPE);
             String cartItemState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_STATE);
             String crossList = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CROSSLIST);
             String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
@@ -545,17 +553,25 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             aoSched.getActivityOfferingLocationTime().add(locationTimeResult);
 
             lastAoName = aoName;
-            lastCartId = cartId;
             lastCartItemId = cartItemId;
-            lastCartState = cartState;
+
+            // the search can return "processing" items which are not part of the user cart
+            if(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(cartType)) {
+                lastCartId = cartId;
+                lastCartState = cartState;
+                lastCartType = cartType;
+                lastTermId = termId;
+            }
         }
 
         //Now we need grading and credit options in a new search
         if (populateOptions) {
             populateOptions(luiIdToCartItems, contextInfo);
         }
+
+
         cartResult.setCartId(lastCartId);
-        cartResult.setTermId(termId);
+        cartResult.setTermId(lastTermId);
         cartResult.setState(lastCartState);
 
         //Populating instructors for AOs
@@ -584,7 +600,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                     hmAoSchedules.get(aoScheduleResult.getActivityOfferingType()).add(aoScheduleResult);
                 }
             }
-            CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
+            Map<String, Integer> activityPriorityMap = getActivityPriorityMap(contextInfo);
+            CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, activityPriorityMap);  // sort the activity offerings type keys by priority order
             List<ActivityOfferingScheduleResult> aoSchedules = new ArrayList<>();
             for (String key : aoTypes) {
                 aoSchedules.addAll(hmAoSchedules.get(key));
@@ -732,5 +749,20 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
         this.scheduleOfClassesService = scheduleOfClassesService;
+    }
+
+    public KSIdentityServiceHelper getKsIdentityServiceHelper() {
+        return ksIdentityServiceHelper;
+    }
+
+    public void setKsIdentityServiceHelper(KSIdentityServiceHelper ksIdentityServiceHelper) {
+        this.ksIdentityServiceHelper = ksIdentityServiceHelper;
+    }
+
+    private Map<String, Integer> getActivityPriorityMap(ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        if(activityPriorityMap == null){
+             activityPriorityMap = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo);
+        }
+        return activityPriorityMap;
     }
 }

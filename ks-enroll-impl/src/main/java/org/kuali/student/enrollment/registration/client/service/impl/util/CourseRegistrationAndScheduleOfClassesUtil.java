@@ -159,20 +159,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * order comes from the priority established in the Activity Types.
      *
      * @param typeKeys    list of activity offering type keys
-     * @param contextInfo context of the call
      */
-    public static void sortActivityOfferingTypeKeyList(List<String> typeKeys, final ContextInfo contextInfo) {
+    public static void sortActivityOfferingTypeKeyList(List<String> typeKeys,final Map<String, Integer> activityPriorityMap) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         Collections.sort(typeKeys, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                try {
-                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1);
-                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2);
+                    int val1 = activityPriorityMap.get(o1);
+                    int val2 = activityPriorityMap.get(o2);
                     return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
-                } catch (Exception ex) {
-                    // I'm not sure if this is the correct thing to do here.
-                    throw new RuntimeException("Failed to sort activity offering types", ex);
-                }
             }
         });
     }
@@ -430,7 +424,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /**
      * This method creates a registration request for the add operation of a single registration group.
      *
-     * @param principalId     principal id
+     * @param personId        id of person that will be stored in LPR table.
      * @param regGroupId      Registration Group id
      * @param masterLprId     masterLprId
      * @param credits         credits
@@ -441,14 +435,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      *                        is still under the max setting
      * @return registration request
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String courseCode, boolean okToWaitlist, boolean okToRepeat) {
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String personId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String courseCode, boolean okToWaitlist, boolean okToRepeat) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(typeKey);
         registrationRequestItem.setStateKey(stateKey);
         registrationRequestItem.setRegistrationGroupId(regGroupId);
         registrationRequestItem.setExistingCourseRegistrationId(masterLprId);
-        registrationRequestItem.setPersonId(principalId);
+        registrationRequestItem.setPersonId(personId);
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
         registrationRequestItem.setOkToWaitlist(okToWaitlist);

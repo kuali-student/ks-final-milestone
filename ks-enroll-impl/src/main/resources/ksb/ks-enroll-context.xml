@@ -1612,6 +1612,7 @@ the program will get the rule management service by calling the global resource 
 
     <bean id="courseRegistrationClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl">
         <property name="scheduleOfClassesService" ref="scheduleOfClassesServiceElastic"/>
+        <property name="ksIdentityServiceHelper"   ref="ksIdentityServiceHelper"/>
     </bean>
 
     <bean id="ks.exp.courseRegistrationClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1641,6 +1642,7 @@ the program will get the rule management service by calling the global resource 
     <bean id="courseRegistrationCartService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartServiceImpl">
         <property name="courseRegistrationService" ref="CourseRegistrationService"/>
         <property name="lprService" ref="LprService"/>
+        <property name="ksIdentityServiceHelper"   ref="ksIdentityServiceHelper"/>
     </bean>
 
     <bean id="ks.exp.courseRegistrationCartService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1658,6 +1660,7 @@ the program will get the rule management service by calling the global resource 
     <!-- the rest clients should be using the elastic impls where possible -->
     <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl" >
         <property name="scheduleOfClassesService" ref="scheduleOfClassesServiceElastic" />
+        <property name="ksIdentityServiceHelper"   ref="ksIdentityServiceHelper"/>
     </bean>
 
     <bean id="ks.exp.courseRegistrationCartClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -2060,6 +2063,11 @@ the program will get the rule management service by calling the global resource 
                 <property name="busSecurity" value="${ks.enroll.bus.security}" />
             </bean>
         </property>
+    </bean>
+
+    <bean id="ksIdentityServiceHelper" class="org.kuali.student.enrollment.util.KSIdentityServiceHelper">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="identityService" ref="coreIdentityServiceClient" />
     </bean>
 
 </beans>

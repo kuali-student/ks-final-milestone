@@ -127,31 +127,31 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
         }  catch(CourseDoesNotExistException e) {
-            String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+            String technicalInfo = String.format("Unable to add item to cart. CourseDoesNotExistException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, new CourseCodeValidationResult(e.getMessageKey(), e.getCourseCode()));
         } catch (MissingOptionException e) {
-            String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+            String technicalInfo = String.format("Unable to add item to cart. MissingOptionException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
-            String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+            String technicalInfo = String.format("Unable to add item to cart. DoesNotExistException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (GenericUserException e) {
-            String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+            String technicalInfo = String.format("Unable to add item to cart. GenericUserException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.error(technicalInfo,e);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getUserMessage());
         } catch (Exception e) {
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
-            userMessage.setGenericMessage("Unable to add item to cart.");
+            userMessage.setGenericMessage("Unable to add item to cart. Exception.");
             String technicalInfo = String.format("Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
 
@@ -339,7 +339,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(searchForCart(ContextUtils.createDefaultContextInfo(), termId));
         } catch (Exception e) {
-            LOGGER.warn("Error", e);
+            LOGGER.warn("Error while searching for cart: searchForCartRS", e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Error while searching for Cart.");

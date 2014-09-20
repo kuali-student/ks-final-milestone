@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.krms.proposition;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
@@ -41,7 +40,6 @@ import org.kuali.student.enrollment.registration.client.service.ScheduleOfClasse
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -113,6 +111,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
         RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
+        String personId = requestItemInfo.getPersonId();
 
         List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<>();
         regRequestItems.add(requestItemInfo);
@@ -130,13 +129,6 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         if (requestItemInfo.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY)) {
             // adding from waitlist, cannot resolve existing registrations from the environment context
             try {
-                String personId;
-                Entity entity = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId());
-                if (entity != null) {
-                    personId = entity.getId();
-                } else {
-                    personId = contextInfo.getPrincipalId();
-                }
                 existingCourses = courseRegistrationService.getCourseRegistrationsByStudentAndTerm(personId, request.getTermId(), contextInfo);
             } catch (Exception ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);

@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.UserMessageR
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
+import org.kuali.student.enrollment.util.KSIdentityServiceHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -84,6 +85,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private ScheduleOfClassesService scheduleOfClassesService;
     private AcademicPlanService academicPlanService; // this does not live in our module so do not put in our context. use GRL to access.
     private CluService cluService;    // this does not live in our module so do not put in our context. use GRL to access.
+    private KSIdentityServiceHelper ksIdentityServiceHelper;
 
     protected static Comparator<LprTransactionItemInfo> LPR_TRANS_ITEM_CREATE_DATE = new Comparator<LprTransactionItemInfo>() {
 
@@ -204,7 +206,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
         }
 
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(userId).getId();
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(userId);
         List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId, termId, contextInfo);
 
         StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
@@ -375,7 +377,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
 
         List<RegistrationRequestItemInfo> regReqItems = new ArrayList<>();
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(contextInfo.getPrincipalId());
 
         for (LprInfo masterLpr : masterLprs) {
             RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, masterLpr.getLuiId(), masterLpr.getMasterLprId(), null, null, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, null, false, false);
@@ -684,7 +686,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         regReqInfo.setTypeKey(typeKey);
         regReqInfo.setStateKey(stateKey);
 
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(principalId).getId();
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(principalId);
 
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, courseCode, okToWaitlist, okToRepeat);
 
@@ -768,7 +770,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTRATION_TYPE_KEY);
 
         //Create Reg Request Item
-        String entityId = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().getEntityByPrincipalId(contextInfo.getPrincipalId()).getId();
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(contextInfo.getPrincipalId());
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(entityId, regGroupId,
                 masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, courseCode, false, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<>();
@@ -1101,5 +1103,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         response.header("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET, OPTIONS");
         response.header("Access-Control-Allow-Origin", "*");
         return response;
+    }
+
+    public KSIdentityServiceHelper getKsIdentityServiceHelper() {
+        return ksIdentityServiceHelper;
+    }
+
+    public void setKsIdentityServiceHelper(KSIdentityServiceHelper ksIdentityServiceHelper) {
+        this.ksIdentityServiceHelper = ksIdentityServiceHelper;
     }
 }

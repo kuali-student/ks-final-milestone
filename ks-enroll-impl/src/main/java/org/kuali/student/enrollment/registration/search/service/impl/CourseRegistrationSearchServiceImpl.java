@@ -166,6 +166,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String CART_STATE = "cartState";
+        public static final String CART_TYPE = "cartType";
         public static final String CART_ITEM_STATE = "cartItemState";
         public static final String CROSSLIST = "crossList";
         public static final String COURSE_CODE = "courseCode";
@@ -1041,6 +1042,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    lprt.id                   cartId, " +
                 "    lprti.ID                  cartItemId, " +
                 "    lprt.LPR_TRANS_STATE       cartState, " +
+                "    lprt.LPR_TRANS_TYPE       cartType, " +
                 "    lprti.LPR_TRANS_ITEM_STATE cartItemState, " +
                 "    lprti.CROSSLIST           crossList, " +
                 "    coId.LUI_CD               courseCode, " +
@@ -1151,6 +1153,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.CART_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_ITEM_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_STATE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CART_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_ITEM_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CROSSLIST, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);

@@ -93,6 +93,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private LRCService lrcService;
     private LuiService luiService;
 
+    private Map<String, Integer> activityPriorityMap;
 
     /**
      * COURSE OFFERINGS *
@@ -713,7 +714,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     aoTypes.add(key);
                 }
                 // sorting over AO types
-                CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, contextInfo);  // sort the activity offerings type keys by priority order
+                CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, getActivityPriorityMap(contextInfo));  // sort the activity offerings type keys by priority order
                 for (String key : aoTypes) {
                     activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
                 }
@@ -1491,5 +1492,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
+    }
+
+    private Map<String, Integer> getActivityPriorityMap(ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        if(activityPriorityMap == null){
+            activityPriorityMap = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo);
+        }
+        return activityPriorityMap;
     }
 }
