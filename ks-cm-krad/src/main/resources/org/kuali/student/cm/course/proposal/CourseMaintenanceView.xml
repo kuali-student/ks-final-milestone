@@ -120,6 +120,7 @@
         <property name="expressionVariables">
             <map merge="true">
                 <entry key="dataObject" value="document.newMaintainableObject.dataObject"/>
+                <entry key="oldDataObject" value="document.oldMaintainableObject.dataObject"/>
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
                 <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
@@ -661,7 +662,7 @@
                 <bean parent="Uif-PrimaryActionButton"
                       p:additionalCssClasses="btn-success"
                       p:ajaxSubmit="false"
-                      p:actionLabel="Complete Modification"
+                      p:actionLabel="Save"
                       p:methodToCall="completeModifyThisVersion"
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] and #isModifyNoNewVersion}"/>

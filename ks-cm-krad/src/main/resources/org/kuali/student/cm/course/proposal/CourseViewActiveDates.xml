@@ -27,7 +27,10 @@
                         <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshEndTerm(); @{#uiHelper.modifyWithNewVersionProposal ? 'refreshCurrentCourseEndTerm();' : ''}"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true" />
+                        <!-- For Add/Create, and Modify without a new course version, all terms should be available.
+                             For modify with version, only start terms that are after the start term of the current course should be available. -->
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder" p:addBlankOption="true"
+                              p:boundaryTermId="@{#uiHelper.modifyWithNewVersionProposal ? #oldDataObject.courseInfo.startTerm : ''}" />
                     </property>
                 </bean>
 
@@ -91,8 +94,9 @@
                         <bean parent="KS-Uif-DropdownControl" p:disabled="@{!(#dataObject.courseInfo.pilotCourse)}" />
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-                              p:addBlankOption="true" />
+                        <!-- End term should always be after the start term. -->
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder" p:addBlankOption="true"
+                            p:boundaryTermId="@{#dataObject.courseInfo.startTerm}" />
                     </property>
                     <property name="fieldLabel.richLabelMessage">
                         <bean parent="CM-IconLabelMessage">
