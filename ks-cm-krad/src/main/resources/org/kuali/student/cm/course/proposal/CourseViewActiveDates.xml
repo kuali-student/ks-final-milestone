@@ -30,7 +30,7 @@
                         <!-- For Add/Create, and Modify without a new course version, all terms should be available.
                              For modify with version, only start terms that are after the start term of the current course should be available. -->
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder" p:addBlankOption="true"
-                              p:boundaryTermId="@{#uiHelper.modifyWithNewVersionProposal ? #oldDataObject.courseInfo.startTerm : ''}" />
+                              p:boundaryTermId="@{#uiHelper.modifyWithNewVersionProposal ? #dataObject.currentCourseStartTermId : ''}" />
                     </property>
                 </bean>
 

@@ -66,6 +66,8 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     private String currentCourseEndTermShortName;
 
+    private String currentCourseStartTermId;
+
     // decides whether to set default data on the CourseInfo object at the save point
     private boolean disableCourseDefaulting = false;
 
@@ -79,6 +81,18 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     public void setCurrentCourseEndTermShortName(String currentCourseEndTermShortName) {
          this.currentCourseEndTermShortName = currentCourseEndTermShortName;
+    }
+
+    /**
+     * Storage for the start term of the "current" version of the course. This is used on a modify with new version
+     * to constrain the values of the start term on the draft course.
+     */
+    public String getCurrentCourseStartTermId() {
+        return this.currentCourseStartTermId;
+    }
+
+    public void setCurrentCourseStartTermId(String currentCourseStartTermId) {
+         this.currentCourseStartTermId = currentCourseStartTermId;
     }
 
     /**

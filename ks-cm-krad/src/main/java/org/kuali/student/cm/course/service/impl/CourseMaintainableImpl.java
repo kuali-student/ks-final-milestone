@@ -1401,6 +1401,19 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         }
 
         finalizeUiHelper();
+
+        //  If this is the draft course on a modify with new version then save the start term for the current version of the course.
+        //  This is used to constrain the list of start terms on the UI.
+        if (dataObject.getUiHelper().isModifyWithNewVersionProposal() && dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT)) {
+            String vIId = dataObject.getCourseInfo().getVersion().getVersionIndId();
+            CourseInfo currentVersion = null;
+            try {
+                currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(vIId, ContextUtils.createDefaultContextInfo());
+                dataObject.setCurrentCourseStartTermId(currentVersion.getStartTerm());
+            } catch (Exception e) {
+                LOG.error("Could not get current course for version.", e);
+            }
+        }
     }
 
     /**

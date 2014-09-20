@@ -125,14 +125,14 @@ public class CourseProposalUtil {
      * @return
      * @throws Exception
      */
-    public static CourseInfo getCurrentVersionOfCourse(String versionIndId,ContextInfo contextInfo) throws Exception {
+    public static CourseInfo getCurrentVersionOfCourse(String versionIndId, ContextInfo contextInfo) throws Exception {
 
         // Get id of current version of course given the version independent id
         VersionDisplayInfo curVerDisplayInfo = CMUtils.getCourseService().getCurrentVersion(COURSE_NAMESPACE_URI, versionIndId, contextInfo);
         String curVerId = curVerDisplayInfo.getId();
 
         // Return the current version of the course
-        CourseInfo currVerCourse = CMUtils.getCourseService().getCourse(curVerId,contextInfo);
+        CourseInfo currVerCourse = CMUtils.getCourseService().getCourse(curVerId, contextInfo);
 
         return currVerCourse;
     }
