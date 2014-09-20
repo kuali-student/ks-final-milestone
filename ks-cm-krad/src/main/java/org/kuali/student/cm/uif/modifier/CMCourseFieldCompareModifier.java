@@ -16,11 +16,11 @@
  */
 package org.kuali.student.cm.uif.modifier;
 
-import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifPropertyPaths;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.field.DataField;
@@ -163,6 +163,14 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
 
                 ComponentUtils.setComponentPropertyDeep(compareItem, UifPropertyPaths.BIND_OBJECT_PATH,
                         comparable.getBindingObjectPath());
+
+
+                List<CollectionGroup> collectionGroups = ViewLifecycleUtils.getElementsOfTypeDeep(compareItem, CollectionGroup.class);
+
+                for (CollectionGroup collectionGroup : collectionGroups){
+                    updateCollectionGroupPath(collectionGroup,comparable.getBindingObjectPath());
+                }
+
                 if (comparable.isReadOnly()) {
                     compareItem.setReadOnly(true);
                     if (compareItem.getPropertyExpressions().containsKey("readOnly")) {
@@ -209,6 +217,26 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
         }
         // update the group's list of components
         group.setItems(comparisonItems);
+    }
+
+    protected void updateCollectionGroupPath(CollectionGroup collectionGroup,String path){
+
+        ComponentUtils.setComponentPropertyDeep(collectionGroup, UifPropertyPaths.BIND_OBJECT_PATH,path);
+        ComponentUtils.setComponentPropertyDeep(collectionGroup, "fieldBindingObjectPath",path);
+
+        List<CollectionGroup> subCollection = collectionGroup.getSubCollections();
+        for (CollectionGroup subCollectionGroup1 : subCollection){
+            updateCollectionGroupPath(subCollectionGroup1, path);
+        }
+
+        List<? extends Component> dataFields = collectionGroup.getItems();
+        for (Component field : dataFields) {
+            ComponentUtils.setComponentPropertyDeep(field, UifPropertyPaths.BIND_OBJECT_PATH,path);
+            ComponentUtils.setComponentPropertyDeep(field, "fieldBindingObjectPath",path);
+            if (field instanceof DataField) {
+                ((DataField)field).getBindingInfo().setBindingObjectPath(path);
+            }
+        }
     }
 
     protected boolean performValueComparison(Group group, Component compareItem, Object model,

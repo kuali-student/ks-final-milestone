@@ -755,7 +755,7 @@
         </property>
         <property name="componentModifiers">
               <list>
-                  <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and #isViewCourseView}"/>
+                  <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}"/>
               </list>
         </property>
     </bean>

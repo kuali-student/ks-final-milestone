@@ -24,9 +24,11 @@ import org.kuali.rice.krad.uif.layout.GridLayoutManager;
 import org.kuali.rice.krad.uif.layout.StackedLayoutManager;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.modifier.ComponentModifierBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.renderHelpers.ActivityInfoCompareRenderHelper;
 import org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper;
 
 import java.util.ArrayList;
@@ -67,10 +69,22 @@ public class CourseFormatCollectionModifier extends ComponentModifierBase {
             field.setAdditionalHiddenPropertyNames(hiddenProperties);
         }
 
-        ViewCourseForm form = (ViewCourseForm)model;
+        List<FormatInfoWrapper> courseFormats;
+        List<FormatInfoWrapper> compareFormats;
 
-        List<FormatInfoWrapper> courseFormats = form.getCourseInfoWrapper().getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
-        List<FormatInfoWrapper> compareFormats = form.getCompareCourseInfoWrapper().getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+        if (model instanceof ViewCourseForm){
+            ViewCourseForm form = (ViewCourseForm)model;
+            courseFormats = form.getCourseInfoWrapper().getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+            compareFormats = form.getCompareCourseInfoWrapper().getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+        } else if (model instanceof MaintenanceDocumentForm){
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+            courseFormats = ((CourseInfoWrapper)form.getDocument().getNewMaintainableObject().getDataObject()).getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+            compareFormats = ((CourseInfoWrapper)form.getDocument().getOldMaintainableObject().getDataObject()).getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+        } else {
+            throw new RuntimeException("Does not support");
+        }
+
+
 
         int formatIndex = 0;
         for (FormatInfoWrapper format : courseFormats) {
