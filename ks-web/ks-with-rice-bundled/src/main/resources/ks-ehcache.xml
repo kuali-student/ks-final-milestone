@@ -64,6 +64,9 @@
     <cache name="instructorCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
     <cache name="aoTimeslot" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="1200" />
 
+    <!-- Cache for KIM Principal. Intended for getEntityIdByPrincipalId -->
+    <cache name="kimPrincipalCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
     <!-- GES Service Cache -->
     <cache name="gesServiceCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600"  >
         <searchable>
