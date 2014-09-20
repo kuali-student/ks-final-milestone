@@ -434,7 +434,7 @@ public class CourseProposalUtil {
 
         List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.PREVIOUS, contextInfo);
 
-        if (termResults.size() < 1) {
+        if (termResults == null || termResults.size() < 1) {
             return new TermResult();
         }
         Collections.sort(termResults, new Comparator<TermResult>() {
