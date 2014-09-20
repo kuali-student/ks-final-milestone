@@ -370,24 +370,12 @@ describe('Controller: SearchDetailsCtrl', function () {
 
             scope.addToCart(); // Add to cart should return out since no reg group is selected
             expect(spy).not.toHaveBeenCalled();
-            expect(scope.actionWarning).toBeTruthy();
-            expect(scope.actionBlocked).toBeTruthy();
-            scope.actionWarning = false;
-            scope.actionBlocked = false;
 
             scope.addToWaitlist();
             expect(spy).not.toHaveBeenCalled();
-            expect(scope.actionWarning).toBeTruthy();
-            expect(scope.actionBlocked).toBeTruthy();
-            scope.actionWarning = false;
-            scope.actionBlocked = false;
 
             scope.directRegister();
             expect(spy).not.toHaveBeenCalled();
-            expect(scope.actionWarning).toBeTruthy();
-            expect(scope.actionBlocked).toBeTruthy();
-            scope.actionWarning = false;
-            scope.actionBlocked = false;
         });
 
         it('should be blocked when the waitlist is unavailable for the selected reg group', function() {
