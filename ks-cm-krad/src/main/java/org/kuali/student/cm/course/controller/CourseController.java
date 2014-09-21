@@ -214,7 +214,7 @@ public class CourseController extends CourseRuleEditorController {
             }
             wrapper.getProposalInfo().getRationale().setFormatted("dummy");
             wrapper.getProposalInfo().getRationale().setPlain("dummy");
-            wrapper.getProposalInfo().setName("dummy");
+            wrapper.getProposalInfo().setName(wrapper.getCourseInfo().getCourseTitle());
             doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
 
             if (!GlobalVariables.getMessageMap().hasErrors()) {
