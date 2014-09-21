@@ -67,7 +67,23 @@ public class ViewCourseFormatCollectionModifier extends ViewCourseCollectionModi
 
             }
 
+            if (compareFormats.get(formatIndex).getActivities().size() > format.getActivities().size()){
+                while (compareFormats.get(formatIndex).getActivities().size() > activityIndex) {
+                    compareFormats.get(formatIndex).getActivities().get(activityIndex).setHightlightRow(true);
+                    activityIndex++;
+                }
+            }
+
             formatIndex++;
+        }
+
+        if (compareFormats.size() > courseFormats.size()) {
+            while (compareFormats.size() > formatIndex) {
+                for (ActivityInfoWrapper activity : compareFormats.get(formatIndex).getActivities()){
+                    activity.setHightlightRow(true);
+                }
+                formatIndex++;
+            }
         }
     }
 

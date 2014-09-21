@@ -16,12 +16,15 @@
  */
 package org.kuali.student.cm.course.modifiers;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.ViewCourseForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.LoDisplayWrapperModel;
+
+import java.util.List;
 
 /**
  *
@@ -47,13 +50,36 @@ public class ViewCourseLOCollectionModifier extends ViewCourseCollectionModifier
             throw new RuntimeException("Does not support");
         }
 
+        int index = 0;
         for (LoDisplayInfoWrapper lo : los.getLoWrappers()) {
 
+            LoDisplayInfoWrapper loToCompare = getLOFromCompare(losCompare.getLoWrappers(),index);
 
-//            if (!StringUtils.equals(lo.getId(), lo.getId())){
-//                lo.putExtensionData("hightlightRow",true);
-//            }
+            if (loToCompare != null){
+                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
+                    lo.setHightlightRow(true);
+                    loToCompare.setHightlightRow(true);
+                }
+            } else {
+                lo.setHightlightRow(true);
+            }
+
+            index++;
 
         }
+
+        if (losCompare.getLoWrappers().size() > los.getLoWrappers().size()){
+            while (losCompare.getLoWrappers().size() > index) {
+                losCompare.getLoWrappers().get(index).setHightlightRow(true);
+                index++;
+            }
+        }
+    }
+
+    protected LoDisplayInfoWrapper getLOFromCompare(List<LoDisplayInfoWrapper> compareLOs, int index){
+        if (compareLOs.isEmpty() || compareLOs.size() <= index){
+            return null;
+        }
+        return compareLOs.get(index);
     }
 }

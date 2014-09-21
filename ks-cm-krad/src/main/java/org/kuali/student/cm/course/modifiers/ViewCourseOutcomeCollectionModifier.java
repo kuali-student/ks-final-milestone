@@ -58,13 +58,21 @@ public class ViewCourseOutcomeCollectionModifier extends ViewCourseCollectionMod
                 if (!StringUtils.equals(outcome.getOutComeValue(),compareOutcome.getOutComeValue()) ||
                     !StringUtils.equals(outcome.getOutComeType(),compareOutcome.getOutComeType())){
                     outcome.setHightlightRow(true);
+                    compareOutcome.setHightlightRow(true);
                 }
             } else {
-                compareOutcome.setHightlightRow(true);
+                outcome.setHightlightRow(true);
             }
 
             index++;
 
+        }
+
+        if (outcomeCompares.size() > outcomes.size()){
+            while (outcomeCompares.size() > index) {
+                outcomeCompares.get(index).setHightlightRow(true);
+                index++;
+            }
         }
     }
 
