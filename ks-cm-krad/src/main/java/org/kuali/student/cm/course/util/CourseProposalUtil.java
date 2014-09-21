@@ -364,8 +364,7 @@ public class CourseProposalUtil {
 
     public static List<TermResult> getTerm(String termAtpId, List<String> termTypeKeys, Position position, ContextInfo contextInfo)  {
 
-
-        List<TermResult> termResults = new ArrayList<TermResult>();
+        List<TermResult> termResults = new ArrayList<>();
 
         if (termAtpId == null) {
             return null;

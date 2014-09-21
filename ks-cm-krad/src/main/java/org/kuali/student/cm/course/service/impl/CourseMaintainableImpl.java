@@ -1481,8 +1481,23 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         populateJointCourseOnWrapper();
         populateLearningObjectives();
         populateRequisities(courseWrapper,course.getId());
-
+        populateRetirementData();
         super.populateWrapperData(courseWrapper);
+    }
+
+    /**
+     * Populate retirement data if it exits.
+     */
+    protected void populateRetirementData() {
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
+        // Only look for this data on course in state Retired.
+        if (dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_RETIRED)) {
+            String retirementRationale = dataObject.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE);
+            dataObject.setRetirementRationale(retirementRationale);
+
+            String lastTermOffered = dataObject.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED);
+            dataObject.setLastTerm(lastTermOffered);
+        }
     }
 
     /*
