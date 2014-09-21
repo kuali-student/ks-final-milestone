@@ -486,10 +486,12 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
             courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
         }
-
-        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-        courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+        //  Add a blank line for Curriculum Oversight if it is empty.
+        if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner().isEmpty()) {
+            CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+            newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+            courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+        }
 
         // Initialize Crosslistings if it hasn't already been.
         if (courseInfoWrapper.getCourseInfo().getCrossListings().isEmpty()) {

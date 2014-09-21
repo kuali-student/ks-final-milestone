@@ -51,6 +51,7 @@ import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -174,7 +175,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setDisableCourseDefaulting(true);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
-        newMaintainble.populateCourseAndReviewData(courseId,courseInfoWrapper);
+        newMaintainble.populateCourseAndReviewData(courseId, courseInfoWrapper);
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
         form.getDocument().getDocumentHeader().setDocumentDescription("Admin Modify: " + courseInfoWrapper.getCourseInfo().getCourseTitle());
         return getUIFModelAndView(form);
@@ -202,6 +203,9 @@ public class CourseController extends CourseRuleEditorController {
             // TODO KSCM-2836 -- validations fire if these proposal fields aren't filled out even thought we don't use proposalInfo on this document
             if (wrapper.getProposalInfo() == null) {
                 wrapper.setProposalInfo(new ProposalInfo());
+            }
+            if (wrapper.getProposalInfo().getRationale() == null) {
+                wrapper.getProposalInfo().setRationale(new RichTextInfo());
             }
             wrapper.getProposalInfo().getRationale().setFormatted("dummy");
             wrapper.getProposalInfo().getRationale().setPlain("dummy");
@@ -261,7 +265,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.getUiHelper().setUseReviewProcess(
                 request.getParameter(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW).equals(Boolean.TRUE.toString()));
 
-        //Get the current version requisities and clear out all the ids, sothat requisites will be created new for this proposal.
+        // Get the current version requisities and clear out all the ids so that requisites will be created new for this proposal.
         CourseInfo currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndId,ContextUtils.createDefaultContextInfo());
         newMaintainble.populateRequisities(courseInfoWrapper,currentVersion.getId());
         newMaintainble.getCourseCopyHelper().resetRequisites(courseInfoWrapper);
