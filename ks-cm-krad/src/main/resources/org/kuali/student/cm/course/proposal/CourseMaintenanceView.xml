@@ -127,6 +127,7 @@
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="isCreateProposal" value="document.newMaintainableObject.dataObject.uiHelper.isStringExistsInArray(docTypeName,T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames).COURSE_CREATE_DOC_TYPE_NAMES)"/>
                 <entry key="isModifyNoNewVersion" value="docTypeName eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_MODIFY_ADMIN_NOVERSION"/>
+                <entry key="isRetiredCourse" value="document.newMaintainableObject.dataObject.courseInfo.stateKey eq T(org.kuali.student.r2.common.dto.DtoConstants).STATE_RETIRED"/>
             </map>
         </property>
         <property name="header.rightGroup">
@@ -503,55 +504,83 @@
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="propertyReplacers">
-                            <list>
-                                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                      p:propertyName="render"
-                                      p:condition="@{!#isModifyNoNewVersion}">
-                                    <property name="replacement">
-                                        <value>true</value>
-                                    </property>
-                                </bean>
-                                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                      p:propertyName="items"
-                                      p:condition="@{!#isModifyNoNewVersion}">
-                                    <property name="replacement">
-                                        <list>
-                                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                                            <ref bean="CM-Proposal-Course-Governance-Section"/>
-                                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                                            <ref bean="CM-Proposal-Course-Financial-Section"/>
-                                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
-                                            <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
-                                        </list>
-                                    </property>
-                                </bean>
-                                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                      p:propertyName="render"
-                                      p:condition="@{#isModifyNoNewVersion}">
-                                    <property name="replacement">
-                                        <value>true</value>
-                                    </property>
-                                </bean>
-                                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                      p:propertyName="items"
-                                      p:condition="@{#isModifyNoNewVersion}">
-                                    <property name="replacement">
-                                        <list>
-                                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                                            <ref bean="CM-Proposal-Course-Governance-Section"/>
-                                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                                            <ref bean="CM-Proposal-Course-Financial-Section"/>
-                                            <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </list>
+                        <list>
+
+                            <!-- New version courses -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="render"
+                                  p:condition="@{!#isModifyNoNewVersion}">
+                                <property name="replacement">
+                                    <value>true</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="items"
+                                  p:condition="@{!#isModifyNoNewVersion}">
+                                <property name="replacement">
+                                    <list>
+                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
+                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
+                                        <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                                        <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <!-- No new version courses that are in state retire. -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="render"
+                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
+                                <property name="replacement">
+                                    <value>true</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="items"
+                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
+                                <property name="replacement">
+                                    <list>
+                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
+                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
+                                        <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <!-- No new version courses that are not in state retire. -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="render"
+                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse}">
+                                <property name="replacement">
+                                    <value>true</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="items"
+                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse}">
+                                <property name="replacement">
+                                    <list>
+                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
+                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
                         <value>

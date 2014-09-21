@@ -60,8 +60,6 @@
                         <list>
                             <ref bean="CM-Modify-RetireCourse-Rationale" />
                             <bean id="CM-Modify-RetireCourse-LastTerm" parent="CM-RetireCourse-LastTerm"/>
-                            <bean id="CM-Modify-RetireCourse-PublicationYear" parent="CM-RetireCourse-PublicationYear"/>
-                            <bean id="CM-Modify-RetireCourse-RetirementComment" parent="CM-RetireCourse-RetirementComment"/>
                         </list>
                     </property>
                 </bean>
