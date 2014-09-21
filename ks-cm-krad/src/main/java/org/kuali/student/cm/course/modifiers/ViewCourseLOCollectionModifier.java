@@ -56,7 +56,8 @@ public class ViewCourseLOCollectionModifier extends ViewCourseCollectionModifier
             LoDisplayInfoWrapper loToCompare = getLOFromCompare(losCompare.getLoWrappers(),index);
 
             if (loToCompare != null){
-                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
+//                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
+                if (!StringUtils.equals(lo.getLoInfo().getDescr().getPlain(), loToCompare.getLoInfo().getDescr().getPlain())){
                     lo.setHightlightRow(true);
                     loToCompare.setHightlightRow(true);
                 }
