@@ -1392,6 +1392,9 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         return subjectArea + suffixNumber;
     }
 
+    /**
+     * Loads the data object for the maintenance view.
+     */
     public void retrieveDataObject() {
         super.retrieveDataObject();
 
@@ -1406,7 +1409,8 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         //  If this is the draft course on a modify with new version then save the start term for the current version of the course.
         //  This is used to constrain the list of start terms on the UI.
-        if (dataObject.getUiHelper().isModifyWithNewVersionProposal() && dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT)) {
+        if (dataObject.getUiHelper().isModifyWithNewVersionProposal()
+                && dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT)) {
             String vIId = dataObject.getCourseInfo().getVersion().getVersionIndId();
             CourseInfo currentVersion = null;
             try {
@@ -1481,23 +1485,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         populateJointCourseOnWrapper();
         populateLearningObjectives();
         populateRequisities(courseWrapper,course.getId());
-        populateRetirementData();
         super.populateWrapperData(courseWrapper);
-    }
-
-    /**
-     * Populate retirement data if it exits.
-     */
-    protected void populateRetirementData() {
-        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
-        // Only look for this data on course in state Retired.
-        if (dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_RETIRED)) {
-            String retirementRationale = dataObject.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE);
-            dataObject.setRetirementRationale(retirementRationale);
-
-            String lastTermOffered = dataObject.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED);
-            dataObject.setLastTerm(lastTermOffered);
-        }
     }
 
     /*
@@ -1578,7 +1566,10 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     /**
      * This method loads course information and populate to <class>CourseInfoWrapper</class> and also to
      * <class>ReviewProposalDisplay</class> for display purpose at 'review proposal' and 'view course'.
-
+     * <p/>
+     * Note: This method is used by non-maintenance views so you can't put anything maintenance specific here or in any
+     * methods this method calls.
+     *
      * @param courseId The id of the course to load.
      * @param courseWrapper The data object to populate.
      * @throws Exception

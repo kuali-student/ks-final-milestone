@@ -40,6 +40,7 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
     private boolean proposalDataUsed = true;
 
     private String lastTerm;
+    private String retirementRationale;
     private String publicationYear;
     private RichTextInfo retirementComment;
     private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
@@ -117,6 +118,15 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
     public void setLastTerm(String lastTerm) {
         this.lastTerm = lastTerm;
     }
+
+    public String getRetirementRationale() {
+        return retirementRationale;
+    }
+
+    public void setRetirementRationale(String retirementRationale) {
+        this.retirementRationale = retirementRationale;
+    }
+
 
     public String getPublicationYear() {
         return publicationYear;

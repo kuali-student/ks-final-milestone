@@ -516,7 +516,12 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         // if proposal data is NOT used then load the retirement information from the CourseInfo
         else {
             // add in retirement rationale
-            courseWrapper.setLastTerm(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED));
+            String retirementRationale = courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE);
+            courseWrapper.setRetirementRationale(retirementRationale);
+
+            String lastTermOffered = courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED);
+            courseWrapper.setLastTerm(lastTermOffered);
+
             courseWrapper.setPublicationYear(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR));
             /*
                Retirement comment is complicated because older documents from CM 2.x and before were using the dynamic attribute "specialCircumstances" so

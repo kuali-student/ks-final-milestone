@@ -162,6 +162,8 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
 
         private boolean modifyWithNewVersionProposal = false;
 
+        private boolean modifyWithoutNewVersionProposal = false;
+
         // TODO: Remove this workaround class once KS has been updated to Rice 2.5 (https://jira.kuali.org/browse/KSCM-2560)
         @RequestAccessible
         Map<String,String> dialogExplanations;
@@ -211,6 +213,17 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
             this.modifyWithNewVersionProposal = modifyWithNewVersionProposal;
         }
 
+        /**
+         * Returns true if the proposal is a modify which will not create a new version of the proposed entity (e.g. course).
+         */
+        public boolean isModifyWithoutNewVersionProposal() {
+            return modifyWithoutNewVersionProposal;
+        }
+
+        public void setModifyWithoutNewVersionProposal(boolean modifyWithoutNewVersionProposal) {
+            this.modifyWithoutNewVersionProposal = modifyWithoutNewVersionProposal;
+        }
+
         public Map<String, String> getDialogExplanations() {
             return dialogExplanations;
         }
@@ -252,8 +265,12 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
 
             if (isUseReviewProcess()) {
                 headerSuffixText = " (Proposal)";
-            } else {
+            } else if (isModifyWithNewVersionProposal()) {
                 headerSuffixText = " (Admin Proposal)";
+            } else if (isModifyWithoutNewVersionProposal()) {
+                headerSuffixText = " (Admin Update)";
+            } else {
+                headerSuffixText = " (Unknown Operation)";
             }
 
             if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())) {

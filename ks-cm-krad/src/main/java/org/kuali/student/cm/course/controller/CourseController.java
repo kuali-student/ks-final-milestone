@@ -173,11 +173,16 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
         courseInfoWrapper.setProposalDataUsed(false);
         courseInfoWrapper.setDisableCourseDefaulting(true);
-        CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
+        CourseMaintainable newMaintainble = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
         newMaintainble.populateCourseAndReviewData(courseId, courseInfoWrapper);
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
         form.getDocument().getDocumentHeader().setDocumentDescription("Admin Modify: " + courseInfoWrapper.getCourseInfo().getCourseTitle());
+
+        //  Because we loaded the data with  populateCourseAndReviewData() we have to do the uiHelper finalization manually.
+        courseInfoWrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
+        courseInfoWrapper.getProposalInfo().setName(courseInfoWrapper.getCourseInfo().getCourseTitle());
+
         return getUIFModelAndView(form);
     }
 
@@ -191,7 +196,7 @@ public class CourseController extends CourseRuleEditorController {
 
         DialogManager dm = form.getDialogManager();
         String dialogId = dm.getCurrentDialogId();
-        if(dialogId != null) {
+        if (dialogId != null) {
             dm.setDialogAnswer(dialogId, form.getDialogResponse());
             dm.setDialogExplanation(dialogId, form.getDialogExplanation());
             dm.setCurrentDialogId(null);
