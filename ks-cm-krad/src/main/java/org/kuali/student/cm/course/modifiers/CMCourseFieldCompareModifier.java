@@ -14,7 +14,7 @@
  *
  * Created by venkat on 9/3/14
  */
-package org.kuali.student.cm.uif.modifier;
+package org.kuali.student.cm.course.modifiers;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;

@@ -367,7 +367,7 @@
     <bean id="CM-ViewCourse-View-Compare-Modifier" parent="CM-ViewCourse-View-Compare-Modifier-parentBean"/>
 
     <bean id="CM-ViewCourse-View-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier"
-          class="org.kuali.student.cm.uif.modifier.CMCourseFieldCompareModifier">
+          class="org.kuali.student.cm.course.modifiers.CMCourseFieldCompareModifier">
         <property name="headerFieldPrototype">
           <bean parent="Uif-HeaderSix"/>
         </property>
@@ -385,7 +385,19 @@
     <bean id="CM-ViewCourse-View-FormatCompare-Modifier" parent="CM-ViewCourse-View-FormatCompare-Modifier-parentBean"/>
 
     <bean id="CM-ViewCourse-View-FormatCompare-Modifier-parentBean" abstract="true"
-          class="org.kuali.student.cm.uif.modifier.CourseFormatCollectionModifier">
+          class="org.kuali.student.cm.course.modifiers.ViewCourseFormatCollectionModifier">
+    </bean>
+
+    <bean id="CM-ViewCourse-View-OutComeCompare-Modifier" parent="CM-ViewCourse-View-OutComeCompare-Modifier-parentBean"/>
+
+    <bean id="CM-ViewCourse-View-OutComeCompare-Modifier-parentBean" abstract="true"
+          class="org.kuali.student.cm.course.modifiers.ViewCourseOutcomeCollectionModifier">
+    </bean>
+
+    <bean id="CM-ViewCourse-View-LOCompare-Modifier" parent="CM-ViewCourse-View-LOCompare-Modifier-parentBean"/>
+
+    <bean id="CM-ViewCourse-View-LOCompare-Modifier-parentBean" abstract="true"
+          class="org.kuali.student.cm.course.modifiers.ViewCourseLOCollectionModifier">
     </bean>
 
     <bean id="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
@@ -681,6 +693,12 @@
                                   p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
                         </list>
                     </property>
+                    <property name="componentModifiers">
+                          <list>
+                              <bean parent="CM-ViewCourse-View-OutComeCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}">
+                              </bean>
+                          </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -755,7 +773,8 @@
         </property>
         <property name="componentModifiers">
               <list>
-                  <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}"/>
+                  <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}">
+                  </bean>
               </list>
         </property>
     </bean>
@@ -787,6 +806,12 @@
                                                         p:propertyName="titleAndCategoriesAsString" p:colSpan="1"
                                                         p:style="display: list-item; margin-left: @{#line.indentLevel * 30}px;"/>
                                                 </list>
+                                            </property>
+                                            <property name="componentModifiers">
+                                                  <list>
+                                                      <bean parent="CM-ViewCourse-View-LOCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}">
+                                                      </bean>
+                                                  </list>
                                             </property>
                                         </bean>
                                     </list>
@@ -846,7 +871,7 @@
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
                           <!-- Row highlighing when requisites do not match -->
-                          <bean class="org.kuali.student.cm.uif.modifier.RequisitesCompareModifier" p:runPhase="FINALIZE"
+                          <bean class="org.kuali.student.cm.course.modifiers.RequisitesCompareModifier" p:runPhase="FINALIZE"
                                   p:runCondition="@{#isCompareView}"/>
                       </list>
                     </property>

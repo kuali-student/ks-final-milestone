@@ -42,6 +42,8 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
     protected boolean moveUpable;
     protected boolean moveDownable;
 
+    protected boolean hightlightRow;
+
     public LoDisplayInfoWrapper() {
     }
 
@@ -230,4 +232,13 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
         }
         return false;
     }
+
+    public boolean isHightlightRow() {
+        return hightlightRow;
+    }
+
+    public void setHightlightRow(boolean hightlightRow) {
+        this.hightlightRow = hightlightRow;
+    }
+
 }

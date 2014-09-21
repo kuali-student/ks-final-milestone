@@ -15,16 +15,21 @@
  * Created by venkat on 3/25/14
  */
 package org.kuali.student.cm.course.form.wrapper;
+
+import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
+
 /**
  *
  * @author Kuali Student Team
  */
-public class OutcomeReviewSection {
+public class OutcomeReviewSection extends DTOWrapperBase {
 
     protected String outComeType;
     protected String outComeValue;
+    private boolean hightlightRow;
 
     public OutcomeReviewSection(){
+        super();
     }
 
     public OutcomeReviewSection(String outComeType, String outComeValue){
@@ -40,4 +45,11 @@ public class OutcomeReviewSection {
         return outComeType;
     }
 
+    public boolean isHightlightRow() {
+        return hightlightRow;
+    }
+
+    public void setHightlightRow(boolean hightlightRow) {
+        this.hightlightRow = hightlightRow;
+    }
 }

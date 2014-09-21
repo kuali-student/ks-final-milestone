@@ -79,7 +79,7 @@
 
     <bean id="CM-Proposal-Review-Compare-Modifier" parent="CM-Proposal-Review-Compare-Modifier-parentBean"/>
     <bean id="CM-Proposal-Review-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier"
-          class="org.kuali.student.cm.uif.modifier.CMCourseFieldCompareModifier">
+          class="org.kuali.student.cm.course.modifiers.CMCourseFieldCompareModifier">
         <property name="headerFieldPrototype">
           <bean parent="Uif-HeaderSix"/>
         </property>
@@ -228,7 +228,7 @@
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
                           <!-- Row highlighing when requisites do not match -->
-                          <bean class="org.kuali.student.cm.uif.modifier.RequisitesCompareModifier" p:runPhase="FINALIZE"
+                          <bean class="org.kuali.student.cm.course.modifiers.RequisitesCompareModifier" p:runPhase="FINALIZE"
                                 p:runCondition="@{#isCompareView}"/>
                       </list>
                     </property>

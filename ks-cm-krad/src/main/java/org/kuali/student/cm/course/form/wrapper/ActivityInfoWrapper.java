@@ -18,7 +18,6 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.uif.util.RenderHelper;
 import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
 
 /**
@@ -32,7 +31,7 @@ public class ActivityInfoWrapper extends DTOWrapperBase {
     private Integer anticipatedClassSize;
     private String durationCount;
     private String contactHours;
-    private RenderHelper renderHelper;
+    private boolean hightlightRow;
 
     /**
      * Not being used from any other java classes. It's here for Spring/krad to
@@ -40,7 +39,7 @@ public class ActivityInfoWrapper extends DTOWrapperBase {
      */
     @SuppressWarnings("unused")
     public ActivityInfoWrapper(){
-
+        super();
     }
 
     public ActivityInfoWrapper(Integer anticipatedClassSize, String activityType, String durationCount, String contactHours) {
@@ -94,12 +93,12 @@ public class ActivityInfoWrapper extends DTOWrapperBase {
         return StringUtils.defaultIfEmpty(durationCount,"");
     }
 
-    public RenderHelper getRenderHelper() {
-        return renderHelper;
+    public boolean isHightlightRow() {
+        return hightlightRow;
     }
 
-    public void setRenderHelper(RenderHelper renderHelper) {
-        this.renderHelper = renderHelper;
+    public void setHightlightRow(boolean hightlightRow) {
+        this.hightlightRow = hightlightRow;
     }
 
 }

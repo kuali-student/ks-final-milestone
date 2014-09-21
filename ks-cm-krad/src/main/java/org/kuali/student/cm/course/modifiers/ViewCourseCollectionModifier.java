@@ -12,26 +12,17 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by venkat on 9/11/14
+ * Created by venkat on 9/20/14
  */
-package org.kuali.student.cm.course.form.renderHelpers;
+package org.kuali.student.cm.course.modifiers;
 
-import org.kuali.student.cm.uif.util.RenderHelper;
+import org.kuali.rice.krad.uif.component.Component;
 
 /**
  *
  * @author Kuali Student Team
  */
-public class ActivityInfoCompareRenderHelper implements RenderHelper {
+public interface ViewCourseCollectionModifier {
 
-    protected boolean hightlightRow;
-
-    public boolean isHightlightRow() {
-        return hightlightRow;
-    }
-
-    public void setHightlightRow(boolean hightlightRow) {
-        this.hightlightRow = hightlightRow;
-    }
-
+    public void performCollectionCompare(Object model, Component component);
 }

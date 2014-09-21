@@ -31,6 +31,9 @@ public abstract class DTOWrapperBase implements DTOWrapper {
     @RequestAccessible
     protected Map<String, Object> extensionData;
 
+    public DTOWrapperBase(){
+
+    }
     /**
      * Method to indicate whether this wrapper's DTO is new or existing DTO at the DB.
      *
