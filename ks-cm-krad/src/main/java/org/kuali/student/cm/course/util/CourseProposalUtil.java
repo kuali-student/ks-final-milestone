@@ -167,7 +167,7 @@ public class CourseProposalUtil {
      */
 
     public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-        return (hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo));
+        return (hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo) || (!hasInProgressProposalForCourse(courseInfo)));
     }
 
 
