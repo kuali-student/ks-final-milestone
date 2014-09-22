@@ -364,13 +364,15 @@ public class AdminRegistrationController extends UifControllerBase {
         RegistrationResult result = null;
         RegistrationCourse addCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInProcess(), item);
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
-                    AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED, item.getValidationResults());
-            result.setCollectionId(AdminRegConstants.REG_COLL_ID);
-        } else if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
-                    AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED, item.getValidationResults());
-            result.setCollectionId(AdminRegConstants.WAITLIST_COLL_ID);
+            if(item.getCourseRegistrationId()!=null) {
+                result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
+                        AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED, item.getValidationResults());
+                result.setCollectionId(AdminRegConstants.REG_COLL_ID);
+            } else {
+                result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
+                        AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED, item.getValidationResults());
+                result.setCollectionId(AdminRegConstants.WAITLIST_COLL_ID);
+            }
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
             result = AdminRegistrationUtil.buildRegistrationResult(addCourse, null, item.getValidationResults());
             result.setOriginRequestTypeKey(item.getTypeKey());

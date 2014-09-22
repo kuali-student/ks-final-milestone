@@ -206,9 +206,9 @@ public class RegistrationRequestTransformer {
 
         if(item.getResultingLprId()!=null){
             LprInfo lpr = getLprService().getLpr(item.getResultingLprId(), context);
-            if(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+            if(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
                 requestItem.setCourseWaitlistEntryId(item.getResultingLprId());
-            } else if (LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+            } else if (LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
                 requestItem.setCourseRegistrationId(item.getResultingLprId());
             }
         }

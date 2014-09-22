@@ -121,6 +121,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.setLprTransactionItemType(lprTransactionItem.getTypeKey());
 
         this.setCrossListedCode(lprTransactionItem.getCrossListedCode());
+        this.setResultingLprId(lprTransactionItem.getResultingLprId());
 
         if (lprTransactionItem.getDescr() != null) {
             this.setDescrFormatted(lprTransactionItem.getDescr()
@@ -170,6 +171,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         lprTransItemInfo.setNewLuiId(this.getNewLuiId());
         lprTransItemInfo.setPersonId(this.getPersonId());
         lprTransItemInfo.setCrossListedCode(this.getCrossList());
+        lprTransItemInfo.setResultingLprId(this.getResultingLprId());
 
         lprTransItemInfo.setTransactionId(this.owner);
 
