@@ -220,6 +220,8 @@ public class RetireCourseController extends ProposalController {
 
     protected ExportCourseHelper getExportHelper(DocumentFormBase form, CurriculumManagementConstants.Export.FileType exportFileType, boolean useSaveHeaders) {
         RetireCourseWrapper wrapper = getRetireCourseWrapper(form);
+        //Updates the review proposal page object so that we could use it for export
+        ((RetireCourseMaintainable) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject()).updateReview();
         return new ExportRetireCourseHelperImpl(wrapper, exportFileType, useSaveHeaders, true);
     }
 

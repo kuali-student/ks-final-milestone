@@ -169,14 +169,23 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
      */
     protected void populateAuthorsCollaborators(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
 
-        for(CollaboratorWrapper collabaratorWrapper : proposalElementsWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
+        String sectionTitle = CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME;
+        for(CollaboratorWrapper collaboratorWrapper : proposalElementsWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
 
-            String displayName = collabaratorWrapper.getDisplayName();
-            String actionRequest = collabaratorWrapper.getAction();
-            String permission = collabaratorWrapper.getPermission();
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, displayName, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
+            String displayName = collaboratorWrapper.getLastName() + ", " + collaboratorWrapper.getFirstName();
+            displayName = (collaboratorWrapper.isAuthor()) ? displayName + " (Author)" : displayName;
+            String actionRequest = (new StringBuilder("<b>")
+                                        .append(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.ACTION_REQUEST)
+                                        .append("</b>    ").append(collaboratorWrapper.getAction())).toString();
+            String permission = (new StringBuilder("<b>")
+                                    .append(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.PERMISSION)
+                                    .append("</b>       ").append(collaboratorWrapper.getPermission())).toString();
+            exportElements.add(populateExportElement(sectionTitle,
+                    displayName, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
             exportElements.add(populateExportElement(null, permission, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
             exportElements.add(populateExportElement(null, actionRequest, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
+            //Empty the title so that it is added only for the first row
+            sectionTitle = null;
         }
     }
 
@@ -188,11 +197,14 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
      */
     protected void populateSupportingDocuments(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
 
+        String sectionTitle = CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME;
         for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : proposalElementsWrapper.getSupportingDocs()) {
             String description = supportingDocumentInfoWrapper.getDescription();
             String documentName = supportingDocumentInfoWrapper.getDocumentName();
             if (StringUtils.isNotBlank(description) || StringUtils.isNotBlank(documentName)){
-                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+                exportElements.add(populateExportElement(sectionTitle, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+                //Empty the title so that it is added only for the first row
+                sectionTitle = null;
             }
         }
     }

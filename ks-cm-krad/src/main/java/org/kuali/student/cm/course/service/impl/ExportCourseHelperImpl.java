@@ -1,6 +1,5 @@
 package org.kuali.student.cm.course.service.impl;
 
-import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;

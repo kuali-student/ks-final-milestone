@@ -483,14 +483,11 @@ public class CurriculumManagementConstants {
             public static String ACTIVITY = "Activity ";
             public static String ACTIVITY_TYPE = "Type";
             public static String CONTACT_HOURS = "Contact Hours";
-            public static String CONTACT_FREQUENCY = "Contact Frequency";
             public static String CLASS_SIZE = "Class Size";
         }
 
         public static class LearningObjectives {
             public static String SECTION_NAME = "Learning Objectives";
-
-            public static String LEARNING_OBJECTIVES = "Learning Objectives";
 
         }
 
@@ -517,13 +514,28 @@ public class CurriculumManagementConstants {
 
             public static String SECTION_NAME = "Authors & Collaborators";
             public static String Name = "Name";
-            public static String PERMISSION = "Permission";
-            public static String ACTION_REQUIRED = "Action Required";
-            public static String AUTHOR_NOTATION = "Author Notation";
+            public static String PERMISSION = "Permissions";
+            public static String ACTION_REQUEST = "Action Request";
         }
 
         public static class SupportingDocument {
             public static String SECTION_NAME = "Supporting Documents";
+        }
+
+        public static class RetireProposalInformation {
+            public static String SECTION_NAME = "Retire Proposal Information";
+
+            public static String PROPOSAL_TITLE = CourseInformation.PROPOSAL_TITLE;
+            public static String COURSE_TITLE = CourseInformation.COURSE_TITLE;
+            public static String PROPOSAL_RATIONALE = CourseInformation.PROPOSAL_RATIONALE;
+            public static String START_TERM = ActiveDates.START_TERM;
+            public static String END_TERM = ActiveDates.END_TERM;
+            public static String LAST_TERM = "Last Term Offered";
+            public static String PUBLICATION_YEAR= "Last Course Catalog Publication Year";
+            public static String OTHER_COMMENTS = "Other Comments";
+            public static String COURSE_NUMBER = CourseInformation.COURSE_NUMBER;
+            public static String CURRICULUM_OVERSIGHT = Governance.CURRICULUM_OVERSIGHT;
+            public static String CROSS_LISTED_JOINTLY_OFFERED_COURSE = "Crosslisted/Jointly Offered Courses";
         }
     }
 }
