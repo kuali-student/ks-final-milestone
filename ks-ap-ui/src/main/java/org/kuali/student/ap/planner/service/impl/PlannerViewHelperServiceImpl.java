@@ -176,7 +176,7 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
             LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
             PlanEventUtils.sendJsonEvents(false,
                     KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
-                            PlanConstants.COURSE_ALREADY_PLANNED), response, eventList);
+                            PlanConstants.COURSE_ALREADY_PLANNED,course.getCode(),term.getName()), response, eventList);
             return;
         } catch (DataValidationErrorException e) {
             for (ValidationResultInfo results : e.getValidationResults()) {
@@ -187,7 +187,9 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                                 course.getCode(),term.getName()), ".", e);
                         PlanEventUtils.sendJsonEvents(false,
                                 KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
-                                        PlanConstants.COURSE_ALREADY_REGISTERED), response, eventList);
+                                        PlanConstants.COURSE_ALREADY_REGISTERED,course.getCode(),term.getName()),
+                                response,
+                                eventList);
                         return;
                     }
                 }

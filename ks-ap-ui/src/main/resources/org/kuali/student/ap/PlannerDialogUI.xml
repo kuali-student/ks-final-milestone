@@ -948,7 +948,7 @@
             Since we were adding content later via javascript, we needed the element to be present -->
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText=""/>
+                <bean parent="Uif-Message" p:messageText="" />
             </list>
         </property>
     </bean>

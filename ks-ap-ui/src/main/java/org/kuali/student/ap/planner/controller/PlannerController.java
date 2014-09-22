@@ -363,7 +363,7 @@ public class PlannerController extends KsapControllerBase {
 		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
         if (course == null) {
             PlanEventUtils.sendJsonEvents(false, KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
-                    PlanConstants.COURSE_NOT_FOUND), response, eventList);
+                    PlanConstants.COURSE_NOT_FOUND), response,eventList);
             return null;
         }
 
