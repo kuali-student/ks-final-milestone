@@ -28,6 +28,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -122,6 +123,8 @@ public class BookmarkController extends KsapControllerBase {
             PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already bookmarked",
                     response, eventList);
             return null;
+        } catch (DataValidationErrorException e) {
+            throw new IllegalArgumentException("LP service failure", e);
         }
 
         eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);

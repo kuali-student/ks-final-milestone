@@ -362,10 +362,10 @@ public class PlannerController extends KsapControllerBase {
         // Retrieve course information using the course code entered by the user
 		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
         if (course == null) {
-            PlanEventUtils.sendJsonEvents(false, "Course code not found. Try again or search for a course.", response, eventList);
+            PlanEventUtils.sendJsonEvents(false, KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
+                    PlanConstants.COURSE_NOT_FOUND), response, eventList);
             return null;
         }
-
 
         // Add the course to the plan
         ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())

@@ -43,7 +43,6 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String SUCCESS_KEY_SAVED_ITEM_ADDED = "ksap.text.success.savedCourseList.itemAdded";
 
 	// CRUD error feedback
-	public static final String ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS = "ksap.text.error.plannedCourseList.itemAlreadyExists";
 	public static final String ERROR_KEY_PLANNED_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.plannedCapacityExceeded";
 	public static final String ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.backupCapacityExceeded";
     public static final String ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.backupCapacityExceeded";
@@ -88,8 +87,9 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final String ADD_DIALOG_PAGE = "plan_item_add_page";
 	public static final String COURSE_SUMMARY_DIALOG_PAGE = "course_summary_dialog_page";
 	public static final String COPY_DIALOG_PAGE = "copy_dialog_page";
-    public static final String COURSE_NOT_FOUND = "ksap.text.error.quickAdd.courseNotFound";
-	public static final String COURSE_CODE_REQUIRED = "ksap.text.error.quickAdd.courseCodeRequired";
+    public static final String COURSE_NOT_FOUND = "planner.quickAdd.text.error.course.not.found";
+    public static final String COURSE_ALREADY_REGISTERED = "planner.quickAdd.text.error.already.registered.for.course";
+    public static final String COURSE_ALREADY_PLANNED = "planner.quickAdd.text.error.course.already.planned";
 
 	/* Course Credit Types */
 	public static final String RANGE = "-";

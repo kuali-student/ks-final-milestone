@@ -257,7 +257,8 @@ public class DefaultPlanHelper implements PlanHelper {
      */
     @Override
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
-                                List<String> termIds,TypedObjectReference ref, List<AttributeInfo> attributes) throws AlreadyExistsException{
+                                List<String> termIds,TypedObjectReference ref, List<AttributeInfo> attributes)
+            throws AlreadyExistsException, DataValidationErrorException {
         PlanHelper planHelper = KsapFrameworkServiceLocator.getPlanHelper();
         PlanItem wishlistPlanItem = null;
 
@@ -315,7 +316,7 @@ public class DefaultPlanHelper implements PlanHelper {
             LOG.warn("Reference " + ref.getRefObjectType() + " "+ ref.getRefObjectId() + " is already planned", e);
             throw e;
         } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("LP service failure", e);
+            throw e;
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (MissingParameterException e) {
@@ -895,8 +896,9 @@ public class DefaultPlanHelper implements PlanHelper {
                         AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef,attributes);
             }catch (AlreadyExistsException e){
                 throw new RuntimeException("Unable to create course item for reg group item", e);
+            } catch (DataValidationErrorException e) {
+                throw new IllegalArgumentException("LP service failure", e);
             }
-
         } catch (MissingParameterException e) {
             throw new RuntimeException("Unable to load course item", e);
         } catch (InvalidParameterException e) {

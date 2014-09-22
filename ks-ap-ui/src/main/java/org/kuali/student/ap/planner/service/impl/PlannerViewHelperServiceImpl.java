@@ -34,7 +34,9 @@ import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
@@ -144,7 +146,7 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
 
-        PlanItem planItemInfo;
+        PlanItem planItemInfo=null;
         List<String> planTermIds = new ArrayList<String>(1);
         planTermIds.add(termId);
         TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE, course.getVersion().getVersionIndId());
@@ -173,8 +175,23 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         } catch (AlreadyExistsException e) {
             LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
             PlanEventUtils.sendJsonEvents(false,
-                    course.getCode() + " is already planned for " + term.getName() + ".", response, eventList);
+                    KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
+                            PlanConstants.COURSE_ALREADY_PLANNED), response, eventList);
             return;
+        } catch (DataValidationErrorException e) {
+            for (ValidationResultInfo results : e.getValidationResults()) {
+                if ("refObjectId".equals(results.getElement())) {
+                    if (results.getMessage()!=null
+                        && results.getMessage().matches("Already registered for course.*")) {
+                        LOG.warn(String.format("%s has already been registered for %s",
+                                course.getCode(),term.getName()), ".", e);
+                        PlanEventUtils.sendJsonEvents(false,
+                                KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
+                                        PlanConstants.COURSE_ALREADY_REGISTERED), response, eventList);
+                        return;
+                    }
+                }
+            }
         }
 
         // Create json strings for displaying action's response and updating the planner screen.

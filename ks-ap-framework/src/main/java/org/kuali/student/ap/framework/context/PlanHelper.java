@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -94,7 +95,8 @@ public interface PlanHelper {
      * @return - Copy of the new plan item created
      */
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
-                         List<String> termIds, TypedObjectReference ref, List<AttributeInfo> attributes) throws AlreadyExistsException;
+                         List<String> termIds, TypedObjectReference ref, List<AttributeInfo> attributes)
+            throws AlreadyExistsException, DataValidationErrorException;
 
     /**
      * Updates a plan item in a learning plan.
@@ -250,7 +252,8 @@ public interface PlanHelper {
      * @param planId - Id for the plan to search in
      * @return Plan Item found for course in the term.
      */
-    public PlanItem findCourseItem(String courseId, String termId, String planId);
+    public PlanItem findCourseItem(String courseId, String termId, String planId)
+            throws DataValidationErrorException;
 
     /**
      * Loads information from a course record into a planner item for display

@@ -5,6 +5,10 @@ import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -20,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import javax.jws.WebParam;
 import java.util.List;
@@ -140,7 +145,7 @@ public class AcademicPlanServiceValidationDecorator extends
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		List<ValidationResultInfo> errors = null;
+		List<ValidationResultInfo> errors;
 		try {
 			errors = validateInfo(validator, validationType,
                     learningPlanInfo, context);
@@ -176,31 +181,71 @@ public class AcademicPlanServiceValidationDecorator extends
                     String.format("PlanId is null on planItem with ID [%s].", planItemInfo.getId()),
                     "id", ValidationResult.ErrorLevel.ERROR));
         }
-
-		 //Validate that the ref object exists.
-        try {
-
+        if (planItemInfo.getRefObjectType().equals(PlanConstants.COURSE_TYPE)) {
+            Course currentVersionOfCourseByVersionIndependentId=null;
             // Validate that the course exists if course object
-            if (planItemInfo.getRefObjectType().equals(PlanConstants.COURSE_TYPE) &&
-                    KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(
-                            planItemInfo.getRefObjectId()) == null) {
-                validationResultInfos.add(makeValidationResultInfo(
-                    String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
-                    "refObjectId", ValidationResult.ErrorLevel.ERROR));
-            }
-
-            // Validate that the reg group exists if reg group object
-            if (planItemInfo.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE) &&
-                    KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(
-                            planItemInfo.getRefObjectId(),context)== null) {
+            try {
+                currentVersionOfCourseByVersionIndependentId = KsapFrameworkServiceLocator.getCourseHelper()
+                        .getCurrentVersionOfCourseByVersionIndependentId(
+                                planItemInfo.getRefObjectId());
+                if (currentVersionOfCourseByVersionIndependentId == null) {
+                    validationResultInfos.add(makeValidationResultInfo(
+                        String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
+                        "refObjectId", ValidationResult.ErrorLevel.ERROR));
+                }
+            } catch (RuntimeException e) {
                 validationResultInfos.add(makeValidationResultInfo(
                         String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
                         "refObjectId", ValidationResult.ErrorLevel.ERROR));
             }
-        } catch (RuntimeException e) {
-            validationResultInfos.add(makeValidationResultInfo(
-                    String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
-                    "refObjectId", ValidationResult.ErrorLevel.ERROR));
+
+            //Validate that the user is not already registered for this course
+            String studentId = this.getLearningPlan(planItemInfo.getLearningPlanId(),context).getStudentId();
+            List<CourseRegistrationInfo> regList;
+            try {
+                regList =KsapFrameworkServiceLocator.getCourseRegistrationService()
+                    .getCourseRegistrationsByStudentAndTerm(studentId,
+                            KSCollectionUtils.getRequiredZeroElement(planItemInfo.getPlanTermIds()), context);
+            } catch (Exception e) {
+                throw new OperationFailedException(
+                        String.format("Unexpected error retrieving registration groups for course offering [%s] and " +
+                                "student [%s]: %s  ",
+                                (currentVersionOfCourseByVersionIndependentId != null ? currentVersionOfCourseByVersionIndependentId.getId() : null),studentId,e.getMessage()),e);
+            }
+            for (CourseRegistrationInfo registration : regList) {
+                CourseOfferingInfo co = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering
+                        (registration.getCourseOfferingId(), context);
+                if (co==null) {
+                    throw new OperationFailedException(
+                            String.format("Unexpected null returned while retrieving course offering [%s]  " +
+                                    "student [%s] registration [%s]  ",
+                                   registration.getCourseOfferingId(),studentId,registration.getId()));
+                }
+                Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(co.getCourseId(),context);
+                if (planItemInfo.getRefObjectId().equals(course.getVersion().getVersionIndId())) {
+                    validationResultInfos.add(makeValidationResultInfo(
+                            String.format("Already registered for course [%s], " +
+                                    "registration group [%s].",course.getCode(),
+                                    currentVersionOfCourseByVersionIndependentId.getId(),
+                                    registration.getRegistrationGroupId()),
+                            "refObjectId", ValidationResult.ErrorLevel.ERROR));
+                }
+            }
+        } else if (planItemInfo.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)) {
+            // if reg group object type then validate that the reg group exists
+            try {
+                if (KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(
+                                planItemInfo.getRefObjectId(),context)== null) {
+                    validationResultInfos.add(makeValidationResultInfo(
+                            String.format("Could not find registration group with ID [%s].",
+                                    planItemInfo.getRefObjectId()),
+                            "refObjectId", ValidationResult.ErrorLevel.ERROR));
+                }
+            } catch (RuntimeException e) {
+                validationResultInfos.add(makeValidationResultInfo(
+                        String.format("Could not find registration group with ID [%s].", planItemInfo.getRefObjectId()),
+                        "refObjectId", ValidationResult.ErrorLevel.ERROR));
+            }
         }
 
         //  Make sure a plan term exists if category is planned course.
@@ -217,7 +262,7 @@ public class AcademicPlanServiceValidationDecorator extends
                     //  Make sure the plan terms are valid. Note: There should never be more than one item in the
                     // collection.
                     for (String atpId : planItemInfo.getPlanTermIds()) {
-                        boolean valid = false;
+                        boolean valid;
                         try {
                             valid = isValidTerm(atpId);
                             if (!valid) {
@@ -342,7 +387,7 @@ public class AcademicPlanServiceValidationDecorator extends
 			throw new OperationFailedException("Error validating plan item.",
 					ex);
 		}
-        		/*
+        /*
 		 * Check for duplicate list items: Make sure a saved courses item with
 		 * this course id doesn't already exist in the plan. Make sure a planned
 		 * course item with the same ATP id doesn't exist in the plan.
