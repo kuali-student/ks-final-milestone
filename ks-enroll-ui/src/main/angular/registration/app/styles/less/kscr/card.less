@@ -1,3 +1,14 @@
+
+.kscr-Card {
+    @media screen and @sm-Max {
+        .kscr-Main-scheduleWrapper & {
+            margin-top: 0.5rem;
+            // Clear out the float from the toggles after the heading when viewing the list
+            clear: both;
+        }
+    }
+}
+
 .kscr-Card,
 .kscr-Card-Results {
   color: @cardTextColor;
@@ -569,17 +580,6 @@
   }
 }
 
-@media screen and (max-width: @smallFormatMax) {
-  .kscr-Main-scheduleWrapper {
-      .kscr-Card {
-        margin-top: 0.5rem;
-      }
-      .kscr-Card,
-      .kscr-Splash { // Clear out the float from the toggles after the heading when viewing the list
-        clear: both;
-      }
-  }
-}
 
 @media screen and (min-width: @largeFormatMin) {
 

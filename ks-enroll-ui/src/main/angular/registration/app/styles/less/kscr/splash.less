@@ -1,4 +1,19 @@
 /* Splash page styles */
+.kscr-Splash {
+  @media screen and @sm-Max {
+    .kscr-Main-scheduleWrapper & {
+      // Clear out the float from the toggles after the heading when viewing the list
+      clear: both;
+    }
+  }
+
+  @media screen and @lg-Min {
+    .kscr-Main-sidebar & {
+      // Splash page/message shown in schedule when nothing is registered
+      display: none;
+    }
+  }
+}
 
 .kscr-Splash-card {
   margin: 0 1rem 1rem;
@@ -11,6 +26,10 @@
   border-color: @cardBorderColor;
   text-align: center;
   padding: 6.5rem 0 3rem 0;
+
+  @media screen and @sm-Max {
+    padding: 1.5rem 0 1rem 0;
+  }
 }
 
 .kscr-Splash-heading {
@@ -20,6 +39,10 @@
   font-weight: bold;
   margin: auto;
   padding-top: 6.5rem;
+
+  @media screen and @sm-Max {
+    padding-top: 1.5rem;
+  }
 }
 
 .kscr-Splash-message {
@@ -29,6 +52,10 @@
   font-weight: normal;
   margin: auto;
   padding-top: 2.5rem;
+
+  @media screen and @sm-Max {
+    padding-top: 1rem;
+  }
 }
 
 .kscr-Splash-logo {
@@ -37,31 +64,8 @@
 
 .kscr-MainHeading.kscr-Splash-header {
   display: none;
-}
 
-@media screen and (max-width: @smallFormatMax) {
-  .kscr-Splash-card {
-    padding: 1.5rem 0 1rem 0;
-  }
-
-  .kscr-Splash-heading {
-    padding-top: 1.5rem;
-  }
-
-  .kscr-Splash-message {
-    padding-top: 1rem;
-  }
-
-  .kscr-MainHeading.kscr-Splash-header {
+  @media screen and @sm-Max {
     display: flex;
-  }
-}
-
-@media screen and (min-width: @largeFormatMin) {
-  .kscr-Main-sidebar {
-    // Splash page/message shown in schedule when nothing is registered
-    .kscr-Splash {
-      display: none;
-    }
   }
 }

@@ -14,14 +14,12 @@
     cursor: hand;
     border: 1px @cardBorderColor solid;
     border-bottom-width: 2px;
-}
 
-
-/* Styles for large-size screens */
-@media screen and (min-width: @largeFormatMin) {
-  // Registered courses container
-  .kscr-Registered-container {
-    .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
-    display: block; /*show initially*/
-  }
+    // Registered courses container
+    &-container {
+        @media screen and @lg-Min {
+          .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
+          display: block; /*show initially*/
+        }
+    }
 }

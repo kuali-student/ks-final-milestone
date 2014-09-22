@@ -24,10 +24,23 @@
     background: url('../images/logo_kuali_k_only.png') no-repeat 5px center;
     height: @headerHeight;
     padding: 0 0.2rem 0 4rem;
+
+    @media screen and @lg-Min {
+      .kscr-Main-header & {
+        // use the larger logo in the expanded mode
+          background-image: url('../images/logo_kuali_bak.png');
+          padding-left: 11.5rem;
+        }
+    }
 }
 
 .kscr-Header-title {
     display: none;
+    @media screen and @lg-Min {
+        .kscr-Main-header & {
+          display: block; /* show the header title & separator in large format only */
+        }
+    }
 }
 
 .kscr-Header-separator {
@@ -37,6 +50,12 @@
     height: 1.5rem;
     margin: 0 0.7rem;
     width: 0.8rem;
+
+    @media screen and @lg-Min {
+      .kscr-Main-header & {
+        display: block; /* show the header title & separator in large format only */
+      }
+    }
 }
 
 .kscr-Header-termName {
@@ -85,6 +104,10 @@
                 color: @black;
             }
         }
+
+        @media screen and @lg-MaxWidth-Min {
+            display: none; // hide the term label selector in small format only
+        }
     }
 }
 
@@ -112,6 +135,10 @@
   &:hover, &--clicked {
     border-color: @white;
   }
+
+  @media screen and @lg-MaxWidth-Min {
+    display: none; /* only shown in large view */
+  }
 }
 
 .kscr-Header-moreOptions {
@@ -130,6 +157,7 @@
     padding: 0;
     margin: 0;
   }
+
   & ul li {
     color: @black;
     list-style-type: none;
@@ -145,29 +173,4 @@
       background-color: @blue;
     }
   }
-}
-
-@media screen and (max-width: @largeFormatMin) {
-
-    .kscr-Header-termName-selector {
-        display: none; // hide the term label selector in small format only
-    }
-
-    .kscr-Header-menu {
-        display: none; /* only shown in large view */
-    }
-}
-
-@media screen and (min-width: @largeFormatMin) {
-    .kscr-Main-header {
-      & .kscr-Header-logo { // use the larger logo in the expanded mode
-        background-image: url('../images/logo_kuali_bak.png');
-        padding-left: 11.5rem;
-      }
-
-      & .kscr-Header-title,
-      & .kscr-Header-separator {
-        display: block; /* show the header title & separator in large format only */
-      }
-    }
 }

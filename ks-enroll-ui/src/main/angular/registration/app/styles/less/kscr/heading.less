@@ -10,6 +10,25 @@
 
     @media screen and @lg-Min {
         color: @primaryTextColor;
+
+        // Main/left content area
+        .kscr-Main-content--left & {
+            padding: 0 1rem;
+        }
+
+        .kscr-Main-sidebar & {
+            // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
+            padding: 1rem 0;
+        }
+
+        // Schedule in sidebar (search only)
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+          // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
+            background-color: @sectionColor;
+            border-bottom: @horizontalLineBorder;
+            margin: 0 0 0.1rem;
+            padding: 0.5rem 1rem;
+        }
     }
 }
 
@@ -27,6 +46,26 @@
     @media screen and @lg-Min {
         float: right;
         padding-right: 1rem;
+
+        // Main/left content area
+        .kscr-Main-content--left .kscr-Heading-sub & {
+           // Credits count
+           padding-right: 0;
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub & {
+        // Credits count
+          padding-right: 0;
+        }
+    }
+}
+
+.kscr-Heading-scheduleHeading--empty {
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub& {
+          // Empty schedule heading
+            background-color: @whiteBackground;
+        }
     }
 }
 
@@ -36,54 +75,11 @@
     font-family: @secondaryFontFamily;
     text-transform: none;
     padding: 0;
-}
 
-
-@media screen and (min-width: @largeFormatMin) {
-
-
-    // Main/left content area
-    .kscr-Main-content--left {
-      .kscr-Heading-sub {
-        padding: 0 1rem;
-
-        // Credits count
-        .kscr-Heading-support {
-          padding-right: 0;
-        }
-      }
-    }
-
-    .kscr-Main-sidebar {
-        // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
-        .kscr-Heading-sub {
-          padding: 1rem 0;
-        }
-
-        // Schedule in sidebar (search only)
-        .kscr-Main-scheduleWrapper {
-            // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
-            .kscr-Heading-sub {
-                background-color: @sectionColor;
-                border-bottom: @horizontalLineBorder;
-                margin: 0 0 0.1rem;
-                padding: 0.5rem 1rem;
-
-                // Empty schedule heading
-                &.kscr-Heading-scheduleHeading--empty {
-                  background-color: @whiteBackground;
-                }
-
-                // Credits count
-                .kscr-Heading-support {
-                  padding-right: 0;
-                }
-
-                .kscr-Heading-message {
-                  display: block;
-                  padding: 0;
-                }
-            }
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub & {
+            display: block;
+            padding: 0;
         }
     }
 }

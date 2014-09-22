@@ -26,9 +26,9 @@
         -webkit-user-drag: element;
     }
 
-      @media screen and @sm-Max {
+    @media screen and @sm-Max {
         // Main Cart heading in small format
-        &-CartHeading {
+       &-CartHeading {
           padding: 0 0.5rem;
 
           // Styles for when stuck
@@ -41,8 +41,27 @@
             border: 1px @cardBorderColor solid;
             border-bottom-width: 2px;
           }
+       }
+    }
+
+    @media screen and @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left & {
+            // Main heading container
+            padding: 0 1rem; // No top or bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
         }
-      }
+
+        // Sidebar styles
+        .kscr-Main-sidebar {
+            padding-bottom: 0.8rem; // Make sure the heading has enough padding in large-format
+        }
+
+        // Cart heading-specific styles in large format
+        .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading {
+            // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
+            padding-top: 1rem;
+        }
+    }
 }
 
 
@@ -81,11 +100,11 @@
         .Rounded(1px);
     }
 
-      @media screen and @sm-Max {
+    @media screen and @sm-Max {
         // Main heading icons (cart & schedule)
         // Shown only in small-format
         display: block;
-      }
+    }
 }
 
 .kscr-MainHeading-icon-left {
@@ -115,14 +134,26 @@
         .spinner-big-icon; // Processing icon mixin
         font-weight: normal;
         padding: 1.8rem 1.8rem 1.8rem 4.5rem;
+
+        @media screen and @lg-Min {
+            .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading & {
+              padding: 1rem 0.8rem 0.8rem 3.5rem;
+            }
+        }
     }
 
-      @media screen and @md-Max {
+    @media screen and @md-Max {
         text-align: center;
-      }
-      @media screen and @lg-Min {
+    }
+
+    @media screen and @lg-Min {
         text-align: left;
-      }
+
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-MainHeading & {
+              float: none;
+        }
+    }
 }
 
 // Heading link icon (>>)
@@ -131,6 +162,13 @@
     font-size: 130%;
     font-weight: normal;
     line-height: 0.5; // Arbitrarily small so it doesn't get calculated into the element height
+
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar & {
+          // Show icon link text in large-format
+            display: inline;
+        }
+    }
 }
 
 .kscr-MainHeading-stickyHeader {
@@ -138,13 +176,14 @@
     float: none;
     width: auto;
     text-align: left !important;
-      @media screen and @sm-Max {
-        display: none;
-      }
 
     .util-sticky--stuck & {
         // Show only when stuck
         display: block;
+    }
+
+    @media screen and @sm-Max {
+      display: none;
     }
 }
 
@@ -193,6 +232,28 @@
             cursor: text;
         }
     }
+
+    @media screen and @sm-Max {
+      .kscr-Main-scheduleWrapper & {
+            float: right;
+            margin: 0 0.5rem 0.5rem 0;
+        }
+    }
+
+    @media screen and @lg-Min {
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Toggles
+              display: block;
+        }
+
+        // List/Grid toggle buttons
+        .kscr-Main-scheduleWrapper & {
+            display: none; // Hide the main buttons in large-format
+        }
+    }
+
+
 }
 
 #kscr-CartHeading {
@@ -207,82 +268,30 @@
     }
 }
 
-
-
-@media screen and (max-width: @smallFormatMax) {
-    // Cart header credit count
-    .kscr-Main-cart #credit_count_title_large {
-        display: none; // Don't show the large-format credit count element in small-format
+.kscr-MainHeading-icons {
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+          display: none;
+        }
     }
-
-
-  .kscr-Main-scheduleWrapper {
-    .kscr-MainHeading-toggles {
-      float: right;
-      margin: 0 0.5rem 0.5rem 0;
-    }
-  }
 }
 
 
-@media screen and (min-width: @largeFormatMin) {
-    .kscr-Main-cart #credit_count_title {
-        display: none; // Don't show the small-format credit count element in large-format
-    }
 
-    // Main content area styles
-    .kscr-Main-content--left {
-        // Main heading container
-        .kscr-MainHeading {
-            padding: 0 1rem; // No top or bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
+#credit_count_title {
+    @media screen and @lg-Min {
+        .kscr-Main-cart & {
+            display: none; // Don't show the small-format credit count element in large-format
         }
     }
 
-    // Sidebar styles
-    .kscr-Main-sidebar {
-        // Main headers
-        .kscr-MainHeading {
-            padding-bottom: 0.8rem; // Make sure the heading has enough padding in large-format
 
-            .kscr-MainHeading-header {
-                float: none;
-            }
+    &_large {
+      @media screen and @sm-Max {
+        // Cart header credit count
+        .kscr-Main-cart & {
+          display: none; // Don't show the large-format credit count element in small-format
         }
-
-        .kscr-Main-cart {
-            .kscr-MainHeading-icons  {
-              display: none;
-            }
-        }
-
-        // Cart heading-specific styles in large format
-        .kscr-MainHeading-CartHeading .kscr-MainHeading {
-            // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
-            padding-top: 1rem;
-
-            .kscr-MainHeading-header--processing {
-                padding: 1rem 0.8rem 0.8rem 3.5rem;
-            }
-        }
-
-        // Show icon link text in large-format
-        .kscr-MainHeading-link-icon {
-            display: inline;
-        }
-
-        .kscr-Main-scheduleWrapper {
-
-            // Toggles
-            .kscr-MainHeading-toggles {
-              display: block;
-            }
-        }
-    }
-
-    // List/Grid toggle buttons
-    .kscr-Main-scheduleWrapper {
-      .kscr-MainHeading-toggles {
-        display: none; // Hide the main buttons in large-format
       }
     }
 }
