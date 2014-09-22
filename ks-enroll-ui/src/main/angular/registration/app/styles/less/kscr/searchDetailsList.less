@@ -120,9 +120,11 @@
   }
 }
 
-// above this breakpoint, hide the tabbed view
-@media screen and (min-width: @searchDetailsTableMin) {
-  .kscr-Search-details-list {
-    display: none;
+.kscr-Search-details {
+  &-list{
+    // above this breakpoint, hide the tabbed view
+    @media screen and @searchDetailsTable-Min {
+      display: none;
+    }
   }
 }

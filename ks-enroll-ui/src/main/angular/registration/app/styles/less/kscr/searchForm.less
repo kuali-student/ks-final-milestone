@@ -1,5 +1,15 @@
 /*** Search Form Section  ***/
 
+
+.kscr-SearchForm {
+  @media screen and @lg-Min {
+    // Hide the search content area form in large-format since it's in the sidebar
+    .kscr-Search & {
+      display: none;
+    }
+  }
+}
+
 // Main search form container (header & form contents)
 .kscr-SearchForm-container {
     margin-bottom: 1rem;
@@ -49,14 +59,4 @@
 // Search button
 .kscr-SearchForm-button .kscr-Button {
     font-weight: normal !important; // Important to override the disabled styles
-}
-
-
-
-// Large-format styles
-@media screen and (min-width: @largeFormatMin) {
-    // Hide the search content area form in large-format since it's in the sidebar
-    .kscr-Search .kscr-SearchForm {
-        display: none;
-    }
 }
