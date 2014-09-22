@@ -187,13 +187,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<CourseRegistrationInfo> courseRegistrationInfos = AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
 
-            //TODO: KSENROLL-13558 :work around for incorrect Data
-            List<Principal> principals = AdminRegResourceLoader.getIdentityService().getPrincipalsByEntityId(studentId.toUpperCase());
-            for (Principal principal : principals) {
-                courseRegistrationInfos.addAll(AdminRegResourceLoader.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(
-                        principal.getPrincipalId(), termCode, createContextInfo()));
-            }
-
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
                 RegistrationCourse registeredCourse = createRegistrationCourse(courseRegInfo);
                 //retrieves ActivityRegistrations for the existing RegisteredCourse
@@ -218,11 +211,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             //Using the student Id and term info to retrieve the existing waitlisted courses for that student
             List<CourseRegistrationInfo> courseWaitListInfos = AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
                     studentId, termCode, createContextInfo());
-
-
-            courseWaitListInfos.addAll(AdminRegResourceLoader.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(
-                        studentId, termCode, createContextInfo()));
-
 
             for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
                 RegistrationCourse waitListCourse = createRegistrationCourse(courseWaitListInfo);
