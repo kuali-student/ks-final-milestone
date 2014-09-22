@@ -202,33 +202,34 @@ public class AcademicPlanServiceValidationDecorator extends
             //Validate that the user is not already registered for this course
             String studentId = this.getLearningPlan(planItemInfo.getLearningPlanId(),context).getStudentId();
             List<CourseRegistrationInfo> regList;
-            try {
-                regList =KsapFrameworkServiceLocator.getCourseRegistrationService()
-                    .getCourseRegistrationsByStudentAndTerm(studentId,
-                            KSCollectionUtils.getRequiredZeroElement(planItemInfo.getPlanTermIds()), context);
-            } catch (Exception e) {
-                throw new OperationFailedException(
-                        String.format("Unexpected error retrieving registration groups for course offering [%s] and " +
-                                "student [%s]: %s  ",
-                                (currentVersionOfCourseByVersionIndependentId != null ? currentVersionOfCourseByVersionIndependentId.getId() : null),studentId,e.getMessage()),e);
-            }
-            for (CourseRegistrationInfo registration : regList) {
-                CourseOfferingInfo co = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering
-                        (registration.getCourseOfferingId(), context);
-                if (co==null) {
+            for (String termId :planItemInfo.getPlanTermIds() ) {
+                try {
+                    regList =KsapFrameworkServiceLocator.getCourseRegistrationService()
+                        .getCourseRegistrationsByStudentAndTerm(studentId,termId, context);
+                } catch (Exception e) {
                     throw new OperationFailedException(
-                            String.format("Unexpected null returned while retrieving course offering [%s]  " +
-                                    "student [%s] registration [%s]  ",
-                                   registration.getCourseOfferingId(),studentId,registration.getId()));
+                            String.format("Unexpected error retrieving registration groups for course offering [%s] and " +
+                                    "student [%s]: %s  ",
+                                    (currentVersionOfCourseByVersionIndependentId != null ? currentVersionOfCourseByVersionIndependentId.getId() : null),studentId,e.getMessage()),e);
                 }
-                Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(co.getCourseId(),context);
-                if (planItemInfo.getRefObjectId().equals(course.getVersion().getVersionIndId())) {
-                    validationResultInfos.add(makeValidationResultInfo(
-                            String.format("Already registered for course [%s], " +
-                                    "registration group [%s].",course.getCode(),
-                                    currentVersionOfCourseByVersionIndependentId.getId(),
-                                    registration.getRegistrationGroupId()),
-                            "refObjectId", ValidationResult.ErrorLevel.ERROR));
+                for (CourseRegistrationInfo registration : regList) {
+                    CourseOfferingInfo offering = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering
+                            (registration.getCourseOfferingId(), context);
+                    if (offering==null) {
+                        throw new OperationFailedException(
+                                String.format("Unexpected null returned while retrieving course offering [%s]  " +
+                                        "student [%s] registration [%s]  ",
+                                       registration.getCourseOfferingId(),studentId,registration.getId()));
+                    }
+                    Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(offering.getCourseId(),context);
+                    if (planItemInfo.getRefObjectId().equals(course.getVersion().getVersionIndId())) {
+                        validationResultInfos.add(makeValidationResultInfo(
+                                String.format("Already registered for course [%s], " +
+                                        "registration group [%s].",course.getCode(),
+                                        currentVersionOfCourseByVersionIndependentId.getId(),
+                                        registration.getRegistrationGroupId()),
+                                "refObjectId", ValidationResult.ErrorLevel.ERROR));
+                    }
                 }
             }
         } else if (planItemInfo.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)) {
