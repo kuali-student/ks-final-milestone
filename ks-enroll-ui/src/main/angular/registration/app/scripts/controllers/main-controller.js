@@ -1,5 +1,14 @@
 'use strict';
 
+/*
+ * Controller for main layout view
+ *
+ * Event Handling
+ * -- Emits: none
+ * -- Broadcasts: "termIdChanged" -- this is caught by multiple controllers and updates the term Id
+ * -- Receives: "termIdChanged" -- received from the main-controller.js, updates cart when term Id is changed
+ *              "sessionExpired" -- received from interceptors.js, launches modal that informs user that session has expired
+ */
 angular.module('regCartApp')
     .controller('MainCtrl', ['$scope', '$window', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
         'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService', 'MessageService',
@@ -49,7 +58,7 @@ angular.module('regCartApp')
         $scope.$on('termIdChanged', function(event, newValue) {
             // Go and get the schedule for the new term
             ScheduleService.getSchedule(newValue).then(function (result) {
-                console.log('called rest service to get schedule data - in main.js');
+                console.log('called rest service to get schedule data - in main-controller.js');
                 ScheduleService.setSelectedSchedule(result);
             });
         });

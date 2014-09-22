@@ -75,7 +75,7 @@ angular.module('regCartApp', [
             .state('root.search.details', {
                 url: '/{searchCriteria}/{code}/{id}?regGroupId', // URL gets appended to parent's
                 templateUrl: 'partials/searchDetails.html',
-                controller: 'SearchDetailsCtrl'
+                controller: 'CourseDetailsCtrl'
             })
         ;
 

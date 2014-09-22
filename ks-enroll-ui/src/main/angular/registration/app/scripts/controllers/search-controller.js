@@ -1,5 +1,16 @@
 'use strict';
 
+/*
+ * Controller for the search functionality
+ *
+ * Event Handling
+ * -- Emits: none
+ * -- Broadcasts: none
+ * -- Receives: "termIdChanged" -- received from the main-controller.js, updates search when term Id is changed
+ *              "resultsStateChanged" -- received from the searchList directive, updates search results as needed
+ *              "facetSelectionChange" -- received from the searchFacet directive, updates when facet selection is changed
+ *              "viewDetails" -- received from the courseCard directive, performs search when view details button is clicked
+ */
 angular.module('regCartApp')
     .controller('SearchCtrl', ['$scope', '$filter', '$state', '$timeout', 'CourseSearchFacets', 'TermsService', 'SearchService',
     function SearchCtrl($scope, $filter, $state, $timeout, CourseSearchFacets, TermsService, SearchService) {
@@ -192,7 +203,7 @@ angular.module('regCartApp')
 
 
         $scope.$on('viewDetails', function(event, course) {
-            // redirects the view to the search details screen
+            // redirects the view to the course details screen
             $state.go('root.search.details', { searchCriteria: $scope.searchCriteria, id: course.courseId, code: course.courseCode });
         });
 

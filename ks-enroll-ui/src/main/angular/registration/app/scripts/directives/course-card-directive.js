@@ -151,7 +151,7 @@ angular.module('regCartApp')
             $scope.dropCourse = function (course) {
                 switch ($scope.type) {
                     case COURSE_TYPES.cart:
-                        // emit an event to the parent scope (handled in cart.js)
+                        // emit an event to the parent scope (handled in cart-controller.js)
                         $scope.$emit('deleteCartItem', course);
                         break;
                     default : // 'registered', 'waitlist'

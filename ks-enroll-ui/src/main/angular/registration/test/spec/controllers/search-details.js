@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: SearchDetailsCtrl', function () {
+describe('Controller: CourseDetailsCtrl', function () {
 
     // load the controller's module
     beforeEach(module('regCartApp', 'mockData'));
 
-    var SearchDetailsCtrl,
+    var CourseDetailsCtrl,
         $rootScope,
         scope,
         mockData,
@@ -51,7 +51,7 @@ describe('Controller: SearchDetailsCtrl', function () {
         // Instantiate the controller instance
         $rootScope = _$rootScope_;
         scope = $rootScope.$new();
-        SearchDetailsCtrl = $controller('SearchDetailsCtrl', {
+        CourseDetailsCtrl = $controller('CourseDetailsCtrl', {
             $scope: scope
         });
     }));
@@ -179,6 +179,7 @@ describe('Controller: SearchDetailsCtrl', function () {
                 expect(scope.isAOTypeSelected(aoType)).toBeTruthy();
 
                 angular.forEach(aoType.formattedOfferings, function(ao) {
+                    console.log(ao.flags);
                     expect(ao.flags.selected).toBeTruthy();
                 });
             });

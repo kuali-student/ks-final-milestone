@@ -4,7 +4,7 @@ angular.module('regCartApp')
 
     /*
      *  The details factory is used to dynamic inject search details configurations into
-     *  the search-details-list.js controller. Any number of configurations can be made
+     *  the search-details-list-directive.js controller. Any number of configurations can be made
      *  based on the needs of the implementer.
      *
      *  See the 'COURSE_OPTIONS' configuration for a sample implementation and further

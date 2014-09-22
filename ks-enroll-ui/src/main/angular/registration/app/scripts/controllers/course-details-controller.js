@@ -1,18 +1,25 @@
 'use strict';
 
 /*
- * Controller for the search details functionality
+ * Controller for displaying course details (title, desc, AOs, etc)
  *
  * Event Handling
  * -- Emits: none
- * -- Broadcasts: "registerForCourse" -- this is caught by cart.js and registers the user for the selected reg group
- *                "addCourseToCart" -- this is caught by cart.js and adds the reg group to the user's cart
- * -- Receives: "toggleAO" -- received from the search list directives, select/deselects the given ao
+ * -- Broadcasts: "directRegisterForCourse" -- this is caught by
+ cart-controller.js and registers the user for the selected reg group
+ * -- Receives: "termIdChanged" -- received from the main-
+ controller.js, updates cart when term Id is changed
+ *             "showSubterm" -- received from course-search-
+ formatter.js, opens modal for showing subterm info
+ *             "showRequisites" -- received from course-search-
+ formatter.js, opens modal for showing requisites info
+ *              "toggleAO" -- received from the search list
+ directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('SearchDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
-    function SearchDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
-        console.log('>> SearchDetailsCtrl');
+    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
+    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
+        console.log('>> CourseDetailsCtrl');
 
         $scope.statuses = STATUS;
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
@@ -172,7 +179,7 @@ angular.module('regCartApp')
                 return;
             }
 
-            // Broadcast an directRegisterForCourse event that is caught in the cart.js controller
+            // Broadcast an directRegisterForCourse event that is caught in the cart-controller.js controller
             performAction('register', 'directRegisterForCourse');
         };
 
@@ -186,7 +193,7 @@ angular.module('regCartApp')
             // Set the allowWaitlist flag = true to bypass the waitlist warnings
             $scope.course.allowWaitlist = true;
 
-            // Broadcast an directRegisterForCourse event that is caught in the cart.js controller
+            // Broadcast an directRegisterForCourse event that is caught in the cart-controller.js controller
             performAction('waitlist', 'directRegisterForCourse');
         };
 
@@ -205,8 +212,8 @@ angular.module('regCartApp')
             // Pin the selected RG's AOs in the schedule format on the course object
             course.activityOfferings = $scope.selectedAOs; // Selected AOs should be the exhaustive list of AOs for this RG
 
-            // Broadcast the event that is caught and handled elsewhere (cart.js controller)
-            // cart.js controller puts the promise from the objects onto the event object.
+            // Broadcast the event that is caught and handled elsewhere (cart-controller.js controller)
+            // cart-controller.js controller puts the promise from the objects onto the event object.
             var event = $rootScope.$broadcast(eventAction, course);
             event.promise.then(function() {
                 $scope.actionStatus = STATUS.success;

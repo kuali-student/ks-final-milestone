@@ -1,10 +1,23 @@
 'use strict';
 
+/*
+ * Controller for the cart functionality
+ *
+ * Event Handling
+ * -- Emits: none
+ * -- Broadcasts: none
+ * -- Receives: "termIdChanged" -- received from the main-controller.js, updates cart when term Id is changed
+ *              "addCourseToCart" -- received from helper method in course-details-controller.js, adds course to cart
+ *              "registerForCourse" -- received from direct-register-controller.js, registers course from cart to schedule
+ *              "directRegisterForCourse" -- received from helper method in course-details-controller.js, launches direct register modal wizard
+ *              "deleteCartItem" -- received from the course card directive, removes course from cart
+ *              "updateCourse" -- received from course-card-directive.js, updates course (edit credits, grading option, etc)
+ */
 angular.module('regCartApp')
     .controller('CartCtrl', ['$scope', '$modal', '$timeout', '$q', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK',
         'COURSE_TYPES', 'GENERAL_ERROR_TYPE', 'VALIDATION_ERROR_TYPE', 'GlobalVarsService', 'MessageService',
         'TermsService', 'CartService', 'ScheduleService', 'RegUtil',
-    function ($scope, $modal, $timeout, $q, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES,
+    function CartCtrl($scope, $modal, $timeout, $q, STATE, STATUS, GRADING_OPTION, ACTION_LINK, COURSE_TYPES,
               GENERAL_ERROR_TYPE, VALIDATION_ERROR_TYPE, GlobalVarsService, MessageService, TermsService, CartService,
               ScheduleService, RegUtil) {
         console.log('>> CartCtrl');
@@ -575,7 +588,7 @@ angular.module('regCartApp')
         // Reload the schedule & update the schedule counts
         function reloadSchedule() {
             ScheduleService.getSchedule(TermsService.getTermId(), true).then(function (result) {
-                console.log('Called rest service to get schedule data - in cart.js');
+                console.log('Called rest service to get schedule data - in cart-controller.js');
                 ScheduleService.setSelectedSchedule(result);
             });
         }

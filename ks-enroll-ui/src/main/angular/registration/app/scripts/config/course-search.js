@@ -4,7 +4,7 @@ angular.module('regCartApp')
 
     /*
      *
-     * COURSE_DETAILS is an example of a configuration setting for search-details-list.js, the
+     * COURSE_DETAILS is an example of a configuration setting for search-details-list-directive.js, the
      * directive which displays search details in the mobile view. It is currently in use for
      * course search details.
      *

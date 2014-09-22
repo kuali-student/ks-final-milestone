@@ -1,8 +1,18 @@
 'use strict';
 
+/*
+ * Controller for the schedule functionality
+ *
+ * Event Handling
+ * -- Emits: "courseDropped" --
+ * -- Broadcasts: none
+ * -- Receives: "courseStatusMessageRemoved" -- received from course-card-directive.js, removes status message
+ *              "dropCourse" -- received from course-card-directive.js, shows message that course has been dropped
+ *              "updateCourse" -- received from course-card-directive.js, updates course (edit credits, grading option, etc)
+ */
 angular.module('regCartApp')
     .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'RegUtil', 'TermsService', 'ScheduleService', 'CartService',
-    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, RegUtil, TermsService, ScheduleService, CartService) {
+    function ScheduleCtrl($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, RegUtil, TermsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
         $scope.schedule = ScheduleService.getSchedule();
