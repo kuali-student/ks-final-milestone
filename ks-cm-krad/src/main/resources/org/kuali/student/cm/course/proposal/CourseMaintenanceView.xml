@@ -500,86 +500,43 @@
                   value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="false">
+                <bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!#isModifyNoNewVersion}">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="propertyReplacers">
+                    <property name="items">
                         <list>
+                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                            <ref bean="CM-Proposal-Course-Governance-Section"/>
+                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                            <ref bean="CM-Proposal-Course-Financial-Section"/>
+                            <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                            <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
+                        </list>
+                    </property>
+                    <property name="tabsWidget.templateOptionsJSString">
+                        <value>
+                            { selected: @{#uiHelper.selectedSection.ordinal() - 1} }
+                        </value>
+                    </property>
+                    <property name="tabsWidget.position" value="LEFT"/>
+                </bean>
 
-                            <!-- New version courses -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="render"
-                                  p:condition="@{!#isModifyNoNewVersion}">
-                                <property name="replacement">
-                                    <value>true</value>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="items"
-                                  p:condition="@{!#isModifyNoNewVersion}">
-                                <property name="replacement">
-                                    <list>
-                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
-                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
-                                        <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
-                                        <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <!-- No new version courses that are in state retire. -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="render"
-                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
-                                <property name="replacement">
-                                    <value>true</value>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="items"
-                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
-                                <property name="replacement">
-                                    <list>
-                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
-                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
-                                        <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <!-- No new version courses that are not in state retire. -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="render"
-                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse}">
-                                <property name="replacement">
-                                    <value>true</value>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="items"
-                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse}">
-                                <property name="replacement">
-                                    <list>
-                                        <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                                        <ref bean="CM-Proposal-Course-Governance-Section"/>
-                                        <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                                        <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                                        <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                                        <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                                        <ref bean="CM-Proposal-Course-Financial-Section"/>
-                                    </list>
-                                </property>
-                            </bean>
+                <bean parent="Uif-TabGroup" p:id="modify_course_tabs" p:render="@{#isModifyNoNewVersion}">
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
+                            <ref bean="CM-Proposal-Course-Governance-Section"/>
+                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
+                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
+                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
+                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
+                            <ref bean="CM-Proposal-Course-Financial-Section"/>
+                            <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
