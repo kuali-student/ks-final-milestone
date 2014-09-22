@@ -597,3 +597,61 @@ KradResponse.prototype = {
 
     }
 }
+
+/**
+ * KSAP-2073 - Override of krad functionality to handle custom ksap menus.
+ * Since both use the css class 'uif-tooltip' to display need to insure menus are closed before opening tooltip
+ *
+ * Creates the tooltip widget for an component
+ *
+ * @param id - id for the component to apply the tooltip to
+ * @param options - options for the tooltip
+ */
+function createTooltip(id, text, options, onMouseHoverFlag, onFocusFlag) {
+    var elementInfo = getHoverElement(id);
+    var element = elementInfo.element;
+
+    options['innerHtml'] = text;
+    options['manageMouseEvents'] = false;
+    if (onFocusFlag) {
+        // Add onfocus trigger
+        jQuery("#" + id).focus(function () {
+//            if (!jQuery("#" + id).IsBubblePopupOpen()) {
+            // TODO : use data attribute to check if control
+            if (!isControlWithMessages(id)) {
+                jQuery("#" + id).SetBubblePopupOptions(options, true);
+                jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
+                jQuery("#" + id).ShowBubblePopup();
+            }
+//            }
+        });
+        jQuery("#" + id).blur(function () {
+            jQuery("#" + id).HideBubblePopup();
+        });
+    }
+    if (onMouseHoverFlag) {
+        // Add mouse hover trigger
+        jQuery("#" + id).hover(function () {
+            try{
+                // Attempt to close any ksap dialog if present
+                fnCleanupTooltips();
+            } catch (e){
+                // Do nothing, ksap dialogs not present on screen
+            }
+            if (!jQuery("#" + id).IsBubblePopupOpen()) {
+                if (!isControlWithMessages(id)) {
+                    jQuery("#" + id).SetBubblePopupOptions(options, true);
+                    jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
+                    jQuery("#" + id).ShowBubblePopup();
+                }
+            }
+        }, function (event) {
+            if (!onFocusFlag || !jQuery("#" + id).is(":focus")) {
+                var result = mouseInTooltipCheck(event, id, element, this, elementInfo.type);
+                if (result) {
+                    mouseLeaveHideTooltip(id, jQuery("#" + id), element, elementInfo.type);
+                }
+            }
+        });
+    }
+}

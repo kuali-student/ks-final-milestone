@@ -232,6 +232,16 @@ function fnClosePopup() {
     var popup = jQuery("div.jquerybubblepopup");
     popover.remove();
     popup.remove();
+
+    fnCleanupTooltips();
+}
+
+/**
+ * Removes extra uses of uif-tooltip classes created by the planner menu
+ */
+function fnCleanupTooltips(){
+    var leftOverTooltips = jQuery(".uif-boxCollectionItem.uif-tooltip");
+    leftOverTooltips.removeClass("uif-tooltip");
 }
 
 /**

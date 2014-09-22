@@ -442,6 +442,7 @@
                             <value>ks-fontello-icon-attention</value>
                         </list>
                     </property>
+                    <property name="onClickScript" value="stopEvent(e);"/>
                     <property name="toolTip">
                         <bean parent="KSAP-Tooltip" p:tooltipContent="@{#line.statusMessagesForUI}"/>
                     </property>
@@ -476,6 +477,7 @@
                             <value>ksap-planner-reggroup</value>
                         </list>
                     </property>
+                    <property name="onClickScript" value="stopEvent(e);"/>
                     <property name="toolTip">
                         <bean parent="KSAP-Tooltip"
                               p:tooltipContent="@{#textHelper.getFormattedMessage('planner.body.item.regGroups.tooltip', new Object[]{#line.getRegistrationGroupCodesforUI()})}"/>
