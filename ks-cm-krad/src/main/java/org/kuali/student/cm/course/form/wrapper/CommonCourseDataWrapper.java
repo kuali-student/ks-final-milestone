@@ -43,7 +43,7 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
     private String retirementRationale;
     private String publicationYear;
     private RichTextInfo retirementComment;
-    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
+    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<>();
 
     private String userId = "";
 
