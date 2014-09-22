@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 import org.kuali.rice.core.api.criteria.CriteriaLookupService;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.academicrecord.dao.StudentCourseRecordDao;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
@@ -78,8 +79,12 @@ public class AcademicRecordServicePersistenceImpl implements AcademicRecordServi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // UNKNOWN
-        throw new OperationFailedException("getCompletedCourseRecords has not been implemented");
+        List<StudentCourseRecordEntity> entities = studentCourseRecordDao.getCompletedCourseRecords(personId);
+        List<StudentCourseRecordInfo> list = new ArrayList<StudentCourseRecordInfo>(entities.size());
+        for (StudentCourseRecordEntity entity : entities) {
+            list.add(entity.toDto());
+        }
+        return list;
     }
 
     @Override
@@ -256,6 +261,7 @@ public class AcademicRecordServicePersistenceImpl implements AcademicRecordServi
             , PermissionDeniedException
             , ReadOnlyException {
         // CREATE
+        studentCourseRecord.setId(UUIDHelper.genStringUUID());
         studentCourseRecord.setTypeKey(studentCourseRecordTypeKey);
         studentCourseRecord.setPersonId(personId);
         StudentCourseRecordEntity entity = new StudentCourseRecordEntity(studentCourseRecord);

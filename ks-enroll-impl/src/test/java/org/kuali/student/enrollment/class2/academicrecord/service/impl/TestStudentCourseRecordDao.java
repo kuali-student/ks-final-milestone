@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.academicrecord.dao.StudentCourseRecordDao;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.model.StudentCourseRecordEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -61,7 +62,7 @@ public class TestStudentCourseRecordDao extends AbstractTransactionalDaoTest {
     private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap;
 
     private void persistStudentCourseRecord(StudentCourseRecordInfo studentCourseRecord) {
-        studentCourseRecord.setTypeKey("kuali.academicrecord.studentcourserecord.type.course");
+        studentCourseRecord.setTypeKey(AcademicRecordServiceConstants.STUDENT_COURSE_RECORD_TYPE_KEY);
         studentCourseRecord.setId(UUIDHelper.genStringUUID());
         StudentCourseRecordEntity entity = new StudentCourseRecordEntity(studentCourseRecord);
         entity.setEntityCreated(new ContextInfo());

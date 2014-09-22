@@ -31,12 +31,18 @@ public class StudentCourseRecordDao extends GenericEntityDao<StudentCourseRecord
 		return query.getResultList();
 	}
 
-	public List<StudentCourseRecordEntity> getCompletedCourseRecordsForCourse(String personId, String courseCode) {
-		Query query = em.createNamedQuery("StudentCourseRecordEntity.getCompletedCourseRecordsForCourse");
+    public List<StudentCourseRecordEntity> getCompletedCourseRecords(String personId) {
+        Query query = em.createNamedQuery("StudentCourseRecordEntity.getCompletedCourseRecords");
+        query.setParameter("personId", personId);
+        return query.getResultList();
+    }
+
+    public List<StudentCourseRecordEntity> getCompletedCourseRecordsForCourse(String personId, String courseCode) {
+        Query query = em.createNamedQuery("StudentCourseRecordEntity.getCompletedCourseRecordsForCourse");
         query.setParameter("personId", personId);
         query.setParameter("courseCode", courseCode);
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
 	public List<StudentCourseRecordEntity> getCompletedCourseRecordsForTerm(String personId, String termId) {
 		Query query = em.createNamedQuery("StudentCourseRecordEntity.getCompletedCourseRecordsForTerm");

@@ -54,6 +54,10 @@ import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants
                         "scr.stateKey = '" + AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED + "' " +
                         "and scr.personId =:personId " +
                         "and scr.courseCode =:courseCode"),
+        @NamedQuery(name = "StudentCourseRecordEntity.getCompletedCourseRecords",
+                query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
+                        "scr.stateKey = '" + AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED + "' " +
+                        "and scr.personId =:personId "),
         @NamedQuery(name = "StudentCourseRecordEntity.getAttemptedCourseRecordsForTerm",
                 query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
                         "scr.creditsAttempted is not null and CAST(scr.creditsAttempted AS integer) > 0 " +

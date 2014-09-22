@@ -70,7 +70,7 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     private void createStudentCourseRecord(StudentCourseRecordInfo studentCourseRecord,
                                             ContextInfo contextInfo) throws Exception {
-        studentCourseRecord.setTypeKey("kuali.academicrecord.studentcourserecord.type.course");
+        studentCourseRecord.setTypeKey(AcademicRecordServiceConstants.STUDENT_COURSE_RECORD_TYPE_KEY);
         studentCourseRecord.setId(UUIDHelper.genStringUUID());
         academicRecordService.createStudentCourseRecord(studentCourseRecord.getPersonId(),
                 studentCourseRecord.getTypeKey(),
@@ -97,13 +97,11 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testCreate() throws Exception {
-        String createdId = "339e49bd-bb68-47d6-92da-2b19ffc57bb1";
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("admin");
         StudentCourseRecordInfo studentCourseRecordInfo = new StudentCourseRecordInfo();
-        studentCourseRecordInfo.setId(createdId);
-        studentCourseRecordInfo.setTypeKey("kuali.academicrecord.studentcourserecord.type.course");
-        studentCourseRecordInfo.setStateKey("kuali.academicrecord.studentcourserecord.state.completed");
+        studentCourseRecordInfo.setTypeKey(AcademicRecordServiceConstants.STUDENT_COURSE_RECORD_TYPE_KEY);
+        studentCourseRecordInfo.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED);
         studentCourseRecordInfo.setCourseOfferingId("12489180-d180-430c-9d90-efb6550f45f9");
         studentCourseRecordInfo.setCourseCode("BSCI258");
         studentCourseRecordInfo.setPersonId("R.JESSEA");
@@ -113,13 +111,13 @@ public class TestAcademicRecordServicePersistenceImpl {
         studentCourseRecordInfo.setCalculatedGradeValue("B+");
         studentCourseRecordInfo.setCreditsAttempted("5");
         studentCourseRecordInfo.setCreditsEarned("5");
-        academicRecordService.createStudentCourseRecord(studentCourseRecordInfo.getPersonId(),
+        StudentCourseRecordInfo createdScr = academicRecordService.createStudentCourseRecord(studentCourseRecordInfo.getPersonId(),
                 studentCourseRecordInfo.getTypeKey(),
                 studentCourseRecordInfo,
                 contextInfo);
-        StudentCourseRecordInfo shouldExist = academicRecordService.getStudentCourseRecord(createdId, contextInfo);
+        StudentCourseRecordInfo shouldExist = academicRecordService.getStudentCourseRecord(createdScr.getId(), contextInfo);
         Assert.notNull(shouldExist);
-        Assert.isTrue(shouldExist.getId().equals(createdId));
+        Assert.isTrue(shouldExist.getId().equals(createdScr.getId()));
     }
 
     @Test
@@ -151,6 +149,21 @@ public class TestAcademicRecordServicePersistenceImpl {
     }
 
     @Test
+    public void testGetCompletedCourseRecords() throws Exception {
+        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
+        ContextInfo contextInfo = new ContextInfo();
+
+        List<StudentCourseRecordInfo>  studentCourseRecords =
+                academicRecordService.getCompletedCourseRecords(personId, contextInfo);
+        Assert.notNull(studentCourseRecords);
+        Assert.notEmpty(studentCourseRecords);
+        for(StudentCourseRecordInfo studentCourseRecordInfo : studentCourseRecords) {
+            Assert.isTrue(studentCourseRecordInfo.getStateKey().
+                    equals(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED));
+        }
+    }
+
+    @Test
     public void testGetAttemptedCourseRecordsForTerm() throws Exception {
         String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
         String termId = "kuali.atp.2011Fall";
@@ -168,10 +181,10 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testGetIdsByType() throws Exception {
-        String type = "kuali.academicrecord.studentcourserecord.type.course";
         ContextInfo contextInfo = new ContextInfo();
 
-        List<String>  studentCourseRecordIds = academicRecordService.getStudentCourseRecordIdsByType(type, contextInfo);
+        List<String>  studentCourseRecordIds = academicRecordService.getStudentCourseRecordIdsByType(
+                AcademicRecordServiceConstants.STUDENT_COURSE_RECORD_TYPE_KEY, contextInfo);
         Assert.notNull(studentCourseRecordIds);
         Assert.notEmpty(studentCourseRecordIds);
     }
