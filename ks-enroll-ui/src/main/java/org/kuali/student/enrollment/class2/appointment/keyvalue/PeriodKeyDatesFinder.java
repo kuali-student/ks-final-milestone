@@ -27,6 +27,7 @@ import java.util.List;
 public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(PeriodKeyDatesFinder.class);
+    public static final String ALL_REGISTRATION_PERIODS = "all";
     private transient AcademicCalendarService acalService;
     private transient TypeService typeService;
 
@@ -62,7 +63,7 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                 }
 
                 if (!keyValues.isEmpty())
-                    keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
+                    keyValues.add(new ConcreteKeyValue(ALL_REGISTRATION_PERIODS, "All Registration Periods for this Term"));
             }
 
         }catch (Exception e){

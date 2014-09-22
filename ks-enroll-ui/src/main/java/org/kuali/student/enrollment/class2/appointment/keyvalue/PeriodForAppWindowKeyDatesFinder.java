@@ -16,15 +16,21 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
     private static final long serialVersionUID = 1L;
 
     @Override
+    /**
+     * Returns registration periods based on what was selected in the period selection.
+     * If "All Periods" was selected it will show all periods.
+     */
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<>();
         RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
 
-        if ("all".equals(form.getPeriodId())) {
+        if (PeriodKeyDatesFinder.ALL_REGISTRATION_PERIODS.equals(form.getPeriodId())) {
+            //Add all periods
             for (KeyDateInfo keyDate : form.getPeriodMilestones()) {
                 keyValues.add(new ConcreteKeyValue(keyDate.getId(), keyDate.getName()));
             }
         } else {
+            //Only add the matching period
             for (KeyDateInfo keyDate : form.getPeriodMilestones()) {
                 if (form.getPeriodId().equals(keyDate.getId())) {
                     keyValues.add(new ConcreteKeyValue(keyDate.getId(), keyDate.getName()));
