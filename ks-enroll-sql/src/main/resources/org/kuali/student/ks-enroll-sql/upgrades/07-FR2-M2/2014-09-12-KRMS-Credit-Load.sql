@@ -5,7 +5,7 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.max.credits','KS-SYS','simplePropositionTypeService','kuali.krms.prop.type.max.credits',0)
 /
 
--- Course in drop or adjustment period proposition: "kuali.rule.name.drop.or.adjustment.is.open"
+-- Course exceeds max credits proposition: "kuali.rule.max.credits"
 INSERT INTO KRMS_RULE_T (ACTV,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.rule.name.max.credits','KS-SYS',null,'kuali.rule.max.credits','kuali.krms.type.check',0)
 /
