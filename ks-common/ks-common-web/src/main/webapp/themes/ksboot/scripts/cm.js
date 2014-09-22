@@ -1143,7 +1143,7 @@ function filterCategoriesByTypes() {
     });
 
     if (i == 0) {
-        jQuery("#uLookusults_layout").dataTable().fnFilter('|', 2);
+        jQuery("#uLookupResults_layout").dataTable().fnFilter('|', 2);
     } else {
         jQuery("#uLookupResults_layout").dataTable().fnFilter('', 2, true, false);
         jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false);
