@@ -434,7 +434,7 @@
         </property>
         <property name="items">
             <list>
-                <bean p:id="@{#line.courseCode}_@{#line.xmlSafeTermId}_@{#line.categoryString}_statusMessage" parent="Uif-Message">
+                <bean p:id="@{#line.courseCode}_@{#line.xmlSafeTermId}_@{#line.categoryString}_statusMessage" parent="Uif-MessageField">
                     <property name="render" value="@{!#empty(#line.statusMessagesForUI)}"/>
                     <property name="messageText" value="&#160;" />
                     <property name="additionalCssClasses">
