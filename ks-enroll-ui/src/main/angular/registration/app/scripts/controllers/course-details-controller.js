@@ -17,8 +17,8 @@
  directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
-    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
+    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$timeout', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
+    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $timeout, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
         console.log('>> CourseDetailsCtrl');
 
         $scope.statuses = STATUS;
@@ -140,6 +140,8 @@ angular.module('regCartApp')
             $scope.selectedRegGroup = null;
             $scope.selectedAOs = [];
             $scope.updateAOStates();
+
+            clearActionBlock();
         };
 
         $scope.hasSelectedAOs = function() {
@@ -166,6 +168,7 @@ angular.module('regCartApp')
         // Perform the Add to Cart action when that button is clicked
         $scope.addToCart = function() {
             if (!$scope.selectedRegGroup) {
+                blockAction();
                 return;
             }
 
@@ -176,6 +179,7 @@ angular.module('regCartApp')
         // Perform the Direct Register action when that button is clicked
         $scope.directRegister = function() {
             if (!$scope.selectedRegGroup) {
+                blockAction();
                 return;
             }
 
@@ -187,6 +191,7 @@ angular.module('regCartApp')
         $scope.addToWaitlist = function() {
             // Only allow direct add to waitlist if it is enabled & the waitlist is available for this RG.
             if (!$scope.selectedRegGroup || !$scope.selectedRegGroup.isWaitlistAvailable) {
+                blockAction();
                 return;
             }
 
@@ -197,8 +202,33 @@ angular.module('regCartApp')
             performAction('waitlist', 'directRegisterForCourse');
         };
 
+        // Helper method for updating the $scope when an action is blocked
+        var blockTimeout = null;
+        function blockAction() {
+            // Cancel the old timer
+            if (blockTimeout) {
+                $timeout.cancel(blockTimeout);
+                blockTimeout = null;
+            }
+
+            $scope.actionWarning = true;
+            $scope.actionBlocked = true;
+
+            // This is a kluge for managing the transitions. Ideally, this would be done outside of the JS.
+            blockTimeout = $timeout(function() {
+                $scope.actionBlocked = false;
+            }, 2000);
+        }
+
+        function clearActionBlock() {
+            $scope.actionWarning = false;
+            $scope.actionBlocked = false;
+        }
+
         // Helper method for performing the action (addToCart, directRegister, addToWaitlist)
         function performAction(actionType, eventAction) {
+            clearActionBlock();
+
             $scope.actionType = actionType;
             $scope.actionStatus = STATUS.processing;
 

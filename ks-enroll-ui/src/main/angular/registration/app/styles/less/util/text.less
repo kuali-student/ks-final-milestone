@@ -19,10 +19,12 @@
 .util-Text-highlight--withPadding(@hPadding, @vPadding) {
     .util-Text-highlight;
 
-    box-shadow: -@hPadding -@vPadding 0 0 @highlightColor,
-                -@hPadding @vPadding 0 0 @highlightColor,
-                @hPadding -@vPadding 0 0 @highlightColor,
-                @hPadding @vPadding 0 0 @highlightColor;
+    @shadow: -@hPadding -@vPadding 0 0 @highlightColor,
+              -@hPadding @vPadding 0 0 @highlightColor,
+              @hPadding -@vPadding 0 0 @highlightColor,
+               @hPadding @vPadding 0 0 @highlightColor;
+
+    .box-shadow(@shadow);
 }
 
 

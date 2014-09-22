@@ -151,13 +151,25 @@
 
 
 // Selection actions
+@selectionMessagePadding: 0.25rem;
 .kscr-SearchDetails-actionsContainer {
     border-bottom: @horizontalLineBorder;
     border-top: @horizontalLineBorder;
     margin: 1rem 0 0;
     padding: 0.5rem 0;
 
+    .kscr-SearchDetails-selectionContainer {
+        .util-Grid-cell;
+        position: relative;
+    }
+
+    // Message container
     .kscr-SearchDetails-selection {
+        border: 1px solid transparent; // Add a transparent border so the warning state doesn't cause a pop
+        float: left;
+        padding: @selectionMessagePadding;
+
+
         // Main label
         &-label {}
 
@@ -167,23 +179,37 @@
         }
 
         // Clear selection link
-        &-clear {}
+        &-clear {
+            clear: both;
+            padding-left: @selectionMessagePadding;
+        }
 
         // Selection icon
         &-icon {
-            float: left;
-            margin-right: 0.2rem;
+            position: absolute;
+            left: @selectionMessagePadding;
+            top: @selectionMessagePadding;
         }
 
         // At least 1 AO has been selected
         &--selected {}
 
+        // Warning state || Full - show warning icon in both cases
+        &--warning,
+        &--full {
+            padding-left: 2.5rem;
+
+            .kscr-SearchDetails-selection-icon {
+                .warning-icon;
+            }
+        }
+
         // All AO's have been selected
         &--complete {
+            padding-left: 2.5rem;
+
             .kscr-SearchDetails-selection-icon {
                 .success-icon;
-                float: left;
-                margin-right: 0.2rem;
             }
             .kscr-SearchDetails-label {
                 color: @successText;
@@ -192,15 +218,38 @@
 
             // All AO's have been selected but the reg group is full
             &.kscr-SearchDetails-selection--full {
-                .kscr-SearchDetails-selection-icon {
-                    .warning-icon;
-                }
                 .kscr-SearchDetails-label {
                     color: @warningText;
                 }
             }
             .kscr-SearchDetails-single-selection {
                 font-weight: bold;
+            }
+        }
+
+        // Action was blocked - highlight the message to draw attention to it
+        &--blocked {
+            // Only apply the highlight styles when it's not complete
+            &:not(.kscr-SearchDetails-selection--complete) {
+                @highlightColor: @warningBackground;
+                border-color: @warningBorder;
+                color: @warningText;
+                .util-Text-highlight();
+            }
+
+            &-add {
+                .util-transitions-transition(background-color linear @transitionSpeed,
+                                             border-color linear @transitionSpeed,
+                                             box-shadow linear @transitionSpeed,
+                                             color linear @transitionSpeed);
+            }
+
+            &-remove {
+                @transitionSpeed: 2s;
+                .util-transitions-transition(background-color linear @transitionSpeed,
+                                             border-color linear @transitionSpeed,
+                                             box-shadow linear @transitionSpeed,
+                                             color linear @transitionSpeed);
             }
         }
 

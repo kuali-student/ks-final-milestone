@@ -16,12 +16,17 @@
 /**
  * Full transition mixin
  * @param @transition Transition value: See https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_transitions
+ *
+ * Usage: .util-transitions-transition(background-color linear 2s, border-color linear 2s);
  */
-.util-transitions-transition(@transition) {
-    -webkit-transition: @transition;
-    -moz-transition: @transition;
-    -o-transition: @transition;
-    transition: @transition;
+.util-transitions-transition(...) { // Use varargs
+    @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
+
+    // @arguments contains the full list of arguments passes
+    -webkit-transition: @props;
+    -moz-transition: @props;
+    -o-transition: @props;
+    transition: @props
 }
 
 

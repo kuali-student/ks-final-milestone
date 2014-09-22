@@ -88,38 +88,53 @@
         <!-- Selected Activity Offerings Area -->
         <div sticky class="kscr-SearchDetails-actionsContainer kscr-SearchDetails-actionsContainer--{{actionStatus}} kscr-SearchDetails-actionsContainer--{{actionType}} util-Grid util-Grid--center"
              ng-if="course.regGroupsOffered">
+
             <!-- Selected Messages -->
-            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell" ng-if="!selectedRegGroup && !hasSelectedAOs()">
-                <span class="kscr-SearchDetails-label">No Activities Selected</span>
-            </div>
-            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--selected util-Grid-cell" ng-if="hasSelectedAOs()"
-                 ng-class="{'kscr-SearchDetails-selection--complete' : selectedRegGroup, 'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull }">
-                <div class="kscr-SearchDetails-label" ng-if="!selectedRegGroup">{{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected</div>
-                <div id="one_ao_selected" class="kscr-SearchDetails-label" ng-if="selectedRegGroup && !singleRegGroup">
+            <div class="kscr-SearchDetails-selectionContainer">
+                <div class="kscr-SearchDetails-selection"
+                     ng-class="{'kscr-SearchDetails-selection--empty' : !selectedRegGroup && !hasSelectedAOs(),
+                                'kscr-SearchDetails-selection--blocked' : actionBlocked && !selectedRegGroup,
+                                'kscr-SearchDetails-selection--warning' : actionWarning && !selectedRegGroup,
+                                'kscr-SearchDetails-selection--selected' : hasSelectedAOs(),
+                                'kscr-SearchDetails-selection--complete' : selectedRegGroup,
+                                'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull}">
+
                     <i class="kscr-SearchDetails-selection-icon"></i>
-                    <span>Section {{selectedRegGroup.regGroupCode}}</span>
-                    <span ng-if="!selectedRegGroup.isFull">Selected</span>
-                    <span ng-if="selectedRegGroup.isFull">
-                        <span>Full</span>
-                        <span class="kscr-SearchDetails-selection-sublabel">
-                            <span ng-if="!selectedRegGroup.waitListOffered">(No waitlist offered)</span>
-                            <span ng-if="selectedRegGroup.waitListOffered && !selectedRegGroup.maxWaitListSize">
-                                ({{selectedRegGroup.waitListSize}}&nbsp;
-                                <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': 'student', 'other': 'students'}"></ng-pluralize>
-                                &nbsp;on waitlist)
-                            </span>
-                            <span ng-if="selectedRegGroup.waitListOffered && selectedRegGroup.maxWaitListSize">
-                                ({{selectedRegGroup.maxWaitListSize - selectedRegGroup.waitListSize}}/{{selectedRegGroup.maxWaitListSize}} waitlist spots available)
+
+                    <div ng-if="!selectedRegGroup && !hasSelectedAOs()" class="kscr-SearchDetails-label">
+                        No Activities Selected
+                    </div>
+                    <div ng-if="!selectedRegGroup && hasSelectedAOs()" class="kscr-SearchDetails-label">
+                        {{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected
+                    </div>
+                    <div ng-if="selectedRegGroup && !singleRegGroup" class="kscr-SearchDetails-label" id="one_ao_selected">
+                        <span>Section {{selectedRegGroup.regGroupCode}}</span>
+                        <span ng-if="!selectedRegGroup.isFull">Selected</span>
+                        <span ng-if="selectedRegGroup.isFull">
+                            <span>Full</span>
+                            <span class="kscr-SearchDetails-selection-sublabel">
+                                <span ng-if="!selectedRegGroup.waitListOffered">(No waitlist offered)</span>
+                                <span ng-if="selectedRegGroup.waitListOffered && !selectedRegGroup.maxWaitListSize">
+                                    ({{selectedRegGroup.waitListSize}}&nbsp;
+                                    <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': 'student', 'other': 'students'}"></ng-pluralize>
+                                    &nbsp;on waitlist)
+                                </span>
+                                <span ng-if="selectedRegGroup.waitListOffered && selectedRegGroup.maxWaitListSize">
+                                    ({{selectedRegGroup.maxWaitListSize - selectedRegGroup.waitListSize}}/{{selectedRegGroup.maxWaitListSize}} waitlist spots available)
+                                </span>
                             </span>
                         </span>
-                    </span>
+                    </div>
+                    <div ng-if="selectedRegGroup && singleRegGroup" class="kscr-SearchDetails-label kscr-SearchDetails-single-selection">
+                        Section {{selectedRegGroup.regGroupCode}}
+                    </div>
                 </div>
-                <div class="kscr-SearchDetails-single-selection" ng-if="selectedRegGroup && singleRegGroup">
-                    Section {{selectedRegGroup.regGroupCode}}
+
+                <div ng-if="hasSelectedAOs() && !singleRegGroup" class="kscr-SearchDetails-selection-clear">
+                    <a ng-click="clearSelectedAOs()">
+                        <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
+                    </a>
                 </div>
-                <a class="kscr-SearchDetails-selection-clear" ng-click="clearSelectedAOs()" ng-if="!singleRegGroup">
-                    <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
-                </a>
             </div>
 
             <!-- Actions -->
@@ -129,18 +144,18 @@
                     <!-- Add to Cart -->
                     <button id="search_details_add_to_cart" name="submit" ng-click="addToCart()"
                             class="kscr-Button kscr-SearchDetails-button--addToCart"
-                            ng-disabled="!selectedRegGroup || (selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable) || actionStatus === statuses.processing"
+                            ng-disabled="(selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable) || actionStatus === statuses.processing"
                             ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><span>Add to Cart</span></button>
 
                     <!-- Add to Waitlist -->
                     <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button kscr-SearchDetails-button--addToWaitlist"
-                            ng-disabled="!selectedRegGroup || actionStatus === statuses.processing" ng-click="addToWaitlist()"
+                            ng-disabled="actionStatus === statuses.processing" ng-click="addToWaitlist()"
                             ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
 
                     <!-- Split Button Dropdown -->
                     <button id="search_details_add_dropdown" class="kscr-Button dropdown-toggle" data-toggle="dropdown"
-                            ng-disabled="!selectedRegGroup || actionStatus === statuses.processing"
-                            ng-if="(!selectedRegGroup || !selectedRegGroup.isFull) || (selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable)">
+                            ng-disabled="actionStatus === statuses.processing"
+                            ng-if="(!selectedRegGroup.isFull) || (selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable)">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
