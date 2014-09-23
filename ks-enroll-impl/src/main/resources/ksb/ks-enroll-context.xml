@@ -1859,8 +1859,14 @@ the program will get the rule management service by calling the global resource 
         <!-- Student without appointment with a system date during non appointment reg period -->
         <entry key="a.susanh" value="2012-06-10@00:01" />
 
-
-
+        <!-- KSAP users -->
+        <!-- Registration Open window for Spring 2014-->
+        <entry key="b.julil" value="2014-01-31@00:01" />
+        <entry key="b.nanal" value="2014-01-31@00:01" />
+        <!-- Registration is closed for Spring 2014 -->
+        <entry key="b.joels" value="2014-02-08@00:01" />
+        <!-- Registration Open window for Summer1 2014-->
+        <entry key="b.amandak" value="2014-05-24@00:01" />
     </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
