@@ -360,11 +360,11 @@
 
 
     <bean id="KsapStaticUserDateUtil" class="org.kuali.student.ap.framework.util.StaticUserDateUtil">
-        <property name="userDateMap" ref="regUserMap" />
+        <property name="userDateMap" ref="KsapRegUserMap" />
         <property name="useStaticDates" value="true" />
     </bean>
 
-    <util:map id="regUserMap">
+    <util:map id="KsapRegUserMap">
         <!-- Registration Open window for Spring 2014-->
         <entry key="admin" value="2014-01-31@00:01" />
         <entry key="student" value="2014-01-31@00:01" />
