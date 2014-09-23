@@ -129,6 +129,7 @@ public class CourseOfferingSetServiceConstants {
     // what data
     public static final String USE_CANONICAL_OPTION_KEY = "kuali.rollover.whatdata.usecanonical";
     public static final String NO_SCHEDULE_OPTION_KEY = "kuali.rollover.whatdata.noschedule";
+    public static final String NO_SCHEDULE_ROOM_OPTION_KEY = "kuali.rollover.whatdata.noroom";
     public static final String NO_INSTRUCTORS_OPTION_KEY = "kuali.rollover.whatdata.noinstructors";
 
     // general processing
