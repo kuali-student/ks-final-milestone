@@ -772,12 +772,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
 
         boolean sourceAndTargetHaveSameTerm = sourceAo.getTermId().equals(targetAo.getTermId());
         // Copy schedules from source to target
-        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-            // This option key should only appear in Copy CO (rollover currently does not have options
-            // in the UI.
-            common_copySchedules(operation, rolloverAssist, rolloverId, sourceAo, targetAo,
-                    sourceAndTargetHaveSameTerm, coService, context);
-        }
+        // This option key should only appear in Copy CO (rollover currently does not have options
+        // in the UI.
+        common_copySchedules(operation, optionKeys, rolloverAssist, rolloverId, sourceAo, targetAo,
+                sourceAndTargetHaveSameTerm, coService, context);
         // Copy seatpools from source to target
         common_copySeatpools(sourceAo, targetAo, coService, context);
 
@@ -800,6 +798,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * @param context The context info
      */
     private void common_copySchedules(String operation,
+                                      List<String> optionKeys,
                                       RolloverAssist rolloverAssist,
                                       String rolloverId,
                                       ActivityOfferingInfo sourceAo,
@@ -836,6 +835,9 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                 // If copy AO and co-located, then target SRS is same as source SRS.
                 // Copy AO always has same source/target term, so no need to test that in the "if" condition
                 coloTargetSRS = sourceSRS;
+            }
+            if (operation.equals(COPY_OPERATION_ROLLOVER) && !isColocated && optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY)) {
+                return;
             }
             // Main call to copy schedules
             ScheduleRequestSetInfo resultTargetSRS =
