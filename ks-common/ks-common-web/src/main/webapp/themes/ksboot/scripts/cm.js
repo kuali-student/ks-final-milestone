@@ -995,6 +995,9 @@ function refreshEndTerm() {
     }
 }
 
+function resetEndTerm(){
+     jQuery('#CM-Proposal-Course-ActiveDates-EndTerm_control').val('');
+}
 /*
  * For modify course proposals, updates the current course end term when the start term of the draft course
  * is updated.
