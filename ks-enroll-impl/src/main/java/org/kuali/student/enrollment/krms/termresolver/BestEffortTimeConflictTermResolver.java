@@ -143,7 +143,14 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, ex, this);
         }
 
-        return convertConflictsToJson(itemConflicts);
+        String timeConflictsJson = convertConflictsToJson(itemConflicts);
+
+        if (itemConflicts != null && !itemConflicts.isEmpty()) {
+            LOGGER.warn("Time conflicts found for {}. Reg request id {} has conflicts. Error JSON: {}",
+                    contextInfo.getPrincipalId(), regRequestItem.getRegistrationRequestId(), timeConflictsJson);
+        }
+
+        return timeConflictsJson;
     }
 
     private List<ConflictCourseResult> getConflicts(RegistrationRequestItemInfo regRequestItem,

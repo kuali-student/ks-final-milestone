@@ -32,6 +32,8 @@ import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.Collections;
@@ -55,6 +57,8 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseRepeatabilityTermResolver implements TermResolver<String> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseRepeatabilityTermResolver.class);
 
     public final static String MAX_REPEATABILITY_ERROR = "kuali.max.repeatability.error";
     public final static String MAX_REPEATABILITY_WARNING = "kuali.max.repeatability.warning";
@@ -82,7 +86,6 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
         prereqs.add(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
         prereqs.add(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-//        prereqs.add(RulesExecutionConstants.KRMS_EVALUATOR_TERM.getName());//Needed for rule execution
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -111,7 +114,6 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
 
         //Grab prereqs
         RegistrationGroupInfo rg = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-//        KRMSEvaluator krmsEvaluator = (KRMSEvaluator) resolvedPrereqs.get(RulesExecutionConstants.KRMS_EVALUATOR_TERM);//needed for rule execution
 
         //See if the course has any custom rules on it
         List<ReferenceObjectBinding> bindings = getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, rg.getCourseOfferingId());
@@ -123,20 +125,12 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
                 if (KRMS_COURSE_CONTEXT.equals(agendaDefinition.getContextId()) && KRMS_REPEATABILITY_TYPE.equals(agendaDefinition.getTypeId())) {
                     //If there is a repeatability rule, exclude this course from repeatability by always returning success
                     errorLevel = MAX_REPEATABILITY_SUCCESS;
-//                    //Pull the agenda and execute the rule
-//                    Agenda agenda = KrmsRepositoryServiceLocator.getKrmsRepositoryToEngineTranslator().translateAgendaDefinition(agendaDefinition);
-//                    EngineResults engineResults = krmsEvaluator.evaluateAgenda(agenda, Collections.<String, Object>emptyMap(), Collections.<String, String>emptyMap());
-//
-//                    //Parse the results for errors
-//                    List<ValidationResultInfo> validationResults = KRMSEvaluator.extractValidationResults(engineResults);
-//
-//                    if (ValidationUtils.checkForErrors(validationResults)) {
-//                        return MAX_REPEATABILITY_ERROR;
-//                    }else{
-//                        errorLevel = MAX_REPEATABILITY_SUCCESS;
-//                    }
                 }
             }
+        }
+
+        if (!errorLevel.equals(MAX_REPEATABILITY_SUCCESS)) {
+            LOGGER.warn("Max Repeatability check for was not successful -- Total Attempts: {}, Max Repeats: {}, Error Level: {}", totalAttempts, maxRepeats, errorLevel);
         }
 
         return errorLevel;

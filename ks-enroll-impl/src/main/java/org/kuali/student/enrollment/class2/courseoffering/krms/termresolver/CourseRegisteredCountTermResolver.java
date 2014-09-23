@@ -85,9 +85,10 @@ public class CourseRegisteredCountTermResolver extends CourseOfferingTermResolve
         List<CourseRegistrationInfo> existingRegistrations = (List<CourseRegistrationInfo>) resolvedPrereqs.get(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName());
         List<CourseRegistrationInfo> existingWaitlist = (List<CourseRegistrationInfo>) resolvedPrereqs.get(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM.getName());
         List<CourseRegistrationInfo> simulatedRegistrations = (List<CourseRegistrationInfo>) resolvedPrereqs.get(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM.getName());
+        String regCourseOfferingId = null;
         try {
             CourseRegistrationInfo regItem = createNewCourseRegistration(requestItemInfo, contextInfo);
-            String regCourseOfferingId = regItem.getCourseOfferingId();
+            regCourseOfferingId = regItem.getCourseOfferingId();
 
             List<CourseRegistrationInfo> crList = new ArrayList<>();
             crList.addAll(existingRegistrations);
@@ -100,8 +101,12 @@ public class CourseRegisteredCountTermResolver extends CourseOfferingTermResolve
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Exception trying to course registered count", ex);
+            LOGGER.error("Exception trying to resolve course registered count", ex);
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, ex, this);
+        }
+
+        if (registeredCount > 0) {
+            LOGGER.warn("Term Repeatability failed for {}, course offering id {}", contextInfo.getPrincipalId(), regCourseOfferingId);
         }
 
         return registeredCount;

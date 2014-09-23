@@ -88,13 +88,10 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
         Float maxCredits = (Float) resolvedPrereqs.get(RulesExecutionConstants.MAX_CREDITS_TERM.getName());
 
         Boolean loadVerified = null;
+        List<CourseRegistrationInfo> existingCrs = new ArrayList<>();
 
         try {
-
-            // Fetch registrations
-            List<CourseRegistrationInfo> existingCrs = new ArrayList<>();
-
-            // add existing registrations
+            // add existing registrations to list
             existingCrs.addAll(existingRegistrations);
 
             // add waitlist (if applicable)
@@ -131,6 +128,11 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, ex, this);
         }
 
+        if (loadVerified != null && !loadVerified) {
+            LOGGER.warn("Credit Load check failed for {}. Total load: {}. Max credits allowed: {}",
+                    contextInfo.getPrincipalId(), getTotalLoad(existingCrs), maxCredits);
+        }
+
         // return the result
         return loadVerified;
     }
@@ -149,13 +151,18 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
             // indicates there's no credit limit.
             loadIsOK = true;
         } else {
-            Float totalLoad = 0f;
-            for (CourseRegistrationInfo info: existingCrs) {
-                totalLoad += info.getCredits().floatValue();
-            }
+            float totalLoad = getTotalLoad(existingCrs);
             loadIsOK = (totalLoad <= maxCredits);
         }
         return loadIsOK;
+    }
+
+    private float getTotalLoad(List<CourseRegistrationInfo> existingCrs) {
+        Float totalLoad = 0f;
+        for (CourseRegistrationInfo info: existingCrs) {
+            totalLoad += info.getCredits().floatValue();
+        }
+        return totalLoad;
     }
 
     public void setCountWaitlistedCoursesTowardsCreditLimit(boolean countWaitlistedCoursesTowardsCreditLimit) {

@@ -105,9 +105,13 @@ public class AppointmentWindowTermResolver extends AppointmentTermResolverSuppor
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Exception trying to evaluate activity window", ex);
+            LOGGER.error("Exception trying to evaluate appointment window", ex);
             slotFound = null;
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, ex, this);
+        }
+
+        if (slotFound != null && !slotFound) {
+            LOGGER.warn("Appointment window check failed for {}, no appointment slots found for term {}", personId, atpId);
         }
 
         // return the result
