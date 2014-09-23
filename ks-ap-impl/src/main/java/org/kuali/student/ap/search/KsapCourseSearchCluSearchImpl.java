@@ -277,7 +277,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST, versionIdList);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
         List<Object[]> results = query.getResultList();
 
         // Compile results
@@ -325,7 +325,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
         List<Object> results = query.getResultList();
 
         // Compile results
@@ -361,7 +361,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
         // Compile results
@@ -397,7 +397,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.LEVEL, level);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 
@@ -434,7 +434,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 
@@ -474,7 +474,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.LEVEL, level);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 
@@ -516,7 +516,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
         query.setParameter(CourseSearchConstants.SearchParameters.DIVISION, division);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 
@@ -556,7 +556,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 
@@ -594,7 +594,7 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.QUERYTEXT, queryText);
-        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, KsapHelperUtil.getCurrentDate());
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         List<Object> results = query.getResultList();
 

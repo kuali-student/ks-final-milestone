@@ -303,7 +303,7 @@ public class PlannerController extends KsapControllerBase {
 		if (!found && !StringUtils.isEmpty(termNote)) {
 			CommentInfo newComment = new CommentInfo();
 			newComment.setCommentText(newNote);
-			newComment.setEffectiveDate(KsapHelperUtil.getCurrentDate());
+			newComment.setEffectiveDate(KsapFrameworkServiceLocator.getContext().getContextInfo().getCurrentDate());
 			newComment.setRefObjectId(plan.getId());
 			newComment.setRefObjectUri(PlanConstants.TERM_NOTE_COMMENT_TYPE);
 			newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);

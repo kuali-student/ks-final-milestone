@@ -192,7 +192,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	@Override
 	public Term getLastOfferedTermForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        Date currentDate = KsapHelperUtil.getCurrentDate();
+//        Date currentDate = KsapHelperUtil.getCurrentDate();
+        Date currentDate = ctx.getCurrentDate();
         Term lastOfferedTerm = null;
         Term termInfo;
 
@@ -386,7 +387,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             return "Course " + course.getCode() + " is not an active course";
         }
 
-        if(course.getExpirationDate()!=null && course.getExpirationDate().before(KsapHelperUtil.getCurrentDate())){
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        if(course.getExpirationDate()!=null && course.getExpirationDate().before(ctx.getCurrentDate())){
             return "Course " + course.getCode() + " is expired";
         }
 

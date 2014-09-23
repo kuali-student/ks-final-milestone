@@ -127,9 +127,10 @@ public class DefaultTermHelper implements TermHelper {
     @Override
     public List<Term> getCurrentTerms() {
         List<Term> currentTerms = new ArrayList<Term>();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
+                    or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", ctx.getCurrentDate()),greaterThanOrEqual("endDate",ctx.getCurrentDate()));
             List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (rv == null)
@@ -311,7 +312,8 @@ public class DefaultTermHelper implements TermHelper {
      */
 	@Override
 	public boolean isPlanning(String termId) {
-        Date now = KsapHelperUtil.getCurrentDate();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        Date now = ctx.getCurrentDate();
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         if(now.before(term.getStartDate())){
             return true;
@@ -330,7 +332,8 @@ public class DefaultTermHelper implements TermHelper {
      */
 	@Override
 	public boolean isCompleted(String termId) {
-        Date now = KsapHelperUtil.getCurrentDate();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        Date now = ctx.getCurrentDate();
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         boolean complete = term.getEndDate().before(now);
 		return complete;
@@ -341,7 +344,8 @@ public class DefaultTermHelper implements TermHelper {
      */
     @Override
     public boolean isInProgress(String termId) {
-        Date now = KsapHelperUtil.getCurrentDate();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        Date now = ctx.getCurrentDate();
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         boolean inProgress = !now.before(term.getStartDate()) && !now.after(term.getEndDate());
         return inProgress;
@@ -352,7 +356,8 @@ public class DefaultTermHelper implements TermHelper {
      */
     @Override
     public boolean isFutureTerm(String termId) {
-        Date now = KsapHelperUtil.getCurrentDate();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        Date now = ctx.getCurrentDate();
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         boolean futureTerm = now.before(term.getStartDate());
         return futureTerm;
@@ -381,7 +386,8 @@ public class DefaultTermHelper implements TermHelper {
      */
     @Override
     public boolean isRegistrationOpen(String termId) {
-        Date now = KsapHelperUtil.getCurrentDate();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        Date now = ctx.getCurrentDate();
         KeyDateInfo endOfScheduleAdjustment = null;
         KeyDateInfo registrationServiceOpen = null;
         try {
@@ -478,9 +484,10 @@ public class DefaultTermHelper implements TermHelper {
      */
     @Override
     public AcademicCalendar getCurrentAcademicCalendar() {
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         try{
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(equal("typeKey", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
+                    or(equal("typeKey", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)), lessThanOrEqual("startDate", ctx.getCurrentDate()),greaterThanOrEqual("endDate",ctx.getCurrentDate()));
             List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             AcademicCalendarInfo acal =null;
@@ -645,9 +652,10 @@ public class DefaultTermHelper implements TermHelper {
     @Override
     public List<Term> getFutureTermsWithPublishedSOC (){
         List<Term> futureTerms = new ArrayList<Term>();
+        ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", AtpServiceConstants.ATP_OFFICIAL_STATE_KEY),
-                    or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", KsapHelperUtil.getCurrentDate()));
+                    or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", ctx.getCurrentDate()));
             List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             if (rl == null || rl.isEmpty()) {

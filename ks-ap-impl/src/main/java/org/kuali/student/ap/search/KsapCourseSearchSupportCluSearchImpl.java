@@ -571,7 +571,7 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
             throws MissingParameterException, OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        Date date = KsapHelperUtil.getCurrentDate();
+        Date date = contextInfo.getCurrentDate();
         String versionId = requestHelper.getParamAsString(CourseSearchConstants.SearchParameters.VERSION_IND_ID);
 
         // Create sql string

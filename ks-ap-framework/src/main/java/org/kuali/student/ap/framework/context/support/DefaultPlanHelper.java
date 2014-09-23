@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -452,7 +453,8 @@ public class DefaultPlanHelper implements PlanHelper {
         if (!found && !StringUtils.isEmpty(termNote)) {
             CommentInfo newComment = new CommentInfo();
             newComment.setCommentText(newNote);
-            newComment.setEffectiveDate(KsapHelperUtil.getCurrentDate());
+            ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+            newComment.setEffectiveDate(ctx.getCurrentDate());
             newComment.setRefObjectId(learningPlanId);
             newComment.setRefObjectUri(PlanConstants.TERM_NOTE_COMMENT_TYPE);
             newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);

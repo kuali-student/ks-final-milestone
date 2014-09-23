@@ -911,7 +911,7 @@ public class CourseRegistrationServiceMockImpl2
     private static MetaInfo newMeta(ContextInfo contextInfo) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(contextInfo.getPrincipalId());
-        meta.setCreateTime(KsapHelperUtil.getCurrentDate());
+        meta.setCreateTime(contextInfo.getCurrentDate());
         meta.setUpdateId(contextInfo.getPrincipalId());
         meta.setUpdateTime(meta.getCreateTime());
         meta.setVersionInd("0");
@@ -927,7 +927,7 @@ public class CourseRegistrationServiceMockImpl2
     private static MetaInfo updateMeta(MetaInfo old, ContextInfo contextInfo) {
         MetaInfo meta = new MetaInfo(old);
         meta.setUpdateId(contextInfo.getPrincipalId());
-        meta.setUpdateTime(KsapHelperUtil.getCurrentDate());
+        meta.setUpdateTime(contextInfo.getCurrentDate());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
