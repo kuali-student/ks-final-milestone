@@ -302,9 +302,9 @@
         <property name="layoutManager.renderRowFirstCellHeader" value="@{#isCompareView}" />
         <property name="componentModifiers">
           <list>
-              <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
-              <bean parent="CM-ViewCourse-View-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and #isViewCourseView}"/>
-              <bean parent="CM-Proposal-Review-Compare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView and !#isViewCourseView}"/>
+              <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE" p:order="10" />
+              <bean parent="CM-ViewCourse-View-Compare-Modifier" p:runPhase="APPLY_MODEL" p:order="10" p:runCondition="@{#isCompareView and #isViewCourseView}"/>
+              <bean parent="CM-Proposal-Review-Compare-Modifier" p:runPhase="APPLY_MODEL" p:order="20" p:runCondition="@{#isCompareView and !#isViewCourseView}"/>
           </list>
         </property>
     </bean>
@@ -399,6 +399,12 @@
     <bean id="CM-ViewCourse-View-LOCompare-Modifier-parentBean" abstract="true"
           class="org.kuali.student.cm.course.modifiers.ViewCourseLOCollectionModifier">
     </bean>
+
+    <!--<bean id="CM-ViewCourse-View-Logisitics-Modifier" parent="CM-ViewCourse-View-Logisitics-Modifier-parentBean"/>
+
+    <bean id="CM-ViewCourse-View-Logisitics-Modifier-parentBean" abstract="true"
+          class="org.kuali.student.cm.course.modifiers.ViewCourseLogisticsModifier">
+    </bean>-->
 
     <bean id="CM-ViewCourseView-ReviewConstraint-Approve-PropertyReplacer" parent="Uif-ConditionalBeanPropertyReplacer"
           p:propertyName="simpleConstraint"
@@ -620,10 +626,10 @@
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
-                            <ref bean="CM-ViewCourse-View-Course-OutcomeSection"/>
+                            <bean parent="CM-ViewCourse-View-Course-OutcomeSection"/>
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
+                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"  id="emptyStringOutcomes"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
                                   p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).CREATE_COURSE_VIEW and
                                               #emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
@@ -654,13 +660,18 @@
                             </bean>
                         </list>
                     </property>
+                  <!-- <property name="componentModifiers">
+                      <list merge="true">
+                          <bean parent="CM-ViewCourse-View-Logisitics-Modifier" p:order="20" p:runPhase="FINALIZE" p:runCondition="@{#isCompareView}"/>
+                      </list>
+                    </property>-->
                 </bean>
             </list>
         </property>
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-OutcomeSection" parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
-          p:fieldLabel.renderColon="false"
+          p:fieldLabel.renderColon="false" p:id="CM-ViewCourse-View-Course-OutcomeSection"
           p:render="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW or
                     !#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
         <property name="items">
@@ -693,12 +704,12 @@
                                   p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
                         </list>
                     </property>
-                    <property name="componentModifiers">
+                    <!--<property name="componentModifiers">
                           <list>
                               <bean parent="CM-ViewCourse-View-OutComeCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}">
                               </bean>
                           </list>
-                    </property>
+                    </property>-->
                 </bean>
             </list>
         </property>
@@ -771,12 +782,12 @@
                       p:colSpan="1" />
             </list>
         </property>
-        <property name="componentModifiers">
+        <!--<property name="componentModifiers">
               <list>
                   <bean parent="CM-ViewCourse-View-FormatCompare-Modifier" p:runPhase="APPLY_MODEL" p:runCondition="@{#isCompareView}">
                   </bean>
               </list>
-        </property>
+        </property>-->
     </bean>
 
     <bean id="CM-ViewCourse-View-Course-LearningObjectivesSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
