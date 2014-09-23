@@ -536,7 +536,7 @@
                             <ref bean="CM-Proposal-CourseRequisites-Section"/>
                             <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
                             <ref bean="CM-Proposal-Course-Financial-Section"/>
-                            <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
+                            <!--<ref bean="CM-Course-Modify-RetireInfo-Section-parent"/> -->
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
