@@ -32,7 +32,7 @@
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
         <property name="topGroup">
-            <bean id="AdminRegistration-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(term.code eq null)? 'display:none;' : 'display:block;'}">
+            <bean id="AdminRegistration-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(term eq null)? 'display:none;' : 'display:block;'}">
                 <property name="onDocumentReadyScript" value="setSeasonalColor('AdminRegistration-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
             </bean>
         </property>
@@ -100,17 +100,17 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="person.id"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="personId"
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
-                                  p:onDocumentReadyScript="setValidation('person.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
+                                  p:onDocumentReadyScript="setValidation('personId', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="term.code"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
                                   p:label="Term" p:readOnly="false" p:id="termCodeField"
-                                  p:onDocumentReadyScript="setValidation('term.code', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Term is required.');">
+                                  p:onDocumentReadyScript="setValidation('termCode', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="caseConstraint">
                                     <bean parent="CaseConstraint">
@@ -150,14 +150,14 @@
     </bean>
 
     <bean id="KS-AdminRegistration-TermEligibilityWarning" parent="Uif-VerticalBoxSection"
-          p:header.style="margin-top: 0;" p:render="@{termEligible}">
+          p:header.style="margin-top: 0;" p:render="@{!#dp.termIssues.isEmpty()}">
         <property name="items">
             <list>
                 <bean parent="KS-Uif-WarningMessageGroup">
                     <property name="items">
                         <list merge="true">
                             <bean parent="Uif-Message" p:id="termEligibilityWarning"
-                                  p:messageText="Registration for @{term.name} is not currently open."/>
+                                  p:messageText="Registration for @{termName} is not currently open."/>
                         </list>
                     </property>
                 </bean>

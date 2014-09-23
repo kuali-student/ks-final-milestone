@@ -169,31 +169,20 @@ public class AdminRegistrationController extends UifControllerBase {
 
         form.clearCourseRegistrationValues();
 
-        PersonInfo person = this.getViewHelper(form).getStudentById(form.getPerson().getId());
-        TermInfo term = this.getViewHelper(form).getTermByCode(form.getTerm().getCode());
+        form.setPerson(this.getViewHelper(form).getStudentById(form.getPersonId()));
+        form.setTerm(this.getViewHelper(form).getTermByCode(form.getTermCode()));
+        form.setContextBar(getViewHelper(form).getContextBarInfo(form.getTerm()));
         if (GlobalVariables.getMessageMap().hasErrors()) {
             form.setClientState(AdminRegConstants.ClientStates.OPEN);
+            form.setDisplayRegistrationTab(false);
             return getUIFModelAndView(form);
-        } else {
-            form.setPerson(person);
-            form.setTerm(term);
-            form.setSocInfo(getViewHelper(form).getSocByTerm(term.getId()));
         }
 
         form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
         form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getPerson().getId(), form.getTerm().getId()));
 
-        form.setContextBar(getViewHelper(form).getContextBarInfo(form));
-        form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(), term.getId()));
-
-        if (!form.getTermIssues().isEmpty()) {
-            form.setTermEligible(true);
-            form.setDisplayRegistrationTab(true);
-        } else {
-            form.clearTermValues();
-            form.setTermEligible(false);
-            form.setDisplayRegistrationTab(true);
-        }
+        form.setDisplayRegistrationTab(true);
+        form.getTermIssues().addAll(getViewHelper(form).checkStudentEligibilityForTermLocal(form.getPerson().getId().toUpperCase(), form.getTerm().getId()));
 
         printTime(form.getMethodToCall(), start);
 

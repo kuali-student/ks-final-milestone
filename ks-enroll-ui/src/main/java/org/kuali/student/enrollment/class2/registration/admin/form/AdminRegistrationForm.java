@@ -45,6 +45,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      */
     private String clientState;
 
+    private String personId;
+
     /**
      * Contains the personal information for the selected student.
      */
@@ -55,6 +57,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private String credits;
     private String major;
     private String department;
+
+    private String termCode;
 
     /**
      * Contains the term information for the selected term code.
@@ -100,8 +104,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private RegistrationCourse pendingDropCourse = new RegistrationCourse();
 
-    private boolean termEligible = false;
-
     private boolean displayRegistrationTab = false;
 
     /**
@@ -112,23 +114,18 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
-    private SocInfo socInfo;
-
     public AdminRegistrationForm(){
         this.clientState = AdminRegConstants.ClientStates.OPEN;
-        this.person = new PersonInfo();
-        this.term = new TermInfo();
         this.resetPendingCourseValues();
     }
 
     public void clear() {
-        this.person = new PersonInfo();
+        this.person = null;
         this.clearTermValues();
     }
 
     public void clearTermValues() {
-        this.term = new TermInfo();
-        this.termEligible = false;
+        this.term = null;
         this.displayRegistrationTab = false;
         this.clearCourseRegistrationValues();
     }
@@ -153,6 +150,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setClientState(String clientState) {
         this.clientState = clientState;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public PersonInfo getPerson() {
@@ -203,12 +208,27 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.department = department;
     }
 
+    public String getTermCode() {
+        return termCode;
+    }
+
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
+    }
+
     public TermInfo getTerm() {
         return term;
     }
 
     public void setTerm(TermInfo term) {
         this.term = term;
+    }
+
+    public String getTermName() {
+        if(term!=null){
+            return term.getName();
+        }
+        return StringUtils.EMPTY;
     }
 
     public List<RegistrationCourse> getPendingCourses() {
@@ -315,14 +335,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.pendingDropCourse = pendingDropCourse;
     }
 
-    public boolean isTermEligible() {
-        return termEligible;
-    }
-
-    public void setTermEligible(boolean termEligible) {
-        this.termEligible = termEligible;
-    }
-
     public boolean isDisplayRegistrationTab() {
         return displayRegistrationTab;
     }
@@ -355,17 +367,9 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.contextBar = contextBar;
     }
 
-    public SocInfo getSocInfo() {
-        return socInfo;
-    }
-
-    public void setSocInfo(SocInfo socInfo) {
-        this.socInfo = socInfo;
-    }
-
     public String getPersonHeaderInfo() {
 
-        if (person.getId() != null) {
+        if (person!=null) {
             return ": " + person.getName() + " (" + person.getId() + ")";
         }
 

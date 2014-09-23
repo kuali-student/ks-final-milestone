@@ -137,10 +137,23 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public CourseOfferingContextBar getContextBarInfo(AdminRegistrationForm form) {
+    public CourseOfferingContextBar getContextBarInfo(TermInfo term) {
+
+        if (term == null) {
+            return CourseOfferingContextBar.NULL_SAFE_INSTANCE;
+        }
 
         try {
-            return CourseOfferingContextBar.NEW_INSTANCE(form.getTerm(), form.getSocInfo().getStateKey(), getStateService(), AdminRegResourceLoader.getAcademicCalendarService(), createContextInfo());
+            SocInfo soc = this.getSocByTerm(term.getId());
+            if (soc == null) {
+                CourseOfferingContextBar contextBar = new CourseOfferingContextBar();
+                contextBar.setTermName(term.getName());
+                contextBar.setTermSocState(StringUtils.EMPTY);
+                contextBar.setTermDayOfYear(CourseOfferingViewHelperUtil.calculateTermDayOfYear(term, AdminRegResourceLoader.getAcademicCalendarService(), createContextInfo()));
+                return contextBar;
+            }
+
+            return CourseOfferingContextBar.NEW_INSTANCE(term, soc.getStateKey(), getStateService(), AdminRegResourceLoader.getAcademicCalendarService(), createContextInfo());
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }

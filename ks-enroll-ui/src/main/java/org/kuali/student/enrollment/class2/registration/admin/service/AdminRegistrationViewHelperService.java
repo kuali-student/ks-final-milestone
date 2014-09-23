@@ -151,9 +151,10 @@ public interface AdminRegistrationViewHelperService {
     /**
      * Retrieve the contextBar info with the adminRegistrationForm
      *
-     * @param form
+     * @param term
+     * @param soc
      * @return
      */
-    public CourseOfferingContextBar getContextBarInfo(AdminRegistrationForm form);
+    public CourseOfferingContextBar getContextBarInfo(TermInfo term);
 
 }

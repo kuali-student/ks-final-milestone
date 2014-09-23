@@ -150,16 +150,15 @@ public class AppliedHoldRule extends BasicHoldsRule {
             } else {
                 try {
                     //validate terms Dates
-                    TermInfo effectiveTerm = null;
-                    TermInfo expirationTerm = null;
-                    TermInfo firstTerm = null;
-                    TermInfo lastTerm = null;
-                    firstTerm = searchForTermIdById(holdIssue.getFirstApplicationTermId());
-                    effectiveTerm = searchForTermIdById(appliedHold.getApplicationEffectiveTermId());
+                    TermInfo firstTerm = searchForTermIdById(holdIssue.getFirstApplicationTermId());
+                    TermInfo effectiveTerm = searchForTermIdById(appliedHold.getApplicationEffectiveTermId());
 
+                    TermInfo expirationTerm = null;
                     if (appliedHold.getApplicationExpirationTermId() != null) {
                         expirationTerm = searchForTermIdById(appliedHold.getApplicationExpirationTermId());
                     }
+
+                    TermInfo lastTerm = null;
                     if (holdIssue.getLastApplicationTermId() != null) {
                         lastTerm = searchForTermIdById(holdIssue.getLastApplicationTermId());
                     }
@@ -183,7 +182,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
                             GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
                                     HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, effectiveTerm.getCode());
                             isValid = false;
-                        }else if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), firstTerm.getStartDate())) {
+                        } else if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), firstTerm.getStartDate())) {
                             GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
                                    HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, firstTerm.getCode());
                             isValid = false;
