@@ -115,49 +115,6 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'N')
 /
 
--- Process Instruction: add from waitlist request
-INSERT INTO KSEN_PROCESS_INSTRN
-(APPLD_POPULATION_ID,
- CHECK_ID,
- CONT_ON_FAILED_IND,
- CREATEID,
- CREATETIME,
- EFF_DT,
- EXEMPTIBLE_IND,
- ID,
- MESG_PLAIN,
- MESG_FORMATTED,
- OBJ_ID,
- POSITION,
- PROCESS_ID,
- PROCESS_INSTRN_STATE,
- PROCESS_INSTRN_TYPE,
- UPDATEID,
- UPDATETIME,
- VER_NBR,
- WARNING_IND)
-  VALUES (
-    'kuali.population.student.key.everyone',
-    'kuali.check.course.for.registration',
-    'Y',
-    'Admin',
-    TO_DATE( '2014-09-17', 'YYYY-MM-DD' ),
-    TO_DATE( '2014-09-17', 'YYYY-MM-DD' ),
-    'Y',
-    '03461691-5C4B-9DFE-E050-007F0101283B',
-    'Course eligibility - Already Registered',
-    '"messageKey":"kuali.lpr.trans.message.course.already.registered"',
-    '03461691-5C4C-9DFE-E050-007F0101283B',
-    1,
-    'kuali.process.course.eligible.for.add.from.waitlist',
-    'kuali.process.instruction.state.active',
-    'kuali.process.instruction.type.instruction',
-    'Admin',
-    TO_DATE( '2014-09-17', 'YYYY-MM-DD' ),
-    0,
-    'N')
-/
-
 -- Process Instruction: add to waitlist request
 INSERT INTO KSEN_PROCESS_INSTRN
 (APPLD_POPULATION_ID,
