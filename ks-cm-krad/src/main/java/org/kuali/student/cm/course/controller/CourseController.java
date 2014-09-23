@@ -50,6 +50,7 @@ import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -73,6 +74,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -255,7 +257,18 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
         courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
-
+        List<AttributeInfo> attributes = courseInfo.getAttributes();
+        // kscm-2844: When a new version of a retired course is created, these attributes need to be removed.
+        for (Iterator<AttributeInfo> it = attributes.iterator(); it.hasNext();) {
+            AttributeInfo attributeInfo = it.next();
+            if (attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE)
+                    ) {
+                it.remove();
+            }
+        }
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
         courseInfoWrapper.setCourseInfo(courseInfo);
         CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
@@ -737,7 +750,9 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView refreshCurrentCourseEndTerm(@ModelAttribute("KualiForm") DocumentFormBase form) {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         String startTerm = courseInfoWrapper.getCourseInfo().getStartTerm();
-        String endTermShortName = CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo()).getShortName();
+        String versionIndependentId = courseInfoWrapper.getCourseInfo().getVersion().getVersionIndId();
+
+        String endTermShortName = CourseProposalUtil.getEndTerm(startTerm, versionIndependentId, ContextUtils.createDefaultContextInfo()).getShortName();
 
         courseInfoWrapper.setCurrentCourseEndTermShortName(endTermShortName);
 

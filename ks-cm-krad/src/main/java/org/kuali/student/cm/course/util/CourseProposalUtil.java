@@ -19,6 +19,7 @@ package org.kuali.student.cm.course.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -33,6 +34,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -467,6 +469,40 @@ public class CourseProposalUtil {
             }
         });
         return termResults;
+    }
+
+    /**
+     * Returns
+     */
+
+    public static TermResult getEndTerm( String startTerm, String versionIndependentId, ContextInfo contextInfo) {
+        String currentVersionEndTermId = null;
+        TermResult termResult = new TermResult();
+        try {
+            currentVersionEndTermId = CourseProposalUtil.getCurrentVersionOfCourse(versionIndependentId, contextInfo).getEndTerm();
+        } catch (Exception e) {
+            LOG.error("Could not get current course for version.", e);
+        }
+        if (currentVersionEndTermId != null) {
+            // Pilot or retired course
+            try {
+                AtpInfo atpInfo = CMUtils.getAtpService().getAtp(currentVersionEndTermId, contextInfo);
+                termResult.startDate = atpInfo.getStartDate();
+                termResult.endDate = atpInfo.getEndDate();
+                termResult.shortName  = atpInfo.getName();
+                termResult.atpId = atpInfo.getId();
+            }
+            catch (Exception ex) {
+                String msg = String.format("Unable to find ATPId [%s].", currentVersionEndTermId);
+                LOG.error(msg, ex);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND);
+            }
+        }
+        else {
+            // If the endTerm is not set on the currentVersion, then obtain the previous term based on the 'startTerm'
+            termResult  = CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo());
+        }
+        return termResult;
     }
 
     public static class TermResult {
