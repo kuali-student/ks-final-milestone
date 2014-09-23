@@ -205,7 +205,7 @@ public class ViewCourseController extends KsUifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, "CM-Modify-Version-Start-Page");
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, "startProposalView");
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId()));
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
@@ -229,7 +229,7 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(UifConstants.UrlParams.VIEW_ID, CurriculumManagementConstants.CourseViewIds.CREATE_COURSE_VIEW);
         urlParameters.put(CurriculumManagementConstants.UrlParams.USE_CURRICULUM_REVIEW, Boolean.TRUE.toString());
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, CurriculumManagementConstants.ModifyCourseStartOptions.MODIFY_WITH_A_NEW_VERSION);
-        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl());
+        urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId()));
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
 
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");

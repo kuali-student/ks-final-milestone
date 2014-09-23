@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -173,7 +174,6 @@ public class CourseController extends CourseRuleEditorController {
         String courseId = request.getParameter(CurriculumManagementConstants.UrlParams.CLU_ID);
 
         CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
-        courseInfoWrapper.setProposalDataUsed(false);
         courseInfoWrapper.setDisableCourseDefaulting(true);
         CourseMaintainable newMaintainble = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
@@ -195,52 +195,34 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=completeModifyThisVersion" )
     public ModelAndView completeModifyThisVersion(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
 
-        DialogManager dm = form.getDialogManager();
-        String dialogId = dm.getCurrentDialogId();
-        if (dialogId != null) {
-            dm.setDialogAnswer(dialogId, form.getDialogResponse());
-            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
-            dm.setCurrentDialogId(null);
+        // TODO KSCM-2836 -- validations fire if these proposal fields aren't filled out even thought we don't use proposalInfo on this document
+        if (wrapper.getProposalInfo() == null) {
+            wrapper.setProposalInfo(new ProposalInfo());
         }
+        if (wrapper.getProposalInfo().getRationale() == null) {
+            wrapper.getProposalInfo().setRationale(new RichTextInfo());
+        }
+        wrapper.getProposalInfo().getRationale().setFormatted("dummy");
+        wrapper.getProposalInfo().getRationale().setPlain("dummy");
+        wrapper.getProposalInfo().setName(wrapper.getCourseInfo().getCourseTitle());
 
-        String dialog = CurriculumManagementConstants.ProposalConfirmationDialogs.SUBMIT_CONFIRMATION_DIALOG;
-        if ( ! hasDialogBeenDisplayed(dialog, form)) {
-            CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-            // TODO KSCM-2836 -- validations fire if these proposal fields aren't filled out even thought we don't use proposalInfo on this document
-            if (wrapper.getProposalInfo() == null) {
-                wrapper.setProposalInfo(new ProposalInfo());
-            }
-            if (wrapper.getProposalInfo().getRationale() == null) {
-                wrapper.getProposalInfo().setRationale(new RichTextInfo());
-            }
-            wrapper.getProposalInfo().getRationale().setFormatted("dummy");
-            wrapper.getProposalInfo().getRationale().setPlain("dummy");
-            wrapper.getProposalInfo().setName(wrapper.getCourseInfo().getCourseTitle());
-            doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
+//        doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
+        // manually call the view validation service as this validation cannot be run client-side in current setup
+        KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);
+        //Perform Rules validation
+        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
 
-            if (!GlobalVariables.getMessageMap().hasErrors()) {
-                //redirect back to client to display confirm dialog
-                return showDialog(dialog, form, request, response);
-            }
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            // cannot call super class method as the redirect methods are causing an error when loading indicator is used after dialog confirmation is clicked
+            performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
+
+            //redirect back to course view page
+            return performRedirect(form, CourseProposalUtil.getViewCourseUrl(wrapper.getCourseInfo().getId()));
         } else {
-            if (hasDialogBeenAnswered(dialog, form)) {
-                boolean confirmSubmit = getBooleanDialogResponse(dialog, form, request, response);
-                if (confirmSubmit) {
-                    // do a manual save of the course
-                    // blanket approve the document so it doesn't 'stop' anywhere regardless of nodes
-                    performWorkflowAction(form, UifConstants.WorkflowAction.BLANKETAPPROVE, true);
-                    form.getDialogManager().removeDialog(dialog);
-                    CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-                    return performRedirect(form, CourseProposalUtil.getViewCourseUrl(courseInfoWrapper.getCourseInfo().getId()));
-                } else {
-                    form.getDialogManager().removeDialog(dialog);
-                }
-            } else {
-                return showDialog(dialog, form, request, response);
-            }
+            return getUIFModelAndView(form);
         }
-        return getUIFModelAndView(form);
     }
 
     /**
@@ -540,11 +522,6 @@ public class CourseController extends CourseRuleEditorController {
         }
 
     }
-
-//    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
-//    public ModelAndView previousPage(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletRequest request) {
-//        return getUIFModelAndView(form);
-//    }
 
     /**
      * Executed when the add line button is clicked for adding Curriculum Oversight

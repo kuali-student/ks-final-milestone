@@ -111,6 +111,13 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         return proposalInfo.getProposalReference().get(0);
     }
 
+    protected void retrieveProposalInfo() {
+        CommonCourseDataWrapper dataWrapper = (CommonCourseDataWrapper) getDataObject();
+        if (dataWrapper.isProposalDataUsed()) {
+            super.retrieveProposalInfo();
+        }
+    }
+
     /**
      * This method takes a clu proposal, determines what the "new state"
      * of the clu should be, then routes the clu I, and the new state

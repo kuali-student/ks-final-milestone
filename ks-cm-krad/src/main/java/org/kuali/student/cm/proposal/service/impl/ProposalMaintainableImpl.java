@@ -138,6 +138,10 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
     }
 
     public void retrieveDataObject() {
+        retrieveProposalInfo();
+    }
+
+    protected void retrieveProposalInfo() {
         try {
             ProposalElementsWrapper dataObject = (ProposalElementsWrapper) getDataObject();
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.createDefaultContextInfo());
