@@ -62,9 +62,11 @@
         <ehcache.version>2.5.0</ehcache.version>
         <elasticsearch.version>1.2.2</elasticsearch.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
+        <groovy.version>2.2.1</groovy.version>
         <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
         <gwt.incubator.version>2.3.0</gwt.incubator.version>
         <gwt.version>2.3.0</gwt.version>
+        <hamcrest.version>1.3</hamcrest.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
         <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
@@ -97,8 +99,10 @@
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
         <plugin.externals.version>1.0.14</plugin.externals.version>
         <plugin.sonar.version>2.4</plugin.sonar.version>
+        <powermock.version>1.5.6</powermock.version>
         <project.java.enforcer.version>[${project.java.min.version},1.8)</project.java.enforcer.version>
         <project.java.min.version>1.7.0-60</project.java.min.version>
+        <rest-assured.version>2.3.3</rest-assured.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
         <slf4j.version>1.7.6</slf4j.version>
@@ -965,7 +969,7 @@
             <dependency>
                 <!-- needs extra dependencies: objenesis & hamcrest -->
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
+                <artifactId>mockito-all</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -984,6 +988,36 @@
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-xc</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.restassured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${rest-assured.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.xbean</groupId>
