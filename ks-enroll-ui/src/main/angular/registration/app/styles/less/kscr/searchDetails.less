@@ -24,6 +24,15 @@
     padding: 0 1rem 1rem;
 }
 
+.kscr-SearchDetails-courseHeader {
+    // Small-format styles (Mobile)
+    @media screen and @sm-Max {
+        .kscr-SearchDetails-header & {
+            flex-flow: column; // Put the course title below the code
+        }
+    }
+}
+
 // Top header containing 'Return to Search Results' link
 .kscr-SearchDetails-top {
     padding: 0 1rem 1rem;
@@ -50,6 +59,14 @@
     color: @cardTextColor;
     font-family: @secondaryFontFamily;
     padding: 1rem;
+
+    // Large-format styles
+    @media screen and @lg-Min {
+      // Disable the sticky actions container in large-format
+       & .util-sticky-placeholder {
+          display: none;
+       }
+    }
 }
 
 
@@ -157,6 +174,26 @@
     border-top: @horizontalLineBorder;
     margin: 1rem 0 0;
     padding: 0.5rem 0;
+
+    // Small-format styles (Mobile)
+    @media screen and (max-width: @smallFormatMax) {
+        // Stuck actions container
+        &.util-sticky--stuck {
+          background: @whiteBackground;
+          border-top: none;
+          .box-shadow(0 0 5px @lightGray);
+          left: 0;
+          margin-top: 0;
+          padding: 0.5rem 1rem;
+        }
+    }
+
+    @media screen and @lg-Min {
+        // Disable the sticky actions container in large-format
+        .kscr-SearchDetails-container & {
+            .util-sticky--disabled();
+        }
+    }
 
     .kscr-SearchDetails-selectionContainer {
         .util-Grid-cell;
@@ -336,6 +373,10 @@
     .kscr-Search-results-table {
         border: none;
         margin-bottom: 0;
+
+        @media screen and @searchDetailsTabbed-Max {
+          display: none;
+        }
     }
 }
 
@@ -398,49 +439,9 @@
   }
 }
 
-// Small-format styles (Mobile)
-@media screen and (max-width: @smallFormatMax) {
-    .kscr-SearchDetails-header {
-        .kscr-SearchDetails-courseHeader {
-            flex-flow: column; // Put the course title below the code
-        }
-    }
-
-    // Stuck actions container
-    .kscr-SearchDetails-actionsContainer.util-sticky--stuck {
-        background: @whiteBackground;
-        border-top: none;
-        .box-shadow(0 0 5px @lightGray);
-        left: 0;
-        margin-top: 0;
-        padding: 0.5rem 1rem;
-    }
-}
-
-// Large-format styles
-@media screen and (min-width: @largeFormatMin) {
-    // Disable the sticky actions container in large-format
-    .kscr-SearchDetails-container {
-        .util-sticky-placeholder {
-            display: none;
-        }
-        .kscr-SearchDetails-actionsContainer {
-            .util-sticky--disabled();
-        }
-    }
-}
-
-/*
- *  Other breakpoints:
- */
-
 // below this breakpoint, hide the table view for search details
-@media screen and (max-width: @searchDetailsTabbedMax) {
-    .kscr-SearchDetails-selection-sublabel {
-        display: block;
-    }
-
-    .kscr-SearchDetails-activityOfferings .kscr-Search-results-table {
-        display: none;
-    }
+.kscr-SearchDetails-selection-sublabel {
+  @media screen and @searchDetailsTabbed-Max {
+      display: block;
+  }
 }
