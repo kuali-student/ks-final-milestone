@@ -873,7 +873,8 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         if (courseInfoWrapper.getCourseInfo().getDescr() != null && courseInfoWrapper.getCourseInfo().getDescr().getPlain() != null) {
-            String courseDescription = courseInfoWrapper.getCourseInfo().getDescr().getPlain().replace("\r\n", "\n"); // replacing carriage return and new line with new line char.
+            // replacing carriage return and new line with new line char.
+            String courseDescription = courseInfoWrapper.getCourseInfo().getDescr().getPlain().replace("\r\n", "\n");
             courseInfoWrapper.getCourseInfo().getDescr().setPlain(courseDescription);
         }
 

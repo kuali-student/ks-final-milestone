@@ -43,7 +43,7 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-                <!--<ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>-->
+                <ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>
             </list>
         </property>
 
@@ -115,7 +115,7 @@
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="startProposalView"/>
-        <property name="header.headerText" value="Create Course "/>
+        <property name="header.headerText" value="@{#form.pageId eq 'CM-Modify-Version-Start-Page' ? 'Modify Course' : 'Create Course'}"/>
         <property name="header.headerLevel" value="h2"/>
         <property name="header.style" value="font-weight:bold;"/>
         <property name="formClass" value="org.kuali.student.cm.course.form.StartProposalForm"/>
@@ -339,6 +339,4 @@
     <bean id="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="Modify Course"></property>
     </bean>
-
-
 </beans>

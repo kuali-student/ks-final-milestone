@@ -71,8 +71,8 @@
 
 
     <!--
-Custom RulePrototype for Requisites on Course Review screen.
--->
+       Custom RulePrototype for Requisites on Course Review screen.
+     -->
     <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
         <property name="items">
             <list>
@@ -121,10 +121,4 @@ Custom RulePrototype for Requisites on Course Review screen.
             </bean>
         </property>
     </bean>
-
-
-
-
-
-
 </beans>

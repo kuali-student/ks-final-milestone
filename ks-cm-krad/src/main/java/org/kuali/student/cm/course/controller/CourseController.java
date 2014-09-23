@@ -181,7 +181,6 @@ public class CourseController extends CourseRuleEditorController {
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
         form.getDocument().getDocumentHeader().setDocumentDescription("Admin Modify: " + courseInfoWrapper.getCourseInfo().getCourseTitle());
 
-        //  Because we loaded the data with  populateCourseAndReviewData() we have to do the uiHelper finalization manually.
         courseInfoWrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
         courseInfoWrapper.getProposalInfo().setName(courseInfoWrapper.getCourseInfo().getCourseTitle());
 
