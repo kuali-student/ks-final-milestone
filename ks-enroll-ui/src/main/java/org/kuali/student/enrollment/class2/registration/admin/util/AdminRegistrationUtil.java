@@ -4,17 +4,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,9 +24,6 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -83,27 +75,24 @@ public class AdminRegistrationUtil {
         for (ValidationResult validationResult : results) {
             Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
-            String message = StringUtils.EMPTY;
-            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
-                List<LinkedHashMap<String, Object>> conflictingCourses = (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES);
-                StringBuilder conflictCourses = new StringBuilder();
-                for (LinkedHashMap<String, Object> conflictCourse : conflictingCourses) {
-                    if (conflictCourses.length() > 0) {
-                        conflictCourses.append(", ");
-                    }
-                    conflictCourses.append(conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
-                }
-                message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), conflictCourses.toString());
-            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-
+            String message = null;
+            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
                 String messageKey = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY);
-                if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
+
+                if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
+                    List<String> conflictCourses = new ArrayList<>();
+                    for (LinkedHashMap<String, Object> conflictCourse : (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
+                        conflictCourses.add((String) conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
+                    }
+                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
+                            org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
+                } else if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
                     message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
                 } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
                     message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
                             validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
                 } else {
-                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY));
+                    message = AdminRegistrationUtil.getMessageForKey(messageKey);
                 }
             } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
                 message = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG);
