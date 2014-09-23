@@ -218,7 +218,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseOfferingServiceExtender = courseOfferingServiceExtender;
     }
 
-    @Resource
     private GesService gesService;
 
     public GesService getGesService() {
