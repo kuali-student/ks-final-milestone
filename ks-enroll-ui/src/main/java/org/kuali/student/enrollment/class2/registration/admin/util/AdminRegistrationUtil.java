@@ -95,9 +95,13 @@ public class AdminRegistrationUtil {
                 }
                 message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), conflictCourses.toString());
             } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-                if (validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY).equals(AdminRegConstants.ADMIN_REG_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)) {
-                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
-                            validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
+
+                String messageKey = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY);
+                if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
+                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
+                } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
+                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
+                            validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
                 } else {
                     message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY));
                 }

@@ -257,7 +257,7 @@
                             <property name="returnFullQueryObject" value="true"/>
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
-                                      p:queryMethodArgumentFieldList="term.code"/>
+                                      p:queryMethodArgumentFieldList="termCode"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
