@@ -369,9 +369,9 @@
         <entry key="admin" value="2014-01-31@00:01" />
         <entry key="student" value="2014-01-31@00:01" />
         <entry key="b.julil" value="2014-01-31@00:01" />
-        <entry key="b.joels" value="2014-01-31@00:01" />
+        <entry key="b.nanal" value="2014-01-31@00:01" />
         <!-- Registration is closed for Spring 2014 -->
-        <entry key="b.nanal" value="2014-02-08@00:01" />
+        <entry key="b.joels" value="2014-02-08@00:01" />
         <!-- Registration Open window for Summer1 2014-->
         <entry key="b.amandak" value="2014-05-24@00:01" />
     </util:map>
