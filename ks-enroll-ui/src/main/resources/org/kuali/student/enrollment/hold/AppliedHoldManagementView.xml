@@ -176,7 +176,7 @@
             <list>
                 <bean id="manageHoldCommentsLink" parent="Uif-NavigationActionLink" p:methodToCall=""
                       p:iconClass="ks-fontello-icon-comment" p:style="color:#0088CC;"
-                       />    <!--  p:render="@{state eq 'Deleted'}"-->
+                      p:render="@{#line.state eq 'Expired'}" />    <!--  p:render="@{state eq 'Deleted'}"-->
             </list>
         </property>
         <property name="items">
