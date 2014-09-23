@@ -1648,7 +1648,7 @@ public class DefaultPlanHelper implements PlanHelper {
                     statusMessages.add("Sections "+ editor.getAsText()+" have been canceled.");
                 }
                 else if (isSuspended){
-                    statusMessages.add("Section "+editor.getAsText()+" has been suspended.");
+                    statusMessages.add("Sections "+editor.getAsText()+" have been suspended.");
                 }
 
             }
