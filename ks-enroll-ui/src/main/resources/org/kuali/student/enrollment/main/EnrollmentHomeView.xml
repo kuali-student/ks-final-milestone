@@ -69,6 +69,8 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/timeslot?viewId=timeSlotView&amp;pageId=timeSlotPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Hold Catalog"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/holdIssueManagement?viewId=KS-HoldIssueManagementView&amp;methodToCall=start&amp;withinPortal=false"/>
+                <bean parent="Uif-Link" p:linkText="Manage Registration Windows and Appointments"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/registrationWindows?viewId=registrationWindowsManagementView&amp;pageId=selectTermForRegWindows&amp;methodToCall=start"/>
             </list>
         </property>
     </bean>
