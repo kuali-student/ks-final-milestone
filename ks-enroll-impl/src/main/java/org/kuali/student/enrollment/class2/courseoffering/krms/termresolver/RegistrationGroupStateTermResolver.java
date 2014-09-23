@@ -20,7 +20,10 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,6 +36,8 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class RegistrationGroupStateTermResolver implements TermResolver<String> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationGroupStateTermResolver.class);
 
     @Override
     public String getOutput() {
@@ -60,6 +65,13 @@ public class RegistrationGroupStateTermResolver implements TermResolver<String> 
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         RegistrationGroupInfo regGroupInfo = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-        return regGroupInfo.getStateKey();
+
+        String stateKey = regGroupInfo.getStateKey();
+
+        if (stateKey == null || !stateKey.equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)) {
+            LOGGER.warn("State check failed for regGroup {}. Key: {}", regGroupInfo.getId(), stateKey);
+        }
+
+        return stateKey;
     }
 }

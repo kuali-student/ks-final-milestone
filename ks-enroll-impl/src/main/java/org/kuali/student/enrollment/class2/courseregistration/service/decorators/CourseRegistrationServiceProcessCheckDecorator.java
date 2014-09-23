@@ -193,6 +193,8 @@ public class CourseRegistrationServiceProcessCheckDecorator
                     //If there are no errors add this request item to the list of simulated "successful" items
                     if (!ValidationUtils.checkForErrors(itemValidationResults)) {
                         simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
+                    } else {
+                        LOGGER.warn("Validation error for registration request {}, reg request item {}", registrationRequest.getId(), requestItem.getId());
                     }
                 }
             }
