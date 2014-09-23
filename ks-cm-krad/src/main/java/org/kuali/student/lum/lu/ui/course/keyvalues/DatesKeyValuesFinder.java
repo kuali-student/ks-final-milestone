@@ -55,17 +55,23 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
 
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
+            //
             if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper){
                 CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+                //  If the start term is empty query for terms
                 if( StringUtils.isEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())){
                     keyValues = getStartTerms(model);
-                }else if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
+
+                }  //  If is pilot course and has start term query
+                else if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
                     termResults = CourseProposalUtil.getNextTerms(courseInfoWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
-                }else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
+                }  //  If not a pilot course then null the end term?
+                else if(!courseInfoWrapper.getCourseInfo().isPilotCourse()){
                     courseInfoWrapper.getCourseInfo().setEndTerm(null);
                 }
 
-            } else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
+            }
+            else if(courseForm.getDocument().getNewMaintainableObject().getDataObject() instanceof RetireCourseWrapper){
                 RetireCourseWrapper retireCourseWrapper = ((RetireCourseWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
                 termResults = CourseProposalUtil.getNextTerms(retireCourseWrapper.getCourseInfo().getStartTerm(),ContextUtils.createDefaultContextInfo()) ;
             }
@@ -125,8 +131,4 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         }
         return atpService;
     }
-
-
-
-
 }
