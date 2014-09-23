@@ -472,7 +472,15 @@ public class CourseProposalUtil {
     }
 
     /**
-     * Returns
+     *  Return appropriate EndTerm information
+     *  - If EndTerm is set on current version, return that term(ATP) information
+     *  - else obtain previous term of startTerm
+     *  Note: If just EndTerm AtpId is desired, don't use this method:
+     *        call getCurrentVersionofCourse directly and avoid the ATPService call
+     * @param startTerm
+     * @param versionIndependentId
+     * @param contextInfo
+     * @return
      */
 
     public static TermResult getEndTerm( String startTerm, String versionIndependentId, ContextInfo contextInfo) {
