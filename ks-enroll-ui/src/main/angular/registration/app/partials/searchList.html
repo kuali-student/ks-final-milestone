@@ -19,7 +19,7 @@
     <thead class="kscr-Search-results-table-head">
         <tr>
             <th class="kscr-Search-results-indicator-header" ng-class="{'kscr-Search-results-indicator-header--selected': predicate === '{{searchColumns[0].field}}'}"></th>
-            <th class="kscr-Search-results-header" ng-repeat="searchColumn in searchColumns"
+            <th class="kscr-Search-results-header kscr-Search-results-column-{{searchColumn.name | cleanse}}" ng-repeat="searchColumn in searchColumns"
                 ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}',
                            'kscr-Search-results--first' : $index === 0}"
                 ng-click="sortColumn(searchColumn)"
