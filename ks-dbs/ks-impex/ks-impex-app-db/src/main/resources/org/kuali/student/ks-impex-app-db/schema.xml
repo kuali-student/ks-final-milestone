@@ -2272,6 +2272,10 @@
         <column name="COURSE_END_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="COURSE_ID" nullable="false" type="STRING">
+            <defaultValue>'TBD' </defaultValue>
+            <size value="255"/>
+        </column>
         <column name="COURSE_OFFERING_ID" type="STRING">
             <size value="255"/>
         </column>
