@@ -49,6 +49,11 @@ import java.util.Set;
 @Transactional
 public class TestAcademicRecordServicePersistenceImpl {
 
+    public static final String TEST_PERSON_ID = "R.JESSICAL";
+    public static final String TEST_CREATE_PERSON_ID = "R.JESSEA";
+    public static final String TEST_COURSE_ID = "68e20a79-5f25-4e89-8518-18da6f89dc03";
+    public static final String TEST_TERM_ID = "kuali.atp.2011Fall";
+
     @Resource
     private AcademicRecordService academicRecordService;
 
@@ -102,9 +107,10 @@ public class TestAcademicRecordServicePersistenceImpl {
         StudentCourseRecordInfo studentCourseRecordInfo = new StudentCourseRecordInfo();
         studentCourseRecordInfo.setTypeKey(AcademicRecordServiceConstants.STUDENT_COURSE_RECORD_TYPE_KEY);
         studentCourseRecordInfo.setStateKey(AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED);
+        studentCourseRecordInfo.setCourseId("339e49bd-bb68-47d6-92da-2b19ffc57bb0");
         studentCourseRecordInfo.setCourseOfferingId("12489180-d180-430c-9d90-efb6550f45f9");
         studentCourseRecordInfo.setCourseCode("BSCI258");
-        studentCourseRecordInfo.setPersonId("R.JESSEA");
+        studentCourseRecordInfo.setPersonId(TEST_CREATE_PERSON_ID);
         studentCourseRecordInfo.setTermId("kuali.atp.2011Fall");
         studentCourseRecordInfo.setTermName("Fall 2011");
         studentCourseRecordInfo.setAssignedGradeValue("B");
@@ -122,24 +128,20 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testGetStudentCourseRecordsForCourse() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
-        String courseCode = "HIST499";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getStudentCourseRecordsForCourse(personId, courseCode, contextInfo);
+                academicRecordService.getStudentCourseRecordsForCourse(TEST_PERSON_ID, TEST_COURSE_ID, contextInfo);
         Assert.notNull(studentCourseRecords);
         Assert.notEmpty(studentCourseRecords);
     }
 
     @Test
     public void testGetCompletedCourseRecordsForCourse() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
-        String courseCode = "HIST499";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getCompletedCourseRecordsForCourse(personId, courseCode, contextInfo);
+                academicRecordService.getCompletedCourseRecordsForCourse(TEST_PERSON_ID, TEST_COURSE_ID, contextInfo);
         Assert.notNull(studentCourseRecords);
         Assert.notEmpty(studentCourseRecords);
         for(StudentCourseRecordInfo studentCourseRecordInfo : studentCourseRecords) {
@@ -150,11 +152,10 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testGetCompletedCourseRecords() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getCompletedCourseRecords(personId, contextInfo);
+                academicRecordService.getCompletedCourseRecords(TEST_PERSON_ID, contextInfo);
         Assert.notNull(studentCourseRecords);
         Assert.notEmpty(studentCourseRecords);
         for(StudentCourseRecordInfo studentCourseRecordInfo : studentCourseRecords) {
@@ -165,12 +166,10 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testGetAttemptedCourseRecordsForTerm() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
-        String termId = "kuali.atp.2011Fall";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getAttemptedCourseRecordsForTerm(personId, termId, contextInfo);
+                academicRecordService.getAttemptedCourseRecordsForTerm(TEST_PERSON_ID, TEST_TERM_ID, contextInfo);
         Assert.notNull(studentCourseRecords);
         Assert.notEmpty(studentCourseRecords);
         for(StudentCourseRecordInfo studentCourseRecordInfo : studentCourseRecords) {
@@ -191,13 +190,12 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test
     public void testUpdate() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
-        String courseCode = "HIST499";
         String creditsAttempted = "5";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getStudentCourseRecordsForCourse(personId, courseCode, contextInfo);
+                academicRecordService.getStudentCourseRecordsForCourse(TEST_PERSON_ID, TEST_COURSE_ID,
+                        contextInfo);
         for(StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
             studentCourseRecord.setCreditsAttempted(creditsAttempted);
             String id = studentCourseRecord.getId();
@@ -212,13 +210,11 @@ public class TestAcademicRecordServicePersistenceImpl {
 
     @Test(expected=DoesNotExistException.class)
     public void testDelete() throws Exception {
-        String personId = "R.JESSICAL"; // R.JESSICAL  KS-5213
-        String courseCode = "HIST499";
         String creditsAttempted = "5";
         ContextInfo contextInfo = new ContextInfo();
 
         List<StudentCourseRecordInfo>  studentCourseRecords =
-                academicRecordService.getStudentCourseRecordsForCourse(personId, courseCode, contextInfo);
+                academicRecordService.getStudentCourseRecordsForCourse(TEST_PERSON_ID, TEST_COURSE_ID, contextInfo);
         for(StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
             String id = studentCourseRecord.getId();
             academicRecordService.deleteStudentCourseRecord(id, contextInfo);

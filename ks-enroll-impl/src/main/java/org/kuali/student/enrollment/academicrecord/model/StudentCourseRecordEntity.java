@@ -44,16 +44,16 @@ import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants
         @NamedQuery(name = "StudentCourseRecordEntity.getForCourse",
                 query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
                         "scr.personId =:personId " +
-                        "and scr.courseCode =:courseCode"),
+                        "and scr.courseId =:courseId"),
         @NamedQuery(name = "StudentCourseRecordEntity.getForCourses",
                 query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
                         "scr.personId =:personId " +
-                        "and scr.courseCode in (:courseCodes)"),
+                        "and scr.courseId in (:courseIds)"),
         @NamedQuery(name = "StudentCourseRecordEntity.getCompletedCourseRecordsForCourse",
                 query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
                         "scr.stateKey = '" + AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED + "' " +
                         "and scr.personId =:personId " +
-                        "and scr.courseCode =:courseCode"),
+                        "and scr.courseId =:courseId"),
         @NamedQuery(name = "StudentCourseRecordEntity.getCompletedCourseRecords",
                 query = "SELECT scr FROM StudentCourseRecordEntity scr WHERE " +
                         "scr.stateKey = '" + AcademicRecordServiceConstants.STUDENTCOURSERECORD_STATE_KEY_COMPLETED + "' " +
@@ -78,8 +78,10 @@ public class StudentCourseRecordEntity extends MetaEntity
 	private String typeKey;
 	@Column(name= "AR_SCR_STATE", nullable=false)
 	private String stateKey;
-	@Column(name= "COURSE_OFFERING_ID", nullable=true)
-	private String courseOfferingId;
+    @Column(name= "COURSE_ID", nullable=false)
+    private String courseId;
+    @Column(name= "COURSE_OFFERING_ID", nullable=true)
+    private String courseOfferingId;
 	@Column(name= "SOURCE_TYPE", nullable=true)
 	private String sourceTypeKey;
 	@Column(name= "COURSE_REG_ID", nullable=true)
@@ -104,7 +106,7 @@ public class StudentCourseRecordEntity extends MetaEntity
 	private Date courseEndDate;
 	@Column(name= "ASSIGNED_GRD_VALUE", nullable=true)
 	private String assignedGradeValue;
-	@Column(name= "ASSIGNED_GRADE_SCALE_ID", nullable=true)
+	@Column(name= "ASSIGNED_GRD_SCALE_ID", nullable=true)
 	private String assignedGradeScaleKey;
 	@Column(name= "ADMIN_GRD_VALUE", nullable=true)
 	private String administrativeGradeValue;
@@ -141,7 +143,8 @@ public class StudentCourseRecordEntity extends MetaEntity
 	public void fromDto(StudentCourseRecord dto) {
 		super.fromDTO(dto);
 		setStateKey(dto.getStateKey());
-		setCourseOfferingId(dto.getCourseOfferingId());
+        setCourseOfferingId(dto.getCourseOfferingId());
+        setCourseId(dto.getCourseId());
 		setSourceTypeKey(dto.getSourceTypeKey());
 		setCourseRegistrationId(dto.getCourseRegistrationId());
 		setPersonId(dto.getPersonId());
@@ -177,7 +180,8 @@ public class StudentCourseRecordEntity extends MetaEntity
 		info.setId(getId());
 		info.setTypeKey(this.getTypeKey());
 		info.setStateKey(this.getStateKey());
-		info.setCourseOfferingId(this.getCourseOfferingId());
+        info.setCourseId(this.getCourseId());
+        info.setCourseOfferingId(this.getCourseOfferingId());
 		info.setSourceTypeKey(this.getSourceTypeKey());
 		info.setCourseRegistrationId(this.getCourseRegistrationId());
 		info.setPersonId(this.getPersonId());
@@ -225,13 +229,21 @@ public class StudentCourseRecordEntity extends MetaEntity
 	    this.stateKey = stateKey;
 	}
 
-	public String getCourseOfferingId() {
-	    return this.courseOfferingId;
-	}
+    public String getCourseId() {
+        return this.courseId;
+    }
 
-	public void setCourseOfferingId(String courseOfferingId) {
-	    this.courseOfferingId = courseOfferingId;
-	}
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseOfferingId() {
+        return this.courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
 
 	public String getSourceTypeKey() {
 	    return this.sourceTypeKey;
