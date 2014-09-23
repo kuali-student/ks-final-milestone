@@ -952,7 +952,6 @@
             </list>
         </property>
     </bean>
-
 	<bean id="planner_submit_button" parent="Uif-PrimaryActionButton" p:id="submit_dialog_button"
 		p:additionalCssClasses="ks-Button ks-Button--primary"/>
 

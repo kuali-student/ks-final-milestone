@@ -292,7 +292,7 @@ function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
         // Display error response message on dialog
         var feedback = jQuery("#popupForm").find(".ksap-feedback");
         var input =  jQuery("#popupForm").find("#code_control"); //For Planner Quick Add Dialog
-        feedback.empty().append("<span/>").text(response.message);
+        feedback.empty().append("<span/>").html(response.message);
         feedback.addClass("error");
         feedback.removeClass("success");
         feedback.show();

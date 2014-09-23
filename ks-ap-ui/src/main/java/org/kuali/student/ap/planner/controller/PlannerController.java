@@ -358,6 +358,9 @@ public class PlannerController extends KsapControllerBase {
 		String termId = form.getTermId();
 
 		String courseCd = form.getCourseCd();
+        if (courseCd!=null) {
+            courseCd = courseCd.replaceAll("\\s",""); //strip blanks
+        }
 
         // Retrieve course information using the course code entered by the user
 		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
