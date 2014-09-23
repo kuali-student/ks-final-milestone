@@ -91,10 +91,10 @@
     <bean id="CM-ViewCourse-View-Right-Header-Action-Group" parent="KS-Unified-Header-Action-Group">
         <property name="items">
             <list>
-                <ref bean="CM-Proposal-Course-LinkGroup-CopyCourse"/>
-                <ref bean="CM-PrintAction"/>
-                <ref bean="CM-ExportAction"/>
-                <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
+                <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:render="@{!#isCompareView}"/>
+                <bean parent="CM-PrintAction" p:render="@{!#isCompareView}"/>
+                <bean parent="CM-ExportAction" p:render="@{!#isCompareView}"/>
+                <bean parent="CM-Export-ActionLinks" p:render="@{!#isCompareView}"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
     </bean>
@@ -261,7 +261,7 @@
         <property name="items">
             <list>
                 <ref bean="CM-ViewCourse-View-Course-PageSections"/>
-                <ref bean="CM-ExportHiddenField"/>
+                <bean parent="CM-ExportHiddenField" p:render="@{!#isCompareView}"/>
             </list>
         </property>
     </bean>
