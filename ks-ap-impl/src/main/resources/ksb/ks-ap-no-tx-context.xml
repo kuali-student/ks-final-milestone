@@ -359,7 +359,7 @@
     </bean>
 
 
-    <bean id="staticUserDateUtil" class="org.kuali.student.ap.framework.util.StaticUserDateUtil">
+    <bean id="KsapStaticUserDateUtil" class="org.kuali.student.ap.framework.util.StaticUserDateUtil">
         <property name="userDateMap" ref="regUserMap" />
         <property name="useStaticDates" value="true" />
     </bean>
