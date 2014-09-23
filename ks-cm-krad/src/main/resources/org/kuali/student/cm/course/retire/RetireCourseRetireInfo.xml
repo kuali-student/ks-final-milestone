@@ -79,6 +79,18 @@
         <property name="simpleConstraint">
             <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
         </property>
+        <property name="propertyReplacers">
+            <list>
+                <!-- This is to remove requiredness from the modify documents that are not on a retired course -->
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                      p:propertyName="simpleConstraint"
+                      p:condition="@{!#isRetiredCourse}">
+                    <property name="replacement">
+                        <bean parent="SimpleConstraint" p:required="false" p:maxLength="255"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="control">
             <bean parent="Uif-LargeTextAreaControl">
                 <property name="cssClasses">
