@@ -26,6 +26,7 @@ import org.kuali.student.ap.coursesearch.controller.FormKey;
 import org.kuali.student.ap.coursesearch.controller.SessionSearchInfo;
 import org.kuali.student.ap.coursesearch.service.CourseSearchViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.planner.service.impl.PlanEventViewHelperServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +46,7 @@ import java.util.concurrent.Callable;
  *
  *  Default implementation of the view helper for KSAP
  */
-public class CourseSearchViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseSearchViewHelperService{
+public class CourseSearchViewHelperServiceImpl extends PlanEventViewHelperServiceImpl implements CourseSearchViewHelperService{
     private static final Logger LOG = LoggerFactory.getLogger(CourseSearchViewHelperServiceImpl.class);
 
     /**

@@ -28,7 +28,6 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -214,10 +213,10 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
                     coursePlanItem.getCategory(), "", creditValue, terms, planItemRef, attributes);
         }catch (AlreadyExistsException e){
-            PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
+            getViewHelperService(form).sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
         }catch (DataValidationErrorException e){
-            PlanEventUtils.sendJsonEvents(false,"Unexpected data validation exception:  " + e.getMessage(),response,
+            getViewHelperService(form).sendJsonEvents(false,"Unexpected data validation exception:  " + e.getMessage(),response,
                     eventList);
             return null;
         }
@@ -232,8 +231,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
                 new HashMap<Object, Object>());
         eventList = getViewHelperService(form).createFilterValidRegGroupsForRemovalEvent(course.getTermId(), course.getCourseOfferingCode(), regGroup.getFormatOfferingId(), validRegGroupsToRemain, eventList);
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(coursePlanItem.getRefObjectId());
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
-        PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
+        eventList = getViewHelperService(form).makeUpdatePlanItemStatusMessage(planItems, eventList);
+        getViewHelperService(form).sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }
 
@@ -290,7 +289,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(activityOfferingInfo.getTermId(),
                 activityOfferingInfo.getCourseOfferingCode(),activityOfferingInfo.getFormatOfferingId(), regGroups, eventList,
                 additionalRestrictions);
-        PlanEventUtils.sendJsonEvents(true,"Filtered Activities for those only those in groups with " +
+        getViewHelperService(form).sendJsonEvents(true,"Filtered Activities for those only those in groups with " +
                 activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode(),
                 response, eventList);
 

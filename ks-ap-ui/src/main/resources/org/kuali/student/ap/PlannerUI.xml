@@ -924,6 +924,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-planner-credits-total</value>
+                <value>@{#line.termId.replaceAll("\.","-")}</value>
                 <value>ksap-planner-cell</value>
             </list>
         </property>

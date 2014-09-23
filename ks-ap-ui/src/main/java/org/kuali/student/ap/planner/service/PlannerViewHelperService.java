@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public interface PlannerViewHelperService extends ViewHelperService{
+public interface PlannerViewHelperService extends PlanEventViewHelperService{
 
     /**
      * Creates and fills in the needed information for displaying a dialog to add a course to the plan.

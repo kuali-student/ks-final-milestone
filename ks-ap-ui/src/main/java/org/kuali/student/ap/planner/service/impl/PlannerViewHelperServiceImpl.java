@@ -32,7 +32,6 @@ import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
-import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -52,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implements PlannerViewHelperService {
+public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl implements PlannerViewHelperService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PlannerViewHelperServiceImpl.class);
 
@@ -174,7 +173,7 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     form.getCourseNote(),form.getCreditsForPlanItem(course),planTermIds,planItemRef,attributes);
         } catch (AlreadyExistsException e) {
             LOG.warn(String.format("%s is already planned for %s", course.getCode(), term.getName()), ".", e);
-            PlanEventUtils.sendJsonEvents(false,
+            sendJsonEvents(false,
                     KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
                             PlanConstants.COURSE_ALREADY_PLANNED,course.getCode(),term.getName()), response, eventList);
             return;
@@ -185,7 +184,7 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                         && results.getMessage().matches("Already registered for course.*")) {
                         LOG.warn(String.format("%s has already been registered for %s",
                                 course.getCode(),term.getName()), ".", e);
-                        PlanEventUtils.sendJsonEvents(false,
+                        sendJsonEvents(false,
                                 KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
                                         PlanConstants.COURSE_ALREADY_REGISTERED,course.getCode(),term.getName()),
                                 response,
@@ -197,16 +196,16 @@ public class PlannerViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         }
 
         // Create json strings for displaying action's response and updating the planner screen.
-        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
+        eventList = makeAddEvent(planItemInfo, eventList);
+        eventList = updateTotalCreditsEvent(true, termId, eventList);
+        eventList = makeUpdateBookmarkTotalEvent(planItemInfo, eventList);
         if(wishlistPlanItem != null){
-            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
+            eventList = makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
         }
 
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
-        PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
+        eventList = makeUpdatePlanItemStatusMessage(planItems, eventList);
+        sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
 

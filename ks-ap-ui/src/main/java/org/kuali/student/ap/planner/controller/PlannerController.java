@@ -6,24 +6,19 @@ import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
-import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.infc.TypedObjectReference;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
-import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -335,8 +330,9 @@ public class PlannerController extends KsapControllerBase {
 
         // Create Json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.updateTermNoteEvent(uniqueId, termNote, eventList);
-		PlanEventUtils.sendJsonEvents(true, null, response, eventList);
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+        eventList = helperService.updateTermNoteEvent(uniqueId, termNote, eventList);
+        helperService.sendJsonEvents(true, null, response, eventList);
 		return null;
 	}
 
@@ -351,7 +347,9 @@ public class PlannerController extends KsapControllerBase {
 
         // Retrieve student's plan
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
         JsonObjectBuilder eventList = Json.createObjectBuilder();
+
 		if (plan == null)
 			return null;
 
@@ -365,14 +363,13 @@ public class PlannerController extends KsapControllerBase {
         // Retrieve course information using the course code entered by the user
 		Course course= KsapFrameworkServiceLocator.getCourseHelper().getCourseByCode(courseCd);
         if (course == null) {
-            PlanEventUtils.sendJsonEvents(false, KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
+            helperService.sendJsonEvents(false, KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
                     PlanConstants.COURSE_NOT_FOUND), response,eventList);
             return null;
         }
 
         // Add the course to the plan
-        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
-                .finishAddCourse(plan, form, course, termId, response);
+        helperService.finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
@@ -477,26 +474,28 @@ public class PlannerController extends KsapControllerBase {
 
         // Construct json events for updating the planner screen
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.updatePlanItemEvent(form.getUniqueId(), planItemInfo, eventList);
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+
+        eventList = helperService.updatePlanItemEvent(form.getUniqueId(), planItemInfo, eventList);
         try{
-            eventList = PlanEventUtils.updateTotalCreditsEvent(true, KSCollectionUtils.getRequiredZeroElement(planItemInfo.getPlanTermIds()), eventList);
+            eventList = helperService.updateTotalCreditsEvent(true, KSCollectionUtils.getRequiredZeroElement(planItemInfo.getPlanTermIds()), eventList);
         }catch(OperationFailedException e){
             LOG.warn("Unable to update total credits", e);
         }
 
         // Create json strings for displaying action's response and send those updating the planner screen.
 		if(notesEdited && creditEdited){
-			PlanEventUtils.sendJsonEvents(true, "Changes to the notes and credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
+            helperService.sendJsonEvents(true, "Changes to the notes and credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
 		}else if (notesEdited){
 			if(newNoteFlag){
-				PlanEventUtils.sendJsonEvents(true, "Note added to " + form.getTerm().getName() +" "+ form.getCourse().getCode(), response, eventList);
+                helperService.sendJsonEvents(true, "Note added to " + form.getTerm().getName() +" "+ form.getCourse().getCode(), response, eventList);
 			}else{
-				PlanEventUtils.sendJsonEvents(true, "Note edited for " + form.getTerm().getName() +" "+ form.getCourse().getCode() , response, eventList);
+                helperService.sendJsonEvents(true, "Note edited for " + form.getTerm().getName() +" "+ form.getCourse().getCode() , response, eventList);
 			}
 		}else if(creditEdited){
-			PlanEventUtils.sendJsonEvents(true, "Changes to the credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
+            helperService.sendJsonEvents(true, "Changes to the credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
 		}else{
-			PlanEventUtils.sendJsonEvents(true, null, response, eventList);
+            helperService.sendJsonEvents(true, null, response, eventList);
 		}
 		return null;
 	}
@@ -575,11 +574,12 @@ public class PlannerController extends KsapControllerBase {
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
-        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(false, expectedTermId, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " moved to " + term.getName(),
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+        eventList = helperService.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = helperService.makeAddEvent(planItemInfo, eventList);
+        eventList = helperService.updateTotalCreditsEvent(false, expectedTermId, eventList);
+        eventList = helperService.updateTotalCreditsEvent(true, termId, eventList);
+        helperService.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " moved to " + term.getName(),
 				response, eventList);
 		return null;
 	}
@@ -610,9 +610,10 @@ public class PlannerController extends KsapControllerBase {
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, term.getId(), eventList);
-		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from " + term.getName(),
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+        eventList = helperService.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = helperService.updateTotalCreditsEvent(true, term.getId(), eventList);
+        helperService.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from " + term.getName(),
 				response, eventList);
 		return null;
 	}
@@ -643,10 +644,11 @@ public class PlannerController extends KsapControllerBase {
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
-        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, form.getTermId(), eventList);
-		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " updated", response, eventList);
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+        eventList = helperService.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = helperService.makeAddEvent(planItemInfo, eventList);
+        eventList = helperService.updateTotalCreditsEvent(true, form.getTermId(), eventList);
+        helperService.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " updated", response, eventList);
 		return null;
 	}
 
@@ -662,6 +664,8 @@ public class PlannerController extends KsapControllerBase {
         // Retrieve student's plan
         LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+
         if (plan == null)
             return null;
 
@@ -669,7 +673,7 @@ public class PlannerController extends KsapControllerBase {
 
         String courseId = form.getCourseId();
         if (!StringUtils.hasText(courseId)) {
-            PlanEventUtils.sendJsonEvents(false, "Course id required", response, eventList);
+            helperService.sendJsonEvents(false, "Course id required", response, eventList);
             return null;
         }
 
@@ -690,8 +694,7 @@ public class PlannerController extends KsapControllerBase {
         }
 
         // Add the course to the plan
-        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
-                .finishAddCourse(plan, form, course, termId, response);
+        helperService.finishAddCourse(plan, form, course, termId, response);
         return null;
     }
 
@@ -714,9 +717,10 @@ public class PlannerController extends KsapControllerBase {
 
         // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(planItem, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from Bookmarks",
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+        eventList = helperService.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = helperService.makeUpdateBookmarkTotalEvent(planItem, eventList);
+        helperService.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from Bookmarks",
                 response, eventList);
         return null;
     }
@@ -733,6 +737,8 @@ public class PlannerController extends KsapControllerBase {
         // Retrieve student's plan
         LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
+        PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
+
         if (plan == null)
             return null;
 
@@ -740,7 +746,7 @@ public class PlannerController extends KsapControllerBase {
 
         String courseId = form.getCourseId();
         if (!StringUtils.hasText(courseId)) {
-            PlanEventUtils.sendJsonEvents(false, "Course id required", response, eventList);
+            helperService.sendJsonEvents(false, "Course id required", response, eventList);
             return null;
         }
 
@@ -748,13 +754,12 @@ public class PlannerController extends KsapControllerBase {
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         String responseMessage =  KsapFrameworkServiceLocator.getCourseHelper().validateCourseForAdd(course);
         if(responseMessage !=null){
-            PlanEventUtils.sendJsonEvents(false, responseMessage, response, eventList);
+            helperService.sendJsonEvents(false, responseMessage, response, eventList);
             return null;
         }
 
         // Add the course to the plan
-        ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService())
-                .finishAddCourse(plan, form, course, termId, response);
+        helperService.finishAddCourse(plan, form, course, termId, response);
         return null;
     }
 

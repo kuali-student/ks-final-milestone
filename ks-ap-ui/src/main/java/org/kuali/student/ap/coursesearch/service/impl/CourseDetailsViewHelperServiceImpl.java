@@ -39,6 +39,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.ap.planner.service.impl.PlanEventViewHelperServiceImpl;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -87,7 +88,7 @@ import java.util.UUID;
 /**
  * {@inheritDoc}
  */
-public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
+public class CourseDetailsViewHelperServiceImpl extends PlanEventViewHelperServiceImpl implements CourseDetailsViewHelperService {
     private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsViewHelperServiceImpl.class);
 
     /**

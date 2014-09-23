@@ -224,16 +224,10 @@ function ksapPlannerRemovePlanItem (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateCredits (data) {
-    var planbucket = jQuery(".ksap-planner-term-planned." + data.termId);
-    var planunitcell = planbucket.find(".ksap-planner-credits-total");
-    planunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
-        jQuery(this).text(data.totalCredits).fadeIn(250);
-    });
-
-    var cartbucket = jQuery(".ksap-planner-term-cart." + data.termId);
-    var cartunitcell = cartbucket.find(".ksap-planner-credits-total");
-    cartunitcell.find(".ksap-planner-credits-total .ksap-planner-credits p.uif-message").fadeOut(250, function() {
-        jQuery(this).text(data.cartCredits).fadeIn(250);
+    var creditLine = jQuery(".ksap-planner-credits-total." + data.termId);
+    creditLine.find(".ksap-planner-credits p.uif-message").fadeOut(250, function() {
+        var text = data.totalCredits.replace("&ndash;","-");
+        jQuery(this).text(text).fadeIn(250);
     });
 }
 

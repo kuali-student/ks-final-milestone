@@ -10,7 +10,13 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -25,7 +31,11 @@ import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -478,14 +488,11 @@ public class PlanEventUtils {
 			String termId, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalCreditsEvent = Json.createObjectBuilder();
 		updateTotalCreditsEvent.add("termId", termId.replace('.', '-'));
-		updateTotalCreditsEvent.add(
-				"totalCredits",
-                KsapHelperUtil.getTotalCredits(termId,
-						AcademicPlanServiceConstants.ItemCategory.PLANNED));
-		updateTotalCreditsEvent.add(
-				"cartCredits",
-                KsapHelperUtil.getTotalCredits(termId,
-						AcademicPlanServiceConstants.ItemCategory.CART));
+        Map<String,Object> parameters = new HashMap<String,Object>();
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+        parameters.put("studentId",studentId);
+        parameters.put("planId",KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId());
+		updateTotalCreditsEvent.add("totalCredits",CreditsFormatter.formatCredits(calculateCreditLineForTerm(termId, parameters)));
 
         eventList.add(
 				newTerm ? PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS
@@ -627,4 +634,139 @@ public class PlanEventUtils {
         return eventList;
     }
 
+    /**
+     * Determine the items needed to get the terms credit sum and set the value.
+     *
+     * @param termId - Term credits are being calculated on
+     * @param parameters - Additional paramters to use.
+     * @return Credit range calcualted for the term
+     */
+    private static CreditsFormatter.Range calculateCreditLineForTerm(String termId, Map<String,Object> parameters){
+        String studentId = (String)parameters.get("studentId");
+        String planId = (String)parameters.get("planId");
+
+        List<CourseRegistrationInfo> registeredCourses = retrieveRegistrationRecords(studentId);
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().getPlanItems(planId);
+        List<StudentCourseRecordInfo> recordCourses = retrieveCourseRecords(studentId);
+
+        BigDecimal minCredits = BigDecimal.ZERO;
+        BigDecimal maxCredits = BigDecimal.ZERO;
+
+        if(KsapFrameworkServiceLocator.getTermHelper().isCompleted(termId)){
+            for(StudentCourseRecordInfo record : recordCourses){
+                if(record.getTermId().equals(termId)){
+                    String creditsString = record.getCreditsEarned();
+                    try {
+                        if(creditsString != null){
+                            minCredits = minCredits.add(new BigDecimal(creditsString));
+                            maxCredits = minCredits.add(new BigDecimal(creditsString));
+                        }
+                    } catch (NumberFormatException e) {
+                        LOG.warn(String.format("Invalid credits in course record %s", record.getCreditsEarned()), e);
+                    }
+                }
+            }
+        }else if(KsapFrameworkServiceLocator.getTermHelper().isFutureTerm(termId)){
+            for(PlanItem item : planItems){
+                if(item.getPlanTermIds().contains(termId)){
+                    if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
+                        if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
+                            CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
+                            minCredits = minCredits.add(range.getMin());
+                            maxCredits = minCredits.add(range.getMax());
+                        }
+                    }
+                }
+            }
+            for(CourseRegistrationInfo record : registeredCourses){
+                if(record.getTermId().equals(termId)){
+                    try {
+                        if(record.getCredits() != null){
+                            minCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                            maxCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                        }
+                    } catch (NumberFormatException e) {
+                        LOG.warn(String.format("Invalid credits in course record %s", record.getCredits()), e);
+                    }
+                }
+            }
+        }else if(KsapFrameworkServiceLocator.getTermHelper().isInProgress(termId)){
+            for(CourseRegistrationInfo record : registeredCourses){
+                if(record.getTermId().equals(termId)){
+                    try {
+                        if(record.getCredits() != null){
+                            minCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                            maxCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                        }
+                    } catch (NumberFormatException e) {
+                        LOG.warn(String.format("Invalid credits in course record %s", record.getCredits()), e);
+                    }
+                }
+            }
+            if(KsapFrameworkServiceLocator.getTermHelper().isRegistrationOpen(termId)){
+                for(PlanItem item : planItems){
+                    if(item.getPlanTermIds().contains(termId)){
+                        if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
+                            if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
+                                CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
+                                minCredits = minCredits.add(range.getMin());
+                                maxCredits = minCredits.add(range.getMax());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new CreditsFormatter.Range(minCredits,maxCredits);
+    }
+
+    /**
+     * Retrieve student's registrationRecords (...ignore completed terms)
+     * @param studentId - Id of student
+     */
+    private static List<CourseRegistrationInfo> retrieveRegistrationRecords(String studentId) {
+        List<CourseRegistrationInfo> registeredRecords=new ArrayList<>();
+        try {
+            List<CourseRegistrationInfo> tempRegisteredRecords = KsapFrameworkServiceLocator
+                    .getCourseRegistrationService().getCourseRegistrationsByStudent(
+                            studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for (CourseRegistrationInfo record : tempRegisteredRecords) {
+                if (!KsapFrameworkServiceLocator.getTermHelper().isCompleted(record.getTermId())) {
+                    registeredRecords.add(record);
+                }
+            }
+        } catch (InvalidParameterException |MissingParameterException |OperationFailedException|PermissionDeniedException e) {
+            throw new IllegalArgumentException("Registered Records lookup failure", e);
+        }
+        return registeredRecords;
+    }
+
+    /**
+     * Retrieves records of completed courses
+     * Need to look into how Registerd records are retrieved
+     *
+     * @param studentId - Id of student records are being retrieved for
+     * @return List of Course Records student is enrolled for
+     */
+    private static List<StudentCourseRecordInfo> retrieveCourseRecords(String studentId){
+        List<StudentCourseRecordInfo> completedRecords;
+        try {
+            completedRecords = KsapFrameworkServiceLocator.getAcademicRecordService().getCompletedCourseRecords(
+                    studentId,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            completedRecords=new ArrayList<>();
+//            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("AR lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("AR lookup failure", e);
+        }
+
+        return completedRecords;
+    }
 }

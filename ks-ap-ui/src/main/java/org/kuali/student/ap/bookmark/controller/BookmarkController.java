@@ -25,7 +25,7 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.bookmark.form.BookmarkForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.ap.planner.service.PlanEventViewHelperService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -60,6 +60,7 @@ import java.util.List;
 public class BookmarkController extends KsapControllerBase {
     private static final Logger LOG = LoggerFactory.getLogger(BookmarkController.class);
 
+    private static final String BOOKMARK_FORM = "Planner-FormView";
 
     /**
      * @see org.kuali.rice.krad.web.controller.UifControllerBase
@@ -81,10 +82,13 @@ public class BookmarkController extends KsapControllerBase {
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
         JsonObjectBuilder eventList = Json.createObjectBuilder();
+        form.setViewId(BOOKMARK_FORM);
+        form.setView(super.getViewService().getViewById(BOOKMARK_FORM));
+        PlanEventViewHelperService helperService = ((PlanEventViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
 
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
+        eventList = helperService.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
 
-        PlanEventUtils.sendJsonEvents(true,"refresh bookmark count", response, eventList);
+        helperService.sendJsonEvents(true,"refresh bookmark count", response, eventList);
         return null;
     }
 
@@ -99,13 +103,18 @@ public class BookmarkController extends KsapControllerBase {
 
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+        if(form.getViewId()==null){
+            form.setViewId(BOOKMARK_FORM);
+            form.setView(super.getViewService().getViewById(BOOKMARK_FORM));
+        }
+        PlanEventViewHelperService helperService = ((PlanEventViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
 
         String courseId = request.getParameter("courseId");
 
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
         if(course==null){
             LOG.warn(String.format("Course %s cannot be found", courseId));
-            PlanEventUtils.sendJsonEvents(false,"Course cannot be found ", response, eventList);
+            helperService.sendJsonEvents(false,"Course cannot be found ", response, eventList);
             return null;
         }
 
@@ -120,18 +129,18 @@ public class BookmarkController extends KsapControllerBase {
             newBookmark = (PlanItemInfo) KsapFrameworkServiceLocator.getPlanHelper().addPlanItem(learningPlan.getId(),
                     AcademicPlanServiceConstants.ItemCategory.WISHLIST,"",null,new ArrayList<String>(),typedRef, attributes);
         } catch (AlreadyExistsException e) {
-            PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already bookmarked",
+            helperService.sendJsonEvents(false, "Course " + course.getCode() + " is already bookmarked",
                     response, eventList);
             return null;
         } catch (DataValidationErrorException e) {
             throw new IllegalArgumentException("LP service failure", e);
         }
 
-        eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
+        eventList = helperService.makeAddBookmarkEvent(newBookmark, eventList);
+        eventList = helperService.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(planItems, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
+        eventList = helperService.makeUpdatePlanItemStatusMessage(planItems, eventList);
+        helperService.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
                 response, eventList);
         return null;
     }
@@ -146,6 +155,11 @@ public class BookmarkController extends KsapControllerBase {
 
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+        if(form.getViewId()==null){
+            form.setViewId(BOOKMARK_FORM);
+            form.setView(super.getViewService().getViewById(BOOKMARK_FORM));
+        }
+        PlanEventViewHelperService helperService = ((PlanEventViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
 
         String courseId = request.getParameter("courseId");
         Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
@@ -173,7 +187,7 @@ public class BookmarkController extends KsapControllerBase {
 
         if (planItems == null){
             LOG.warn(String.format("Plan Item for %s cannot be found", courseId));
-            PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+            helperService.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
             return null;
         }
 
@@ -186,18 +200,18 @@ public class BookmarkController extends KsapControllerBase {
 
         if (itemToDelete == null){
             LOG.warn(String.format("Plan Item for %s cannot be found in wish list", courseId));
-            PlanEventUtils.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
+            helperService.sendJsonEvents(false,"Plan Item cannot be found ", response, eventList);
             return null;
         }
 
         KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(itemToDelete.getId());
 
         // Create json strings for displaying action's response and updating the planner screen.
-        eventList = PlanEventUtils.makeRemoveEvent(uniqueId, itemToDelete, eventList);
-        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
+        eventList = helperService.makeRemoveEvent(uniqueId, itemToDelete, eventList);
+        eventList = helperService.makeUpdateBookmarkTotalEvent(learningPlan.getId(), eventList);
         List<PlanItem> items = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-        eventList = PlanEventUtils.makeUpdatePlanItemStatusMessage(items, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
+        eventList = helperService.makeUpdatePlanItemStatusMessage(items, eventList);
+        helperService.sendJsonEvents(true, "Course " + itemToDelete + " removed from Bookmarks",
                 response, eventList);
         return null;
     }

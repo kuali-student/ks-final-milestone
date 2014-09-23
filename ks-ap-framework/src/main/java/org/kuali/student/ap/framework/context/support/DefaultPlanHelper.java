@@ -1569,6 +1569,8 @@ public class DefaultPlanHelper implements PlanHelper {
 
     }
 
+
+
     /**
      * Retrieves a list of registration codes repersented by plan items linked to the course item.
      *

@@ -19,6 +19,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
+import org.kuali.student.ap.planner.service.PlanEventViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
@@ -31,7 +32,7 @@ import java.util.Map;
 /**
  * ViewHelper class used to populate the data on the bottom half of the CourseDetails page (CourseSearchDetailsUI.xml)
  */
-public interface CourseDetailsViewHelperService extends ViewHelperService {
+public interface CourseDetailsViewHelperService extends PlanEventViewHelperService {
 
     /**
      * Loads up the data objects on the form with data, according to the passed in courseId
