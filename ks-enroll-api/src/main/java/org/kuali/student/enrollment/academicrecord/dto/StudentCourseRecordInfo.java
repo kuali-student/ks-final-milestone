@@ -31,7 +31,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCourseRecordInfo", propOrder = {
         "id", "typeKey", "stateKey",
-        "courseOfferingId", "sourceTypeKey", "courseRegistrationId",
+        "courseId", "courseOfferingId", "sourceTypeKey", "courseRegistrationId",
         "personId", "courseTitle", "courseCode", "activityCode",
         "termId", "termName", "courseBeginDate", "courseEndDate",
         "assignedGradeValue", "assignedGradeScaleKey",
@@ -46,6 +46,9 @@ public class StudentCourseRecordInfo
         implements StudentCourseRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String courseId;
 
     @XmlElement
     private String courseOfferingId;
@@ -128,11 +131,11 @@ public class StudentCourseRecordInfo
     public StudentCourseRecordInfo(StudentCourseRecord scr) {
         super(scr);
 
+        this.courseId = scr.getCourseId();
         this.courseOfferingId = scr.getCourseOfferingId();
         this.sourceTypeKey = scr.getSourceTypeKey();
         this.courseRegistrationId = scr.getCourseRegistrationId();
         this.personId = scr.getPersonId();
-        ;
         this.courseTitle = scr.getCourseTitle();
         this.courseCode = scr.getCourseCode();
         this.activityCode = scr.getActivityCode();
@@ -151,6 +154,15 @@ public class StudentCourseRecordInfo
         this.creditsForGPA = scr.getCreditsForGPA();
         this.countsTowardCredits = scr.getCountsTowardCredits();
         this.isRepeated = scr.getIsRepeated();
+    }
+
+    @Override
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     @Override
