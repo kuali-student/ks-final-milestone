@@ -1070,13 +1070,13 @@ public class DefaultPlanHelper implements PlanHelper {
             }
         }
 
+        statusMessages.addAll(validateCourseItem(course,newPlannerItem));
         //Find any associated plan items of the registration group variety
-        List<String> registrationGroupCodes = validateAndGetRegistrationGroupCodes(planItem, statusMessages);
+        List<String> registrationGroupCodes = validateAndGetRegistrationGroupCodes(planItem, statusMessages, statusMessages.isEmpty());
         if (registrationGroupCodes.size() > 0) {
             newPlannerItem.setRegistrationGroupCodes(registrationGroupCodes);
         }
 
-        statusMessages.addAll(validateCourseItem(course,newPlannerItem));
         newPlannerItem.setStatusMessages(statusMessages);
 
         return newPlannerItem;
@@ -1575,7 +1575,7 @@ public class DefaultPlanHelper implements PlanHelper {
      * @param planItem - Course Item in the plan
      * @return A list of registration codes for groups planned
      */
-    protected List<String> validateAndGetRegistrationGroupCodes(PlanItem planItem, List<String> statusMessages){
+    protected List<String> validateAndGetRegistrationGroupCodes(PlanItem planItem, List<String> statusMessages, boolean performValidation){
 
         //Find any associated plan items of the registration group variety
         List<String> registrationGroupCodes = new ArrayList<String>();
@@ -1621,7 +1621,7 @@ public class DefaultPlanHelper implements PlanHelper {
                 throw new IllegalStateException("RG lookup failure", e);
             }
         }
-        if (!suspendedAndCanceledRGCodes.isEmpty()) {
+        if (!suspendedAndCanceledRGCodes.isEmpty() && performValidation) {
             generateWarningMessage(statusMessages, suspendedAndCanceledRGCodes);
         }
 
