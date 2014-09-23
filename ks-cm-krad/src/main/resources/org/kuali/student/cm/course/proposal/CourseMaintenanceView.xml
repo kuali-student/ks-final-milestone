@@ -500,7 +500,7 @@
                   value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!#isModifyNoNewVersion}">
+                <bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!(#isModifyNoNewVersion and #isRetiredCourse)}">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
@@ -524,7 +524,7 @@
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
 
-                <bean parent="Uif-TabGroup" p:id="modify_course_tabs" p:render="@{#isModifyNoNewVersion}">
+                <bean parent="Uif-TabGroup" p:id="modify_course_tabs" p:render="@{#isModifyNoNewVersion and #isRetiredCourse}">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
