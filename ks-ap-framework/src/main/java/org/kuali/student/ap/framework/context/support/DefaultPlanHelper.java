@@ -1591,8 +1591,7 @@ public class DefaultPlanHelper implements PlanHelper {
             regGroupIds.add(planItemForRegGroup.getRefObjectId());
         }
 
-        List <String> canceledRGCodes = new ArrayList<String>();
-        List <String> suspendedRGCodes = new ArrayList<String>();
+        List <String> suspendedAndCanceledRGCodes = new ArrayList<String>();
 
         //Look up the reg groups
         List<RegistrationGroupInfo> regGroups = null;
@@ -1613,44 +1612,31 @@ public class DefaultPlanHelper implements PlanHelper {
                         results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_STATE);
                 if(!regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)){
                     if(regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
-                        canceledRGCodes.add(regGroupName);
+                        suspendedAndCanceledRGCodes.add(regGroupName);
                     } else if(regGroupState.equals(LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY)){
-                        suspendedRGCodes.add(regGroupName);
+                        suspendedAndCanceledRGCodes.add(regGroupName);
                     }
                 }
             } catch ( InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
                 throw new IllegalStateException("RG lookup failure", e);
             }
         }
-        if (!canceledRGCodes.isEmpty()) {
-            generateWarningMessage(statusMessages, canceledRGCodes, true, false);
+        if (!suspendedAndCanceledRGCodes.isEmpty()) {
+            generateWarningMessage(statusMessages, suspendedAndCanceledRGCodes);
         }
-        if (!suspendedRGCodes.isEmpty()) {
-            generateWarningMessage(statusMessages, suspendedRGCodes, false, true);
-        }
+
         return registrationGroupCodes;
     }
 
-    private void generateWarningMessage(List<String> statusMessages, List<String> rgCodes, boolean isCanceled, boolean isSuspended) {
+    private void generateWarningMessage(List<String> statusMessages, List<String> rgCodes) {
         try {
             if (rgCodes.size() == 1){
-                if (isCanceled){
-                    statusMessages.add("Section "+KSCollectionUtils.getOptionalZeroElement(rgCodes).toString()+" has been canceled.");
-                }
-                else if(isSuspended){
-                    statusMessages.add("Section "+KSCollectionUtils.getOptionalZeroElement(rgCodes).toString()+" has been suspended.");
-                }
+                statusMessages.add("Section "+KSCollectionUtils.getOptionalZeroElement(rgCodes).toString()+" has been suspended/canceled.");
             }
             else if(rgCodes.size()>1){
                 RegCodeListPropertyEditor editor = new RegCodeListPropertyEditor();
                 editor.setValue(rgCodes);
-                if (isCanceled){
-                    statusMessages.add("Sections "+ editor.getAsText()+" have been canceled.");
-                }
-                else if (isSuspended){
-                    statusMessages.add("Sections "+editor.getAsText()+" have been suspended.");
-                }
-
+                statusMessages.add("Sections "+ editor.getAsText()+" have been suspended/canceled.");
             }
         } catch (OperationFailedException e) {
             throw new IllegalStateException("Fail to display Regitration Group Code", e);
