@@ -65,7 +65,7 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     private String currentCourseEndTermShortName;
 
-    private String currentCourseStartTermId;
+    private String startTermConstrainingTermId;
 
     // decides whether to set default data on the CourseInfo object at the save point
     private boolean disableCourseDefaulting = false;
@@ -83,15 +83,15 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
     }
 
     /**
-     * Storage for the start term of the "current" version of the course. This is used on a modify with new version
+     * //kscm-2838: Storage for the constraining date based on current version.  This is used on a modify with new version
      * to constrain the values of the start term on the draft course.
      */
-    public String getCurrentCourseStartTermId() {
-        return this.currentCourseStartTermId;
+    public String getStartTermConstrainingTermId() {
+        return this.startTermConstrainingTermId;
     }
 
-    public void setCurrentCourseStartTermId(String currentCourseStartTermId) {
-         this.currentCourseStartTermId = currentCourseStartTermId;
+    public void setStartTermConstrainingTermId(String startTermConstrainingTermId) {
+         this.startTermConstrainingTermId = startTermConstrainingTermId;
     }
 
     /**

@@ -449,18 +449,18 @@ public class CourseProposalUtil {
 
     /**
      * Returns next terms to the supplied term in ascending order of startDate
-     * @param startTermAtpId
+     * @param termId
      * @param contextInfo
      * @return
      */
-    public static List<TermResult> getNextTerms(String startTermAtpId, ContextInfo contextInfo)  {
+    public static List<TermResult> getNextTerms(String termId, ContextInfo contextInfo)  {
 
         List<String> termTypeKeys = new ArrayList<String>();
         // Changed to just Spring & Fall  types per Functional requirement (kscm-2792)
         termTypeKeys.add("kuali.atp.type.Spring");
         termTypeKeys.add("kuali.atp.type.Fall");
 
-        List<TermResult> termResults = CourseProposalUtil.getTerm(startTermAtpId, termTypeKeys, Position.NEXT, contextInfo);
+        List<TermResult> termResults = CourseProposalUtil.getTerm(termId, termTypeKeys, Position.NEXT, contextInfo);
 
         Collections.sort(termResults, new Comparator<TermResult>() {
             public int compare(TermResult first, TermResult second) {

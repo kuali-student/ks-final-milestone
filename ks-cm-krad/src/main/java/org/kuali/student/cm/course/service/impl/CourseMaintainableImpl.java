@@ -66,6 +66,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -1411,11 +1412,22 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         //  This is used to constrain the list of start terms on the UI.
         if (dataObject.getUiHelper().isModifyWithNewVersionProposal()
                 && dataObject.getCourseInfo().getStateKey().equals(DtoConstants.STATE_DRAFT)) {
-            String vIId = dataObject.getCourseInfo().getVersion().getVersionIndId();
+            String versionIndependentId = dataObject.getCourseInfo().getVersion().getVersionIndId();
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             CourseInfo currentVersion = null;
+            String startTermConstrainingTermId = null;
             try {
-                currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(vIId, ContextUtils.createDefaultContextInfo());
-                dataObject.setCurrentCourseStartTermId(currentVersion.getStartTerm());
+                currentVersion = CourseProposalUtil.getCurrentVersionOfCourse(versionIndependentId, contextInfo);
+                // kscm-2838 Check if current version has endTerm
+                if (currentVersion.getEndTerm() != null) {
+                    // set the constraining term to current version's endTerm
+                     startTermConstrainingTermId = currentVersion.getEndTerm();
+                }
+                else {
+                    // kscm-2838  Current version has no endTerm, so set the constraining term  to current version's startTerm
+                    startTermConstrainingTermId = currentVersion.getStartTerm();
+                }
+                dataObject.setStartTermConstrainingTermId(startTermConstrainingTermId);
             } catch (Exception e) {
                 LOG.error("Could not get current course for version.", e);
             }
