@@ -265,7 +265,7 @@ public abstract class ProposalElementsWrapper extends LURuleManagementWrapper im
 
             if (isModifyWithoutNewVersionProposal()) {
                 headerSuffixText = " (Admin Update)";
-            } else if (!isUseReviewProcess() || isModifyWithNewVersionProposal()) {
+            } else if (!isUseReviewProcess() && isModifyWithNewVersionProposal()) {
                 headerSuffixText = " (Admin Proposal)";
             } else {
                 headerSuffixText = " (Proposal)";
