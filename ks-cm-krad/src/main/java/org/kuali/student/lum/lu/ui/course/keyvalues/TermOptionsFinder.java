@@ -103,8 +103,7 @@ public class TermOptionsFinder extends UifKeyValuesFinderBase {
 
         QueryByCriteria qbc = qbcBuilder.build();
         try {
-            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,
-                    ContextUtils.createDefaultContextInfo());
+            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
 
             sortResultList(searchResult);
 

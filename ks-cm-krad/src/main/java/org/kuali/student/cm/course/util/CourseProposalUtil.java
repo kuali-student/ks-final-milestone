@@ -524,7 +524,4 @@ public class CourseProposalUtil {
             return endDate;
         }
     }
-
 }
-
-

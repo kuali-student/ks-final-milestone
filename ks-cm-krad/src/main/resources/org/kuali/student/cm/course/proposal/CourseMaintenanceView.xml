@@ -487,6 +487,13 @@
 
     <bean id="CM-Proposal-Course-View-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true"/>
 
+    <!-- A component modifier which is can exclude specified items from the tab group. -->
+    <bean id="CM-TabGroupTabsModifier" class="org.kuali.student.cm.course.modifiers.TabGroupTabsModifier" p:runPhase="FINALIZE" abstract="true">
+        <property name="excludeItemIds">
+            <list/>
+        </property>
+    </bean>
+
     <bean id="CM-Proposal-Course-Create-Page" parent="Uif-MaintenancePage" p:disclosure.render="false">
         <property name="header" ref="CM-Proposal-Course-Create-Header"/>
         <property name="headerText" value="@{(#isCreateProposal) ? 'Create Course' : 'Modify Course'}"/>
@@ -500,7 +507,8 @@
                   value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!(#isModifyNoNewVersion and #isRetiredCourse)}">
+                <bean parent="Uif-TabGroup" p:id="course_tabs" >
+                <!--<bean parent="Uif-TabGroup" p:id="course_tabs"  p:render="@{!(#isModifyNoNewVersion and #isRetiredCourse)}"> -->
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
@@ -514,28 +522,6 @@
                             <ref bean="CM-Proposal-Course-Financial-Section"/>
                             <ref bean="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
                             <ref bean="CM-Proposal-Course-SupportingDocument-Section"/>
-                        </list>
-                    </property>
-                    <property name="tabsWidget.templateOptionsJSString">
-                        <value>
-                            { selected: @{#uiHelper.selectedSection.ordinal() - 1} }
-                        </value>
-                    </property>
-                    <property name="tabsWidget.position" value="LEFT"/>
-                </bean>
-
-                <bean parent="Uif-TabGroup" p:id="modify_course_tabs" p:render="@{#isModifyNoNewVersion and #isRetiredCourse}">
-                    <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="items">
-                        <list>
-                            <ref bean="CM-Proposal-Course-CourseInfo-Section"/>
-                            <ref bean="CM-Proposal-Course-Governance-Section"/>
-                            <ref bean="CM-Proposal-Course-Logistics-Section"/>
-                            <ref bean="CM-Proposal-Course-LearningObjective-Section"/>
-                            <ref bean="CM-Proposal-CourseRequisites-Section"/>
-                            <ref bean="CM-Proposal-Course-ActiveDates-Section"/>
-                            <ref bean="CM-Proposal-Course-Financial-Section"/>
                             <ref bean="CM-Course-Modify-RetireInfo-Section-parent"/>
                         </list>
                     </property>
@@ -545,6 +531,70 @@
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
+
+                    <property name="componentModifiers">
+                        <list>
+                            <!-- This one is empty and allows every item to be displayed. -->
+                            <bean parent="CM-TabGroupTabsModifier"/>
+                        </list>
+                    </property>
+
+                    <property name="propertyReplacers">
+                        <list>
+                            <!-- Exclude these sections for modify with no new version where course is retired -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="componentModifiers"
+                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse }">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="CM-TabGroupTabsModifier">
+                                            <property name="excludeItemIds">
+                                                <list>
+                                                    <value>CM-Course-Modify-RetireInfo-Section-parent</value>
+                                                    <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
+                                                    <value>CM-Proposal-Course-SupportingDocument-Section</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <!-- Exclude these sections for modify with no new version where course is retired -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="componentModifiers"
+                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="CM-TabGroupTabsModifier">
+                                            <property name="excludeItemIds">
+                                                <list>
+                                                    <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
+                                                    <value>CM-Proposal-Course-SupportingDocument-Section</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="componentModifiers"
+                                  p:condition="@{ ! #isModifyNoNewVersion}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="CM-TabGroupTabsModifier">
+                                            <property name="excludeItemIds">
+                                                <list>
+                                                    <value>CM-Course-Modify-RetireInfo-Section-parent</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
