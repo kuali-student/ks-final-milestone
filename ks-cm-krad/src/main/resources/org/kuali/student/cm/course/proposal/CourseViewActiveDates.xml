@@ -42,7 +42,7 @@
                         </list>
                     </property>
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course"  p:onClickScript="resetEndTerm();"/>
                     </property>
                     <property name="dependencyConstraints">
                         <list>
