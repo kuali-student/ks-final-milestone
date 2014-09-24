@@ -296,7 +296,7 @@ function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
         feedback.addClass("error");
         feedback.removeClass("success");
         feedback.show();
-        input.addClass("error");
+        input.addClass("ksap-error");
     }
 }
 
@@ -371,9 +371,10 @@ function ksapQuickAddCodeInput() {
     var input = jQuery('.ksap-dialog-courseCode input')
     var submit = jQuery("#popupForm").find("#submit_dialog_button");
     input.focus();
-    input.change(function() {
+    input.keyup(function() {
         if (input.val() == '') {
             submit.addClass("disabled");
+            input.removeClass("ksap-error");
         }
         else {
             submit.removeClass("disabled");
