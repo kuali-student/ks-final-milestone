@@ -349,6 +349,15 @@ public class CurriculumManagementConstants {
     public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
     public static final String PROPOSED_OTHER_COMMENTS = "courseRetireOtherComments";
 
+    public static final String FINAL_EXAM_STATUS = "finalExamStatus";
+    public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
+    public static final String COURSE_AUDIT = "audit";
+    public static final String COURSE_PASS_FAIL = "passFail";
+
+    public static final String COURSE_ATTRIBUTE_COURSE_AUDIT = "courseAuditAttribute";
+    public static final String COURSE_ATTRIBUTE_COURSE_PASS_FAIL = "coursePassFailAttribute";
+
+
     /**
      * Following are keys used only to store data in the CourseInfo object
      */

@@ -55,6 +55,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -752,6 +753,14 @@ public class CourseController extends CourseRuleEditorController {
         try {
             //Perform Service Layer Data Dictionary validation
             CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
+            String courseAuditAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_AUDIT);
+            String coursePassFailAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_PASS_FAIL);
+
+            courseInfoToValidate.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.FINAL_EXAM_STATUS, courseInfoWrapper.getFinalExamStatus()));
+            courseInfoToValidate.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.FINAL_EXAM_RATIONALE, courseInfoWrapper.getFinalExamRationale()));
+            courseInfoToValidate.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_COURSE_AUDIT, courseAuditAttribute));
+            courseInfoToValidate.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_COURSE_PASS_FAIL, coursePassFailAttribute));
+
             if (StringUtils.isNotBlank(forcedStudentObjectStateKey)) {
                 courseInfoToValidate.setStateKey(forcedStudentObjectStateKey);
             }
