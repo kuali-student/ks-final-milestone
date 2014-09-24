@@ -104,7 +104,6 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
      * @param courseWrapper The wrapper to populate.
      */
     public void populateWrapperData(RetireCourseWrapper courseWrapper) throws Exception {
-        super.populateWrapperData(courseWrapper);
         CourseInfo course = getCourseService().getCourse(getProposalInfo().getProposalReference().get(0), createContextInfo());
         courseWrapper.setCourseInfo(course);
 
@@ -112,6 +111,7 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
         // copy data from proposal to wrapper object
         courseWrapper.setRetireEndTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_END_TERM));
 
+        super.populateWrapperData(courseWrapper);
     }
 
     /**
