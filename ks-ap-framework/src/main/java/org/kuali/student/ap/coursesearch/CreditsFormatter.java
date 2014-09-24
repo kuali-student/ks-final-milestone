@@ -420,9 +420,6 @@ public class CreditsFormatter {
         else if (credits.endsWith(".00")){
             credits = credits.substring(0, credits.length() - 3);
         }
-        else if (credits.endsWith("0")){
-            credits = credits.substring(0, credits.length() - 1);
-        }
 		return credits;
 	}
 
