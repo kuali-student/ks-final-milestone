@@ -132,6 +132,16 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+    @Override
+    protected void updateFormElements(DocumentFormBase form) {
+        super.updateFormElements(form);
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+        if (wrapper.isProposalDataUsed() && StringUtils.equals(form.getDocTypeName(),
+                CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION)) {
+            wrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
+        }
+    }
+
     protected void verifyCurriculumReviewOverride(Boolean isUseReviewProcess, String documentTypeName) {
         if (!isUseReviewProcess && !ProposalUtil.isUserCurriculumSpecialist(documentTypeName)) {
             throw new RuntimeException(String.format("User (%s) is not allowed to disable Curriculum Review (Workflow Approval).",
