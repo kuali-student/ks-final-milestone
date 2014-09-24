@@ -1627,7 +1627,7 @@ public class DefaultPlanHelper implements PlanHelper {
         }
 
         if (hasUnavailableRegGroupTypeOfPlanItem){
-            statusMessages.add("One or more sections have been deleted!");
+            statusMessages.add("One or more sections have been deleted.");
         }
         return registrationGroupCodes;
     }
