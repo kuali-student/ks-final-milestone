@@ -211,8 +211,6 @@ public class ViewCourseController extends KsUifControllerBase {
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
         try {
             urlParameters.put(CurriculumManagementConstants.UrlParams.IS_MODIFY_NEW_VERSION, new Boolean(CourseProposalUtil.isModifyNewVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo())).toString());
-            Boolean isCourseWithVersion = CourseProposalUtil.isCourseWithVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
-            urlParameters.put(UrlParams.IS_COURSE_WITH_VERSION , isCourseWithVersion.toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

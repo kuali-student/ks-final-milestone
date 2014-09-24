@@ -106,19 +106,6 @@ public class CourseProposalUtil {
     }
 
     /**
-     * This method returns true if given course have 1 or more version, else false.
-     *
-     * @param cluId
-     * @param context
-     * @return
-     * @throws Exception
-     */
-    public static boolean isCourseWithVersion(String cluId, ContextInfo context) throws Exception {
-        List<VersionDisplayInfo> versions = CMUtils.getCluService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
-        return !(versions.isEmpty());
-    }
-
-    /**
      * Returns the current course version of the given  version independent id such that the returned course :
      *  - version start date is before 'now'
      *  - version end date is after 'now' or is not set
