@@ -17,9 +17,11 @@
  */
 package org.kuali.student.enrollment.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseOfferingTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationServiceTypeStateConstants;
@@ -79,6 +81,8 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
     @SuppressWarnings("unchecked")
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         // Resolve pre-requisite terms
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         RegistrationRequestItemInfo requestItemInfo = (RegistrationRequestItemInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName());
@@ -132,6 +136,9 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
             LOGGER.warn("Credit Load check failed for {}. Total load: {}. Max credits allowed: {}",
                     contextInfo.getPrincipalId(), getTotalLoad(existingCrs), maxCredits);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         // return the result
         return loadVerified;

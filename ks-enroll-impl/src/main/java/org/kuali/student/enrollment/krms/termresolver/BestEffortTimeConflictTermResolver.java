@@ -20,9 +20,11 @@ package org.kuali.student.enrollment.krms.termresolver;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -104,6 +106,8 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters)
             throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         // Resolve pre-requisite terms
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.
                 get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
@@ -149,6 +153,9 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
             LOGGER.warn("Time conflicts found for {}. Reg request id {} has conflicts. Error JSON: {}",
                     contextInfo.getPrincipalId(), regRequestItem.getRegistrationRequestId(), timeConflictsJson);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return timeConflictsJson;
     }

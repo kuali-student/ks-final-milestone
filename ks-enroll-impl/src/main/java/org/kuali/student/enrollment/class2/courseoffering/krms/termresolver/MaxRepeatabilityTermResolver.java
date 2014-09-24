@@ -19,10 +19,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GesTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 
@@ -72,6 +74,8 @@ public class MaxRepeatabilityTermResolver extends GesTermResolverSupport<Integer
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         String gesParameterKey = GesServiceConstants.PARAMETER_KEY_MAX_REPEATABLE;
 
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
@@ -86,6 +90,9 @@ public class MaxRepeatabilityTermResolver extends GesTermResolverSupport<Integer
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
             maxRepeats = null;
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
         
         return maxRepeats;
     }

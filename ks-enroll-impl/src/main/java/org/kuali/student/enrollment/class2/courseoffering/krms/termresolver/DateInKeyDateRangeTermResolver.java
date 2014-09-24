@@ -17,9 +17,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -68,6 +70,9 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        DateTime startTime = new DateTime();
+
         // Milestone type is configured by the db and passed in through the parameters.
         String milestoneType = null;
         if (parameters.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY)) {
@@ -105,6 +110,9 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return true;
     }

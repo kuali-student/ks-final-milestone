@@ -21,6 +21,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
@@ -29,6 +30,7 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -97,6 +99,8 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         Integer maxRepeats = (Integer) resolvedPrereqs.get(RulesExecutionConstants.MAX_REPEATABILITY_TERM.getName());
         Integer totalAttempts = (Integer) resolvedPrereqs.get(RulesExecutionConstants.TOTAL_COURSE_ATTEMPTS_TERM.getName());
 
@@ -132,6 +136,9 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
         if (!errorLevel.equals(MAX_REPEATABILITY_SUCCESS)) {
             LOGGER.warn("Max Repeatability check for was not successful -- Total Attempts: {}, Max Repeats: {}, Error Level: {}", totalAttempts, maxRepeats, errorLevel);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return errorLevel;
     }

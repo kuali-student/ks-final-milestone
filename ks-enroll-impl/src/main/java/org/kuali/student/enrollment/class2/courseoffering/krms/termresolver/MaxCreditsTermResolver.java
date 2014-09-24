@@ -19,10 +19,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GesTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.krms.termresolver.BestEffortCreditLoadTermResolver;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -74,6 +76,8 @@ public class MaxCreditsTermResolver extends GesTermResolverSupport<Float> {
     @Override
     public Float resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         String gesParameterKey = GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT;
 
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
@@ -90,6 +94,9 @@ public class MaxCreditsTermResolver extends GesTermResolverSupport<Float> {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
             maxCredits = null;
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
         
         return maxCredits;
     }

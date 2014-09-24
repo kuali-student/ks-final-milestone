@@ -16,9 +16,11 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.KeyDateTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
@@ -70,6 +72,9 @@ public class CourseRegistrationKeyDateTermResolver extends KeyDateTermResolverSu
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        DateTime startTime = new DateTime();
+
         // getting contextInfo and regGroupInfo passed from Reg Cart
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         RegistrationGroupInfo regGroupInfo = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
@@ -91,6 +96,9 @@ public class CourseRegistrationKeyDateTermResolver extends KeyDateTermResolverSu
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
             allowRegistration = false;
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return allowRegistration;
     }

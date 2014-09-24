@@ -15,9 +15,11 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -64,6 +66,9 @@ public class StudentWithGradeForCourseTermResolver implements TermResolver<Boole
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        DateTime startTime = new DateTime();
+
         try {
             String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
 
@@ -77,6 +82,9 @@ public class StudentWithGradeForCourseTermResolver implements TermResolver<Boole
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return false;
     }

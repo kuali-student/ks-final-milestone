@@ -19,9 +19,11 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseOfferingTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -77,6 +79,8 @@ public class CourseRegisteredCountTermResolver extends CourseOfferingTermResolve
     @SuppressWarnings("unchecked")
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         int registeredCount = 0;
 
         // Resolve pre-requisite terms
@@ -108,6 +112,9 @@ public class CourseRegisteredCountTermResolver extends CourseOfferingTermResolve
         if (registeredCount > 0) {
             LOGGER.warn("Term Repeatability failed for {}, course offering id {}", contextInfo.getPrincipalId(), regCourseOfferingId);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return registeredCount;
     }

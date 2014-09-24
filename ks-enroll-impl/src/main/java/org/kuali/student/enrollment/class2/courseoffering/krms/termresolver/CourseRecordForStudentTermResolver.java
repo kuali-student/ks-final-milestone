@@ -15,11 +15,13 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -68,6 +70,9 @@ public class CourseRecordForStudentTermResolver implements TermResolver<List<Stu
 
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        DateTime startTime = new DateTime();
+
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
         String versionIndId = (String) resolvedPrereqs.get(RulesExecutionConstants.CLU_VERSION_IND_ID_TERM.getName());
@@ -78,6 +83,9 @@ public class CourseRecordForStudentTermResolver implements TermResolver<List<Stu
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         return records;
     }

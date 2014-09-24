@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AppointmentTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -76,6 +77,8 @@ public class AppointmentWindowTermResolver extends AppointmentTermResolverSuppor
     @SuppressWarnings("unchecked")
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
+        DateTime startTime = new DateTime();
+
         // Resolve pre-requisite terms
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
@@ -113,6 +116,9 @@ public class AppointmentWindowTermResolver extends AppointmentTermResolverSuppor
         if (slotFound != null && !slotFound) {
             LOGGER.warn("Appointment window check failed for {}, no appointment slots found for term {}", personId, atpId);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
 
         // return the result
         return slotFound;

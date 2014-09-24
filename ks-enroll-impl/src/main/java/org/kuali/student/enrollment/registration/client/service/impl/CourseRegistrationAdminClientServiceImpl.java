@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.OrderDirection;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService;
@@ -108,7 +109,10 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
         generator.initiateRequestForStats(statTypesToRequest);
 
-        return generator.getStats();
+        Map<String, List> stats = generator.getStats();
+        stats.putAll(TermResolverPerformanceUtil.getStatistics());
+
+        return stats;
     }
 
     @Override
@@ -123,6 +127,8 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
             MQPerformanceCounter.INSTANCE.clearPerformanceStats();
 
             response = Response.fromResponse(getRegEngineStats());
+
+            TermResolverPerformanceUtil.clearStatistics();
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
