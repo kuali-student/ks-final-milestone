@@ -1501,9 +1501,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         populateRequisities(courseWrapper,course.getId());
         super.populateWrapperData(courseWrapper);
 
-//        if (StringUtils.equals(getDocumentTypeName(), CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION)) {
-//            courseWrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
-//        }
     }
 
     /*
