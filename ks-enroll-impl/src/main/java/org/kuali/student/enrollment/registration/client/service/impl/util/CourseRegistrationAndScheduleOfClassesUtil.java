@@ -42,6 +42,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingTypesSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
@@ -167,6 +168,24 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                     int val1 = activityPriorityMap.get(o1);
                     int val2 = activityPriorityMap.get(o2);
                     return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
+            }
+        });
+    }
+
+    /**
+     * This method takes all of the activity offerings in an activity offering type and sorts them by ao code.
+     *
+     * @param aoType    activity offering type
+     */
+    public static void sortActivityOfferings(ActivityOfferingTypesSearchResult aoType)  {
+        List<StudentScheduleActivityOfferingResult> activityOfferings = aoType.getActivityOfferings();
+        Collections.sort(activityOfferings, new Comparator<StudentScheduleActivityOfferingResult>() {
+            @Override
+            public int compare(StudentScheduleActivityOfferingResult o1, StudentScheduleActivityOfferingResult o2) {
+                // add length to the sort to ensure that A, B, C, etc sort before AA, AB, AC, etc.
+                String val1 = o1.getActivityOfferingCode().length() + o1.getActivityOfferingCode();
+                String val2 = o2.getActivityOfferingCode().length() + o2.getActivityOfferingCode();
+                return val1.compareTo(val2);
             }
         });
     }
@@ -647,6 +666,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         CourseRegistrationAndScheduleOfClassesUtil.lprService = lprService;
     }
 
+    @SuppressWarnings("unused")
     public static IdentityService getIdentityService() {
         if (identityService == null) {
             identityService = KimApiServiceLocator.getIdentityService();

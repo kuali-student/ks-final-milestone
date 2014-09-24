@@ -716,8 +716,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 // sorting over AO types
                 CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(aoTypes, getActivityPriorityMap(contextInfo));  // sort the activity offerings type keys by priority order
                 for (String key : aoTypes) {
-                    activityOfferingTypes.add(hmActivityOfferingTypes.get(key));
+                    ActivityOfferingTypesSearchResult aoType = hmActivityOfferingTypes.get(key);
+                    CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferings(aoType);
+                    activityOfferingTypes.add(aoType);
                 }
+
                 courseSearchResult.setActivityOfferingTypes(activityOfferingTypes);
             }
         }
