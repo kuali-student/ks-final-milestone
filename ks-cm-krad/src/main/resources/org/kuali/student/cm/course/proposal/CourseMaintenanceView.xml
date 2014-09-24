@@ -535,62 +535,31 @@
 
                     <property name="componentModifiers">
                         <list>
-                            <!-- This one is empty and allows every item to be displayed. -->
-                            <bean parent="CM-TabGroupTabsModifier"/>
-                        </list>
-                    </property>
-
-                    <property name="propertyReplacers">
-                        <list>
                             <!-- Exclude these sections for modify with no new version where course is retired -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="componentModifiers"
-                                  p:condition="@{#isModifyNoNewVersion and ! #isRetiredCourse }">
-                                <property name="replacement">
+                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and ! #isRetiredCourse }">
+                                <property name="excludeItemIds">
                                     <list>
-                                        <bean parent="CM-TabGroupTabsModifier">
-                                            <property name="excludeItemIds">
-                                                <list>
-                                                    <value>CM-Course-Modify-RetireInfo-Section-parent</value>
-                                                    <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
-                                                    <value>CM-Proposal-Course-SupportingDocument-Section</value>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                        <value>CM-Course-Modify-RetireInfo-Section-parent</value>
+                                        <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
+                                        <value>CM-Proposal-Course-SupportingDocument-Section</value>
                                     </list>
                                 </property>
                             </bean>
-
                             <!-- Exclude these sections for modify with no new version where course is retired -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="componentModifiers"
-                                  p:condition="@{#isModifyNoNewVersion and #isRetiredCourse}">
-                                <property name="replacement">
+                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and #isRetiredCourse}">
+                                <property name="excludeItemIds">
                                     <list>
-                                        <bean parent="CM-TabGroupTabsModifier">
-                                            <property name="excludeItemIds">
-                                                <list>
-                                                    <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
-                                                    <value>CM-Proposal-Course-SupportingDocument-Section</value>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                        <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>
+                                        <value>CM-Proposal-Course-SupportingDocument-Section</value>
                                     </list>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="componentModifiers"
-                                  p:condition="@{ ! #isModifyNoNewVersion}">
-                                <property name="replacement">
+                            <!-- Exclude these sections when the condition is NOT a modify with no new version (which
+                                 would be adds and modifies with new version) -->
+                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{ ! #isModifyNoNewVersion}">
+                                <property name="excludeItemIds">
                                     <list>
-                                        <bean parent="CM-TabGroupTabsModifier">
-                                            <property name="excludeItemIds">
-                                                <list>
-                                                    <value>CM-Course-Modify-RetireInfo-Section-parent</value>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                        <value>CM-Course-Modify-RetireInfo-Section-parent</value>
                                     </list>
                                 </property>
                             </bean>
