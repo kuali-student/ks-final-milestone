@@ -102,32 +102,23 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	@Override
 	public List<String> getScheduledTermsForCourse(Course course) {
-		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+
         List<String> scheduledTerms = new java.util.LinkedList<String>();
-		try {
-            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOfferingsByCourse(course.getId(),ctx);
+        List<String> courseIds = KsapFrameworkServiceLocator.getCourseHelper().getAllCourseIdsByVersionIndependentId(course.getVersion().getVersionIndId());
+        List<Term> terms = new ArrayList<Term>();
+        List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+        List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+        if(currentScheduled!=null) terms.addAll(currentScheduled);
+        if(futureScheduled!=null) terms.addAll(futureScheduled);
 
-            List<Term> terms = new ArrayList<Term>();
-            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
-            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
-            if(currentScheduled!=null) terms.addAll(currentScheduled);
-            if(futureScheduled!=null) terms.addAll(futureScheduled);
+        List<CourseOffering> offerings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds,terms);
 
-            for(CourseOfferingInfo offering : offerings){
-                if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equalsIgnoreCase(offering.getStateKey())) {
-                    for(Term t : terms) {
-                        if(offering.getTermId().equals(t.getId())){
-                            if(!scheduledTerms.contains(t.getId())){
-                                scheduledTerms.add(t.getId());
-                            }
-                        }
-                    }
-                }
+        for(CourseOffering offering : offerings){
+            if(!scheduledTerms.contains(offering.getTermId())){
+                scheduledTerms.add(offering.getTermId());
             }
-			return scheduledTerms;
-		} catch (InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException | DoesNotExistException e) {
-			throw new IllegalArgumentException("CO lookup failure", e);
         }
+        return scheduledTerms;
 	}
 
     @Override
