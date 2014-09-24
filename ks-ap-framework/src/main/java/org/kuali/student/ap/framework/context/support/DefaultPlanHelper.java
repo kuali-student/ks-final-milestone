@@ -1694,13 +1694,7 @@ public class DefaultPlanHelper implements PlanHelper {
             if (suspendedCoCnt==0&&cancelledCoCnt==0&&offeredCoCnt==0) {
                 statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
                         PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED,course.getCode()));
-            } else if (offeredCoCnt==0 && (suspendedCoCnt>0 && cancelledCoCnt==0)) {
-                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
-                        PLANNER_VALIDATION_MESSAGE_SUSPENDED,course.getCode()));
-            } else if (offeredCoCnt==0 && (suspendedCoCnt==0 && cancelledCoCnt>0)) {
-                statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
-                        PLANNER_VALIDATION_MESSAGE_CANCELED,course.getCode()));
-            } else if (offeredCoCnt==0 && (suspendedCoCnt>0 && cancelledCoCnt>0)) {
+            } else if (offeredCoCnt==0 && (suspendedCoCnt>0 || cancelledCoCnt>0)) {
                 statusMessages.add(KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(PlanConstants.
                         PLANNER_VALIDATION_MESSAGE_SUSPENDED_OR_CANCELED,course.getCode()));
             }

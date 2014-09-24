@@ -115,8 +115,6 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	}
 
     // Validation Messages
-    public static final String PLANNER_VALIDATION_MESSAGE_SUSPENDED = "planner.item.validation.suspended";
     public static final String PLANNER_VALIDATION_MESSAGE_SUSPENDED_OR_CANCELED = "planner.item.validation.suspended.or.canceled";
     public static final String PLANNER_VALIDATION_MESSAGE_NOT_SCHEDULED = "planner.item.validation.scheduled.not";
-    public static final String PLANNER_VALIDATION_MESSAGE_CANCELED = "planner.item.validation.canceled";
 }
