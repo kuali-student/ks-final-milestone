@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
@@ -9,6 +10,7 @@ import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -348,6 +350,25 @@ public class PlanEventUtils {
             addEvent.add("courseNoteRender", "false");
         }
 
+        //invoke createPlannerItem helper (...mainly to validate and set statusMessages(
+        String statusMessage=null;
+        PlannerItem plannerItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem);
+        if (plannerItem!=null & plannerItem.getStatusMessages()!=null) {
+            statusMessage= StringUtils.join(plannerItem.getStatusMessages(), "<br/>");
+        }
+        if (statusMessage!=null && !"".equals(statusMessage)) {
+            addEvent.add("statusMessage",statusMessage);
+            addEvent.add("statusMesageRender","true");
+        } else {
+            addEvent.add("statusMessage","");
+            addEvent.add("statusMesageRender","false");
+        }
+
+        addEvent.add("category",planItem.getCategory().name());
+
+        addEvent.add("courseNote", "");
+        addEvent.add("courseNoteRender", "false");
+
 		StringBuilder code = new StringBuilder(course.getCode());
 		String campusCode = null, activityCode = null;
 		for (Attribute attr : course.getAttributes()) {
@@ -383,6 +404,7 @@ public class PlanEventUtils {
 			// For other events, it is used as a selector so needs '.' replaced
 			// by '-' The replacement is not desired here.
 			addEvent.add("termId", termId);
+            addEvent.add("xmlSafeTermId",termId.replaceAll("\\.","-"));
 
 			if ("planned".equals(category)
 					&& campusCode != null

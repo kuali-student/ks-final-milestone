@@ -354,6 +354,20 @@
                     </property>
                     <property name="items">
                         <list>
+                            <bean
+                                    p:id='@{"__KSAP__CODE__"+"_"+"__KSAP__XMLSAFETERMID__"+"_"+"__KSAP__CATEGORY__"+"_statusMessage"}' parent='Uif-MessageField'>
+                                <property name="render" value="true"/>
+                                <property name="messageText" value="&#160;" />
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-fontello-icon-attention</value>
+                                    </list>
+                                </property>
+                                <property name="onClickScript" value="stopEvent(e);"/>
+                                <property name="toolTip">
+                                    <bean parent="KSAP-Tooltip" p:tooltipContent="__KSAP__STATUSMESSAGE__"/>
+                                </property>
+                            </bean>
                             <bean p:id="__KSAP__UID___code" parent="Uif-MessageField">
                                 <property name="messageText" value="__KSAP__CODE__" />
                                 <property name="cssClasses">
