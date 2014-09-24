@@ -358,10 +358,10 @@ public class PlanEventUtils {
         }
         if (statusMessage!=null && !"".equals(statusMessage)) {
             addEvent.add("statusMessage",statusMessage);
-            addEvent.add("statusMesageRender","true");
+            addEvent.add("statusMessageRender","true");
         } else {
             addEvent.add("statusMessage","");
-            addEvent.add("statusMesageRender","false");
+            addEvent.add("statusMessageRender","false");
         }
 
         addEvent.add("category",planItem.getCategory().name());

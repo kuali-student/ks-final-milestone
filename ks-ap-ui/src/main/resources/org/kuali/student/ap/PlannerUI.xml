@@ -361,6 +361,7 @@
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>ks-fontello-icon-attention</value>
+                                        <value>ksap-planner-status-message</value>
                                     </list>
                                 </property>
                                 <property name="onClickScript" value="stopEvent(e);"/>

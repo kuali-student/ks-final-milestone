@@ -138,6 +138,11 @@ function ksapPlannerAddPlanItem (data) {
         }else{
             itemElement.find(".coursenote").removeClass("invisible");
         }
+        if(data.statusMessageRender == 'false'){
+            itemElement.find(".ksap-planner-status-message").addClass("ksap-hide");
+        }else{
+            itemElement.find(".ksap-planner-status-message").removeClass("ksap-hide");
+        }
 
         var addDiv = jQuery(".ksap-planner-section." + termUid + ".ksap-planner-term-" + data.category + " .ksap-planner-add");
         var addDivParent = addDiv.parent();
