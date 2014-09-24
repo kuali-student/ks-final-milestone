@@ -128,6 +128,7 @@
                 <entry key="isCreateProposal" value="document.newMaintainableObject.dataObject.uiHelper.isStringExistsInArray(docTypeName,T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames).COURSE_CREATE_DOC_TYPE_NAMES)"/>
                 <entry key="isModifyNoNewVersion" value="docTypeName eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_MODIFY_ADMIN_NOVERSION"/>
                 <entry key="isRetiredCourse" value="document.newMaintainableObject.dataObject.courseInfo.stateKey eq T(org.kuali.student.r2.common.dto.DtoConstants).STATE_RETIRED"/>
+                <entry key="isModifyReviewProposal" value="document.newMaintainableObject.dataObject.uiHelper.modifyWithNewVersionProposal and pageId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CoursePageIds).REVIEW_COURSE_PROPOSAL_PAGE"/>
             </map>
         </property>
         <property name="header.rightGroup">
@@ -149,11 +150,11 @@
         <property name="items">
             <list>
                 <bean parent="CM-Proposal-Course-LinkGroup-CancelProposal" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and (!#isModifyNoNewVersion)}"/>
-                <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page'}"/>
+                <bean parent="CM-Proposal-Course-LinkGroup-CopyCourse" p:methodToCall="copyProposal" p:render="@{#form.pageId eq 'CM-Proposal-Review-Course-Page' and !#uiHelper.modifyWithNewVersionProposal}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Comments" p:render="@{!#isModifyNoNewVersion}"/>
                 <bean parent="CM-Proposal-Course-LinkGroup-Decisions" p:render="@{!#isModifyNoNewVersion}"/>
-                <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated}"/>
-                <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated}"/>
+                <bean parent="CM-PrintAction" p:render="@{!#workflowDoc.initiated and !#isModifyReviewProposal}"/>
+                <bean parent="CM-ExportAction" p:render="@{!#workflowDoc.initiated and !#isModifyReviewProposal}"/>
                 <ref bean="CM-Export-ActionLinks"/> <!-- This is the content for the export action popover -->
             </list>
         </property>
