@@ -17,6 +17,7 @@
 package org.kuali.student.cm.maintenance;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -179,6 +180,32 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             LOG.error("Error caught performing route status change", e);
             throw new RuntimeException(e);
         }
+
+        // add in processing from standard maintenance documents
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        // commit the changes to the Maintainable BusinessObject when it goes to Processed (ie, fully approved),
+        // and also unlock it
+        if (workflowDocument.isProcessed()) {
+            // since we don't use KRAD notes or attachments we can ignore that processing
+
+            // need to remove locks as we do use those
+            getMaintenanceDocumentService().deleteLocks(workflowDocument.getDocumentId());
+
+            // we also do not allow record deletion so we can ignore that processing
+        }
+
+        // unlock the document when its canceled or disapproved or recalled
+        else if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isRecalled()) {
+            // since we don't use KRAD notes or attachments we can ignore that processing
+
+            getMaintenanceDocumentService().deleteLocks(workflowDocument.getDocumentId());
+        }
+        // current maintenance framework removes locks if the document routes to exception routing
+//        else if (workflowDocument.isException()) {
+//            // since we don't use KRAD notes or attachments we can ignore that processing
+//
+//            getMaintenanceDocumentService().deleteLocks(workflowDocument.getDocumentId());
+//        }
     }
 
 }
