@@ -471,27 +471,26 @@ public class AcademicPlanServiceValidationDecorator extends
          */
         List<PlanItemInfo> planItems = null;
         try {
-            planItems = this.getPlanItemsInPlanByCategory(planItemId, category, context);
+            planItems = this.getPlanItemsInPlanByRefObjectIdByRefObjectType(planItem.getLearningPlanId(),courseId,
+                    planItem.getRefObjectType(), context);
         } catch (Exception e) {
             throw new RuntimeException("unexpected exception: "+e.getMessage(),e);
         }
         for (PlanItemInfo p : planItems) {
-            if (p.getRefObjectId().equals(courseId)) {
-                if (category.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)
-                        || category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)
-                        || category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
-                    for (String atpId : planItem.getPlanTermIds()) {
-                        if (p.getPlanTermIds().contains(atpId)) {
-                            throw new AlreadyExistsException(String.format(
-                                    "A plan item for plan [%s], course id [%s], and term [%s] already exists.",
-                                    p.getLearningPlanId(), courseId, atpId));
-                        }
+            if (category.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)
+                    || category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)
+                    || category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
+                for (String atpId : planItem.getPlanTermIds()) {
+                    if (p.getPlanTermIds().contains(atpId)) {
+                        throw new AlreadyExistsException(String.format(
+                                "A plan item for plan [%s], course id [%s], and term [%s] already exists.",
+                                p.getLearningPlanId(), courseId, atpId));
                     }
-                } else {
-                    throw new AlreadyExistsException(String.format(
-                            "A plan item for plan [%s] and course id [%s] already exists.",
-                            p.getLearningPlanId(), courseId));
                 }
+            } else {
+                throw new AlreadyExistsException(String.format(
+                        "A plan item for plan [%s] and course id [%s] already exists.",
+                        p.getLearningPlanId(), courseId));
             }
         }
     }
