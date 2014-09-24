@@ -838,6 +838,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             }
             if (operation.equals(COPY_OPERATION_ROLLOVER) && !isColocated && optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                 return;
+            } else if (!operation.equals(COPY_OPERATION_ROLLOVER) && optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+                return;
             }
             // Main call to copy schedules
             ScheduleRequestSetInfo resultTargetSRS =
