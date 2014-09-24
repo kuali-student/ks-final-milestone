@@ -659,7 +659,7 @@ public class PlanEventUtils {
                     try {
                         if(creditsString != null){
                             minCredits = minCredits.add(new BigDecimal(creditsString));
-                            maxCredits = minCredits.add(new BigDecimal(creditsString));
+                            maxCredits = maxCredits.add(new BigDecimal(creditsString));
                         }
                     } catch (NumberFormatException e) {
                         LOG.warn(String.format("Invalid credits in course record %s", record.getCreditsEarned()), e);
@@ -673,7 +673,7 @@ public class PlanEventUtils {
                         if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
                             CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
                             minCredits = minCredits.add(range.getMin());
-                            maxCredits = minCredits.add(range.getMax());
+                            maxCredits = maxCredits.add(range.getMax());
                         }
                     }
                 }
@@ -683,7 +683,7 @@ public class PlanEventUtils {
                     try {
                         if(record.getCredits() != null){
                             minCredits = minCredits.add(record.getCredits().bigDecimalValue());
-                            maxCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                            maxCredits = maxCredits.add(record.getCredits().bigDecimalValue());
                         }
                     } catch (NumberFormatException e) {
                         LOG.warn(String.format("Invalid credits in course record %s", record.getCredits()), e);
@@ -696,7 +696,7 @@ public class PlanEventUtils {
                     try {
                         if(record.getCredits() != null){
                             minCredits = minCredits.add(record.getCredits().bigDecimalValue());
-                            maxCredits = minCredits.add(record.getCredits().bigDecimalValue());
+                            maxCredits = maxCredits.add(record.getCredits().bigDecimalValue());
                         }
                     } catch (NumberFormatException e) {
                         LOG.warn(String.format("Invalid credits in course record %s", record.getCredits()), e);
@@ -710,7 +710,7 @@ public class PlanEventUtils {
                             if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
                                 CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
                                 minCredits = minCredits.add(range.getMin());
-                                maxCredits = minCredits.add(range.getMax());
+                                maxCredits = maxCredits.add(range.getMax());
                             }
                         }
                     }
