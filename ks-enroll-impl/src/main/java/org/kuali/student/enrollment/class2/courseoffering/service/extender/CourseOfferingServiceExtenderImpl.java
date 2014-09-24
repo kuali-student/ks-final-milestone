@@ -836,7 +836,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                 // Copy AO always has same source/target term, so no need to test that in the "if" condition
                 coloTargetSRS = sourceSRS;
             }
-            if (operation.equals(COPY_OPERATION_ROLLOVER) && !isColocated && optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY)) {
+            if (operation.equals(COPY_OPERATION_ROLLOVER) && !isColocated && optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                 return;
             }
             // Main call to copy schedules
