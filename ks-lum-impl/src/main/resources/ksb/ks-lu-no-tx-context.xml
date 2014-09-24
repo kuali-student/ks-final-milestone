@@ -450,7 +450,7 @@
                 <value>unitsContentOwner</value> <!-- Curriculum Oversight -->
                 <value>creditOptions</value>    <!-- outcomes -->
                 <value>startTerm</value>
-                <value>EndTerm</value>
+                <value>endTerm</value>
                 <value>pilotCourse</value>
                 <value>unitsDeployment</value>  <!--Administering Organization -->
             </list>
