@@ -1585,27 +1585,26 @@ public class DefaultPlanHelper implements PlanHelper {
         List<String> planItemIdsForRegGroups = planItemInfo.getAttributeValueList(AcademicPlanServiceConstants.
                 PLAN_ITEM_RELATION_TYPE_COURSE2RG);
 
-        List<String> regGroupIds = new ArrayList<String>();
+//        List<String> regGroupIds = new ArrayList<String>();
+        List <String> suspendedAndCanceledRGCodes = new ArrayList<String>();
+        boolean hasUnavailableRegGroupTypeOfPlanItem = false;
+        //Look up the reg groups
+        List<RegistrationGroupInfo> regGroups = null;
 
         //Get the registration group IDs
         for (String planItemIdForRegGroup : planItemIdsForRegGroups) {
             PlanItem planItemForRegGroup = KsapFrameworkServiceLocator.getPlanHelper().getPlanItem(planItemIdForRegGroup);
-            regGroupIds.add(planItemForRegGroup.getRefObjectId());
-        }
 
-        List <String> suspendedAndCanceledRGCodes = new ArrayList<String>();
-
-        //Look up the reg groups
-        List<RegistrationGroupInfo> regGroups = null;
-        for(String regGroupId : regGroupIds){
             SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_SEARCH_LUI_NAME_BY_LUI_ID_KEY);
-            request.addParam(CourseSearchConstants.SearchParameters.LUI_ID,regGroupId);
+            request.addParam(CourseSearchConstants.SearchParameters.LUI_ID, planItemForRegGroup.getRefObjectId());
             try {
                 SearchResultInfo results = KsapFrameworkServiceLocator.getSearchService().search(
                         request,KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if(results==null || results.getRows().size() == 0){
-                    statusMessages.add("The planned section is not available any more.");
-                    return registrationGroupCodes;
+                    hasUnavailableRegGroupTypeOfPlanItem = true;
+                    //delete unavailable RG type of PlanItem
+//                    KsapFrameworkServiceLocator.getPlanHelper().removePlanItem(planItemIdForRegGroup);
+                    continue;
                 }
                 String regGroupName = KsapHelperUtil.getCellValue(KSCollectionUtils.getOptionalZeroElement(
                         results.getRows()),CourseSearchConstants.SearchResultColumns.LUI_NAME);
@@ -1627,6 +1626,9 @@ public class DefaultPlanHelper implements PlanHelper {
             generateWarningMessage(statusMessages, suspendedAndCanceledRGCodes);
         }
 
+        if (hasUnavailableRegGroupTypeOfPlanItem){
+            statusMessages.add("One or more sections have been deleted!");
+        }
         return registrationGroupCodes;
     }
 
