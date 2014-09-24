@@ -68,7 +68,7 @@
                 <entry key="isViewCourseView" value="viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW"/>
                 <entry key="uiHelper" value="courseInfoWrapper.uiHelper"/>
                 <entry key="modifyFacultyCheck" value="!comparison and (courseInfoWrapper.courseInfo.stateKey ne T(org.kuali.student.r2.common.dto.DtoConstants).STATE_NOT_APPROVED) and modifiableCourse and  canRetireCourse and ! courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
-                <entry key="modifyCSCheck" value="!comparison and (courseInfoWrapper.courseInfo.stateKey ne T(org.kuali.student.r2.common.dto.DtoConstants).STATE_NOT_APPROVED) and (courseInfoWrapper.courseInfo.stateKey ne T(org.kuali.student.r2.common.dto.DtoConstants).STATE_DRAFT) and courseInfoWrapper.uiHelper.curriculumSpecialistUser and modifiableCourse and canRetireCourse"/>
+                <entry key="modifyCSCheck" value="!comparison and (courseInfoWrapper.courseInfo.stateKey ne T(org.kuali.student.r2.common.dto.DtoConstants).STATE_NOT_APPROVED) and (courseInfoWrapper.courseInfo.stateKey ne T(org.kuali.student.r2.common.dto.DtoConstants).STATE_DRAFT) and courseInfoWrapper.uiHelper.curriculumSpecialistUser"/>
             </map>
         </property>
         <property name="dialogs">
