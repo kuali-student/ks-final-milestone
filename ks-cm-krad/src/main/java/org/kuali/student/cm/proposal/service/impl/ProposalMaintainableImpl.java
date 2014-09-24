@@ -248,20 +248,11 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
         }
     }
 
-    /**
-     * A method to identify if post processing methods should be run when called by workflow
-     */
-    protected abstract boolean shouldIgnorePostProcessing(String documentId);
-
     /*
         This method is copied from KualiStudentPostProcessorBase
     */
     @Override
     public void doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
-        // first check to see if this document type should force ignoring of the post processing logic
-        if (shouldIgnorePostProcessing(actionTakenEvent.getDocumentId())) {
-            return;
-        }
         ActionTaken actionTaken = actionTakenEvent.getActionTaken();
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
         // on a save action we may not have access to the proposal object because the transaction may not have committed
@@ -334,11 +325,6 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
     */
     @Override
     public void doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        // first check to see if this document type should force ignoring of the post processing logic
-        if (shouldIgnorePostProcessing(documentRouteLevelChange.getDocumentId())) {
-            return;
-        }
-
         ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.getContextInfo());
         // if this is the initial route then clear only edit permissions as per KSLUM-192
         if (StringUtils.equals(StudentProposalRiceConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME, documentRouteLevelChange.getOldNodeName())) {
@@ -376,11 +362,6 @@ public abstract class ProposalMaintainableImpl extends RuleEditorMaintainableImp
     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
-        // first check to see if this document type should force ignoring of the post processing logic
-        if (shouldIgnorePostProcessing(documentRouteStatusChange.getDocumentId())) {
-            return;
-        }
-
         // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
         if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) &&
                 StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {

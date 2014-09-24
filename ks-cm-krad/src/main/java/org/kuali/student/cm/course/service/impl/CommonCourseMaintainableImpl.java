@@ -85,14 +85,14 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
     /**
      * This is used to ignore the post processing for the "Modify This Version" proposal (also known as the "Modify No Version" proposal)
      * because that document type does not have a new version of the course and does no state changing of the course that it's modifying. The
-     * save of the data will happen from the Controller rather than here in the post processing.
-
-     * @see ProposalMaintainableImpl#shouldIgnorePostProcessing(String)
+     * save of the Course data will happen from the Controller rather than in the post processing.
      *
-     * @return true if the document type of the given document is {@link CurriculumManagementConstants.DocumentTypeNames.CourseProposal#COURSE_MODIFY_ADMIN_NOVERSION}
+     * @see CommonCourseMaintainable#shouldIgnorePostProcessing(String)
+     *
+     * @return true if the document type of the given document is {@link org.kuali.student.cm.common.util.CurriculumManagementConstants.DocumentTypeNames.CourseProposal#COURSE_MODIFY_ADMIN_NOVERSION}
      */
-    protected boolean shouldIgnorePostProcessing(String documentId) {
-        String documentTypeName = getWorkflowDocumentService().getDocumentTypeName(documentId);
+    public boolean shouldIgnorePostProcessing(String documentId) {
+        String documentTypeName = findDocumentTypeName(documentId);
         // it may be overkill to verify that the document type name is not null here, but we CANNOT allow
         // post processing to run on a "modify this version" proposal (also known as a "modify no version" proposal)
         if (documentTypeName == null) {
@@ -118,6 +118,14 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         }
     }
 
+    protected void processCustomRouteStatusSavedStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+        // first check to see if this document type should force ignoring of the post processing logic
+        if (shouldIgnorePostProcessing(statusChangeEvent.getDocumentId())) {
+            return;
+        }
+        // do nothing
+    }
+
     /**
      * This method takes a clu proposal, determines what the "new state"
      * of the clu should be, then routes the clu I, and the new state
@@ -125,6 +133,10 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
      */
     @Override
     protected void processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
+        // first check to see if this document type should force ignoring of the post processing logic
+        if (shouldIgnorePostProcessing(statusChangeEvent.getDocumentId())) {
+            return;
+        }
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String courseId = getCourseId(proposalInfo);
@@ -164,6 +176,11 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
 
     @Override
     protected void processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+        // first check to see if this document type should force ignoring of the post processing logic
+        if (shouldIgnorePostProcessing(actionTakenEvent.getDocumentId())) {
+            return;
+        }
+
         String cluId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(cluId, ContextUtils.createDefaultContextInfo());
         // submit, blanket approve action taken comes through here.
@@ -179,6 +196,10 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
      */
     @Override
     protected void processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken) throws Exception {
+        // first check to see if this document type should force ignoring of the post processing logic
+        if (shouldIgnorePostProcessing(actionTakenEvent.getDocumentId())) {
+            return;
+        }
         // do nothing
     }
 
@@ -195,6 +216,10 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
      */
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
+        // first check to see if this document type should force ignoring of the post processing logic
+        if (shouldIgnorePostProcessing(actionTakenEvent.getDocumentId())) {
+            return;
+        }
 
         if (proposalInfo != null) {
             String proposalDocType = proposalInfo.getType();
