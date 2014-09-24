@@ -410,6 +410,9 @@ public class CourseServiceImpl implements CourseService {
             originalCourse.setStartTerm(null);
             originalCourse.setEndTerm(null);
 
+            // Clear Pilot flag
+            originalCourse.setPilotCourse(false);
+
             // Disassemble the new course
             results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE, contextInfo);
 
