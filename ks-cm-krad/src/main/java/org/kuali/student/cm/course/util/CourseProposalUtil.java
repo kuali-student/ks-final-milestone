@@ -338,10 +338,10 @@ public class CourseProposalUtil {
         Map<String, String> ruleEditorMap = new HashMap<>();
 
         List<String> leftKeys = new ArrayList<>(leftRuleEditors.keySet());
-        Collections.sort(leftKeys);
+        Collections.sort(leftKeys, RULE_EDITOR_COMPARATOR);
 
         List<String> rightKeys = new ArrayList<>(rightRuleEditors.keySet());
-        Collections.sort(rightKeys);
+        Collections.sort(rightKeys, RULE_EDITOR_COMPARATOR);
 
         int index = 0;
         for (String key : leftKeys) {
@@ -351,6 +351,24 @@ public class CourseProposalUtil {
         return ruleEditorMap;
     }
 
+    /**
+     * Comparator for rule editor. They need special handling because the keys can be sequences
+     * like: Y Z AA AB AC etc
+     */
+    public static final Comparator<String> RULE_EDITOR_COMPARATOR = new Comparator<String>() {
+        @Override
+        public int compare(String key1, String key2) {
+
+            if (key1.length() < key2.length()) {
+                return -1;
+            }
+
+            if (key1.length() > key2.length()) {
+                return 1;
+            }
+            return key1.compareTo(key2);
+        }
+    };
 
     /**
      *  Returns the previous or next term to the supplied term, subject to ATP types of interest

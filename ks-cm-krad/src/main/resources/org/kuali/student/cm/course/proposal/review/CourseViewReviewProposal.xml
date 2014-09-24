@@ -227,7 +227,7 @@
                     <property name="componentModifiers">
                       <list>
                           <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
-                          <!-- Row highlighing when requisites do not match -->
+                          <!-- Row highlighting when requisites do not match -->
                           <bean class="org.kuali.student.cm.course.modifiers.RequisitesCompareModifier" p:runPhase="FINALIZE"
                                 p:runCondition="@{#isCompareView}"/>
                       </list>
