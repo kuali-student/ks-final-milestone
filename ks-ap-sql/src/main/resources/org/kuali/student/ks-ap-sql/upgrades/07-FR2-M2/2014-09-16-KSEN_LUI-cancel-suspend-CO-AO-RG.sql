@@ -53,3 +53,15 @@ UPDATE KSEN_LUI SET LUI_STATE='kuali.lui.activity.offering.state.canceled' where
 /
 UPDATE KSEN_LUI SET LUI_STATE='kuali.lui.registration.group.state.canceled' where ID='63ad67a8-d83d-4cde-86da-3e1bbf33de4c' and LUI_TYPE = 'kuali.lui.type.registration.group'
 /
+
+-- Spring 2014 HIST610 Suspended AO: A, RG:1001
+update KSEN_LUI SET LUI_STATE = 'kuali.lui.activity.offering.state.suspended' where ID = '38b38d07-7496-493c-94b8-420e599107d7'
+/
+update KSEN_LUI SET LUI_STATE = 'kuali.lui.registration.group.state.suspended' where ID = 'fa151630-ca7b-45f1-b945-5ca994aabd5b'
+/
+
+-- Spring 2014 HIST811 Canceled AO: A, RG:1001
+update KSEN_LUI SET LUI_STATE = 'kuali.lui.activity.offering.state.canceled' where ID = 'a43b0dc9-0067-4e98-aac4-4c69cc68f413'
+/
+update KSEN_LUI SET LUI_STATE = 'kuali.lui.registration.group.state.canceled' where ID = '70982fed-4354-4da4-a01a-323ef61dd066'
+/
