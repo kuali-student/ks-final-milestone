@@ -28,6 +28,10 @@
 
         <property name="viewSourceFile" value="RegistrationWindowsManagementView.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
+
         <property name="headerText" value="Manage Registration Windows" />
         <property name="header.cssClasses">
             <list merge="true">
