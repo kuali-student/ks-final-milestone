@@ -42,14 +42,14 @@
             </div>
         </div>
 
-        <div class="kscr-CourseCalendar-days util-Grid">
-            <div class="kscr-CourseCalendar-day util-Grid util-Grid-cell" id="course_calendar_day_{{day.day}}" ng-repeat="day in days">
+        <div class="kscr-CourseCalendar-days">
+            <div class="kscr-CourseCalendar-day" id="course_calendar_day_{{day.day}}" ng-repeat="day in days">
                 <span class="kscr-CourseCalendar-day-label">{{day.day}}</span>
-                <div class="kscr-CourseCalendar-day-content util-Grid-cell"
+                <div class="kscr-CourseCalendar-day-content"
                      id="course_calendar_day_container_{{day.day}}">
 
-                    <div class="kscr-CourseCalendar-day-content-bgs util-Grid">
-                        <div class="kscr-CourseCalendar-day-content-bg util-Grid-cell" ng-if="!$last"
+                    <div class="kscr-CourseCalendar-day-content-bgs">
+                        <div class="kscr-CourseCalendar-day-content-bg" ng-if="!$last"
                              ng-repeat="time in times | filter:timeFilter"></div>
                     </div>
 

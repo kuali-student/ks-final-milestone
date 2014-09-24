@@ -63,8 +63,11 @@
 .kscr-Heading-scheduleHeading--empty {
     @media screen and @lg-Min {
         .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub& {
-          // Empty schedule heading
-            background-color: @whiteBackground;
+            &, .kscr-Heading-message {
+                // Empty schedule heading
+                background-color: @whiteBackground;
+                border: none;
+            }
         }
     }
 }

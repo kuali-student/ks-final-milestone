@@ -348,27 +348,29 @@ angular.module('regCartApp')
          * Method for determining which activity offerings to show in the table
          */
         $scope.updateAOStates = function() {
-            for (var i = 0; i < $scope.course.activityOfferingTypes.length; i++) {
-                var aoType = $scope.course.activityOfferingTypes[i];
-                if (aoType.showAll && $scope.isAOTypeSelected(aoType)) {
-                    // Reset the showAll if this AOType is selected
-                    aoType.showAll = false;
-                }
+            if (angular.isArray($scope.course.activityOfferingTypes)) {
+                for (var i = 0; i < $scope.course.activityOfferingTypes.length; i++) {
+                    var aoType = $scope.course.activityOfferingTypes[i];
+                    if (aoType.showAll && $scope.isAOTypeSelected(aoType)) {
+                        // Reset the showAll if this AOType is selected
+                        aoType.showAll = false;
+                    }
 
-                for (var j = 0; j < aoType.activityOfferings.length; j++) {
-                    var ao = aoType.activityOfferings[j];
+                    for (var j = 0; j < aoType.activityOfferings.length; j++) {
+                        var ao = aoType.activityOfferings[j];
 
-                    ao.flags.selected = isAOSelected(ao);
-                    ao.flags.disabled = !isAOCompatible(ao); // AO is disabled if it is not compatible with the selected AOs
+                        ao.flags.selected = isAOSelected(ao);
+                        ao.flags.disabled = !isAOCompatible(ao); // AO is disabled if it is not compatible with the selected AOs
 
-                    if (aoType.showAll || ao.flags.selected) {
-                        // Show All || this AO is selected
-                        ao.flags.hidden = false;
-                    } else if (!$scope.isAOTypeSelected(aoType)) {
-                        // This AO Type is not selected, hide if not compatible
-                        ao.flags.hidden = ao.flags.disabled;
-                    } else {
-                        ao.flags.hidden = true;
+                        if (aoType.showAll || ao.flags.selected) {
+                            // Show All || this AO is selected
+                            ao.flags.hidden = false;
+                        } else if (!$scope.isAOTypeSelected(aoType)) {
+                            // This AO Type is not selected, hide if not compatible
+                            ao.flags.hidden = ao.flags.disabled;
+                        } else {
+                            ao.flags.hidden = true;
+                        }
                     }
                 }
             }
