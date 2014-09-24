@@ -16,6 +16,7 @@
 package org.kuali.student.ap.search;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
@@ -32,12 +33,15 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -629,19 +633,51 @@ public class KsapCourseSearchSupportCluSearchImpl extends SearchServiceAbstractH
                 "        AND UPPER(trim( id.CD )) = :" + CourseSearchConstants.SearchParameters.CODE +
                 "    AND clu.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
                 "    AND (clu.ST = 'Active' OR clu.ST = 'Superseded' OR clu.ST = 'Retired')" +
+                "    AND (clu.EXPIR_DT >= :endDate OR clu.EXPIR_DT IS NULL)" +
                 "    AND clu.LUTYPE_ID='kuali.lu.type.CreditCourse'";
 
         // Set params and execute search
         Query query = getEntityManager().createNativeQuery(queryStr);
         query.setParameter(CourseSearchConstants.SearchParameters.CODE, code);
+        query.setParameter(CourseSearchConstants.SearchParameters.END_DATE, contextInfo.getCurrentDate());
 
         // Compile Results
         SearchResultRowInfo row = new SearchResultRowInfo();
         try{
             Object result = query.getSingleResult();
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String) result);
-        }catch(NoResultException e){
+        } catch(NoResultException e){
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, null);
+        } catch(NonUniqueResultException e){
+            // If multiple entries are present default to the earliest expiration date.
+            LOG.warn("Multiple Results Returned in Code Search for " + code + "returning earliest", e);
+            List<Course> courses = new ArrayList<Course>();
+            for(Object result : query.getResultList()){
+                courses.add(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId((String)result));
+            }
+            Course returnCourse = null;
+            for(Course course : courses){
+                if(returnCourse == null){
+                    returnCourse = course;
+                    continue;
+                }
+                if(returnCourse.getExpirationDate()==null && course.getExpirationDate()==null){
+                    LOG.warn("No expiration dates found for multiple courses: " + returnCourse.getId() + " and " + course.getId());
+                    continue;
+                }
+                if(returnCourse.getExpirationDate()!=null && course.getExpirationDate()==null){
+                    continue;
+                }
+                if(returnCourse.getExpirationDate()==null && course.getExpirationDate()!=null){
+                    returnCourse = course;
+                    continue;
+                }
+                if(returnCourse.getExpirationDate().after(course.getExpirationDate())){
+                    returnCourse = course;
+                }
+            }
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, returnCourse.getVersion().getVersionIndId());
+
         }
         resultInfo.getRows().add(row);
 

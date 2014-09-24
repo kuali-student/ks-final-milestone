@@ -128,8 +128,10 @@ function ksapPlannerAddPlanItem (data) {
     if(jQuery("#planner_item_template").length){
         var item = jQuery("#planner_item_template").html();
         for (var key in data)
-            if (data.hasOwnProperty(key))
-                item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
+            if (data.hasOwnProperty(key)){
+                var value = data[key].replace("\'","\\'");
+                item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+value+"')");
+            }
         item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
         var termUid = data.termId.replace(/\./g,'-');
         var itemElement = jQuery("<div/>").html(item);
