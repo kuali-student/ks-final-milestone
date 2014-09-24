@@ -589,7 +589,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.COURSE_DIVISION, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_NUMBER, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.SEATS_AVAILABLE, resultRow[i++].toString());
+            row.addCell(SearchResultColumns.SEATS_AVAILABLE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.HONORS_FLAG, (String) resultRow[i]);
             resultInfo.getRows().add(row);
         }

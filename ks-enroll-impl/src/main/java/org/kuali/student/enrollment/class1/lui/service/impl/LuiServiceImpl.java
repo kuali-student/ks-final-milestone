@@ -305,7 +305,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
-        LOGGER.error("UpdateLui" + luiId + " " + luiInfo.getTypeKey());
+        LOGGER.info("UpdateLui " + luiId + " " + luiInfo.getTypeKey());
         LuiEntity entity = luiDao.find(luiId);
 
         if (!luiId.equals(luiInfo.getId())) {
