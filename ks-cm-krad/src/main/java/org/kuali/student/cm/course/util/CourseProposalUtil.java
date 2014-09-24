@@ -156,9 +156,13 @@ public class CourseProposalUtil {
      */
 
     public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-        return (hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo) || (!hasInProgressProposalForCourse(courseInfo)));
+        if(!hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo)) {
+            return false;
+        }
+        else {
+            return !hasInProgressProposalForCourse(courseInfo);
+        }
     }
-
 
     /**
      * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
