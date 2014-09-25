@@ -1016,9 +1016,8 @@ the program will get the rule management service by calling the global resource 
         <property name="academicRecordServiceCurrent" ref="academicRecordServiceCurrent" />
     </bean>
 
-    <!-- history (mock: for temporary use until persistence is available) -->
-    <bean id="academicRecordServiceHistory" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceMockImpl">
-        <property name="studentToCourseRecordsMap" ref="studentToCourseRecordsMap" />
+    <bean id="academicRecordServiceHistory" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServicePersistenceImpl">
+        <property name="studentCourseRecordDao" ref="studentCourseRecordDao"/>
     </bean>
 
     <!-- current -->

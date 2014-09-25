@@ -46,6 +46,7 @@
     <bean id="socRolloverResultDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao" parent="genericEntityDao"/>
     <bean id="socRolloverResultItemDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao" parent="genericEntityDao"/>
     <bean id="courseWaitListDao" class="org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao" parent="genericEntityDao"/>
+    <bean id="studentCourseRecordDao" class="org.kuali.student.enrollment.academicrecord.dao.StudentCourseRecordDao" parent="genericEntityDao"/>
 
     <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
         <property name="entityManager" ref="enrollEntityManager"/>

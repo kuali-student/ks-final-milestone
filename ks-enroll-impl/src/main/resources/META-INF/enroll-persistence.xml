@@ -212,6 +212,10 @@
         <class>org.kuali.student.core.ges.service.model.ValueEntity</class>
         <class>org.kuali.student.core.ges.service.model.ValueAttributeEntity</class>
 
+        <!-- AcademicRecord StudentCourseRecord entities -->
+        <class>org.kuali.student.enrollment.academicrecord.model.StudentCourseRecordEntity</class>
+        <class>org.kuali.student.enrollment.academicrecord.model.StudentCourseRecordAttributeEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>
