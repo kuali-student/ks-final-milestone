@@ -21,11 +21,11 @@
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="ksapContext" ref="ksapContext"/>
         <property name="ksapTextHelper" ref="ksapTextHelper"/>
-        <property name="ksapTermHelper" ref="ksapTermHelperCacheDecorator"/>
+        <property name="ksapTermHelper" ref="ksapDefaultTermHelper"/>
         <property name="ksapUserSessionHelper" ref="ksapUserSessionHelper"/>
         <property name="ksapEnumerationHelper" ref="ksapEnumerationHelper"/>
         <property name="ksapOrgHelper" ref="ksapOrgHelper"/>
-        <property name="ksapCourseHelper" ref="ksapCourseHelperCacheDecorator"/>
+        <property name="ksapCourseHelper" ref="ksapDefaultCourseHelper"/>
         <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
         <property name="planHelper" ref="planHelper"/>
         <property name="academicCalendarService" ref="ksEnrollAcalService"/>
@@ -60,9 +60,9 @@
     <bean id="ksSearchService" parent="searchService">
         <property name="searchServices">
             <list merge="true">
-                <ref bean="KsapCourseSearchCluSearchCacheDecorator"/>
-                <ref bean="KsapCourseSearchSupportCluSearchCacheDecorator"/>
-                <ref bean="KsapLuiSearchCacheDecorator"/>
+                <ref bean="KsapCourseSearchCluSearchImpl"/>
+                <ref bean="KsapCourseSearchSupportCluSearchImpl"/>
+                <ref bean="KsapLuiSearchImpl"/>
             </list>
         </property>
     </bean>
