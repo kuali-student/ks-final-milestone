@@ -370,11 +370,13 @@ function ksapDisableTermsAsPlanned(inputElementId) {
 function ksapQuickAddCodeInput() {
     var input = jQuery('.ksap-dialog-courseCode input')
     var submit = jQuery("#popupForm").find("#submit_dialog_button");
+    var feedback = jQuery("#popupForm").find(".ksap-feedback");
     input.focus();
     input.keyup(function() {
         if (input.val() == '') {
             submit.addClass("disabled");
             input.removeClass("ksap-error");
+            feedback.empty();
         }
         else {
             submit.removeClass("disabled");
