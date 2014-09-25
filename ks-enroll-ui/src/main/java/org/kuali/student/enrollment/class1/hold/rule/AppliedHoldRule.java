@@ -46,7 +46,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
         isValid &= validateBasicHold(appliedHold);
         isValid &= validateAppliedHold(appliedHold, holdWrapper);
         if (holdIssue.getIsHoldIssueTermBased()) {
-            if (holdWrapper.getExpirationTerm() != null) {
+            if (holdWrapper.getExpirationTerm() != null && holdWrapper.getAction().equals(HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE)) {
                 appliedHold.setApplicationExpirationTermId(resolveTermId(holdWrapper.getExpirationTerm(), HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM));
             } else {
                 appliedHold.setApplicationExpirationTermId(holdIssue.getLastApplicationTermId());
