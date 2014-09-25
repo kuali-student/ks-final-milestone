@@ -55,25 +55,18 @@ limitations under the License.
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Holds"/>
+                    <property name="label" value="Applied Holds"/>
                     <property name="url.viewId" value="KS-AppliedHoldManagementView"/>
                     <property name="url.controllerMapping" value="appliedHoldManagement"/>
                 </bean>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="url.controllerMapping" value="appliedHoldManagement"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
-                            <entry key="hideReturnLink" value="true"/>
-                            <entry key="viewName" value="AppliedHoldMaintenanceView"/>
-                            <entry key="formKey" value="@{returnFormKey}"/>
-                        </map>
-                    </property>
+                    <property name="label" value="Apply Hold"/>
                 </bean>
-
             </list>
         </property>
         <property name="singlePageView" value="false"/>
