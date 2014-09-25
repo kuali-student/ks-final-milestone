@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.search.elastic;
 
 import com.google.common.collect.Iterables;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -260,12 +261,17 @@ public class ElasticEmbedded {
             courseSearchResult.setCourseNumber(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_NUMBER));
 //            courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
             //crosslistings have a different prefix so grab a substring from the code
-            courseSearchResult.setCoursePrefix(courseSearchResult.getCourseCode().substring(0,4));
+            courseSearchResult.setCoursePrefix(courseSearchResult.getCourseCode().substring(0, 4));
             courseSearchResult.setLongName(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME));
-            courseSearchResult.setSeatsAvailable(Integer.parseInt(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE)));
             courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
             courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
             courseSearchResult.setState(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_STATE));
+
+            // Set seats available
+            String seatsAvailable = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE);
+            if (StringUtils.isNotEmpty(seatsAvailable)) {
+                courseSearchResult.setSeatsAvailable(Integer.parseInt(seatsAvailable));
+            }
 
             // Set honors flag
             String honorsFlag = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.HONORS_FLAG);
