@@ -24,7 +24,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
@@ -32,6 +31,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.WaitlistPosi
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -61,8 +61,6 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationAdminClientServiceImpl.class);
 
-    private LprService lprService;
-
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
     // allows us to validate in order.
     protected static Comparator<LprInfo> LPR_INFO_CREATE_DATE = new Comparator<LprInfo>() {
@@ -84,7 +82,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         Response.ResponseBuilder response;
 
         try {
-            Map<String, List> stats = getStatsFromRegEngine();
+            Map<String, Object> stats = getStatsFromRegEngine();
             response = Response.ok(stats);
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -94,10 +92,10 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         return response.build();
     }
 
-    private Map<String, List> getStatsFromRegEngine() throws JMSException {
+    private Map<String, Object> getStatsFromRegEngine() throws JMSException {
 
         // define types of stats to collect
-        List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
+        List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<>();
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
@@ -109,8 +107,11 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
         generator.initiateRequestForStats(statTypesToRequest);
 
-        Map<String, List> stats = generator.getStats();
-        stats.putAll(TermResolverPerformanceUtil.getStatistics());
+        Map<String, Object> stats = new HashMap<>();
+
+        stats.put("Queues", generator.getStats());
+        stats.put("Nodes", NodePerformanceUtil.getStatistics());
+        stats.put("Term Resolvers", TermResolverPerformanceUtil.getStatistics());
 
         return stats;
     }
@@ -129,6 +130,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
             response = Response.fromResponse(getRegEngineStats());
 
             TermResolverPerformanceUtil.clearStatistics();
+            NodePerformanceUtil.clearStatistics();
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -153,7 +155,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         Response.ResponseBuilder response;
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            List<LprInfo> lprs = new ArrayList<LprInfo>();
+            List<LprInfo> lprs;
             if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
                 lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
             } else {
@@ -230,19 +232,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         return response.build();
     }
 
-    /**
-     * returns a list of LprInfo objects based on the parameters passed in.
-     * @param termId
-     * @param termCode
-     * @param courseCode
-     * @param regGroupCode
-     * @param contextInfo
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
+    // returns a list of LprInfo objects based on the parameters passed in.
     private List<LprInfo> searchForRosterLocal(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LprInfo>  results =   new ArrayList<>();
         RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
@@ -262,7 +252,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
 
     private List<WaitlistEntryResult> searchForWaitlistRosterLocal(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<WaitlistEntryResult>  results =   new ArrayList<WaitlistEntryResult>();
+        List<WaitlistEntryResult>  results =   new ArrayList<>();
         RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
         String PRIMARY_WAITLIST_TYPE = LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY; // for this implementation the RG is the primary
         // array of valid waitlist types. We might want to pass this in to make it configurable?
@@ -271,16 +261,16 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
                 LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY};
 
         // LUI ID  -> Count
-        Map<String, Integer> typeCountMap = new HashMap<String, Integer>();
+        Map<String, Integer> typeCountMap = new HashMap<>();
 
         // userId, WaitlistEntry
-        Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<String, WaitlistEntryResult>(); // this is used to help populate result map. needed for performance.
+        Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<>(); // this is used to help populate result map. needed for performance.
 
         if (regGroupSearchResult != null) {
 
             // get all the waitlist lprs for this registration group
             // combine the rgId + aoIds to pass into search method
-            List<String> luiIdsToFind = new ArrayList<String>(regGroupSearchResult.getActivityOfferingIds());
+            List<String> luiIdsToFind = new ArrayList<>(regGroupSearchResult.getActivityOfferingIds());
             luiIdsToFind.add(regGroupSearchResult.getRegGroupId());
             // they will be in process order
             List<LprInfo> lprInfos = getLprEntries(luiIdsToFind, contextInfo, wlTypes);
@@ -370,7 +360,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
     /**
      * pass by ref sorting helper method. defaults to decending order by create date
-     * @param lprInfos
+     * @param lprInfos lpr info objects to sort
      */
     protected void sortLprsForWaitlistProcessing(List<LprInfo> lprInfos){
         Collections.sort(lprInfos,LPR_INFO_CREATE_DATE);

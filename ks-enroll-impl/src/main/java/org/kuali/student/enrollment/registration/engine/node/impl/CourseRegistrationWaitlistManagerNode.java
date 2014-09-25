@@ -2,10 +2,10 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 
@@ -31,16 +31,12 @@ public class CourseRegistrationWaitlistManagerNode extends AbstractCourseRegistr
                     processPeopleOffOfWaitlist(message, context);
 
             DateTime endTime = new DateTime();
-            TermResolverPerformanceUtil.putStatistics("CourseRegistrationWaitlistManagerNode", startTime, endTime);
+            NodePerformanceUtil.putStatistics("CourseRegistrationWaitlistManagerNode", startTime, endTime);
 
             return registrationRequestList;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
         }
-    }
-
-    public WaitlistManagerService getWaitlistManagerService() {
-        return waitlistManagerService;
     }
 
     public void setWaitlistManagerService(WaitlistManagerService waitlistManagerService) {

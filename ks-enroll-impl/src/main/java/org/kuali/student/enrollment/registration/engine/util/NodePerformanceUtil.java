@@ -12,28 +12,28 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by pauldanielrichardson on 9/24/14
+ * Created by pauldanielrichardson on 9/25/14
  */
-package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util;
+package org.kuali.student.enrollment.registration.engine.util;
 
 import org.joda.time.DateTime;
-import org.kuali.student.enrollment.registration.engine.util.PerformanceUtil;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * This class records the performance of individual term resolvers
+ * This class records the performance of individual nodes
  *
  * @author Kuali Student Team
  */
-public class TermResolverPerformanceUtil {
-    private TermResolverPerformanceUtil() {}
+public class NodePerformanceUtil {
+
+    private NodePerformanceUtil() {}
 
     private static final PerformanceUtil performanceUtil = new PerformanceUtil();
 
-    public static void putStatistics(String termResolver, DateTime start, DateTime end) {
-        performanceUtil.putStatistics(termResolver, start, end);
+    public static void putStatistics(String node, DateTime start, DateTime end) {
+        performanceUtil.putStatistics(node, start, end);
     }
 
     public static Map<String, List<String>> getStatistics() {
@@ -43,5 +43,4 @@ public class TermResolverPerformanceUtil {
     public static void clearStatistics() {
         performanceUtil.clearStatistics();
     }
-
 }

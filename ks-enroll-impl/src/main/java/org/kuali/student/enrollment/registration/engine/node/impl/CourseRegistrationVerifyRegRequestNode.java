@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
@@ -13,6 +12,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -88,7 +88,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         List<ValidationResultInfo> warnings = this.getWarnings(validationResults);
         if (errors.isEmpty() && warnings.isEmpty() && transactionException == null) {
             DateTime endTime = new DateTime();
-            TermResolverPerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
+            NodePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
             return message;
         }
 
@@ -144,7 +144,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         }
 
         DateTime endTime = new DateTime();
-        TermResolverPerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
+        NodePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
 
         return message;
 

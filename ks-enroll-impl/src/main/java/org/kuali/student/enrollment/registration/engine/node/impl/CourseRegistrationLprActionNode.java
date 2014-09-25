@@ -1,10 +1,10 @@
 package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.joda.time.DateTime;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 
 /**
  * This class handles processing of all Lpr actions (drop/swap/update/add)
@@ -22,7 +22,7 @@ public class CourseRegistrationLprActionNode extends AbstractCourseRegistrationN
                     courseRegistrationLprActionProcessor.process(message);
 
             DateTime endTime = new DateTime();
-            TermResolverPerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
+            NodePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
 
             return registrationRequestItemEngineMessage;
         } catch (Exception e) {

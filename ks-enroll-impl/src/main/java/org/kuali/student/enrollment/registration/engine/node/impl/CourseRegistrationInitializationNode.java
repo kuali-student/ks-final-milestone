@@ -2,12 +2,12 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.jms.MapMessage;
@@ -45,7 +45,7 @@ public class CourseRegistrationInitializationNode extends AbstractCourseRegistra
                     initializeRegistrationRequest(regReqId, contextInfo);
 
             DateTime endTime = new DateTime();
-            TermResolverPerformanceUtil.putStatistics("CourseRegistrationInitializationNode", startTime, endTime);
+            NodePerformanceUtil.putStatistics("CourseRegistrationInitializationNode", startTime, endTime);
 
             return registrationRequestEngineMessage;
 
