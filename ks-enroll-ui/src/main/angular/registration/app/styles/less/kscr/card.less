@@ -7,6 +7,31 @@
             clear: both;
         }
     }
+
+    @media screen and @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left &{
+            border: none;
+            margin-top: 0.4rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar & {
+            border: none;
+            margin: 0;
+        }
+
+        // Cart card
+        .kscr-Main-sidebar &-Cart {
+          margin-bottom: 0.1rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Course card list
+            background-color: @whiteBackground;
+        }
+    }
 }
 
 .kscr-Card,
@@ -17,6 +42,16 @@
   margin: 0 0.5rem;
   position: relative;
   a {text-decoration: none;}
+}
+
+.kscr-Card-Results {
+  @media screen and @lg-Min {
+    .kscr-Main-sidebar & {
+      background-color: @whiteBackground;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
 }
 
 .kscr-Card-heading {
@@ -45,6 +80,13 @@
   // Alert state, used in waitlist notification
   &-alert {
       margin: 0.3rem 0 0;
+
+    @media screen and @lg-Min {
+      .kscr-Main-sidebar .kscr-Card-Results .kscr-Card-detailsText &,
+      .kscr-Main-sidebar .kscr-Card-Results .kscr-cartResult-status--waitlist & {
+        display: block; // Show the detailsText element in the Add to Waitlist success
+      }
+    }
   }
 }
 
@@ -103,6 +145,12 @@
         border-top: none;
         padding-bottom: 0;
         padding-top: 0.3rem;
+
+        @media screen and @lg-Min {
+            .kscr-Main-sidebar  & {
+              padding: 0;
+            }
+        }
     }
 
     /* Transitions for fade effect in Card Edit */
@@ -131,12 +179,28 @@
     /* END of Transitions for fade effect in Card Edit */
 }
 
+.kscr-Card-course{
+  @media screen and @lg-Min {
+    .kscr-Main-sidebar & {
+      // Update padding for cart, cart result, & schedule courses
+      padding-left: 3rem;
+    }
+  }
+}
+
 
 .kscr-Card-courseTimes {
   display: inline-flex;
   width: 100%;
   &-highlighted {
     .util-Text-highlight--withPadding(0.5rem, 0.1rem);
+  }
+
+  @media screen and (min-width: @largeFormatMin) {
+    // Sidebar styles
+    .kscr-Main-sidebar & {
+      display: none;
+    }
   }
 }
 
@@ -209,6 +273,15 @@
   .util-Alert--warning & {
     border-color: @warningBorder;
   }
+
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart .kscr-Card-status & {
+            // No button bar border in large-format
+            border-top: none;
+            padding-top: 0;
+
+        }
+    }
 }
 
 .kscr-Card-button {
@@ -222,8 +295,20 @@
     position: absolute;
     .font-size(12);
     top: 0.5rem;
-}
 
+  @media screen and @lg-Min {
+    .kscr-Main-sidebar & {
+        // Reposition the cart expand/collapse icon when it's in the sidebar
+        left: 1rem;
+    }
+
+    .kscr-Main-sidebar .kscr-Main-cart .kscr-Card-status & {
+        // No button bar border in large-format
+        background-position: 0 1rem;
+        left: 0;
+    }
+  }
+}
 
 // Container for a single course in a course card
 .kscr-Course-container {
@@ -357,6 +442,13 @@
 
 .panel-body {
     padding: 0 1rem 1rem 2.5rem;
+
+    @media screen and @lg-Min {
+      .kscr-Main-sidebar & {
+        // Update padding for cart, cart result, & schedule courses
+        padding-left: 3rem;
+      }
+    }
 }
 
 .panel-title {
@@ -382,6 +474,21 @@
         line-height: 0;
         opacity: 0;
     }
+
+    @media screen and @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left .kscr-Main-schedule & {
+          margin: 0 0 1rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar & {
+            margin: 0;
+            border: none;
+            .box-shadow(none);
+            .Rounded(0);
+        }
+    }
 }
 /**** END of Override of accordion panel for card section ****/
 
@@ -400,6 +507,13 @@
     position: absolute;
     top: 0;
     width: 1rem;
+
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar & {
+            bottom: 0.15rem;
+            top: 0.15rem;
+        }
+    }
 }
 
 .courseCardLegendIndicator(@courseCardColorCount);
@@ -427,6 +541,14 @@
         background-color: @backgroundColor--highlight;
         .util-transitions-browserHelper(0.2s);
         .util-Text-highlighter--inset();
+    }
+
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar & {
+            // Update padding for cart, cart result, & schedule courses
+            padding-left: 3rem;
+            padding-right: 1rem;
+        }
     }
 }
 
@@ -561,6 +683,31 @@
         border-color: @cardBorderColor;
         color: @cardTextColor;
     }
+
+
+    @media screen and @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+            // Card result w/ status (e.g. processing, error, success)
+            // Don't show background shading when in large-format
+            background: none;
+            box-shadow: none;
+            -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
+
+            // Update items in the cart results to have a top border
+            border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Main-cart .panel-group .panel
+            padding: 1rem 0 1rem 2.5rem;
+
+            // Hide success messages in large-format
+            &--success {
+              display: none;
+            }
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Card &{
+            border: none;
+            margin-bottom: 0.1rem;
+        }
+    }
 }
 
 // Course has a conflict, show a warning icon
@@ -575,127 +722,8 @@
   border-top: @horizontalLineBorder;
   padding-top: 1rem;
   color: @primaryTextColor;
+
   &-list {
     font-weight: bold;
   }
-}
-
-
-@media screen and (min-width: @largeFormatMin) {
-
-    // Main content area styles
-    .kscr-Main-content--left {
-        .kscr-Card {
-            border: none;
-            margin-top: 0.4rem;
-        }
-
-        .kscr-Main-schedule .panel-group .panel {
-            margin: 0 0 1rem;
-        }
-    }
-
-    // Sidebar styles
-    .kscr-Main-sidebar {
-        .kscr-Card {
-            border: none;
-            margin: 0;
-        }
-
-        // Cart card
-        .kscr-Card-Cart {
-            margin-bottom: 0.1rem;
-        }
-
-        // Cart results card
-        .kscr-Card-Results {
-            background-color: @whiteBackground;
-            padding-left: 1rem;
-            padding-right: 1rem;
-
-            .kscr-Card-detailsText .kscr-Card-text-alert,
-            .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
-                display: block; // Show the detailsText element in the Add to Waitlist success
-            }
-        }
-
-        .kscr-Course-legendIndicator {
-            bottom: 0.15rem;
-            top: 0.15rem;
-        }
-
-        .kscr-Card-courseTimes {
-            display: none;
-        }
-
-        .panel-group .panel {
-            margin: 0;
-            border: none;
-            .box-shadow(none);
-            .Rounded(0);
-        }
-        .kscr-Card-detailsText--show {
-            padding: 0;
-        }
-
-        // Reposition the cart expand/collapse icon when it's in the sidebar
-        .kscr-Card-icon {
-            left: 1rem;
-        }
-
-        // Update padding for cart, cart result, & schedule courses
-        .kscr-Card-accordion-heading,
-        .kscr-Card-course,
-        .panel-body {
-            padding-left: 3rem;
-        }
-
-        .kscr-Card-accordion-heading {
-            padding-right: 1rem;
-        }
-
-
-        .kscr-Main-cart {
-            // Card result w/ status (e.g. processing, error, success)
-            .kscr-Card-status {
-                // Don't show background shading when in large-format
-                background: none;
-                box-shadow: none;
-                -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
-
-                // Update items in the cart results to have a top border
-                border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Main-cart .panel-group .panel
-                padding: 1rem 0 1rem 2.5rem;
-
-                // Hide success messages in large-format
-                &--success {
-                  display: none;
-                }
-
-                // No button bar border in large-format
-                .kscr-Card-buttons {
-                    border-top: none;
-                    padding-top: 0;
-                }
-
-                .kscr-Card-icon {
-                    background-position: 0 1rem;
-                    left: 0;
-                }
-            }
-        }
-
-        .kscr-Main-scheduleWrapper {
-            // Course card list
-            .kscr-Card {
-                background-color: @whiteBackground;
-
-                .kscr-Card-status {
-                  border: none;
-                  margin-bottom: 0.1rem;
-                }
-            }
-
-        }
-    }
 }
