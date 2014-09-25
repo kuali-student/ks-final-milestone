@@ -56,19 +56,4 @@ describe('Controller: CartCtrl', function () {
         expect(scope.userMessage.txt).toBeNull();
         expect(scope.userMessage.linkText).toBeNull();
     });
-
-    // Test showBadge(cartItem)
-    // Disabled to since card was moved to directive
-    xit('should correctly check whether or not to show a badge for a cart item', inject(function(GRADING_OPTION) {
-        var cartItem = { grading: '' };
-
-        cartItem.grading = GRADING_OPTION.letter;
-        expect(scope.showBadge(cartItem)).toBeFalsy();
-
-        cartItem.grading = GRADING_OPTION.audit;
-        expect(scope.showBadge(cartItem)).toBeTruthy();
-
-        cartItem.grading = GRADING_OPTION.passFail;
-        expect(scope.showBadge(cartItem)).toBeTruthy();
-    }));
 });

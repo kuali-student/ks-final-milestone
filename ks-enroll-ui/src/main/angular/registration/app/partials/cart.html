@@ -23,6 +23,7 @@
                 </div>
                 <div>
                     <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+                    <button id="clear_cart" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button" type="button" ng-click="clearCart()">Clear</button>
                 </div>
             </div>
             <div class="kscr-MainHeading" ng-show="states.processing.indexOf(cartResults.state) !== -1">

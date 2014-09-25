@@ -159,85 +159,79 @@ angular.module('regCartApp')
         };
 
         function addCourseToCart(course, deferred) {
+            // Clear out the last cart items and user message if they exist (from Clear Cart)
+            if ($scope.lastCartItems) {
+                $scope.removeUserMessage();
+            }
+
             deferred = deferred || $q.defer();
 
             $scope.courseAdded = false; // reset cursor focus
             $scope.addToCartStatus = STATUS.processing;
 
-            if (course.courseCode) {
-                course.courseCode = course.courseCode.toUpperCase();
-            }
+            CartService.addCourseToCart($scope.cart.cartId, TermsService.getTermId(), course)
+                .then(function (response) {
+                    console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + TermsService.getTermId());
+                    $scope.courseCode = '';
+                    $scope.regCode = '';
 
-            CartService.addCourseToCart().query({
-                cartId: $scope.cart.cartId,
-                termId: TermsService.getTermId(),
-                courseCode: course.courseCode || null,
-                regGroupCode: course.regGroupCode || null,
-                regGroupId: course.regGroupId || null,
-                gradingOptionId: course.gradingOptionId || null,
-                credits: course.credits || null
-            }, function (response) {
-                console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + TermsService.getTermId());
-                $scope.courseCode = '';
-                $scope.regCode = '';
+                    standardizeCourseData(response);
+                    $scope.cart.items.unshift(response);
 
-                standardizeCourseData(response);
-                $scope.cart.items.unshift(response);
+                    // This part is responsible for glow effect: when the new item is added we want to highlight it and then fade the highlight away after 2 secs
+                    console.log('Started to glow...');
+                    // the highlighting fades in
+                    response.addingNewCartItem = true;
+                    // the highlighting stays for 2 secs and fades out
+                    $timeout(function(){
+                        response.addingNewCartItem = false;
+                    }, 2000);
 
-                // This part is responsible for glow effect: when the new item is added we want to highlight it and then fade the highlight away after 2 secs
-                console.log('Started to glow...');
-                // the highlighting fades in
-                response.addingNewCartItem = true;
-                // the highlighting stays for 2 secs and fades out
-                $timeout(function(){
-                    response.addingNewCartItem = false;
-                }, 2000);
-
-                $scope.courseAdded = true; // refocus cursor back to course code
-                $scope.addToCartStatus = STATUS.success;
-
-                deferred.resolve(response);
-            }, function (error) {
-                var errorText;
-                if (error.status === 404) {
-                    //Reg group was not found
-                    if (error.data.messageKey) {
-                        switch (error.data.messageKey) {
-                            case GENERAL_ERROR_TYPE.courseNotFound:
-                                errorText = error.data.courseCode + ' does not exist for ' + TermsService.getSelectedTerm().termName;
-                                break;
-                            default:
-                                errorText = MessageService.getMessage(error.data.messageKey);
-                        }
-                    } else {
-                        errorText = error.data;
-                    }
-                    $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
-                    $scope.courseAdded = true;  // refocus cursor back to course code
-                    $scope.addToCartStatus = STATUS.error;
-
-                    deferred.reject($scope.userMessage);
-                } else if (error.status === 400) {
-                    //Additional options are required
-                    showAdditionalOptionsModal(error.data).then(function(course) {
-                        addCourseToCart(course, deferred);
-                    }, function(result) {
-                        $scope.courseAdded = true; // refocus cursor back to course code
-                        $scope.addToCartStatus = null;
-
-                        deferred.reject(result);
-                    });
-                } else {
-                    console.log('Error with adding course', error.data.consoleMessage);
-                    //Reg group is not in offered state
-                    errorText = error.data.genericMessage + ' for ' + TermsService.getSelectedTerm().termName;
-                    $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
-                    $scope.addToCartStatus = STATUS.error;
+                    $scope.addToCartStatus = STATUS.success;
 
-                    deferred.reject($scope.userMessage);
-                }
-            });
+                    deferred.resolve(response);
+                }, function (error) {
+                    var errorText;
+                    if (error.status === 404) {
+                        //Reg group was not found
+                        if (error.data.messageKey) {
+                            switch (error.data.messageKey) {
+                                case GENERAL_ERROR_TYPE.courseNotFound:
+                                    errorText = error.data.courseCode + ' does not exist for ' + TermsService.getSelectedTerm().termName;
+                                    break;
+                                default:
+                                    errorText = MessageService.getMessage(error.data.messageKey);
+                            }
+                        } else {
+                            errorText = error.data;
+                        }
+                        $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: STATUS.error, course: course.courseCode};
+                        $scope.courseAdded = true;  // refocus cursor back to course code
+                        $scope.addToCartStatus = STATUS.error;
+
+                        deferred.reject($scope.userMessage);
+                    } else if (error.status === 400) {
+                        //Additional options are required
+                        showAdditionalOptionsModal(error.data).then(function(course) {
+                            addCourseToCart(course, deferred);
+                        }, function(result) {
+                            $scope.courseAdded = true; // refocus cursor back to course code
+                            $scope.addToCartStatus = null;
+
+                            deferred.reject(result);
+                        });
+                    } else {
+                        console.log('Error with adding course', error.data.consoleMessage);
+                        //Reg group is not in offered state
+                        errorText = error.data.genericMessage + ' for ' + TermsService.getSelectedTerm().termName;
+                        $scope.userMessage = {txt: errorText, messageKey: GENERAL_ERROR_TYPE.noRegGroup, type: error.data.type, detail: error.data.detailedMessage, course: course.courseCode + ' (' + course.regGroupCode + ')'};
+                        $scope.courseAdded = true; // refocus cursor back to course code
+                        $scope.addToCartStatus = STATUS.error;
+
+                        deferred.reject($scope.userMessage);
+                    }
+                });
 
             return deferred.promise;
         }
@@ -307,14 +301,74 @@ angular.module('regCartApp')
             }
         });
 
-        $scope.invokeActionLink = function (actionLink) {
-            // call the backend service here to persist something
-            CartService.invokeActionLink(actionLink).query({},
-                function (response) {
-                    standardizeCourseData(response);
-                    $scope.cart.items.unshift(response);
-                    $scope.removeUserMessage();
+
+        $scope.lastCartItems = null;
+        $scope.clearCart = function() {
+            $scope.userMessage = {
+                txt: 'Clearing Cart',
+                type: STATUS.processing
+            };
+
+            CartService.clearCart(TermsService.getTermId())
+                .then(function() {
+                    // Persist the last cart items
+                    $scope.lastCartItems = $scope.cart.items.splice(0);
+
+                    // Set a custom message with an actionLink that we'll catch in the invokeActionLink method
+                    $scope.userMessage = {
+                        txt: 'Cleared Cart',
+                        type: STATUS.success,
+                        actionLink: 'UNDO_CLEAR_CART',
+                        linkText: 'Undo'
+                    };
+                }, function(error) {
+                    $scope.userMessage = {
+                        txt: error,
+                        type: STATUS.error
+                    };
                 });
+        };
+
+        $scope.undoClearCart = function() {
+            if (angular.isArray($scope.lastCartItems)) {
+                $scope.addToCartStatus = STATUS.processing;
+                addCoursesToCart($scope.lastCartItems);
+            }
+        };
+
+        function addCoursesToCart(courses) {
+            // We get a Transaction exception if we blast the server with all of them at once, add them in 1 at a time then.
+//            for (var i = 0; i < courses.length; i++) {
+//                addCourseToCart(courses[i]);
+//            }
+
+            if (courses.length > 0) {
+                var course = courses.pop(); // Put it back in the order it was in before
+                CartService.addCourseToCart($scope.cart.cartId, TermsService.getTermId(), course)
+                    .then(function(response) {
+                        var newCourse = standardizeCourseData(response);
+                        $scope.cart.items.unshift(newCourse);
+
+                        addCoursesToCart(courses);
+                    });
+            } else {
+                $scope.addToCartStatus = STATUS.success;
+                $scope.removeUserMessage();
+            }
+        }
+
+        $scope.invokeActionLink = function (actionLink) {
+            if (actionLink === 'UNDO_CLEAR_CART') {
+                $scope.undoClearCart();
+            } else {
+                // call the backend service here to persist something
+                CartService.invokeActionLink(actionLink).query({},
+                    function (response) {
+                        standardizeCourseData(response);
+                        $scope.cart.items.unshift(response);
+                        $scope.removeUserMessage();
+                    });
+            }
         };
 
         $scope.addCartItemToWaitlist = function (cartItem) {
@@ -346,6 +400,8 @@ angular.module('regCartApp')
                 $scope.userMessage.txt = null;
                 $scope.userMessage.linkText = null;
             }
+
+            $scope.lastCartItems = null;
         };
 
         $scope.removeCartResultItem = function (cartResultItem) {

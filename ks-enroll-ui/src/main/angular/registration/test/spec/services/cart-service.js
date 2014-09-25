@@ -50,13 +50,15 @@ describe('Service: CartService', function () {
 
     describe('CartService.addCourseToCart', function() {
         it('should add a course to the cart', inject(function (CartService, APP_URL) {
-            var courseCode = 'CHEM232',
+            var cartId = 'a399078d-31e4-4a92-9319-c5cd02f48ca2',
+                termId = 'kuali.atp.2012Fall',
+                courseCode = 'chem232',
                 regGroupCode = '1001';
 
             $httpBackend.expectPOST(APP_URL + 'CourseRegistrationCartClientService/addCourseToCart')
                 .respond(200, {
                     cartItemId:'81fd8bbd-7382-42fb-a3cb-52feed4e5fbc',
-                    courseCode:'CHEM232',
+                    courseCode:'chem232',
                     regGroupId:'58353152-6f25-44d9-8ec0-802956bebe0f',
                     regGroupCode:'1001',
                     courseTitle:'Organic Chemistry Laboratory I',
@@ -66,17 +68,17 @@ describe('Service: CartService', function () {
                     cartId:'a399078d-31e4-4a92-9319-c5cd02f48ca2'
                 });
 
-            var response = CartService.addCourseToCart().query({
+            CartService.addCourseToCart(cartId, termId, {
                 courseCode: courseCode,
                 regGroupCode: regGroupCode
+            }).then(function(response) {
+                expect(response.cartId).toBe(cartId);
+                expect(response.cartItemId).toBe('81fd8bbd-7382-42fb-a3cb-52feed4e5fbc');
+                expect(response.courseCode).toBe(courseCode);
+                expect(response.regGroupCode).toBe(regGroupCode);
+                expect(response.courseTitle).toBe('Organic Chemistry Laboratory I');
             });
             $httpBackend.flush();
-
-            expect(response.cartId).toBe('a399078d-31e4-4a92-9319-c5cd02f48ca2');
-            expect(response.cartItemId).toBe('81fd8bbd-7382-42fb-a3cb-52feed4e5fbc');
-            expect(response.courseCode).toBe(courseCode);
-            expect(response.regGroupCode).toBe(regGroupCode);
-            expect(response.courseTitle).toBe('Organic Chemistry Laboratory I');
         }));
     });
 });

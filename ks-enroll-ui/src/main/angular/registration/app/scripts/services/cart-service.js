@@ -72,8 +72,20 @@ angular.module('regCartApp')
             return ServiceUtilities.getData(URLS.courseRegistrationCart + '/searchForCart');
         };
 
-        this.addCourseToCart = function () {
-            return ServiceUtilities.postData(URLS.courseRegistrationCart + '/addCourseToCart');
+        this.addCourseToCart = function (cartId, termId, course) {
+            if (course.courseCode) {
+                course.courseCode = course.courseCode.toUpperCase();
+            }
+
+            return ServiceUtilities.postData(URLS.courseRegistrationCart + '/addCourseToCart').query({
+                    cartId: cartId,
+                    termId: termId,
+                    courseCode: course.courseCode || null,
+                    regGroupCode: course.regGroupCode || null,
+                    regGroupId: course.regGroupId || null,
+                    gradingOptionId: course.gradingOptionId || null,
+                    credits: course.credits || null
+                }).$promise;
         };
 
         this.removeItemFromCart = function ($actionLink) {
@@ -86,6 +98,12 @@ angular.module('regCartApp')
 
         this.updateCartItem = function () {
             return ServiceUtilities.putData(URLS.courseRegistrationCart + '/updateCartItem');
+        };
+
+        this.clearCart = function (termId) {
+            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/clearCart').query({
+                termId: termId
+            }).$promise;
         };
 
         this.submitCart = function () {
