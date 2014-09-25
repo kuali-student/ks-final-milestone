@@ -25,13 +25,14 @@ import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
  * markup xml at CourseViewReviewProposal.xml
  *
  */
-public class ActivityInfoWrapper extends DTOWrapperBase {
+public class ActivityInfoWrapper extends DTOWrapperBase implements CourseCompareCollectionElement{
 
     private String activityType;
     private Integer anticipatedClassSize;
     private String durationCount;
     private String contactHours;
     private boolean hightlightRow;
+    private boolean fakeObjectForCompare;
 
     /**
      * Not being used from any other java classes. It's here for Spring/krad to
@@ -69,7 +70,7 @@ public class ActivityInfoWrapper extends DTOWrapperBase {
      */
     @SuppressWarnings("unused")
     public String getContactHours() {
-        return StringUtils.defaultIfEmpty(contactHours,"");
+        return StringUtils.defaultIfEmpty(contactHours, "");
     }
 
     /**
@@ -93,12 +94,44 @@ public class ActivityInfoWrapper extends DTOWrapperBase {
         return StringUtils.defaultIfEmpty(durationCount,"");
     }
 
+    /**
+     * @see org.kuali.student.cm.course.form.wrapper.CourseCompareCollectionElement#isHightlightRow()
+     * @return
+     */
+    @Override
     public boolean isHightlightRow() {
         return hightlightRow;
     }
 
+    /**
+     * @see CourseCompareCollectionElement#setFakeObjectForCompare(boolean)
+     * @param hightlightRow
+     */
+    @Override
     public void setHightlightRow(boolean hightlightRow) {
         this.hightlightRow = hightlightRow;
+    }
+
+    /**
+     * @see #setFakeObjectForCompare(boolean)
+     * @return
+     */
+    @Override
+    public boolean isFakeObjectForCompare() {
+        return fakeObjectForCompare;
+    }
+
+    /**
+     * This flag is being used ONLY for compare view. In compare view, all the collections (LO, formats/activites
+     * and Outcomes) should be of same size for display purpose. We create fake collection elements for this
+     * purpose.
+     *
+     * @param fakeObjectForCompare
+     */
+    @Override
+    public void setFakeObjectForCompare(boolean fakeObjectForCompare) {
+        this.fakeObjectForCompare = fakeObjectForCompare;
+        this.hightlightRow = true;
     }
 
 }

@@ -27,10 +27,10 @@ import org.kuali.student.cm.course.form.wrapper.FormatInfoWrapper;
 import java.util.List;
 
 /**
- *
+ * @see CMCourseCollectionCompareModifierBase
  * @author Kuali Student Team
  */
-public class ViewCourseFormatCollectionModifier extends ViewCourseCollectionModifierBase {
+public class CMCourseFormatCollectionCompareModifier extends CMCourseCollectionCompareModifierBase {
 
     @Override
     public void performCollectionCompare(Object model, Component component) {
@@ -54,37 +54,41 @@ public class ViewCourseFormatCollectionModifier extends ViewCourseCollectionModi
 
         int formatIndex = 0;
         for (FormatInfoWrapper format : courseFormats) {
-            int activityIndex = 0;
-            for (ActivityInfoWrapper activity : format.getActivities()){
-                ActivityInfoWrapper compareActivity = getActivityInfo(compareFormats,formatIndex,activityIndex);
-                if (!compareActivity(activity,compareActivity)){
-                    activity.setHightlightRow(true);
-                    if (compareActivity != null){
-                        compareActivity.setHightlightRow(true);
+            if (!format.isFakeObjectForCompare()){
+                int activityIndex = 0;
+                for (ActivityInfoWrapper activity : format.getActivities()){
+                    if (!activity.isFakeObjectForCompare()){
+                        ActivityInfoWrapper compareActivity = getActivityInfo(compareFormats,formatIndex,activityIndex);
+                        if (!compareActivity(activity,compareActivity)){
+                            activity.setHightlightRow(true);
+                            if (compareActivity != null){
+                                compareActivity.setHightlightRow(true);
+                            }
+                        }
                     }
-                }
-                activityIndex++;
-
-            }
-
-            if (compareFormats.get(formatIndex).getActivities().size() > format.getActivities().size()){
-                while (compareFormats.get(formatIndex).getActivities().size() > activityIndex) {
-                    compareFormats.get(formatIndex).getActivities().get(activityIndex).setHightlightRow(true);
                     activityIndex++;
+
                 }
             }
+
+//            if (compareFormats.get(formatIndex).getActivities().size() > format.getActivities().size()){
+//                while (compareFormats.get(formatIndex).getActivities().size() > activityIndex) {
+//                    compareFormats.get(formatIndex).getActivities().get(activityIndex).setHightlightRow(true);
+//                    activityIndex++;
+//                }
+//            }
 
             formatIndex++;
         }
 
-        if (compareFormats.size() > courseFormats.size()) {
-            while (compareFormats.size() > formatIndex) {
-                for (ActivityInfoWrapper activity : compareFormats.get(formatIndex).getActivities()){
-                    activity.setHightlightRow(true);
-                }
-                formatIndex++;
-            }
-        }
+//        if (compareFormats.size() > courseFormats.size()) {
+//            while (compareFormats.size() > formatIndex) {
+//                for (ActivityInfoWrapper activity : compareFormats.get(formatIndex).getActivities()){
+//                    activity.setHightlightRow(true);
+//                }
+//                formatIndex++;
+//            }
+//        }
     }
 
 

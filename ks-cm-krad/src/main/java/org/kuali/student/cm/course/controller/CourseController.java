@@ -375,6 +375,8 @@ public class CourseController extends CourseRuleEditorController {
             compareCourseWrapper.setVersionText("Original Course");
             wrapper.setVersionText("Proposal");
 
+            ((CourseMaintainable) maintForm.getDocument().getOldMaintainableObject()).balanceCollectionsForCompare(wrapper,compareCourseWrapper);
+
         }
 
         //  Validate
@@ -415,6 +417,13 @@ public class CourseController extends CourseRuleEditorController {
         if (wrapper.getInstructorWrappers().size() == 0) {
             wrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
         }
+
+        // If it's a compare view, we need to cleanup fake collection objects used for compare
+        if (((MaintenanceDocumentForm) form).getDocument().getOldMaintainableObject().getDataObject() != null){
+            CourseMaintainable maintainable = (CourseMaintainable)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject();
+            maintainable.cleanUpCompareObjects(wrapper);
+        }
+
         return super.editProposalPage(form, result, request, response);
     }
 

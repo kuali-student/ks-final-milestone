@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Modifier which runs at APPLY_MODEL lifecycle phase and it clones all the items in a group and sets the  binding path
+ * accordingly. Also, it sets the highlight CSS if data is different between the two group items.
  *
  * @author Kuali Student Team
  */
@@ -54,14 +56,14 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
      */
     private List<String> excludeProperties = new ArrayList<>();
 
-    public List<String> getExcludeProperties() {
-        return excludeProperties;
-    }
-
-    public void setExcludeProperties(List<String> excludeProperties) {
-        this.excludeProperties = excludeProperties;
-    }
-
+    /**
+     * This method clones all the items in a group, sets proper binding path and mark for hightlight if the model
+     * data is different. This method is a direct copy of the base class method but has a lot of tweaks.
+     *
+     * @see CompareFieldCreateModifier#performModification(Object, org.kuali.rice.krad.uif.component.Component)
+     * @param model
+     * @param component
+     */
     @Override
     public void performModification(Object model, Component component) {
         if ((component != null) && !(component instanceof Group)) {
@@ -168,7 +170,7 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
                 List<CollectionGroup> collectionGroups = ViewLifecycleUtils.getElementsOfTypeDeep(compareItem, CollectionGroup.class);
 
                 for (CollectionGroup collectionGroup : collectionGroups){
-                    updateCollectionGroupPath(collectionGroup,comparable.getBindingObjectPath());
+                    updateCollectionGroupBindingPath(collectionGroup,comparable.getBindingObjectPath());
                 }
 
                 if (comparable.isReadOnly()) {
@@ -215,30 +217,49 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
         if (group.getLayoutManager() instanceof GridLayoutManager) {
             ((GridLayoutManager) group.getLayoutManager()).setRowCssClasses(rowCssClasses);
         }
+
         // update the group's list of components
         group.setItems(comparisonItems);
     }
 
-    protected void updateCollectionGroupPath(CollectionGroup collectionGroup,String path){
+    /**
+     * This method updates the binding path for all the items in a collection group and all its subcolletions
+     * recursively.
+     *
+     * @param collectionGroup
+     * @param bindingPath
+     */
+    protected void updateCollectionGroupBindingPath(CollectionGroup collectionGroup,String bindingPath){
 
-        ComponentUtils.setComponentPropertyDeep(collectionGroup, UifPropertyPaths.BIND_OBJECT_PATH,path);
-        ComponentUtils.setComponentPropertyDeep(collectionGroup, "fieldBindingObjectPath",path);
+        ComponentUtils.setComponentPropertyDeep(collectionGroup, UifPropertyPaths.BIND_OBJECT_PATH,bindingPath);
+        ComponentUtils.setComponentPropertyDeep(collectionGroup, "fieldBindingObjectPath",bindingPath);
 
         List<CollectionGroup> subCollection = collectionGroup.getSubCollections();
         for (CollectionGroup subCollectionGroup1 : subCollection){
-            updateCollectionGroupPath(subCollectionGroup1, path);
+            updateCollectionGroupBindingPath(subCollectionGroup1, bindingPath);
         }
 
         List<? extends Component> dataFields = collectionGroup.getItems();
         for (Component field : dataFields) {
-            ComponentUtils.setComponentPropertyDeep(field, UifPropertyPaths.BIND_OBJECT_PATH,path);
-            ComponentUtils.setComponentPropertyDeep(field, "fieldBindingObjectPath",path);
+            ComponentUtils.setComponentPropertyDeep(field, UifPropertyPaths.BIND_OBJECT_PATH,bindingPath);
+            ComponentUtils.setComponentPropertyDeep(field, "fieldBindingObjectPath",bindingPath);
             if (field instanceof DataField) {
-                ((DataField)field).getBindingInfo().setBindingObjectPath(path);
+                ((DataField)field).getBindingInfo().setBindingObjectPath(bindingPath);
             }
         }
     }
 
+    /**
+     * Copy of the base class implementation but we dont need setting 'showChangeIcon()' JS as the default
+     * implementation does.
+     *
+     * @param group
+     * @param compareItem
+     * @param model
+     * @param compareValueObjectBindingPath
+     * @return
+     */
+    @Override
     protected boolean performValueComparison(Group group, Component compareItem, Object model,
             String compareValueObjectBindingPath) {
         // get any attribute fields for the item so we can compare the values
@@ -263,6 +284,22 @@ public class CMCourseFieldCompareModifier extends CompareFieldCreateModifier{
             }
         }
         return valueChanged;
+    }
+
+    /**
+     * @see #setExcludeProperties(java.util.List)
+     * @return
+     */
+    public List<String> getExcludeProperties() {
+        return excludeProperties;
+    }
+
+    /**
+     * List of fields to exclude for comparsion and marking the fields for hightlight.
+     * @param excludeProperties
+     */
+    public void setExcludeProperties(List<String> excludeProperties) {
+        this.excludeProperties = excludeProperties;
     }
 
 }

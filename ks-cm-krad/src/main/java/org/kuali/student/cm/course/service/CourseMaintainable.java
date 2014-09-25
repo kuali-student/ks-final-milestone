@@ -79,4 +79,20 @@ public interface CourseMaintainable extends CommonCourseMaintainable {
 
     public CourseCopyHelper getCourseCopyHelper();
 
+    /**
+     * This method adds dummy collection elements to make it of same size sothat it can be used at the compare view
+     *
+     * @param wrapper1
+     * @param wrapper2
+     */
+    public void balanceCollectionsForCompare(CourseInfoWrapper wrapper1, CourseInfoWrapper wrapper2);
+
+    /**
+     * This method cleans up all the fake objects from the collections when the user navigates from review proposal
+     * to edit proposal.
+     *
+     * @param wrapper
+     */
+    public void cleanUpCompareObjects(CourseInfoWrapper wrapper);
+
 }

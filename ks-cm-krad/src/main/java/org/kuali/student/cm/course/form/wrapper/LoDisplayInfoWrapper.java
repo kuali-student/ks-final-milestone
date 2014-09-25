@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrapper {
+public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrapper, CourseCompareCollectionElement {
 
     private static final long serialVersionUID = 8232176748014317444L;
 
@@ -43,6 +43,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
     protected boolean moveDownable;
 
     protected boolean hightlightRow;
+    protected boolean fakeObjectForCompare;
 
     public LoDisplayInfoWrapper() {
     }
@@ -212,33 +213,71 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
      * Used for display on the Review Course Proposal page.
      */
     public String getTitleAndCategoriesAsString() {
-        StringBuilder out = new StringBuilder(getLoInfo().getDescr().getPlain());
-        if (! getLoCategoryInfoList().isEmpty()) {
-            List<String> categoryNames = new ArrayList<>();
-            for (LoCategoryInfo categoryInfo : getLoCategoryInfoList()) {
-                categoryNames.add(categoryInfo.getName());
+        if (getLoInfo() != null){
+            StringBuilder out = new StringBuilder(getLoInfo().getDescr().getPlain());
+            if (! getLoCategoryInfoList().isEmpty()) {
+                List<String> categoryNames = new ArrayList<>();
+                for (LoCategoryInfo categoryInfo : getLoCategoryInfoList()) {
+                    categoryNames.add(categoryInfo.getName());
+                }
+                out.append(" (")
+                    .append(StringUtils.join(categoryNames, CurriculumManagementConstants.COLLECTION_ITEMS_COMMA_DELIMITER))
+                    .append(")");
             }
-            out.append(" (")
-                .append(StringUtils.join(categoryNames, CurriculumManagementConstants.COLLECTION_ITEMS_COMMA_DELIMITER))
-                .append(")");
+            return out.toString();
+        } else{
+            return StringUtils.EMPTY;
         }
-        return out.toString();
     }
 
     @Override
     public boolean isUserEntered() {
-        if (StringUtils.isNotBlank(getLoInfo().getDescr().getPlain())) {
-            return true;
+        if (getLoInfo() != null){
+            if (StringUtils.isNotBlank(getLoInfo().getDescr().getPlain())) {
+                return true;
+            }
         }
         return false;
     }
 
+    /**
+     * @see org.kuali.student.cm.course.form.wrapper.CourseCompareCollectionElement#isHightlightRow()
+     * @return
+     */
+    @Override
     public boolean isHightlightRow() {
         return hightlightRow;
     }
 
+    /**
+     * @see CourseCompareCollectionElement#setFakeObjectForCompare(boolean)
+     * @param hightlightRow
+     */
+    @Override
     public void setHightlightRow(boolean hightlightRow) {
         this.hightlightRow = hightlightRow;
+    }
+
+    /**
+     * @see #setFakeObjectForCompare(boolean)
+     * @return
+     */
+    @Override
+    public boolean isFakeObjectForCompare() {
+        return fakeObjectForCompare;
+    }
+
+    /**
+     * This flag is being used ONLY for compare view. In compare view, all the collections (LO, formats/activites
+     * and Outcomes) should be of same size for display purpose. We create fake collection elements for this
+     * purpose.
+     *
+     * @param fakeObjectForCompare
+     */
+    @Override
+    public void setFakeObjectForCompare(boolean fakeObjectForCompare) {
+        this.fakeObjectForCompare = fakeObjectForCompare;
+        this.hightlightRow = true;
     }
 
 }

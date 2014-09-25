@@ -26,13 +26,14 @@ import org.kuali.student.cm.course.form.wrapper.OutcomeReviewSection;
 import java.util.List;
 
 /**
- *
+ * @see CMCourseCollectionCompareModifierBase
  * @author Kuali Student Team
  */
-public class ViewCourseOutcomeCollectionModifier extends ViewCourseCollectionModifierBase {
+public class CMCourseOutcomeCollectionCompareModifier extends CMCourseCollectionCompareModifierBase {
 
     @Override
     public void performCollectionCompare(Object model, Component component) {
+
         List<OutcomeReviewSection> outcomes;
         List<OutcomeReviewSection> outcomeCompares;
 
@@ -51,17 +52,19 @@ public class ViewCourseOutcomeCollectionModifier extends ViewCourseCollectionMod
         int index = 0;
         for (OutcomeReviewSection outcome : outcomes) {
 
+            if (!outcome.isFakeObjectForCompare()){
 
-            OutcomeReviewSection compareOutcome = getOutcomeCompare(outcomeCompares,index);
-            if (compareOutcome != null) {
+                OutcomeReviewSection compareOutcome = getOutcomeCompare(outcomeCompares,index);
+                if (compareOutcome != null) {
 
-                if (!StringUtils.equals(outcome.getOutComeValue(),compareOutcome.getOutComeValue()) ||
-                    !StringUtils.equals(outcome.getOutComeType(),compareOutcome.getOutComeType())){
+                    if (!StringUtils.equals(outcome.getOutComeValue(),compareOutcome.getOutComeValue()) ||
+                        !StringUtils.equals(outcome.getOutComeType(),compareOutcome.getOutComeType())){
+                        outcome.setHightlightRow(true);
+                        compareOutcome.setHightlightRow(true);
+                    }
+                } else {
                     outcome.setHightlightRow(true);
-                    compareOutcome.setHightlightRow(true);
                 }
-            } else {
-                outcome.setHightlightRow(true);
             }
 
             index++;

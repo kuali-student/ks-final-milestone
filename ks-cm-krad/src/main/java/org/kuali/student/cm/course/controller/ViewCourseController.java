@@ -108,6 +108,8 @@ public class ViewCourseController extends KsUifControllerBase {
                 //  See if the requisites on the two courses are equal.
                 form.setRequisitesEqual(CourseProposalUtil.isRequisitesEqual(form.getCourseInfoWrapper().getAgendas(),
                         form.getCompareCourseInfoWrapper().getAgendas()));
+
+                ((CourseMaintainable) form.getViewHelperService()).balanceCollectionsForCompare(courseWrapper,compareCourseWrapper);
             }
             form.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
             form.setComparison(isComparison);

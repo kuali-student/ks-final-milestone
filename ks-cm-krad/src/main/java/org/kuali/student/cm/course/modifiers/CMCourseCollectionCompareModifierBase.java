@@ -30,17 +30,20 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Base Modifier to find the data difference in Collection elements and mark it for compare highlight.
+ * {@link CMCourseFieldCompareModifier} will compare only field differences. This modifier will take care of
+ * the collections compare.
  *
  * @author Kuali Student Team
  */
-public abstract class ViewCourseCollectionModifierBase extends ComponentModifierBase implements ViewCourseCollectionModifier {
+public abstract class CMCourseCollectionCompareModifierBase extends ComponentModifierBase implements ViewCourseCollectionModifier {
 
     @Override
     public void performModification(Object model, Component component) {
 
         if ((component != null) && !(component instanceof CollectionGroup)) {
             throw new IllegalArgumentException(
-                    "ViewCourseFormatCollectionModifier only support CollectionGroup components, found type: " + component.getClass());
+                    "CMCourseFormatCollectionCompareModifier only support CollectionGroup components, found type: " + component.getClass());
         }
 
         if (component == null) {
@@ -58,14 +61,14 @@ public abstract class ViewCourseCollectionModifierBase extends ComponentModifier
         List<String> hiddenProperties = new ArrayList<>();
         hiddenProperties.add("hightlightRow");
 
-        for (DataField field : itemFields) {
-            field.setAdditionalHiddenPropertyNames(hiddenProperties);
+        if (!itemFields.isEmpty()){
+            itemFields.get(0).setAdditionalHiddenPropertyNames(hiddenProperties);
         }
 
         performCollectionCompare(model,component);
 
-        //This document load on client look for the highlight=true hidden fields and adds the highlighter css to it's closest tr
-        group.setOnDocumentReadyScript("jQuery(\"input[name$='hightlightRow'][value=true]\").closest(\"tr\").addClass(\"cm-compare-highlighter\");");
+        //This document load on client look for the highlight=true hidden fields and adds the highlighter css to all the rows.
+        group.setOnDocumentReadyScript("jQuery(\"input[name$='hightlightRow'][value=true]\").closest(\"tbody\").children(\"tr\").addClass(\"cm-compare-highlighter\");");
 
     }
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +39,7 @@ import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.wrapper.CourseCompareCollectionElement;
 import org.kuali.student.cm.course.form.wrapper.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper;
@@ -1908,6 +1911,121 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
     public void setCourseCopyHelper(CourseCopyHelper courseCopyHelper) {
         this.courseCopyHelper = courseCopyHelper;
+    }
+
+    /**
+     * @see CourseMaintainable#balanceCollectionsForCompare(org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper, org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper)
+     * @param wrapper1
+     * @param wrapper2
+     */
+    public void balanceCollectionsForCompare(CourseInfoWrapper wrapper1, CourseInfoWrapper wrapper2){
+
+        List<OutcomeReviewSection> outcomes = wrapper1.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
+        List<OutcomeReviewSection> outcomeCompares = wrapper2.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
+
+        if (outcomes.size() > outcomeCompares.size()){
+            for (;outcomeCompares.size() < outcomes.size();){
+                OutcomeReviewSection outcome = new OutcomeReviewSection(StringUtils.EMPTY,StringUtils.EMPTY);
+                outcome.setFakeObjectForCompare(true);
+                outcomeCompares.add(outcome);
+            }
+        }
+
+        if (outcomeCompares.size() > outcomes.size()){
+            for (;outcomes.size() < outcomeCompares.size();){
+                OutcomeReviewSection outcome = new OutcomeReviewSection(StringUtils.EMPTY,StringUtils.EMPTY);
+                outcome.setFakeObjectForCompare(true);
+                outcomes.add(outcome);
+            }
+        }
+
+        List<LoDisplayInfoWrapper> loDisplays = wrapper1.getLoDisplayWrapperModel().getLoWrappers();
+        List<LoDisplayInfoWrapper> compareLoDisplays = wrapper2.getLoDisplayWrapperModel().getLoWrappers();
+
+        if (loDisplays.size() > compareLoDisplays.size()){
+            for (;compareLoDisplays.size() < loDisplays.size();){
+                LoDisplayInfoWrapper lo = new LoDisplayInfoWrapper();
+                lo.setFakeObjectForCompare(true);
+                compareLoDisplays.add(lo);
+            }
+        }
+
+        if (compareLoDisplays.size() > loDisplays.size()){
+            for (;loDisplays.size() < compareLoDisplays.size();){
+                LoDisplayInfoWrapper lo = new LoDisplayInfoWrapper();
+                lo.setFakeObjectForCompare(true);
+                loDisplays.add(lo);
+            }
+        }
+
+        List<FormatInfoWrapper> formats = wrapper1.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+        List<FormatInfoWrapper> compareFormats = wrapper2.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+
+        int index = formats.size()-1;
+
+        if (formats.size() > compareFormats.size()){
+            for (;compareFormats.size() < formats.size();index++){
+                FormatInfoWrapper format = new FormatInfoWrapper();
+                compareFormats.add(format);
+                format.setFakeObjectForCompare(true);
+                while(format.getActivities().size() < formats.get(index).getActivities().size()){
+                    ActivityInfoWrapper activity = new ActivityInfoWrapper();
+                    format.getActivities().add(activity);
+                    activity.setFakeObjectForCompare(true);
+                }
+            }
+        }
+
+        index = compareFormats.size()-1;
+        if (compareFormats.size() > formats.size()){
+            for (;formats.size() < compareFormats.size();){
+                FormatInfoWrapper format = new FormatInfoWrapper();
+                formats.add(format);
+                format.setFakeObjectForCompare(true);
+                while(format.getActivities().size() < compareFormats.get(index).getActivities().size()){
+                    ActivityInfoWrapper activity = new ActivityInfoWrapper();
+                    format.getActivities().add(activity);
+                    activity.setFakeObjectForCompare(true);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @see CourseMaintainable#cleanUpCompareObjects(org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper)
+     * @param wrapper
+     */
+    public void cleanUpCompareObjects(CourseInfoWrapper wrapper){
+
+        List<OutcomeReviewSection> outcomes = wrapper.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
+
+        filterFakeCollectionElements(outcomes);
+
+        List<FormatInfoWrapper> formats = wrapper.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
+        filterFakeCollectionElements(formats);
+
+        for (FormatInfoWrapper format : formats){
+            filterFakeCollectionElements(format.getActivities());
+        }
+
+        List<LoDisplayInfoWrapper> loDisplays = wrapper.getLoDisplayWrapperModel().getLoWrappers();
+        filterFakeCollectionElements(loDisplays);
+
+    }
+
+    /**
+     * This method filters out all the fake elements added to a collection.
+     *
+     * @param collection
+     */
+    protected void filterFakeCollectionElements(List<? extends CourseCompareCollectionElement> collection){
+        CollectionUtils.filter(collection, new Predicate() {
+            public boolean evaluate(Object input) {
+                return !((CourseCompareCollectionElement) input).isFakeObjectForCompare();
+            }
+        });
+
     }
 
 }

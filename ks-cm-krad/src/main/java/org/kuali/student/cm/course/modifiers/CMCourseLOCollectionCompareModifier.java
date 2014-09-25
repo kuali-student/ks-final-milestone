@@ -28,9 +28,10 @@ import java.util.List;
 
 /**
  *
+ * @see CMCourseCollectionCompareModifierBase
  * @author Kuali Student Team
  */
-public class ViewCourseLOCollectionModifier extends ViewCourseCollectionModifierBase {
+public class CMCourseLOCollectionCompareModifier extends CMCourseCollectionCompareModifierBase {
 
 
     @Override
@@ -53,28 +54,30 @@ public class ViewCourseLOCollectionModifier extends ViewCourseCollectionModifier
         int index = 0;
         for (LoDisplayInfoWrapper lo : los.getLoWrappers()) {
 
-            LoDisplayInfoWrapper loToCompare = getLOFromCompare(losCompare.getLoWrappers(),index);
+            if (!lo.isFakeObjectForCompare()){
+                LoDisplayInfoWrapper loToCompare = getLOFromCompare(losCompare.getLoWrappers(),index);
 
-            if (loToCompare != null){
-//                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
-                if (!StringUtils.equals(lo.getLoInfo().getDescr().getPlain(), loToCompare.getLoInfo().getDescr().getPlain())){
+                if (loToCompare != null){
+    //                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
+                    if (!StringUtils.equals(lo.getLoInfo().getDescr().getPlain(), loToCompare.getLoInfo().getDescr().getPlain())){
+                        lo.setHightlightRow(true);
+                        loToCompare.setHightlightRow(true);
+                    }
+                } else {
                     lo.setHightlightRow(true);
-                    loToCompare.setHightlightRow(true);
                 }
-            } else {
-                lo.setHightlightRow(true);
             }
 
             index++;
 
         }
 
-        if (losCompare.getLoWrappers().size() > los.getLoWrappers().size()){
-            while (losCompare.getLoWrappers().size() > index) {
-                losCompare.getLoWrappers().get(index).setHightlightRow(true);
-                index++;
-            }
-        }
+//        if (losCompare.getLoWrappers().size() > los.getLoWrappers().size()){
+//            while (losCompare.getLoWrappers().size() > index) {
+//                losCompare.getLoWrappers().get(index).setHightlightRow(true);
+//                index++;
+//            }
+//        }
     }
 
     protected LoDisplayInfoWrapper getLOFromCompare(List<LoDisplayInfoWrapper> compareLOs, int index){
