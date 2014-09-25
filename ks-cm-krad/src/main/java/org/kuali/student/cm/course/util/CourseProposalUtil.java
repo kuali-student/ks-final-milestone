@@ -177,7 +177,7 @@ public class CourseProposalUtil {
     }
 
     /**
-     * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * Return false if there is a 'DRAFT' course or given Version is in 'SUPERSEDED' state
      * @param courseInfo
      * @param contextInfo
      * @return
@@ -216,15 +216,12 @@ public class CourseProposalUtil {
             }
             if (courseVersionWrapper.getSequence() == versionSequenceNumber && (StringUtils.equals(courseVersionWrapper.getCourseStatus(), DtoConstants.STATE_SUPERSEDED))) {
                 return false;
-            } else {
-                if (StringUtils.equals(courseVersionWrapper.getCourseStatus(),DtoConstants.STATE_DRAFT)){
+            } else  if (StringUtils.equals(courseVersionWrapper.getCourseStatus(),DtoConstants.STATE_DRAFT)){
                     return false;
-                }
             }
         }
-
         return true;
-        }
+    }
 
     public static boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
         String courseId = course.getId();
