@@ -78,16 +78,20 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
                               HttpServletRequest request, HttpServletResponse response) {
 
         AppliedHoldMaintenanceWrapper holdWrapper = this.getAppliedHoldWrapper(form);
-        if (!this.getViewHelper(form).isAuthorized(holdWrapper.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD)) {
-            GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
-        } else {
-            try {
-                holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
-                super.route(form, result, request, response);
-            } catch (Exception e) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+        if (holdWrapper.getHoldIssue() != null) {
+            if (!this.getViewHelper(form).isAuthorized(holdWrapper.getHoldIssue().getId(), HoldsConstants.APPLIED_HOLD_ACTION_EVENT_APPLY_HOLD)) {
+                GlobalVariables.getMessageMap().putError(HoldsConstants.HOLD_ISSUE_HOLD_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_UNAUTHORIZED_APPLY);
+            } else {
+                try {
+                    holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY);
+                    super.route(form, result, request, response);
+                } catch (Exception e) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
+                }
             }
-        }
+        } else
+            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_HOLD_CODE_INVALID);
+
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
