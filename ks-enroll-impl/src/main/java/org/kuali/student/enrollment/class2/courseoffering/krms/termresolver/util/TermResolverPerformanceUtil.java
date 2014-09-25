@@ -20,7 +20,6 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,21 +34,9 @@ public class TermResolverPerformanceUtil {
     private static Map<String, Long> TOTAL_HITS = new ConcurrentHashMap<>();
 
     public static synchronized void putStatistics(String termResolver, DateTime start, DateTime end) {
-        Long time = end.getMillis() - start.getMillis();
-        Long totalTime = TOTAL_TIME.get(termResolver);
-        Long totalHits = TOTAL_HITS.get(termResolver);
-        if (totalTime == null) {
-            totalTime = time;
-        } else {
-            totalTime += time;
-        }
-        if (totalHits == null) {
-            totalHits = 1l;
-        } else {
-            totalHits++;
-        }
-        TOTAL_TIME.put(termResolver, totalTime);
-        TOTAL_HITS.put(termResolver, totalHits);
+        //spin the request off as a thread so that the calling method is not delayed
+        Thread thread = new Thread(new StatisticsUpdater(termResolver, start, end));
+        thread.start();
     }
 
     public static synchronized Map<String, List<String>> getStatistics() {
@@ -72,5 +59,41 @@ public class TermResolverPerformanceUtil {
     public static synchronized void clearStatistics() {
         TOTAL_HITS.clear();
         TOTAL_TIME.clear();
+    }
+
+    private static synchronized void updateStatistics(String termResolver, DateTime start, DateTime end) {
+        Long time = end.getMillis() - start.getMillis();
+        Long totalTime = TOTAL_TIME.get(termResolver);
+        Long totalHits = TOTAL_HITS.get(termResolver);
+        if (totalTime == null) {
+            totalTime = time;
+        } else {
+            totalTime += time;
+        }
+        if (totalHits == null) {
+            totalHits = 1l;
+        } else {
+            totalHits++;
+        }
+        TOTAL_TIME.put(termResolver, totalTime);
+        TOTAL_HITS.put(termResolver, totalHits);
+    }
+
+    private static class StatisticsUpdater implements Runnable {
+
+        private String termResolver;
+        private DateTime start;
+        private DateTime end;
+
+        private StatisticsUpdater(String termResolver, DateTime start, DateTime end) {
+            this.termResolver = termResolver;
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public void run() {
+            updateStatistics(termResolver, start, end);
+        }
     }
 }

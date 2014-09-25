@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
@@ -20,6 +21,8 @@ public class CourseRegistrationInitializationNode extends AbstractCourseRegistra
 
     @Override
     public RegistrationRequestEngineMessage process(MapMessage message) {
+        DateTime startTime = new DateTime();
+
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -38,7 +41,13 @@ public class CourseRegistrationInitializationNode extends AbstractCourseRegistra
             }
 
             // Use the engine service to initialize the request
-            return courseRegistrationEngineService.initializeRegistrationRequest(regReqId, contextInfo);
+            RegistrationRequestEngineMessage registrationRequestEngineMessage =  courseRegistrationEngineService.
+                    initializeRegistrationRequest(regReqId, contextInfo);
+
+            DateTime endTime = new DateTime();
+            TermResolverPerformanceUtil.putStatistics("CourseRegistrationInitializationNode", startTime, endTime);
+
+            return registrationRequestEngineMessage;
 
         } catch (Exception e) {
             throw new RuntimeException("Error processing request", e);

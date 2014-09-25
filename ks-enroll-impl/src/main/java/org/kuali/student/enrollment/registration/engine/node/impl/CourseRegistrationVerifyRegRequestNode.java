@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.registration.engine.node.impl;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
@@ -68,6 +70,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     @Override
     public RegistrationRequestEngineMessage process(RegistrationRequestEngineMessage message) {
 
+        DateTime startTime = new DateTime();
+
         RegistrationRequest regRequest = message.getRegistrationRequest();
         ContextInfo contextInfo = message.getContextInfo();
         contextInfo.setPrincipalId(regRequest.getRequestorId());
@@ -83,6 +87,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         List<ValidationResultInfo> errors = this.getErrors(validationResults);
         List<ValidationResultInfo> warnings = this.getWarnings(validationResults);
         if (errors.isEmpty() && warnings.isEmpty() && transactionException == null) {
+            DateTime endTime = new DateTime();
+            TermResolverPerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
             return message;
         }
 
@@ -136,6 +142,9 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         } catch (Exception ex) {
             throw new RuntimeException("Error updating transaction with errors. ", ex);
         }
+
+        DateTime endTime = new DateTime();
+        TermResolverPerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
 
         return message;
 
