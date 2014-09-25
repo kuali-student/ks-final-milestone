@@ -34,6 +34,9 @@ import java.util.List;
 public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegistrationNode<RegistrationRequestEngineMessage, RegistrationRequestEngineMessage> {
 
     public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestNode.class);
+
+    private static final int VERSION_MISMATCH_TRIES = 3;
+
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
     private CourseRegistrationErrorProcessor courseRegistrationErrorProcessor;
@@ -87,28 +90,47 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             if (transactionException != null) {
                 message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
             } else {
-                String lprTransactionId = regRequest.getId();
-
                 // Get the current persisted transaction
+                String lprTransactionId = regRequest.getId();
                 LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
+                String version = trans.getMeta().getVersionInd();
 
-                //Update the warnings
-                updateLprTransactionWithWarnings(trans, warnings);
+                int tryCounter = 0;
+                boolean keepTrying = true;
+                while (keepTrying) {
+                    //Update the warnings
+                    updateLprTransactionWithWarnings(trans, warnings);
 
-                //Only set state to failed for non admin registration requests.
-                String stateKey = isAdminRegistration(regRequest) ? null : LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY;
+                    //Only set state to failed for non admin registration requests.
+                    String stateKey = isAdminRegistration(regRequest) ? null : LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY;
 
-                //Update the errors
-                updateLprTransactionWithErrors(trans, errors, stateKey);
+                    //Update the errors
+                    updateLprTransactionWithErrors(trans, errors, stateKey);
 
-                //Persist the updated transaction
-                getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
+                    //Check the current transaction version
+                    LprTransactionInfo currentTrans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
+                    String currentVersion = currentTrans.getMeta().getVersionInd();
+                    if (currentVersion.equals(version)) {
+                        //Persist the updated transaction
+                        getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
 
-                // the operation above has changed the registration request. Pull from the database and update existing
-                // message.
-                RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
-                updateRegRequestWithErrors(updatedRequestInfo, errors, stateKey);
-                message.setRegistrationRequest(updatedRequestInfo);
+                        // the operation above has changed the registration request. Pull from the database and update existing
+                        // message.
+                        RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
+                        updateRegRequestWithErrors(updatedRequestInfo, errors, stateKey);
+                        message.setRegistrationRequest(updatedRequestInfo);
+                        keepTrying = false;
+                    } else {
+                        tryCounter++;
+                        if (tryCounter <= VERSION_MISMATCH_TRIES) {
+                            LOG.warn("Versions do not match...attempting to update again. Version: {}. Current version: {}", version, currentVersion);
+                            trans = currentTrans;
+                            version = currentVersion;
+                        } else {
+                            throw new RuntimeException("Failed version mismatch check "+tryCounter+" times, unable to continue");
+                        }
+                    }
+                }
             }
 
         } catch (Exception ex) {
