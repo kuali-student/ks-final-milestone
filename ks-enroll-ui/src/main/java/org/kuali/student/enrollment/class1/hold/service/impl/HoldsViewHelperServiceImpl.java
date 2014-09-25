@@ -54,6 +54,7 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
         try {
             Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_NAME, holdIssueFrom.getName());
+            searchCriteria.put(HoldsConstants.HOLD_ISSUE_HOLD_CODE, holdIssueFrom.getCode());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_TYPE_KEY, holdIssueFrom.getTypeKey());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_STATE_KEY, holdIssueFrom.getState());
             searchCriteria.put(HoldsConstants.HOLD_ISSUE_ORG_ID, holdIssueFrom.getOrganizationId());
