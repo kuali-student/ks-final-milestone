@@ -104,7 +104,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
                         isValid = false;
                     }
                 } else if (appliedHold.getId() == null) {
-                    List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
+                    List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getActiveAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
                             appliedHold.getPersonId(), createContextInfo());
                     for (AppliedHoldInfo existingAppliedHold : appliedHolds) {
                         if (existingAppliedHold.getExpirationDate() == null) {
