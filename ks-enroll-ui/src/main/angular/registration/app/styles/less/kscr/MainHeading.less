@@ -27,6 +27,8 @@
     }
 
     @media screen and @sm-Max {
+      text-align: center;
+      padding-bottom: 2rem;
         // Main Cart heading in small format
        &-CartHeading {
           padding: 0 0.5rem;
@@ -154,6 +156,11 @@
               float: none;
         }
     }
+
+    @media screen and @sm-Max {
+      float: none;
+      display: inline-block;
+    }
 }
 
 // Heading link icon (>>)
@@ -252,8 +259,31 @@
             display: none; // Hide the main buttons in large-format
         }
     }
+}
 
+.kscr-MainHeading-roundedText {
+//  position: relative;
+//  top: 0.1rem;
+//  display: inline-block;
+//  font-family: 'Glyphicons Halflings';
+//  -webkit-font-smoothing: antialiased;
+//  font-style: normal;
+//  font-weight: normal;
+//  line-height: 1;
+//  -moz-osx-font-smoothing: grayscale;
 
+  position: relative;
+  top: 0rem;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  color: @lightGray;
+  .font-size(14);
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: @whiteBackground;
+  border: 1px solid @bodyColorDark;
+  border-radius: 50%;
 }
 
 #kscr-CartHeading {
