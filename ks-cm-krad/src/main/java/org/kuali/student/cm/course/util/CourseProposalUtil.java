@@ -29,6 +29,7 @@ import org.kuali.student.cm.common.util.CMUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
+import org.kuali.student.cm.course.form.wrapper.VersionWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -36,10 +37,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -142,37 +140,6 @@ public class CourseProposalUtil {
             return false;
         }
 
-        return hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo);
-    }
-
-    /**
-     * A course cannot be modified to new version if:
-     * - There is no later version in either 'DRAFT' or 'SUPERSEDED' states
-     * - There is no version in "in progress" 'RETIRE' state.
-     * @param courseInfo
-     * @param contextInfo
-     * @return
-     * @throws Exception
-     */
-
-    public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-        if(!hasInprogressDraftOrSupersededVersion(courseInfo,contextInfo)) {
-            return false;
-        }
-        else {
-            return !hasInProgressProposalForCourse(courseInfo);
-        }
-    }
-
-    /**
-     * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
-     * @param courseInfo
-     * @param contextInfo
-     * @return
-     * @throws Exception
-     */
-    public static boolean hasInprogressDraftOrSupersededVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
-
         String versionIndId = courseInfo.getVersion().getVersionIndId();
         Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
 
@@ -187,8 +154,77 @@ public class CourseProposalUtil {
 
         String resultString = result.getRows().get(0).getCells().get(0).getValue();
         return "0".equals(resultString);
-
     }
+
+    /**
+     * A course cannot be modified to new version if:
+     * - There is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * - There is no version in "in progress" 'RETIRE' state.
+     * @param courseInfo
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+
+    public static boolean isModifyNewVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+
+        if(!hasDraftCourseOrSupersededVersion(courseInfo,contextInfo)) {
+            return false;
+        }
+        else {
+            return !hasInProgressProposalForCourse(courseInfo);
+        }
+    }
+
+    /**
+     * Checks if there is no later version in either 'DRAFT' or 'SUPERSEDED' states
+     * @param courseInfo
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+    public static boolean hasDraftCourseOrSupersededVersion(CourseInfo courseInfo, ContextInfo contextInfo) throws Exception {
+
+        String versionIndId = courseInfo.getVersion().getVersionIndId();
+        Long versionSequenceNumber = courseInfo.getVersion().getSequenceNumber();
+
+        SearchRequestInfo sr = new SearchRequestInfo();
+        List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
+        SearchParamInfo param = new SearchParamInfo();
+        param.setKey("lu.queryParam.cluVersionIndId");
+        param.getValues().add(versionIndId);
+        params.add(param);
+        sr.setSortDirection(SortDirection.DESC);
+        sr.setParams(params);
+        sr.setSearchKey("lu.search.clu.versions");
+        sr.setSortColumn("lu.resultColumn.luOptionalVersionSeqNum");
+
+        SearchResultInfo searchResult = CMUtils.getCluService().search(sr, contextInfo);
+
+        List<SearchResultRowInfo> rows = searchResult.getRows();
+        for (SearchResultRowInfo row : rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            VersionWrapper courseVersionWrapper = new VersionWrapper();
+            for (SearchResultCellInfo cell : cells) {
+                if (cell.getKey().equals("lu.resultColumn.cluId")) {
+                    courseVersionWrapper.setCluId(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionSeqNum")) {
+                    courseVersionWrapper.setSequence(Long.valueOf(cell.getValue()));
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalState")) {
+                    courseVersionWrapper.setCourseStatus(cell.getValue());
+                }
+            }
+            if (courseVersionWrapper.getSequence() == versionSequenceNumber && (StringUtils.equals(courseVersionWrapper.getCourseStatus(), DtoConstants.STATE_SUPERSEDED))) {
+                return false;
+            } else {
+                if (StringUtils.equals(courseVersionWrapper.getCourseStatus(),DtoConstants.STATE_DRAFT)){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+        }
 
     public static boolean isCurrentVersionOfCourse(CourseInfo course, ContextInfo contextInfo) throws Exception {
         String courseId = course.getId();
