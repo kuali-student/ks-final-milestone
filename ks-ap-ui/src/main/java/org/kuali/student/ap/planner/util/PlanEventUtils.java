@@ -353,7 +353,7 @@ public class PlanEventUtils {
         //invoke createPlannerItem helper (...mainly to validate and set statusMessages(
         String statusMessage=null;
         PlannerItem plannerItem = KsapFrameworkServiceLocator.getPlanHelper().createPlannerItem(planItem);
-        if (plannerItem!=null & plannerItem.getStatusMessages()!=null) {
+        if (plannerItem!=null && plannerItem.getStatusMessages()!=null) {
             statusMessage= StringUtils.join(plannerItem.getStatusMessages(), "<br/>");
         }
         if (statusMessage!=null && !"".equals(statusMessage)) {
