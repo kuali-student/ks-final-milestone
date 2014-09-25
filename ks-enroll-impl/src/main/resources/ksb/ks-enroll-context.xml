@@ -375,6 +375,10 @@
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
+    <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="coServiceValidation"/>
+    </bean>
 
     <bean id="coServiceValidation" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coServicePerformanceImpl" />
@@ -387,11 +391,6 @@
     <bean id="coServicePerformanceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServicePerformanceDecorator">
         <property name="nextDecorator" ref="coServiceImpl" />
         <property name="searchService" ref="searchService" />
-    </bean>
-
-    <bean id="courseOfferingServiceCache" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCacheDecorator">
-        <property name="cacheManager" ref="ksCacheManager"/>
-        <property name="nextDecorator" ref="coServiceValidation"/>
     </bean>
 
     <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
@@ -1559,12 +1558,21 @@ the program will get the rule management service by calling the global resource 
         <property name="lrcService" ref="lrcServiceCache" />
     </bean>
 
-    <bean id="scheduleOfClassesServiceElastic" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceCacheImpl">
+    <bean id="scheduleOfClassesServiceCache" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceCacheImpl">
+        <property name="entityManager" ref="enrollEntityManager" />
+        <property name="luiService" ref="LuiService"/>
+        <property name="atpService" ref="AtpService"/>
+        <property name="lrcService" ref="lrcServiceCache" />
+        <property name="cacheManager" ref="ksCacheManager" />
+    </bean>
+
+    <bean id="scheduleOfClassesServiceElastic" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceElasticImpl">
         <property name="entityManager" ref="enrollEntityManager" />
         <property name="luiService" ref="LuiService"/>
         <property name="atpService" ref="AtpService"/>
         <property name="lrcService" ref="lrcServiceCache" />
         <property name="elasticEmbedded" ref="elasticEmbedded"/>
+        <property name="cacheManager" ref="ksCacheManager" />
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1976,8 +1984,8 @@ the program will get the rule management service by calling the global resource 
                     <property name="countWaitlistedCoursesTowardsCreditLimit" value="true"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.BestEffortTimeConflictTermResolver">
-                    <property name="courseOfferingService" ref="CourseOfferingService" />
-                    <property name="scheduleOfClassesService" ref="scheduleOfClassesService" />
+                    <property name="courseOfferingService" ref="CourseOfferingServiceCached" />
+                    <property name="scheduleOfClassesService" ref="scheduleOfClassesServiceCache" />
                     <property name="countWaitlistedCoursesTowardsTimeConflict" value="true"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.MaxCreditsTermResolver">

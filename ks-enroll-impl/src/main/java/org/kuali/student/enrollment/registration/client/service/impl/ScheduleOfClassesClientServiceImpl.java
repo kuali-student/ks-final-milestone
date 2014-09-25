@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceCacheImpl implements ScheduleOfClassesClientService {
+public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesServiceElasticImpl implements ScheduleOfClassesClientService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
     private static final String EXCEPTION_MSG = "Exception Thrown";
