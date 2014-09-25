@@ -35,7 +35,7 @@ public class HoldsUtil {
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_HOLD_CODE))) {
-            pList.add(equal(HoldsConstants.HOLD_ISSUE_HOLD_CODE, criteria.get(HoldsConstants.HOLD_ISSUE_HOLD_CODE)));
+            pList.add(equal(HoldsConstants.HOLD_ISSUE_HOLD_CODE, criteria.get(HoldsConstants.HOLD_ISSUE_HOLD_CODE).toUpperCase()));
         }
 
         if (StringUtils.isNotBlank(criteria.get(HoldsConstants.HOLD_ISSUE_NAME))) {
