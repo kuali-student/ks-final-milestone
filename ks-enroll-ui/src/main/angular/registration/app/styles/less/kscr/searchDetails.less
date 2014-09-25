@@ -76,43 +76,47 @@
     margin: 0 0 1rem;
     padding: 0 0 1rem;
 }
+
 .kscr-SearchDetails-courseCode {
     font-weight: bold;
     margin-right: 2.5rem;
 
-  &-skeleton {
-    width: 10rem;
-    .util-skeleton-basic(2.5rem, @skeletonDarkGray);
-    .util-skeleton-animate();
-  }
+    &-skeleton {
+      width: 10rem;
+      .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+      .util-skeleton-animate();
+    }
 }
+
 .kscr-SearchDetails-courseTitle {
-  &-skeleton {
-    .util-skeleton-basic(2.5rem, @skeletonDarkGray);
-    .util-skeleton-animate();
-  }
+    &-skeleton {
+      .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+      .util-skeleton-animate();
+    }
 }
+
 .kscr-SearchDetails-credits {
     margin-left: 2rem; // Don't let the title get too close
 
-  &-skeleton {
-    width: 10rem;
-    .util-skeleton-basic(0, @skeletonLightGray);
-    .util-skeleton-animate();
-  }
+    &-skeleton {
+      width: 10rem;
+      .util-skeleton-basic(0, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
 }
 
 
 // Course description
 .kscr-SearchDetails-description {
-  &-skeleton1 {
-    .util-skeleton-basic(20rem, @skeletonLightGray);
-    .util-skeleton-animate();
-  }
-  &-skeleton2 {
-    .util-skeleton-basic(10rem, @skeletonLightGray);
-    .util-skeleton-animate();
-  }
+    &-skeleton1 {
+      .util-skeleton-basic(20rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+
+    &-skeleton2 {
+      .util-skeleton-basic(10rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
 }
 
 // Cross-listed courses
@@ -159,11 +163,11 @@
 
     .details-list-mixin();
 
-  &-skeleton {
-    margin: 1rem 0 0;
-    .util-skeleton-basic(10rem, @skeletonLightGray);
-    .util-skeleton-animate();
-  }
+    &-skeleton {
+      margin: 1rem 0 0;
+      .util-skeleton-basic(10rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
 }
 
 
@@ -176,7 +180,7 @@
     padding: 0.5rem 0;
 
     // Small-format styles (Mobile)
-    @media screen and (max-width: @smallFormatMax) {
+    @media screen and @sm-Max {
         // Stuck actions container
         &.util-sticky--stuck {
           background: @whiteBackground;
@@ -424,24 +428,27 @@
 
 // Icons
 .kscr-SearchDetails-icon {
-  float: left;
-  width: 2rem;
-  &--subterm {
-    cursor: pointer;
-    .subterm-icon();
-  }
-  &--requisites {
-    cursor: pointer;
-    .requisites-icon();
-  }
-  &--honors {
-    .honors-icon();
-  }
+    float: left;
+    width: 2rem;
+
+    &--subterm {
+      cursor: pointer;
+      .subterm-icon();
+    }
+
+    &--requisites {
+      cursor: pointer;
+      .requisites-icon();
+    }
+
+    &--honors {
+      .honors-icon();
+    }
 }
 
 // below this breakpoint, hide the table view for search details
 .kscr-SearchDetails-selection-sublabel {
-  @media screen and @searchDetailsTabbed-Max {
-      display: block;
-  }
+    @media screen and @searchDetailsTabbed-Max {
+        display: block;
+    }
 }

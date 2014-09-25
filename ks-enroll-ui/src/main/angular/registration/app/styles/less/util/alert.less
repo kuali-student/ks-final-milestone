@@ -46,6 +46,9 @@
     border-width:1px 1px 2px 1px;
     border-style: solid;
 
+    @media screen and @lg-Min {
+        margin: 0.1rem 0 0.5rem 0;
+    }
 
     &--success,
     &--information,
@@ -59,6 +62,17 @@
     &--success {
         background-image: @successImage;
         .util-Alert-success-mixin();
+
+        @media screen and @lg-Min {
+            // Sidebar styles
+            .kscr-Main-sidebar & {
+                background-color: @cardBackgroundColor;
+                border: none;
+                .kscr-Card-buttons {
+                  display: none;
+                }
+            }
+        }
     }
 
     &--information {
@@ -138,27 +152,8 @@
 .util-Alert--card--dropped {
     margin-bottom: 0.7rem;
     &:extend(.util-Alert--card);
-}
 
-
-@media screen and (min-width: @largeFormatMin) {
-  .util-Alert {
-      margin: 0.1rem 0 0.5rem 0;
-  }
-
-  .util-Alert--card--dropped {
+    @media screen and @lg-Min {
       margin: 0 0 1rem;
-  }
-
-  // Sidebar styles
-  .kscr-Main-sidebar {
-      .util-Alert--success {
-        background-color: @cardBackgroundColor;
-        border: none;
-          .kscr-Card-buttons {
-            display: none;
-          }
-      }
-  }
-
+    }
 }

@@ -10,6 +10,22 @@
     padding: 0 0.3rem 0.3rem;
 }
 
+.kscr-cartResult-responseHeading {
+  @media screen and (min-width: @largeFormatMin) {
+    // Hide if only successes
+    &--success {
+      display: none;
+
+      &.kscr-cartResult-responseHeading--waitlisted,
+      &.kscr-cartResult-responseHeading--waitlist,
+      &.kscr-cartResult-responseHeading--fail,
+      &.kscr-cartResult-responseHeading--info {
+        display: block;
+      }
+    }
+  }
+}
+
 // Transaction results label (e.g. Results)
 .kscr-cartResult-responseLabel {
     float: left;
@@ -52,6 +68,25 @@
     &--waitlisted {
         display: none; // Hidden by default (only for large-format)
     }
+    // Large-format styles
+    @media screen and @lg-Min {
+        // Cart results response counts (e.g. Success, Fail)
+        color: @secondaryTextColor;
+        // Hide success messages in large-format
+        &--success {
+          display: none;
+        }
+
+        // Cart result heading w/ counts
+        // Response counts
+        .kscr-cartResult-responseHeading &--success {
+          display: none; // Hide success count in large-format
+        }
+
+        .kscr-cartResult-responseHeading &--waitlisted {
+          display: inline; // Show the waitlisted success count though
+        }
+    }
 }
 
 
@@ -86,70 +121,28 @@
         border-color: @successBorder;
         color: @successText;
     }
+
+  // Small-format styles
+  @media screen and @sm-Max {
+      &--action,
+      &--error {
+        // Add to Waitlist & Error reason messages
+        // Margin to push border down
+        margin-top: 0.3rem;
+
+    }
+  }
+
+  // Large-format styles
+  @media screen and @lg-Min {
+      border-top: none;
+      margin-top: 0.3rem;
+      padding-top: 0;
+  }
 }
-
-
 
 // Credits count text in cart item
 .kscr-cartResult-supportText {
     font-weight: normal;
     float: right;
-}
-
-
-
-// Small-format styles
-@media screen and (max-width: @smallFormatMax) {
-    .kscr-cartResult-content .kscr-Card-detailsText {
-        &--action,
-        &--error {
-            // Add to Waitlist & Error reason messages
-            // Margin to push border down
-            margin-top: 0.3rem;
-        }
-    }
-}
-
-
-// Large-format styles
-@media screen and (min-width: @largeFormatMin) {
-
-    // Cart results response counts (e.g. Success, Fail)
-    .kscr-cartResult-responseCount {
-        color: @secondaryTextColor;
-
-        // Hide success messages in large-format
-        &--success {
-            display: none;
-        }
-    }
-
-    // Cart result heading w/ counts
-    .kscr-cartResult-responseHeading {
-        // Hide if only successes
-        &--success {
-            display: none;
-
-            &.kscr-cartResult-responseHeading--waitlisted,
-            &.kscr-cartResult-responseHeading--waitlist,
-            &.kscr-cartResult-responseHeading--fail,
-            &.kscr-cartResult-responseHeading--info {
-                display: block;
-            }
-        }
-
-        // Response counts
-        .kscr-cartResult-responseCount--success {
-            display: none; // Hide success count in large-format
-        }
-        .kscr-cartResult-responseCount--waitlisted {
-            display: inline; // Show the waitlisted success count though
-        }
-    }
-
-    .kscr-cartResult-content .kscr-Card-detailsText {
-        border-top: none;
-        margin-top: 0.3rem;
-        padding-top: 0;
-    }
 }
