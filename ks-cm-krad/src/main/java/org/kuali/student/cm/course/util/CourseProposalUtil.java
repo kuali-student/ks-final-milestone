@@ -214,7 +214,7 @@ public class CourseProposalUtil {
                     courseVersionWrapper.setCourseStatus(cell.getValue());
                 }
             }
-            if (courseVersionWrapper.getSequence() == versionSequenceNumber && (StringUtils.equals(courseVersionWrapper.getCourseStatus(), DtoConstants.STATE_SUPERSEDED))) {
+            if ((courseVersionWrapper.getSequence()).equals(versionSequenceNumber) && (StringUtils.equals(courseVersionWrapper.getCourseStatus(), DtoConstants.STATE_SUPERSEDED))) {
                 return false;
             } else  if (StringUtils.equals(courseVersionWrapper.getCourseStatus(),DtoConstants.STATE_DRAFT)){
                     return false;
