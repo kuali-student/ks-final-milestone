@@ -79,7 +79,7 @@ public class AppliedHoldMaintenanceWrapper implements Serializable {
     }
 
     public void setHoldCode(String holdCode) {
-        getMaintenanceHold().setHoldCode(holdCode);
+        getMaintenanceHold().setHoldCode(holdCode.toUpperCase());
     }
 
     public String getEffectiveTerm() {
