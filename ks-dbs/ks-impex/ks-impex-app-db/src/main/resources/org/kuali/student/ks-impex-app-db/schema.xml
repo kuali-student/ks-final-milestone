@@ -10729,9 +10729,16 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
-        <index name="KSPL_LRNG_PLAN_ATTR_I1">
+        <index name="KSPL_LRNG_PLAN_ATTR_I2">
+            <column>ATTR_KEY</column>
+            <column>ATTR_VALUE</column>
             <column>OWNER_ID</column>
         </index>
+        <uniqueConstraint name="KSPL_LRNG_PLAN_ATTR_I1">
+            <column>OWNER_ID</column>
+            <column>ATTR_KEY</column>
+            <column>ATTR_VALUE</column>
+        </uniqueConstraint>
     </table>
     <table name="KSPL_LRNG_PLAN_ITEM">
         <column name="CATEGORY" nullable="false" type="STRING">
@@ -10802,9 +10809,6 @@
         <index name="KSPL_LRNG_PLAN_ITEM_ATP_ID_I1">
             <column>PLAN_ITEM_ID</column>
         </index>
-        <index name="KSPL_LRNG_PLAN_ITEM_ATP_ID_I2">
-            <column>ATP_ID</column>
-        </index>
     </table>
     <table name="KSPL_LRNG_PLAN_ITEM_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -10822,10 +10826,12 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
-        <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
+        <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I2">
+            <column>ATTR_KEY</column>
+            <column>ATTR_VALUE</column>
             <column>OWNER_ID</column>
         </index>
-        <uniqueConstraint name="PLANITEMATTR_UNIQUE">
+        <uniqueConstraint name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
             <column>OWNER_ID</column>
             <column>ATTR_KEY</column>
             <column>ATTR_VALUE</column>
