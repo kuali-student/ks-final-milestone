@@ -32,10 +32,7 @@ public abstract class AcademicRecordTermResolverSupport<T> extends CourseTermRes
     public List<StudentCourseRecordInfo> getAllCourseRecordsForCourse(String personId, String versionIndId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
         List<StudentCourseRecordInfo> studentRecords = new ArrayList<>();
         try {
-            List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
-            for (String courseId : courseIds) {
-                studentRecords.addAll(this.getAcademicRecordService().getStudentCourseRecordsForCourse(personId, courseId, context));
-            }
+            studentRecords.addAll(this.getAcademicRecordService().getStudentCourseRecordsForCourse(personId, versionIndId, context));
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
@@ -45,10 +42,7 @@ public abstract class AcademicRecordTermResolverSupport<T> extends CourseTermRes
     public List<StudentCourseRecordInfo> getCourseRecordsForCourse(String personId, String versionIndId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
         List<StudentCourseRecordInfo> studentRecords = new ArrayList<>();
         try {
-            List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
-            for (String courseId : courseIds) {
-                studentRecords.addAll(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context));
-            }
+            studentRecords.addAll(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, versionIndId, context));
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
@@ -71,12 +65,9 @@ public abstract class AcademicRecordTermResolverSupport<T> extends CourseTermRes
     public boolean checkCourseCompleted(String personId, String versionIndId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
         //Retrieve the students academic record for this version.
         try {
-        List<String> courseIds = this.getCluIdsFromVersionIndId(versionIndId, parameters, context);
-        for(String courseId : courseIds){
-            if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context).size()>0){
+            if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, versionIndId, context).size()>0){
                 return true; //if service returned anything, the student has completed a version of the clu.
             }
-        }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
