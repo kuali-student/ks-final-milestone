@@ -77,6 +77,7 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
         Set<String> prereqs = new HashSet<>();
 
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM.getName());
         prereqs.add(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName());
@@ -111,6 +112,8 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
         // Resolve pre-requisite terms
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.
                 get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        RegistrationGroupInfo regGroup = (RegistrationGroupInfo) resolvedPrereqs.
+                get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
         RegistrationRequestInfo request = (RegistrationRequestInfo) resolvedPrereqs.
                 get(RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName());
         RegistrationRequestItemInfo regRequestItem = (RegistrationRequestItemInfo) resolvedPrereqs.
@@ -140,8 +143,9 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
         List<TimeConflictResult> timeConflicts;
         List<ConflictCourseResult> itemConflicts = null;
         try {
-            timeConflicts = getTimeConflictInOrderResults(regRequestItem, existingCrs, contextInfo);
-            itemConflicts = getConflicts(regRequestItem, timeConflicts, copyExistingCrs, request, contextInfo);
+            timeConflicts = getTimeConflictResults(regRequestItem, existingCrs, regGroup, contextInfo);
+            itemConflicts = getConflicts(regRequestItem, timeConflicts, copyExistingCrs, request, regGroup,
+                    contextInfo);
         } catch (Exception ex) {
             LOGGER.error("Exception trying to determine time conflicts", ex);
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, ex, this);
@@ -163,7 +167,9 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
     private List<ConflictCourseResult> getConflicts(RegistrationRequestItemInfo regRequestItem,
                                                     List<TimeConflictResult> timeConflicts,
                                                     List<CourseRegistrationInfo> copyExistingCrs,
-                                                    RegistrationRequestInfo request, ContextInfo contextInfo)
+                                                    RegistrationRequestInfo request,
+                                                    RegistrationGroupInfo regGroup,
+                                                    ContextInfo contextInfo)
             throws MissingParameterException, PermissionDeniedException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
         // see if there are any conflicts for the reg request item
@@ -187,7 +193,8 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
                     // for that reg req id.
                     RegistrationRequestItemInfo conflictingRegRequest = findRegReqItemById(conflictingId,
                             request.getRegistrationRequestItems());
-                    conflictCourseResult = buildConflictCourseResultForRegGroup(conflictingRegRequest, contextInfo);
+                    conflictCourseResult = buildConflictCourseResultForRegGroup(conflictingRegRequest, regGroup,
+                            contextInfo);
                     conflictCourseResult.setMasterLprId(conflictingId); // incorrect? this is a reg req id, not master.
                 }
 
@@ -228,11 +235,10 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
     private ConflictCourseResult buildConflictCourseResultForRegGroup(RegistrationRequestItemInfo item,
+                                                                      RegistrationGroupInfo registrationGroupInfo,
                                                                       ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
-        RegistrationGroupInfo registrationGroupInfo = courseOfferingService.
-                getRegistrationGroup(item.getRegistrationGroupId(), contextInfo);
         CourseOfferingInfo courseofferingInfo = courseOfferingService.
                 getCourseOffering(registrationGroupInfo.getCourseOfferingId(), contextInfo);
 
@@ -342,9 +348,10 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
-    private List<TimeConflictResult> getTimeConflictInOrderResults(RegistrationRequestItemInfo regRequestItem,
-                                                                   List<CourseRegistrationInfo> existingCourses,
-                                                                   ContextInfo contextInfo)
+    private List<TimeConflictResult> getTimeConflictResults(RegistrationRequestItemInfo regRequestItem,
+                                                            List<CourseRegistrationInfo> existingCourses,
+                                                            RegistrationGroupInfo registrationGroupInfo,
+                                                            ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
         Map<String, List<TimeSlotInfo>> aoToTimeSlotMap = new HashMap<>();
@@ -354,7 +361,7 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
                 getTimeSlotCalculationContainerForExistingCourses(existingCourses, aoToTimeSlotMap, contextInfo);
         List<TimeSlotCalculationContainer> newCoursesTimeConflictContainers = new ArrayList<>();
         newCoursesTimeConflictContainers.add(getTimeSlotCalculationContainerForNewCourse(regRequestItem,
-                aoToTimeSlotMap, contextInfo));
+                aoToTimeSlotMap, registrationGroupInfo, contextInfo));
 
         return TimeConflictCalculator.getTimeConflictInOrderResults(newCoursesTimeConflictContainers,
                 existingCoursesTimeConflictContainers);
@@ -376,23 +383,15 @@ public class BestEffortTimeConflictTermResolver implements TermResolver<String> 
      */
     private TimeSlotCalculationContainer getTimeSlotCalculationContainerForNewCourse(
             RegistrationRequestItemInfo regRequestItem, Map<String, List<TimeSlotInfo>> aoToTimeSlotMap,
+            RegistrationGroupInfo registrationGroupInfo,
             ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
 
-        List<String> regGroupIds = new ArrayList<>();
-        regGroupIds.add(regRequestItem.getRegistrationGroupId());
-
-        List<RegistrationGroupInfo> registrationGroupInfos = courseOfferingService.
-                getRegistrationGroupsByIds(regGroupIds, contextInfo);
-
         Map<String, List<String>> rgToAoIds = new LinkedHashMap<>();
         List<String> aoIds = new ArrayList<>();  // This will help with a bulk timeslot method later
-        for (RegistrationGroupInfo registrationGroupInfo: registrationGroupInfos) {
-            rgToAoIds.put(registrationGroupInfo.getId(), registrationGroupInfo.getActivityOfferingIds());
-            aoIds.addAll(registrationGroupInfo.getActivityOfferingIds());
-
-        }
+        rgToAoIds.put(registrationGroupInfo.getId(), registrationGroupInfo.getActivityOfferingIds());
+        aoIds.addAll(registrationGroupInfo.getActivityOfferingIds());
 
         // get ALL needed ao->timeSlots
         populateTimeSlotMapForAoIds(aoIds, aoToTimeSlotMap, contextInfo);

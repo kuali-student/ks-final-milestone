@@ -49,6 +49,7 @@ public class TestBestEffortTimeConflictTermResolver extends AbstractTermResolver
     private List<RegistrationGroupInfo> regGroups;
     private List<String> aoIds;
     private Map<String, List<TimeSlotInfo>> timeSlotMap;
+    private RegistrationGroupInfo registrationGroupInfo;
 
     // services
     private CourseOfferingService courseOfferingService;
@@ -89,6 +90,7 @@ public class TestBestEffortTimeConflictTermResolver extends AbstractTermResolver
         resolvedPrereqs.put(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName(), existingCourses);
         resolvedPrereqs.put(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM.getName(), existingWaitlist);
         resolvedPrereqs.put(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM.getName(), simulatedRegistrations);
+        resolvedPrereqs.put(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName(), registrationGroupInfo);
 
         // set up parameters
         parameters = new HashMap<>();
@@ -286,11 +288,7 @@ public class TestBestEffortTimeConflictTermResolver extends AbstractTermResolver
             regGroups.add(regGroup);
             when(courseOfferingService.getRegistrationGroupsByIds(regGroupIds, contextInfo)).thenReturn(regGroups);
         } else {
-            List<String> singleRegGroupId = new ArrayList<>();
-            List<RegistrationGroupInfo> singleRegGroup = new ArrayList<>();
-            singleRegGroupId.add(regGroupId);
-            singleRegGroup.add(regGroup);
-            when(courseOfferingService.getRegistrationGroupsByIds(singleRegGroupId, contextInfo)).thenReturn(singleRegGroup);
+            registrationGroupInfo = regGroup;
         }
     }
 
@@ -321,7 +319,11 @@ public class TestBestEffortTimeConflictTermResolver extends AbstractTermResolver
         activityOfferingIds.add(aoId);
         buildTimeSlotMap(aoId, existing);
 
-        when(courseOfferingService.getRegistrationGroup(regGroupId, contextInfo)).thenReturn(regGroup);
+        if (existing) {
+            when(courseOfferingService.getRegistrationGroup(regGroupId, contextInfo)).thenReturn(regGroup);
+        } else {
+            registrationGroupInfo = regGroup;
+        }
 
         return regGroup;
     }
