@@ -1665,17 +1665,11 @@ public class DefaultPlanHelper implements PlanHelper {
         if (KsapFrameworkServiceLocator.getTermHelper().isTermSocPublished(plannerItem.getTermId())
                 && (KsapFrameworkServiceLocator.getTermHelper().isCurrentTerm(plannerItem.getTermId())
                     || KsapFrameworkServiceLocator.getTermHelper().isFutureTerm(plannerItem.getTermId()))) {
-            List<CourseOfferingInfo> coList=new ArrayList<>();
-            try {
-                coList = KsapFrameworkServiceLocator.getCourseOfferingService()
-                        .getCourseOfferingsByCourseAndTerm(course.getId(),plannerItem.getTermId(),
-                                KsapFrameworkServiceLocator.getContext().getContextInfo());
-            } catch (DoesNotExistException e) {
-                coList = new ArrayList<>();
-            } catch (InvalidParameterException|MissingParameterException|OperationFailedException|PermissionDeniedException e) {
-                throw new RuntimeException(String.format("Error retrieving Offerings for Course(%s) & term(%s): %s",
-                        course.getCode(),plannerItem.getTermId(),e.getMessage()),e);
-            }
+            List<String> courseIds = KsapFrameworkServiceLocator.getCourseHelper().getAllCourseIdsByVersionIndependentId(course.getVersion().getVersionIndId());
+            List<Term> terms = new ArrayList<Term>();
+            terms.add(KsapFrameworkServiceLocator.getTermHelper().getTerm(plannerItem.getTermId()));
+            List<CourseOffering> coList = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds,terms);
+
             if (coList==null) {
                 coList= new ArrayList<>();
             }
@@ -1683,7 +1677,7 @@ public class DefaultPlanHelper implements PlanHelper {
             int suspendedCoCnt = 0;
             int cancelledCoCnt = 0;
             int offeredCoCnt=0;
-            for (CourseOfferingInfo co : coList) {
+            for (CourseOffering co : coList) {
                 if (LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY.equals( co.getStateKey())) {
                     ++offeredCoCnt;
                 } else if (LuiServiceConstants.LUI_CO_STATE_SUSPENDED_KEY.equals( co.getStateKey())) {
