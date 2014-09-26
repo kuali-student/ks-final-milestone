@@ -183,8 +183,11 @@
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-RegisterGroup"/>
+                <ref bean="Uif-SpaceField"/>
+                <ref bean="KS-AdminRegistration-RegisteredHeaderText"/>
                 <ref bean="KS-AdminRegistration-Registered"/>
                 <ref bean="Uif-SpaceField"/>
+                <ref bean="KS-AdminRegistration-WaitlistedHeaderText"/>
                 <ref bean="KS-AdminRegistration-Waitlist"/>
             </list>
         </property>
@@ -388,9 +391,17 @@
     </bean>
 
     <!-- Registered Courses -->
+    <bean id="KS-AdminRegistration-RegisteredHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
+          p:additionalCssClasses="ks-dottedHeaderActions">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="Registered Courses (@{registeredCredits} credits)"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-AdminRegistration-Registered" parent="KS-AdminRegistration-Collection"
           p:propertyName="registeredCourses">
-        <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil"
@@ -447,9 +458,17 @@
     </bean>
 
     <!-- Waitlisted Courses -->
+    <bean id="KS-AdminRegistration-WaitlistedHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
+          p:additionalCssClasses="ks-dottedHeaderActions">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="Waitlisted Courses (@{waitlistedCredits} credits)"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-AdminRegistration-Waitlist" parent="KS-AdminRegistration-Collection"
           p:propertyName="waitlistedCourses">
-        <property name="headerText" value="Waitlisted Courses (@{waitlistedCredits} credits)"/>
         <property name="lineActions">
             <list>
                 <!--KSENROLL-14030 waitlisted table readonly
@@ -492,6 +511,8 @@
     <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="headerText" value=""/>
+        <property name="renderHeader" value="false"/>
         <property name="layoutManager.richTable">
             <bean parent="KS-Uif-RichTable"/>
         </property>
