@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Search
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.enrollment.util.KSIdentityServiceHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -997,7 +998,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         for (String versionIndependentId : versionIndependentIds) {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.equal("version.versionIndId", versionIndependentId));
+            qbcBuilder.setPredicates(PredicateFactory.equal("version.versionIndId", versionIndependentId), PredicateFactory.equal("state", DtoConstants.STATE_ACTIVE)
+            );
 
             List<String> cluIds = getCluService().searchForCluIds(qbcBuilder.build(), contextInfo);
 
