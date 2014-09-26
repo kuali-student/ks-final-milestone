@@ -259,8 +259,6 @@
                 <property name="items">
                     <list>
                         <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
-                            <property name="render" value="@{!#empty(#line.allTermNotesHtml)}"/>
-                            <property name="title" value="@{#line.allTermNotesHtml}"/>
                             <property name="onClickScript"
                                       value="ksapOpenPlanDialog('planner_edit_term_note_page','planner','startDialog', this, e);" />
                             <property name="dataAttributes">
@@ -269,18 +267,11 @@
                                     <entry key="uniqueid" value="@{#line.uniqueId}" />
                                 </map>
                             </property>
-                        </bean>
-                        <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
-                            <property name="render" value="@{#empty(#line.allTermNotesHtml)}"/>
-                            <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}btnAdd.png"/>
-                            <property name="title" value="@{#textHelper.getText('planner.body.term.note')}"/>
-                            <property name="onClickScript"
-                                      value="ksapOpenPlanDialog('planner_edit_term_note_page','planner','startDialog', this, e);" />
-                            <property name="dataAttributes">
-                                <map>
-                                    <entry key="termid" value="@{#line.termId}" />
-                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
-                                </map>
+                            <property name="title" value="@{!#empty(#line.allTermNotesHtml) ? #line.allTermNotesHtml : 'Click to add notes for '+#line.termName}"/>
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>@{!#empty(#line.allTermNotesHtml) ? 'filled-termnote' : 'empty-termnote'}</value>
+                                </list>
                             </property>
                         </bean>
 
@@ -1168,14 +1159,13 @@
     </bean>
 
     <bean id="term_note_icon" parent="term_note_icon-parent"/>
-    <bean id="term_note_icon-parent" abstract="true" parent="KSAPHelpImage" >
+    <bean id="term_note_icon-parent" abstract="true" parent="Uif-MessageField" >
         <property name="cssClasses">
             <list merge="true">
                 <value>termnote</value>
+                <value>ks-fontello-icon-wrench</value>
             </list>
         </property>
-        <!--@TODO: ksap-2003 convert to icon font instead of image-->
-        <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
-        <property name="title" value=""/>
+        <property name="messageText" value="&#160;" />
     </bean>
 </beans>

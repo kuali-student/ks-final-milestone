@@ -120,8 +120,8 @@ public class BookmarkSideBarLookupableHelper extends
         return PlanEventUtils.updateTotalCreditsEvent(newTerm,termId,eventList);
     }
 
-    public JsonObjectBuilder updateTermNoteEvent(String uniqueId, String termNote, JsonObjectBuilder eventList) {
-        return PlanEventUtils.updateTermNoteEvent(uniqueId,termNote,eventList);
+    public JsonObjectBuilder updateTermNoteEvent(String uniqueId, String termId, String termNote, JsonObjectBuilder eventList) {
+        return PlanEventUtils.updateTermNoteEvent(uniqueId,termId,termNote,eventList);
     }
 
     public void sendJsonEvents(boolean success, String message, HttpServletResponse response,

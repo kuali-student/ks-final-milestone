@@ -531,10 +531,11 @@ public class PlanEventUtils {
      * @param eventList - Event builder being used to compile event list
      * @return The events builder, with the add plan item event added.
      */
-	public static JsonObjectBuilder updateTermNoteEvent(String uniqueId,
+	public static JsonObjectBuilder updateTermNoteEvent(String uniqueId, String termId,
 			String termNote, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalTermNoteEvent = Json.createObjectBuilder();
 		updateTotalTermNoteEvent.add("uniqueId", uniqueId);
+		updateTotalTermNoteEvent.add("termName", KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId).getLongName());
 		updateTotalTermNoteEvent.add("termNote", termNote == null ? ""
 				: termNote);
         eventList.add(PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED.name(),

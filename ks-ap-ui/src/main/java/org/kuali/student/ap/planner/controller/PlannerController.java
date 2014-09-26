@@ -331,7 +331,7 @@ public class PlannerController extends KsapControllerBase {
         // Create Json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         PlannerViewHelperService helperService = ((PlannerViewHelperService) ((UifFormBase)form).getView().getViewHelperService());
-        eventList = helperService.updateTermNoteEvent(uniqueId, termNote, eventList);
+        eventList = helperService.updateTermNoteEvent(uniqueId, termId, termNote, eventList);
         helperService.sendJsonEvents(true, null, response, eventList);
 		return null;
 	}

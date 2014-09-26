@@ -85,7 +85,7 @@ public interface PlanEventViewHelperService extends ViewHelperService {
      * @param eventList - Event builder being used to compile event list
      * @return The events builder, with the add plan item event added.
      */
-    public JsonObjectBuilder updateTermNoteEvent(String uniqueId, String termNote, JsonObjectBuilder eventList);
+    public JsonObjectBuilder updateTermNoteEvent(String uniqueId, String termId, String termNote, JsonObjectBuilder eventList);
 
     /**
      * Creates an add plan item event on the current transaction.

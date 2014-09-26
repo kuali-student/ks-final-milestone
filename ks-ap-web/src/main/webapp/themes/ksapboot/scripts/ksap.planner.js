@@ -245,13 +245,13 @@ function ksapPlannerUpdateCredits (data) {
  */
 function ksapPlannerUpdateTermNote (data) {
     if (data.termNote == null || data.termNote == "") {
-        jQuery("#"+data.uniqueId+"_termNote").attr("title","");
-        //@TODO: ksap-2003 convert to icon font instead of image
-        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/btnAdd.png");
+        jQuery("#"+data.uniqueId+"_termNote").attr("title","Click to add notes for "+data.termName);
+        jQuery("#"+data.uniqueId+"_termNote").addClass("empty-termnote");
+        jQuery("#"+data.uniqueId+"_termNote").removeClass("filled-termnote");
     } else {
         jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
-        //@TODO: ksap-2003 convert to icon font instead of image
-        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
+        jQuery("#"+data.uniqueId+"_termNote").addClass("filled-termnote");
+        jQuery("#"+data.uniqueId+"_termNote").remove("empty-termnote");
     }
 
 }
