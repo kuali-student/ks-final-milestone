@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -84,7 +84,7 @@ public class StudentWithGradeForCourseTermResolver implements TermResolver<Boole
         }
 
         DateTime endTime = new DateTime();
-        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.TERMS, getOutput(), startTime, endTime);
 
         return false;
     }

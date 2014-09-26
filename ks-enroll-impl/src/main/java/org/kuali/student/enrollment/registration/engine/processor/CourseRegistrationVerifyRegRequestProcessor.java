@@ -10,7 +10,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
-import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -53,7 +53,8 @@ public class CourseRegistrationVerifyRegRequestProcessor {
         List<ValidationResultInfo> warnings = this.getWarnings(validationResults);
         if (errors.isEmpty() && warnings.isEmpty() && transactionException == null) {
             DateTime endTime = new DateTime();
-            NodePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
+            RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                    "CourseRegistrationVerifyRegRequestNode", startTime, endTime);
             return message;
         }
 
@@ -90,7 +91,8 @@ public class CourseRegistrationVerifyRegRequestProcessor {
         }
 
         DateTime endTime = new DateTime();
-        NodePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", RegEnginePerformanceUtil.NODES,
+                startTime, endTime);
 
         return message;
 

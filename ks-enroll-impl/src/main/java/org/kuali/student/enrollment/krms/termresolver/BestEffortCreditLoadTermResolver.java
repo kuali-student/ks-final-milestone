@@ -21,9 +21,9 @@ import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseOfferingTermResolverSupport;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationServiceTypeStateConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
@@ -138,7 +138,7 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
         }
 
         DateTime endTime = new DateTime();
-        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.TERMS, getOutput(), startTime, endTime);
 
         // return the result
         return loadVerified;

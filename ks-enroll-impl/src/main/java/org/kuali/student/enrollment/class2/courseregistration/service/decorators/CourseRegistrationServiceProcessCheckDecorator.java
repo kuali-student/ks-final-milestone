@@ -5,6 +5,7 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.common.util.UUIDHelper;
@@ -18,6 +19,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -123,6 +125,8 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
 
+        DateTime startTime = new DateTime();
+
         Map<String, Object> executionFacts = new LinkedHashMap<>();
 
         RegistrationRequestInfo registrationRequest = getRegistrationRequest(registrationRequestId, contextInfo);
@@ -199,6 +203,9 @@ public class CourseRegistrationServiceProcessCheckDecorator
                 }
             }
         }
+
+        DateTime endTime = new DateTime();
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.OTHER, "verifyRegistrationRequestForSubmission", startTime, endTime);
 
         return allValidationResults;
     }

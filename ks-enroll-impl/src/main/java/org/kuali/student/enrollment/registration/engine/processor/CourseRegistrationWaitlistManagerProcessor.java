@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
-import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 
@@ -29,7 +29,8 @@ public class CourseRegistrationWaitlistManagerProcessor {
                     processPeopleOffOfWaitlist(message, context);
 
             DateTime endTime = new DateTime();
-            NodePerformanceUtil.putStatistics("CourseRegistrationWaitlistManagerNode", startTime, endTime);
+            RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                    "CourseRegistrationWaitlistManagerNode", startTime, endTime);
 
             return registrationRequestList;
         } catch (Exception e) {

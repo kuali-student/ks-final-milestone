@@ -30,8 +30,8 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.slf4j.Logger;
@@ -138,7 +138,7 @@ public class CourseRepeatabilityTermResolver implements TermResolver<String> {
         }
 
         DateTime endTime = new DateTime();
-        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.TERMS, getOutput(), startTime, endTime);
 
         return errorLevel;
     }

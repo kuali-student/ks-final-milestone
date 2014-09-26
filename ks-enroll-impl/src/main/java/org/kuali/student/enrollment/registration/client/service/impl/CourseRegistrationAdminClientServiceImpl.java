@@ -22,7 +22,6 @@ import org.kuali.rice.core.api.criteria.OrderDirection;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationAdminClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -31,7 +30,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.WaitlistPosi
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
-import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -51,6 +50,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class contains non-student facing methods for the registration system.
@@ -110,8 +110,12 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
         Map<String, Object> stats = new HashMap<>();
 
         stats.put("Queues", generator.getStats());
-        stats.put("Nodes", NodePerformanceUtil.getStatistics());
-        stats.put("Term Resolvers", TermResolverPerformanceUtil.getStatistics());
+
+        Set<String> types = RegEnginePerformanceUtil.getTypes();
+
+        for (String type :types) {
+            stats.put(type, RegEnginePerformanceUtil.getStatistics(type));
+        }
 
         return stats;
     }
@@ -129,8 +133,7 @@ public class CourseRegistrationAdminClientServiceImpl extends CourseRegistration
 
             response = Response.fromResponse(getRegEngineStats());
 
-            TermResolverPerformanceUtil.clearStatistics();
-            NodePerformanceUtil.clearStatistics();
+            RegEnginePerformanceUtil.clearStatistics();
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());

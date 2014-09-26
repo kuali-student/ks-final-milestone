@@ -24,7 +24,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GesTermResolverSupport;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.TermResolverPerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 
@@ -92,7 +92,7 @@ public class MaxRepeatabilityTermResolver extends GesTermResolverSupport<Integer
         }
 
         DateTime endTime = new DateTime();
-        TermResolverPerformanceUtil.putStatistics(getOutput(), startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.TERMS, getOutput(), startTime, endTime);
         
         return maxRepeats;
     }

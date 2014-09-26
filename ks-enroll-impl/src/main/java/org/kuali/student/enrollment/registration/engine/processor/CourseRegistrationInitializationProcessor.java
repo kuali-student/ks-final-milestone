@@ -6,7 +6,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Static
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
-import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,8 @@ public class CourseRegistrationInitializationProcessor {
                     initializeRegistrationRequest(regReqId, contextInfo);
 
             DateTime endTime = new DateTime();
-            NodePerformanceUtil.putStatistics("CourseRegistrationInitializationNode", startTime, endTime);
+            RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                    "CourseRegistrationInitializationNode", startTime, endTime);
 
             return registrationRequestEngineMessage;
 

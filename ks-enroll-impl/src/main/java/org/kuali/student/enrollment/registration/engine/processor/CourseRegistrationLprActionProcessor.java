@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -16,7 +15,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Regist
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
-import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -59,7 +58,8 @@ public class CourseRegistrationLprActionProcessor {
             if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())) {
                 //Don't process this if it has failed.
                 DateTime endTime = new DateTime();
-                NodePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
+                RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                        "CourseRegistrationLprActionNode", startTime, endTime);
                 return message;
             }
 
@@ -87,7 +87,8 @@ public class CourseRegistrationLprActionProcessor {
             }
             LOGGER.info("Completed registering requestItemId:" +  message.getRequestItem().getId());
             DateTime endTime = new DateTime();
-            NodePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
+            RegEnginePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", RegEnginePerformanceUtil.NODES,
+                    startTime, endTime);
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
