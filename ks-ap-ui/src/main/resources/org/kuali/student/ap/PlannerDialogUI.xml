@@ -673,10 +673,21 @@
         <property name="id" value="KSAP-TermNoteDialog-FormView" />
         <property name="formClass" value="org.kuali.student.ap.planner.form.TermNoteForm" />
         <property name="page">
-            <bean parent="KSAP-PopoverPage" p:additionalCssClasses="ksap-dialog-centered">
+            <bean parent="KSAP-PopoverPage">
                 <property name="id" value="planner_edit_term_note_page" />
                 <property name="innerViewWrapperId" value="planner_edit_term_note_page_inner" />
                 <property name="headerText" value="@{#textHelper.getText('dialog.planner.termnote.header')}" />
+                <property name="header.lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-MessageField" >
+                                    <property name="messageText" value="@{termName}" />
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
                 <property name="footer">
                     <bean parent="Uif-FooterBase">
                         <property name="items">
@@ -702,13 +713,17 @@
                         </property>
                     </bean>
                 </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                        <value>ksap-dialog-termnote</value>
+                    </list>
+                </property>
             </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" >
-                    <property name="messageText" value="@{termName}" />
-                </bean>
+
                 <bean parent="planner_term_note_input" />
                 <bean parent="planner_hidden_input" p:propertyName="termId" />
                 <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
