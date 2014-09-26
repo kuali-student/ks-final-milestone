@@ -477,19 +477,21 @@ public class AcademicPlanServiceValidationDecorator extends
             throw new RuntimeException("unexpected exception: "+e.getMessage(),e);
         }
         for (PlanItemInfo p : planItems) {
-            if (category.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)
-                    || category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)
-                    || category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
+            if ((AcademicPlanServiceConstants.ItemCategory.PLANNED.equals(category)
+                    || AcademicPlanServiceConstants.ItemCategory.BACKUP.equals(category))
+                  && (AcademicPlanServiceConstants.ItemCategory.PLANNED.equals(p.getCategory())
+                    || AcademicPlanServiceConstants.ItemCategory.BACKUP.equals(p.getCategory()))) {
                 for (String atpId : planItem.getPlanTermIds()) {
                     if (p.getPlanTermIds().contains(atpId)) {
                         throw new AlreadyExistsException(String.format(
-                                "A plan item for plan [%s], course id [%s], and term [%s] already exists.",
+                                "A planned/backup item for plan [%s], course id [%s], and term [%s] already exists.",
                                 p.getLearningPlanId(), courseId, atpId));
                     }
                 }
-            } else {
+            } else if (AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(category)
+                    && AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(p.getCategory())) {
                 throw new AlreadyExistsException(String.format(
-                        "A plan item for plan [%s] and course id [%s] already exists.",
+                        "A bookmark item for plan [%s] and course id [%s] already exists.",
                         p.getLearningPlanId(), courseId));
             }
         }
