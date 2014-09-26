@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -18,6 +20,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.search.elastic.ElasticEmbedded;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -27,7 +30,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      */
 
     @Override
-    public Response searchForCourseOfferings(@QueryParam("termId") String termId, @QueryParam("termCode") String termCode, @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+    public Response searchForCourseOfferings(String termId, String termCode, String cluId, String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -91,16 +93,21 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             disMaxQuery = disMaxQuery.add(boolQuery);
         }
 
+        AndFilterBuilder filters = FilterBuilders.andFilter(
+                FilterBuilders.termFilter("termId", termId),
+                FilterBuilders.termFilter("state", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+
+        if (StringUtils.isNotEmpty(cluId)) {
+            filters.add(FilterBuilders.termFilter("cluId", cluId));
+        }
 
         //Filter all results based on the term id
-        QueryBuilder query = QueryBuilders.filteredQuery(disMaxQuery,
-                FilterBuilders.andFilter(
-                        FilterBuilders.termFilter("termId", termId),
-                        FilterBuilders.termFilter("state", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
+        QueryBuilder query = QueryBuilders.filteredQuery(disMaxQuery, filters);
+
         //Perform the search
         SearchResponse sr = elasticEmbedded.getClient()
                 .prepareSearch("ks")
-                .setTypes("courseoffering")
+                .setTypes(ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE)
                 .setQuery(query)
                 .setSize(200)
                 .addSort("_score", SortOrder.DESC)

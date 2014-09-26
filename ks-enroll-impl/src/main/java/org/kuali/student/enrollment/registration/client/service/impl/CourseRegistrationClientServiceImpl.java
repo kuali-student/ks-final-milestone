@@ -906,6 +906,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 }
             }
 
+            // refObjId -> List<CourseSearchResult>
+            Map<String, List<CourseSearchResult>> refObjMap = new HashMap<>();
+
             List<String> coursesToLookup = new ArrayList<>();
             List<String> rgsToLookup = new ArrayList<>();
 
@@ -916,12 +919,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 if (planItemInfo.getPlanTermIds().contains(termId)) {
                     termPlanItems.add(planItemInfo);
 
+                    String refObjId = planItemInfo.getRefObjectId();
+
                     // add additional lookup ids to their lists
                     if (LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
-                        coursesToLookup.add(planItemInfo.getRefObjectId());
+                        coursesToLookup.add(refObjId);
                     } else if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
-                        rgsToLookup.add(planItemInfo.getRefObjectId());
+                        rgsToLookup.add(refObjId);
                     }
+
+                    // Init the ref object map
+                    refObjMap.put(refObjId, new ArrayList<CourseSearchResult>());
                 }
             }
 
@@ -929,18 +937,19 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
             }
 
-            // clu verIndId -> courseSearchResult
-            Map<String, CourseSearchResult> courseInfoMap = new HashMap<>();
+
             if (!coursesToLookup.isEmpty()) {
                 // Learning plan gives us the version independent id. We need to convert those into clu Ids
+                // cluId -> verIndId
                 Map<String, String> cluToVidMap = convertCluVersionIndIdToCluId(coursesToLookup, contextInfo);
                 List<String> cluIds = new ArrayList<>(cluToVidMap.keySet());
 
                 List<CourseSearchResult> courseInfoResults = searchForCourseInfo(cluIds, termId, contextInfo);
                 if (courseInfoResults != null) {
                     for (CourseSearchResult courseInfoResult : courseInfoResults) {
-                        if(cluToVidMap.containsKey(courseInfoResult.getCluId())) {
-                            courseInfoMap.put(cluToVidMap.get(courseInfoResult.getCluId()), courseInfoResult);
+                        if (cluToVidMap.containsKey(courseInfoResult.getCluId())) {
+                            String vid = cluToVidMap.get(courseInfoResult.getCluId());
+                            refObjMap.get(vid).add(courseInfoResult);
                         }
                     }
                 }
@@ -955,8 +964,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                         // we'll need course info objects for both the reg groups and the course offerings
                         CourseSearchResult courseSearchResult = getScheduleOfClassesService().getCourseOfferingById(regGroupSearchResult.getCourseOfferingId(), contextInfo);
-                        if(courseSearchResult != null) {
-                            courseInfoMap.put(rgId, courseSearchResult);
+                        if (courseSearchResult != null) {
+                            refObjMap.get(rgId).add(courseSearchResult);
                         }
                     }
                 }
@@ -965,16 +974,40 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // Now we have all the plans... lets convert them into something the user wants to see
             List<LearningPlanItemResult> lpResults = new ArrayList<>(termPlanItems.size());
             for (PlanItemInfo planItemInfo : termPlanItems) {
-                if(courseInfoMap.containsKey(planItemInfo.getRefObjectId())) {
+                if (refObjMap.containsKey(planItemInfo.getRefObjectId())) {
                     LearningPlanItemResult lpiResult = new LearningPlanItemResult();
                     lpiResult.setCategory(planItemInfo.getCategory().toString());
                     lpiResult.setLearningPlanId(planItemInfo.getLearningPlanId());
                     lpiResult.setPlanItemTermId(termId);
                     lpiResult.setRefObjectId(planItemInfo.getRefObjectId());
                     lpiResult.setRefObjectType(planItemInfo.getRefObjectType());
-                    lpiResult.setCluId(courseInfoMap.get(planItemInfo.getRefObjectId()).getCluId());  // both clus and reg groups have course results mapped to the ref object key
-                    // build the label for the item
-                    lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(), planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap));
+
+                    List<CourseSearchResult> refObjs = refObjMap.get(planItemInfo.getRefObjectId());
+                    for (CourseSearchResult refObj : refObjs) {
+                        lpiResult.setCluId(refObj.getCluId());  // both clus and reg groups have course results mapped to the ref object key
+                        lpiResult.setCourseCode(refObj.getCourseCode());
+                        lpiResult.setState(refObj.getState());
+                        lpiResult.setCreditOptions(refObj.getCreditOptions());
+
+                        if (LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(planItemInfo.getRefObjectType())) {
+                            // Don't show any suffix if this is a course plan item
+                            lpiResult.setCourseId(refObj.getCoursePrefix() + refObj.getCourseNumber());
+                        }
+
+                        if (refObjs.size() == 1) {
+                            // Only 1 match, include the courseId
+                            lpiResult.setCourseId(refObj.getCourseId());
+                        }
+
+                        break;
+                    }
+
+                    // If it's a RegGroup, we need to expose the ID and Code of it
+                    if (regGroupMap.containsKey(planItemInfo.getRefObjectId())) {
+                        lpiResult.setRegGroupId(planItemInfo.getRefObjectId()); // RegGroupId == RefObjectId
+                        lpiResult.setRegGroupCode(regGroupMap.get(planItemInfo.getRefObjectId()).getRegGroupName());
+                    }
+
                     lpResults.add(lpiResult);
                 }
             }
@@ -1013,17 +1046,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
         }
         return cluToVidMap;
-    }
-
-    private String getLearningPlanCourseLabel(String refObjectid, String refObjectType, Map<String, CourseSearchResult> courseInfoMap, Map<String, RegGroupSearchResult> regGroupMap) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        String label = "";
-        if (LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY.equals(refObjectType)) {
-            label = courseInfoMap.get(refObjectid).getCourseCode();
-        } else if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(refObjectType)) {
-            CourseSearchResult courseSearchResult = courseInfoMap.get(refObjectid);
-            label = courseSearchResult.getCourseCode() + " (" + regGroupMap.get(refObjectid).getRegGroupName() + ")";
-        }
-        return label;
     }
 
     /**

@@ -1,0 +1,91 @@
+
+// Main Container
+.kscr-LearningPlan {
+
+}
+
+// Inner Container
+.kscr-LearningPlan-container {
+
+}
+
+
+// LP Header
+.kscr-LearningPlan-heading {
+    cursor: pointer;
+    padding-left: 3rem;
+    position: relative;
+
+    .kscr-Card-icon {
+        top: 1rem;
+    }
+    .kscr-MainHeading-header {
+        float: left !important;
+    }
+    .kscr-MainHeading-roundedText {
+        float: right;
+        transform: none;
+    }
+}
+
+
+// LP Content Area (everything below heading)
+.kscr-LearningPlan-content {
+    .kscr-Card-mixin();
+    border: none;
+}
+
+
+.kscr-LearningPlan-toggles {
+    .flexbox();
+
+    align-items: center;
+    justify-content: center;
+
+    .kscr-MainHeading-toggle {
+        display: block;
+        float: none;
+    }
+}
+
+
+// Learning Plan Item List
+.kscr-LearningPlan-list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+}
+
+.kscr-LearningPlan-item {
+    .flexbox();
+
+    position: relative;
+
+    &-icon {
+        height: 2rem;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 2rem;
+
+        &--warning {
+            .warning-icon;
+        }
+    }
+
+    &-label {
+        .flex(1);
+        font-weight: bold;
+        margin: 0 1rem 0 2rem;
+
+        a {
+            text-decoration: none;
+        }
+
+        &-courseCode {
+            min-width: 3rem;
+        }
+    }
+
+    &-credits {}
+}

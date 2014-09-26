@@ -12,6 +12,10 @@
         "message": "Course code required"
     },
     {
+        "messageKey": "kuali.cr.learningplan.message.course.code.not.found",
+        "message": "There is nothing in your learning plan for this term"
+    },
+    {
         "messageKey": "kuali.lpr.trans.message.credit.load.exceeded",
         "message": "Exceeded maximum credit limit <strong ng-if='maxCredits'>({{maxCredits}} credits)</strong>"
     },

@@ -54,6 +54,7 @@ public interface ScheduleOfClassesClientService {
      *
      * @param termId     optional; if provided, overrides termCode
      * @param termCode   optional; required if termId not provided
+     * @param cluId      optional; if provided, search is refined to that clu
      * @param criteria   required
      * @return Returns a list of course offerings
      */
@@ -62,6 +63,7 @@ public interface ScheduleOfClassesClientService {
     @Path("/search")
     Response searchForCourseOfferings(@QueryParam("termId") String termId,
                                       @QueryParam("termCode") String termCode,
+                                      @QueryParam("cluId") String cluId,
                                       @QueryParam("criteria") String criteria) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException, org.kuali.student.r2.common.exceptions.InvalidParameterException;
 
 

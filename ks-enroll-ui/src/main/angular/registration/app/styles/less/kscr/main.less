@@ -80,12 +80,28 @@
   }
 }
 
+.kscr-Main-learingPlanWrapper {
+    @media screen and @sm-Max {
+        display: none;
+    }
+
+    margin: 0 0 1rem;
+}
+
 
 .kscr-Main-cartWrapper {
   @media screen and @sm-Max {
     display: none;
     &--active {
       display: block; /* show only when active */
+    }
+  }
+
+  @media screen and @lg-Min {
+    .kscr-Main-sidebar & {
+        // Cart in sidebar (search only)
+        clear: both;
+        margin: 1rem 0 0;
     }
   }
 }

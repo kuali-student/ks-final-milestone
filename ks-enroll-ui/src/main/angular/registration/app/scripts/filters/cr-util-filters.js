@@ -13,6 +13,10 @@ angular.module('regCartApp')
  */
     .filter('courseSpace', function() {
         return function (courseCode, space) {
+            if (!courseCode) {
+                return courseCode;
+            }
+            
             var prefix = courseCode.match(/^[a-zA-Z]+/),
                 level = courseCode.replace(prefix, '');
 

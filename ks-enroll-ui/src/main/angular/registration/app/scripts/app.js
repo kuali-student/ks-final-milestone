@@ -64,7 +64,7 @@ angular.module('regCartApp', [
                 }
             })
             .state('root.search.results', {
-                url: '/{searchCriteria}', // URL gets appended to parent's
+                url: '/{searchCriteria}?cluId', // URL gets appended to parent's
                 views: {
                     '': {
                         templateUrl: 'partials/searchResults.html',

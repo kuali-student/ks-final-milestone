@@ -170,7 +170,11 @@ angular.module('regCartApp')
             // Store off to prevent a provide a way to reference the search results that come back in case
             // the user runs another search request while this one is still running.
             lastSearchCriteria = criteria;
-            SearchService.searchForCourses().query({termId: TermsService.getTermId(), criteria: criteria}, function(results) {
+            SearchService.searchForCourses().query({
+                termId: TermsService.getTermId(),
+                criteria: criteria === 'fromschedule' ? null : criteria,
+                cluId: $scope.stateParams.cluId || null
+            }, function(results) {
                 if (lastSearchCriteria === criteria) {
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
@@ -188,14 +192,8 @@ angular.module('regCartApp')
         function getResultsTitle(searchResult) {
             var title = searchResult.longName;
 
-            if (searchResult.courseCode === 'CHEM232') {
-                console.log('honors flag', searchResult.honors);
-            }
-
             if (searchResult.honors) {
-                console.log('true flag found');
                 title += '<span class="kscr-SearchDetails-icon--honors" title="Honors Course"></span>';
-                console.log('new title: '+title);
             }
 
             return title;
