@@ -26,7 +26,6 @@
 		</property>
 		<property name="items">
 			<list>
-				<ref bean="planner_edit_term_note_page" />
 				<ref bean="planner_course_summary_page" />
 				<ref bean="planner_copy_course_page" />
 				<ref bean="planner_edit_plan_item_page" />
@@ -49,43 +48,6 @@
 				<bean parent="planner_hidden_input" p:propertyName="courseId" />
 				<bean parent="planner_hidden_input" p:propertyName="uniqueId" />
 			</list>
-		</property>
-	</bean>
-
-    <bean id="planner_edit_term_note_page" parent="planner_edit_term_note_page-parent"/>
-    <bean id="planner_edit_term_note_page-parent" abstract="true" parent="planner_dialog_page">
-		<property name="id" value="planner_edit_term_note_page" />
-		<property name="innerViewWrapperId" value="planner_edit_term_note_page_inner" />
-		<property name="headerText" value="@{#textHelper.getFormattedMessage('dialog.planner.term.edit.header', new Object[]{term.name})}" />
-    	<property name="items">
-	    	<list merge="true">
-				<bean parent="planner_term_note_input" />
-			</list>
-		</property>
-		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="Uif-VerticalBoxGroup">
-							<property name="items">
-								<list>
-									<bean parent="Uif-HorizontalBoxGroup">
-										<property name="items">
-											<list>
-												<bean parent="planner_submit_button"
-                                                      p:actionLabel="@{#textHelper.getText('dialog.planner.term.edit.button')}"
-                                                      p:actionScript="ksapSubmitDialog('planner_edit_term_note_page',e);"/>
-												<bean parent="planner_cancel_button" />
-											</list>
-										</property>
-									</bean>
-									<bean parent="planner_error_placeholder" />
-								</list>
-							</property>
-						</bean>
-					</list>
-				</property>
-			</bean>
 		</property>
 	</bean>
 
@@ -657,7 +619,7 @@
         </property>
     </bean>
 
-    <!-- Define "Add to Plan" popover on all pages  -->
+    <!-- Define "Add to Plan" popover on planner page  -->
     <bean id="KSAP-QuickAddToPlanDialog-FormView" parent="KSAP-QuickAddToPlanDialog-FormView-parent"/>
     <bean id="KSAP-QuickAddToPlanDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
         <property name="id" value="KSAP-QuickAddToPlanDialog-FormView" />
@@ -704,6 +666,57 @@
             </list>
         </property>
     </bean>
+
+    <!-- Define "Term Note" popover on planner page  -->
+    <bean id="KSAP-TermNoteDialog-FormView" parent="KSAP-TermNoteDialog-FormView-parent"/>
+    <bean id="KSAP-TermNoteDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-TermNoteDialog-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.TermNoteForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage" p:additionalCssClasses="ksap-dialog-centered">
+                <property name="id" value="planner_edit_term_note_page" />
+                <property name="innerViewWrapperId" value="planner_edit_term_note_page_inner" />
+                <property name="headerText" value="@{#textHelper.getText('dialog.planner.termnote.header')}" />
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.term.edit.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_edit_term_note_page',e);"/>
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" >
+                    <property name="messageText" value="@{termName}" />
+                </bean>
+                <bean parent="planner_term_note_input" />
+                <bean parent="planner_hidden_input" p:propertyName="termId" />
+                <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+            </list>
+        </property>
+    </bean>
+
+
 	<!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">
@@ -978,6 +991,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
+                <value>ksap-dialog</value>
             </list>
         </property>
     </bean>

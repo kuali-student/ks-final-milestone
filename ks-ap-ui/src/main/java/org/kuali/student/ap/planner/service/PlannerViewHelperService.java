@@ -21,6 +21,7 @@ import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.TermNoteForm;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import javax.servlet.ServletException;
@@ -51,6 +52,17 @@ public interface PlannerViewHelperService extends PlanEventViewHelperService{
      * @return Filled in form for displaying the Quick Add to Plan Dialog for Courses
      */
     public UifFormBase loadQuickAddToPlanDialogForm(UifFormBase submittedForm, QuickAddCourseToPlanForm dialogForm, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * Creates and fills in the needed information for displaying a dialog to handle a term note in the plan.
+     *
+     * @param submittedForm - Original form submitted
+     * @param dialogForm - Dialog form to build on
+     * @param request - Server request object
+     * @param response - Server response object
+     * @return Filled in form for displaying the Quick Add to Plan Dialog for Courses
+     */
+    public UifFormBase loadTermNoteDialogForm(UifFormBase submittedForm, TermNoteForm dialogForm, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * Helps with adding courses to the student's plan.

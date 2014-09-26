@@ -15,6 +15,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.TermNoteForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -68,6 +69,7 @@ public class PlannerController extends KsapControllerBase {
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
 	private static final String ADD_TO_PLAN_DIALOG_FORM = "KSAP-AddToPlanDialog-FormView";
 	private static final String QUICKADD_TO_PLAN_DIALOG_FORM = "KSAP-QuickAddToPlanDialog-FormView";
+	private static final String TERMNOTE_DIALOG_FORM = "KSAP-TermNoteDialog-FormView";
 
 	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
@@ -818,6 +820,36 @@ public class PlannerController extends KsapControllerBase {
 
         UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
                 .loadQuickAddToPlanDialogForm(form,dialogForm,request,response);
+
+        return getUIFModelAndView(completedForm);
+
+    }
+
+    /**
+     * Loads the initial information for the quick add dialog screen opened in the planner.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startTermNoteDialog")
+    public ModelAndView startTermNoteDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                                        HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+        if (plan == null)
+            return null;
+
+        TermNoteForm dialogForm = new TermNoteForm();
+        super.start(dialogForm, request, response);
+
+        // Copy information from original view
+        dialogForm.setFormPostUrl(form.getFormPostUrl());
+        dialogForm.setRequestUrl(form.getRequestUrl());
+
+        dialogForm.setViewId(TERMNOTE_DIALOG_FORM);
+        dialogForm.setView(super.getViewService().getViewById(TERMNOTE_DIALOG_FORM));
+        dialogForm.setPlanId(plan.getId());
+
+        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                .loadTermNoteDialogForm(form,dialogForm,request,response);
 
         return getUIFModelAndView(completedForm);
 

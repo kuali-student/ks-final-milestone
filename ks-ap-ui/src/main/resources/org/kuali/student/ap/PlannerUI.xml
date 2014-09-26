@@ -260,7 +260,7 @@
                     <list>
                         <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
                             <property name="onClickScript"
-                                      value="ksapOpenPlanDialog('planner_edit_term_note_page','planner','startDialog', this, e);" />
+                                      value="ksapOpenPlanDialog('planner_edit_term_note_page','planner','startTermNoteDialog', this, e);" />
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="termid" value="@{#line.termId}" />

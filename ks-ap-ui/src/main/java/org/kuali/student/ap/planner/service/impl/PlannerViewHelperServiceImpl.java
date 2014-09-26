@@ -31,12 +31,21 @@ import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrappe
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.TermNoteForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,6 +139,51 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         dialogForm.setTermId(termId);
         dialogForm.setBackup(backup);
         dialogForm.setTermName(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId).getLongName());
+
+        return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadQuickAddToPlanDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadTermNoteDialogForm(UifFormBase submittedForm, TermNoteForm dialogForm, HttpServletRequest request, HttpServletResponse response){
+        String termId = request.getParameter("termId");
+        String uniqueId = request.getParameter("uniqueId");
+        String planId = dialogForm.getPlanId();
+
+        dialogForm.setTermId(termId);
+        dialogForm.setTermName(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId).getLongName());
+        dialogForm.setUniqueId(uniqueId);
+
+        String termNote = "";
+        CommentService commentService = KsapFrameworkServiceLocator.getCommentService();
+        List<CommentInfo> commentInfos;
+        try {
+            commentInfos = commentService.getCommentsByRefObject(planId,PlanConstants.TERM_NOTE_COMMENT_TYPE,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Comment lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Comment lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Comment lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Comment lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("Comment lookup failure", e);
+        }
+
+        for (CommentInfo comment : commentInfos) {
+            String commentAtpId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+            if (termId.equals(commentAtpId)) {
+                RichTextInfo text = comment.getCommentText();
+                if (text != null)
+                    termNote = text.getPlain();
+            }
+        }
+
+        dialogForm.setTermNote(termNote);
 
         return dialogForm;
     }
