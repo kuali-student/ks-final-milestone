@@ -5,6 +5,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -23,6 +24,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,34 +60,8 @@ public class CourseRegistrationLprActionProcessor {
 
             //Select the request type
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
-
                 //Handle Add requests
-                //Do a seat check & waitlist check
-                List<SeatCount> seatCounts = getSeatCountsForActivityOfferings(message, contextInfo);
-
-                if (areSeatsAvailable(seatCounts, message, contextInfo)) {
-                    //Register person
-                    registerPersonForCourse(message, contextInfo);
-                } else {
-                    //No Seats available
-                    if (isThereAWaitlist(seatCounts, contextInfo)) {
-                        if (isWaitlistFull(seatCounts, contextInfo)) {
-                            //The waitlist is full for this request
-                            notifyWaitlistIsFull(message, contextInfo);
-                        } else {
-                            if (doesStudentWantToWaitlist(message)) {
-                                //Add the student to the waitlist
-                                addStudentToWaitList(message, contextInfo);
-                            } else {
-                                //Notify waitlist is available
-                                notifyWaitlistAvailable(message, contextInfo);
-                            }
-                        }
-                    } else {
-                        //Handle no waitlist available and no seats
-                        notifyNoSeatsNoWaitlistAvailable(message, contextInfo);
-                    }
-                }
+                handleAddRequests(message, contextInfo);
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
                 //Handle Drop
                 dropPersonFromCourse(message, contextInfo);
@@ -108,6 +85,56 @@ public class CourseRegistrationLprActionProcessor {
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
         }
+    }
+
+    private void handleAddRequests(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+
+        //Check if admin and continue with registration.
+        if (isAdminRegistration(message.getRequestItem().getRegistrationRequestId(), contextInfo)){
+            registerPersonForCourse(message, contextInfo);
+            return;
+        }
+
+        //Do a seat check & waitlist check only for non admin registrations.
+        List<SeatCount> seatCounts = getSeatCountsForActivityOfferings(message, contextInfo);
+
+        if (areSeatsAvailable(seatCounts, message, contextInfo)) {
+            //Register person
+            registerPersonForCourse(message, contextInfo);
+        } else {
+            //No Seats available
+            if (isThereAWaitlist(seatCounts, contextInfo)) {
+                if (isWaitlistFull(seatCounts, contextInfo)) {
+                    //The waitlist is full for this request
+                    notifyWaitlistIsFull(message, contextInfo);
+                } else {
+                    if (doesStudentWantToWaitlist(message)) {
+                        //Add the student to the waitlist
+                        addStudentToWaitList(message, contextInfo);
+                    } else {
+                        //Notify waitlist is available
+                        notifyWaitlistAvailable(message, contextInfo);
+                    }
+                }
+            } else {
+                //Handle no waitlist available and no seats
+                notifyNoSeatsNoWaitlistAvailable(message, contextInfo);
+            }
+        }
+    }
+
+    protected boolean isAdminRegistration(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        // TODO: KSENROLL-13911 - This is only a temporary check while functionality is analyzed.
+        // Check for admin user override (allow)
+        LprTransaction lprTransaction = getLprService().getLprTransaction(regReqId, contextInfo);
+        for (Attribute attr : lprTransaction.getAttributes()) {
+            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
+                if (Boolean.valueOf(attr.getValue())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void dropWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
