@@ -79,8 +79,8 @@
     </cache>
 
     <!-- These caches are for Requisites. -->
-    <cache name="agendaCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
-    <cache name="agendaItemCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="agendaCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="agendaItemCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
 
     <!-- Cache for KIM Principal. Intended for getEntityIdByPrincipalId -->
     <cache name="kimPrincipalCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
