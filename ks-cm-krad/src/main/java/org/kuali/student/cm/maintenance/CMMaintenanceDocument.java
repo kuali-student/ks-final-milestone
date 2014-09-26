@@ -98,9 +98,8 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName(), e);
         }
 
+        // calling the super method which will eventually call the populateMaintainablesFromXmlDocumentContents() method as overriden below
         super.processAfterRetrieve();
-
-        ((CMMaintainable) newMaintainableObject).retrieveDataObject();
 
     }
 
@@ -125,16 +124,28 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     }
 
     /**
-     * These methods deal with (de)serialization of the MaintainableImpl.
+     * The original intention of this method was to deal with (de)serialization of the MaintainableImpl so that the xml can be stored in a KRAD
+     * table. However, due to the fact that Curriculum Management uses versioning of objects in the database, this method has been overriden
+     * so that the (de)serialization can be ignored and the #xmlDocumentContents can be set to an empty string.
      */
     @Override
     public void populateXmlDocumentContentsFromMaintainables() {
         xmlDocumentContents = StringUtils.EMPTY;
     }
 
+    /**
+     * The original intention of this method for MaintenanceDocuments was to populate the old and new maintainables from the xml document contents
+     * string. However, due to the fact that Curriculum Management uses versioning of objects in the database, this method has been modified to
+     * do a fetch from the database using a custom maintainable method: {@link org.kuali.student.cm.maintenance.CMMaintainable#retrieveDataObject()}
+     * for the #newMaintainableObject only (the #oldMaintainableObject only comes into play in comparison views and it is managed directly).
+     */
     @Override
     public void populateMaintainablesFromXmlDocumentContents() {
+        // first set the xmlDocumentContents to empty since we don't use the xml doc contents for data storage
         xmlDocumentContents = StringUtils.EMPTY;
+
+        // do the actual retrieve of the data by using a custom Maintainable method
+        ((CMMaintainable) newMaintainableObject).retrieveDataObject();
     }
 
     @Override
