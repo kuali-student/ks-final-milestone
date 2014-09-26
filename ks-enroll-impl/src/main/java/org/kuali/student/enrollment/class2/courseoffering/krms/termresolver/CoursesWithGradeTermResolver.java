@@ -47,7 +47,7 @@ public class CoursesWithGradeTermResolver extends GradeTermResolverSupport<Boole
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(3);
+        Set<String> temp = new HashSet<>();
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
@@ -64,6 +64,8 @@ public class CoursesWithGradeTermResolver extends GradeTermResolverSupport<Boole
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
+        boolean coursesWithGrade = true;
+
         try {
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
@@ -71,16 +73,20 @@ public class CoursesWithGradeTermResolver extends GradeTermResolverSupport<Boole
             String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
 
             List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, parameters, context);
-            for(String versionIndId : versionIndIds){
-                if(!this.checkCourseWithGrade(personId, versionIndId, grade, gradeType, parameters, context)){
-                    return false;
+            if (versionIndIds != null && !versionIndIds.isEmpty()) {
+                for(String versionIndId : versionIndIds){
+                    if(!this.checkCourseWithGrade(personId, versionIndId, grade, gradeType, parameters, context)){
+                        coursesWithGrade = false;
+                    }
                 }
+            } else {
+                coursesWithGrade = false;
             }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return true;
+        return coursesWithGrade;
     }
 
 }
