@@ -152,7 +152,7 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="[br]Rollover can be run only once. Ensure that all term and subterm dates are accurate and all rollover option settings have been configured correctly.[br]Proceed with rollover? Y/N[br][br][br]"/>
+                <bean parent="Uif-Message" p:messageText="[br]Rollover can be run only once. Ensure that all term and subterm dates are accurate and all rollover option settings have been configured correctly.[br]Proceed with rollover?[br][br][br]"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
