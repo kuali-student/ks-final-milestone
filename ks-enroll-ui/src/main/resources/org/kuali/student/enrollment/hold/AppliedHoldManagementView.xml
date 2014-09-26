@@ -200,10 +200,10 @@
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="consequence" p:style="width:350px;"/>
                 <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="state" p:readOnly="true"/>
-                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="startDate" p:additionalCssClasses="nowrap"/>
-                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="endDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
-                <bean parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm" p:additionalCssClasses="nowrap"/>
-                <bean parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Effective Date" p:propertyName="startDate" p:additionalCssClasses="nowrap"/>
+                <bean parent="KS-Uif-DataField" p:label="Expiration Date" p:propertyName="endDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Effective Term" p:propertyName="startTerm" p:additionalCssClasses="nowrap"/>
+                <bean parent="KS-Uif-DataField" p:label="Expiration Term" p:propertyName="endTerm" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
                 <bean name="enableExpireButton" parent="KS-Uif-DataField-Simple" p:label="enableExpireButton" p:propertyName="enableExpireButton" />
                 <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton" p:propertyName="enableDeleteButton" />
             </list>
