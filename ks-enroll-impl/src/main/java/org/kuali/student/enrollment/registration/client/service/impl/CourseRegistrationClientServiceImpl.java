@@ -939,7 +939,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 List<CourseSearchResult> courseInfoResults = searchForCourseInfo(cluIds, termId, contextInfo);
                 if (courseInfoResults != null) {
                     for (CourseSearchResult courseInfoResult : courseInfoResults) {
-                        courseInfoMap.put(cluToVidMap.get(courseInfoResult.getCluId()), courseInfoResult);
+                        if(cluToVidMap.containsKey(courseInfoResult.getCluId())) {
+                            courseInfoMap.put(cluToVidMap.get(courseInfoResult.getCluId()), courseInfoResult);
+                        }
                     }
                 }
             }
@@ -953,7 +955,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                         // we'll need course info objects for both the reg groups and the course offerings
                         CourseSearchResult courseSearchResult = getScheduleOfClassesService().getCourseOfferingById(regGroupSearchResult.getCourseOfferingId(), contextInfo);
-                        courseInfoMap.put(rgId, courseSearchResult);
+                        if(courseSearchResult != null) {
+                            courseInfoMap.put(rgId, courseSearchResult);
+                        }
                     }
                 }
             }
@@ -961,16 +965,18 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // Now we have all the plans... lets convert them into something the user wants to see
             List<LearningPlanItemResult> lpResults = new ArrayList<>(termPlanItems.size());
             for (PlanItemInfo planItemInfo : termPlanItems) {
-                LearningPlanItemResult lpiResult = new LearningPlanItemResult();
-                lpiResult.setCategory(planItemInfo.getCategory().toString());
-                lpiResult.setLearningPlanId(planItemInfo.getLearningPlanId());
-                lpiResult.setPlanItemTermId(termId);
-                lpiResult.setRefObjectId(planItemInfo.getRefObjectId());
-                lpiResult.setRefObjectType(planItemInfo.getRefObjectType());
-                lpiResult.setCluId(courseInfoMap.get(planItemInfo.getRefObjectId()).getCluId());  // both clus and reg groups have course results mapped to the ref object key
-                // build the label for the item
-                lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(), planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap));
-                lpResults.add(lpiResult);
+                if(courseInfoMap.containsKey(planItemInfo.getRefObjectId())) {
+                    LearningPlanItemResult lpiResult = new LearningPlanItemResult();
+                    lpiResult.setCategory(planItemInfo.getCategory().toString());
+                    lpiResult.setLearningPlanId(planItemInfo.getLearningPlanId());
+                    lpiResult.setPlanItemTermId(termId);
+                    lpiResult.setRefObjectId(planItemInfo.getRefObjectId());
+                    lpiResult.setRefObjectType(planItemInfo.getRefObjectType());
+                    lpiResult.setCluId(courseInfoMap.get(planItemInfo.getRefObjectId()).getCluId());  // both clus and reg groups have course results mapped to the ref object key
+                    // build the label for the item
+                    lpiResult.setItemLabel(getLearningPlanCourseLabel(planItemInfo.getRefObjectId(), planItemInfo.getRefObjectType(), courseInfoMap, regGroupMap));
+                    lpResults.add(lpiResult);
+                }
             }
 
             response = Response.ok(lpResults);
