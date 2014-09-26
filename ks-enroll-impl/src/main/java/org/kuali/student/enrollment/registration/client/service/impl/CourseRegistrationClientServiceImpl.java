@@ -887,8 +887,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY)).build();
             }
 
+            String entityId =  getKsIdentityServiceHelper().getEntityIdByPrincipalId(contextInfo.getPrincipalId());
+
             // get the learning plan for this student
-            List<LearningPlanInfo> learningPlans = getAcademicPlanService().getLearningPlansForStudentByType(contextInfo.getPrincipalId(), AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, contextInfo);
+            List<LearningPlanInfo> learningPlans = getAcademicPlanService().getLearningPlansForStudentByType(entityId, AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, contextInfo);
 
             if (learningPlans == null || learningPlans.isEmpty()) {
                 return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
