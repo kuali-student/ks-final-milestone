@@ -229,3 +229,16 @@ function renderResults() {
         jq(this).closest("tr").addClass('alert-success');
     });
 }
+
+//Focus on element on dialog
+function setInputFieldFocus( inputNames) {
+
+    for (var i = 0; i < inputNames.length; i++) {
+        var elements = document.getElementsByName(inputNames[i]);
+
+        if (elements.length > 0) {
+            jQuery('[name="' + inputNames[i] + '"]').focus();
+            break;
+        }
+    }
+}
