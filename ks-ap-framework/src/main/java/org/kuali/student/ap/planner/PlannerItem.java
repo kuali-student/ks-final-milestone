@@ -7,6 +7,7 @@ import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.HtmlUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -165,7 +166,7 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 
 	public String getCourseNote() {
 		if(courseNote==null)courseNote="";
-        return courseNote;
+        return HtmlUtils.htmlEscape(courseNote);
 	}
 
 	public void setCourseNote(String courseNote) {
