@@ -6,11 +6,12 @@ and apply more specific styling here based on the field name.
 */
 
 .kscr-Search-result {
-  position: relative;
-  .font-size(14);
-  font-family: @secondaryFontFamily;
   color: @cardTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
   font-weight: normal;
+  position: relative;
+
   .kscr-SearchDetails-icon--honors {
     float:right;
   }
@@ -50,11 +51,11 @@ and apply more specific styling here based on the field name.
 
 .kscr-Search-results-cell .kscr-Search-results-no-seats,
 .kscr-Search-details-section--singleRegGroup .kscr-Search-results-no-seats {
+  background-color: @errorBackground;
+  border: 1px solid @errorBorder;
   color: @courseSearchNoSeats;
   font-weight: bold;
-  border: 1px solid @errorBorder;
-  padding: 1rem 1rem 1rem 1rem;
-  background-color: @errorBackground;
+  padding: 1rem;
 }
 
 
@@ -66,15 +67,25 @@ and apply more specific styling here based on the field name.
       padding-right: 0.6rem;
     }
   }
+
+  &--Title {
+    > span {
+      &:hover,
+      &:focus{
+        color: @linkColorHover;
+      }
+    }
+  }
 }
 
 // Course Details -- AO column widths
-.kscr-Search-results-column-Days {
-  width: 12%;
-}
-.kscr-Search-results-column-Time {
-  width: 20%;
-}
-.kscr-Search-results-column-Instructor {
-  width: 20%;
+.kscr-Search-results-column {
+  &-Days {
+    width: 12%;
+  }
+
+  &-Time,
+  &-Instructor {
+    width: 20%;
+  }
 }
