@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.registration.engine.node.impl;
+package org.kuali.student.enrollment.registration.engine.processor;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -10,19 +10,9 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
-import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
-import org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor;
 import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -33,43 +23,18 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegistrationNode<RegistrationRequestEngineMessage, RegistrationRequestEngineMessage> {
+/**
+ * Calls validation on the request, and handles the validation results
+ */
+public class CourseRegistrationVerifyRegRequestProcessor {
 
-    public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestNode.class);
-
-    private static final int VERSION_MISMATCH_TRIES = 3;
+    public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestProcessor.class);
 
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
     private CourseRegistrationErrorProcessor courseRegistrationErrorProcessor;
 
-    public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null) {
-            courseRegistrationService = GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
-        }
-
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
-
-    public LprService getLprService() {
-        if (lprService == null) {
-            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE,
-                    LprServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return lprService;
-    }
-
-    public void setLprService(LprService lprService) {
-        this.lprService = lprService;
-    }
-
-    @Override
     public RegistrationRequestEngineMessage process(RegistrationRequestEngineMessage message) {
-
         DateTime startTime = new DateTime();
 
         RegistrationRequest regRequest = message.getRegistrationRequest();
@@ -79,7 +44,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         Exception transactionException = null; // if an exception happens during processing we should fail the entire transaction
         try {
             validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
-                getRegistrationRequest().getId(), contextInfo));
+                    getRegistrationRequest().getId(), contextInfo));
         } catch (Exception ex) {
             transactionException = ex;
             LOG.error("Error during rules execution.", ex);
@@ -96,47 +61,28 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             if (transactionException != null) {
                 message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
             } else {
-                // Get the current persisted transaction
                 String lprTransactionId = regRequest.getId();
+
+                // Get the current persisted transaction
                 LprTransactionInfo trans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
-                String version = trans.getMeta().getVersionInd();
 
-                int tryCounter = 0;
-                boolean keepTrying = true;
-                while (keepTrying) {
-                    //Update the warnings
-                    updateLprTransactionWithWarnings(trans, warnings);
+                //Update the warnings
+                updateLprTransactionWithWarnings(trans, warnings);
 
-                    //Only set state to failed for non admin registration requests.
-                    String stateKey = isAdminRegistration(regRequest) ? null : LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY;
+                //Only set state to failed for non admin registration requests.
+                String stateKey = isAdminRegistration(regRequest) ? null : LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY;
 
-                    //Update the errors
-                    updateLprTransactionWithErrors(trans, errors, stateKey);
+                //Update the errors
+                updateLprTransactionWithErrors(trans, errors, stateKey);
 
-                    //Check the current transaction version
-                    LprTransactionInfo currentTrans = getLprService().getLprTransaction(lprTransactionId, contextInfo);
-                    String currentVersion = currentTrans.getMeta().getVersionInd();
-                    if (currentVersion.equals(version)) {
-                        //Persist the updated transaction
-                        getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
+                //Persist the updated transaction
+                getLprService().updateLprTransaction(lprTransactionId, trans, contextInfo);
 
-                        // the operation above has changed the registration request. Pull from the database and update existing
-                        // message.
-                        RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
-                        updateRegRequestWithErrors(updatedRequestInfo, errors, stateKey);
-                        message.setRegistrationRequest(updatedRequestInfo);
-                        keepTrying = false;
-                    } else {
-                        tryCounter++;
-                        if (tryCounter <= VERSION_MISMATCH_TRIES) {
-                            LOG.warn("Versions do not match...attempting to update again. Version: {}. Current version: {}", version, currentVersion);
-                            trans = currentTrans;
-                            version = currentVersion;
-                        } else {
-                            throw new RuntimeException("Failed version mismatch check "+tryCounter+" times, unable to continue");
-                        }
-                    }
-                }
+                // the operation above has changed the registration request. Pull from the database and update existing
+                // message.
+                RegistrationRequestInfo updatedRequestInfo = getCourseRegistrationService().getRegistrationRequest(trans.getId(), contextInfo);
+                updateRegRequestWithErrors(updatedRequestInfo, errors, stateKey);
+                message.setRegistrationRequest(updatedRequestInfo);
             }
 
         } catch (Exception ex) {
@@ -150,9 +96,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     }
 
-    protected void updateLprTransactionWithWarnings(LprTransactionInfo trans, List<ValidationResultInfo> warnings)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
-            DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+    protected void updateLprTransactionWithWarnings(LprTransactionInfo trans, List<ValidationResultInfo> warnings){
 
         for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
             for (ValidationResultInfo warning : warnings) {
@@ -167,9 +111,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     }
 
     protected void updateLprTransactionWithErrors(LprTransactionInfo trans, List<ValidationResultInfo> errors,
-                                                                String stateKey)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
-            DoesNotExistException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+                                                  String stateKey) {
 
         for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
             for (ValidationResultInfo error : errors) {
@@ -251,4 +193,29 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     public void setCourseRegistrationErrorProcessor(CourseRegistrationErrorProcessor courseRegistrationErrorProcessor) {
         this.courseRegistrationErrorProcessor = courseRegistrationErrorProcessor;
     }
+
+    public CourseRegistrationService getCourseRegistrationService() {
+        if (courseRegistrationService == null) {
+            courseRegistrationService = GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
+        }
+
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
+    }
+
+    public LprService getLprService() {
+        if (lprService == null) {
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE,
+                    LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
+    }
+
 }

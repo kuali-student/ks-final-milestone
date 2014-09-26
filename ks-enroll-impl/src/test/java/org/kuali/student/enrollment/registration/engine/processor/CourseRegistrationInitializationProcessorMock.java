@@ -1,26 +1,25 @@
-package org.kuali.student.enrollment.registration.engine.node.impl;
+package org.kuali.student.enrollment.registration.engine.processor;
 
 import org.kuali.student.enrollment.registration.engine.TestCourseRegistrationEngine;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
-import javax.jms.MapMessage;
+import java.util.Map;
 
 /**
- * Initializes the registration request for further processing
+ * Created by Daniel on 9/25/14.
  */
-public class CourseRegistrationInitializationNodeMock extends CourseRegistrationInitializationNode {
-
+public class CourseRegistrationInitializationProcessorMock extends CourseRegistrationInitializationProcessor {
     @Override
-    public RegistrationRequestEngineMessage process(MapMessage message) {
+    public RegistrationRequestEngineMessage process(Map message) {
 
-        RegistrationRequestEngineMessage requestEngineMessage=super.process(message);
+        RegistrationRequestEngineMessage requestEngineMessage = super.process(message);
         ContextInfo contextInfo = requestEngineMessage.getContextInfo();
 
         try {
             for (String exception : TestCourseRegistrationEngine.EXCEPTIONS) {
-                if (message.getBoolean(exception)) {
+                if (message.get(exception)!=null && (Boolean)message.get(exception)) {
                     contextInfo.getAttributes().add(new AttributeInfo(exception, TestCourseRegistrationEngine.TRUE));
                 }
             }
@@ -31,6 +30,6 @@ public class CourseRegistrationInitializationNodeMock extends CourseRegistration
         requestEngineMessage.setContextInfo(contextInfo);
 
         return requestEngineMessage;
-    }
 
+    }
 }

@@ -1,9 +1,8 @@
-package org.kuali.student.enrollment.registration.engine.node.impl;
+package org.kuali.student.enrollment.registration.engine.processor;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
-import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -15,10 +14,9 @@ import java.util.List;
  * Node that processes people off of the waitlist. This uses the waitlist manager service
  * to get a list of registration requests and sends them to the registration engine for processing off of the waitlist.
  */
-public class CourseRegistrationWaitlistManagerNode extends AbstractCourseRegistrationNode<List<String>, List<RegistrationRequest>> {
+public class CourseRegistrationWaitlistManagerProcessor {
     private WaitlistManagerService waitlistManagerService;
 
-    @Override
     public List<RegistrationRequest> process(List<String> message) {
         DateTime startTime = new DateTime();
 
@@ -42,4 +40,5 @@ public class CourseRegistrationWaitlistManagerNode extends AbstractCourseRegistr
     public void setWaitlistManagerService(WaitlistManagerService waitlistManagerService) {
         this.waitlistManagerService = waitlistManagerService;
     }
+
 }

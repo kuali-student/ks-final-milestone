@@ -95,19 +95,9 @@
     </util:map>
 
     <!-- override the CourseRegistrationInitializationNode -->
-    <bean id="registrationInitializationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNodeMock">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
+    <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
+    <bean id="registrationInitializationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationInitializationProcessorMock">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.verificationQueue</value>
-            </list>
-        </property>
-        <property name="filters">
-            <list>
-                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceStartNodeFilter"/>
-            </list>
-        </property>
     </bean>
 
     <!-- override the request splitter -->

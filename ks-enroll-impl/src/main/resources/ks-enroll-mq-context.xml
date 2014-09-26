@@ -57,10 +57,6 @@
     <jms:listener-container concurrency="1" >
         <!-- This is used for performance monitoring of queues -->
         <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
-        <!-- These listeners are the nodes in the registration engine -->
-        <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initializationListenerQueue" ref="registrationInitializationListener" />
-        <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
-        <jms:listener id="waitlistManagerListener" destination="org.kuali.student.enrollment.registration.seatOpenEventQueue" ref="waitlistManagerNode" />
     </jms:listener-container>
 
     <!--Used to collect performance statistics -->
@@ -69,30 +65,18 @@
     </bean>
 
     <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
-    <bean id="registrationInitializationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNode">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
+    <bean id="registrationInitializationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationInitializationProcessor">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.verificationQueue</value>
-            </list>
-        </property>
-        <property name="filters">
-            <list>
-                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceStartNodeFilter"/>
-            </list>
-        </property>
     </bean>
 
     <!-- Verifies the reg request -->
-    <bean id="registrationVerificationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationVerifyRegRequestNode">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
+    <bean id="registrationVerificationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationVerifyRegRequestProcessor">
         <property name="courseRegistrationErrorProcessor" ref="courseRegistrationErrorProcessor"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.splitByItemQueue</value>
-            </list>
-        </property>
+    </bean>
+
+    <!-- Processes the waitlist when seats open up -->
+    <bean id="waitlistManagerProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationWaitlistManagerProcessor">
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
     </bean>
 
     <camelContext xmlns="http://camel.apache.org/schema/spring">
@@ -107,6 +91,24 @@
             <handled><constant>true</constant></handled>
             <bean ref="courseRegistrationErrorProcessor" method="process" />
         </onException>
+
+        <route>
+            <from uri="activemq:org.kuali.student.enrollment.registration.seatOpenEventQueue"/>
+            <bean ref="waitlistManagerProcessor" method="process"/>
+        </route>
+
+        <route> <!-- This route sets the status of the transaction to processing.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.initializationListenerQueue"/>
+            <bean ref="regEnginePerfPojo" method="notifyPerfStart(${body['regReqId']})" />
+            <bean ref="registrationInitializationProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.verificationQueue"/>
+        </route>
+
+        <route> <!-- This route validates the request.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.verificationQueue"/>
+            <bean ref="registrationVerificationProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue"/>
+        </route>
 
         <route> <!-- This route splits the reg request into it's items. Adding needed info to the message header.  -->
             <from uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue" />  <!-- pick up the reg req -->
@@ -247,9 +249,7 @@
     </bean>
 
 
-    <bean id="waitlistManagerNode" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationWaitlistManagerNode">
-        <property name="waitlistManagerService" ref="waitlistManagerService"/>
-    </bean>
+
 
     <!-- Groups common registration functions into a single service -->
     <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">

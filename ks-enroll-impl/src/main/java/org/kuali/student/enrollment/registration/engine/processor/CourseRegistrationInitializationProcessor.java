@@ -1,33 +1,34 @@
-package org.kuali.student.enrollment.registration.engine.node.impl;
+package org.kuali.student.enrollment.registration.engine.processor;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
-import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.jms.MapMessage;
+import java.util.Map;
 
 /**
  * Initializes the registration request for further processing
  */
-public class CourseRegistrationInitializationNode extends AbstractCourseRegistrationNode<MapMessage, RegistrationRequestEngineMessage> {
+public class CourseRegistrationInitializationProcessor {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationInitializationProcessor.class);
 
     private CourseRegistrationEngineService courseRegistrationEngineService;
 
-    @Override
-    public RegistrationRequestEngineMessage process(MapMessage message) {
+    public RegistrationRequestEngineMessage process(Map<String, String> message) {
         DateTime startTime = new DateTime();
-
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-            String userId = message.getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID);
-            String regReqId = message.getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
+            String userId = message.get(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID);
+            String regReqId = message.get(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
 
             contextInfo.setPrincipalId(userId);
 
@@ -57,4 +58,5 @@ public class CourseRegistrationInitializationNode extends AbstractCourseRegistra
     public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {
         this.courseRegistrationEngineService = courseRegistrationEngineService;
     }
+
 }

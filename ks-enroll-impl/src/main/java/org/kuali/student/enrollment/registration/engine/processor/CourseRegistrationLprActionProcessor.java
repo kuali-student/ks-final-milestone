@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.registration.engine.processor;
 import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
@@ -15,6 +16,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Regist
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
+import org.kuali.student.enrollment.registration.engine.util.NodePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -48,6 +50,7 @@ public class CourseRegistrationLprActionProcessor {
 
     public RegistrationRequestItemEngineMessage process(RegistrationRequestItemEngineMessage message) {
         LOGGER.info("Trying to register requestItemId:" + message.getRequestItem().getId());
+        DateTime startTime = new DateTime();
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             contextInfo.setPrincipalId(message.getRequestorId());
@@ -55,6 +58,8 @@ public class CourseRegistrationLprActionProcessor {
 
             if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())) {
                 //Don't process this if it has failed.
+                DateTime endTime = new DateTime();
+                NodePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
                 return message;
             }
 
@@ -81,6 +86,8 @@ public class CourseRegistrationLprActionProcessor {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }
             LOGGER.info("Completed registering requestItemId:" +  message.getRequestItem().getId());
+            DateTime endTime = new DateTime();
+            NodePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", startTime, endTime);
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
@@ -324,10 +331,6 @@ public class CourseRegistrationLprActionProcessor {
 
     public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {
         this.courseRegistrationEngineService = courseRegistrationEngineService;
-    }
-
-    public JmsTemplate getJmsTemplate() {
-        return jmsTemplate;
     }
 
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
