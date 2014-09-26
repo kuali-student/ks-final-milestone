@@ -5,7 +5,11 @@
             <div class="util-Grid-cell">
                 <a id="go_to_schedule" ui-sref="root.schedule"><div class="kscr-Button-directional-left"><i class="glyphicon glyphicon-calendar"></i></div></a>
                 <div class="kscr-MainHeading-header">Search</div>
-                <a id="go_to_cart" ui-sref="root.cart"><div class="kscr-Button-directional-right"><i class="glyphicon glyphicon-shopping-cart"></i>{{numCartCourses}}</div></a>
+                <a id="go_to_cart" ui-sref="root.cart">
+                    <div class="kscr-Button-directional-right">
+                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                        <div class="kscr-MainHeading-roundedText">{{cartCourseCount()}}</div>
+                    </div></a>
             </div>
         </div>
 

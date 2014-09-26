@@ -262,28 +262,17 @@
 }
 
 .kscr-MainHeading-roundedText {
-//  position: relative;
-//  top: 0.1rem;
-//  display: inline-block;
-//  font-family: 'Glyphicons Halflings';
-//  -webkit-font-smoothing: antialiased;
-//  font-style: normal;
-//  font-weight: normal;
-//  line-height: 1;
-//  -moz-osx-font-smoothing: grayscale;
-
   position: relative;
-  top: 0rem;
+  .kscr-util-vertical-align-element();
   display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  color: @lightGray;
+  width: 2.3rem;
+  height: 2.3rem;
+  font: @primaryFontFamily;
   .font-size(14);
-  width: 1.8rem;
-  height: 1.8rem;
+  color: @lightGray;
   background-color: @whiteBackground;
   border: 1px solid @bodyColorDark;
-  border-radius: 50%;
+  .Rounded(50%);
 }
 
 #kscr-CartHeading {
