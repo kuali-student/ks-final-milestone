@@ -35,7 +35,7 @@
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true"
                                           p:actionLabel="Rollover Course Offerings"
-                                          p:methodToCall="performRollover"
+                                          p:actionScript="e.preventDefault();showLightboxComponent('complexRollOverMatrixOverrideConfirmDialog');"
                                           p:clearDirtyOnAction="false" />
                                     <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                                 </list>
@@ -147,4 +147,28 @@
             </list>
         </property>
     </bean>
+    <bean id="complexRollOverMatrixOverrideConfirmDialog" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="[br]Rollover can be run only once. Ensure that all term and subterm dates are accurate and all rollover option settings have been configured correctly.[br]Proceed with rollover? Y/N[br][br][br]"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="complex_rollover_override_yes_button" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                  p:actionLabel="Yes"  p:methodToCall="performRollover" p:performClientSideValidation="true">
+                            </bean>
+                            <bean id="complex_rollover_override_override_no_link" parent="Uif-ActionLink" p:actionLabel="No" p:additionalCssClasses="cancel_link" p:actionScript="e.preventDefault();closeLightbox();"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
 </beans>
