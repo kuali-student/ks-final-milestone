@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -470,10 +469,11 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
 
                 regActivity.setDays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
-
-                timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
-                timeSchedule.append(" - ");
-                timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+                if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getEndTime() != null) {
+                    timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
+                    timeSchedule.append(" - ");
+                    timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+                }
             } else {
                 regActivity.setDays(StringUtils.EMPTY);
             }
