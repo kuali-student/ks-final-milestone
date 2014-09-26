@@ -141,7 +141,7 @@ limitations under the License.
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Description" p:propertyName="descr">
                     <property name="control">
-                        <bean parent="Uif-SmallTextAreaControl"/>
+                        <bean parent="Uif-TextAreaControl" p:cols="60" p:rows="5"/>
                     </property>
                 </bean>
             </list>
