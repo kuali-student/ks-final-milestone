@@ -1002,8 +1002,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             );
 
             List<String> cluIds = getCluService().searchForCluIds(qbcBuilder.build(), contextInfo);
-
-            cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds), versionIndependentId);
+            if(cluIds != null && !cluIds.isEmpty()) {
+                cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds), versionIndependentId);
+            }
         }
         return cluToVidMap;
     }
