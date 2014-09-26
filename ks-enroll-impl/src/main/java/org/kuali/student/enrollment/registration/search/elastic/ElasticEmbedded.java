@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.search.elastic;
 
 import com.google.common.collect.Iterables;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -16,22 +15,16 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
-import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -61,7 +54,7 @@ public class ElasticEmbedded {
     }
 
     private DateTime lastUpdated; //Keep track of timeout for the elastic "cache"
-    private long timeToRefreshMs = (30 * 60 * 1000); //Max time before refreshing the cache/reindexing
+    private long timeToRefreshMs = (5 * 60 * 60 * 1000); //Max time before refreshing the cache/reindexing
     private final static int PARTITION_SIZE = 10000; // for large data sets we should partition
 
     /**
@@ -119,13 +112,20 @@ public class ElasticEmbedded {
 
         //Grab all the data from the services
         List<CourseSearchResult> courses = getAllCourseOfferings();
+        indexCourseOfferingData(courses);
+    }
+
+    private void indexCourseOfferingData(List<CourseSearchResult> courses) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        LOG.info("Loading Course Offering Data into Elastic");
+        Date startTime = new Date();
+
         BulkRequestBuilder bulkRequest = client.prepareBulk();
         ObjectMapper mapper = new ObjectMapper();
 
         //Create a bulk request to push all data into elastic
         for (CourseSearchResult searchResult : courses) {
             String json = mapper.writeValueAsString(searchResult);
-            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId() + "-" + searchResult.getCourseCode()).setSource(json));
+            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()).setSource(json));
         }
 
         //Execute the bulk operation
@@ -195,14 +195,18 @@ public class ElasticEmbedded {
     }
 
     private void indexRegistrationGroupData() throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
-        LOG.info("Loading Registration Group Data into Elastic");
-        Date startTime = new Date();
-
         //Grab all the data from the services
         Collection<RegGroupSearchResult> allRegGroups = getAllRegistrationGroups();
 
+        indexRegistrationGroupData(allRegGroups);
+    }
+
+    private void indexRegistrationGroupData(Collection<RegGroupSearchResult> registrationGroups) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        LOG.info("Loading Registration Group Data into Elastic");
+        Date startTime = new Date();
+
         // break up large set into smaller pieces
-        Iterable<List<RegGroupSearchResult>> regGroupSubSets = Iterables.partition(allRegGroups, PARTITION_SIZE);
+        Iterable<List<RegGroupSearchResult>> regGroupSubSets = Iterables.partition(registrationGroups, PARTITION_SIZE);
 
         Iterator<List<RegGroupSearchResult>> iterator = regGroupSubSets.iterator();
         int partition = 0;
@@ -241,56 +245,47 @@ public class ElasticEmbedded {
      */
     private List<CourseSearchResult> getAllCourseOfferings() throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        List<CourseSearchResult> courseSearchResults = new ArrayList<>();
-
-        //Use search service to grab the course data
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_SEARCH_INFO_SEARCH_KEY);
-        ContextInfo context = ContextUtils.createDefaultContextInfo();
-
-        SearchResult searchResults = searchService.search(searchRequest, context);
-
-        //Process the results
-        for (SearchResultHelper.KeyValue keyValue : SearchResultHelper.wrap(searchResults)) {
-
-            CourseSearchResult courseSearchResult = new CourseSearchResult();
-            courseSearchResult.setCluId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID));
-            courseSearchResult.setCourseIdentifierType(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_IDENT_TYPE));
-            courseSearchResult.setCourseCode(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE));
-            courseSearchResult.setCourseId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID));
-            courseSearchResult.setCourseLevel(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LEVEL));
-            courseSearchResult.setCourseNumber(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_NUMBER));
-//            courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
-            //crosslistings have a different prefix so grab a substring from the code
-            courseSearchResult.setCoursePrefix(courseSearchResult.getCourseCode().substring(0, 4));
-            courseSearchResult.setLongName(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME));
-            courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
-            courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
-            courseSearchResult.setState(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_STATE));
-
-            // Set seats available
-            String seatsAvailable = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE);
-            if (StringUtils.isNotEmpty(seatsAvailable)) {
-                courseSearchResult.setSeatsAvailable(Integer.parseInt(seatsAvailable));
-            }
-
-            // Set honors flag
-            String honorsFlag = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.HONORS_FLAG);
-            courseSearchResult.setHonors(honorsFlag != null && honorsFlag.equalsIgnoreCase("true"));
-
-            // Grab Learning Results data
-            // These two calls are cached so they are actually more performant
-            List<String> creditResultsValueKeys = lrcService.getResultValuesGroup(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS), context).getResultValueKeys();
-            List<ResultValueInfo> creditResultValues = lrcService.getResultValuesByKeys(creditResultsValueKeys, context);
-
-            //Add all the credits from the result value group
-            for (ResultValueInfo creditResultValue : creditResultValues) {
-                courseSearchResult.getCreditOptions().add(creditResultValue.getValue());
-            }
-
-            courseSearchResults.add(courseSearchResult);
-        }
+        List<CourseSearchResult> courseSearchResults = scheduleOfClassesService.getCourseOfferings(null, null, ContextUtils.createDefaultContextInfo());
 
         return courseSearchResults;
+    }
+
+    /**
+     * Pass in a list of course offering ids. We will run a query for those ids and update the cache.
+     * @param courseOfferingIds
+     * @throws DoesNotExistException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws IOException
+     */
+    public void updateCourseOfferingCache(List<String> courseOfferingIds) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        LOG.info("Updating index for course offering ids: " + courseOfferingIds);
+        List<CourseSearchResult> courseSearchResults = scheduleOfClassesService.getCourseOfferings(courseOfferingIds, null, ContextUtils.createDefaultContextInfo());
+
+        if(courseSearchResults != null && !courseSearchResults.isEmpty()){
+           indexCourseOfferingData(courseSearchResults);
+        }
+    }
+
+    /**
+     * Pass in a list of registration group ids. We will run a query for those ids and update the cache.
+     * @param registrationGroupIds
+     * @throws DoesNotExistException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws IOException
+     */
+    public void updateRegistrationGroupCache(List<String> registrationGroupIds) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        LOG.info("Updating index for registration group ids: " + registrationGroupIds);
+        Collection<RegGroupSearchResult> regGroupSearchResults = scheduleOfClassesService.getRegGroups(registrationGroupIds, ContextUtils.createDefaultContextInfo());
+
+        if(regGroupSearchResults != null && !regGroupSearchResults.isEmpty()){
+            indexRegistrationGroupData(regGroupSearchResults);
+        }
     }
 
     protected Collection<RegGroupSearchResult> getAllRegistrationGroups() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

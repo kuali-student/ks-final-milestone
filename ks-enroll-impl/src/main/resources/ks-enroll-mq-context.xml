@@ -154,7 +154,7 @@
         <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
             <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
             <filter>
-                <simple>${in.body.type} contains 'kuali.lui.type.activity.offering'</simple>
+                <simple>${in.body.type} contains 'kuali.lui.type.activity.offering' and ${in.body.action} == 'UPDATE'</simple>
                 <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
                     <correlationExpression>
                         <simple>body.id</simple>
@@ -165,12 +165,71 @@
 
         </route>
 
+        <route>    <!-- This is used to detect changes course offerings and notify our UI caches -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.course.offering'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.courseoffering.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+        </route>
+        <route>    <!-- This is used to detect changes in registration groups and notify our UI reg group caches -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+        </route>
+        <route>    <!-- This is used to detect changes in registration and notify our UI reg group caches -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic?concurrentConsumers=1" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'DELETE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+        </route>
+
     </camelContext>
 
     <bean id="useLatestAggregationStrategy" class="org.apache.camel.processor.aggregate.UseLatestAggregationStrategy"/>
 
     <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitter"/>  <!-- pull reg info from db. transform into useful objects -->
     <bean id="simpleAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.SimpleAggregator"/>  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
+    <bean id="eventMessageIdAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.EventMessageIdAggregator"/>  <!-- EventMessage ID aggregator. Returns a list of EventMessage Ids -->
     <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
@@ -183,7 +242,10 @@
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
     </bean>
 
-    <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl"/>
+    <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
 
     <bean id="waitlistManagerNode" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationWaitlistManagerNode">
         <property name="waitlistManagerService" ref="waitlistManagerService"/>
@@ -200,13 +262,31 @@
         <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
         <property name="jmsDestination" value="org.kuali.student.enrollment.lui.service.LuiEventTopic"/>
     </bean>
+    <bean id="CourseOfferingBroadcastAspect" class="org.kuali.student.enrollment.class2.courseoffering.aop.CourseOfferingBroadcastAspect">
+        <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
+        <property name="jmsDestination" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic"/>
+    </bean>
+
 
     <aop:config proxy-target-class="false">
         <aop:aspect ref="luiBroadcastAspect">
             <aop:pointcut id="luiUpdate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.updateLui(..))" />
-            <aop:around pointcut-ref="luiUpdate" method="updateLuiAdvise" />
+            <aop:after-returning pointcut-ref="luiUpdate" method="updateLuiAdvise" returning="retVal"  />
         </aop:aspect>
+        <aop:aspect ref="luiBroadcastAspect">
+            <aop:pointcut id="luiCreate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.createLui(..))" />
+            <aop:after-returning pointcut-ref="luiCreate" method="createLuiAdvise" returning="retVal" />
+        </aop:aspect>
+        <aop:aspect ref="CourseOfferingBroadcastAspect">
+            <aop:pointcut id="registrationGroupDelete" expression="execution(* org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl.deleteRegistrationGroup(..))" />
+            <aop:after-returning pointcut-ref="registrationGroupDelete" method="deleteRegistrationGroupAdvise" />
+        </aop:aspect>
+
+
     </aop:config>
+
+
+
 
 
 </beans>

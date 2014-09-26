@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.aop;
 
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.JoinPoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +55,7 @@ public class LuiBroadcastAspectTest {
 
         luiService.updateLui("Lui-1", lui, callContext);    // should trigger aspect
 
-        verify(luiBroadcastAspect, times(1)).updateLuiAdvise(any(ProceedingJoinPoint.class));
+        verify(luiBroadcastAspect, times(1)).updateLuiAdvise(any(JoinPoint.class), any(LuiInfo.class));
 
 
     }

@@ -753,6 +753,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
+    public List<RegGroupSearchResult> getRegGroups(List<String> regGroupIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
+
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.RG_IDS, regGroupIds);
+
+        return processRegGroupSearch(searchRequest);
+    }
+
+    @Override
     public List<RegGroupSearchResult> searchForRegGroups(String courseOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchRequestInfo searchRequest = createRegGroupSearchRequest(courseOfferingId, null);
         return processRegGroupSearch(searchRequest);
@@ -1428,8 +1437,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         //Use search service to grab the course data
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.CO_SEARCH_INFO_SEARCH_KEY);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, new ArrayList<>(luiIds));
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_IDS, new ArrayList<>(atpIds));
+        if(luiIds != null && !luiIds.isEmpty()) {
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, new ArrayList<>(luiIds));
+        }
+
+        if(atpIds != null && !atpIds.isEmpty()) {
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_IDS, new ArrayList<>(atpIds));
+        }
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         SearchResult searchResults = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, context);
@@ -1439,15 +1453,22 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
             CourseSearchResult courseSearchResult = new CourseSearchResult();
             courseSearchResult.setCluId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_CLU_ID));
+            courseSearchResult.setCourseIdentifierType(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_IDENT_TYPE));
             courseSearchResult.setCourseCode(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE));
             courseSearchResult.setCourseId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID));
             courseSearchResult.setCourseLevel(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LEVEL));
             courseSearchResult.setCourseNumber(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_NUMBER));
             courseSearchResult.setCoursePrefix(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_DIVISION));
             courseSearchResult.setLongName(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME));
-            courseSearchResult.setSeatsAvailable(Integer.parseInt(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE)));
             courseSearchResult.setTermId(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID));
             courseSearchResult.setCourseDescription(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC));
+            courseSearchResult.setState(keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CO_STATE));
+
+            // Set seats available
+            String seatsAvailable = keyValue.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEATS_AVAILABLE);
+            if (StringUtils.isNotEmpty(seatsAvailable)) {
+                courseSearchResult.setSeatsAvailable(Integer.parseInt(seatsAvailable));
+            }
 
             // Grab Learning Results data
             // These two calls are cached so they are actually more performant

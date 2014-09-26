@@ -1,14 +1,17 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
-import org.codehaus.jackson.JsonParseException;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseOfferingDetailsSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ResultValueGroupCourseOptions;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.io.IOException;
@@ -186,6 +189,17 @@ public interface ScheduleOfClassesService {
      * @throws OperationFailedException
      */
     public RegGroupSearchResult getRegGroup(String regGroupId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+
+    /**
+     *
+     * @param regGroupIds registration group ids
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public List<RegGroupSearchResult> getRegGroups(List<String> regGroupIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     /**
      * This will search for registration groups by the course offering id and the reg group name. A course offering can have multiple RGs so the name must be unique

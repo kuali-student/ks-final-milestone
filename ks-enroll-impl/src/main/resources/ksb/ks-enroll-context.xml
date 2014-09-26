@@ -9,7 +9,7 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-
+                           http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
 
 
                               http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
@@ -2070,6 +2070,31 @@ the program will get the rule management service by calling the global resource 
             </bean>
         </property>
     </bean>
+
+
+
+    <!-- camel routes for event processing. This isn't in the ks-enroll-mq-context.xml because we need access
+         to the elasticEmbedded client. -->
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <from uri="activemq:org.kuali.student.enrollment.registration.elastic.courseoffering.updateQueue"/>
+            <aggregate strategyRef="eventMessageIdAggregator" completionTimeout="5000">
+                <correlationExpression>
+                    <simple>body.type</simple>
+                </correlationExpression>
+                <bean ref="elasticEmbedded" method="updateCourseOfferingCache"/>
+            </aggregate>
+        </route>
+        <route>
+            <from uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+            <aggregate strategyRef="eventMessageIdAggregator" completionTimeout="5000">
+                <correlationExpression>
+                    <simple>body.type</simple>
+                </correlationExpression>
+                <bean ref="elasticEmbedded" method="updateRegistrationGroupCache"/>
+            </aggregate>
+        </route>
+    </camelContext>
 
     <bean id="ksIdentityServiceHelper" class="org.kuali.student.enrollment.util.KSIdentityServiceHelper">
         <property name="cacheManager" ref="ksCacheManager"/>

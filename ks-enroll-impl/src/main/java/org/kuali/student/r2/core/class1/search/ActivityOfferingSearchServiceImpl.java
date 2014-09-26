@@ -94,6 +94,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String AO_ID = "id";
         public static final String CO_ID = "coId";
         public static final String RG_ID = "rgId";
+        public static final String CO_IDS = "coIds";
+        public static final String RG_IDS = "rgIds";
         public static final String OFFERING_ID = "offeringId";
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
@@ -382,7 +384,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             return searchForAOIdsFOIdsByCoId(searchRequestInfo);
         }
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForRegGroupsByCoId(searchRequestInfo);
+            return searchForRegGroupsByCoIdsOrRgIds(searchRequestInfo);
         }
         else if (REG_GROUPS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroups(searchRequestInfo);
@@ -645,12 +647,25 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForRegGroupsByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+    private SearchResultInfo searchForRegGroupsByCoIdsOrRgIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> coIds = requestHelper.getParamAsList(SearchParameters.CO_IDS);
+        List<String> rgIds = requestHelper.getParamAsList(SearchParameters.RG_IDS);
+
+        if(coIds == null) coIds  = new ArrayList<>();
+        if(rgIds == null) rgIds  = new ArrayList<>();
+
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        if(coId != null && !coId.isEmpty()){
+             coIds.add(coId);
+        }
+
         String rgId = requestHelper.getParamAsString(SearchParameters.RG_ID);
+        if(rgId != null && !rgId.isEmpty()){
+            rgIds.add(rgId);
+        }
         List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
 
         String queryStr =
@@ -669,12 +684,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
                 "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id ";
 
-        if(rgId != null && !rgId.isEmpty()) {
-            queryStr = queryStr + " AND rg2ao.lui.id = :rgId ";
+        if(rgIds != null && !rgIds.isEmpty()) {
+            queryStr = queryStr + " AND rg2ao.lui.id in :rgIds ";
         }
 
-        if(coId != null && !coId.isEmpty()) {
-            queryStr = queryStr + " AND co2fo.lui.id = :coId ";
+        if(coIds != null && !coIds.isEmpty()) {
+            queryStr = queryStr + " AND co2fo.lui.id in :coIds ";
         }
 
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
@@ -683,11 +698,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
 
-        if(rgId != null && !rgId.isEmpty()) {
-            query.setParameter(SearchParameters.RG_ID, rgId);
+        if(rgIds != null && !rgIds.isEmpty()) {
+            query.setParameter(SearchParameters.RG_IDS, rgIds);
         }
-        if(coId != null && !coId.isEmpty()) {
-            query.setParameter(SearchParameters.CO_ID, coId);
+        if(coIds != null && !coIds.isEmpty()) {
+            query.setParameter(SearchParameters.CO_IDS, coIds);
         }
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
             query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);

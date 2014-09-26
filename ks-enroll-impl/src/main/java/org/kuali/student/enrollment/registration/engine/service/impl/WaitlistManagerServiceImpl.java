@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
+import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jms.core.JmsTemplate;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
     private CourseRegistrationService courseRegistrationService;
     private CourseSeatCountService courseSeatCountService;
     private LuiService luiService;
+    private JmsTemplate jmsTemplate;
 
     /**
      * @param aoIds             list of aoIds that were in the RG that has free seats now.
@@ -153,6 +156,10 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         }
         List<RegistrationRequest> createdRegRequests = new ArrayList<>();
 
+        if(aoIds == null || aoIds.isEmpty()){
+            return createdRegRequests;
+        }
+
         //Get an ordered list of people to process off of the waitlist
         List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist(aoIds, null, contextInfo);
         Map<String, RegistrationRequestInfo> person2RegRequest = new HashMap<>();
@@ -220,9 +227,9 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                 if(LOGGER.isInfoEnabled()) {
                     String technicalInfo = String.format("We should process people from waitlist. peopleOnWaitlist:[%s] availableSeats:[%s])",
                             seatCount.getWaitListSize(), seatCount.getAvailableSeats());
-                    LOGGER.info(technicalInfo + " " + message.toString());
+                    LOGGER.info(technicalInfo + " " + message.toString() + "/nSending Message to queue:" + CourseRegistrationConstants.SEAT_OPEN_QUEUE);
                 }
-                processPeopleOffOfWaitlist(Arrays.asList(luiId), contextInfo);
+                jmsTemplate.convertAndSend(CourseRegistrationConstants.SEAT_OPEN_QUEUE, Arrays.asList(luiId));
             }
         }
 
@@ -273,4 +280,11 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         this.courseRegistrationService = courseRegistrationService;
     }
 
+    public JmsTemplate getJmsTemplate() {
+        return jmsTemplate;
+    }
+
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
 }
