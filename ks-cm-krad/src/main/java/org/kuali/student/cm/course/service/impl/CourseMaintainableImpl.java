@@ -1921,18 +1921,18 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     public void balanceCollectionsForCompare(CourseInfoWrapper wrapper1, CourseInfoWrapper wrapper2){
 
         List<OutcomeReviewSection> outcomes = wrapper1.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
-        List<OutcomeReviewSection> outcomeCompares = wrapper2.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
+        List<OutcomeReviewSection> compareOutcomes = wrapper2.getReviewProposalDisplay().getCourseLogisticsSection().getOutcomes();
 
-        if (outcomes.size() > outcomeCompares.size()){
-            for (;outcomeCompares.size() < outcomes.size();){
+        if (outcomes.size() > compareOutcomes.size()){
+            for (;compareOutcomes.size() < outcomes.size();){
                 OutcomeReviewSection outcome = new OutcomeReviewSection(StringUtils.EMPTY,StringUtils.EMPTY);
                 outcome.setFakeObjectForCompare(true);
-                outcomeCompares.add(outcome);
+                compareOutcomes.add(outcome);
             }
         }
 
-        if (outcomeCompares.size() > outcomes.size()){
-            for (;outcomes.size() < outcomeCompares.size();){
+        if (compareOutcomes.size() > outcomes.size()){
+            for (;outcomes.size() < compareOutcomes.size();){
                 OutcomeReviewSection outcome = new OutcomeReviewSection(StringUtils.EMPTY,StringUtils.EMPTY);
                 outcome.setFakeObjectForCompare(true);
                 outcomes.add(outcome);
@@ -1961,35 +1961,57 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
         List<FormatInfoWrapper> formats = wrapper1.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
         List<FormatInfoWrapper> compareFormats = wrapper2.getReviewProposalDisplay().getCourseLogisticsSection().getFormatInfoWrappers();
 
-        int index = formats.size()-1;
-
         if (formats.size() > compareFormats.size()){
-            for (;compareFormats.size() < formats.size();index++){
+            balanceFormatsForCompare(formats,compareFormats);
+        } else if (compareFormats.size() > formats.size()){
+            balanceFormatsForCompare(compareFormats,formats);
+        }
+
+        balanceActivitiesForCompare(formats,compareFormats);
+
+    }
+
+    /**
+     * This method adds fake formats to make sure both sides of the compare are of same size
+     *
+     * @param formats1
+     * @param formats2
+     */
+    protected void balanceFormatsForCompare(List<FormatInfoWrapper> formats1, List<FormatInfoWrapper> formats2){
+        if (formats1.size() > formats2.size()){
+            while(formats1.size() > formats2.size()){
                 FormatInfoWrapper format = new FormatInfoWrapper();
-                compareFormats.add(format);
+                formats2.add(format);
                 format.setFakeObjectForCompare(true);
-                while(format.getActivities().size() < formats.get(index).getActivities().size()){
+            }
+        }
+    }
+
+    /**
+     * This method adds fake activities in formats to make sure both sides of the compare are of same size.
+     *
+     * @param formats1
+     * @param formats2
+     */
+    protected void balanceActivitiesForCompare(List<FormatInfoWrapper> formats1, List<FormatInfoWrapper> formats2){
+        int index = 0;
+        for (FormatInfoWrapper format : formats1){
+            FormatInfoWrapper compareFormat = formats2.get(index);
+            if (format.getActivities().size() < compareFormat.getActivities().size()){
+                while(format.getActivities().size() < compareFormat.getActivities().size()){
                     ActivityInfoWrapper activity = new ActivityInfoWrapper();
                     format.getActivities().add(activity);
                     activity.setFakeObjectForCompare(true);
                 }
-            }
-        }
-
-        index = compareFormats.size()-1;
-        if (compareFormats.size() > formats.size()){
-            for (;formats.size() < compareFormats.size();){
-                FormatInfoWrapper format = new FormatInfoWrapper();
-                formats.add(format);
-                format.setFakeObjectForCompare(true);
-                while(format.getActivities().size() < compareFormats.get(index).getActivities().size()){
+            } else if (compareFormat.getActivities().size() < format.getActivities().size()){
+                while(compareFormat.getActivities().size() < format.getActivities().size()){
                     ActivityInfoWrapper activity = new ActivityInfoWrapper();
-                    format.getActivities().add(activity);
+                    compareFormat.getActivities().add(activity);
                     activity.setFakeObjectForCompare(true);
                 }
             }
+            index++;
         }
-
     }
 
     /**
@@ -2015,7 +2037,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
     }
 
     /**
-     * This method filters out all the fake elements added to a collection.
+     * This method filters out all the fake elements added to the collection when building
      *
      * @param collection
      */
