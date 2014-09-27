@@ -57,9 +57,12 @@ public class CMCourseLOCollectionCompareModifier extends CMCourseCollectionCompa
             if (!lo.isFakeObjectForCompare()){
                 LoDisplayInfoWrapper loToCompare = getLOFromCompare(losCompare.getLoWrappers(),index);
 
-                if (loToCompare != null){
-    //                if (!StringUtils.equals(lo.getLoInfo().getId(), loToCompare.getLoInfo().getId())){
-                    if (!StringUtils.equals(lo.getLoInfo().getDescr().getPlain(), loToCompare.getLoInfo().getDescr().getPlain())){
+                if (loToCompare != null && !loToCompare.isFakeObjectForCompare() && lo.getLoInfo() != null && loToCompare.getLoInfo() != null){
+                    String loDesc = StringUtils.trim(lo.getLoInfo().getDescr().getPlain());
+                    String compareLoDesc = StringUtils.trim(loToCompare.getLoInfo().getDescr().getPlain());
+                    loDesc = StringUtils.replaceChars(loDesc,"\t"," ");
+                    compareLoDesc = StringUtils.replaceChars(compareLoDesc,"\t"," ");
+                    if (!StringUtils.equals(compareLoDesc,loDesc)){
                         lo.setHightlightRow(true);
                         loToCompare.setHightlightRow(true);
                     }
@@ -72,12 +75,6 @@ public class CMCourseLOCollectionCompareModifier extends CMCourseCollectionCompa
 
         }
 
-//        if (losCompare.getLoWrappers().size() > los.getLoWrappers().size()){
-//            while (losCompare.getLoWrappers().size() > index) {
-//                losCompare.getLoWrappers().get(index).setHightlightRow(true);
-//                index++;
-//            }
-//        }
     }
 
     protected LoDisplayInfoWrapper getLOFromCompare(List<LoDisplayInfoWrapper> compareLOs, int index){
