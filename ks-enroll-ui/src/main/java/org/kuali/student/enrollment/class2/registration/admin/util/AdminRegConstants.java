@@ -75,6 +75,7 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MAX_CREDITS = "maxCredits";
     public static final String ADMIN_REG_ATTEMPTS = "attempts";
     public static final String ADMIN_REG_MAX_REPEATS = "maxRepeats";
+    public static final String ADMIN_REG_ENDDATE = "endDate";
     //sections ids
     public static final String STUDENT_AND_TERM_SECTION = "KS-AdminRegistration-StudentAndTermSection";
 

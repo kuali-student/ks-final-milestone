@@ -91,6 +91,9 @@ public class AdminRegistrationUtil {
                 } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
                     message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
                             validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
+                } else if ((LprServiceConstants.LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey) ||
+                        LprServiceConstants.LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey))) {
+                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ENDDATE).toString());
                 } else {
                     message = AdminRegistrationUtil.getMessageForKey(messageKey);
                 }
