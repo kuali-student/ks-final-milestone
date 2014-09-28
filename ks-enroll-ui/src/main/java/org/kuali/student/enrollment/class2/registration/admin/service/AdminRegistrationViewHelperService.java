@@ -5,8 +5,10 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCont
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.List;
@@ -139,6 +141,16 @@ public interface AdminRegistrationViewHelperService {
      * @return
      */
     public String resubmitCourse(String studentId, String termId, RegistrationCourse registrationCourse, String typeKey);
+
+    /**
+     * Build registration results for the given course.
+     *
+     * @param course
+     * @param messageKey
+     * @param results
+     * @return
+     */
+    public RegistrationResult buildRegistrationResult(RegistrationCourse course, TermInfo term, String messageKey, List<ValidationResultInfo> results);
 
     /**
      * Returns the RegistrationRequest for the given id.

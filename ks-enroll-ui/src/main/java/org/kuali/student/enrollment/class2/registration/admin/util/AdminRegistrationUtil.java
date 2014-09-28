@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -40,73 +41,6 @@ import java.util.Map;
  * Class is used to make individual service calls for the Registration Application.
  */
 public class AdminRegistrationUtil {
-
-    /**
-     * Builds a new RegistrationResult object based on the given course and messageKey with a success level.
-     *
-     * @param course
-     * @param messageKey
-     * @return
-     */
-    public static RegistrationResult buildRegistrationResult(RegistrationCourse course, String messageKey, List<ValidationResultInfo> results) {
-        RegistrationResult regResult = new RegistrationResult();
-        regResult.setCourse(course);
-
-        if (results.isEmpty()) {
-            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
-            String msg = AdminRegistrationUtil.getMessageForKey(messageKey, course.getCode(), course.getSection());
-            regResult.getItems().add(new RegistrationResultItem(msg));
-        } else {
-            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
-            regResult.getItems().addAll(createRegResultsFromValidationResults(results));
-        }
-        return regResult;
-    }
-
-    /**
-     * Create Registration Results from the returned validation results.
-     *
-     * @param results
-     * @return
-     */
-    public static List<RegistrationResultItem> createRegResultsFromValidationResults(List<ValidationResultInfo> results) {
-        List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
-        // Add the messages to the issue items list.
-        for (ValidationResult validationResult : results) {
-            Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
-
-            String message = null;
-            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-                String messageKey = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY);
-
-                if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
-                    List<String> conflictCourses = new ArrayList<>();
-                    for (LinkedHashMap<String, Object> conflictCourse : (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
-                        conflictCourses.add((String) conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
-                    }
-                    message = AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
-                            org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
-                } else if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
-                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
-                } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
-                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
-                            validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
-                } else if ((LprServiceConstants.LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey) ||
-                        LprServiceConstants.LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey))) {
-                    message = AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ENDDATE).toString());
-                } else {
-                    message = AdminRegistrationUtil.getMessageForKey(messageKey);
-                }
-            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
-                message = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG);
-            } else {
-                message = validationResult.toString();
-            }
-
-            issueItems.add(new RegistrationResultItem(message));
-        }
-        return issueItems;
-    }
 
     /**
      * This method builds a registration request with item with given type

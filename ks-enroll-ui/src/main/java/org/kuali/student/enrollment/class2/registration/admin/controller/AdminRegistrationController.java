@@ -354,16 +354,16 @@ public class AdminRegistrationController extends UifControllerBase {
         RegistrationCourse addCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInProcess(), item);
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
             if(item.getCourseRegistrationId()!=null) {
-                result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
+                result = this.getViewHelper(form).buildRegistrationResult(addCourse, form.getTerm(),
                         AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_REGISTERED, item.getValidationResults());
                 result.setCollectionId(AdminRegConstants.REG_COLL_ID);
             } else {
-                result = AdminRegistrationUtil.buildRegistrationResult(addCourse,
+                result = this.getViewHelper(form).buildRegistrationResult(addCourse, form.getTerm(),
                         AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_WAITLISTED, item.getValidationResults());
                 result.setCollectionId(AdminRegConstants.WAITLIST_COLL_ID);
             }
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(addCourse, null, item.getValidationResults());
+            result = this.getViewHelper(form).buildRegistrationResult(addCourse, form.getTerm(), null, item.getValidationResults());
             result.setOriginRequestTypeKey(item.getTypeKey());
         }
 
@@ -388,11 +388,11 @@ public class AdminRegistrationController extends UifControllerBase {
         RegistrationCourse updatedCourse = AdminRegistrationUtil.retrieveFromCourseList(form.getCoursesInEdit(), item);
         // Update the registered courses list with updated detail.
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(updatedCourse,
+            result = this.getViewHelper(form).buildRegistrationResult(updatedCourse, form.getTerm(),
                     AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_UPDATED, item.getValidationResults());
             result.setCollectionId(AdminRegConstants.REG_COLL_ID);
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(updatedCourse, null, item.getValidationResults());
+            result = this.getViewHelper(form).buildRegistrationResult(updatedCourse, form.getTerm(), null, item.getValidationResults());
             result.setOriginRequestTypeKey(item.getTypeKey());
         }
 
@@ -412,11 +412,11 @@ public class AdminRegistrationController extends UifControllerBase {
         RegistrationResult result = null;
         RegistrationCourse dropCourse = form.getPendingDropCourse();
         if (LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(dropCourse,
+            result = this.getViewHelper(form).buildRegistrationResult(dropCourse, form.getTerm(),
                     AdminRegConstants.ADMIN_REG_MSG_INFO_SUCCESSFULLY_DROPPED, item.getValidationResults());
             result.setCollectionId(AdminRegConstants.REG_COLL_ID);
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
-            result = AdminRegistrationUtil.buildRegistrationResult(dropCourse, null, item.getValidationResults());
+            result = this.getViewHelper(form).buildRegistrationResult(dropCourse, form.getTerm(), null, item.getValidationResults());
             result.setOriginRequestTypeKey(item.getTypeKey());
         }
 

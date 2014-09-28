@@ -13,6 +13,8 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -54,6 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -659,6 +662,88 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return course.getCredits();
+    }
+
+    /**
+     * Builds a new RegistrationResult object based on the given course and messageKey with a success level.
+     *
+     * @param course
+     * @param messageKey
+     * @return
+     */
+    public RegistrationResult buildRegistrationResult(RegistrationCourse course, TermInfo term, String messageKey, List<ValidationResultInfo> results) {
+        RegistrationResult regResult = new RegistrationResult();
+        regResult.setCourse(course);
+
+        if (results.isEmpty()) {
+            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_SUCCESS);
+            String msg = AdminRegistrationUtil.getMessageForKey(messageKey, course.getCode(), course.getSection());
+            regResult.getItems().add(new RegistrationResultItem(msg));
+        } else {
+            regResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
+            regResult.getItems().addAll(createRegResultsFromValidationResults(course, term, results));
+        }
+        return regResult;
+    }
+
+    /**
+     * Create Registration Results from the returned validation results.
+     *
+     * @param results
+     * @return
+     */
+    private List<RegistrationResultItem> createRegResultsFromValidationResults(RegistrationCourse course, TermInfo term,
+                                                                               List<ValidationResultInfo> results) {
+        List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
+        // Add the messages to the issue items list.
+        for (ValidationResult validationResult : results) {
+            Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
+
+            String message;
+            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
+                message = resolveMessageKeyResult(course, term, validationMap);
+            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
+                message = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG);
+            } else {
+                message = validationResult.toString();
+            }
+            issueItems.add(new RegistrationResultItem(message));
+        }
+        return issueItems;
+    }
+
+    private String resolveMessageKeyResult(RegistrationCourse course, TermInfo term, Map<String, Object> validationMap) {
+
+        String messageKey = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY);
+        if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
+            List<String> conflictCourses = new ArrayList<>();
+            for (LinkedHashMap<String, Object> conflictCourse : (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
+                conflictCourses.add((String) conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
+            }
+            return AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
+                    org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
+        } else if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
+        } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
+                    validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
+        } else if ((LprServiceConstants.LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey) ||
+                LprServiceConstants.LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey))) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ENDDATE).toString());
+        } else if (LprServiceConstants.LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY.equals(messageKey)) {
+            String state = (String) validationMap.get(AdminRegConstants.ADMIN_REG_STATE);
+            if (LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY.equals(state)) {
+                return AdminRegistrationUtil.getMessageForKey(messageKey + ".canceled", term.getName());
+            } else if (LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals(state)) {
+                return AdminRegistrationUtil.getMessageForKey(messageKey + ".invalid", term.getName());
+            } else if (LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY.equals(state)) {
+                return AdminRegistrationUtil.getMessageForKey(messageKey + ".suspended", term.getName());
+            } else {
+                return AdminRegistrationUtil.getMessageForKey(messageKey + ".pending", term.getName());
+            }
+        }
+
+        return AdminRegistrationUtil.getMessageForKey(messageKey);
     }
 
 }
