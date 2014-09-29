@@ -95,6 +95,10 @@ public class CurriculumManagementConstants {
          * A flag which indicates whether workflow should be used or not.
          */
         public static final String USE_CURRICULUM_REVIEW = "useCurriculumReview";
+
+        public static final String COURSE_SUBJECT_AREA = "subjectArea";
+        public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
+        public static final String COURSE_TITLE = "courseTitle";
     }
 
     public static class DocumentTypeNames {

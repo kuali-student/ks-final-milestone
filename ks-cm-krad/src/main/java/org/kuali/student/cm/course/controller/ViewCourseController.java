@@ -210,6 +210,9 @@ public class ViewCourseController extends KsUifControllerBase {
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CourseProposalUtil.getViewCourseUrl(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId()));
         urlParameters.put(CurriculumManagementConstants.UrlParams.VERSION_IND_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId());
         urlParameters.put(CurriculumManagementConstants.UrlParams.CLU_ID, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getId());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.COURSE_SUBJECT_AREA, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getSubjectArea());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.COURSE_NUMBER_SUFFIX, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getCourseNumberSuffix());
+        urlParameters.put(CurriculumManagementConstants.UrlParams.COURSE_TITLE, detailedViewForm.getCourseInfoWrapper().getCourseInfo().getCourseTitle());
         String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.START_PROPOSAL.replaceFirst("/", "");
         try {
             urlParameters.put(CurriculumManagementConstants.UrlParams.IS_MODIFY_NEW_VERSION, new Boolean(CourseProposalUtil.isModifyNewVersion(detailedViewForm.getCourseInfoWrapper().getCourseInfo(), ContextUtils.createDefaultContextInfo())).toString());

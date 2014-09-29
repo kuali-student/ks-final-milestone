@@ -115,7 +115,7 @@
 
     <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
         <property name="id" value="startProposalView"/>
-        <property name="header.headerText" value="@{#form.pageId eq 'CM-Modify-Version-Start-Page' ? 'Modify Course' : 'Create Course'}"/>
+        <property name="header.headerText" value="@{#form.pageId eq 'CM-Modify-Version-Start-Page' ? modifyHeaderText : 'Create Course'}"/>
         <property name="header.headerLevel" value="h2"/>
         <property name="header.style" value="font-weight:bold;"/>
         <property name="formClass" value="org.kuali.student.cm.course.form.StartProposalForm"/>
@@ -133,6 +133,7 @@
         <property name="expressionVariables">
             <map merge="true">
                 <entry key="isModifiableCourse" value="modifiableCourse"/>
+                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
             </map>
         </property>
 
@@ -337,6 +338,6 @@
 
 
     <bean id="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page" parent="Uif-BreadcrumbItem">
-        <property name="label" value="Modify Course"></property>
+        <property name="label" value="@{#htmlUtils.htmlEscape(modifyHeaderText)}"></property>
     </bean>
 </beans>
