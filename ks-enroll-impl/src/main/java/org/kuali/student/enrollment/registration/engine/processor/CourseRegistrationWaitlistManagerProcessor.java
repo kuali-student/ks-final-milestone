@@ -30,7 +30,7 @@ public class CourseRegistrationWaitlistManagerProcessor {
 
             DateTime endTime = new DateTime();
             RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
-                    "CourseRegistrationWaitlistManagerNode", startTime, endTime);
+                    "CourseRegistrationWaitlistManagerProcessor", startTime, endTime);
 
             return registrationRequestList;
         } catch (Exception e) {

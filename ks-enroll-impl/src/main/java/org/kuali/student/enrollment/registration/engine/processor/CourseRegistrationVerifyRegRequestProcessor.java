@@ -54,7 +54,7 @@ public class CourseRegistrationVerifyRegRequestProcessor {
         if (errors.isEmpty() && warnings.isEmpty() && transactionException == null) {
             DateTime endTime = new DateTime();
             RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
-                    "CourseRegistrationVerifyRegRequestNode", startTime, endTime);
+                    "CourseRegistrationVerifyRegRequestProcessor", startTime, endTime);
             return message;
         }
 
@@ -91,8 +91,8 @@ public class CourseRegistrationVerifyRegRequestProcessor {
         }
 
         DateTime endTime = new DateTime();
-        RegEnginePerformanceUtil.putStatistics("CourseRegistrationVerifyRegRequestNode", RegEnginePerformanceUtil.NODES,
-                startTime, endTime);
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                "CourseRegistrationVerifyRegRequestProcessor", startTime, endTime);
 
         return message;
 

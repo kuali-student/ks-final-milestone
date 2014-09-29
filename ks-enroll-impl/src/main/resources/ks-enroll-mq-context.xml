@@ -128,7 +128,7 @@
         </route>
 
         <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
-            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue" />
+            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue?concurrentConsumers=10" />
             <onException>
                 <exception>java.lang.Exception</exception>
                 <handled><constant>true</constant></handled>

@@ -47,7 +47,7 @@ public class CourseRegistrationInitializationProcessor {
 
             DateTime endTime = new DateTime();
             RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
-                    "CourseRegistrationInitializationNode", startTime, endTime);
+                    "CourseRegistrationInitializationProcessor", startTime, endTime);
 
             return registrationRequestEngineMessage;
 

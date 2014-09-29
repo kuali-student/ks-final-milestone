@@ -59,7 +59,7 @@ public class CourseRegistrationLprActionProcessor {
                 //Don't process this if it has failed.
                 DateTime endTime = new DateTime();
                 RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
-                        "CourseRegistrationLprActionNode", startTime, endTime);
+                        "CourseRegistrationLprActionProcessor", startTime, endTime);
                 return message;
             }
 
@@ -87,8 +87,8 @@ public class CourseRegistrationLprActionProcessor {
             }
             LOGGER.info("Completed registering requestItemId:" +  message.getRequestItem().getId());
             DateTime endTime = new DateTime();
-            RegEnginePerformanceUtil.putStatistics("CourseRegistrationLprActionNode", RegEnginePerformanceUtil.NODES,
-                    startTime, endTime);
+            RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.NODES,
+                    "CourseRegistrationLprActionProcessor", startTime, endTime);
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
