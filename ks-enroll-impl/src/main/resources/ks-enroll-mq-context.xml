@@ -45,7 +45,7 @@
     <bean id="jmsConfig"
           class="org.apache.camel.component.jms.JmsConfiguration">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="concurrentConsumers" value="10"/>
+        <property name="concurrentConsumers" value="1"/>
     </bean>
 
     <!-- The ActiveMQ camel component allows messages to be sent to a JMS Queue or Topic or messages to be consumed from a JMS Queue or Topic using Apache ActiveMQ -->
@@ -262,7 +262,7 @@
         <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
         <property name="jmsDestination" value="org.kuali.student.enrollment.lui.service.LuiEventTopic"/>
     </bean>
-    <bean id="CourseOfferingBroadcastAspect" class="org.kuali.student.enrollment.class2.courseoffering.aop.CourseOfferingBroadcastAspect">
+    <bean id="courseOfferingBroadcastAspect" class="org.kuali.student.enrollment.class2.courseoffering.aop.CourseOfferingBroadcastAspect">
         <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
         <property name="jmsDestination" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic"/>
     </bean>
@@ -277,7 +277,7 @@
             <aop:pointcut id="luiCreate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.createLui(..))" />
             <aop:after-returning pointcut-ref="luiCreate" method="createLuiAdvise" returning="retVal" />
         </aop:aspect>
-        <aop:aspect ref="CourseOfferingBroadcastAspect">
+        <aop:aspect ref="courseOfferingBroadcastAspect">
             <aop:pointcut id="registrationGroupDelete" expression="execution(* org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl.deleteRegistrationGroup(..))" />
             <aop:after-returning pointcut-ref="registrationGroupDelete" method="deleteRegistrationGroupAdvise" />
         </aop:aspect>
