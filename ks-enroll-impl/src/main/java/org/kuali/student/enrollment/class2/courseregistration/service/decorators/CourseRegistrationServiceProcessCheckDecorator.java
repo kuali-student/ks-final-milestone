@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
@@ -27,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
@@ -167,6 +170,9 @@ public class CourseRegistrationServiceProcessCheckDecorator
             //Sort the requests so that everything is processed in the same order (using date)
             Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
 
+            //Build in Admin check to still do check
+            boolean isAdmin = isAdminRegistration(registrationRequest);
+
             //Make a separate validation for each course in the cart
             for (RegistrationRequestItemInfo requestItem : registrationRequest.getRegistrationRequestItems()) {
                 //Only call propositions when regRequestItem is not in failed state
@@ -195,7 +201,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
                     allValidationResults.addAll(itemValidationResults);
 
                     //If there are no errors add this request item to the list of simulated "successful" items
-                    if (!ValidationUtils.checkForErrors(itemValidationResults)) {
+                    if (isAdmin || !ValidationUtils.checkForErrors(itemValidationResults)) {
                         simulatedCourses.add(convertRequestItemToCourseRegistration(requestItem, registrationGroupInfo));
                     } else {
                         LOGGER.warn("Validation error for registration request {}, reg request item {}", registrationRequest.getId(), requestItem.getId());
@@ -208,6 +214,19 @@ public class CourseRegistrationServiceProcessCheckDecorator
         RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.OTHER, "verifyRegistrationRequestForSubmission", startTime, endTime);
 
         return allValidationResults;
+    }
+
+    protected boolean isAdminRegistration(RegistrationRequest regRequest) {
+        // TODO: KSENROLL-13911 - This is only a temporary check while functionality is analyzed.
+        // Check for admin user override (allow)
+        for (Attribute attr : regRequest.getAttributes()) {
+            if (attr.getKey().equals(CourseRegistrationServiceConstants.ELIGIBILITY_OVERRIDE_TYPE_KEY_ATTR)) {
+                if (Boolean.valueOf(attr.getValue())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private CourseRegistrationInfo convertRequestItemToCourseRegistration(RegistrationRequestItemInfo requestItem, RegistrationGroupInfo registrationGroupInfo) {
