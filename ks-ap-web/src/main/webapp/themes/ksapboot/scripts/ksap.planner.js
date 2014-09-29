@@ -49,12 +49,17 @@ function ksapInitializePlannerItems(pageSize) {
  * Setup and trigger bootstrap popovers for the term notes.
  */
 function setupTermNotePopovers(){
+    var popoverOptions = getPopoverOptions();
+    jQuery(".filled-termnote").popover(popoverOptions);
+}
+
+function getPopoverOptions(){
     var popoverOptions = {
         trigger: 'hover',
         container: 'body',
-        template: '<div class="popover ksap-tooltip-popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>'
+        template: '<div class="popover ksap-tooltip-popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
     };
-    jQuery(".filled-termnote").popover(popoverOptions);
+    return popoverOptions;
 }
 
 /**
@@ -258,14 +263,26 @@ function ksapPlannerUpdateCredits (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateTermNote (data) {
+    var field = jQuery("#"+data.uniqueId+"_termNote");
     if (data.termNote == null || data.termNote == "") {
-        jQuery("#"+data.uniqueId+"_termNote").attr("title","Click to add notes for "+data.termName);
-        jQuery("#"+data.uniqueId+"_termNote").addClass("empty-termnote");
-        jQuery("#"+data.uniqueId+"_termNote").removeClass("filled-termnote");
+        if(field.attr("data-content").length){
+            field.popover("destroy");
+        }
+        field.attr("data-content","");
+
+        field.addClass("empty-termnote");
+        field.removeClass("filled-termnote");
+        field.attr("title","Click to add notes for "+data.termName);
     } else {
-        jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
-        jQuery("#"+data.uniqueId+"_termNote").addClass("filled-termnote");
-        jQuery("#"+data.uniqueId+"_termNote").remove("empty-termnote");
+        field.attr("title","");
+        field.attr("data-content",data.termNote);
+        field.addClass("filled-termnote");
+        field.remove("empty-termnote");
+
+        var popoverOptions = getPopoverOptions();
+        field.popover(popoverOptions);
+        var popover = field.data("popover");
+        popover.options.content = field.attr("data-content");
     }
 
 }
