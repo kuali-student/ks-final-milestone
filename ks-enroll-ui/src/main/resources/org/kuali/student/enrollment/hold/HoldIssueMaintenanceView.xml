@@ -121,7 +121,7 @@ limitations under the License.
         <property name="headerText" value="Hold Details"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Type (Category)" p:propertyName="holdIssue.typeKey" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Category" p:propertyName="holdIssue.typeKey" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
