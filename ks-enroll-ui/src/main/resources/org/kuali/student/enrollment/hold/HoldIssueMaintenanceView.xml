@@ -153,7 +153,7 @@ limitations under the License.
         <property name="style" value="margin-bottom:10px;"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization" p:propertyName="orgName" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="28" p:disabled="true"/>
                     </property>
