@@ -404,10 +404,10 @@
           p:propertyName="registeredCourses">
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil"
-                      p:methodToCall="editCourse" p:style="color:#0088CC;"
-                      p:successCallback="setInputFieldFocus(['coursesInEdit[0].credits', 'coursesInEdit[0].gradingOptionId', 'coursesInEdit[0].effectiveDate']);"/>
-                <bean parent="KS-Uif-ActionLink" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel"
+                <bean parent="KS-Uif-ActionLink" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil" p:title="Edit"
+                         p:methodToCall="editCourse" p:style="color:#0088CC;"
+                         p:successCallback="setInputFieldFocus(['coursesInEdit[0].credits', 'coursesInEdit[0].gradingOptionId', 'coursesInEdit[0].effectiveDate']);"/>
+                <bean parent="KS-Uif-ActionLink" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel" p:title="Drop"
                       p:methodToCall="dropCourse" p:style="color:#0088CC;"
                       p:successCallback="setInputFieldFocus(['pendingDropCourse.registeredDropDate']);"/>
             </list>
