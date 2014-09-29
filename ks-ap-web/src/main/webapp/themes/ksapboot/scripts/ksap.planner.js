@@ -6,6 +6,8 @@
  * @param pageSize - The number of terms to display for each view of the calender.
  */
 function ksapInitializePlannerItems(pageSize) {
+    setupTermNotePopovers();
+
     var detailList = jQuery('#planner_courses_detail_list');
     var detailCols = detailList.find('ul:not(.errorLines) li');
     if (detailCols.length > 0) {
@@ -41,6 +43,18 @@ function ksapInitializePlannerItems(pageSize) {
             }
         });
     }
+}
+
+/**
+ * Setup and trigger bootstrap popovers for the term notes.
+ */
+function setupTermNotePopovers(){
+    var popoverOptions = {
+        trigger: 'hover',
+        container: 'body',
+        template: '<div class="popover ksap-tooltip-popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>'
+    };
+    jQuery(".filled-termnote").popover(popoverOptions);
 }
 
 /**

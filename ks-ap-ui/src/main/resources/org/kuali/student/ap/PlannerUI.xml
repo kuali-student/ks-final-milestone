@@ -265,9 +265,12 @@
                                 <map>
                                     <entry key="termid" value="@{#line.termId}" />
                                     <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    <entry key="toggle" value="popover" />
+                                    <entry key="placement" value="top" />
+                                    <entry key="content" value="@{!#empty(#line.allTermNotesHtml) ? #line.allTermNotesHtml : ''}" />
                                 </map>
                             </property>
-                            <property name="title" value="@{!#empty(#line.allTermNotesHtml) ? #line.allTermNotesHtml : 'Click to add notes for '+#line.termName}"/>
+                            <property name="title" value="@{!#empty(#line.allTermNotesHtml) ? '' : 'Click to add notes for '+#line.termName}"/>
                             <property name="additionalCssClasses">
                                 <list merge="true">
                                     <value>@{!#empty(#line.allTermNotesHtml) ? 'filled-termnote' : 'empty-termnote'}</value>
