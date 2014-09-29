@@ -101,6 +101,8 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         // calling the super method which will eventually call the populateMaintainablesFromXmlDocumentContents() method as overriden below
         super.processAfterRetrieve();
 
+        // do the actual retrieve of the data by using a custom Maintainable method
+        ((CMMaintainable) newMaintainableObject).retrieveDataObject();
     }
 
     @Override
@@ -144,8 +146,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         // first set the xmlDocumentContents to empty since we don't use the xml doc contents for data storage
         xmlDocumentContents = StringUtils.EMPTY;
 
-        // do the actual retrieve of the data by using a custom Maintainable method
-        ((CMMaintainable) newMaintainableObject).retrieveDataObject();
+
     }
 
     @Override
