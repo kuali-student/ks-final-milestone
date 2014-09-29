@@ -1020,7 +1020,7 @@
                 <property name="id" value="planner_course_note_page" />
                 <property name="innerViewWrapperId" value="planner_course_note_page_inner" />
                 <property name="headerText"
-                          value="@{#textHelper.getText('dialog.planner.course.note.header1')}" />
+                          value="@{#textHelper.getText('dialog.component.course.note.header1')}" />
                 <property name="header.lowerGroup">
                     <bean parent="Uif-HorizontalBoxGroup">
                         <property name="items">
@@ -1042,7 +1042,7 @@
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="planner_submit_button"
-                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.course.note.submit.button')}"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.component.course.note.submit.button')}"
                                                               p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
                                                         <!--p:actionScript="ksapSubmitDialog('planner_course_note_page',e);"/>-->
                                                         <bean parent="planner_cancel_button" />
