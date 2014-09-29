@@ -32,7 +32,7 @@ public class RegGroupSearchResult {
 
     public List<String> getActivityOfferingIds() {
         if (activityOfferingIds == null) {
-            activityOfferingIds = new ArrayList<String>();
+            activityOfferingIds = new ArrayList<>();
         }
 
         return activityOfferingIds;
@@ -76,7 +76,7 @@ public class RegGroupSearchResult {
 
     public List<RegistrationCountResult> getRegistrationCounts() {
         if(registrationCounts == null){
-            registrationCounts = new ArrayList<RegistrationCountResult>();
+            registrationCounts = new ArrayList<>();
         }
         return registrationCounts;
     }

@@ -38,7 +38,6 @@ angular.module('regCartApp')
                     LearningPlanService.getLearningPlan(termId)
                         .then(function(plan) {
                             $scope.plan = plan;
-                            console.log(plan);
                         }, function(response) {
                             if (angular.isDefined(response.messageKey)) {
                                 if (response.messageKey === LEARNING_PLAN_ERRORS.notConfigured) {
@@ -56,8 +55,6 @@ angular.module('regCartApp')
             $scope.$on('termIdChanged', function() {
                 loadLearningPlan();
             });
-
-            loadLearningPlan();
 
 
             $scope.addAllToCart = function() {
@@ -106,7 +103,7 @@ angular.module('regCartApp')
 
 
             $scope.viewDetails = function(course) {
-                if (course.courseId) {
+                if (course.regGroupId) {
                     // Redirects the view to the course details screen
                     $state.go('root.search.details', {
                         searchCriteria: SEARCH_CRITERIA.fromSchedule,
