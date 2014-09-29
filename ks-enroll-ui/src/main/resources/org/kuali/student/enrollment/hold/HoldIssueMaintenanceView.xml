@@ -171,7 +171,8 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgContact">
+                <!-- Removing this untill we handle KSENROLL-14535-->
+                <!--bean parent="KS-Uif-InputField-LabelTop" p:label="Organization Contact" p:propertyName="orgContact">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                     </property>
@@ -180,7 +181,7 @@ limitations under the License.
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:disabled="false"/>
                     </property>
-                </bean>
+                </bean-->
             </list>
         </property>
     </bean>
