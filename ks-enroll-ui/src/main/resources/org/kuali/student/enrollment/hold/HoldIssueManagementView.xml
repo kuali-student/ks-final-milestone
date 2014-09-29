@@ -192,8 +192,8 @@
                         <bean class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Start Date" p:propertyName="firstDate" p:additionalCssClasses="nowrap"/>
-                <bean parent="KS-Uif-DataField" p:label="End Date" p:propertyName="lastDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Effective Date" p:propertyName="firstDate" p:additionalCssClasses="nowrap" p:style="width:80px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Expiration Date" p:propertyName="lastDate" p:additionalCssClasses="nowrap" p:style="width:80px;"/>
             </list>
         </property>
     </bean>
