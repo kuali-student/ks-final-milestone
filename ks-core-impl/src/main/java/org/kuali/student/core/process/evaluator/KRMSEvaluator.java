@@ -36,6 +36,7 @@ import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.ManualContextProvider;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -217,6 +219,23 @@ public class KRMSEvaluator {
         PropositionResult propositionResult = new PropositionResult(false, executionDetails);
         BasicResult br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, source, environment, false);
         environment.getEngineResults().addResult(br);
+        return propositionResult;
+    }
+
+    public static PropositionResult buildPropositionResult(ExecutionEnvironment environment, boolean result, Object source) {
+        PropositionResult propositionResult = new PropositionResult(result);
+        BasicResult basicResult = new BasicResult(ResultEvent.PROPOSITION_EVALUATED, source, environment, propositionResult.getResult());
+        environment.getEngineResults().addResult(basicResult);
+        return propositionResult;
+    }
+
+    public static PropositionResult buildPropositionResult(ExecutionEnvironment environment, ValidationResult validationResult, boolean result, Object source) {
+        Map<String, Object> executionDetails = new LinkedHashMap<>();
+        executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, validationResult);
+        PropositionResult propositionResult = new PropositionResult(result, executionDetails);
+
+        BasicResult basicResult = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, source, environment, propositionResult.getResult());
+        environment.getEngineResults().addResult(basicResult);
         return propositionResult;
     }
 }
