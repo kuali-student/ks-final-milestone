@@ -751,7 +751,7 @@
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
-                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW}">
+                                  p:condition="@{#form.viewId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CourseViewIds).VIEW_COURSE_VIEW and !#isCompareView}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ViewCourse-View-Course-ActivitySection">
