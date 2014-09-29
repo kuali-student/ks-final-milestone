@@ -1052,23 +1052,26 @@
 
     <bean id="planner_menu_copy_plan_item" parent="planner_menu_copy_plan_item-parent"/>
     <bean id="planner_menu_copy_plan_item-parent" abstract="true" parent="Uif-ActionLink"
-          p:actionLabel="@{#textHelper.getText('planner.menu.copy')}" p:title="@{#textHelper.getText('planner.menu.copy')}">
-        <property name="actionScript"
-                  value="ksapOpenPlanDialog('planner_copy_plan_item_page','planner','startDialog', this, e);" />
+          p:actionLabel="@{#textHelper.getText('planner.menu.copy')}"
+          p:title="@{#textHelper.getText('planner.menu.copy')}"
+          p:actionScript="ksapOpenPlanDialog('planner_copy_plan_item_page','planner','startDialog', this, e);"
+          p:additionalCssClasses="ks-fontello-icon-docs">
     </bean>
 
     <bean id="planner_menu_copy_course" parent="planner_menu_copy_course-parent"/>
     <bean id="planner_menu_copy_course-parent" abstract="true" parent="Uif-ActionLink"
-          p:actionLabel="@{#textHelper.getText('planner.menu.copy')}" p:title="@{#textHelper.getText('planner.menu.copy')}">
-        <property name="actionScript"
-                  value="ksapOpenPlanDialog('planner_copy_course_page','planner','startDialog', this, e);" />
+          p:actionLabel="@{#textHelper.getText('planner.menu.copy')}"
+          p:title="@{#textHelper.getText('planner.menu.copy')}"
+          p:actionScript="ksapOpenPlanDialog('planner_copy_course_page','planner','startDialog', this, e);"
+          p:additionalCssClasses="ks-fontello-icon-docs">
     </bean>
 
     <bean id="planner_menu_course_summary" parent="planner_menu_course_summary-parent"/>
     <bean id="planner_menu_course_summary-parent" abstract="true" parent="Uif-ActionLink"
-          p:actionLabel="@{#textHelper.getText('planner.menu.summary')}" p:title="@{#textHelper.getText('planner.menu.summary')}">
-        <property name="actionScript"
-                  value="ksapOpenPlanDialog('planner_course_summary_page','planner','startDialog', this, e);" />
+          p:actionLabel="@{#textHelper.getText('planner.menu.summary')}"
+          p:title="@{#textHelper.getText('planner.menu.summary')}"
+          p:actionScript="ksapOpenPlanDialog('planner_course_summary_page','planner','startDialog', this, e);"
+          p:additionalCssClasses="ks-fontello-icon-summary">
     </bean>
 
     <bean id="planner_menu_completed" parent="planner_menu_completed-parent"/>
@@ -1089,9 +1092,10 @@
 
     <bean id="planner_menu_edit_plan_item" parent="planner_menu_edit_plan_item-parent"/>
 	<bean id="planner_menu_edit_plan_item-parent" abstract="true" parent="Uif-ActionLink"
-		p:actionLabel="@{#textHelper.getText('planner.menu.edit')}" p:title="@{#textHelper.getText('planner.menu.edit')}">
-		<property name="actionScript"
-			      value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+		p:actionLabel="@{#textHelper.getText('planner.menu.edit')}"
+        p:title="@{#textHelper.getText('planner.menu.edit')}"
+        p:actionScript="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);"
+        p:additionalCssClasses="ks-fontello-icon-notes">
 	</bean>
 
     <bean id="planner_menu_add_to_cart" parent="planner_menu_add_to_cart-parent"/>
@@ -1103,33 +1107,34 @@
 
     <bean id="planner_menu_mark_as_backup" parent="planner_menu_mark_as_backup-parent"/>
 	<bean id="planner_menu_mark_as_backup-parent" abstract="true" parent="Uif-ActionLink"
-		p:actionLabel="@{#textHelper.getText('planner.menu.backup')}" p:title="@{#textHelper.getText('planner.menu.backup')}">
-		<property name="actionScript" value="ksapPlannerUpdateCategory(true, this, e);" />
+		p:actionLabel="@{#textHelper.getText('planner.menu.backup')}"
+        p:title="@{#textHelper.getText('planner.menu.backup')}"
+        p:actionScript="ksapPlannerUpdateCategory(true, this, e);"
+        p:additionalCssClasses="ks-fontello-icon-down">
 	</bean>
 
     <bean id="planner_menu_move_plan_item" parent="planner_menu_move_plan_item-parent"/>
 	<bean id="planner_menu_move_plan_item-parent" abstract="true" parent="Uif-ActionLink"
-		p:actionLabel="@{#textHelper.getText('planner.menu.move')}" p:title="@{#textHelper.getText('planner.menu.move')}">
-		<property name="actionScript"
-			      value="ksapOpenPlanDialog('planner_move_plan_item_page','planner','startDialog', this, e);" />
+		p:actionLabel="@{#textHelper.getText('planner.menu.move')}"
+        p:title="@{#textHelper.getText('planner.menu.move')}"
+        p:actionScript="ksapOpenPlanDialog('planner_move_plan_item_page','planner','startDialog', this, e);"
+        p:additionalCssClasses="ks-fontello-icon-exchange">
 	</bean>
 
     <bean id="planner_menu_delete_plan_item" parent="planner_menu_delete_plan_item-parent"/>
 	<bean id="planner_menu_delete_plan_item-parent" abstract="true" parent="Uif-ActionLink"
-		p:actionLabel="@{#textHelper.getText('planner.menu.delete')}" p:title="@{#textHelper.getText('planner.menu.delete')}">
-		<property name="cssClasses">
-			<list merge="true">
-				<value>ksap-noMargin</value>
-			</list>
-		</property>
-		<property name="actionScript"
-			      value="ksapOpenPlanDialog('planner_delete_plan_item_page','planner','startDialog', this, e);" />
+		p:actionLabel="@{#textHelper.getText('planner.menu.delete')}"
+        p:title="@{#textHelper.getText('planner.menu.delete')}"
+        p:actionScript="ksapOpenPlanDialog('planner_delete_plan_item_page','planner','startDialog', this, e);"
+        p:additionalCssClasses="ks-fontello-icon-trash ksap-noMargin">
 	</bean>
 
     <bean id="planner_menu_mark_as_planned" parent="planner_menu_mark_as_planned-parent"/>
 	<bean id="planner_menu_mark_as_planned-parent" abstract="true" parent="Uif-ActionLink"
-		p:actionLabel="@{#textHelper.getText('planner.menu.planned')}" p:title="@{#textHelper.getText('planner.menu.planned')}">
-		<property name="actionScript" value="ksapPlannerUpdateCategory(false, this, e);" />
+		p:actionLabel="@{#textHelper.getText('planner.menu.planned')}"
+        p:title="@{#textHelper.getText('planner.menu.planned')}"
+        p:actionScript="ksapPlannerUpdateCategory(false, this, e);"
+        p:additionalCssClasses="ks-fontello-icon-docs">
 	</bean>
 
     <bean id="planner_menu_completed_backup" parent="planner_menu_completed_backup-parent"/>
