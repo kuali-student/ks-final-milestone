@@ -90,28 +90,20 @@ public class ViewCourseController extends KsUifControllerBase {
 
         try {
             //  Load the data for the primary/courseId course (including the version data).
-            CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            courseWrapper.setProposalDataUsed(false);
-            ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
+            CourseInfoWrapper courseWrapper = buildCourseWrapperAndViewCourseForm(courseId, form, true);
             form.setCourseInfoWrapper(courseWrapper);
-            form.setCanRetireCourse(!CourseProposalUtil.hasInProgressProposalForCourse(courseWrapper.getCourseInfo()));
 
             //  Load the data for the other/compare-to course.
             if (isComparison) {
-                CourseInfoWrapper compareCourseWrapper = new CourseInfoWrapper();
-                compareCourseWrapper.setProposalDataUsed(false);
-                ((CourseMaintainable) form.getViewHelperService()).setDataObject(compareCourseWrapper);
-                ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(compareCourseId, compareCourseWrapper, true);
+                CourseInfoWrapper compareCourseWrapper = buildCourseWrapperAndViewCourseForm(compareCourseId, form, false);
                 form.setCompareCourseInfoWrapper(compareCourseWrapper);
 
                 //  See if the requisites on the two courses are equal.
                 form.setRequisitesEqual(CourseProposalUtil.isRequisitesEqual(form.getCourseInfoWrapper().getAgendas(),
                         form.getCompareCourseInfoWrapper().getAgendas()));
 
-                ((CourseMaintainable) form.getViewHelperService()).balanceCollectionsForCompare(courseWrapper,compareCourseWrapper);
+                ((CourseMaintainable) form.getViewHelperService()).balanceCollectionsForCompare(courseWrapper, compareCourseWrapper);
             }
-            form.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
             form.setComparison(isComparison);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -121,6 +113,29 @@ public class ViewCourseController extends KsUifControllerBase {
                 CurriculumManagementConstants.Export.FileType.PDF);
 
         return getUIFModelAndView(form);
+    }
+
+    /**
+     * Creates new Course wrapper object and populates with course info.
+     * Also checks the Modify and retire options exist for current course based on the boolean input value.
+     * @param courseId
+     * @param form
+     * @param checkRetireAndModifyOptions - true - Perform the check and set the retire and modify options, false - do not perform the check
+     * @return CourseInfoWrapper
+     * @throws Exception
+     */
+    protected CourseInfoWrapper buildCourseWrapperAndViewCourseForm(String courseId, ViewCourseForm form, boolean checkRetireAndModifyOptions) throws Exception {
+        CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
+        courseWrapper.setProposalDataUsed(false);
+        ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
+        ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(courseId, courseWrapper, true);
+
+        if (checkRetireAndModifyOptions) {
+            form.setCanRetireCourse(!CourseProposalUtil.hasInProgressProposalForCourse(courseWrapper.getCourseInfo()) &&
+                    CourseProposalUtil.hasDraftCourseOrSupersededVersion(courseWrapper.getCourseInfo(),ContextUtils.createDefaultContextInfo()));
+            form.setModifiableCourse(CourseProposalUtil.isModifiableCourse(courseWrapper.getCourseInfo(), ContextUtils.createDefaultContextInfo()));
+        }
+        return courseWrapper;
     }
 
     @MethodAccessible
@@ -281,10 +296,7 @@ public class ViewCourseController extends KsUifControllerBase {
 
         try {
             CourseInfo currentCourse = CourseProposalUtil.getCurrentVersionOfCourse(detailedViewForm.getCourseInfoWrapper().getCourseInfo().getVersion().getVersionIndId(), ContextUtils.createDefaultContextInfo());
-            CourseInfoWrapper courseWrapper = new CourseInfoWrapper();
-            courseWrapper.setProposalDataUsed(false);
-            ((CourseMaintainable) form.getViewHelperService()).setDataObject(courseWrapper);
-            ((CourseMaintainable) form.getViewHelperService()).populateCourseAndReviewData(currentCourse.getId(), courseWrapper, true);
+            CourseInfoWrapper courseWrapper = buildCourseWrapperAndViewCourseForm(currentCourse.getId(), detailedViewForm, true);
             detailedViewForm.setCourseInfoWrapper(courseWrapper);
             detailedViewForm.setCompareCourseInfoWrapper(null);
         } catch (Exception e) {
