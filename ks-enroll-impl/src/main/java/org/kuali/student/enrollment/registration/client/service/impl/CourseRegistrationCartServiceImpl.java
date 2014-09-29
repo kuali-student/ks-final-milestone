@@ -84,6 +84,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     private Map<String, Integer> activityPriorityMap;
 
 
+    @Transactional
     @Override
     public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
         if(cartId == null || cartId.isEmpty()){
@@ -460,7 +461,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         CartItemResult currentCartItem = new CartItemResult();
         ActivityOfferingScheduleResult aoSched = new ActivityOfferingScheduleResult();
         CartResult cartResult = new CartResult();
-        Map<String, List<CartItemResult>> luiIdToCartItems = new HashMap<String, List<CartItemResult>>();
+        Map<String, List<CartItemResult>> luiIdToCartItems = new HashMap<>();
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             //Parse information from the flat search results
             String cartId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ID);
@@ -576,7 +577,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Populating instructors for AOs
         for (CartItemResult cartItemResult : cartResult.getItems()) {
-            List<String> aoIds = new ArrayList<String>();
+            List<String> aoIds = new ArrayList<>();
             for (ActivityOfferingScheduleResult aoScheduleResult : cartItemResult.getSchedule()) {
                 aoIds.add(aoScheduleResult.getActivityOfferingId());
             }
@@ -622,7 +623,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
      */
     private void populateOptions(Map<String, List<CartItemResult>> luiIdToCartItem, ContextInfo contextInfo) throws OperationFailedException {
 
-        List<String> coIds = new ArrayList<String>(luiIdToCartItem.keySet());
+        List<String> coIds = new ArrayList<>(luiIdToCartItem.keySet());
 
         if (coIds.isEmpty()) {
             return;

@@ -70,6 +70,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      * @throws PermissionDeniedException
      */
     @Override
+    @Transactional
     public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -325,10 +326,6 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         courseRegistration.setEffectiveDate(rgLpr.getEffectiveDate());
         courseRegistration.setExpirationDate(rgLpr.getExpirationDate());
         return courseRegistration;
-    }
-
-    public JmsTemplate getJmsTemplate() {
-        return jmsTemplate;
     }
 
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
