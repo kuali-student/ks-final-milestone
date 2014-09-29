@@ -151,8 +151,10 @@ public class CourseController extends CourseRuleEditorController {
 
     protected CurriculumManagementConstants.UserInterfaceSections getNextSection(CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         CurriculumManagementConstants.CourseViewSections currentSection = (CurriculumManagementConstants.CourseViewSections) selectedSection;
+        int ordinal = currentSection.ordinal();
+        ordinal = ((ordinal + 1) % 10);     // there are 10 CourseViewSections avilable hence '%' with 10.
         if (currentSection.ordinal() < CurriculumManagementConstants.CourseViewSections.values().length) {
-            return CurriculumManagementConstants.CourseViewSections.values()[currentSection.ordinal() + 1];
+            return CurriculumManagementConstants.CourseViewSections.values()[ordinal];
         }
         // cannot find valid section
         return null;
