@@ -1166,7 +1166,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>termnote</value>
-                <value>ks-fontello-icon-wrench</value>
+                <value>ks-fontello-icon-notes</value>
             </list>
         </property>
         <property name="messageText" value="&#160;" />

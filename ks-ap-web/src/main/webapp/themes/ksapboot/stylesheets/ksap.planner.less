@@ -60,20 +60,6 @@
 // --------------------------------------------------
 #planner_courses_detail_list {
 
-  // Term header
-  .ksap-planner-term-header {
-    background: #dcdcdc;
-    text-align: center;
-
-    h4 {
-      padding: .5rem;
-    }
-    .uif-header-rightGroup {
-      right: .5rem;
-      top: .5rem;
-    }
-  }
-
   .ksap-planner-term {
     border: solid 1px #dfdfdf;
     border-top: none;
@@ -82,9 +68,37 @@
     padding: 0;
   }
 
-  .ksap-planner-term-current .ksap-planner-term-header {
-    background: #3a87ad;
-    color: #fff;
+  // Term header
+  .ksap-planner-term-header {
+    background: #dcdcdc;
+
+    h4 {
+      padding: .5rem;
+    }
+    .uif-header-rightGroup {
+      right: .5rem;
+      top: .5rem;
+    }
+    .empty-termnote {
+      color: #b4b4b4;
+    }
+    .filled-termnote {
+      color: #3a87ad;
+    }
+    .termnote:hover {
+      color: #3a87ad;
+    }
+  }
+
+  // Current Term
+  .ksap-planner-term-current {
+    .ksap-planner-term-header {
+      background: #3a87ad;
+      color: #fff;
+    }
+    .filled-termnote, .termnote:hover {
+      color: #fff;
+    }
   }
 
   // Planned, Completed, Registered, Backup headers
