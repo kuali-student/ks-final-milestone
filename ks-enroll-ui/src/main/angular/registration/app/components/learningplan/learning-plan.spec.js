@@ -65,6 +65,10 @@ describe('Controller: LearningPlanCtrl', function () {
         mockLearningPlan = _mockLearningPlan_;
 
         scope = _$rootScope_.$new();
+        scope.featureToggles = {
+            learningPlan: true // Default the featureToggle to on
+        };
+
         ctrl = $controller('LearningPlanCtrl', {
             $scope: scope
         });
@@ -74,6 +78,7 @@ describe('Controller: LearningPlanCtrl', function () {
 
 
     function loadLearningPlan() {
+        getLearningPlanSpy.reset();
         $rootScope.$broadcast('termIdChanged', termId);
     }
 
@@ -116,6 +121,31 @@ describe('Controller: LearningPlanCtrl', function () {
             expect(getLearningPlanSpy).toHaveBeenCalledWith(termId);
             expect(scope.plan).toBeNull();
             expect(scope.message).toBeNull();
+        });
+
+        it('should manage the feature toggle', function() {
+            var errorResponse = {
+                messageKey: 'kuali.cr.learningplan.message.learningplan.not.configured'
+            };
+
+            getLearningPlanSpy.andReturn({
+                then: function(success, error) {
+                    error(errorResponse);
+                }
+            });
+
+            scope.featureToggles.learningPlan = false;
+            loadLearningPlan();
+            expect(getLearningPlanSpy).not.toHaveBeenCalled();
+            expect(scope.plan).toBeNull();
+            expect(scope.message).toBeNull();
+
+            scope.featureToggles.learningPlan = true;
+            loadLearningPlan();
+            expect(getLearningPlanSpy).toHaveBeenCalledWith(termId);
+            expect(scope.plan).toBeNull();
+            expect(scope.message).toBeNull();
+            expect(scope.featureToggles.learningPlan).toBeFalsy();
         });
     });
 

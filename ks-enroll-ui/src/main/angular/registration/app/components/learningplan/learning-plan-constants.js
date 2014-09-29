@@ -8,4 +8,9 @@ angular.module('regCartApp')
     .constant('LEARNING_PLAN_CATEGORIES', {
         planned: 'PLANNED',
         backup: 'BACKUP'
+    })
+
+    // Learning Plan-Specific Errors
+    .constant('LEARNING_PLAN_ERRORS', {
+        notConfigured: 'kuali.cr.learningplan.message.learningplan.not.configured'
     });

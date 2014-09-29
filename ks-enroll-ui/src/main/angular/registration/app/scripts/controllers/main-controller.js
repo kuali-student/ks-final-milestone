@@ -10,12 +10,13 @@
  *              "sessionExpired" -- received from interceptors.js, launches modal that informs user that session has expired
  */
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$window', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM',
+    .controller('MainCtrl', ['$scope', '$window', '$location', '$state', '$modal', 'APP_URL', 'DEFAULT_TERM', 'FEATURE_TOGGLES',
         'GlobalVarsService', 'LoginService', 'TermsService', 'ScheduleService', 'CartService', 'MessageService',
-    function MainCtrl($scope, $window, $location, $state, $modal, APP_URL, DEFAULT_TERM, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService, MessageService) {
+    function MainCtrl($scope, $window, $location, $state, $modal, APP_URL, DEFAULT_TERM, FEATURE_TOGGLES, GlobalVarsService, LoginService, TermsService, ScheduleService, CartService, MessageService) {
         console.log('>> MainCtrl');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
+        $scope.featureToggles = FEATURE_TOGGLES;
 
         $scope.userId = GlobalVarsService.getUserId;
 

@@ -6,5 +6,7 @@ angular.module('configuration', [])
     .value('DEFAULT_TERM', 'kuali.atp.2012Fall') // Default term to select. This should be changed/removed when implemented
 
     // Toggles for disabling/enabling certain features
-    .value('FEATURE_TOGGLES', {})
+    .value('FEATURE_TOGGLES', {
+        learningPlan: true // Learning plan integration. False prevents it from ever showing
+    })
 ;

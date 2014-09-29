@@ -9,11 +9,12 @@
  * - broadcast:
  *      - addCourseToCart - broadcast when the user clicks the Keep in Cart button in the event of a failure
  * - emits: none
- * - catches: none
+ * - catches:
+ *      - termIdChanged - loads learning plan for new term
  */
 angular.module('regCartApp')
-    .controller('LearningPlanCtrl', ['$scope', '$rootScope', '$state', 'SEARCH_CRITERIA', 'LEARNING_PLAN_CATEGORIES', 'TermsService', 'CartService', 'ScheduleService', 'LearningPlanService',
-        function ($scope, $rootScope, $state, SEARCH_CRITERIA, LEARNING_PLAN_CATEGORIES, TermsService, CartService, ScheduleService, LearningPlanService) {
+    .controller('LearningPlanCtrl', ['$scope', '$rootScope', '$state', 'SEARCH_CRITERIA', 'LEARNING_PLAN_CATEGORIES', 'LEARNING_PLAN_ERRORS', 'TermsService', 'CartService', 'ScheduleService', 'LearningPlanService',
+        function ($scope, $rootScope, $state, SEARCH_CRITERIA, LEARNING_PLAN_CATEGORIES, LEARNING_PLAN_ERRORS, TermsService, CartService, ScheduleService, LearningPlanService) {
             console.log('>> LearningPlanCtrl');
 
             $scope.categories = LEARNING_PLAN_CATEGORIES;
@@ -28,6 +29,10 @@ angular.module('regCartApp')
                 $scope.plan = null;
                 $scope.message = null;
 
+                if (!$scope.featureToggles.learningPlan) {
+                    return;
+                }
+
                 var termId = TermsService.getTermId();
                 if (termId) {
                     LearningPlanService.getLearningPlan(termId)
@@ -35,9 +40,13 @@ angular.module('regCartApp')
                             $scope.plan = plan;
                             console.log(plan);
                         }, function(response) {
-                            console.log('-- ' + response);
                             if (angular.isDefined(response.messageKey)) {
-                                $scope.message = response;
+                                if (response.messageKey === LEARNING_PLAN_ERRORS.notConfigured) {
+                                    // If the learning plan is not configured it should not be visible at all.
+                                    $scope.featureToggles.learningPlan = false;
+                                } else {
+                                    $scope.message = response;
+                                }
                             }
                         });
                 }

@@ -20,6 +20,10 @@ angular.module('regCartApp', [
             mySchedule = {
                 templateUrl: 'partials/schedule.html',
                 controller: 'ScheduleCtrl'
+            },
+            myLearningPlan = {
+                templateUrl: 'components/learningplan/learningPlan.html',
+                controller: 'LearningPlanCtrl'
             };
 
 
@@ -41,7 +45,8 @@ angular.module('regCartApp', [
                 views: {
                     '': mySchedule,
                     mycart: myCart,
-                    schedule: mySchedule
+                    schedule: mySchedule,
+                    learningplan: myLearningPlan
                 }
             })
             .state('root.cart', {
@@ -49,7 +54,8 @@ angular.module('regCartApp', [
                 views: {
                     '': mySchedule,
                     mycart: myCart,
-                    schedule: mySchedule
+                    schedule: mySchedule,
+                    learningplan: myLearningPlan
                 }
             })
 
@@ -60,7 +66,8 @@ angular.module('regCartApp', [
                         templateUrl: 'partials/search.html'
                     },
                     mycart: myCart,
-                    schedule: mySchedule
+                    schedule: mySchedule,
+                    learningplan: myLearningPlan
                 }
             })
             .state('root.search.results', {

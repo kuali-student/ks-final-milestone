@@ -384,8 +384,12 @@ module.exports = function (grunt) {
                         return content +
                             '<script>' +
                             '\'use strict\'; ' +
-                            'angular.module(\'configuration\')' +
-                            '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                            'var config = angular.module(\'configuration\');' +
+                            'config.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+
+                            // Feature toggle overrides
+                            'var featureToggles = config.value(\'FEATURE_TOGGLES\');' +
+                            'featureToggles.learningPlan = false;' +
                             '</script>';
                     }
                 }

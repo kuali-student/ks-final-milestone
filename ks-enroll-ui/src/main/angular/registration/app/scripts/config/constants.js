@@ -128,7 +128,8 @@ angular.module('regCartApp')
 
     .constant('GENERAL_ERROR_TYPE', {
         noRegGroup: 'noRegGroup',
-        courseNotFound: 'kuali.cr.cart.message.course.code.not.found'
+        courseNotFound: 'kuali.cr.cart.message.course.code.not.found',
+        learningPlanNotConfigured: 'kuali.cr.learningplan.message.learningplan.not.configured'
     })
 
     .constant('VALIDATION_SUCCESS_TYPE', {
