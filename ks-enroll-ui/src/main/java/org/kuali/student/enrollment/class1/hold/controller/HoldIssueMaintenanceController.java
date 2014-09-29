@@ -21,10 +21,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
+import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.enrollment.class1.hold.util.HoldsUtil;
+import org.kuali.student.r2.core.hold.infc.HoldIssue;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,6 +62,14 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
+
+        // Display succes growl messages.
+        HoldIssue issue = this.getHoldIssueWrapper(form).getHoldIssue();
+        if(issue.getId()==null){
+            HoldsUtil.showMessage(HoldsConstants.HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_CREATED, issue.getHoldCode());
+        } else {
+            HoldsUtil.showMessage(HoldsConstants.HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_EDITED, issue.getHoldCode());
+        }
         return back(form, result, request, response);
 
     }
@@ -81,6 +94,19 @@ public class HoldIssueMaintenanceController extends MaintenanceDocumentControlle
      */
     protected HoldsViewHelperService getViewHelper(UifFormBase form) {
         return (HoldsViewHelperService) KSControllerHelper.getViewHelperService(form);
+    }
+
+    protected HoldIssueMaintenanceWrapper getHoldIssueWrapper(UifFormBase form) {
+        MaintenanceDocumentForm document = this.getMaintenanceDocumentForm(form);
+        return (HoldIssueMaintenanceWrapper) document.getDocument().getDocumentDataObject();
+    }
+
+    //Method for checking if the form is an instance of maintenanceDocumentForm, then returning the casted form
+    protected MaintenanceDocumentForm getMaintenanceDocumentForm(UifFormBase form) {
+        if (form instanceof MaintenanceDocumentForm) {
+            return (MaintenanceDocumentForm) form;
+        }
+        throw new RuntimeException("Error retrieving Maintenance document form from UifFormBase");
     }
 
 }

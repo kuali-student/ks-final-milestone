@@ -3,18 +3,14 @@ package org.kuali.student.enrollment.class1.hold.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.uif.util.KSGrowlMessenger;
+import org.kuali.student.common.uif.util.Messenger;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.form.HoldIssueResult;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,5 +91,17 @@ public class HoldsUtil {
         holdIssueResult.setEndTerm(holdIssueInfo.getLastApplicationTermId());
         holdIssueResult.setAuthorization("Authorization");
         return holdIssueResult;
+    }
+
+    public static void showMessage(String messageKey, String holdCode) {
+
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger == null) {
+            messenger = new KSGrowlMessenger();
+            GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
+        }
+
+        String[] parms = {holdCode};
+        messenger.addSuccessMessage(messageKey, parms);
     }
 }

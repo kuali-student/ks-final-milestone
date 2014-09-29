@@ -88,6 +88,10 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_EXPIRATION_TERM;
     public static final String APPLIED_HOLDS_PROP_NAME_EXPIRATION_DATE = APPLIED_HOLDS_PATH + "." + APPLIED_HOLDS_PROP_NAME +"."+APPLIED_HOLDS_EXPIRATION_DATE;
 
+    //success Message keys
+    public static final String HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_CREATED = "success.hold.issue.created";
+    public static final String HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_EDITED = "success.hold.issue.edited";
+
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_TYPE_REQUIRED = "error.hold.issue.type.required";

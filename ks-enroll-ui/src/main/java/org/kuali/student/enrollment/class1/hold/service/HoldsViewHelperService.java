@@ -22,7 +22,7 @@ public interface HoldsViewHelperService {
 
     public PersonInfo getStudentById(String studentId);
 
-    public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom);
+    public List<AppliedHoldResult> searchAppliedHoldsByPerson(String personId);
 
     public HoldIssueInfo searchHoldIssueByCode(String holdCode);
 

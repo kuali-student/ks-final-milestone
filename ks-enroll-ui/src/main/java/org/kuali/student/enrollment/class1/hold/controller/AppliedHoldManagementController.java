@@ -95,7 +95,7 @@ public class AppliedHoldManagementController extends UifControllerBase {
         List<AppliedHoldResult> results = new ArrayList<AppliedHoldResult>();
         try {
             if (form.isHasSearchBeenCalled()) {
-                results = this.getViewHelper(form).searchAppliedHolds(form);
+                results = this.getViewHelper(form).searchAppliedHoldsByPerson(form.getPerson().getId());
             }
         } catch (Exception e) {
             throw new RuntimeException(HoldsConstants.HOLD_ISSUE_SEARCH_ERROR_MSG, e); //To change body of catch statement use File | Settings | File Templates.

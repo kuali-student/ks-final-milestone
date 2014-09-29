@@ -108,16 +108,16 @@ public class HoldsViewHelperServiceImpl extends KSViewHelperServiceImpl implemen
      * Only released holds that have the maintain history option enabled will be displayed.
      * All active holds will be displayed regardless of the maintain history option.
      *
-     * @param holdFrom
+     * @param personId
      * @return List holdResultList
      */
     @Override
-    public List<AppliedHoldResult> searchAppliedHolds(AppliedHoldManagementForm holdFrom) {
+    public List<AppliedHoldResult> searchAppliedHoldsByPerson(String personId) {
 
         List<AppliedHoldResult> holdResultList = new ArrayList<AppliedHoldResult>();
 
         try {
-            List<AppliedHoldInfo> appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(holdFrom.getPerson().getId(), createContextInfo());
+            List<AppliedHoldInfo> appliedHoldInfoList = HoldsResourceLoader.getHoldService().getAppliedHoldsByPerson(personId, createContextInfo());
 
             for (AppliedHoldInfo appliedHoldInfo : appliedHoldInfoList) {
 
