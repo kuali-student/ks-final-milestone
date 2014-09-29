@@ -7,12 +7,39 @@
     .util-sticky-placeholder {
         display: none;
     }
+
+    @media screen and (max-width: @midFormatMax) {
+        padding-top: 1rem;
+        position: relative;
+    }
 }
 
 // Facet list container
 .kscr-SearchFacets {
     margin: 0 0 1rem 1rem;
     width: @facetWidth;
+
+    @media screen and (max-width: @midFormatMax) {
+        margin: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: auto !important; // Important to override the sticky styles
+        z-index: 100; // Needs to be on top of the search results
+
+        &--expanded {
+          // Give it a box-shadow when stuck at the top
+          .box-shadow(0 0 0.3rem @lightGray);
+
+          max-width: 75%; // Max-width used in case screen width is less than @facetWidth;
+          width: @facetWidth + 4 !important; // Important to override the sticky styles
+        }
+    }
+
+    @media screen and (min-width: @wideFormatMin) {
+        .util-sticky--disabled();
+        width: @facetWidth !important;
+    }
 }
 
 // Facet toggle
@@ -49,6 +76,9 @@
         }
     }
 
+    @media screen and (max-width: @midFormatMax) {
+        display: block;
+    }
 }
 
 
@@ -118,66 +148,28 @@
         position: absolute;
         top: 0.8rem;
     }
+
     &--Selected .kscr-SearchFacet-option-icon {
         .checkbox-icon--checked();
     }
 }
 
+.kscr-SearchFacets-facetsContainer {
+  @media screen and (max-width: @midFormatMax) {
+    background: @whiteBackground;
+    display: none;
 
-
-
-// Small/Medium format styles
-@media screen and (max-width: @midFormatMax) {
-
-    .kscr-Search-content {
-        padding-top: 1rem;
-        position: relative;
-    }
-
-    .kscr-SearchFacets {
-        margin: 0;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: auto !important; // Important to override the sticky styles
-        z-index: 100; // Needs to be on top of the search results
-
-        &--expanded {
-            // Give it a box-shadow when stuck at the top
-            .box-shadow(0 0 0.3rem @lightGray);
-
-            max-width: 75%; // Max-width used in case screen width is less than @facetWidth;
-            width: @facetWidth + 4 !important; // Important to override the sticky styles
-
-            .kscr-SearchFacets-facetsContainer {
-                display: block;
-            }
-
-            &.util-sticky--stuck {
-                // Give it a box-shadow when stuck at the top
-                .box-shadow(0 0 0.3rem @lightGray);
-
-                max-height: 100%;
-                overflow-y: scroll;
-            }
-        }
-    }
-
-    // Facet toggle
-    .kscr-SearchFacets-toggle {
+    .kscr-SearchFacets--expanded & {
         display: block;
     }
-
-    .kscr-SearchFacets-facetsContainer {
-        background: @whiteBackground;
-        display: none;
-    }
+  }
 }
 
-
-@media screen and (min-width: @wideFormatMin) {
-    .kscr-SearchFacets {
-        .util-sticky--disabled();
-        width: @facetWidth !important;
+.kscr-SearchFacets--expanded {
+  @media screen and (max-width: @midFormatMax) {
+    &.util-sticky--stuck {
+      max-height: 100%;
+      overflow-y: scroll;
     }
+  }
 }
