@@ -91,6 +91,9 @@ public class HoldsConstants {
     //success Message keys
     public static final String HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_CREATED = "success.hold.issue.created";
     public static final String HOLDS_ISSUE_MSG_SUCCESS_HOLD_ISSUE_EDITED = "success.hold.issue.edited";
+    public static final String APPLIED_HOLDS_MSG_SUCCESS_HOLD_APPLIED = "success.applied.hold.applied";
+    public static final String APPLIED_HOLDS_MSG_SUCCESS_HOLD_EXPIRED = "success.applied.hold.expired";
+    public static final String APPLIED_HOLDS_MSG_SUCCESS_HOLD_DELETED = "success.applied.hold.deleted";
 
     //error Message keys
     public static final String HOLDS_ISSUE_MSG_ERROR_HOLD_ISSUE_NAME_REQUIRED = "error.hold.issue.name.required";

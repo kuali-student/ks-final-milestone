@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.hold.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.core.person.dto.PersonInfo;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class AppliedHoldManagementForm extends UifFormBase {
+public class AppliedHoldManagementForm extends KSUifForm {
 
     private static final long serialVersionUID = 4898118410378641665L;
 

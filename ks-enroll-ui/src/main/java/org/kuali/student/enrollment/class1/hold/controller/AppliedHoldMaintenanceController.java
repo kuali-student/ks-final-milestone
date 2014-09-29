@@ -31,6 +31,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper;
 import org.kuali.student.enrollment.class1.hold.service.HoldsViewHelperService;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
+import org.kuali.student.enrollment.class1.hold.util.HoldsUtil;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -95,8 +96,9 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
-        return back(form, result, request, response);
 
+        HoldsUtil.showMessage(HoldsConstants.APPLIED_HOLDS_MSG_SUCCESS_HOLD_APPLIED, holdWrapper.getMaintenanceHold().getHoldCode());
+        return back(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=edit")
@@ -139,6 +141,8 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
+
+        HoldsUtil.showMessage(HoldsConstants.APPLIED_HOLDS_MSG_SUCCESS_HOLD_EXPIRED, holdWrapper.getMaintenanceHold().getHoldCode());
         return back(form, result, request, response);
 
     }
@@ -161,6 +165,8 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
+
+        HoldsUtil.showMessage(HoldsConstants.APPLIED_HOLDS_MSG_SUCCESS_HOLD_DELETED, holdWrapper.getMaintenanceHold().getHoldCode());
         return back(form, result, request, response);
 
     }
