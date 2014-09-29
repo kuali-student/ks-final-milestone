@@ -16,7 +16,6 @@
 package org.kuali.student.ap.planner.service.impl;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.TypedObjectReferenceInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -29,10 +28,12 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.CourseNoteForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.TermNoteForm;
 import org.kuali.student.ap.planner.service.PlannerViewHelperService;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -262,5 +263,41 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadCourseNotePlanForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.CourseNoteForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadCourseNotePlanForm(UifFormBase submittedForm, CourseNoteForm dialogForm,
+            HttpServletRequest request, HttpServletResponse response){
+        String planItemId = request.getParameter("planItemId");
 
+        PlanItem planItem = KsapFrameworkServiceLocator.getPlanHelper().getPlanItem(planItemId);
+        dialogForm.setPlanItemId(planItem.getId());
+        dialogForm.setPlanId(planItem.getLearningPlanId());
+        dialogForm.setCourseId(planItem.getRefObjectId());
+        dialogForm.setCourseNote(planItem.getDescr().getFormatted());
+        try {
+            dialogForm.setTermId(KSCollectionUtils.getRequiredZeroElement(planItem.getPlanTermIds()));
+        } catch (OperationFailedException e) {
+            String errMsg = String.format("unexpected error retrieving single termId for plannedItem (id=%s): %s",
+                    planItemId, e.getMessage());
+            LOG.warn(errMsg, e);
+            throw new IllegalStateException(errMsg, e);
+        }
+
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(
+                planItem.getRefObjectId());
+        dialogForm.setCourseCode(course.getCode());
+        dialogForm.setCourseTitle(course.getCourseTitle());
+
+        String uniqueId= request.getParameter("uniqueId");
+        if(uniqueId==null){
+            dialogForm.setUniqueId(UUID.randomUUID().toString());
+        }else{
+            dialogForm.setUniqueId(uniqueId);
+        }
+        dialogForm.setUniqueId(uniqueId);
+
+        return dialogForm;
+    }
 }

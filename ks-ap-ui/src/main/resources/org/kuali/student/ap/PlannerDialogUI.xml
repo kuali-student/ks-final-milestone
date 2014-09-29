@@ -1011,6 +1011,69 @@
         </property>
     </bean>
 
-
-
+    <bean id="KSAP-CourseNoteDialog-FormView" parent="KSAP-CourseNoteDialog-FormView-parent"/>
+    <bean id="KSAP-CourseNoteDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-CourseNoteDialog-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.CourseNoteForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage">
+                <property name="id" value="planner_course_note_page" />
+                <property name="innerViewWrapperId" value="planner_course_note_page_inner" />
+                <property name="headerText"
+                          value="@{#textHelper.getText('dialog.planner.course.note.header1')}" />
+                <property name="header.lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Message" p:messageText="@{courseCode} @{courseTitle}"
+                                      p:cssClasses="bold"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.course.note.submit.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
+                                                        <!--p:actionScript="ksapSubmitDialog('planner_course_note_page',e);"/>-->
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                        <value>ksap-dialog-termnote</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="planner_course_note_input" />
+                        <bean parent="planner_hidden_input" p:propertyName="planId" />
+                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
+                        <bean parent="planner_hidden_input" p:propertyName="termId" />
+                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 </beans>

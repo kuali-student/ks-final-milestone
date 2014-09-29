@@ -496,7 +496,7 @@
                     <property name="render" value="@{!#empty(#line.courseNote)}"/>
                     <property name="title" value="@{#line.courseNote}"/>
                     <property name="onClickScript"
-                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                              value="ksapOpenPlanDialog('planner_course_note_page', 'planner', 'startCourseNoteDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
