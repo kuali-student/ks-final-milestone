@@ -76,6 +76,7 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(uiTestForm);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=collection")
     public ModelAndView collection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
@@ -153,6 +154,7 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=collectionTerm")
     public ModelAndView collectionTerm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
