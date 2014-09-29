@@ -384,12 +384,11 @@ module.exports = function (grunt) {
                         return content +
                             '<script>' +
                             '\'use strict\'; ' +
-                            'var config = angular.module(\'configuration\');' +
-                            'config.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                            'angular.module(\'configuration\').value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
 
                             // Feature toggle overrides
-                            'var featureToggles = config.value(\'FEATURE_TOGGLES\');' +
-                            'featureToggles.learningPlan = false;' +
+                            'var featureToggles = angular.module(\'configuration\').value(\'FEATURE_TOGGLES\');' +
+                            // 'featureToggles.learningPlan = false;' +
                             '</script>';
                     }
                 }
