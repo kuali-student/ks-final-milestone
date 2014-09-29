@@ -144,7 +144,7 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
     }
 
     /**
-     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadQuickAddToPlanDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadTermNoteDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public UifFormBase loadTermNoteDialogForm(UifFormBase submittedForm, TermNoteForm dialogForm, HttpServletRequest request, HttpServletResponse response){

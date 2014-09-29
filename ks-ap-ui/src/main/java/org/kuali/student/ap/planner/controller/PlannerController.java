@@ -826,7 +826,7 @@ public class PlannerController extends KsapControllerBase {
     }
 
     /**
-     * Loads the initial information for the quick add dialog screen opened in the planner.
+     * Loads the initial information for the term note dialog screen opened in the planner.
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=startTermNoteDialog")

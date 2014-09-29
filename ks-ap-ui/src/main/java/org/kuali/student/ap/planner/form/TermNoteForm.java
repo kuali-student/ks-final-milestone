@@ -17,6 +17,11 @@ package org.kuali.student.ap.planner.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 
+/**
+ * Data Object class for displaying the term note dialog for planner terms
+ * Used for beans:
+ * PlannerDialogUI.xml#KSAP-TermNoteDialog-FormView
+ */
 public class TermNoteForm extends UifFormBase {
 
     // Hidden Values
@@ -26,7 +31,6 @@ public class TermNoteForm extends UifFormBase {
 
     // Display Values
     private String termName;
-
 
     // Input values
     private String termNote;
