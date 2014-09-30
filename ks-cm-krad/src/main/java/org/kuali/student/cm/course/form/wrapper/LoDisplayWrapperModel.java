@@ -15,6 +15,8 @@
 
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.kuali.student.common.util.DTOWrapperBase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LoDisplayWrapperModel {
+public class LoDisplayWrapperModel extends DTOWrapperBase {
 
     private List<LoDisplayInfoWrapper> loWrappers;
 

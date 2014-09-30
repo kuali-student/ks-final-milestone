@@ -16,15 +16,19 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DTOWrapper;
 import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Wrapper around the {@link CluInstructorInfo} instance for use with KRAD UI components like the StackedCollection
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CluInstructorInfoWrapper extends CluInstructorInfo implements DisplayWrapper {
+public class CluInstructorInfoWrapper extends CluInstructorInfo implements DisplayWrapper, DTOWrapper {
 	
 	private static final long serialVersionUID = 7495209564517379554L;
 
@@ -33,6 +37,8 @@ public class CluInstructorInfoWrapper extends CluInstructorInfo implements Displ
 	private String givenName;
 	
 	private String principalName;
+
+    protected Map<String, Object> extensionData;
 	
 	public CluInstructorInfoWrapper() {
 		
@@ -68,5 +74,29 @@ public class CluInstructorInfoWrapper extends CluInstructorInfo implements Displ
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isNewDto() {
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> getExtensionData() {
+        return extensionData;
+    }
+
+    /**
+     * Provides a way to add additional data to the wrapper object.
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void putExtensionData(String key,Object value) {
+        if (extensionData == null){
+            extensionData = new HashMap<>();
+        }
+        extensionData.put(key, value);
     }
 }

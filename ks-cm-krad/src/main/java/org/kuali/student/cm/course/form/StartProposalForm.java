@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.form;
 
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifForm;
 
 /**
  * This form is being used at the initial create course screen view. This captures
@@ -25,7 +26,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  * maintenace document.
  *
  */
-public class StartProposalForm extends UifFormBase {
+public class StartProposalForm extends KSUifForm {
 
     private String startProposalCourseAction;
 

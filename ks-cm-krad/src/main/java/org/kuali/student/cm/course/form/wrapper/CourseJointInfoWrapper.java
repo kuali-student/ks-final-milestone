@@ -16,16 +16,22 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DTOWrapper;
 import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 
-public class CourseJointInfoWrapper extends CourseJointInfo implements DisplayWrapper {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CourseJointInfoWrapper extends CourseJointInfo implements DisplayWrapper, DTOWrapper {
 
 	private static final long serialVersionUID = -3581960069878061510L;
 	
 	private String searchBy;
 	
 	private String courseCode;
+
+    protected Map<String, Object> extensionData;
 	
 	public String getSearchBy() {
 		return searchBy;
@@ -54,5 +60,29 @@ public class CourseJointInfoWrapper extends CourseJointInfo implements DisplayWr
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isNewDto() {
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> getExtensionData() {
+        return extensionData;
+    }
+
+    /**
+     * Provides a way to add additional data to the wrapper object.
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void putExtensionData(String key,Object value) {
+        if (extensionData == null){
+            extensionData = new HashMap<>();
+        }
+        extensionData.put(key, value);
     }
 }

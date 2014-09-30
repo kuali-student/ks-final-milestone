@@ -16,10 +16,12 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.kuali.student.common.util.DTOWrapperBase;
+
 /**
  * Display object of course version history.
  */
-public class VersionWrapper {
+public class VersionWrapper extends DTOWrapperBase{
 
     private String cluId;
     private Long sequence;

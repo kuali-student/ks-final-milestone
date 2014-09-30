@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
-public class LoCategoryForm extends UifFormBase {
+public class LoCategoryForm extends KSUifForm {
 
     private List<LoCategoryInfo> loCategories;
 

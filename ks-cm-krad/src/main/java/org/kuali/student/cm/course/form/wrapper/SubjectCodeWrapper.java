@@ -15,7 +15,9 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
-public class SubjectCodeWrapper {
+import org.kuali.student.common.util.DTOWrapperBase;
+
+public class SubjectCodeWrapper extends DTOWrapperBase {
 	
 	private String id;
 	

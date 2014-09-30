@@ -16,7 +16,7 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
-import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
+import org.kuali.student.common.util.DTOWrapperBase;
 
 /**
  *

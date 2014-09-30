@@ -16,7 +16,7 @@
 package org.kuali.student.cm.proposal.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
+import org.kuali.student.common.util.DTOWrapperBase;
 import org.kuali.student.common.util.DisplayWrapper;
 import org.springframework.web.multipart.MultipartFile;
 

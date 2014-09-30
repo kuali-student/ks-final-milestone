@@ -16,6 +16,7 @@
  */
 package org.kuali.student.cm.proposal.form.wrapper;
 
+import org.kuali.student.common.util.DTOWrapperBase;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Display data for review page for proposals
  */
-public class ReviewProposalDisplay {
+public class ReviewProposalDisplay extends DTOWrapperBase {
     private CollaboratorSectionWrapper collaboratorSection;
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 

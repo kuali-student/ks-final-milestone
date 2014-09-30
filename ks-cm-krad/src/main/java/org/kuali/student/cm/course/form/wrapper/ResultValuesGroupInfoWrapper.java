@@ -16,8 +16,12 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DTOWrapper;
 import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -25,12 +29,13 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo implements DisplayWrapper {
+public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo implements DisplayWrapper, DTOWrapper {
     
     private static final long serialVersionUID = 8595074563846388089L;
 
     private CreateCourseUIHelper uiHelper;
     private ResultValuesGroupInfo resultValuesGroupInfo;
+    protected Map<String,Object> extensionData;
 
     public ResultValuesGroupInfoWrapper() {
         this.uiHelper = new CreateCourseUIHelper();
@@ -78,6 +83,29 @@ public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo implemen
             return true;
         }
         return false;
+    }
+
+    public boolean isNewDto() {
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> getExtensionData() {
+        return extensionData;
+    }
+
+    /**
+     * Provides a way to add additional data to the wrapper object.
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void putExtensionData(String key,Object value) {
+        if (extensionData == null){
+            extensionData = new HashMap<>();
+        }
+        extensionData.put(key, value);
     }
 
 }

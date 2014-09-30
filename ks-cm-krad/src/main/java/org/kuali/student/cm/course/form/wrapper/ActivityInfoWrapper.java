@@ -18,7 +18,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.uif.wrapper.DTOWrapperBase;
+import org.kuali.student.common.util.DTOWrapperBase;
 
 /**
  * Wrapper for Activities for Review Proposal page. All the getters are being referenced from the krad

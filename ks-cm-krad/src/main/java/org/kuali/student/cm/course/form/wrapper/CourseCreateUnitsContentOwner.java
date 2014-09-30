@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.DTOWrapperBase;
 import org.kuali.student.common.util.DisplayWrapper;
 
 /**
@@ -28,7 +29,7 @@ import org.kuali.student.common.util.DisplayWrapper;
  *
  * @author Kuali Student Team
  */
-public class CourseCreateUnitsContentOwner implements DisplayWrapper {
+public class CourseCreateUnitsContentOwner extends DTOWrapperBase implements DisplayWrapper {
 
     protected String orgId;
 

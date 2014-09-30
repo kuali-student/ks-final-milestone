@@ -1,12 +1,15 @@
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.kuali.student.common.util.DTOWrapper;
+import org.kuali.student.common.util.DTOWrapperBase;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Wrapper around Format for review Proposal
  */
-public class FormatInfoWrapper implements CourseCompareCollectionElement{
+public class FormatInfoWrapper extends DTOWrapperBase implements CourseCompareCollectionElement{
 
     private List<ActivityInfoWrapper> activities;
     private boolean fakeObjectForCompare;

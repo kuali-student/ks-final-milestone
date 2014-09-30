@@ -15,15 +15,21 @@
  */
 package org.kuali.student.cm.course.form.wrapper;
 
+import org.kuali.student.common.util.DTOWrapper;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
-public class LoCategoryInfoWrapper extends LoCategoryInfo {
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoCategoryInfoWrapper extends LoCategoryInfo implements DTOWrapper{
 
 	private static final long serialVersionUID = -5261772221177797788L;
 	
 	private String typeName;
 	
 	private String catNameAndType;
+
+    protected Map<String,Object> extensionData;
 
 	public String getTypeName() {
         return typeName;
@@ -39,6 +45,29 @@ public class LoCategoryInfoWrapper extends LoCategoryInfo {
 
     public void setCatNameAndType(String catNameAndType) {
         this.catNameAndType = catNameAndType;
+    }
+
+    public boolean isNewDto() {
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> getExtensionData() {
+        return extensionData;
+    }
+
+    /**
+     * Provides a way to add additional data to the wrapper object.
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void putExtensionData(String key,Object value) {
+        if (extensionData == null){
+            extensionData = new HashMap<>();
+        }
+        extensionData.put(key, value);
     }
 
 }

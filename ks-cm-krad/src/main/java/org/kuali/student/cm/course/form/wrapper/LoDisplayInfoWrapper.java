@@ -2,6 +2,7 @@ package org.kuali.student.cm.course.form.wrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.common.util.DTOWrapper;
 import org.kuali.student.common.util.DisplayWrapper;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
@@ -9,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrapper, CourseCompareCollectionElement {
+public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrapper, CourseCompareCollectionElement, DTOWrapper {
 
     private static final long serialVersionUID = 8232176748014317444L;
 
@@ -44,6 +47,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
 
     protected boolean hightlightRow;
     protected boolean fakeObjectForCompare;
+    protected Map<String,Object> extensionData;
 
     public LoDisplayInfoWrapper() {
     }
@@ -278,6 +282,29 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo implements DisplayWrappe
     public void setFakeObjectForCompare(boolean fakeObjectForCompare) {
         this.fakeObjectForCompare = fakeObjectForCompare;
         this.hightlightRow = true;
+    }
+
+    public boolean isNewDto() {
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> getExtensionData() {
+        return extensionData;
+    }
+
+    /**
+     * Provides a way to add additional data to the wrapper object.
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void putExtensionData(String key,Object value) {
+        if (extensionData == null){
+            extensionData = new HashMap<>();
+        }
+        extensionData.put(key, value);
     }
 
 }
