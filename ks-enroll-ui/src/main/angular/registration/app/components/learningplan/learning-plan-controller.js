@@ -15,10 +15,10 @@
 angular.module('regCartApp')
     .controller('LearningPlanCtrl',
         ['$scope', '$rootScope', '$state', '$timeout',
-            'STATE', 'SEARCH_ORIGINS', 'LEARNING_PLAN_CATEGORIES', 'LEARNING_PLAN_ERRORS',
+            'STATE', 'SEARCH_ORIGINS', 'VALIDATION_ERROR_TYPE', 'LEARNING_PLAN_CATEGORIES', 'LEARNING_PLAN_ERRORS',
             'TermsService', 'CartService', 'ScheduleService', 'LearningPlanService',
         function ($scope, $rootScope, $state, $timeout,
-                  STATE, SEARCH_ORIGINS, LEARNING_PLAN_CATEGORIES, LEARNING_PLAN_ERRORS,
+                  STATE, SEARCH_ORIGINS, VALIDATION_ERROR_TYPE, LEARNING_PLAN_CATEGORIES, LEARNING_PLAN_ERRORS,
                   TermsService, CartService, ScheduleService, LearningPlanService) {
             console.log('>> LearningPlanCtrl');
 
@@ -50,6 +50,34 @@ angular.module('regCartApp')
                         $rootScope.$broadcast('addCourseToCart', actionableItems[i]);
                     }
                 }
+            };
+
+            /**
+             * Check a plan item (course) for issues
+             *
+             * @param item to check
+             * @return {Boolean} if there are warnings to show
+             */
+            $scope.checkPlanItemForIssues = function(item) {
+                if (!angular.isDefined(item.warnings)) {
+                    var warnings = [];
+
+                    if (item.regGroupId) { // This is a regGroup
+                        if (STATE.lui.offered !== item.state) { // Not offered
+                            warnings.push({ messageKey: LEARNING_PLAN_ERRORS.regGroupNotOffered, state: item.state });
+                        }
+                    } else { // This is a Course
+                        if (STATE.dto.active !== item.state) {
+                            warnings.push({ messageKey: LEARNING_PLAN_ERRORS.courseNotActive, state: item.state });
+                        } else if (item.coursesOffered < 1) {
+                            warnings.push({ messageKey: LEARNING_PLAN_ERRORS.courseNotOffered, state: item.state });
+                        }
+                    }
+
+                    item.warnings = warnings;
+                }
+
+                return item.warnings.length > 0;
             };
 
             /**
@@ -194,7 +222,7 @@ angular.module('regCartApp')
              * View the details of the plan item
              * There are 2 potential places this will route:
              * 1. course details - if it is a reg group
-             * 2. search results for the cluId - if not a reg group
+             * 2. search results for the cluId - if not a reg group && courses are offered
              *
              * @param course
              */
@@ -203,11 +231,12 @@ angular.module('regCartApp')
                     // Redirects the view to the course details screen
                     $state.go('root.search.details', {
                         origin: SEARCH_ORIGINS.schedule,
+                        searchCriteria: course.courseCode,
                         id: course.courseId,
                         code: course.courseCode,
                         regGroupId: course.regGroupId
                     });
-                } else {
+                } else if (course.coursesOffered) { // Don't navigate to the results list if we know there are no offered courses
                     $state.go('root.search.results', {
                         origin: SEARCH_ORIGINS.schedule,
                         searchCriteria: course.courseCode,

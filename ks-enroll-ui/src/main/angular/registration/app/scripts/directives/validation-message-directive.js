@@ -207,7 +207,10 @@ angular.module('regCartApp')
                     var checks = [
                         '{{courseCode}} ({{regGroupCode}})',
                         '{{courseCode}} {{regGroupCode}}',
-                        '{{courseCode}}', '{{cluCode}}'
+                        '{{courseCode}}',
+                        '({{regGroupCode}})',
+                        '{{regGroupCode}}',
+                        '{{cluCode}}'
                     ];
 
                     for (var i = 0; i < checks.length; i++) {
@@ -215,7 +218,7 @@ angular.module('regCartApp')
                         if (message.indexOf(check) !== -1) {
                             var target = '<strong>' + check + '</strong>';
                             if (message.indexOf(target) === -1) { // Don't rebold something that's already bolded
-                                message = message.replace(check, target);
+                                message = message.replace(check, target, 'g'); // 'g' to do a global match
                             }
 
                             break;

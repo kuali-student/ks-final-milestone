@@ -46,30 +46,41 @@
                 <ul class="kscr-LearningPlan-list">
                     <li class="kscr-LearningPlan-item" ng-repeat="item in plan | filter : {category : selectedCategory.id}">
                         <div class="kscr-LearningPlan-item-icon">
-                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_scheduleIcon"
-                                  class="kscr-LearningPlan-item-icon--schedule" ng-if="isItemInSchedule(item)"
-                                  title="This course is in your Schedule">
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </span>
-                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_cartIcon"
-                                  class="kscr-LearningPlan-item-icon--cart" ng-if="isItemInCart(item) && !isItemInSchedule(item)"
-                                  title="This course is in your Cart">
-                                <i class="glyphicon glyphicon-shopping-cart"></i>
-                            </span>
-                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_warning"
-                                  class="kscr-LearningPlan-item-icon--warning" ng-if="isWarning(item)"
-                                  title="WARNING!?!"></span>
+                                <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_scheduleIcon"
+                                      class="kscr-LearningPlan-item-icon--schedule" ng-if="isItemInSchedule(item)"
+                                      title="This course is in your Schedule">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                                <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_cartIcon"
+                                      class="kscr-LearningPlan-item-icon--cart" ng-if="isItemInCart(item) && !isItemInSchedule(item)"
+                                      title="This course is in your Cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                                </span>
+                                <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_warning"
+                                      class="kscr-LearningPlan-item-icon--warning" ng-if="isWarning(item)"
+                                      title="WARNING!?!"></span>
                             &nbsp;
                         </div>
-                        <div class="kscr-LearningPlan-item-label">
-                            <a id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_courseCode" ng-click="viewDetails(item)">
-                                <span class="kscr-LearningPlan-item-label-courseCode">{{item.courseCode || '?? Course Not Offered ??' | courseSpace}}</span>
-                                <span class="kscr-LearningPlan-item-label-regGroupCode" ng-if="item.regGroupCode">&nbsp;({{item.regGroupCode}})</span>
-                                &nbsp;&#x00bb;
-                            </a>
+                        <div class="kscr-LearningPlan-item-content">
+                            <div class="kscr-LearningPlan-item-label">
+                                <a id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_courseCode" title="{{item.longName}}"
+                                   ng-click="viewDetails(item)" ng-disabled="!item.regGroupId && item.coursesOffered < 1">
+                                    <span class="kscr-LearningPlan-item-label-courseCode">{{item.courseCode | courseSpace}}</span>
+                                    <span class="kscr-LearningPlan-item-label-regGroupCode" ng-if="item.regGroupCode">&nbsp;({{item.regGroupCode}})</span>
+                                    &nbsp;&#x00bb;
+                                </a>
+                            </div>
+                            <div id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_credits"
+                                 class="kscr-LearningPlan-item-credits">{{item.creditOptions | creditRangeFormatter}}</div>
                         </div>
-                        <div id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_credits"
-                             class="kscr-LearningPlan-item-credits">{{item.creditOptions | creditRangeFormatter}}</div>
+
+                        <div id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_warnings"
+                             class="kscr-LearningPlan-item-warnings" ng-if="checkPlanItemForIssues(item)">
+                            <span class="kscr-LearningPlan-item-warnings-icon"></span>
+                            <div class="kscr-LearningPlan-item-warnings-warning" ng-repeat="warning in item.warnings">
+                                <span validation-message message="warning" course="item"></span>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>

@@ -11,8 +11,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LearningPlanItemResult", propOrder = {
         "refObjectId", "refObjectType", "learningPlanId", "planItemTermId",
-        "category", "cluId", "courseId", "courseCode", "creditOptions",
-        "regGroupId", "regGroupCode", "state"})
+        "category", "cluId", "courseId", "courseCode", "coursesOffered",
+        "creditOptions", "longName", "regGroupId", "regGroupCode", "state"})
 public class LearningPlanItemResult implements Serializable {
 
     private String refObjectId;
@@ -23,7 +23,9 @@ public class LearningPlanItemResult implements Serializable {
     private String cluId;
     private String courseId;
     private String courseCode;
+    private int coursesOffered;
     private List<String> creditOptions;
+    private String longName;
     private String regGroupId;
     private String regGroupCode;
     private String state;
@@ -92,6 +94,14 @@ public class LearningPlanItemResult implements Serializable {
         this.courseCode = courseCode;
     }
 
+    public String getLongName() {
+        return longName;
+    }
+
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
+
     public String getRegGroupId() {
         return regGroupId;
     }
@@ -122,5 +132,13 @@ public class LearningPlanItemResult implements Serializable {
 
     public void setCreditOptions(List<String> creditOptions) {
         this.creditOptions = creditOptions;
+    }
+
+    public int getCoursesOffered() {
+        return coursesOffered;
+    }
+
+    public void setCoursesOffered(int coursesOffered) {
+        this.coursesOffered = coursesOffered;
     }
 }

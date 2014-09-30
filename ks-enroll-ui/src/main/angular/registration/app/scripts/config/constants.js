@@ -29,6 +29,19 @@ angular.module('regCartApp')
         };
 
         return {
+            // DTO states (generic but used for CLUs/COs)
+            dto: {
+                draft: 'Draft',
+                submitted: 'Submitted',
+                withdrawn: 'Withdrawn',
+                approved: 'Approved',
+                notApproved: 'NotApproved',
+                active: 'Active',
+                superseded: 'Superseded',
+                suspended: 'Suspended',
+                retired: 'Retired'
+            },
+
             // LUI states (RegGroups)
             lui: {
                 canceled:   'kuali.lui.registration.group.state.canceled',
@@ -128,8 +141,7 @@ angular.module('regCartApp')
 
     .constant('GENERAL_ERROR_TYPE', {
         noRegGroup: 'noRegGroup',
-        courseNotFound: 'kuali.cr.cart.message.course.code.not.found',
-        learningPlanNotConfigured: 'kuali.cr.learningplan.message.learningplan.not.configured'
+        courseNotFound: 'kuali.cr.cart.message.course.code.not.found'
     })
 
     .constant('VALIDATION_SUCCESS_TYPE', {

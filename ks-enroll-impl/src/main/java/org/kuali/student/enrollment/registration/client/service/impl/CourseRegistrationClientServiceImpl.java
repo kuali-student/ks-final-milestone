@@ -2,8 +2,6 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
@@ -39,7 +37,6 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Search
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.enrollment.util.KSIdentityServiceHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -56,6 +53,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -934,8 +932,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             Map<String, LearningPlanItemResult> refObjMap = new HashMap<>();
 
             // Fetch and build out the ref objects
-            refObjMap.putAll(buildLearningPlanCourseItems(coursesToLookup, contextInfo));
+            refObjMap.putAll(buildLearningPlanCourseItems(coursesToLookup, termId, contextInfo));
             refObjMap.putAll(buildLearningPlanRegGroupItems(rgsToLookup, contextInfo));
+
+            // We now have the set of ref objects but we may have duplicates for courses that have planned RGs
+            for (String courseToLookup : coursesToLookup) {
+                if (refObjMap.containsKey(courseToLookup)) {
+                    for (String rgToLookup : rgsToLookup) {
+                        // Remove the course from the refObjMap if any RGs point to the same CLU
+                        if (refObjMap.containsKey(rgToLookup) &&
+                                refObjMap.get(rgToLookup).getCluId().equals(refObjMap.get(courseToLookup).getCluId())) {
+                            refObjMap.remove(courseToLookup);
+                            break;
+                        }
+                    }
+                }
+            }
 
             // Now we have all the ref objects for the plans... lets finish populating the data
             List<LearningPlanItemResult> lpResults = new ArrayList<>(termPlanItems.size());
@@ -974,21 +986,28 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    private Map<String, LearningPlanItemResult> buildLearningPlanCourseItems (List<String> coursesToLookup, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+    private Map<String, LearningPlanItemResult> buildLearningPlanCourseItems (List<String> coursesToLookup, String termId, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         Map<String, LearningPlanItemResult> lpiResults = new HashMap<>();
 
         if (!coursesToLookup.isEmpty()) {
             // Learning plan gives us the version independent id. We need to convert those into clu Ids
-            // cluId -> verIndId
-            Map<String, String> cluToVidMap = convertCluVersionIndIdToCluId(coursesToLookup, contextInfo);
-            List<String> cluIds = new ArrayList<>(cluToVidMap.keySet());
+            List<String> cluIds = new ArrayList<>();
+            for (String vid : coursesToLookup) {
+                VersionDisplayInfo versionInfo = getCluService().getCurrentVersion(
+                        CluServiceConstants.CLU_NAMESPACE_URI, vid, contextInfo);
+
+                if (versionInfo != null) {
+                    cluIds.add(versionInfo.getId());
+                }
+            }
 
             // Get the linked CLUs
             List<CluInfo> cluInfos = getCluService().getClusByIds(cluIds, contextInfo);
+
             if (cluInfos != null && !cluInfos.isEmpty()) {
                 // Create the shell LPIResult objects to be returned out
                 for (CluInfo cluInfo : cluInfos) {
-                    String vid = cluToVidMap.get(cluInfo.getId());
+                    String vid = cluInfo.getVersion().getVersionIndId();
 
                     LearningPlanItemResult lpiResult = new LearningPlanItemResult();
                     lpiResult.setRefObjectId(vid);
@@ -996,6 +1015,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     lpiResult.setCluId(cluInfo.getId());
                     lpiResult.setCourseCode(cluInfo.getOfficialIdentifier().getCode());
                     lpiResult.setState(cluInfo.getStateKey());
+                    lpiResult.setLongName(cluInfo.getOfficialIdentifier().getLongName());
+
+                    // Load up the current Course Offerings for this CLU
+                    List<CourseSearchResult> courseOfferings = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCluId(
+                            termId, cluInfo.getId(), contextInfo);
+                    if (courseOfferings != null) {
+                        lpiResult.setCoursesOffered(courseOfferings.size());
+                    }
 
                     lpiResults.put(vid, lpiResult);
                 }
@@ -1039,6 +1066,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         lpiResult.setCourseId(courseSearchResult.getCourseId());
                         lpiResult.setCourseCode(courseSearchResult.getCourseCode());
                         lpiResult.setCreditOptions(courseSearchResult.getCreditOptions());
+                        lpiResult.setLongName(courseSearchResult.getLongName());
 
                         lpiResults.put(rgId, lpiResult);
                     }
@@ -1047,33 +1075,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return lpiResults;
-    }
-
-    /**
-     * create a map of cluId to VersionIndIds
-     *
-     * @param versionIndependentIds list of version independent ids of clus
-     * @param contextInfo           context of the call
-     * @return mapping of clu ids to clu version independent ids
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    private Map<String, String> convertCluVersionIndIdToCluId(List<String> versionIndependentIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        Map<String, String> cluToVidMap = new HashMap<>();
-
-        for (String versionIndependentId : versionIndependentIds) {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.equal("version.versionIndId", versionIndependentId), PredicateFactory.equal("state", DtoConstants.STATE_ACTIVE)
-            );
-
-            List<String> cluIds = getCluService().searchForCluIds(qbcBuilder.build(), contextInfo);
-            if(cluIds != null && !cluIds.isEmpty()) {
-                cluToVidMap.put(KSCollectionUtils.getRequiredZeroElement(cluIds), versionIndependentId);
-            }
-        }
-        return cluToVidMap;
     }
 
     /**
