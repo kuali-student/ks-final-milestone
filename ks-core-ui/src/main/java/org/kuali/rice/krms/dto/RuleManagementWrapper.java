@@ -23,6 +23,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
+import org.kuali.student.common.util.DTOWrapperBase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class RuleManagementWrapper implements Serializable, RuleManager {
+public class RuleManagementWrapper extends DTOWrapperBase implements Serializable, RuleManager {
 
     private String refObjectId;
     private String viewId;
