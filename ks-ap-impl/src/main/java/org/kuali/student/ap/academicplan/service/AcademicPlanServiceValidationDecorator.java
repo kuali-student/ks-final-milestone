@@ -434,6 +434,17 @@ public class AcademicPlanServiceValidationDecorator extends
 			fullValidation(planItem, context);
 		} catch (AlreadyExistsException aee) {
 			//
+        } catch (DataValidationErrorException e) {
+            boolean rethrowIt=true;
+            if (e.getValidationResults().size()==1) {
+                ValidationResultInfo validationResult = KSCollectionUtils.getRequiredZeroElement(
+                        e.getValidationResults());
+                if (validationResult.getMessage()!=null
+                        && validationResult.getMessage().startsWith("Already registered for course")) {
+                    rethrowIt=false;  //ignore already registered validation msg when updating a plan item
+                }
+            }
+            if (rethrowIt) throw e;
 		}
 		return getNextDecorator().updatePlanItem(planItemId, planItem, context);
 	}
