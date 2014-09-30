@@ -16,6 +16,29 @@
 }
 
 
+// Carousel
+// --------------------------------------------------
+.ksap-planner-carousel {
+  overflow: hidden;
+
+  ul {
+    width: 20000em;
+  }
+
+  ul,
+  ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul li {
+    float: left;
+    height:100% !important; // Set as important to override carousel library auto set on element.
+  }
+}
+
+
 // Planner Header
 // --------------------------------------------------
 #planner_courses_detail {
@@ -206,6 +229,58 @@
     margin-top: 0.5rem;
     line-height: 15px;
   }
+
+  // Course Notes
+  .coursenote {
+    color: #99cfeb;
+    font-size: 1.3rem;
+  }
+  .coursenote:hover {
+    color: #08c;
+  }
+}
+
+
+// Quick Add Popover
+// -------------------------------------------------
+#planner_add_course_page {
+  .ksap-dialog-courseCode {
+    clear: none;
+    display: inline;
+    float: left;
+    width: 42%;
+  }
+
+  .ksap-dialog-courseCode input {
+    width:140px;
+  }
+
+  .ksap-feedback.error {
+    clear: none;
+    display: inline;
+    float: left;
+    margin-top: 10px;
+    width: 55%;
+  }
+
+  .ksap-dialog-courseCode input.ksap-error {
+    border-color: #f00;
+    border-width: 2px;
+  }
+}
+
+
+// Menu
+// -------------------------------------------------
+[id*="planner_menu"] {
+  margin-top: .7rem;
+}
+.uif-boxLayoutHorizontalItem [id*="planner_menu"]:first-child {
+  margin-top: 0;
+}
+
+[id*="planner_menu"]:before {
+  margin-right: 1rem;
 }
 
 
@@ -215,29 +290,6 @@
   float: right;
   margin: 0;
   width: 300px;
-}
-
-
-// Carousel
-// --------------------------------------------------
-.ksap-planner-carousel {
-  overflow: hidden;
-
-  ul {
-    width: 20000em;
-  }
-
-  ul,
-  ul li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  ul li {
-    float: left;
-    height:100% !important; // Set as important to override carousel library auto set on element.
-  }
 }
 
 
@@ -399,47 +451,4 @@
 }
 #academicYearCollection .uif-gridLayout th[scope="row"] {
   background-color: rgb(255, 255, 255);
-}
-
-
-// Quick Add Popover
-// -------------------------------------------------
-#planner_add_course_page {
-  .ksap-dialog-courseCode {
-    clear: none;
-    display: inline;
-    float: left;
-    width: 42%;
-  }
-
-  .ksap-dialog-courseCode input {
-    width:140px;
-  }
-
-  .ksap-feedback.error {
-    clear: none;
-    display: inline;
-    float: left;
-    margin-top: 10px;
-    width: 55%;
-  }
-
-  .ksap-dialog-courseCode input.ksap-error {
-    border-color: #f00;
-    border-width: 2px;
-  }
-}
-
-
-// Menu
-// -------------------------------------------------
-[id*="planner_menu"] {
-  margin-top: .7rem;
-}
-.uif-boxLayoutHorizontalItem [id*="planner_menu"]:first-child {
-  margin-top: 0;
-}
-
-[id*="planner_menu"]:before {
-  margin-right: 1rem;
 }
