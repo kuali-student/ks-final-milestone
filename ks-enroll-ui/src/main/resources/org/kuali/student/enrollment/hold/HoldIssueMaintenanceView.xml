@@ -285,14 +285,14 @@ limitations under the License.
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Apply (Place)" p:propertyName="authOrgApply" p:required="false">
+                            <bean parent="Uif-InputField" p:label="Apply" p:propertyName="authOrgApply" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl">
                                         <property name="onChangeScript" value=""/>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Expire (Resolve)" p:propertyName="authOrgExpire" p:required="false">
+                            <bean parent="Uif-InputField" p:label="Expire" p:propertyName="authOrgExpire" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl">
                                         <property name="onChangeScript" value=""/>
