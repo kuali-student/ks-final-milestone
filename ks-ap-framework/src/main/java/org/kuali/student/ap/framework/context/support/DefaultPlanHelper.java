@@ -309,11 +309,6 @@ public class DefaultPlanHelper implements PlanHelper {
             // If creating new add it to the database
             planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
                             KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (AlreadyExistsException e) {
-            LOG.warn("Reference " + ref.getRefObjectType() + " "+ ref.getRefObjectId() + " is already planned", e);
-            throw e;
-        } catch (DataValidationErrorException e) {
-            throw e;
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (MissingParameterException e) {
