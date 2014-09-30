@@ -155,9 +155,9 @@ function ksapPlannerAddPlanItem (data) {
         var termUid = data.termId.replace(/\./g,'-');
         var itemElement = jQuery("<div/>").html(item);
         if(data.courseNoteRender == 'false'){
-            itemElement.find(".coursenote").addClass("invisible");
+            itemElement.find(".coursenote").addClass("ksap-hide");
         }else{
-            itemElement.find(".coursenote").removeClass("invisible");
+            itemElement.find(".coursenote").removeClass("ksap-hide");
         }
         if(data.statusMessageRender == 'false'){
             itemElement.find(".ksap-planner-status-message").addClass("ksap-hide");
@@ -215,9 +215,9 @@ function ksapPlannerUpdatePlanItem (data) {
     item.find(".ksap-planner-credits p").text(data.credit);
     item.find(".coursenote").attr("title",data.courseNote);
     if(data.courseNoteRender == 'false'){
-        item.find(".coursenote").addClass("invisible");
+        item.find(".coursenote").addClass("ksap-hide");
     }else{
-        item.find(".coursenote").removeClass("invisible");
+        item.find(".coursenote").removeClass("ksap-hide");
     }
 }
 

@@ -493,26 +493,10 @@
                     </property>
                 </bean>
                 <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="render" value="@{!#empty(#line.courseNote)}"/>
                     <property name="title" value="@{#line.courseNote}"/>
-                    <property name="onClickScript"
-                              value="ksapOpenPlanDialog('planner_course_note_page', 'planner', 'startCourseNoteDialog', this, e);" />
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="termid" value="@{#line.termId}" />
-                            <entry key="courseid" value="@{#line.courseId}" />
-                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                            <entry key="planitemid" value="@{#line.planItemId}" />
-                            <entry key="uniqueid" value="@{#line.uniqueId}" />
-                            <entry key="coursecode" value="@{#line.courseCode}" />
-                        </map>
-                    </property>
-                </bean>
-                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="render" value="@{#empty(#line.courseNote)}"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>invisible</value>
+                            <value>@{#empty(#line.courseNote) ? 'ksap-hide' : ''}</value>
                         </list>
                     </property>
                     <property name="onClickScript"
@@ -589,26 +573,10 @@
                     </property>
                 </bean>
                 <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="render" value="@{!#empty(#line.courseNote)}"/>
                     <property name="title" value="@{#line.courseNote}"/>
-                    <property name="onClickScript"
-                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="termid" value="@{#line.termId}" />
-                            <entry key="courseid" value="@{#line.courseId}" />
-                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
-                            <entry key="planitemid" value="@{#line.planItemId}" />
-                            <entry key="uniqueid" value="@{#line.uniqueId}" />
-                            <entry key="coursecode" value="@{#line.courseCode}" />
-                        </map>
-                    </property>
-                </bean>
-                <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="render" value="@{#empty(#line.courseNote)}"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>invisible</value>
+                            <value>@{#empty(#line.courseNote) ? 'ksap-hide' : ''}</value>
                         </list>
                     </property>
                     <property name="onClickScript"
@@ -1155,14 +1123,14 @@
 	</bean>
 
     <bean id="course_note_icon" parent="course_note_icon-parent"/>
-    <bean id="course_note_icon-parent" abstract="true" parent="KSAPHelpImage" >
+    <bean id="course_note_icon-parent" abstract="true" parent="Uif-MessageField" >
         <property name="cssClasses">
             <list merge="true">
                 <value>coursenote</value>
+                <value>ks-fontello-icon-notes</value>
             </list>
         </property>
-        <!--@TODO: ksap-2005 convert to icon font instead of image-->
-        <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
+        <property name="messageText" value="&#160;" />
         <property name="title" value=""/>
     </bean>
 
