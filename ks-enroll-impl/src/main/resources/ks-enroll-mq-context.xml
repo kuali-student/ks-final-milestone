@@ -105,7 +105,7 @@
         </route>
 
         <route> <!-- This route validates the request.  -->
-            <from uri="activemq:org.kuali.student.enrollment.registration.verificationQueue"/>
+            <from uri="activemq:org.kuali.student.enrollment.registration.verificationQueue?concurrentConsumers=50"/>
             <bean ref="registrationVerificationProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
             <to uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue"/>
         </route>
@@ -128,7 +128,7 @@
         </route>
 
         <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
-            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue?concurrentConsumers=10" />
+            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue?concurrentConsumers=500" />
             <onException>
                 <exception>java.lang.Exception</exception>
                 <handled><constant>true</constant></handled>
