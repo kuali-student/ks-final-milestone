@@ -29,6 +29,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
+import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.TermNoteForm;
@@ -145,7 +146,7 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
     }
 
     /**
-     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadTermNoteDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadTermNoteDialogForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.TermNoteForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public UifFormBase loadTermNoteDialogForm(UifFormBase submittedForm, TermNoteForm dialogForm, HttpServletRequest request, HttpServletResponse response){
@@ -185,6 +186,32 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         }
 
         dialogForm.setTermNote(termNote);
+
+        return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadPlanItemEditForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.PlanItemEditForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadPlanItemEditForm(UifFormBase submittedForm, PlanItemEditForm dialogForm, HttpServletRequest request, HttpServletResponse response){
+
+        String planItemId = request.getParameter("planItemId");
+        String termId = request.getParameter("termId");
+        String uniqueId = request.getParameter("uniqueId");
+
+
+        PlanItem planItem = KsapFrameworkServiceLocator.getPlanHelper().getPlanItem(planItemId);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper()
+                .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
+
+        dialogForm.setUniqueId(uniqueId);
+        dialogForm.setPlanItemId(planItem.getId());
+        dialogForm.setPlanId(planItem.getLearningPlanId());
+        dialogForm.setCourseId(planItem.getRefObjectId());
+        dialogForm.setCourseNote(planItem.getDescr().getFormatted());
+        dialogForm.setCourseCd(course.getCode());
+        dialogForm.setTermId(termId);
 
         return dialogForm;
     }

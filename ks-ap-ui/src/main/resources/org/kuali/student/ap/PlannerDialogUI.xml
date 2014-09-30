@@ -28,7 +28,6 @@
 			<list>
 				<ref bean="planner_course_summary_page" />
 				<ref bean="planner_copy_course_page" />
-				<ref bean="planner_edit_plan_item_page" />
 				<ref bean="planner_copy_plan_item_page" />
 				<ref bean="planner_move_plan_item_page" />
 				<ref bean="planner_delete_plan_item_page" />
@@ -260,46 +259,6 @@
         </property>
 	</bean>
 
-    <bean id="planner_edit_plan_item_page" parent="planner_edit_plan_item_page-parent"/>
-	<bean id="planner_edit_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
-		<property name="id" value="planner_edit_plan_item_page" />
-		<property name="innerViewWrapperId" value="planner_edit_plan_item_page_inner" />
-		<property name="headerText" value="@{#textHelper.getText('dialog.planner.edit.header1')}
-		                                    @{course.code} @{termId eq null
-		                                    ? #textHelper.getText('dialog.planner.edit.header2')
-		                                    : #textHelper.getFormattedMessage('dialog.planner.edit.header3', new Object[]{term.name})}" />
-		<property name="items">
-			<list merge="true">
-				<!--<bean parent="planner_course_credit_input" />-->
-				<bean parent="planner_course_note_input" />
-			</list>
-		</property>
-		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="Uif-VerticalBoxGroup">
-							<property name="items">
-								<list>
-									<bean parent="Uif-HorizontalBoxGroup">
-										<property name="items">
-											<list>
-												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.edit.button')}"
-                                                      p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
-												<bean parent="planner_cancel_button" />
-											</list>
-										</property>
-									</bean>
-									<bean parent="planner_error_placeholder" />
-								</list>
-							</property>
-						</bean>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
     <bean id="planner_copy_course_page" parent="planner_copy_course_page-parent"/>
 	<bean id="planner_copy_course_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_course_page" />
@@ -451,82 +410,6 @@
 	</bean>
 
     <!-- Dialogs for other pages-->
-
-    <bean id="bookmark_add_course_page" parent="bookmark_add_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
-    <bean id="bookmark_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
-        <property name="id" value="bookmark_add_course_page" />
-        <property name="innerViewWrapperId" value="bookmark_add_course_page_inner" />
-        <property name="headerText" value="@{#textHelper.getText('dialog.bookmark.add.header')}" />
-        <property name="items">
-            <list merge="true">
-                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
-                <ref bean="planner_course_summary_details_data"/>
-                <bean parent="planner_term_input_field"/>
-                <!--<bean parent="planner_course_credit_input_field" />-->
-                <bean parent="planner_course_note_input" />
-                <bean parent="planner_backup_input"/>
-                <!--<bean parent="planner_bookmark_input"/>-->
-                <bean parent="planner_hidden_input" p:propertyName="courseId" />
-                <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalBoxGroup">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-HorizontalBoxGroup">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.bookmark.add.button')}"
-                                                      p:actionScript="ksapSubmitDialog('bookmark_add_course_page',e);"/>
-                                                <bean parent="planner_cancel_button" />
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="planner_error_placeholder" />
-                                </list>
-                            </property>
-                        </bean>
-                        <bean p:id="planStatusMessages" parent="Uif-HorizontalBoxGroup">
-                            <property name="render"
-                                      value="@{!#empty(plannedMessage)}"/>
-                            <property name="cssClasses">
-                                <list>
-                                    <value>uif-validationMessages</value>
-                                    <value>uif-groupValidationMessages</value>
-                                    <value>uif-pageValidationMessages</value>
-                                    <value>uif-pageValidationMessages-info</value>
-                                </list>
-                            </property>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Image"
-                                          p:source="../themes/ksboot/images/validation/info.png">
-                                        <property name="render"
-                                                  value="@{!#empty(plannedMessage)}"/>
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>uif-validationImage</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean p:id="plannedMessage" parent="Uif-Message">
-                                        <property name="render"
-                                                  value="@{!#empty(plannedMessage)}"/>
-                                        <property name="messageText"
-                                                  value="@{plannedMessage}"/>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
 
     <bean id="bookmark_delete_course_page" parent="bookmark_delete_course_page-parent" p:additionalCssClasses="ksap-dialog-centered"/>
     <bean id="bookmark_delete_course_page-parent" abstract="true" parent="planner_dialog_page">
@@ -731,6 +614,128 @@
         </property>
     </bean>
 
+    <!-- Define "Course Note" popover on planner page  -->
+    <bean id="KSAP-CourseNoteDialog-FormView" parent="KSAP-CourseNoteDialog-FormView-parent"/>
+    <bean id="KSAP-CourseNoteDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-CourseNoteDialog-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.CourseNoteForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage">
+                <property name="id" value="planner_course_note_page" />
+                <property name="innerViewWrapperId" value="planner_course_note_page_inner" />
+                <property name="headerText"
+                          value="@{#textHelper.getText('dialog.component.course.note.header1')}" />
+                <property name="header.lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Message" p:messageText="@{courseCode} @{courseTitle}"
+                                      p:cssClasses="bold"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.component.course.note.submit.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
+                                                        <!--p:actionScript="ksapSubmitDialog('planner_course_note_page',e);"/>-->
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                        <value>ksap-dialog-termnote</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="planner_course_note_input" />
+                        <bean parent="planner_hidden_input" p:propertyName="planId" />
+                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
+                        <bean parent="planner_hidden_input" p:propertyName="termId" />
+                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Define "Plan Item Edit" popover on planner page  -->
+    <bean id="KSAP-PlanItemEditDialog-FormView" parent="KSAP-PlanItemEditDialog-FormView-parent"/>
+    <bean id="KSAP-PlanItemEditDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-PlanItemEditDialog-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.CourseNoteForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage">
+                <property name="id" value="planner_edit_plan_item_page" />
+                <property name="innerViewWrapperId" value="planner_edit_plan_item_page_inner" />
+                <property name="headerText"
+                          value="@{#textHelper.getText('dialog.planner.edit.header')}" />
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.edit.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="planner_course_code_input" />
+                        <bean parent="planner_course_note_input" />
+                        <bean parent="planner_hidden_input" p:propertyName="planId" />
+                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
+                        <bean parent="planner_hidden_input" p:propertyName="termId" />
+                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
 	<!-- Dialog Input Components-->
 
@@ -1011,69 +1016,5 @@
         </property>
     </bean>
 
-    <bean id="KSAP-CourseNoteDialog-FormView" parent="KSAP-CourseNoteDialog-FormView-parent"/>
-    <bean id="KSAP-CourseNoteDialog-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
-        <property name="id" value="KSAP-CourseNoteDialog-FormView" />
-        <property name="formClass" value="org.kuali.student.ap.planner.form.CourseNoteForm" />
-        <property name="page">
-            <bean parent="KSAP-PopoverPage">
-                <property name="id" value="planner_course_note_page" />
-                <property name="innerViewWrapperId" value="planner_course_note_page_inner" />
-                <property name="headerText"
-                          value="@{#textHelper.getText('dialog.component.course.note.header1')}" />
-                <property name="header.lowerGroup">
-                    <bean parent="Uif-HorizontalBoxGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-Message" p:messageText="@{courseCode} @{courseTitle}"
-                                      p:cssClasses="bold"/>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-                <property name="footer">
-                    <bean parent="Uif-FooterBase">
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-VerticalBoxGroup">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="Uif-HorizontalBoxGroup">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="planner_submit_button"
-                                                              p:actionLabel="@{#textHelper.getText('dialog.component.course.note.submit.button')}"
-                                                              p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
-                                                        <!--p:actionScript="ksapSubmitDialog('planner_course_note_page',e);"/>-->
-                                                        <bean parent="planner_cancel_button" />
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <bean parent="planner_error_placeholder" />
-                                        </list>
-                                    </property>
-                                </bean>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-                <property name="additionalCssClasses">
-                    <list merge="true">
-                        <value>ksap-dialog-centered</value>
-                        <value>ksap-dialog-termnote</value>
-                    </list>
-                </property>
-                <property name="items">
-                    <list merge="true">
-                        <bean parent="planner_course_note_input" />
-                        <bean parent="planner_hidden_input" p:propertyName="planId" />
-                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
-                        <bean parent="planner_hidden_input" p:propertyName="termId" />
-                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
-                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
+
 </beans>

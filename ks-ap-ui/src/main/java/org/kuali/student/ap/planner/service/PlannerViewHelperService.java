@@ -20,6 +20,7 @@ import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
+import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.TermNoteForm;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -60,9 +61,20 @@ public interface PlannerViewHelperService extends PlanEventViewHelperService{
      * @param dialogForm - Dialog form to build on
      * @param request - Server request object
      * @param response - Server response object
-     * @return Filled in form for displaying the Quick Add to Plan Dialog for Courses
+     * @return Filled in form for displaying the Term Note Dialog for Courses
      */
     public UifFormBase loadTermNoteDialogForm(UifFormBase submittedForm, TermNoteForm dialogForm, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * Creates and fills in the needed information for displaying a dialog to handle editing an item in the plan.
+     *
+     * @param submittedForm - Original form submitted
+     * @param dialogForm - Dialog form to build on
+     * @param request - Server request object
+     * @param response - Server response object
+     * @return Filled in form for displaying the Edit Plan Item Dialog for Courses
+     */
+    public UifFormBase loadPlanItemEditForm(UifFormBase submittedForm, PlanItemEditForm dialogForm, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * Creates and fills in the needed information for displaying a dialog to handle a course note in the plan.
@@ -71,7 +83,7 @@ public interface PlannerViewHelperService extends PlanEventViewHelperService{
      * @param dialogForm - Dialog form to build on
      * @param request - Server request object
      * @param response - Server response object
-     * @return Filled in form for displaying the Quick Add to Plan Dialog for Courses
+     * @return Filled in form for displaying the Course Note Dialog for Courses
      */
 
     public UifFormBase loadCourseNotePlanForm(UifFormBase submittedForm, CourseNoteForm dialogForm,

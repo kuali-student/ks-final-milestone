@@ -1068,7 +1068,7 @@
 	<bean id="planner_menu_edit_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="@{#textHelper.getText('planner.menu.edit')}"
         p:title="@{#textHelper.getText('planner.menu.edit')}"
-        p:actionScript="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);"
+        p:actionScript="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startPlanItemEditDialog', this, e);"
         p:additionalCssClasses="ks-fontello-icon-notes">
 	</bean>
 

@@ -16,16 +16,13 @@
 package org.kuali.student.ap.planner.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
-
-import java.util.List;
 
 /**
- * Data Object class for displaying the add to plan dialog for courses
+ * Data Object class for displaying the edit dialog for a plan item
  * Used for beans:
- * PlannerDialogUI.xml#KSAP-CourseNoteDialog-FormView
+ * PlannerDialogUI.xml#KSAP-PlanItemEditDialog-FormView
  */
-public class CourseNoteForm extends UifFormBase{
+public class PlanItemEditForm extends UifFormBase {
 
     // Hidden Values
     private String planId;
@@ -34,52 +31,9 @@ public class CourseNoteForm extends UifFormBase{
     private String courseId;
     private String uniqueId;
 
-    // Display Values
-    private String courseCode;
-    private String courseTitle;
-
     // Input values
+    private String courseCd;
     private String courseNote;
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
-    public String getCourseTitle() {
-        return courseTitle;
-    }
-
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getUniqueId() {
-        return uniqueId;
-    }
-
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
-    }
-
-    public String getCourseNote() {
-        return courseNote;
-    }
-
-    public void setCourseNote(String courseNote) {
-        this.courseNote = courseNote;
-    }
 
     public String getPlanId() {
         return planId;
@@ -103,5 +57,37 @@ public class CourseNoteForm extends UifFormBase{
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public String getCourseCd() {
+        return courseCd;
+    }
+
+    public void setCourseCd(String courseCd) {
+        this.courseCd = courseCd;
+    }
+
+    public String getCourseNote() {
+        return courseNote;
+    }
+
+    public void setCourseNote(String courseNote) {
+        this.courseNote = courseNote;
     }
 }
