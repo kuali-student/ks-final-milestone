@@ -44,12 +44,13 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     @Override
     public Response submitCartRS(String cartId) {
         Response.ResponseBuilder response;
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            RegistrationRequestInfo info = submitCart(ContextUtils.createDefaultContextInfo(), cartId);
+            RegistrationRequestInfo info = submitCart(contextInfo, cartId);
             response = Response.ok(info);
         } catch (Exception e) {
-            LOGGER.warn("Error submitting cart", e);
+            LOGGER.warn("Error submitting cart id {} for {}", cartId, contextInfo.getPrincipalId(), e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Error submitting cart");
@@ -164,24 +165,12 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         return response.build();
     }
 
-    /**
+    /*
      * Resolve reg group information from the user input. In order to take advantage of caching we must use the
      * scheduleOfClassesService getRegGroup methods.
-     * @param termId    termId or termCode are required if there is no regGroupId
-     * @param termCode  termId or termCode are required if there is no regGroupId
-     * @param courseCode required if no regGroupId
-     * @param regGroupCode required if no regGroupId
-     * @param regGroupId  if this is provided no other fields are needed
-     * @param contextInfo
-     * @return
-     * @throws PermissionDeniedException
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws DoesNotExistException
      */
     protected RegGroupSearchResult resolveRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        RegGroupSearchResult rg = null;
+        RegGroupSearchResult rg;
 
         if (!StringUtils.isEmpty(regGroupId)) {
             rg = getScheduleOfClassesService().getRegGroup(regGroupId, contextInfo);
@@ -235,12 +224,8 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         }
     }
 
-    /**
+    /*
      * Validates that the reg gorup is in the proper state. If not populate with the proper error messages.
-     * @param regGroupSearchResult
-     * @param courseCode     needed only for debug message
-     * @param regGroupCode   needed only for debug message
-     * @return
      */
     protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
 

@@ -84,7 +84,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     private Map<String, Integer> activityPriorityMap;
 
 
-    @Transactional
     @Override
     public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
         if(cartId == null || cartId.isEmpty()){
@@ -138,23 +137,10 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     }
 
 
-    /**
+    /*
      * Transactional method that adds a request item to the cart. It needs to be transactions because we have to
      * get the cart, add the item, persis the cart. This method needs to be AS SMALL AS POSSIBLE for performance
      * reasons.
-     *
-     * @param cartId
-     * @param registrationRequestItem
-     * @param contextInfo
-     * @return
-     * @throws PermissionDeniedException
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws DoesNotExistException
-     * @throws ReadOnlyException
-     * @throws DataValidationErrorException
-     * @throws VersionMismatchException
      */
     @Transactional
     protected RegistrationRequestInfo addItemToRegRequest(String cartId, RegistrationRequestItemInfo registrationRequestItem, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
@@ -180,11 +166,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return addItemToRegRequest(regRequestId, registrationRequestItem, contextInfo);
     }
 
-    /**
+    /*
      * Helper method to get the newest (by createDate) reg request item.
-     *
-     * @param regRequestItems
-     * @return
      */
     private RegistrationRequestItemInfo getNewestRegRequestItem(List<RegistrationRequestItemInfo> regRequestItems) {
         if (regRequestItems == null || regRequestItems.isEmpty()) return null;
@@ -203,27 +186,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
     }
 
 
-    /**
-     *
-     * @param regReqId registration request id
-     * @param regGroupId registration group id
-     * @param gradingOptionId grading option id
-     * @param credits         credit value
-     * @param rvgCourseOptions valid list of grading and credit options for this item
-     * @param courseCode  optional. course code user passed in. need for cross listing
-     * @param contextInfo
-     * @return
-     * @throws MissingParameterException
-     * @throws PermissionDeniedException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws DoesNotExistException
-     * @throws ReadOnlyException
-     * @throws DataValidationErrorException
-     * @throws VersionMismatchException
-     * @throws LoginException
-     * @throws MissingOptionException
-     * @throws GenericUserException
+    /*
+     * Add course to cart
      */
     protected CartItemResult addCourseToCart(String regReqId, String regGroupId, String gradingOptionId, String credits, ResultValueGroupCourseOptions rvgCourseOptions, String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
@@ -244,7 +208,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //populate the options we have already calculated
         cartItemResult.setGradingOptions(rvgCourseOptions.getGradingOptions());
-        cartItemResult.setCreditOptions(new ArrayList(rvgCourseOptions.getCreditOptions().values()));
+        cartItemResult.setCreditOptions(new ArrayList<>(rvgCourseOptions.getCreditOptions().values()));
 
         //If the user provided a course code, ensure it is the same one returned (for cross-listed courses).
         if (StringUtils.isNotEmpty(courseCode)) {
@@ -456,7 +420,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         String lastAoName = "";
         String lastCartId = "";
         String lastCartState = "";
-        String lastCartType = "";
         String lastTermId = "";
         CartItemResult currentCartItem = new CartItemResult();
         ActivityOfferingScheduleResult aoSched = new ActivityOfferingScheduleResult();
@@ -560,7 +523,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             if(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(cartType)) {
                 lastCartId = cartId;
                 lastCartState = cartState;
-                lastCartType = cartType;
                 lastTermId = termId;
             }
         }
@@ -666,18 +628,8 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return getCourseRegistrationService().createRegistrationRequest(registrationRequest.getTypeKey(), registrationRequest, contextInfo);
     }
 
-    /**
+    /*
      * clears the cart for the passed in personId. Term is optional. If no term is passed in, all possible carts are cleared for this person.
-     * @param personId
-     * @param termId
-     * @param contextInfo
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws DoesNotExistException
-     * @throws DataValidationErrorException
-     * @throws VersionMismatchException
      */
     @Transactional
     protected void clearCartByPerson(String personId, String termId, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, VersionMismatchException {
