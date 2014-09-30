@@ -1906,6 +1906,7 @@ the program will get the rule management service by calling the global resource 
                 <entry key="processService" value-ref="processService"/>
                 <entry key="populationService" value-ref="PopulationService"/>
                 <entry key="atpService" value-ref="AtpService"/>
+                <entry key="holdService" value-ref="holdService"/>
                 <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
                 <entry key="gesService" value-ref="GesService"/>
                 <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
