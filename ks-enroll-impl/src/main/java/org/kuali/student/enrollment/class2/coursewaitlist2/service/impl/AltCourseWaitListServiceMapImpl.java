@@ -14,25 +14,41 @@
  *
  * Created by Charles on 8/19/2014
  */
-package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
+package org.kuali.student.enrollment.class2.coursewaitlist2.service.impl;
 
 
+import org.joda.time.DateTime;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
+import org.kuali.student.enrollment.coursewaitlist2.dto.ActivityOfferingWaitListConfigInfo;
+import org.kuali.student.enrollment.coursewaitlist2.dto.AltActivityWaitListEntryInfo;
+import org.kuali.student.enrollment.coursewaitlist2.dto.AltCourseWaitListEntryInfo;
+import org.kuali.student.enrollment.coursewaitlist2.dto.WaitListConfigInfo;
+import org.kuali.student.enrollment.coursewaitlist2.dto.WaitlistInfo;
+import org.kuali.student.enrollment.coursewaitlist2.infc.ActivityOfferingWaitListConfig;
+import org.kuali.student.enrollment.coursewaitlist2.infc.WaitListConfig;
+import org.kuali.student.enrollment.coursewaitlist2.service.AltCourseWaitListService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,6 +69,105 @@ public class AltCourseWaitListServiceMapImpl implements AltCourseWaitListService
 
     @Resource(name = "coService")
     private CourseOfferingService coService;
+
+    public static final Date GLOBAL_EFF_DATE;
+
+    static {
+        DateTime dateTime = new DateTime(2000, 1, 1, 0, 0);
+        GLOBAL_EFF_DATE = dateTime.toDate();
+    }
+
+    @Override
+    public AltCourseWaitListEntryInfo getCourseWaitListEntry(String courseWaitListEntryId,
+                                                             ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<LprInfo> lprs = lprService.getLprsByMasterLprId(courseWaitListEntryId, contextInfo);
+        LprInfo rgLpr = null, coLpr = null;
+        for (LprInfo lpr: lprs) {
+            if (lpr.getTypeKey().equals(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                coLpr = lpr;
+            } else if (lpr.getTypeKey().equals(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
+                rgLpr = lpr;
+            }
+        }
+        if (rgLpr == null || coLpr == null) {
+            throw new DoesNotExistException("Either RG WL LPR or CO WL LPR is missing");
+        }
+        AltCourseWaitListEntryInfo info = new AltCourseWaitListEntryInfo();
+        info.setPersonId(rgLpr.getPersonId());
+        info.setStateKey(rgLpr.getStateKey()); // For now, don't translate
+        info.setTypeKey(rgLpr.getTypeKey()); // For now, don't translate
+        info.setCourseOfferingId(coLpr.getLuiId());
+        info.setRegistrationGroupId(rgLpr.getLuiId());
+        info.setId(rgLpr.getMasterLprId());
+        info.setCrossListedCode(rgLpr.getCrossListedCode());
+        info.setAttributes(rgLpr.getAttributes());
+        for (String rvgKey: rgLpr.getResultValuesGroupKeys()) {
+            if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
+                info.setGradingOptionId(rvgKey);
+            } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
+                //This will be replaced with just the key in the future
+                info.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length())));
+            }
+        }
+        info.setEffectiveDate(rgLpr.getEffectiveDate());
+        info.setExpirationDate(rgLpr.getExpirationDate());
+        return info;
+    }
+
+    @Override
+    public AltActivityWaitListEntryInfo getActivityWaitListEntry(String activityWaitListEntryId,
+                                                                 ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        LprInfo aoLpr = lprService.getLpr(activityWaitListEntryId, contextInfo);
+        AltActivityWaitListEntryInfo info = new AltActivityWaitListEntryInfo();
+        info.setPersonId(aoLpr.getPersonId());
+        info.setStateKey(aoLpr.getStateKey()); // For now, don't translate
+        info.setTypeKey(aoLpr.getTypeKey()); // For now, don't translate
+        info.setId(aoLpr.getMasterLprId());
+        info.setAttributes(aoLpr.getAttributes());
+        info.setEffectiveDate(aoLpr.getEffectiveDate());
+        info.setExpirationDate(aoLpr.getExpirationDate());
+        return info;
+    }
+
+    @Override
+    public WaitListConfig getGlobalWaitListConfig(ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        WaitListConfigInfo waitListConfig = new WaitListConfigInfo();
+        waitListConfig.setEffectiveDate(GLOBAL_EFF_DATE);
+        waitListConfig.setCheckInRequired(false);
+        waitListConfig.setAutomaticallyProcessed(true);
+        waitListConfig.setCheckInRequired(false);
+        waitListConfig.setAllowHoldUntilEntries(false);
+        return waitListConfig;
+    }
+
+    @Override
+    public ActivityOfferingWaitListConfigInfo getActivityOfferingWaitListConfig(String activityOfferingWaitListConfigId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<ActivityOfferingWaitListConfigInfo> getActivityOfferingWaitListConfigsByActivityOffering(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<ActivityOfferingWaitListConfigInfo> getActivityOfferingWaitListConfigsByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public ActivityOfferingWaitListConfigInfo createActivityOfferingWaitListConfig(String activityOfferingWaitListConfigTypeKey, ActivityOfferingWaitListConfigInfo activityOfferingWaitListConfigInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return null;
+    }
+
+    @Override
+    public ActivityOfferingWaitListConfig updateActivityOfferingWaitListConfig(String activityOfferingWaitListConfigId, ActivityOfferingWaitListConfigInfo activityOfferingWaitListConfigInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return null;
+    }
 
     @Override
     public List<WaitlistInfo> getPeopleToProcessFromWaitlist(List<String> aoIds,

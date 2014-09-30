@@ -29,7 +29,7 @@
 
     </bean>
 
-    <bean id ="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.AltCourseWaitListServiceMapImpl">
+    <bean id ="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist2.service.impl.AltCourseWaitListServiceMapImpl">
         <property name="lprService" ref="lprService"/>
         <property name="seatCountService" ref="seatCountService"/>
         <property name="coService" ref="CourseOfferingService"/>

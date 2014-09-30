@@ -24,9 +24,10 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseseatcount.dto.SeatCountInfo;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
+import org.kuali.student.enrollment.coursewaitlist2.dto.WaitlistInfo;
+import org.kuali.student.enrollment.coursewaitlist2.service.AltCourseWaitListService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.poc.jsondataloader.JsonDataLoader;
@@ -126,9 +127,9 @@ public class TestAltCourseWaitListServiceMapImpl {
         aoIdsDroppedByCarrie.add("AO-Lec_B");
         aoIdsDroppedByCarrie.add("AO-Lab_1");
         Map<String, Integer> aoId2OpenSeats = new HashMap<>();
-        List<AltCourseWaitListService.WaitlistInfo> waitlistInfos =
+        List<WaitlistInfo> waitlistInfos =
             courseWaitListService.getPeopleToProcessFromWaitlist(aoIdsDroppedByCarrie, aoId2OpenSeats, context);
-        AltCourseWaitListService.WaitlistInfo waitlistInfo = KSCollectionUtils.getRequiredZeroElement(waitlistInfos);
+        WaitlistInfo waitlistInfo = KSCollectionUtils.getRequiredZeroElement(waitlistInfos);
         Assert.assertEquals("Donald", waitlistInfo.personId);
     }
 }
