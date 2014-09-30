@@ -9,7 +9,7 @@ describe('Controller: CourseDetailsCtrl', function () {
         $rootScope,
         scope,
         mockData,
-        SEARCH_CRITERIA,
+        SEARCH_ORIGINS,
         selectedCourse,
         searchSpy,
         isCourseInCartSpy,
@@ -44,9 +44,9 @@ describe('Controller: CourseDetailsCtrl', function () {
     });
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function($controller, _$rootScope_, mockCourseDetails, _SEARCH_CRITERIA_) {
+    beforeEach(inject(function($controller, _$rootScope_, mockCourseDetails, _SEARCH_ORIGINS_) {
         mockData = mockCourseDetails;
-        SEARCH_CRITERIA = _SEARCH_CRITERIA_;
+        SEARCH_ORIGINS = _SEARCH_ORIGINS_;
 
         // Instantiate the controller instance
         $rootScope = _$rootScope_;
@@ -58,8 +58,7 @@ describe('Controller: CourseDetailsCtrl', function () {
 
 
     // Helper method to load a given course into the details page
-    function loadCourse(course, fromSchedule) {
-        fromSchedule = fromSchedule || false;
+    function loadCourse(course, origin) {
 
         // Set the mock up to return the course from the query
         selectedCourse = course;
@@ -67,7 +66,7 @@ describe('Controller: CourseDetailsCtrl', function () {
         // Broadcast the $stateChangeSuccess event which triggers the course to be loaded
         $rootScope.$broadcast('$stateChangeSuccess', 'root.search.details', {
             id: course.courseOfferingId,
-            searchCriteria: (fromSchedule ? SEARCH_CRITERIA.fromSchedule : '')
+            origin: origin || null
         });
 
         expect(searchSpy).toHaveBeenCalled();
@@ -80,11 +79,11 @@ describe('Controller: CourseDetailsCtrl', function () {
         it('should know whether it was from the schedule or not', function() {
             var course = mockData.singleRegGroup;
 
-            loadCourse(course, true);
-            expect(scope.fromSchedule).toBeTruthy();
+            loadCourse(course, SEARCH_ORIGINS.schedule);
+            expect(scope.origin).toBe(SEARCH_ORIGINS.schedule);
 
-            loadCourse(course, false);
-            expect(scope.fromSchedule).toBeFalsy();
+            loadCourse(course);
+            expect(scope.origin).not.toBe(SEARCH_ORIGINS.schedule);
         });
 
         it('should detect when there is only a single reg group', function() {

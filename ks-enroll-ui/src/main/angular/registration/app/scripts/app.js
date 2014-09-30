@@ -71,7 +71,7 @@ angular.module('regCartApp', [
                 }
             })
             .state('root.search.results', {
-                url: '/{searchCriteria}?cluId', // URL gets appended to parent's
+                url: '/?searchCriteria&cluId&origin', // URL gets appended to parent's
                 views: {
                     '': {
                         templateUrl: 'partials/searchResults.html',
@@ -80,7 +80,7 @@ angular.module('regCartApp', [
                 }
             })
             .state('root.search.details', {
-                url: '/{searchCriteria}/{code}/{id}?regGroupId', // URL gets appended to parent's
+                url: '/{id}?searchCriteria&cluId&code&regGroupId&origin', // URL gets appended to parent's
                 templateUrl: 'partials/searchDetails.html',
                 controller: 'CourseDetailsCtrl'
             })
@@ -91,3 +91,20 @@ angular.module('regCartApp', [
     })
 
 ;
+
+
+/**
+ * This is the override section for the FEATURE_TOGGLES
+ * It allows you to selectively override the config based on query parameters.
+ *
+ * Available Overrides:
+ * - LearningPlan - ?learningPlan=true
+ *
+ */
+angular.module('regCartApp')
+    .run(['$location', 'FEATURE_TOGGLES', function($location, FEATURE_TOGGLES) {
+        var queryParameters = $location.search();
+        if (angular.isDefined(queryParameters.learningPlan)) {
+            FEATURE_TOGGLES.learningPlan = queryParameters.learningPlan ? true : false;
+        }
+    }]);

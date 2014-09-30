@@ -150,7 +150,7 @@ describe('Controller: LearningPlanCtrl', function () {
     });
 
     describe('View Details', function() {
-        it('should push to the correct state when attempting to view details', function() {
+        it('should push to the correct state when attempting to view details', inject(function(SEARCH_ORIGINS) {
             var course = {
                 courseId: '9e89ed85-66ba-4a9c-9765-c36e78929051',
                 courseCode: 'ENGL101',
@@ -160,11 +160,11 @@ describe('Controller: LearningPlanCtrl', function () {
             scope.viewDetails(course);
             // THIS NEEDS TO HANDLE THE OTHER CASES
             expect(stateGoSpy).toHaveBeenCalledWith('root.search.details', {
-                searchCriteria: 'fromschedule',
+                origin: SEARCH_ORIGINS.schedule,
                 id: course.courseId,
                 code: course.courseCode,
                 regGroupId: course.regGroupId
             });
-        });
+        }));
     });
 });

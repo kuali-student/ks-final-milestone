@@ -45,8 +45,8 @@ angular.module('regCartApp')
     The CartCtrl controller handles various operations for both the course-card and
     course-accordion directives.
      */
-    .controller('CardCtrl', ['$scope', '$state', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'SEARCH_CRITERIA', 'GlobalVarsService', 'ScheduleService',
-        function($scope, $state, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, SEARCH_CRITERIA, GlobalVarsService, ScheduleService) {
+    .controller('CardCtrl', ['$scope', '$state', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'SEARCH_ORIGINS', 'GlobalVarsService', 'ScheduleService',
+        function($scope, $state, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, SEARCH_ORIGINS, GlobalVarsService, ScheduleService) {
             /*
              Utility function for providing configuration variables based on
              whether the course in scope is registered, waitlist, or cart.
@@ -162,7 +162,12 @@ angular.module('regCartApp')
 
             $scope.viewDetails = function(course) {
                 // redirects the view to the search details screen
-                $state.go('root.search.details', { searchCriteria: SEARCH_CRITERIA.fromSchedule, id: course.courseId, code: course.courseCode, regGroupId: course.regGroupId });
+                $state.go('root.search.details', {
+                    origin: SEARCH_ORIGINS.schedule,
+                    id: course.courseId,
+                    code: course.courseCode,
+                    regGroupId: course.regGroupId
+                });
             };
 
             /*

@@ -17,10 +17,11 @@
  directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$timeout', '$modal', 'STATUS', 'SEARCH_CRITERIA', 'SearchService', 'CartService', 'ScheduleService',
-    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $timeout, $modal, STATUS, SEARCH_CRITERIA, SearchService, CartService, ScheduleService) {
+    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$timeout', '$modal', 'STATUS', 'SEARCH_ORIGINS', 'SearchService', 'CartService', 'ScheduleService',
+    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $timeout, $modal, STATUS, SEARCH_ORIGINS, SearchService, CartService, ScheduleService) {
         console.log('>> CourseDetailsCtrl');
 
+        $scope.origins = SEARCH_ORIGINS;
         $scope.statuses = STATUS;
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
         $scope.course = null;          // Handle on the course
@@ -35,10 +36,9 @@ angular.module('regCartApp')
         // Listen for any state changes from ui-router. This is where we get the search criteria & course ID from.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
             $scope.stateParams = toParams;
+            $scope.origin = toParams.origin;
 
             if (angular.isDefined(toParams.id)) {
-                // checking if user comes to course details from search vs schedule
-                $scope.fromSchedule = toParams.searchCriteria === SEARCH_CRITERIA.fromSchedule;
                 loadCourse(toParams.id, toParams.code);
             }
         });

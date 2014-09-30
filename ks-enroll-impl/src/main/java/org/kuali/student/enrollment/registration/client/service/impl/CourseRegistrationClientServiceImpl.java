@@ -81,7 +81,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
 
-    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY = "kuali.cr.learningplan.message.course.code.not.found";
     private static final String LEARNING_PLAN_NOT_CONFIGURED_MESSAGE_KEY = "kuali.cr.learningplan.message.learningplan.not.configured";
 
     private LprService lprService;
@@ -896,7 +895,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             List<LearningPlanInfo> learningPlans = getAcademicPlanService().getLearningPlansForStudentByType(entityId, AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, contextInfo);
 
             if (learningPlans == null || learningPlans.isEmpty()) {
-                return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
+                return Response.noContent().build();
             }
 
             // get the plan items
@@ -928,7 +927,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
 
             if (termPlanItems.isEmpty()) {
-                return getResponse(Response.Status.NOT_FOUND, new RegistrationValidationResult(COURSE_CODE_NOT_FOUND_MESSAGE_KEY)).build();
+                return Response.noContent().build();
             }
 
             // Map of reference objects IDs to their data

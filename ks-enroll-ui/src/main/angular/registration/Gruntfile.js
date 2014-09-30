@@ -384,11 +384,12 @@ module.exports = function (grunt) {
                         return content +
                             '<script>' +
                             '\'use strict\'; ' +
-                            'angular.module(\'configuration\').value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                            'angular.module(\'configuration\').value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\'); ' +
 
                             // Feature toggle overrides
-                            'var featureToggles = angular.module(\'configuration\').value(\'FEATURE_TOGGLES\');' +
-                            // 'featureToggles.learningPlan = false;' +
+                            'angular.module(\'regCartApp\').config([\'$provide\', function($provide) { ' +
+                            '$provide.decorator(\'FEATURE_TOGGLES\', function($delegate) { $delegate.learningPlan = false; return $delegate; }); ' +
+                            '}]); ' +
                             '</script>';
                     }
                 }

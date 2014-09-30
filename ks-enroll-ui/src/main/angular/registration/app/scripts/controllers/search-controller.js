@@ -33,8 +33,8 @@ angular.module('regCartApp')
 
             // Search for the old criteria under the new termId.
             if (criteria) {
-                lastSearchCriteria = null;
-                doSearch(criteria);
+                lastSearchHash = null;
+                doSearch(criteria, $scope.searchState.cluId);
             }
         });
 
@@ -43,8 +43,8 @@ angular.module('regCartApp')
             if (toState.name === 'root.search.results') {
                 syncWithSearchFromState(toParams);
 
-                if (angular.isDefined(toParams.searchCriteria)) {
-                    doSearch(toParams.searchCriteria);
+                if (angular.isDefined(toParams.searchCriteria) || angular.isDefined(toParams.cluId)) {
+                    doSearch(toParams.searchCriteria, toParams.cluId);
                 }
             }
         });
@@ -119,6 +119,12 @@ angular.module('regCartApp')
             }
 
             $scope.filteredResults = filtered;
+
+            if (filtered.length === 1) {
+                if ($scope.searchState.cluId) {
+                    viewDetails(filtered[0]);
+                }
+            }
         }
 
         // Watch for selected facets to change, persist the change & filter the results
@@ -138,9 +144,10 @@ angular.module('regCartApp')
 
 
         var queuedSearchHandle, // Handle on the queued up search.
-            lastSearchCriteria = null; // Criteria used to execute the most recent search request.
-        function doSearch(criteria) {
-            if (criteria === null || (lastSearchCriteria !== null && criteria === lastSearchCriteria)) {
+            lastSearchHash = null; // Criteria used to execute the most recent search request.
+        function doSearch(criteria, cluId) {
+            var searchHash = criteria + cluId;
+            if (!searchHash || (lastSearchHash !== null && searchHash === lastSearchHash)) {
                 // Nothing to do. Last search still valid.
                 return;
             }
@@ -153,7 +160,7 @@ angular.module('regCartApp')
 
             if (!TermsService.getTermId()) {
                 // The search cannot occur w/o a termId.
-                console.log('Search blocked - no termId exists');
+                // console.log('Search blocked - no termId exists');
 
                 // Queue the search to be performed when the term is set.
                 queuedSearchHandle = $scope.$on('termIdChanged', function() {
@@ -165,24 +172,24 @@ angular.module('regCartApp')
                 return;
             }
 
-            console.log('Searching for "' + criteria + '"');
+            // console.log('Searching for "' + criteria + '"');
 
             // Store off to prevent a provide a way to reference the search results that come back in case
             // the user runs another search request while this one is still running.
-            lastSearchCriteria = criteria;
+            lastSearchHash = searchHash;
             SearchService.searchForCourses().query({
                 termId: TermsService.getTermId(),
-                criteria: criteria === 'fromschedule' ? null : criteria,
-                cluId: $scope.stateParams.cluId || null
+                criteria: criteria || null,
+                cluId: cluId || null
             }, function(results) {
-                if (lastSearchCriteria === criteria) {
+                if (lastSearchHash === searchHash) {
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
                     $scope.searchResults = results;
                     $scope.searchCriteria = criteria;
                     filterResults();
                 } else {
-                    console.log('Search completed but not the most recent, ignoring results: "' + criteria + '" !== "' + lastSearchCriteria + '"');
+                    console.log('Search completed but not the most recent, ignoring results: "' + searchHash + '" !== "' + lastSearchHash + '"');
                 }
             }, function(error) {
                 console.log('Error searching for courses: ', error);
@@ -199,10 +206,18 @@ angular.module('regCartApp')
             return title;
         }
 
+        // redirects the view to the course details screen
+        function viewDetails(course) {
+            $state.go('root.search.details', {
+                searchCriteria: $scope.searchCriteria,
+                id: course.courseId,
+                code: course.courseCode,
+                origin: $scope.searchState.origin
+            });
+        }
 
         $scope.$on('viewDetails', function(event, course) {
-            // redirects the view to the course details screen
-            $state.go('root.search.details', { searchCriteria: $scope.searchCriteria, id: course.courseId, code: course.courseCode });
+            viewDetails(course);
         });
 
     }])

@@ -1,4 +1,4 @@
-<div id="learningPlan" class="kscr-LearningPlan" ng-if="plan || message">
+<div id="learningPlan" class="kscr-LearningPlan" ng-if="isLoaded">
 
     <!-- Learning Plan -->
     <div class="kscr-LearningPlan-container">
@@ -21,21 +21,22 @@
             <div class="kscr-LearningPlan-message" ng-if="message">
                 <span validation-message message="message"></span>
             </div>
+            <div class="kscr-LearningPlan-message" ng-if="!message && plan.length === 0">
+                <span>There is nothing in your learning plan for this term</span>
+            </div>
 
-            <div class="kscr-LearningPlan-plan" ng-if="plan"
-                 ng-init="plannedCount = countInCategory(categories.planned);
-                            backupCount = countInCategory(categories.backup);
-                            $parent.selectedCategory = plannedCount ? categories.planned : categories.backup">
-
+            <div class="kscr-LearningPlan-plan" ng-if="plan">
                 <div class="kscr-MainHeading-toggles kscr-LearningPlan-toggles">
-                    <a class="kscr-MainHeading-toggle" ng-click="selectedCategory = categories.planned" ng-disabled="!plannedCount"
+                    <a class="kscr-MainHeading-toggle"
+                       ng-click="selectCategory(categories.planned)" ng-disabled="!categories.planned.count"
                        ng-class="{'kscr-MainHeading-toggle--selected' : selectedCategory === categories.planned,
-                                  'kscr-MainHeading-toggle--disabled' : !plannedCount }">
+                                  'kscr-MainHeading-toggle--disabled' : !categories.planned.count }">
                         <span>Planned</span>
                     </a>
-                    <a class="kscr-MainHeading-toggle" ng-click="selectedCategory = categories.backup" ng-disabled="!backupCount"
+                    <a class="kscr-MainHeading-toggle"
+                       ng-click="selectCategory(categories.backup)" ng-disabled="!categories.backup.count"
                        ng-class="{'kscr-MainHeading-toggle--selected' : selectedCategory === categories.backup,
-                                  'kscr-MainHeading-toggle--disabled' : !backupCount }">
+                                  'kscr-MainHeading-toggle--disabled' : !categories.backup.count }">
                         <span>Backup</span>
                     </a>
                     <div class="util-Grid--clearfix"></div>
@@ -43,7 +44,7 @@
 
                 <!-- Learning Plan List -->
                 <ul class="kscr-LearningPlan-list">
-                    <li class="kscr-LearningPlan-item" ng-repeat="item in plan | filter : {category : selectedCategory}">
+                    <li class="kscr-LearningPlan-item" ng-repeat="item in plan | filter : {category : selectedCategory.id}">
                         <div class="kscr-LearningPlan-item-icon">
                             <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_scheduleIcon"
                                   class="kscr-LearningPlan-item-icon--schedule" ng-if="isItemInSchedule(item)"
