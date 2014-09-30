@@ -316,6 +316,7 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
                 planItem.getRefObjectId());
         dialogForm.setCourseCode(course.getCode());
         dialogForm.setCourseTitle(course.getCourseTitle());
+        dialogForm.setCourseCredits(CreditsFormatter.formatCreditsShortVersion(course));
 
         String uniqueId= request.getParameter("uniqueId");
         if(uniqueId==null){

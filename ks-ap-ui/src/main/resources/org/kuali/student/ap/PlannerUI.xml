@@ -266,7 +266,6 @@
                                     <entry key="termid" value="@{#line.termId}" />
                                     <entry key="uniqueid" value="@{#line.uniqueId}" />
                                     <entry key="toggle" value="popover" />
-                                    <entry key="placement" value="top" />
                                     <entry key="content" value="@{!#empty(#line.allTermNotesHtml) ? #line.allTermNotesHtml : ''}" />
                                 </map>
                             </property>
@@ -393,11 +392,10 @@
                                         <entry key="coursecode" value="__KSAP__CODE__" />
                                         <entry key="content" value="__KSAP__COURSENOTE__"/>
                                         <entry key="toggle" value="popover" />
-                                        <entry key="placement" value="top" />
                                     </map>
                                 </property>
                                 <property name="onClickScript"
-                                          value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                                          value="ksapOpenPlanDialog('planner_course_note_page','planner','startCourseNoteDialog', this, e);" />
                             </bean>
                             <bean p:id="__KSAP__UID___credit" parent="Uif-MessageField">
                                 <property name="messageText" value="__KSAP__CREDITS__" />
@@ -501,7 +499,7 @@
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                              value="ksapOpenPlanDialog('planner_course_note_page','planner','startCourseNoteDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -512,7 +510,6 @@
                             <entry key="coursecode" value="@{#line.courseCode}" />
                             <entry key="content" value="@{#line.courseNote}"/>
                             <entry key="toggle" value="popover" />
-                            <entry key="placement" value="top" />
                         </map>
                     </property>
                 </bean>
@@ -583,7 +580,7 @@
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="ksapOpenPlanDialog('planner_edit_plan_item_page','planner','startDialog', this, e);" />
+                              value="ksapOpenPlanDialog('planner_course_note_page','planner','startCourseNoteDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -594,7 +591,6 @@
                             <entry key="coursecode" value="@{#line.courseCode}" />
                             <entry key="content" value="@{#line.courseNote}"/>
                             <entry key="toggle" value="popover" />
-                            <entry key="placement" value="top" />
                         </map>
                     </property>
                 </bean>

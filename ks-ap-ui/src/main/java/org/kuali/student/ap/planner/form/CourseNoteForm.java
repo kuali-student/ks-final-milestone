@@ -37,6 +37,7 @@ public class CourseNoteForm extends UifFormBase{
     // Display Values
     private String courseCode;
     private String courseTitle;
+    private String courseCredits;
 
     // Input values
     private String courseNote;
@@ -103,5 +104,13 @@ public class CourseNoteForm extends UifFormBase{
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    public String getCourseCredits() {
+        return courseCredits;
+    }
+
+    public void setCourseCredits(String courseCredits) {
+        this.courseCredits = courseCredits;
     }
 }

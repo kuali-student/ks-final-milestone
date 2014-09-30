@@ -67,6 +67,7 @@ function getPopoverOptions(){
         trigger: 'hover',
         container: 'body',
         template: '<div class="popover ksap-tooltip-popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
+        placement: 'top'
     };
     return popoverOptions;
 }
