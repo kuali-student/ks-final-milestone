@@ -58,7 +58,7 @@ angular.module('regCartApp')
         // Listen for the termIdChanged event that is fired when a term has been changed & processed
         $scope.$on('termIdChanged', function(event, newValue) {
             // Go and get the schedule for the new term
-            ScheduleService.getSchedule(newValue).then(function (result) {
+            ScheduleService.getSchedule(newValue, true).then(function (result) {
                 console.log('called rest service to get schedule data - in main-controller.js');
                 ScheduleService.setSelectedSchedule(result);
             });
