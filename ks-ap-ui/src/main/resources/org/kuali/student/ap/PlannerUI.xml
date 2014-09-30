@@ -383,7 +383,6 @@
                             </bean>
                             <bean id="__KSAP__UID___courseNote" parent="course_note_icon">
                                 <property name="render" value="true"/>
-                                <property name="title" value="__KSAP__COURSENOTE__"/>
                                 <property name="dataAttributes">
                                     <map>
                                         <entry key="termid" value="__KSAP__TERMID__" />
@@ -392,6 +391,9 @@
                                         <entry key="planitemid" value="__KSAP__PLANITEMID__" />
                                         <entry key="uniqueid" value="__KSAP__UID__" />
                                         <entry key="coursecode" value="__KSAP__CODE__" />
+                                        <entry key="content" value="__KSAP__COURSENOTE__"/>
+                                        <entry key="toggle" value="popover" />
+                                        <entry key="placement" value="top" />
                                     </map>
                                 </property>
                                 <property name="onClickScript"
@@ -493,7 +495,6 @@
                     </property>
                 </bean>
                 <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="title" value="@{#line.courseNote}"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>@{#empty(#line.courseNote) ? 'ksap-hide' : ''}</value>
@@ -509,6 +510,9 @@
                             <entry key="planitemid" value="@{#line.planItemId}" />
                             <entry key="uniqueid" value="@{#line.uniqueId}" />
                             <entry key="coursecode" value="@{#line.courseCode}" />
+                            <entry key="content" value="@{#line.courseNote}"/>
+                            <entry key="toggle" value="popover" />
+                            <entry key="placement" value="top" />
                         </map>
                     </property>
                 </bean>
@@ -573,7 +577,6 @@
                     </property>
                 </bean>
                 <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
-                    <property name="title" value="@{#line.courseNote}"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>@{#empty(#line.courseNote) ? 'ksap-hide' : ''}</value>
@@ -589,6 +592,9 @@
                             <entry key="planitemid" value="@{#line.planItemId}" />
                             <entry key="uniqueid" value="@{#line.uniqueId}" />
                             <entry key="coursecode" value="@{#line.courseCode}" />
+                            <entry key="content" value="@{#line.courseNote}"/>
+                            <entry key="toggle" value="popover" />
+                            <entry key="placement" value="top" />
                         </map>
                     </property>
                 </bean>

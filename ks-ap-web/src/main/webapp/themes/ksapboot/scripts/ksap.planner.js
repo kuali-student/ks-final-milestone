@@ -7,6 +7,7 @@
  */
 function ksapInitializePlannerItems(pageSize) {
     setupTermNotePopovers();
+    setupCourseNotePopovers();
 
     var detailList = jQuery('#planner_courses_detail_list');
     var detailCols = detailList.find('ul:not(.errorLines) li');
@@ -51,6 +52,14 @@ function ksapInitializePlannerItems(pageSize) {
 function setupTermNotePopovers(){
     var popoverOptions = getPopoverOptions();
     jQuery(".filled-termnote").popover(popoverOptions);
+}
+
+/**
+ * Setup and trigger bootstrap popovers for the course notes.
+ */
+function setupCourseNotePopovers(){
+    var popoverOptions = getPopoverOptions();
+    jQuery(".coursenote").popover(popoverOptions);
 }
 
 function getPopoverOptions(){
@@ -157,7 +166,12 @@ function ksapPlannerAddPlanItem (data) {
         if(data.courseNoteRender == 'false'){
             itemElement.find(".coursenote").addClass("ksap-hide");
         }else{
-            itemElement.find(".coursenote").removeClass("ksap-hide");
+            var field = itemElement.find(".coursenote");
+            var popoverOptions = getPopoverOptions();
+            field.popover(popoverOptions);
+            var popover = field.data("popover");
+            popover.options.content = field.attr("data-content");
+            field.removeClass("ksap-hide");
         }
         if(data.statusMessageRender == 'false'){
             itemElement.find(".ksap-planner-status-message").addClass("ksap-hide");
@@ -213,11 +227,21 @@ function ksapPlannerAddPlanItem (data) {
 function ksapPlannerUpdatePlanItem (data) {
     var item = jQuery("#" + data.uniqueId);
     item.find(".ksap-planner-credits p").text(data.credit);
-    item.find(".coursenote").attr("title",data.courseNote);
+    var field = item.find(".coursenote");
+
     if(data.courseNoteRender == 'false'){
-        item.find(".coursenote").addClass("ksap-hide");
+        field.addClass("ksap-hide");
+        if(field.attr("data-content").length){
+            field.popover("destroy");
+        }
+        field.attr("data-content","");
     }else{
-        item.find(".coursenote").removeClass("ksap-hide");
+        field.attr("data-content",data.courseNote);
+        var popoverOptions = getPopoverOptions();
+        field.popover(popoverOptions);
+        var popover = field.data("popover");
+        popover.options.content = field.attr("data-content");
+        field.removeClass("ksap-hide");
     }
 }
 

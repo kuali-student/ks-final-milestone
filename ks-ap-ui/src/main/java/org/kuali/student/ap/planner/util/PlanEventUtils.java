@@ -366,9 +366,6 @@ public class PlanEventUtils {
 
         addEvent.add("category",planItem.getCategory().name());
 
-        addEvent.add("courseNote", "");
-        addEvent.add("courseNoteRender", "false");
-
 		StringBuilder code = new StringBuilder(course.getCode());
 		String campusCode = null, activityCode = null;
 		for (Attribute attr : course.getAttributes()) {
