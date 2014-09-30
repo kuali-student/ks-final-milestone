@@ -1,7 +1,252 @@
 'use strict';
 
-angular.module('mockData').value('mockLearningPlan', [
-    {
-
+angular.module('mockData').value('mockLearningPlan', {
+    plan: [
+        {
+            "refObjectId": "ff5752fd-22fa-409d-bb66-bbe827a7b966",
+            "refObjectType": "kuali.lui.type.registration.group",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "CLUID-CHEM271-200608000000",
+            "courseId": "669a5bf1-7a83-419b-a706-95411e30641b",
+            "courseCode": "CHEM271",
+            "coursesOffered": 0,
+            "creditOptions": [
+                "2.0"
+            ],
+            "longName": "General Chemistry and Energetics",
+            "regGroupId": "ff5752fd-22fa-409d-bb66-bbe827a7b966",
+            "regGroupCode": "1003",
+            "state": "kuali.lui.registration.group.state.offered"
+        },
+        {
+            "refObjectId": "c79b8da2-c05c-4d02-8798-d0f59a211529",
+            "refObjectType": "kuali.lui.type.registration.group",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "CLUID-CHEM271-200608000000",
+            "courseId": "669a5bf1-7a83-419b-a706-95411e30641b",
+            "courseCode": "CHEM271",
+            "coursesOffered": 0,
+            "creditOptions": [
+                "2.0"
+            ],
+            "longName": "General Chemistry and Energetics",
+            "regGroupId": "c79b8da2-c05c-4d02-8798-d0f59a211529",
+            "regGroupCode": "1012",
+            "state": "kuali.lui.registration.group.state.suspended"
+        },
+        {
+            "refObjectId": "97243d0a-4b7c-4d93-855d-3669fb7ff841",
+            "refObjectType": "kuali.lui.type.registration.group",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "73acba95-b7ab-494c-a726-6accd2de5257",
+            "courseId": "52767c0a-b950-42dc-ab10-9a80cef1e1e6",
+            "courseCode": "CHEM399B",
+            "coursesOffered": 0,
+            "creditOptions": [
+                "1.0",
+                "1.5",
+                "2.0",
+                "2.5",
+                "3.0"
+            ],
+            "longName": "Introduction to Chemical Research",
+            "regGroupId": "97243d0a-4b7c-4d93-855d-3669fb7ff841",
+            "regGroupCode": "1028",
+            "state": "kuali.lui.registration.group.state.offered"
+        },
+        {
+            "refObjectId": "9d2d7f42-cc0d-4caf-93f6-03d55706bf4f",
+            "refObjectType": "kuali.lui.type.registration.group",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "01434648-64fc-4d04-b95f-06fd0236525c",
+            "courseId": "b61df554-f875-4de3-a5e2-f55899fd8192",
+            "courseCode": "ENGL388A",
+            "coursesOffered": 0,
+            "creditOptions": [
+                "1.0",
+                "1.5",
+                "2.0",
+                "2.5",
+                "3.0",
+                "3.5",
+                "4.0",
+                "4.5",
+                "5.0",
+                "5.5",
+                "6.0"
+            ],
+            "longName": "Writing Intership: Tor Books",
+            "regGroupId": "9d2d7f42-cc0d-4caf-93f6-03d55706bf4f",
+            "regGroupCode": "1001",
+            "state": "kuali.lui.registration.group.state.canceled"
+        },
+        {
+            "refObjectId": "4a2e88fe-242a-4552-9e55-e02bc6c389b0",
+            "refObjectType": "kuali.lui.type.registration.group",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "BACKUP",
+            "cluId": "CLUID-ENGL329-201008000000",
+            "courseId": "66651bfb-c44f-4f94-b46b-f9ad8320da36",
+            "courseCode": "ENGL329S",
+            "coursesOffered": 0,
+            "creditOptions": [
+                "3.0"
+            ],
+            "longName": "Special Topics in Film Studies: Action Heros",
+            "regGroupId": "4a2e88fe-242a-4552-9e55-e02bc6c389b0",
+            "regGroupCode": "1001",
+            "state": "kuali.lui.registration.group.state.offered"
+        },
+        {
+            "refObjectId": "a584824c-f5fc-4ffc-9f12-fa013c7500e9",
+            "refObjectType": "kuali.lu.type.CreditCourse",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "0e7ae4b6-b30c-4276-82e7-64601635e9da",
+            "courseId": null,
+            "courseCode": "BSCI121",
+            "coursesOffered": 0,
+            "creditOptions": null,
+            "longName": "Beekeeping",
+            "regGroupId": null,
+            "regGroupCode": null,
+            "state": "Active"
+        },
+        {
+            "refObjectId": "b4ce4690-7289-4c9c-a39f-0f73bd193fcb",
+            "refObjectType": "kuali.lu.type.CreditCourse",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "PLANNED",
+            "cluId": "b0a4d2d3-e597-48ce-a4d7-88ace85f0e83",
+            "courseId": null,
+            "courseCode": "PHYS263",
+            "coursesOffered": 0,
+            "creditOptions": null,
+            "longName": "General Physics: Electrodynamics, Light, Relativity and Modern Physics",
+            "regGroupId": null,
+            "regGroupCode": null,
+            "state": "Retired"
+        },
+        {
+            "refObjectId": "7e451c66-a008-416f-a47e-2104ecf5ff59",
+            "refObjectType": "kuali.lu.type.CreditCourse",
+            "learningPlanId": "b.nanalPlan1",
+            "planItemTermId": "kuali.atp.2014Spring",
+            "category": "BACKUP",
+            "cluId": "1583a348-39d3-4a79-bb98-76bc644946ed",
+            "courseId": null,
+            "courseCode": "ENGL212",
+            "coursesOffered": 1,
+            "creditOptions": null,
+            "longName": "English Literature: 1800 to the Present",
+            "regGroupId": null,
+            "regGroupCode": null,
+            "state": "Active"
+        }
+    ],
+    courseNotActive: {
+        "refObjectId": "b4ce4690-7289-4c9c-a39f-0f73bd193fcb",
+        "refObjectType": "kuali.lu.type.CreditCourse",
+        "learningPlanId": "b.nanalPlan1",
+        "planItemTermId": "kuali.atp.2014Spring",
+        "category": "PLANNED",
+        "cluId": "b0a4d2d3-e597-48ce-a4d7-88ace85f0e83",
+        "courseId": null,
+        "courseCode": "PHYS263",
+        "coursesOffered": 0,
+        "creditOptions": null,
+        "longName": "General Physics: Electrodynamics, Light, Relativity and Modern Physics",
+        "regGroupId": null,
+        "regGroupCode": null,
+        "state": "Retired"
+    },
+    courseNotOffered: {
+        "refObjectId": "a584824c-f5fc-4ffc-9f12-fa013c7500e9",
+        "refObjectType": "kuali.lu.type.CreditCourse",
+        "learningPlanId": "b.nanalPlan1",
+        "planItemTermId": "kuali.atp.2014Spring",
+        "category": "PLANNED",
+        "cluId": "0e7ae4b6-b30c-4276-82e7-64601635e9da",
+        "courseId": null,
+        "courseCode": "BSCI121",
+        "coursesOffered": 0,
+        "creditOptions": null,
+        "longName": "Beekeeping",
+        "regGroupId": null,
+        "regGroupCode": null,
+        "state": "Active"
+    },
+    courseOffered: {
+        "refObjectId": "7e451c66-a008-416f-a47e-2104ecf5ff59",
+        "refObjectType": "kuali.lu.type.CreditCourse",
+        "learningPlanId": "b.nanalPlan1",
+        "planItemTermId": "kuali.atp.2014Spring",
+        "category": "BACKUP",
+        "cluId": "1583a348-39d3-4a79-bb98-76bc644946ed",
+        "courseId": null,
+        "courseCode": "ENGL212",
+        "coursesOffered": 1,
+        "creditOptions": null,
+        "longName": "English Literature: 1800 to the Present",
+        "regGroupId": null,
+        "regGroupCode": null,
+        "state": "Active"
+    },
+    regGroupNotOffered: {
+        "refObjectId": "9d2d7f42-cc0d-4caf-93f6-03d55706bf4f",
+        "refObjectType": "kuali.lui.type.registration.group",
+        "learningPlanId": "b.nanalPlan1",
+        "planItemTermId": "kuali.atp.2014Spring",
+        "category": "PLANNED",
+        "cluId": "01434648-64fc-4d04-b95f-06fd0236525c",
+        "courseId": "b61df554-f875-4de3-a5e2-f55899fd8192",
+        "courseCode": "ENGL388A",
+        "coursesOffered": 0,
+        "creditOptions": [
+            "1.0",
+            "1.5",
+            "2.0",
+            "2.5",
+            "3.0",
+            "3.5",
+            "4.0",
+            "4.5",
+            "5.0",
+            "5.5",
+            "6.0"
+        ],
+        "longName": "Writing Intership: Tor Books",
+        "regGroupId": "9d2d7f42-cc0d-4caf-93f6-03d55706bf4f",
+        "regGroupCode": "1001",
+        "state": "kuali.lui.registration.group.state.canceled"
+    },
+    regGroupOffered: {
+        "refObjectId": "ff5752fd-22fa-409d-bb66-bbe827a7b966",
+        "refObjectType": "kuali.lui.type.registration.group",
+        "learningPlanId": "b.nanalPlan1",
+        "planItemTermId": "kuali.atp.2014Spring",
+        "category": "PLANNED",
+        "cluId": "CLUID-CHEM271-200608000000",
+        "courseId": "669a5bf1-7a83-419b-a706-95411e30641b",
+        "courseCode": "CHEM271",
+        "coursesOffered": 0,
+        "creditOptions": [
+            "2.0"
+        ],
+        "longName": "General Chemistry and Energetics",
+        "regGroupId": "ff5752fd-22fa-409d-bb66-bbe827a7b966",
+        "regGroupCode": "1003",
+        "state": "kuali.lui.registration.group.state.offered"
     }
-]);
+});

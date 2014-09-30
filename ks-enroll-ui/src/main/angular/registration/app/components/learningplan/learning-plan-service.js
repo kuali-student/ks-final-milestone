@@ -31,7 +31,6 @@ angular.module('regCartApp')
         // Server API Methods
 
         this.getLearningPlanFromServer = function getLearningPlanFromServer(termId) {
-            console.log(termId);
             return ServiceUtilities.getArray(URLS.courseRegistration + '/learningPlan').query({
                 termId: termId
             }).$promise;
