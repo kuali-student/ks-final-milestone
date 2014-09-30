@@ -82,20 +82,7 @@
     </bean>
 
     <bean id="KS-HoldIssue-CriteriaSection" parent="Uif-HorizontalBoxSection" >
-        <property name="header">
-            <bean parent="Uif-SectionHeader">
-                <property name="lowerGroup">
-                    <bean parent="Uif-ActionsGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold"
-                                      p:style="padding-left:0px;" p:render="true"/>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
+        <property name="headerText" value="Search for Holds"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
@@ -128,8 +115,22 @@
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
-                                  p:actionLabel="Show" p:style="margin-left: 10px;margin-top: 32px"
+                                  p:actionLabel="Search" p:style="margin-left: 10px;margin-top: 32px"
                                   p:methodToCall="search" p:id="show_button"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionsGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addHold" p:actionLabel="Add Hold"
+                                              p:style="padding-left:0px;" p:render="true"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
