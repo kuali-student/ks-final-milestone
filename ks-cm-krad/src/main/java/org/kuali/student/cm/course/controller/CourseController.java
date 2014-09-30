@@ -498,11 +498,9 @@ public class CourseController extends CourseRuleEditorController {
          * After save, if review page needs to display, use redirect to handle the validations.
          */
         if (StringUtils.equals(form.getPageId(),getReviewPageKradPageId())){
-            Properties urlParameters = new Properties();
-            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, getProposalReviewMethodToCall());
+            Properties urlParameters = ProposalUtil.getProposalUrlProperties("docHandler", getReviewPageKradPageId(), form.getWorkflowDocument().getDocumentId());
             urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, CMUtils.getCMHomeUrl() );
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
-            urlParameters.put(KRADConstants.FORM_KEY, form.getFormKey());
             String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.COURSE_MAINTENANCE.replaceFirst("/", "");
             ModelAndView mv = performRedirect(form, courseBaseUrl, urlParameters);
             form.setRequestRedirected(false);
