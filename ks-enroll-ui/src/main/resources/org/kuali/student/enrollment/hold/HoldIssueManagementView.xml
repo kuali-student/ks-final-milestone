@@ -22,6 +22,9 @@
     <bean id="KS-HoldIssueManagementView" parent="KS-Uif-FormView">
         <property name="singlePageView" value="true"/>
         <property name="header.render" value="true"/>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
         <property name="headerText" value="Manage Holds"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
