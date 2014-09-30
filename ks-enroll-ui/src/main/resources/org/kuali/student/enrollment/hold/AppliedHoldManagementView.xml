@@ -190,7 +190,12 @@
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Applied Hold" p:propertyName="holdName" p:style="white-space:nowrap;"/>
-                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code" p:additionalCssClasses="nowrap"/>
+                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code" p:additionalCssClasses="nowrap">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"
+                              p:inquiryParameters="holdIssue.id" p:title="Hold Issue"/>
+                    </property>
+                </bean>
                 <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true"
                       p:style="width:50%;white-space:nowrap;">
                     <property name="control">

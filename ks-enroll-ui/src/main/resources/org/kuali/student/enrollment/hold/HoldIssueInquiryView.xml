@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="HoldIssueMaintenanceWrapper" parent="HoldIssueMaintenanceWrapper-parentBean"/>
+
+    <bean id="HoldIssueMaintenanceWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
+        <property name="titleAttribute" value="holdIssue.id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Hold Issue"/>
+        <property name="primaryKeys">
+            <list>
+                <value>holdIssue.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- InquiryView -->
+    <bean id="KS-HoldIssue-InquiryView" parent="KS-Uif-InquiryView">
+        <property name="headerText" value="Hold Issue Inquiry"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldIssueInquirableImpl"/>
+        <property name="page.header">
+            <ref bean="KS-Uif-HeaderOne-Empty" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.holdIssue.name}"/>
+                <ref bean="KS-HoldIssue-BasicView"/>
+                <ref bean="KS-HoldIssue-AuthorizationSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HoldIssue-BasicView" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+          p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField" p:colSpan="1" p:label="Hold Code"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.holdCode"/>
+                <bean parent="KS-Uif-DataField" p:colSpan="1" p:label="Hold Description"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.descr.formatted"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:required="false"
+                      p:fieldLabel.renderColon="false" p:colSpan="1" p:propertyName="holdIssue.typeKey"
+                      p:readOnly="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-SpaceField" p:colSpan="2"/>
+                <bean parent="Uif-SpaceField" p:colSpan="4"/>
+                <bean parent="KS-Uif-DataField" p:label="First Applied Date" p:propertyName="holdIssue.firstAppliedDate"
+                      p:fieldLabel.renderColon="false" p:colSpan="1" />
+                <bean parent="KS-Uif-DataField" p:label="Owning Organization" p:propertyName="orgName" p:required="true"
+                      p:fieldLabel.renderColon="false" p:colSpan="1" />
+                <bean parent="KS-Uif-DataField" p:label="Last Applied Date" p:propertyName="holdIssue.lastAppliedDate"
+                      p:fieldLabel.renderColon="false" p:colSpan="3" />
+                <bean parent="KS-Uif-DataField" p:label="First Applied Term" p:propertyName="firstTerm"
+                      p:fieldLabel.renderColon="false" p:colSpan="3" p:render="@{dataObject.termBased}"/>
+                <bean parent="KS-Uif-DataField" p:label="Last Applied Term" p:propertyName="lastTerm"
+                      p:fieldLabel.renderColon="false" p:colSpan="3" p:render="@{dataObject.termBased}"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HoldIssue-AuthorizationSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Authorization"/>
+        <property name="items">
+            <list>
+                <!--Beginning of Authorization Section of Create Hold-->
+                <bean id="KS-HoldIssue-Auth-OrgSection" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:layoutManager.style="width: 57em;" p:layoutManager.numberOfColumns="1"
+                      p:collectionObjectClass="org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper"
+                      p:propertyName="authorizedOrgs" p:layoutManager.renderSequenceField="false"
+                      p:layoutManager.generateAutoSequence="false" p:layoutManager.separateAddLine="false"
+                      p:layoutManager.richTable.disableTableSort="true" p:layoutManager.richTable.render="false"
+                      p:layoutManager.applyAlternatingRowStyles="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-DataField" p:label="Organization" p:propertyName="name" />
+                            <bean parent="Uif-MessageField" p:label="Apply" p:fieldLabel.renderColon="false"
+                                  p:messageText="@{#line.authOrgApply ? 'Yes':''}" />
+                            <bean parent="Uif-MessageField" p:label="Expire" p:fieldLabel.renderColon="false"
+                                  p:messageText="@{#line.authOrgExpire ? 'Yes':''}" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

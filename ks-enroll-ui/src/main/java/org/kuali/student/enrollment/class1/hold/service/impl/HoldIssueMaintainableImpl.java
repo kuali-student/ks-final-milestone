@@ -7,6 +7,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.hold.dto.AuthorizedOrgWrapper;
 import org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper;
+import org.kuali.student.enrollment.class1.hold.util.HoldIssueHelper;
 import org.kuali.student.enrollment.class1.hold.util.HoldsConstants;
 import org.kuali.student.enrollment.class1.hold.service.facade.HoldIssueAuthorizingOrgFacade;
 import org.kuali.student.enrollment.class1.hold.util.HoldsResourceLoader;
@@ -31,104 +32,16 @@ public class HoldIssueMaintainableImpl extends KSMaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
-        String holdId = dataObjectKeys.get(HoldsConstants.HOLD_ISSUE_ID);
-        if (holdId == null) {
-            return setupDataObjectForCreate();
-        } else {
-            return setupDataObjectForEdit(holdId);
-        }
-    }
-
-    public HoldIssueMaintenanceWrapper setupDataObjectForCreate() {
-
-        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
         try {
-            HoldIssueInfo holdIssueInfo = new HoldIssueInfo();
-            holdIssueInfo.setIsHoldIssueTermBased(false);
-            holdIssueInfo.setMaintainHistoryOfApplicationOfHold(false);
-            holdIssueInfo.setFirstAppliedDate(new Date());
-            dataObject.setTermBased(false);
-            dataObject.setHoldIssue(holdIssueInfo);
-
+            String holdId = dataObjectKeys.get(HoldsConstants.HOLD_ISSUE_ID);
+            if (holdId != null) {
+                return HoldIssueHelper.constructHoldIssueWrapper(holdId);
+            }
         } catch (Exception e) {
             convertServiceExceptionsToUI(e);
         }
-        return dataObject;
-    }
 
-    public HoldIssueMaintenanceWrapper setupDataObjectForEdit(String holdId) {
-
-        HoldIssueMaintenanceWrapper dataObject = new HoldIssueMaintenanceWrapper();
-        try {
-            HoldIssueInfo holdIssueInfo = HoldsResourceLoader.getHoldService().getHoldIssue(holdId, ContextUtils.createDefaultContextInfo());
-            dataObject.setDescr(holdIssueInfo.getDescr() != null ? holdIssueInfo.getDescr().getPlain() : StringUtils.EMPTY);
-
-            // Set term information.
-            dataObject.setTermBased(holdIssueInfo.getIsHoldIssueTermBased());
-            if (holdIssueInfo.getIsHoldIssueTermBased()) {
-                dataObject.setFirstTerm(getTermCodeForId(holdIssueInfo.getFirstApplicationTermId()));
-                dataObject.setLastTerm(getTermCodeForId(holdIssueInfo.getLastApplicationTermId()));
-            }
-
-            // Setup AdminOrg <OrgInfo> data
-            if(holdIssueInfo.getOrganizationId()!=null) {
-                dataObject.setOrgName(HoldsResourceLoader.getOrganizationService().getOrg(holdIssueInfo.getOrganizationId(),
-                        ContextUtils.createDefaultContextInfo()).getShortName());
-            }
-            dataObject.setHoldHistory(holdIssueInfo.getMaintainHistoryOfApplicationOfHold());
-            dataObject.setHoldIssue(holdIssueInfo);
-
-            dataObject.setAuthorizedOrgs(getAuthorizedOrgs(holdIssueInfo));
-        } catch (Exception e) {
-            convertServiceExceptionsToUI(e);
-        }
-        return dataObject;
-    }
-
-    private List<AuthorizedOrgWrapper> getAuthorizedOrgs(HoldIssueInfo holdIssueInfo)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-
-        Map<String, AuthorizedOrgWrapper> authorizedOrgs = new HashMap<String, AuthorizedOrgWrapper>();
-        List<Role> roles = HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().getHoldFunctions(ContextUtils.createDefaultContextInfo());
-        for (Role role : roles) {
-
-            List<String> orgIds = HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().getBindingByRoleAndHoldIssue(role.getId(),
-                    holdIssueInfo.getId(), ContextUtils.createDefaultContextInfo());
-
-            for (String orgId : orgIds) {
-                AuthorizedOrgWrapper authorizedOrg = authorizedOrgs.get(orgId);
-                if (authorizedOrg == null) {
-                    authorizedOrg = new AuthorizedOrgWrapper();
-                    authorizedOrg.setId(orgId);
-                    authorizedOrg.setName(HoldsResourceLoader.getOrganizationService().getOrg(orgId,
-                            ContextUtils.createDefaultContextInfo()).getShortName());
-                    authorizedOrgs.put(orgId, authorizedOrg);
-                }
-                if (role.getName().equals(HoldsConstants.APPLY_HOLD_ROLE_PERMISSION)) {
-                    authorizedOrg.setAuthOrgApply(true);
-                }
-                if (role.getName().equals(HoldsConstants.EXPIRE_APPLIED_HOLD_ROLE_PERMISSION)) {
-                    authorizedOrg.setAuthOrgExpire(true);
-                }
-            }
-
-        }
-        return new ArrayList<AuthorizedOrgWrapper>(authorizedOrgs.values());
-    }
-
-    public String getTermCodeForId(String termId) {
-        if (termId == null) {
-            return StringUtils.EMPTY;
-        }
-
-        try {
-            TermInfo term = HoldsResourceLoader.getAcademicCalendarService().getTerm(termId, ContextUtils.createDefaultContextInfo());
-            return term.getCode();
-        } catch (Exception e){
-            convertServiceExceptionsToUI(e);
-        }
-
-        return StringUtils.EMPTY;
+        return HoldIssueHelper.constructNewHoldIssueWrapper();
     }
 
     @Override
@@ -176,15 +89,15 @@ public class HoldIssueMaintainableImpl extends KSMaintainableImpl {
         List<String> orgIds = HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().getBindingByRoleAndHoldIssue(role.getId(), holdIssueInfo.getId(),
                 ContextUtils.createDefaultContextInfo());
 
-        for(String orgId : applyOrgs){
-            if(!orgIds.contains(orgId)){
+        for (String orgId : applyOrgs) {
+            if (!orgIds.contains(orgId)) {
                 HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().storeBinding(holdIssueInfo.getId(), orgId,
                         role, ContextUtils.createDefaultContextInfo());
             }
             orgIds.remove(orgId);
         }
 
-        for(String orgId : orgIds){
+        for (String orgId : orgIds) {
             HoldsResourceLoader.getHoldIssueAuthorizingOrgFacade().removeBinding(holdIssueInfo.getId(), orgId,
                     role, ContextUtils.createDefaultContextInfo());
         }

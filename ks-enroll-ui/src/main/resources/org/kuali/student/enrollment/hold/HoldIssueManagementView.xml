@@ -177,7 +177,12 @@
         <property name="items">
             <list>
                 <bean parent="KS-Uif-DataField" p:label="Hold Name" p:propertyName="name" p:additionalCssClasses="nowrap"/>
-                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code"/>
+                <bean parent="KS-Uif-DataField" p:label="Hold Code" p:propertyName="code">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper"
+                          p:inquiryParameters="id" p:title="Hold Issue"/>
+                    </property>
+                </bean>
                 <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="typeKey" p:readOnly="true" p:additionalCssClasses="nowrap"
                       p:style="width:50%;">
                     <property name="control">
