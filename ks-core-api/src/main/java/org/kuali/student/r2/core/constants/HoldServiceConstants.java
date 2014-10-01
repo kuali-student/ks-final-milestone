@@ -40,24 +40,13 @@ public class HoldServiceConstants {
     public static final String INTRUCTOR_HOLD_TYPE_KEY = "kuali.hold.type.instructor";
 
     /**
-     * ISSUE TYPES
+     * Hold Issue Types
      */
-    public static final String OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY = "kuali.hold.issue.type.overdue.library.materials";
-    public static final String FINANCIAL_ISSUE_TYPE_KEY = "kuali.hold.issue.type.financial";
-    public static final String MEDICAL_IMMUNIZATION_ISSUE_TYPE_KEY = "kuali.hold.issue.type.medical.immunization";
-    public static final String MEDICAL_INSURANCE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.medical.insurance";
-    public static final String INTERNATIONAL_STUDENT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.international.students";
-    public static final String DISCIPLINE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.discipline";
-    public static final String ACADEMIC_PROGRESS_ISSUE_TYPE_KEY = "kuali.hold.issue.type.academic.progress";
-    public static final String RESIDENCE_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residence";
-    public static final String UNPAID_FEES_ISSUE_TYPE_KEY = "kuali.hold.issue.type.unpaid.fee";
-    public static final String FINANCIAL_AID_ISSUE_TYPE_KEY = "kuali.hold.issue.type.financial.aid";
-    public static final String UNRETURNED_EQUIPMENT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.unreturned.equipment";
-    public static final String ADMISSIONSS_ISSUE_TYPE_KEY = "kuali.hold.issue.type.admissions";
-    public static final String IDENTITY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.identity";
-    public static final String PRIOR_TRANSCRIPT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.prior.transcript";
-    public static final String INCOMPLETE_BIO_ISSUE_TYPE_KEY = "kuali.hold.issue.type.incomplete.bio";
-    public static final String RESIDENCY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residency";
+    public static final String HOLD_ISSUE_ADVISING_TYPE_KEY = "kuali.hold.holdissue.type.advising";
+    public static final String HOLD_ISSUE_ADMISSIONS_TYPE_KEY = "kuali.hold.holdissue.type.admissions";
+    public static final String HOLD_ISSUE_DEAN_OF_STUDENTS_TYPE_KEY = "kuali.hold.holdissue.type.deanofstudents";
+    public static final String HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY = "kuali.hold.holdissue.type.studentrecord";
+    public static final String HOLD_ISSUE_FINANCIAL_TYPE_KEY = "kuali.hold.holdissue.type.financial";
 
     /**
      * known issue keys  -- DO NOT USE THESE KEYS -- ISSUES DO NOT HAVE KEYS
