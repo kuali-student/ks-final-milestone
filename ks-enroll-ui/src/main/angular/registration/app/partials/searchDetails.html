@@ -1,14 +1,14 @@
-<!-- Start Page Loading Skeleton View -->
-<div class="kscr-SearchDetails" ng-if="loading">
-    <!-- Search Details Header -->
+<div class="kscr-SearchDetails">
+
+    <!-- Search Details Header - Back to Results Link -->
     <div class="kscr-SearchDetails-top">
-        Loading...<br>
-        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="!fromSchedule"><span>&#x00ab;</span> Return to Search Results</a>
-        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="fromSchedule"><span>&#x00ab;</span> Return to Schedule</a>
+        <div class="kscr-SearchDetails-loading" ng-if="loading">Loading...</div>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="origin !== origins.schedule"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="origin === origins.schedule"><span>&#x00ab;</span> Return to Schedule</a>
     </div>
 
-    <!-- Search Details Content -->
-    <div class="kscr-SearchDetails-container">
+    <!-- Start Page Loading Skeleton View -->
+    <div class="kscr-SearchDetails-container" ng-if="loading">
         <div class="kscr-SearchDetails-header util-Grid">
             <span class="kscr-SearchDetails-courseHeader util-Grid-cell util-Grid">
                 <span class="kscr-SearchDetails-courseCode-skeleton"></span>
@@ -31,18 +31,10 @@
             </div>
         </div>
     </div>
-</div>
-<!-- End Page Loading Skeleton View -->
-
-<div class="kscr-SearchDetails" ng-if="!loading">
-    <!-- Search Details Header - Back to Results Link -->
-    <div class="kscr-SearchDetails-top">
-        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="!fromSchedule"><span>&#x00ab;</span> Return to Search Results</a>
-        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="fromSchedule"><span>&#x00ab;</span> Return to Schedule</a>
-    </div>
+    <!-- End Page Loading Skeleton View -->
 
     <!-- Search Details Content -->
-    <div class="kscr-SearchDetails-container">
+    <div class="kscr-SearchDetails-container" ng-if="!loading">
         <div class="kscr-SearchDetails-header util-Grid">
             <span class="kscr-SearchDetails-courseHeader util-Grid-cell util-Grid">
                 <span id="search_details_code" class="kscr-SearchDetails-courseCode">{{course.courseOfferingCode}}</span>
@@ -186,7 +178,7 @@
         </div>
 
         <!-- Activity Offering Table (single reg group) -->
-        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="singleRegGroup" ng-init="aoDisplayLimit = 999">
+        <div class="kscr-SearchDetails-activityOfferingGroups kscr-SearchDetails-activityOfferingGroups--singleRegGroup" ng-if="singleRegGroup" ng-init="aoDisplayLimit = 999">
             <div class="kscr-SearchDetails-activityOfferingGroup">
                 <div class="kscr-SearchDetails-activityOfferings">
                     <search-results>

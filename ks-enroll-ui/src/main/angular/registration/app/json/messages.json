@@ -85,14 +85,14 @@
     },
     {
         "messageKey": "kuali.cr.learningplan.message.learningplan.course.not.active",
-        "message": "{{courseCode}} is no longer active"
+        "message": "{{state}}"
     },
     {
         "messageKey": "kuali.cr.learningplan.message.learningplan.course.not.offered",
-        "message": "<span ng-if='state === states.dto.active'>{{courseCode}} is not offered</span><span ng-if='state !== states.dto.active'>{{courseCode}} is {{state}}</span>"
+        "message": "<span ng-if='state === states.dto.active'>Not offered</span><span ng-if='state !== states.dto.active'>{{state}}</span>"
     },
     {
         "messageKey": "kuali.cr.learningplan.message.learningplan.reggroup.not.offered",
-        "message": "<span ng-if='state === states.lui.canceled'>Section {{regGroupCode}} is cancelled</span><span ng-if='state === states.lui.invalid'>Section {{regGroupCode}} does not exist</span><span ng-if='!state || state === states.lui.pending'>Section {{regGroupCode}} is not offered</span><span ng-if='state === states.lui.suspended'>Section {{regGroupCode}} is suspended</span>"
+        "message": "<span ng-if='state === states.lui.canceled'>Cancelled</span><span ng-if='state === states.lui.invalid'>Does not exist</span><span ng-if='!state || state === states.lui.pending'>Not offered</span><span ng-if='state === states.lui.suspended'>Suspended</span>"
     }
 ]

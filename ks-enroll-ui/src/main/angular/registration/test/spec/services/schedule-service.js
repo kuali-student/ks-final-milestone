@@ -99,10 +99,10 @@ describe('Service: ScheduleService', function () {
 
             // make the ao conflict with a course on the schedule
             var scheduleComponent = ao.scheduleComponents[0];
-            scheduleComponent.startTime = "1:00 pm";
-            scheduleComponent.endTime = "2:00 pm";
-            scheduleComponent.endTime = "2:00 pm";
-            scheduleComponent.displayTime = "1:00-2:00pm";
+            scheduleComponent.startTime = '1:00 pm';
+            scheduleComponent.endTime = '2:00 pm';
+            scheduleComponent.endTime = '2:00 pm';
+            scheduleComponent.displayTime = '1:00-2:00pm';
 
             expect(ScheduleService.hasTimeConflict(ao)).toBe(true);
         }));

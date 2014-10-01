@@ -240,8 +240,10 @@
         &--full {
             padding-left: 2.5rem;
 
-            .kscr-SearchDetails-selection-icon {
-                .warning-icon;
+            &, &.kscr-SearchDetails-selection--complete { // Make sure the warning icon is used even when the selection is complete
+                .kscr-SearchDetails-selection-icon {
+                    .warning-icon;
+                }
             }
         }
 
@@ -372,7 +374,9 @@
 .kscr-SearchDetails-activityOfferings {
     .kscr-Search-results;
 
-    margin-right: 0;
+    @media screen and @lg-Min {
+        margin: 0;
+    }
 
     .kscr-Search-results-table {
         border: none;
@@ -381,11 +385,23 @@
         @media screen and @searchDetailsTabbed-Max {
           display: none;
         }
-    }
+}
 }
 
 .kscr-SearchDetails-activityOfferingGroups {
     margin: 1rem 0 0;
+
+    &--singleRegGroup {
+        .kscr-Search-row--selected {
+            background: none;
+        }
+        .kscr-Search-details-selector.kscr-Search-details-selector--selected {
+            border: none;
+        }
+        .kscr-Search-details-section.kscr-Search-details-section--selected {
+            margin: 0;
+        }
+    }
 
     // Single Activity Offering Group (e.g. Lecture, Discussion)
     .kscr-SearchDetails-activityOfferingGroup {
