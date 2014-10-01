@@ -72,7 +72,7 @@ angular.module('regCartApp')
             LoginService.logout().query({}, function () {
                 // if port 9000, log back in (test code only for development environments using grunt serve)
                 if ($location.port() === 9000) {
-                    LoginService.logOnAsAdmin().query({userId: 'b.nanal', password: ''});
+                    LoginService.logOnAsAdmin().query({userId: 'student1', password: ''});
                 }
 
                 // Reload the page.
