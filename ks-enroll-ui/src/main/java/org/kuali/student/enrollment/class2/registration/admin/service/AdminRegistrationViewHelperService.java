@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationA
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.TermResult;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -105,10 +106,20 @@ public interface AdminRegistrationViewHelperService {
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode);
 
     /**
+     * Return a list of available credit options for the given credit option id.
+     *
      * @param creditOptionId
      * @return
      */
     public List<String> getCourseOfferingCreditOptionValues(String creditOptionId);
+
+    /**
+     * Return a list of available grading options for the given course offering.
+     *
+     * @param courseOffering
+     * @return
+     */
+    public List<String> getGradingOptionsForCourseOffering(CourseOfferingInfo courseOffering);
 
     /**
      * Submit the list of courses for registration.

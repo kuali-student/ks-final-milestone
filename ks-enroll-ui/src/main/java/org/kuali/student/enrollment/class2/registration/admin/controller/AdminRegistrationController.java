@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegis
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -471,7 +472,7 @@ public class AdminRegistrationController extends UifControllerBase {
         form.getEditingIssues().clear();
         RegistrationCourse regCourse = getSelectedRegistrationCourse(form);
 
-        CourseOffering courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), regCourse.getCode());
+        CourseOfferingInfo courseOffering = AdminRegClientCache.getCourseOfferingByCodeAndTerm(form.getTerm().getId(), regCourse.getCode());
         if (regCourse.getCreditOptions() == null) {
             regCourse.setCreditOptions(getViewHelper(form).getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
             if (regCourse.getCreditOptions().size() == 1) {
@@ -482,8 +483,7 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         if (regCourse.getGradingOptions() == null) {
-            regCourse.setGradingOptionId(courseOffering.getGradingOptionId());
-            regCourse.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+            regCourse.setGradingOptions(getViewHelper(form).getGradingOptionsForCourseOffering(courseOffering));
         }
 
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel

@@ -270,7 +270,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         CourseOfferingInfo coInfo = AdminRegResourceLoader.getCourseOfferingService().getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), createContextInfo());
         registrationCourse.setCode(coInfo.getCourseOfferingCode());
         registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
-        registrationCourse.setGradingOptions(coInfo.getStudentRegistrationGradingOptions());
+        registrationCourse.setGradingOptions(this.getGradingOptionsForCourseOffering(coInfo));
 
         RegistrationGroupInfo registrationGroup = AdminRegResourceLoader.getCourseOfferingService().getRegistrationGroup(
                 courseRegistrationInfo.getRegistrationGroupId(), createContextInfo());
@@ -317,7 +317,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 }
 
                 course.setGradingOptionId(courseOffering.getGradingOptionId());
-                course.setGradingOptions(courseOffering.getStudentRegistrationGradingOptions());
+                course.setGradingOptions(this.getGradingOptionsForCourseOffering(courseOffering));
                 course.setCreditOptions(this.getCourseOfferingCreditOptionValues(courseOffering.getCreditOptionId()));
                 if (course.getCreditOptions().size() == 1) {
                     course.setCreditType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -433,6 +433,20 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         return creditOptions;
+    }
+
+    @Override
+    public List<String> getGradingOptionsForCourseOffering(CourseOfferingInfo courseOffering){
+
+        List<String> gradingOptions = courseOffering.getStudentRegistrationGradingOptions();
+        if((gradingOptions==null)){
+            gradingOptions = new ArrayList<String>();
+        }
+        // Create keyvalues from grading options for registration course.
+        if ((courseOffering.getGradingOptionId()!=null)&&(!gradingOptions.contains(courseOffering.getGradingOptionId()))) {
+            gradingOptions.add(0, courseOffering.getGradingOptionId());
+        }
+        return gradingOptions;
     }
 
     /**
