@@ -104,6 +104,10 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_EXPELLED = "kuali.lpr.trans.message.registration.expelled";
     public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_CREDIT_LIMIT_EXCEEDED = "kuali.lpr.trans.message.registration.credit.limit.exceeded";
     public static final String ADMIN_REG_MESSAGEKEY_BASIC_NOT_ALIVE = "kuali.lpr.trans.message.basic.not.alive";
+    public static final String ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_MANDATORY_ADVISING = "kuali.lpr.trans.message.failed.holds.mandatory.advising";
+    public static final String ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_TRANSACTIONS_LIMIT = "kuali.lpr.trans.message.failed.holds.transactions.limit";
+
+
 
 
 }
