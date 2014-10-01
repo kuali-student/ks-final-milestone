@@ -342,7 +342,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         //Check if this is a valid program.
         CluInformation searchClu = null;
         try{
-            searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
+            searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForProgram());
         }catch(OperationFailedException ofe){
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTIPLE_RESULTS_FOR_CODE);
         }
