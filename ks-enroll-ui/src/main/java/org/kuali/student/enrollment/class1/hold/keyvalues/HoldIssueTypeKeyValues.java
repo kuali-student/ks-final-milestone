@@ -33,7 +33,7 @@ public class HoldIssueTypeKeyValues extends UifKeyValuesFinderBase implements Se
 
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
+        keyValues.add(new ConcreteKeyValue("", "All"));
         try {
             List<TypeInfo> types = getTypeService().getTypesByRefObjectUri(HoldServiceConstants.REF_OBJECT_TYPE_URI_ISSUE,
                     ContextUtils.createDefaultContextInfo());
