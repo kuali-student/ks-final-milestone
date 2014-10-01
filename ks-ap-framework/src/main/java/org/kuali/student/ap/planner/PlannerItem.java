@@ -280,8 +280,10 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
 
     public String getStatusMessagesForUI(){
         StringBuilder stringBuilder = new StringBuilder();
-        for(String message : statusMessages){
-            stringBuilder.append(message+"<br>");
+        if(statusMessages != null){
+            for(String message : statusMessages){
+                stringBuilder.append(message+"<br>");
+            }
         }
 
         return stringBuilder.toString();

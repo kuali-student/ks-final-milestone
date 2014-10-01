@@ -428,7 +428,7 @@
     <bean id="KSAP-Planner-Item-PlanItem" parent="KSAP-Planner-Item-PlanItem-parent"/>
     <bean id="KSAP-Planner-Item-PlanItem-parent" parent="KSAP-Planner-Item-Base">
         <property name="id" value="@{#line.uniqueId}"/>
-        <property name="render" value="@{#line.type == 'PlanItem'}"/>
+        <property name="render" value="@{#line.type == 'PlanItem' or #line.type == 'CourseRecord'}"/>
         <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
         <property name="onClickScript"
                   value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
@@ -707,7 +707,6 @@
         <property name="items">
             <list>
                 <ref bean="KSAP-Planner-Item-PlanItem"/>
-                <ref bean="KSAP-Planner-Item-CourseRecord"/>
                 <ref bean="KSAP-Planner-Item-BlankItem"/>
                 <ref bean="KSAP-Planner-Item-AddItem"/>
             </list>
@@ -733,27 +732,6 @@
                 </property>
             </bean>
         </property>
-        <!-- Hide until we get to messages. Empty div creates one pixel line of white space in planner. Will need to add render property so this element does not display if not needed
-        <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="validationMessages.displayMessages" value="false" />
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>@{#line.completed ? 'locked' : (#line.planning ?'unlocked' : 'locked')}</value>
-                                    <value>ksap-registration-status</value>
-                                    <value>ks-plan-Icon</value>
-                                    <value>@{#line.completed ? 'ks-plan-Icon-locked' : (#line.planning ? 'ks-plan-Icon-unlocked' : 'ks-plan-Icon-locked')}</value>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property> -->
         <property name="layoutManager.lineGroupPrototype.footer.render"
                   value="false" />
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
@@ -1007,21 +985,6 @@
     </bean>
 
     <!-- Planner Menu Actions -->
-
-    <!--
-    <bean id="planner_menu_remove_from_cart" parent="planner_menu_remove_from_cart-parent"/>
-    <bean id="planner_menu_remove_from_cart-parent" abstract="true" parent="Uif-ActionLink"
-          p:actionLabel="@{#textHelper.getText('planner.menu.remove')}" p:title="@{#textHelper.getText('planner.menu.remove')}">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ksap-noMargin</value>
-            </list>
-        </property>
-        <property name="actionScript"
-                  value="ksapOpenPlanDialog('sb_cart_remove_page','sb/cart','remove', this, e);" />
-    </bean>
-    -->
-
     <bean id="planner_menu_copy_plan_item" parent="planner_menu_copy_plan_item-parent"/>
     <bean id="planner_menu_copy_plan_item-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="@{#textHelper.getText('planner.menu.copy')}"
