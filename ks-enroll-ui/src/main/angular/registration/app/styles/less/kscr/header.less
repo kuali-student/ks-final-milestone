@@ -25,7 +25,7 @@
     height: @headerHeight;
     padding: 0 0.2rem 0 4rem;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
       .kscr-Main-header & {
         // use the larger logo in the expanded mode
           background-image: url('../images/logo_kuali_bak.png');
@@ -36,7 +36,7 @@
 
 .kscr-Header-title {
     display: none;
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-header & {
           display: block; /* show the header title & separator in large format only */
         }
@@ -51,7 +51,7 @@
     margin: 0 0.7rem;
     width: 0.8rem;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
       .kscr-Main-header & {
         display: block; /* show the header title & separator in large format only */
       }
@@ -105,7 +105,7 @@
             }
         }
 
-        @media screen and @lg-MaxWidth-Min {
+        @media @lg-MaxWidth-Min {
             display: none; // hide the term label selector in small format only
         }
     }
@@ -136,7 +136,7 @@
     border-color: @white;
   }
 
-  @media screen and @lg-MaxWidth-Min {
+  @media @lg-MaxWidth-Min {
     display: none; /* only shown in large view */
   }
 }

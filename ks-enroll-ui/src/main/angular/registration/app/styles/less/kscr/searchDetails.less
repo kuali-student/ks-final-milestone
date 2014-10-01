@@ -26,7 +26,7 @@
 
 .kscr-SearchDetails-courseHeader {
     // Small-format styles (Mobile)
-    @media screen and @sm-Max {
+    @media @sm-Max {
         .kscr-SearchDetails-header & {
             flex-flow: column; // Put the course title below the code
         }
@@ -61,7 +61,7 @@
     padding: 1rem;
 
     // Large-format styles
-    @media screen and @lg-Min {
+    @media @lg-Min {
       // Disable the sticky actions container in large-format
        & .util-sticky-placeholder {
           display: none;
@@ -180,7 +180,7 @@
     padding: 0.5rem 0;
 
     // Small-format styles (Mobile)
-    @media screen and @sm-Max {
+    @media @sm-Max {
         // Stuck actions container
         &.util-sticky--stuck {
           background: @whiteBackground;
@@ -192,7 +192,7 @@
         }
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Disable the sticky actions container in large-format
         .kscr-SearchDetails-container & {
             .util-sticky--disabled();
@@ -382,7 +382,7 @@
         border: none;
         margin-bottom: 0;
 
-        @media screen and @searchDetailsTabbed-Max {
+        @media @searchDetailsTabbed-Max {
           display: none;
         }
 }
@@ -464,7 +464,7 @@
 
 // below this breakpoint, hide the table view for search details
 .kscr-SearchDetails-selection-sublabel {
-    @media screen and @searchDetailsTabbed-Max {
+    @media @searchDetailsTabbed-Max {
         display: block;
     }
 }

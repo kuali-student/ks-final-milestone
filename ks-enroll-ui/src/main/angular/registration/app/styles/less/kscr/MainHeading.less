@@ -26,7 +26,7 @@
         -webkit-user-drag: element;
     }
 
-    @media screen and @sm-Max {
+    @media @sm-Max {
       text-align: center;
       padding-bottom: 2rem;
         // Main Cart heading in small format
@@ -46,7 +46,7 @@
        }
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Main content area styles
         .kscr-Main-content--left & {
             // Main heading container
@@ -102,7 +102,7 @@
         .Rounded(1px);
     }
 
-    @media screen and @sm-Max {
+    @media @sm-Max {
         // Main heading icons (cart & schedule)
         // Shown only in small-format
         display: block;
@@ -137,18 +137,18 @@
         font-weight: normal;
         padding: 1.8rem 1.8rem 1.8rem 4.5rem;
 
-        @media screen and @lg-Min {
+        @media @lg-Min {
             .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading & {
               padding: 1rem 0.8rem 0.8rem 3.5rem;
             }
         }
     }
 
-    @media screen and @md-Max {
+    @media @md-Max {
         text-align: center;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         text-align: left;
 
         // Sidebar styles
@@ -157,7 +157,7 @@
         }
     }
 
-    @media screen and @sm-Max {
+    @media @sm-Max {
       float: none;
       display: inline-block;
     }
@@ -170,7 +170,7 @@
     font-weight: normal;
     line-height: 0.5; // Arbitrarily small so it doesn't get calculated into the element height
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar & {
           // Show icon link text in large-format
             display: inline;
@@ -189,7 +189,7 @@
         display: block;
     }
 
-    @media screen and @sm-Max {
+    @media @sm-Max {
       display: none;
     }
 }
@@ -238,14 +238,14 @@
         }
     }
 
-    @media screen and @sm-Max {
+    @media @sm-Max {
       .kscr-Main-scheduleWrapper & {
             float: right;
             margin: 0 0.5rem 0.5rem 0;
         }
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Sidebar styles
         .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
             // Toggles
@@ -275,7 +275,7 @@
 }
 
 #kscr-CartHeading {
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Disable the stickiness of the main heading in large format
         & .util-sticky-placeholder {
           display: none;
@@ -287,7 +287,7 @@
 }
 
 .kscr-MainHeading-icons {
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar .kscr-Main-cart & {
           display: none;
         }
@@ -297,7 +297,7 @@
 
 
 #credit_count_title {
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-cart & {
             display: none; // Don't show the small-format credit count element in large-format
         }
@@ -305,7 +305,7 @@
 
 
     &_large {
-      @media screen and @sm-Max {
+      @media @sm-Max {
         // Cart header credit count
         .kscr-Main-cart & {
           display: none; // Don't show the large-format credit count element in small-format

@@ -11,7 +11,7 @@
 }
 
 .kscr-cartResult-responseHeading {
-  @media screen and (min-width: @largeFormatMin) {
+  @media @lg-Min {
     // Hide if only successes
     &--success {
       display: none;
@@ -69,7 +69,7 @@
         display: none; // Hidden by default (only for large-format)
     }
     // Large-format styles
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Cart results response counts (e.g. Success, Fail)
         color: @secondaryTextColor;
         // Hide success messages in large-format
@@ -123,7 +123,7 @@
     }
 
   // Small-format styles
-  @media screen and @sm-Max {
+  @media @sm-Max {
       &--action,
       &--error {
         // Add to Waitlist & Error reason messages
@@ -134,7 +134,7 @@
   }
 
   // Large-format styles
-  @media screen and @lg-Min {
+  @media @lg-Min {
       border-top: none;
       margin-top: 0.3rem;
       padding-top: 0;

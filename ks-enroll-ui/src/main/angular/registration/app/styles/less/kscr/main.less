@@ -14,7 +14,7 @@
 }
 
 .kscr-Main-contentContainer {
-    @media screen and @lg-Min {
+    @media @lg-Min {
         border-top: 10px solid @bodyColorDark;
     }
 }
@@ -61,7 +61,7 @@
   margin: 0 auto;
   max-width: @largeFormatMax;
 
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .flexbox(); /* Used to display child elements (schedule and cart) side by side in a flexible way */
     min-height: 100%;
   }
@@ -75,27 +75,27 @@
 .kscr-Main-logout {
   display: block; /* show the logout button if the menu is hidden */
 
-  @media screen and @sm-Max {
+  @media @sm-Max {
     display: none; /* hide the logout button if the menu is present */
   }
 }
 
 .kscr-Main-learingPlanWrapper {
-    @media screen and @sm-Max {
+    @media @sm-Max {
         display: none; // Hide the learning plan in small format
     }
 }
 
 
 .kscr-Main-cartWrapper {
-  @media screen and @sm-Max {
+  @media @sm-Max {
     display: none;
     &--active {
       display: block; /* show only when active */
     }
   }
 
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .kscr-Main-sidebar & {
         // Cart in sidebar (search only)
         clear: both;
@@ -105,14 +105,14 @@
 }
 
 .kscr-Main-scheduleWrapper {
-    @media screen and @sm-Max {
+    @media @sm-Max {
         display: none;
         &--active {
           display: block; /* show only when active */
         }
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar & {
             // Schedule in sidebar (search only)
             clear: both;
@@ -122,7 +122,7 @@
 }
 
 .kscr-Main-calendar {
-    @media screen and @sm-Max {
+    @media @sm-Max {
         .kscr-Main-scheduleWrapper & {
           display: none;
           margin-top: 1.5rem;
@@ -134,7 +134,7 @@
 }
 
 .kscr-Main-scheduleTab {
-  @media screen and @sm-Max {
+  @media @sm-Max {
 	  .kscr-Main-scheduleWrapper & {
 	  display: none;
 
@@ -146,13 +146,13 @@
 }
 
 .kscr-Main-searchFormWrapper {
-    @media screen and @sm-Max {
+    @media @sm-Max {
         display: none;
     }
 }
 
 .kscr-Main-sidebar {
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Move the expand/collapse icon (chevron) 10px from left instead of 5px.
         background: @bodyColorDark;
         margin: 0;
@@ -163,11 +163,11 @@
 
 .kscr-Main-schedule {
     /* Styles for mid-size screens */
-    @media screen and @md-Max {
+    @media @md-Max {
         flex-direction: column; /* items appear vertically stacked*/
       }
 
-    @media screen and (min-width: @largeFormatMin) {
+    @media @lg-Min {
         .kscr-Main-content--left & {
             // Schedule container (Registered & Waitlist)
             .flex(1); /*set so that this takes up all the room left over from cart*/
@@ -184,7 +184,7 @@
 
 // Main/left content area
 .kscr-Main-content--left {
-  @media screen and (min-width: @largeFormatMin) {
+  @media @lg-Min {
       .flex(1);
       background-color: @sectionColor;
       padding: 0.7rem 0 0;
@@ -192,14 +192,14 @@
 }
 
 /* Styles for large-size screens */
-@media screen and (min-width: @largeFormatMin) {
+@media  @lg-Min {
   .kscr-Header-termName-label {
     display: none; // show the term label selector in large format only
   }
 }
 
 .kscr-MainHeading  {
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .kscr-Main-searchWrapper & {
       display: none; // Hide the Search main heading in large-format
     }
@@ -207,7 +207,7 @@
 }
 
 .kscr-MainHeading-toggles {
-  @media screen and @lg-Min {
+  @media @lg-Min {
     // List/Grid toggle buttons
     .kscr-Main-scheduleWrapper & {
       display: none; // Hide the main buttons in large-format

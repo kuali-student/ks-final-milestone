@@ -6,11 +6,11 @@
     margin: 1rem 0.5rem 2rem;
 
     // Apply the --small styles to all calendars in mobile
-    @media screen and @sm-Max {
+    @media @sm-Max {
         .kscr-CourseCalendar--small;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Schedule in sidebar (search only)
         .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
             // Course Calendar Container in Sidebar
@@ -42,7 +42,7 @@
     &--horizontal {
         display: none;
 
-        @media screen and @lg-Min {
+        @media @lg-Min {
             .kscr-CourseCalendar--large & {
                 // Show the horizontal layout helper element when in small format
                 display: block;
@@ -93,7 +93,7 @@
         display: none;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-CourseCalendar--large & {
             // Disable the selection behavior when in large-format layout
             .util-Mask {
@@ -146,7 +146,7 @@
         background-color: #D7D7D7;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-CourseCalendar--large & {
             align-items: center; // Center all items in the layout (day label & content)
         }
@@ -210,7 +210,7 @@
 
 .kscr-CourseCalendar-courseBlock-wrap {
     //.util-transition-fade;
-     @media screen and @lg-Min {
+     @media @lg-Min {
           .kscr-CourseCalendar--large & {
               height: auto !important; // Important to override the values getting set in the directive for large-format.
 
@@ -245,7 +245,7 @@
         box-shadow: 1rem 0 0 @transparent, -1rem 0 0 @transparent;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-CourseCalendar--large & {
             .box-shadow(none);
             cursor: default;
@@ -361,7 +361,7 @@
         padding: 0 0.5rem;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-CourseCalendar--large .kscr-CourseCalendar-calendar & {
           // Disable the selection behavior when in large-format layout
             display: none; // Never show the course details for the selected course in the large format
@@ -503,7 +503,7 @@
 
 .kscr-Main-calendar {
     // Apply the --small styles to all calendars in mobile
-    @media screen and @sm-Max {
+    @media @sm-Max {
 
         .kscr-Main-scheduleWrapper & {
             display: none;

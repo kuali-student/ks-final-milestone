@@ -1,6 +1,6 @@
 
 .kscr-Card {
-    @media screen and @sm-Max {
+    @media @sm-Max {
         .kscr-Main-scheduleWrapper & {
             margin-top: 0.5rem;
             // Clear out the float from the toggles after the heading when viewing the list
@@ -8,7 +8,7 @@
         }
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Main content area styles
         .kscr-Main-content--left &{
             border: none;
@@ -45,7 +45,7 @@
 }
 
 .kscr-Card-Results {
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .kscr-Main-sidebar & {
       background-color: @whiteBackground;
       padding-left: 1rem;
@@ -81,7 +81,7 @@
   &-alert {
       margin: 0.3rem 0 0;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
       .kscr-Main-sidebar .kscr-Card-Results .kscr-Card-detailsText &,
       .kscr-Main-sidebar .kscr-Card-Results .kscr-cartResult-status--waitlist & {
         display: block; // Show the detailsText element in the Add to Waitlist success
@@ -146,7 +146,7 @@
         padding-bottom: 0;
         padding-top: 0.3rem;
 
-        @media screen and @lg-Min {
+        @media @lg-Min {
             .kscr-Main-sidebar  & {
               padding: 0;
             }
@@ -180,7 +180,7 @@
 }
 
 .kscr-Card-course{
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .kscr-Main-sidebar & {
       // Update padding for cart, cart result, & schedule courses
       padding-left: 3rem;
@@ -196,7 +196,7 @@
     .util-Text-highlight--withPadding(0.5rem, 0.1rem);
   }
 
-  @media screen and (min-width: @largeFormatMin) {
+  @media @lg-Min {
     // Sidebar styles
     .kscr-Main-sidebar & {
       display: none;
@@ -250,7 +250,7 @@
   margin-right: 0.5rem;
   padding: 1rem 1rem 0.5rem;
 
-  @media screen and @sm-Max {
+  @media @sm-Max {
     display: none;
   }
 }
@@ -274,7 +274,7 @@
     border-color: @warningBorder;
   }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar .kscr-Main-cart .kscr-Card-status & {
             // No button bar border in large-format
             border-top: none;
@@ -296,7 +296,7 @@
     .font-size(12);
     top: 0.5rem;
 
-  @media screen and @lg-Min {
+  @media @lg-Min {
     .kscr-Main-sidebar & {
         // Reposition the cart expand/collapse icon when it's in the sidebar
         left: 1rem;
@@ -444,7 +444,7 @@
 .panel-body {
     padding: 0 1rem 1rem 2.5rem;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
       .kscr-Main-sidebar & {
         // Update padding for cart, cart result, & schedule courses
         padding-left: 3rem;
@@ -476,7 +476,7 @@
         opacity: 0;
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         // Main content area styles
         .kscr-Main-content--left .kscr-Main-schedule & {
           margin: 0 0 1rem;
@@ -509,7 +509,7 @@
     top: 0;
     width: 1rem;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar & {
             bottom: 0.15rem;
             top: 0.15rem;
@@ -544,7 +544,7 @@
         .util-Text-highlighter--inset();
     }
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar & {
             // Update padding for cart, cart result, & schedule courses
             padding-left: 3rem;
@@ -686,7 +686,7 @@
     }
 
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         .kscr-Main-sidebar .kscr-Main-cart & {
             // Card result w/ status (e.g. processing, error, success)
             // Don't show background shading when in large-format

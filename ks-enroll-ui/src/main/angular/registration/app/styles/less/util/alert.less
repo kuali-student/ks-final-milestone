@@ -46,7 +46,7 @@
     border-width:1px 1px 2px 1px;
     border-style: solid;
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
         margin: 0.1rem 0 0.5rem 0;
     }
 
@@ -63,7 +63,7 @@
         background-image: @successImage;
         .util-Alert-success-mixin();
 
-        @media screen and @lg-Min {
+        @media @lg-Min {
             // Sidebar styles
             .kscr-Main-sidebar & {
                 background-color: @cardBackgroundColor;
@@ -153,7 +153,7 @@
     margin-bottom: 0.7rem;
     &:extend(.util-Alert--card);
 
-    @media screen and @lg-Min {
+    @media @lg-Min {
       margin: 0 0 1rem;
     }
 }

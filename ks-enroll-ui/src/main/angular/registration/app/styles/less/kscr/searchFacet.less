@@ -8,7 +8,7 @@
         display: none;
     }
 
-    @media screen and (max-width: @midFormatMax) {
+    @media @md-Max {
         padding-top: 1rem;
         position: relative;
     }
@@ -19,7 +19,7 @@
     margin: 0 0 1rem 1rem;
     width: @facetWidth;
 
-    @media screen and (max-width: @midFormatMax) {
+    @media @md-Max {
         margin: 0;
         left: 0;
         position: absolute;
@@ -36,7 +36,7 @@
         }
     }
 
-    @media screen and (min-width: @wideFormatMin) {
+    @media @wide-MinWidth-Min {
         .util-sticky--disabled();
         width: @facetWidth !important;
     }
@@ -76,7 +76,7 @@
         }
     }
 
-    @media screen and (max-width: @midFormatMax) {
+    @media @md-Max {
         display: block;
     }
 }
@@ -151,7 +151,7 @@
 }
 
 .kscr-SearchFacets-facetsContainer {
-  @media screen and (max-width: @midFormatMax) {
+  @media @md-Max {
     background: @whiteBackground;
     display: none;
 
@@ -162,7 +162,7 @@
 }
 
 .kscr-SearchFacets--expanded {
-  @media screen and (max-width: @midFormatMax) {
+  @media @md-Max {
     &.util-sticky--stuck {
       max-height: 100%;
       overflow-y: scroll;

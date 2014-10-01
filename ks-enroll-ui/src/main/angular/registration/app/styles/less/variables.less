@@ -38,22 +38,23 @@
 @wideFormatMin: 53.75em;    // 860px
 
 //Used inside of class: @media @sm-Min {}
-@sm-Min: ~'(min-width: @{smallFormatMin})';
-@sm-Max: ~'(max-width: @{smallFormatMax})';
-//@md-Min: ~'(min-width: @{midFormatMin})';
-@md-Max: ~'(max-width: @{midFormatMax})';
-@lg-Min: ~'(min-width: @{largeFormatMin})';
-@lg-Max: ~'(max-width: @{largeFormatMax})';
-@lg-MaxWidth-Min: ~'(max-width: @{largeFormatMin})';
-@wide-Min: ~'(max-width: @{wideFormatMin})';
+@sm-Min: ~'screen and (min-width: @{smallFormatMin})';
+@sm-Max: ~'screen and (max-width: @{smallFormatMax})';
+//@md-Min: ~'screen and (min-width: @{midFormatMin})';
+@md-Max: ~'screen and (max-width: @{midFormatMax})';
+@lg-Min: ~'screen and (min-width: @{largeFormatMin})';
+@lg-Max: ~'screen and (max-width: @{largeFormatMax})';
+@lg-MaxWidth-Min: ~'screen and (max-width: @{largeFormatMin})';
+@wide-Min: ~'screen and (max-width: @{wideFormatMin})';
+@wide-MinWidth-Min: ~'screen and (min-width: @{wideFormatMin})';
 // END Responsive breakpoints
 
 // Custom responsive breakpoints for pages that need them
 @searchDetailsTabbedMax: 61.8125em; // 989px
 @searchDetailsTableMin: 61.875em;   // 990px
 
-@searchDetailsTabbed-Max:  ~'(max-width: @{searchDetailsTabbedMax})';
-@searchDetailsTable-Min:  ~'(min-width: @{searchDetailsTableMin})';
+@searchDetailsTabbed-Max:  ~'screen and (max-width: @{searchDetailsTabbedMax})';
+@searchDetailsTable-Min:  ~'screen and (min-width: @{searchDetailsTableMin})';
 // END Custom responsive breakpoints
 
 @largeFormatSidebarWidth: 32rem;
