@@ -44,7 +44,7 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" />
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:clearDirtyOnAction="true" p:actionScript="kualiForm.reset();"/>
+                        <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                     </list>
                 </property>
             </bean>

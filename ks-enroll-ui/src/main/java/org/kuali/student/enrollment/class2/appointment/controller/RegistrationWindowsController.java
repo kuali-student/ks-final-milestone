@@ -140,6 +140,14 @@ public class RegistrationWindowsController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @Override
+    @RequestMapping(params = "methodToCall=cancel")
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        // Reroute to the select term page on cancel
+        return getUIFModelAndView(form, AppointmentConstants.SELECT_TERM_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=assignStudents")
     public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, @SuppressWarnings("unused") BindingResult result,
                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -150,7 +158,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         if (isValid) {
             boolean isSaved = getViewHelperService(uifForm).saveApptWindow(window);
 
-            //Now do the assignments of slots and students
+            //Now do the assignments of slot    s and students
             if (window != null && isSaved) {
                 //Create the appointment slots and assign students
                 List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
