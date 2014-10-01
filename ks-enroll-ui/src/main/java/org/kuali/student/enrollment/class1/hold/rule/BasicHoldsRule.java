@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -28,9 +29,13 @@ public class BasicHoldsRule extends KsMaintenanceDocumentRuleBase {
 
     protected String resolveTermId(String termCode, String propertyName) {
         try {
-            TermInfo firstTermInfo = searchForTermIdByCode(termCode);
-            if (firstTermInfo != null) {
-                return firstTermInfo.getId();
+            TermInfo termInfo = searchForTermIdByCode(termCode);
+            if (termInfo != null) {
+                if (AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY.equals(termInfo.getStateKey())) {
+                    return termInfo.getId();
+                } else {
+                    GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM_STATE, termCode);
+                }
             } else {
                 GlobalVariables.getMessageMap().putError(propertyName, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_TERM, termCode);
             }

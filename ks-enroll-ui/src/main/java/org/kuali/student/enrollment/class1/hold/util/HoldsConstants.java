@@ -109,6 +109,7 @@ public class HoldsConstants {
     public static final String HOLDS_ISSUE_MSG_ERROR_AUTHORIZED_ORG_DUPLICATE = "error.hold.issue.org.duplicate";
     public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_TERM = "error.hold.issue.term.invalid";
     public static final String HOLDS_ISSUE_MSG_ERROR_FIRST_TERM_REQUIRED = "error.hold.issue.first.term.required";
+    public static final String HOLDS_ISSUE_MSG_ERROR_INVALID_TERM_STATE = "error.hold.issue.term.state.invalid";
 
     //applied holds error msg
     public static final String APPLIED_HOLDS_MSG_ERROR_STUDENT_REQUIRED = "error.admin.reg.studentId.required";
