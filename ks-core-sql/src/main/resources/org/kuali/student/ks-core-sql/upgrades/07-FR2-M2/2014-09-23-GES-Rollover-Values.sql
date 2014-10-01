@@ -71,12 +71,16 @@ INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_T
 /
 
 
-
-
-
-
-
-
+-- KSENROLL-14375
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.roomassignment.include', 'false', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '139c9a97-d874-447d-8ea1-e37e1a5a1f9b', 200, 0, '8149aa68-9bfa-4d95-bcfe-b17b2d36d763', null, null, null, null, 'admin', TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ))
+/
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.roomassignment.include', 'false', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '5f60ccbe-2bed-4544-bd99-aa01ac77c867', 200, 0, 'd1c291df-38c6-4bb7-9c62-fec470897c8d', null, null, null, null, 'admin', TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ))
+/
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.roomassignment.include', 'true', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '3e1fa439-0410-4a17-bf57-03b8c9e0e4ee', 300, 0, null, null, 'ENGL', 'kuali.atp.2020Summer1', null, 'admin', TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20141001000000', 'YYYYMMDDHH24MISS' ))
+/
 
 
 
