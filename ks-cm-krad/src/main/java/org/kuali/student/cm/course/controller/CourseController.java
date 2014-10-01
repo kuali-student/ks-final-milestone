@@ -800,6 +800,7 @@ public class CourseController extends CourseRuleEditorController {
     protected void bindValidationErrorsToPath(List<ValidationResultInfo> validationResultInfoList, DocumentFormBase form) {
         ProposalElementsWrapper wrapper = (ProposalElementsWrapper)(((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject());
         wrapper.getReviewProposalDisplay().setShowUnknownErrors(false);
+        int unknownErrorCount = 0;
 
         if (validationResultInfoList != null && !validationResultInfoList.isEmpty()) {
             for( ValidationResultInfo error : validationResultInfoList ) {
@@ -898,8 +899,14 @@ public class CourseController extends CourseRuleEditorController {
                         elementPath = KRADConstants.GLOBAL_ERRORS;
                         wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
                         error.setMessage(error.getElement() + ": " + error.getMessage());
+                        LOG.warn("[" + error.getLevel() + "] - " + error.getMessage());
+                        unknownErrorCount++;
+                        if(unknownErrorCount==1) {
+                            GlobalVariables.getMessageMap().putError(elementPath, CurriculumManagementConstants.MessageKeys.ERROR_KS_LEGACY_VALIDATION);
+                        }
+                        continue;
                 }
-                if (StringUtils.isNotBlank(elementPath)) {
+                if(StringUtils.isNotBlank(elementPath)) {
                     GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, message);
                 }
             }

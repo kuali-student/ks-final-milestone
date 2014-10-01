@@ -290,6 +290,8 @@ public class CurriculumManagementConstants {
 
         public final static String ERROR_PROPOSAL_COLLABORATORS_CANNOT_ADD_SELF = "error.proposal.collaborators.adding.self";
 
+        public final static String ERROR_KS_LEGACY_VALIDATION = "error.ks.legacy.validation";
+
         public final static String SUCCESS_PROPOSAL_RETURN_TO_PREVIOUS_NODE = "success.proposal.returnToPreviousNode";
 
         public final static String SUCCESS_PROPOSAL_WITHDRAW = "success.proposal.withdraw";
