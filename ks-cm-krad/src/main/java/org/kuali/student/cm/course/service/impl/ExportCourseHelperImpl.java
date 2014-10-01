@@ -249,6 +249,10 @@ public class ExportCourseHelperImpl extends AbstractExportCourseHelperImpl {
      * @param courseInfoWrapper
      */
     protected void populateOutcome(List<ExportElement> exportElements, CourseInfoWrapper courseInfoWrapper) {
+
+        exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.OUTCOME + 's', null,
+                CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+
         int counter = 1;
         for (ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper : courseInfoWrapper.getCreditOptionWrappers()) {
 
@@ -258,12 +262,14 @@ public class ExportCourseHelperImpl extends AbstractExportCourseHelperImpl {
                 typeKey = typeKey.substring(0,1).toUpperCase() + typeKey.substring(1);
             }
             String creditOption = (resultValuesGroupInfoWrapper.getUiHelper() != null) ? (resultValuesGroupInfoWrapper.getUiHelper().getResultValue()) : StringUtils.EMPTY;
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.OUTCOME + counter, null,
-                    CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.TYPE, typeKey,
-                    CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
-            exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CREDITS, creditOption,
-                    CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+            if(!StringUtils.isEmpty(typeKey) && !StringUtils.isEmpty(creditOption))  {
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.OUTCOME + counter, null,
+                        CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.TYPE, typeKey,
+                        CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+                exportElements.add(populateExportElement(CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.CREDITS, creditOption,
+                        CurriculumManagementConstants.ProposalViewFieldLabels.CourseLogistics.SECTION_NAME, -1));
+            }
             counter ++;
         }
     }

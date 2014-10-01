@@ -527,7 +527,7 @@ public class CurriculumManagementConstants {
 
         public static class AuthorsCollaborators {
 
-            public static String SECTION_NAME = "Authors & Collaborators";
+            public static String SECTION_NAME = "Authors and Collaborators";
             public static String Name = "Name";
             public static String PERMISSION = "Permissions";
             public static String ACTION_REQUEST = "Action Request";

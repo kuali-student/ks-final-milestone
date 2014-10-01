@@ -170,6 +170,9 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
     protected void populateAuthorsCollaborators(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
 
         String sectionTitle = CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME;
+
+        exportElements.add(populateExportElement(sectionTitle,
+                null, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
         for(CollaboratorWrapper collaboratorWrapper : proposalElementsWrapper.getReviewProposalDisplay().getCollaboratorSection().getCollaboratorWrappers())    {
 
             String displayName = collaboratorWrapper.getLastName() + ", " + collaboratorWrapper.getFirstName();
@@ -180,12 +183,10 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
             String permission = (new StringBuilder("<b>")
                                     .append(CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.PERMISSION)
                                     .append("</b>       ").append(collaboratorWrapper.getPermission())).toString();
-            exportElements.add(populateExportElement(sectionTitle,
+            exportElements.add(populateExportElement(null,
                     displayName, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
             exportElements.add(populateExportElement(null, permission, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
             exportElements.add(populateExportElement(null, actionRequest, CurriculumManagementConstants.ProposalViewFieldLabels.AuthorsCollaborators.SECTION_NAME, -1));
-            //Empty the title so that it is added only for the first row
-            sectionTitle = null;
         }
     }
 
@@ -198,13 +199,13 @@ public abstract class AbstractExportCourseHelperImpl implements ExportCourseHelp
     protected void populateSupportingDocuments(List<ExportElement> exportElements, ProposalElementsWrapper proposalElementsWrapper) {
 
         String sectionTitle = CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME;
+        exportElements.add(populateExportElement(sectionTitle, null, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
+
         for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : proposalElementsWrapper.getSupportingDocs()) {
             String description = supportingDocumentInfoWrapper.getDescription();
             String documentName = supportingDocumentInfoWrapper.getDocumentName();
             if (StringUtils.isNotBlank(description) || StringUtils.isNotBlank(documentName)){
-                exportElements.add(populateExportElement(sectionTitle, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
-                //Empty the title so that it is added only for the first row
-                sectionTitle = null;
+                exportElements.add(populateExportElement(null, documentName + " " + description, CurriculumManagementConstants.ProposalViewFieldLabels.SupportingDocument.SECTION_NAME, -1));
             }
         }
     }
