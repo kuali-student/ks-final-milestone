@@ -88,7 +88,6 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String COURSE_SUMMARY_DIALOG_PAGE = "course_summary_dialog_page";
 	public static final String COPY_DIALOG_PAGE = "copy_dialog_page";
     public static final String COURSE_NOT_FOUND = "planner.quickAdd.text.error.course.not.found";
-    public static final String COURSE_ALREADY_REGISTERED = "planner.quickAdd.text.error.already.registered.for.course";
     public static final String COURSE_ALREADY_PLANNED = "planner.quickAdd.text.error.course.already.planned";
 
 	/* Course Credit Types */

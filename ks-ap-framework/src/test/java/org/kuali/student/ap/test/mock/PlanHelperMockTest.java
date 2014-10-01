@@ -13,6 +13,7 @@ import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -84,6 +85,7 @@ public class PlanHelperMockTest implements PlanHelper{
     /**
      * Adds a plan item to a learning plan.
      *
+     *
      * @param learningPlanId learning plan ID
      * @param category       item category
      * @param descr          plan item description (course note)
@@ -93,7 +95,8 @@ public class PlanHelperMockTest implements PlanHelper{
      * @return
      */
     @Override
-    public PlanItem addPlanItem(String learningPlanId, AcademicPlanServiceConstants.ItemCategory category, String descr, BigDecimal units, List<String> termIds, TypedObjectReference ref,List<AttributeInfo> attributes) {
+    public PlanItem addPlanItem(String learningPlanId, AcademicPlanServiceConstants.ItemCategory category, String descr, BigDecimal units, List<String> termIds, TypedObjectReference ref,List<AttributeInfo> attributes)
+            throws AlreadyExistsException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -292,6 +295,7 @@ public class PlanHelperMockTest implements PlanHelper{
 
     /**
      * Retrieves the plan item associated with the course in a specific term
+     *
      *
      * @param courseId - Id of the course
      * @param termId   - Id of the term the plan item is in

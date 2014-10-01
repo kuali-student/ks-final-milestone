@@ -198,42 +198,6 @@ public class AcademicPlanServiceValidationDecorator extends
                         String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
                         "refObjectId", ValidationResult.ErrorLevel.ERROR));
             }
-
-            //Validate that the user is not already registered for this course
-            if (planItemInfo.getLearningPlanId()!=null) {
-                String studentId = this.getLearningPlan(planItemInfo.getLearningPlanId(),context).getStudentId();
-                List<CourseRegistrationInfo> regList;
-                for (String termId : planItemInfo.getPlanTermIds() ) {
-                    try {
-                        regList =KsapFrameworkServiceLocator.getCourseRegistrationService()
-                            .getCourseRegistrationsByStudentAndTerm(studentId,termId, context);
-                    } catch (Exception e) {
-                        throw new OperationFailedException(
-                                String.format("Unexpected error retrieving registration groups for course offering [%s] and " +
-                                        "student [%s]: %s  ",
-                                        (currentVersionOfCourseByVersionIndependentId != null ? currentVersionOfCourseByVersionIndependentId.getId() : null),studentId,e.getMessage()),e);
-                    }
-                    for (CourseRegistrationInfo registration : regList) {
-                        CourseOfferingInfo offering = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering
-                                (registration.getCourseOfferingId(), context);
-                        if (offering==null) {
-                            throw new OperationFailedException(
-                                    String.format("Unexpected null returned while retrieving course offering [%s]  " +
-                                            "student [%s] registration [%s]  ",
-                                           registration.getCourseOfferingId(),studentId,registration.getId()));
-                        }
-                        Course course = KsapFrameworkServiceLocator.getCourseService().getCourse(offering.getCourseId(),context);
-                        if (planItemInfo.getRefObjectId().equals(course.getVersion().getVersionIndId())) {
-                            validationResultInfos.add(makeValidationResultInfo(
-                                    String.format("Already registered for course [%s], " +
-                                            "registration group [%s].",course.getCode(),
-                                            currentVersionOfCourseByVersionIndependentId.getId(),
-                                            registration.getRegistrationGroupId()),
-                                    "refObjectId", ValidationResult.ErrorLevel.ERROR));
-                        }
-                    }
-                }
-            }
         } else if (planItemInfo.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)) {
             // if reg group object type then validate that the reg group exists
             try {
@@ -434,17 +398,6 @@ public class AcademicPlanServiceValidationDecorator extends
 			fullValidation(planItem, context);
 		} catch (AlreadyExistsException aee) {
 			//
-        } catch (DataValidationErrorException e) {
-            boolean rethrowIt=true;
-            if (e.getValidationResults().size()==1) {
-                ValidationResultInfo validationResult = KSCollectionUtils.getRequiredZeroElement(
-                        e.getValidationResults());
-                if (validationResult.getMessage()!=null
-                        && validationResult.getMessage().startsWith("Already registered for course")) {
-                    rethrowIt=false;  //ignore already registered validation msg when updating a plan item
-                }
-            }
-            if (rethrowIt) throw e;
 		}
 		return getNextDecorator().updatePlanItem(planItemId, planItem, context);
 	}

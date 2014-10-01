@@ -255,7 +255,7 @@ public class DefaultPlanHelper implements PlanHelper {
     @Override
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
                                 List<String> termIds,TypedObjectReference ref, List<AttributeInfo> attributes)
-            throws AlreadyExistsException, DataValidationErrorException {
+            throws AlreadyExistsException {
         PlanHelper planHelper = KsapFrameworkServiceLocator.getPlanHelper();
         PlanItem wishlistPlanItem = null;
 
@@ -308,7 +308,9 @@ public class DefaultPlanHelper implements PlanHelper {
 
             // If creating new add it to the database
             planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DataValidationErrorException e) {
+            throw new IllegalArgumentException("LP service failure", e);
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("LP service failure", e);
         } catch (MissingParameterException e) {
@@ -858,7 +860,7 @@ public class DefaultPlanHelper implements PlanHelper {
      * @see PlanHelper#findCourseItem(String, String, String)
      */
     @Override
-    public PlanItem findCourseItem(String courseId, String termId, String planId){
+    public PlanItem findCourseItem(String courseId, String termId, String planId) {
 
         SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.KSAP_COURSE_SEARCH_COURSE_IND_VERSION_BY_CLU_ID_KEY);
         request.addParam(CourseSearchConstants.SearchParameters.CLU_ID,courseId);
@@ -889,8 +891,6 @@ public class DefaultPlanHelper implements PlanHelper {
                         AcademicPlanServiceConstants.ItemCategory.PLANNED, "", creditValue, terms, planItemRef,attributes);
             }catch (AlreadyExistsException e){
                 throw new RuntimeException("Unable to create course item for reg group item", e);
-            } catch (DataValidationErrorException e) {
-                throw new IllegalArgumentException("LP service failure", e);
             }
         } catch (MissingParameterException e) {
             throw new RuntimeException("Unable to load course item", e);

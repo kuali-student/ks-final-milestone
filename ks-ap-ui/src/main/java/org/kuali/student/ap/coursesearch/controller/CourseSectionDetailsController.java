@@ -35,7 +35,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -181,12 +180,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
         PlanItem coursePlanItem = null;
-        try {
-            coursePlanItem = KsapFrameworkServiceLocator.getPlanHelper().findCourseItem(course.getCourseId(),
-                    term.getId(), learningPlan.getId());
-        } catch (DataValidationErrorException e) {
-            throw new IllegalArgumentException("LP service failure", e);
-        }
+        coursePlanItem = KsapFrameworkServiceLocator.getPlanHelper().findCourseItem(course.getCourseId(),
+                term.getId(), learningPlan.getId());
 
         // Create the new plan item
         TypedObjectReference planItemRef = new TypedObjectReferenceInfo(PlanConstants.REG_GROUP_TYPE,regGroup.getId());
@@ -214,10 +209,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
                     coursePlanItem.getCategory(), "", creditValue, terms, planItemRef, attributes);
         }catch (AlreadyExistsException e){
             getViewHelperService(form).sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
-            return null;
-        }catch (DataValidationErrorException e){
-            getViewHelperService(form).sendJsonEvents(false,"Unexpected data validation exception:  " + e.getMessage(),response,
-                    eventList);
             return null;
         }
 

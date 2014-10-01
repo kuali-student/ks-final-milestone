@@ -96,7 +96,7 @@ public interface PlanHelper {
      */
     public PlanItem addPlanItem(String learningPlanId, ItemCategory category, String descr, BigDecimal credits,
                          List<String> termIds, TypedObjectReference ref, List<AttributeInfo> attributes)
-            throws AlreadyExistsException, DataValidationErrorException;
+            throws AlreadyExistsException;
 
     /**
      * Updates a plan item in a learning plan.
@@ -247,13 +247,14 @@ public interface PlanHelper {
 
     /**
      * Retrieves the plan item associated with the course in a specific term
+     *
      * @param courseId - Id of the course
      * @param termId - Id of the term the plan item is in
      * @param planId - Id for the plan to search in
      * @return Plan Item found for course in the term.
      */
     public PlanItem findCourseItem(String courseId, String termId, String planId)
-            throws DataValidationErrorException;
+    ;
 
     /**
      * Loads information from a course record into a planner item for display

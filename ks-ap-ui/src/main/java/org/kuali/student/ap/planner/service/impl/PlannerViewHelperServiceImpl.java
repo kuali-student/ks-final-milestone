@@ -37,9 +37,7 @@ import org.kuali.student.ap.planner.service.PlannerViewHelperService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -263,22 +261,6 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
                     KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
                             PlanConstants.COURSE_ALREADY_PLANNED,course.getCode(),term.getName()), response, eventList);
             return;
-        } catch (DataValidationErrorException e) {
-            for (ValidationResultInfo results : e.getValidationResults()) {
-                if ("refObjectId".equals(results.getElement())) {
-                    if (results.getMessage()!=null
-                        && results.getMessage().matches("Already registered for course.*")) {
-                        LOG.warn(String.format("%s has already been registered for %s",
-                                course.getCode(),term.getName()), ".", e);
-                        sendJsonEvents(false,
-                                KsapFrameworkServiceLocator.getTextHelper().getFormattedMessage(
-                                        PlanConstants.COURSE_ALREADY_REGISTERED,course.getCode(),term.getName()),
-                                response,
-                                eventList);
-                        return;
-                    }
-                }
-            }
         }
 
         // Create json strings for displaying action's response and updating the planner screen.
