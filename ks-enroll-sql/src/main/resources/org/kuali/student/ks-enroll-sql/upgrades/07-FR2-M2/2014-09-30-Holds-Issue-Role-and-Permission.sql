@@ -52,7 +52,7 @@ values
    TO_DATE('01/01/2014', 'MM/DD/YYYY'))
 /
 --////////////////////////////////////////////////////////////////////////
---Insert a role member
+--Insert a role member --Admin
 --////////////////////////////////////////////////////////////////////////
 insert into KRIM_ROLE_MBR_T
   (ROLE_MBR_ID,
@@ -73,6 +73,60 @@ values
      where ROLE_NM = 'Holds Personnel Role'
        and nmspc_cd = 'KS-ENR'),
    'admin',
+   'P',
+   '',
+   '',
+   TO_DATE('01/01/2014', 'MM/DD/YYYY'))
+/
+--////////////////////////////////////////////////////////////////////////
+--Insert a role member --Martha
+--////////////////////////////////////////////////////////////////////////
+insert into KRIM_ROLE_MBR_T
+  (ROLE_MBR_ID,
+   VER_NBR,
+   OBJ_ID,
+   ROLE_ID,
+   MBR_ID,
+   MBR_TYP_CD,
+   ACTV_FRM_DT,
+   ACTV_TO_DT,
+   LAST_UPDT_DT)
+values
+  ('KS-'||KRIM_ROLE_MBR_ID_S.NEXTVAL,
+   1,
+   SYS_GUID(),
+   (SELECT ROLE_ID
+      FROM KRIM_ROLE_T
+     where ROLE_NM = 'Holds Personnel Role'
+       and nmspc_cd = 'KS-ENR'),
+   'martha',
+   'P',
+   '',
+   '',
+   TO_DATE('01/01/2014', 'MM/DD/YYYY'))
+/
+--////////////////////////////////////////////////////////////////////////
+--Insert a role member --Carol
+--////////////////////////////////////////////////////////////////////////
+insert into KRIM_ROLE_MBR_T
+  (ROLE_MBR_ID,
+   VER_NBR,
+   OBJ_ID,
+   ROLE_ID,
+   MBR_ID,
+   MBR_TYP_CD,
+   ACTV_FRM_DT,
+   ACTV_TO_DT,
+   LAST_UPDT_DT)
+values
+  ('KS-'||KRIM_ROLE_MBR_ID_S.NEXTVAL,
+   1,
+   SYS_GUID(),
+   (SELECT ROLE_ID
+      FROM KRIM_ROLE_T
+     where ROLE_NM = 'Holds Personnel Role'
+       and nmspc_cd = 'KS-ENR'),
+   'carol',
    'P',
    '',
    '',
