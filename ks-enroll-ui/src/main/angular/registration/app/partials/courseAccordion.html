@@ -26,7 +26,7 @@
                             <i ng-show="type === courseTypes.waitlisted" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
                         </span>
                         <span class="kscr-Card-badge-wrap" ng-show="showBadge(course)">
-                            <span id="{{config.prefix2}}grading_badge_{{course.courseCode}}_{{course.regGroupCode}}"
+                            <span id="{{config.prefix2}}grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" title="{{gradingOption(course)}}"
                                   class="kscr-Card-badge ng-animate" ng-class="{ 'kscr-Card-badge--edited': course.editGradingOption }">{{gradingOption(course)}}</span>
                         </span>
                     </div>

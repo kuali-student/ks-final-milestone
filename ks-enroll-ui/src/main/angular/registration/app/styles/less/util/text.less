@@ -66,3 +66,12 @@
         content: "";
     }
 }
+
+// This helps convert large text to be hidden when the width is set and adds an ellipsis. i.e. Administrative Satisfactory to Administrative ...
+.util-Text-overflow(@width: auto, @overflow: hidden, @position: absolute, @text-overflow: ellipsis, @white-space: nowrap) {
+    max-width: @width;
+    overflow: @overflow;
+    position: @position;
+    text-overflow: @text-overflow;
+    white-space: @white-space;
+}
