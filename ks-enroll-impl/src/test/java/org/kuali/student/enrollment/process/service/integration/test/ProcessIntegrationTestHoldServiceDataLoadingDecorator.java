@@ -36,11 +36,11 @@ public class ProcessIntegrationTestHoldServiceDataLoadingDecorator extends HoldS
         context.setPrincipalId("Test-Initializer");
 
         HoldIssueInfo unpaidTuitionIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
-                                                    "Unpaid tuition from last term", HoldServiceConstants.FINANCIAL_ISSUE_TYPE_KEY, context);
+                                                    "Unpaid tuition from last term", HoldServiceConstants.HOLD_ISSUE_FINANCIAL_TYPE_KEY, context);
         
         
         HoldIssueInfo overdueBookIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE,
-                                                  "Overdue Library Book", HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY, context);
+                                                  "Overdue Library Book", HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY, context);
         
         this._createHold(ProcessIntegrationTestConstants.PERSON_ID_KARA_STONE_2272, unpaidTuitionIssue, context);
         this._createHold(ProcessIntegrationTestConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, unpaidTuitionIssue, context);

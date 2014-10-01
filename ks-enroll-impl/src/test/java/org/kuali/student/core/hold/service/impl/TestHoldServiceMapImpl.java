@@ -79,7 +79,7 @@ public class TestHoldServiceMapImpl {
         expected.setName("name of issue");
         expected.setDescr(new RichTextHelper().fromPlain("description of issue"));
         expected.setOrganizationId("org1");
-        expected.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
+        expected.setTypeKey(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         expected.setHoldCode("HC1");
         expected.setFirstAppliedDate(new Date());
@@ -131,7 +131,7 @@ public class TestHoldServiceMapImpl {
         finAidIssue.setName("fin aid issue");
         finAidIssue.setDescr(new RichTextHelper().fromPlain("financial aid issue"));
         finAidIssue.setOrganizationId("org2");
-        finAidIssue.setTypeKey(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY);
+        finAidIssue.setTypeKey(HoldServiceConstants.HOLD_ISSUE_FINANCIAL_TYPE_KEY);
         finAidIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         finAidIssue = holdService.createHoldIssue(finAidIssue.getTypeKey(), finAidIssue, callContext);
 
@@ -157,12 +157,12 @@ public class TestHoldServiceMapImpl {
         
         
         // test get by type
-        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY, callContext);
+        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.HOLD_ISSUE_FINANCIAL_TYPE_KEY, callContext);
         assertEquals(1, ids.size());
         assertEquals(finAidIssue.getId(), ids.get(0));
 
         // test get by other type
-        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY, callContext);
+        ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY, callContext);
         assertEquals(1, ids.size());
         assertEquals(acadIssue.getId(), ids.get(0));
 

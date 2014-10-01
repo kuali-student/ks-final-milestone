@@ -42,7 +42,7 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
-        myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
+        myIssue.setTypeKey(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
         HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
@@ -80,7 +80,7 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
-        myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
+        myIssue.setTypeKey(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
         HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
@@ -120,7 +120,7 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
-        myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
+        myIssue.setTypeKey(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
         HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
@@ -143,7 +143,7 @@ public class TestHoldServiceJpaPersistenceImpl extends TestHoldServiceMapImpl {
         myIssue.setName("name of issue");
         myIssue.setDescr(new RichTextHelper().fromPlain("description of issue"));
         myIssue.setOrganizationId("org1");
-        myIssue.setTypeKey(HoldServiceConstants.ACADEMIC_PROGRESS_ISSUE_TYPE_KEY);
+        myIssue.setTypeKey(HoldServiceConstants.HOLD_ISSUE_STUDENT_RECORD_TYPE_KEY);
         myIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(myIssue.getAttributes());
         HoldIssueInfo actualIssue = getHoldService().createHoldIssue(myIssue.getTypeKey(), myIssue, callContext);
