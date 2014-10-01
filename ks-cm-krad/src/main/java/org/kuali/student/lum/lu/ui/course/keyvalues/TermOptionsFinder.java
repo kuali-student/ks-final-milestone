@@ -21,14 +21,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
-import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -39,50 +33,27 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * An options finder for a ATP/Term selector.
  */
-public class TermOptionsFinder extends UifKeyValuesFinderBase {
+public abstract class TermOptionsFinder extends UifKeyValuesFinderBase {
+
     private transient AtpService atpService;
-
-    private String boundaryTermId = "";
-
-    public void setBoundaryTermId(String boundaryTermId) {
-        this.boundaryTermId = boundaryTermId;
-    }
-
-    /**
-     * The terms will be in chronological order. This is the upper boundary of the terms that won't be display.
-     * If this is null then all terms will be returned.
-     */
-    public String getBoundaryTermId() {
-        return this.boundaryTermId;
-    }
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
+
         List<KeyValue> keyValues = new ArrayList<>();
         List<CourseProposalUtil.TermResult> termResults = new ArrayList<>();
 
-        String bottomTermId;
+        String boundaryTermId = getBoundaryTermId(model);
 
-        if (getBoundaryTermId().contains(UifConstants.EL_PLACEHOLDER_PREFIX)) {
-            bottomTermId = (String) ViewLifecycle.getExpressionEvaluator().evaluateExpression(ViewLifecycle.getView().getContext(), getBoundaryTermId());
-            if (StringUtils.isNotBlank(bottomTermId)) {
-                 setBoundaryTermId(bottomTermId);
-            } else {
-                setBoundaryTermId("");
-            }
-        }
-
-        if (StringUtils.isBlank(getBoundaryTermId())) {
+        if (StringUtils.isBlank(boundaryTermId)) {
              keyValues = getStartTerms();
         } else {
-             termResults = CourseProposalUtil.getNextTerms(getBoundaryTermId(), ContextUtils.createDefaultContextInfo());
+             termResults = CourseProposalUtil.getNextTerms(boundaryTermId, ContextUtils.createDefaultContextInfo());
         }
 
         for (CourseProposalUtil.TermResult result : termResults) {
@@ -92,7 +63,7 @@ public class TermOptionsFinder extends UifKeyValuesFinderBase {
         return keyValues;
     }
 
-
+    public abstract String getBoundaryTermId(ViewModel model);
 
     public List<KeyValue> getStartTerms() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

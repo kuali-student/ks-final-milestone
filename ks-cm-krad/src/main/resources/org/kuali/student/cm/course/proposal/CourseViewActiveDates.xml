@@ -29,8 +29,7 @@
                     <property name="optionsFinder">
                         <!-- For Add/Create, and Modify without a new course version, all terms should be available.
                              For modify with version, only start terms based on current version (see kscm-2838) -->
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder" p:addBlankOption="true"
-                              p:boundaryTermId="@{#uiHelper.modifyWithNewVersionProposal ? #dataObject.startTermConstrainingTermId : ''}" />
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.StartTermOptionsFinder" p:addBlankOption="true"/>
                     </property>
                 </bean>
 
@@ -95,8 +94,7 @@
                     </property>
                     <property name="optionsFinder">
                         <!-- End term should always be after the start term. -->
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder" p:addBlankOption="true"
-                            p:boundaryTermId="@{#dataObject.courseInfo.startTerm}" />
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder" p:addBlankOption="true"/>
                     </property>
                     <property name="fieldLabel.richLabelMessage">
                         <bean parent="CM-IconLabelMessage">
