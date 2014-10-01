@@ -206,7 +206,7 @@
                               class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="consequence" p:style="width:350px;"/>
+                <!--KSENROLL-15128 bean parent="KS-Uif-DataField" p:label="Consequence" p:propertyName="consequence" p:style="width:350px;"/-->
                 <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="state" p:readOnly="true"/>
                 <bean parent="KS-Uif-DataField" p:label="Effective Date" p:propertyName="startDate" p:additionalCssClasses="nowrap"/>
                 <bean parent="KS-Uif-DataField" p:label="Expiration Date" p:propertyName="endDate" p:additionalCssClasses="nowrap" p:style="min-width:56px;"/>
