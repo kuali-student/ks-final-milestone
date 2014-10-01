@@ -229,7 +229,7 @@ limitations under the License.
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Last Application Term" p:propertyName="lastTerm" p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="20" p:watermarkText="201301" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:watermarkText="201401" p:minLength="6" p:maxLength="6" p:disabled="false"/>
                                 </property>
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
