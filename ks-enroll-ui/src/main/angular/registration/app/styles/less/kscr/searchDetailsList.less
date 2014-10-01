@@ -26,7 +26,7 @@
   margin: 0.1rem;
   cursor: pointer;
   &--selected {
-    color: @darkGray;
+    color: @primaryTextColor;
     background-color: @bodyColorDark;
   }
 }
@@ -40,25 +40,25 @@
   .util-Grid-cell;
   .util-Grid;
   background-color: @white;
+  border-bottom: @horizontalLineBorder;
+
   &&--selected {
-    border: 1px solid @searchDetailsSelectedBackgroundColor;
+    border: none;
   }
 }
 
 .kscr-Search-details-section {
   .util-Grid-cell;
   .util-Grid;
-  color: @searchDetailsTextColor;
-  background-color: @searchDetailsBackgroundColor;
-  padding: 1rem 1rem 1rem 0.5rem;
+  color: @primaryTextColor;
   cursor: pointer;
+  padding: 1rem 1rem 1rem 0.5rem;
+
   &&--indicator {
     margin-left: 0.1rem;
     padding-left: 0.4rem;
   }
   &&--selected {
-    font-weight: bold;
-    color: @white;
     background-color: @searchDetailsSelectedBackgroundColor;
     margin: 0.1rem 0.1rem 0.1rem 0;
   }
@@ -68,7 +68,7 @@
   }
   &&--unselectable {
     background-color: @cardBorderColor;
-    color: @darkGray;
+    color: @primaryTextColor;
     cursor: auto;
   }
 }
@@ -76,7 +76,7 @@
 .kscr-Search-details-checkbox {
   .checkbox-icon();
   &--selected {
-    .checkbox-icon--checked();
+    .checkbox-dark-icon--checked();
   }
   &--disabled {
     background: none;
@@ -98,7 +98,7 @@
   padding: 1rem 0;
   width: 0.5rem;
   float: left;
-  background-color: @searchDetailsBackgroundColor;
+
   &--show {
     background-color: @table-ShowIndicatorColor;
   }
@@ -112,7 +112,6 @@
 }
 
 .kscr-Search-details-icons {
-  background-color: @searchDetailsBackgroundColor;
   margin-left: 0.1rem;
   padding: 1rem 0.5rem 0 0.5rem;
   .kscr-SearchDetails-icon {
