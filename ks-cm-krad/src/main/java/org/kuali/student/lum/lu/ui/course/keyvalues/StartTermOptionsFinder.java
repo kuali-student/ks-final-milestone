@@ -21,19 +21,18 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 
 /**
- * An options finder for a ATP/Term selector.
+ * An options finder to populate start term in proposal
  */
 public class StartTermOptionsFinder extends TermOptionsFinder {
 
     /**
-     * The terms will be in chronological order. This is the upper boundary of the terms that won't be display.
-     * If this is null then all terms will be returned.
+     * For Modify new version, the start term should be end term of the current version. If it's empty,
+     * then start term of the current version.
      */
     public String getBoundaryTermId(ViewModel model) {
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         CourseInfoWrapper wrapper = (CourseInfoWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
 
         if (wrapper.getUiHelper().isModifyWithNewVersionProposal()){
             return wrapper.getStartTermConstrainingTermId();

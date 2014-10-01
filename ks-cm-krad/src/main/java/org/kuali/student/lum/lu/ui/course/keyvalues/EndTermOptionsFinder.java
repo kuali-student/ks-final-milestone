@@ -20,13 +20,12 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 
 /**
- * An options finder for a ATP/Term selector.
+ * An options finder to populate End term in a proposal
  */
 public class EndTermOptionsFinder extends TermOptionsFinder {
 
     /**
-     * The terms will be in chronological order. This is the upper boundary of the terms that won't be display.
-     * If this is null then all terms will be returned.
+     * For end term selection, populate all the terms which are after the start term of a proposal
      */
     public String getBoundaryTermId(ViewModel model) {
 
