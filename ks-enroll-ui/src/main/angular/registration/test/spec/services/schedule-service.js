@@ -5,11 +5,13 @@ describe('Service: ScheduleService', function () {
     // load the service's module
     beforeEach(module('regCartApp', 'mockData'));
 
-    var ScheduleService;
+    var ScheduleService,
+        mockCourseDetails;
 
     // instantiate service
-    beforeEach(inject(function(_ScheduleService_) {
+    beforeEach(inject(function(_ScheduleService_, _mockCourseDetails_) {
         ScheduleService = _ScheduleService_;
+        mockCourseDetails = _mockCourseDetails_;
     }));
 
 
@@ -82,5 +84,28 @@ describe('Service: ScheduleService', function () {
             expect(ScheduleService.getWaitlistedCourseCount()).toBe(1);
             expect(ScheduleService.getWaitlistedCredits()).toBe(3);
         }));
+    });
+
+    describe('time conflicts', function() {
+
+        it('should correctly identify time conflicts on the schedule', inject(function(_studentScheduleTermResult_) {
+            var mockData = angular.copy(_studentScheduleTermResult_);
+
+            ScheduleService.setSelectedSchedule(mockData);
+
+            var ao =  mockCourseDetails.singleRegGroup.activityOfferingTypes[0].activityOfferings[0];
+
+            expect(ScheduleService.hasTimeConflict(ao)).toBe(false);
+
+            // make the ao conflict with a course on the schedule
+            var scheduleComponent = ao.scheduleComponents[0];
+            scheduleComponent.startTime = "1:00 pm";
+            scheduleComponent.endTime = "2:00 pm";
+            scheduleComponent.endTime = "2:00 pm";
+            scheduleComponent.displayTime = "1:00-2:00pm";
+
+            expect(ScheduleService.hasTimeConflict(ao)).toBe(true);
+        }));
+
     });
 });

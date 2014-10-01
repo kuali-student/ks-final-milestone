@@ -193,5 +193,14 @@ angular.module('regCartApp')
 
             return list;
         };
+
+        /*
+         A course conflicts if its time range overlaps at all with another course
+         E.g. Course:                [-----]
+         Conflicts with both:      [--] [---]
+         */
+        this.coursesConflict = function(c1, c2) {
+            return (c1.startTime <= c2.endTime && c1.endTime >= c2.startTime);
+        };
     }])
 ;

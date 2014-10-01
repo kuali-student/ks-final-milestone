@@ -357,9 +357,11 @@ angular.module('regCartApp')
                         url: attrs.url,
                         sortable: attrs.sortField,
                         optional: attrs.optional,
-                        checkbox: attrs.checkbox};
+                        checkbox: attrs.checkbox,
+                        highlight: attrs.highlight};
                     searchColumn.sortable = searchColumn.sortable !== 'false'; // defaults to true
                     searchColumn.optional = searchColumn.optional === 'true';  // defaults to false
+                    searchColumn.highlight = searchColumn.highlight === 'true';        // defaults to false
                     scope.searchColumns.push(searchColumn);
                     scope.sortSearchColumns();
                 }

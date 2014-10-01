@@ -174,9 +174,6 @@ angular.module('regCartApp')
                         if (angular.isFunction(successCallback)) {
                             successCallback();
                         }
-
-                        $scope.$emit('courseDropped', course, type);
-
                     }, function(response) { // Error
                         console.log('-- Stop polling - Error', response);
 

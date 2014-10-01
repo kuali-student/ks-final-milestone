@@ -17,14 +17,18 @@
  directives, select/deselects the given ao
  */
 angular.module('regCartApp')
-    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$timeout', '$modal', 'STATUS', 'SEARCH_ORIGINS', 'SearchService', 'CartService', 'ScheduleService',
-    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $timeout, $modal, STATUS, SEARCH_ORIGINS, SearchService, CartService, ScheduleService) {
+    .controller('CourseDetailsCtrl', ['$scope', '$rootScope', '$state', '$filter', '$timeout', '$modal', 'STATUS',
+        'SEARCH_ORIGINS', 'SearchService', 'CartService', 'ScheduleService',
+    function CourseDetailsCtrl($scope, $rootScope, $state, $filter, $timeout, $modal, STATUS, SEARCH_ORIGINS,
+                               SearchService, CartService, ScheduleService) {
         console.log('>> CourseDetailsCtrl');
 
         $scope.origins = SEARCH_ORIGINS;
         $scope.statuses = STATUS;
         $scope.stateParams = $state.params; // Expose the state parameters to the scope so they can be used in the back link
         $scope.course = null;          // Handle on the course
+        $scope.registered = ScheduleService.getRegisteredCourses();
+        $scope.waitlisted = ScheduleService.getWaitlistedCourses();
 
         // Push the user back to the search page when the term is changed
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
@@ -408,6 +412,43 @@ angular.module('regCartApp')
                 }
             }
         });
+
+        /*
+        Watch registered and waitlisted courses in addition to the ao map.
+
+        If anything changes, check for time conflict between the activities and your schedule.
+         */
+
+        $scope.$watch('registered', function() {
+            updateTimeConflicts();
+        }, true);
+
+        $scope.$watch('waitlisted', function() {
+            updateTimeConflicts();
+        }, true);
+
+        $scope.$watch('aoMap', function() {
+            updateTimeConflicts();
+        });
+
+        var updatingTimeConflicts = false; // time conflict update lock
+
+        function updateTimeConflicts() {
+            if (!updatingTimeConflicts) {
+                updatingTimeConflicts = true;
+                // clear existing conflicts
+                for (var aoId in $scope.aoMap) {
+                    delete $scope.aoMap[aoId].flags.timeConflict;
+                }
+                for (aoId in $scope.aoMap) {
+                    var ao = $scope.aoMap[aoId];
+                    if (ScheduleService.hasTimeConflict(ao) === true) {
+                        ao.flags.timeConflict = true;
+                    }
+                }
+                updatingTimeConflicts = false;
+            }
+        }
 
         /**
          * Method for determining how many possible reg groups are available --

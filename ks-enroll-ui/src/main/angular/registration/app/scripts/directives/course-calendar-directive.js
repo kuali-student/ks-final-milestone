@@ -312,7 +312,7 @@ angular.module('regCartApp')
                 angular.forEach(lanes, function(lane) {
                     var conflicting = false;
                     angular.forEach(lane, function(slottedCourse) {
-                        if (coursesConflict(course, slottedCourse)) {
+                        if (RegUtil.coursesConflict(course, slottedCourse)) {
 
                             // add both courses to the conflict map
                             addConflictToMap(course, slottedCourse);
@@ -375,15 +375,6 @@ angular.module('regCartApp')
             });
 
             return courses;
-        }
-
-        /*
-         A course conflicts if its time range overlaps at all with another course
-         E.g. Course:                [-----]
-         Conflicts with both:      [--] [---]
-         */
-        function coursesConflict(c1, c2) {
-            return (c1.startTime <= c2.endTime && c1.endTime >= c2.startTime);
         }
 
         /*

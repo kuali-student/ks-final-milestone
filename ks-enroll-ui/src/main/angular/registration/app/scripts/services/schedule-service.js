@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', 'RegUtil', 'COURSE_TYPES',
-        function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService, RegUtil, COURSE_TYPES) {
+    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', 'RegUtil',
+        'COURSE_TYPES', 'DAY_CONSTANTS',
+        function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService, RegUtil, COURSE_TYPES,
+            DAY_CONSTANTS) {
 
             var selectedSchedule; // Currently selected schedule
 
@@ -316,6 +318,66 @@ angular.module('regCartApp')
                 return deferred.promise;
             };
 
+            // check the schedule for any time conflicts with the provided ao
+            this.hasTimeConflict = function (ao) {
+                if (angular.isArray(ao.scheduleComponents)) {
+                    for (var i=0; i<ao.scheduleComponents.length; i++) {
+                        var timeSlot = angular.copy(ao.scheduleComponents[i]);
+                        timeSlot.activityOfferingId = ao.activityOfferingId;
+                        if (hasConflict(timeSlot, registeredCourses) ||
+                            hasConflict(timeSlot, waitlistedCourses)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            function hasConflict(timeSlot, courses) {
+                // compare each scheduled course with the provided ao
+                if (angular.isArray(courses)) {
+                    for (var i=0; i<courses.length; i++) {
+                        var course = courses[i];
+                        if (!course.dropped) {
+                            // the course is not dropped, check each activity for the course
+                            for (var k=0; k<course.activityOfferings.length; k++) {
+                                var activityOffering = course.activityOfferings[k];
+                                // if the ao is the same, don't show it as a conflict
+                                if (activityOffering.activityOfferingId !== timeSlot.activityOfferingId) {
+                                    for (var l=0; l<activityOffering.scheduleComponents.length; l++) {
+                                        // get the date/time info for this activity
+                                        var courseTime = angular.copy(activityOffering.scheduleComponents[l]);
+                                        for (var j=0; j<DAY_CONSTANTS.dayArray.length; j++) {
+                                            var day = DAY_CONSTANTS.dayArray[j];
+                                            if (timeSlot.days.indexOf(day) > -1 && courseTime.days.indexOf(day) > -1) {
+                                                var course1 = {};
+                                                var course2 = {};
+                                                // convert the time strings to numbers
+                                                course1.startTime = RegUtil.convertTimeStringToTime(timeSlot.startTime);
+                                                course1.endTime = RegUtil.convertTimeStringToTime(timeSlot.endTime);
+                                                course2.startTime = RegUtil.convertTimeStringToTime(courseTime.startTime);
+                                                course2.endTime = RegUtil.convertTimeStringToTime(courseTime.endTime);
+                                                // adjust for courses that end past midnight (rare)
+                                                if (course1.endTime < course1.startTime) {
+                                                    course1.endTime += 1440; // 24 hours
+                                                }
+                                                if (course2.endTime < course2.startTime) {
+                                                    course2.endTime += 1440; // 24 hours
+                                                }
+                                                var conflict = RegUtil.coursesConflict(course1, course2);
+                                                if (conflict) {
+                                                    return true; // continue looking if conflict not found
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
 
             // Server API Methods
 
@@ -346,4 +408,5 @@ angular.module('regCartApp')
             this.getRegistrationStatus = function () {
                 return ServiceUtilities.getData(URLS.courseRegistration + '/registrationStatus');
             };
+
         }]);
