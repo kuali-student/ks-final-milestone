@@ -176,8 +176,10 @@
                                 <property name="items">
                                     <list>
                                         <!-- Previous Year Button -->
-                                        <bean p:id="previous_year_button"   parent="Uif-ActionLink"
-                                              p:actionScript="doNothing();" p:title="@{#textHelper.getText('planner.header.previous')}">
+                                        <bean p:id="previous_year_button" parent="Uif-ActionLink"
+                                              p:actionScript="doNothing();"
+                                              p:title="@{#textHelper.getText('planner.header.previous')}"
+                                              p:actionLabel="@{#textHelper.getText('planner.header.icon.previous')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-carousel-btn-prev</value>
@@ -192,7 +194,8 @@
                                         <!-- Next Year Button -->
                                         <bean p:id="next_year_button"   parent="Uif-ActionLink"
                                               p:actionScript="doNothing();"
-                                              p:title="@{#textHelper.getText('planner.header.next')}">
+                                              p:title="@{#textHelper.getText('planner.header.next')}"
+                                              p:actionLabel="@{#textHelper.getText('planner.header.icon.next')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-carousel-btn-next</value>
@@ -347,10 +350,9 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean
-                                    p:id='@{"__KSAP__CODE__"+"_"+"__KSAP__XMLSAFETERMID__"+"_"+"__KSAP__CATEGORY__"+"_statusMessage"}' parent='Uif-MessageField'>
+                            <bean p:id='@{"__KSAP__CODE__"+"_"+"__KSAP__XMLSAFETERMID__"+"_"+"__KSAP__CATEGORY__"+"_statusMessage"}' parent='Uif-MessageField'>
                                 <property name="render" value="true"/>
-                                <property name="messageText" value="&#160;" />
+                                <property name="messageText" value="@{#textHelper.getText('planner.body.icon.attention')}" />
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>ks-fontello-icon-attention</value>
@@ -445,7 +447,7 @@
             <list>
                 <bean p:id="@{#line.courseCode}_@{#line.xmlSafeTermId}_@{#line.categoryString}_statusMessage" parent="Uif-MessageField">
                     <property name="render" value="@{!#empty(#line.statusMessagesForUI)}"/>
-                    <property name="messageText" value="&#160;" />
+                    <property name="messageText" value="@{#textHelper.getText('planner.body.icon.attention')}" />
                     <property name="additionalCssClasses">
                         <list merge="true">
                             <value>ks-fontello-icon-attention</value>
@@ -1132,7 +1134,7 @@
                 <value>ks-fontello-icon-notes</value>
             </list>
         </property>
-        <property name="messageText" value="&#160;" />
+        <property name="messageText" value="@{#textHelper.getText('planner.body.icon.course.note')}" />
         <property name="title" value=""/>
     </bean>
 
@@ -1144,6 +1146,6 @@
                 <value>ks-fontello-icon-notes</value>
             </list>
         </property>
-        <property name="messageText" value="&#160;" />
+        <property name="messageText" value="@{#textHelper.getText('planner.body.icon.term.note')}" />
     </bean>
 </beans>
