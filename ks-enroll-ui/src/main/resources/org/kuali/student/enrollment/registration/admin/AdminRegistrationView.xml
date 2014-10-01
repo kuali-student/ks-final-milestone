@@ -176,7 +176,7 @@
         <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Term Results">
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Term Eligibility Results">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-ErrorImage"
@@ -185,7 +185,6 @@
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"/>
                             <bean parent="KS-Uif-WarningImage"
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
-                            <bean parent="Uif-Message" p:messageText="@{termName} - "/>
                             <bean parent="Uif-DataField" p:propertyName="message" p:readOnlyListDisplayType="UL"/>
                         </list>
                     </property>

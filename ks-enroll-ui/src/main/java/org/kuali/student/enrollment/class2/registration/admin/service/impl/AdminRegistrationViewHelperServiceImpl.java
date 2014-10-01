@@ -164,14 +164,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
 
     @Override
-    public List<TermResult> checkStudentEligibilityForTermLocal(String studentId, String termId) {
+    public List<TermResult> checkStudentEligibilityForTermLocal(String studentId, TermInfo termInfo) {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<TermResult> reasons = new ArrayList<TermResult>();
 
         try {
 
             List<ValidationResultInfo> validationResults = AdminRegResourceLoader.getCourseRegistrationService()
-                    .checkStudentEligibilityForTerm(studentId, termId, contextInfo);
+                    .checkStudentEligibilityForTerm(studentId, termInfo.getId(), contextInfo);
 
             for (ValidationResultInfo vr : validationResults) {
                 TermResult termResult = new TermResult();
@@ -180,7 +180,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
 
                     if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-                        termResult.setMessage(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)));
+                        termResult.setMessage(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), termInfo.getName()));
                     } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
                         termResult.setMessage((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
