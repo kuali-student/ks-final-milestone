@@ -70,7 +70,13 @@ limitations under the License.
                         </map>
                     </property>
                 </bean>
-
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.holdIssue.id == null ? 'Create Hold ' : 'Edit '} @{#dp.holdIssue.holdCode}"/>
+                </bean>
             </list>
         </property>
         <property name="singlePageView" value="false"/>
