@@ -19,7 +19,7 @@ package org.kuali.student.ap.planner.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
- * Data Object class for displaying the add to plan dialog for courses
+ * Data Object class for displaying the quick add to plan dialog for courses
  * Used for beans:
  * PlannerDialogUI.xml#KSAP-QuickAddToPlanDialog-FormView
  */

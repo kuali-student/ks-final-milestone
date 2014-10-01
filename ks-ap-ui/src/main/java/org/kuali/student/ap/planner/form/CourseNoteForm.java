@@ -21,7 +21,7 @@ import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrappe
 import java.util.List;
 
 /**
- * Data Object class for displaying the add to plan dialog for courses
+ * Data Object class for displaying the course note dialog for plan items
  * Used for beans:
  * PlannerDialogUI.xml#KSAP-CourseNoteDialog-FormView
  */

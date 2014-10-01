@@ -209,7 +209,11 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         dialogForm.setPlanItemId(planItem.getId());
         dialogForm.setPlanId(planItem.getLearningPlanId());
         dialogForm.setCourseId(planItem.getRefObjectId());
-        dialogForm.setCourseNote(planItem.getDescr().getFormatted());
+        String courseNote ="";
+        if(planItem.getDescr()!=null){
+            courseNote = planItem.getDescr().getFormatted();
+        }
+        dialogForm.setCourseNote(courseNote);
         dialogForm.setCourseCd(course.getCode());
         dialogForm.setTermId(termId);
 
@@ -302,7 +306,11 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         dialogForm.setPlanItemId(planItem.getId());
         dialogForm.setPlanId(planItem.getLearningPlanId());
         dialogForm.setCourseId(planItem.getRefObjectId());
-        dialogForm.setCourseNote(planItem.getDescr().getFormatted());
+        String courseNote ="";
+        if(planItem.getDescr()!=null){
+            courseNote = planItem.getDescr().getFormatted();
+        }
+        dialogForm.setCourseNote(courseNote);
         try {
             dialogForm.setTermId(KSCollectionUtils.getRequiredZeroElement(planItem.getPlanTermIds()));
         } catch (OperationFailedException e) {
