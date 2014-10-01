@@ -54,7 +54,21 @@ INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_T
   VALUES ('kuali.ges.parameter.key.rollover.allschedulinginformation.include', 'true', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', 'b08c498c-21db-40a9-9d64-c87f12fb84eb', 200, 0, '8149aa68-9bfa-4d95-bcfe-b17b2d36d763', null, null, null, 'kuali.atp.type.Summer1', 'admin', TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ))
 /
 
+-- KSENROLL-15019 (GES values for term 202005)
+-- instructor include
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.instructorinformation.include', 'false', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '0ca85ade-89c4-4729-9b81-b499a9adcfc6', 200, 0, '8149aa68-9bfa-4d95-bcfe-b17b2d36d763', null, null, 'kuali.atp.2020Summer1', null, 'admin', TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ))
+/
 
+-- cancelled AO include
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.activityofferingsstateofcancelled.include', 'true', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '478ecb0c-86bf-4579-8bb3-8bbe0155e1c7', 200, 0, '8149aa68-9bfa-4d95-bcfe-b17b2d36d763', null, null, 'kuali.atp.2020Summer1', null, 'admin', TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ))
+/
+
+-- scheduling information include
+INSERT INTO KSEN_GES_VALUE (GES_PARM_ID, GES_VALUE, GES_VALUE_STATE, GES_VALUE_TYPE, GES_VALUE_TYPE_ID, ID, PRIORITY, VER_NBR, CLU_ID, ORG_ID, SUBJECT_CODE, ATP_ID, ATP_TYPE_KEY, CREATEID, CREATETIME, UPDATEID, UPDATETIME)
+  VALUES ('kuali.ges.parameter.key.rollover.allschedulinginformation.include', 'false', 'kuali.ges.value.state.active', 'kuali.ges.value.type', 'BOOLEAN', '761828fd-4d1c-45c9-99ea-a19caa5adb47', 200, 0, '8149aa68-9bfa-4d95-bcfe-b17b2d36d763', null, null, 'kuali.atp.2020Summer1', null, 'admin', TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ),'admin',TO_DATE( '20140930000000', 'YYYYMMDDHH24MISS' ))
+/
 
 
 
