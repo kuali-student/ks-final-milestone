@@ -1069,7 +1069,7 @@
 		p:actionLabel="@{#textHelper.getText('planner.menu.planned')}"
         p:title="@{#textHelper.getText('planner.menu.planned')}"
         p:actionScript="ksapPlannerUpdateCategory(false, this, e);"
-        p:additionalCssClasses="ks-fontello-icon-docs">
+        p:additionalCssClasses="ks-fontello-icon-up">
 	</bean>
 
     <bean id="planner_menu_completed_backup" parent="planner_menu_completed_backup-parent"/>
