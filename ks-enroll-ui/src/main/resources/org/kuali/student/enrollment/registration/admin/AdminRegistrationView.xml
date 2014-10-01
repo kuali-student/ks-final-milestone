@@ -60,8 +60,8 @@
                                 <bean parent="KS-Uif-HiddenControl"/>
                             </property>
                         </bean>
+                        <ref bean="KS-AdminRegistration-TermEligibility-Results"/>
                         <ref bean="KS-AdminRegistration-StudentAndTermSection"/>
-                        <ref bean="KS-AdminRegistration-TermEligibilityWarning"/>
                         <ref bean="KS-AdminRegistration-RegisteredTab"/>
                     </list>
                 </property>
@@ -97,6 +97,7 @@
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
+
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
@@ -149,15 +150,43 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-TermEligibilityWarning" parent="Uif-VerticalBoxSection"
-          p:header.style="margin-top: 0;" p:render="@{!#dp.termIssues.isEmpty()}">
+    <bean id="KS-AdminRegistration-TermEligibility-Results" parent="Uif-TableCollectionGroup" p:colSpan="8">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.r2.common.dto.ValidationResultInfo"/>
+        <property name="propertyName" value="termIssues"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="onDocumentReadyScript" value="renderResults();"/>-->
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:additionalCssClasses="warning-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
+                      p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
+                      p:additionalCssClasses="error-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+            </list>
+        </property>
+        <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-WarningMessageGroup">
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Term Results">
                     <property name="items">
-                        <list merge="true">
-                            <bean parent="Uif-Message" p:id="termEligibilityWarning"
-                                  p:messageText="Registration for @{termName} is not currently open."/>
+                        <list>
+                            <bean parent="KS-Uif-ErrorImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
+                            <bean parent="KS-Uif-SuccessImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"/>
+                            <bean parent="KS-Uif-WarningImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
+                            <bean parent="Uif-Message" p:messageText="@{termName} - "/>
+                            <bean parent="Uif-DataField" p:propertyName="message" p:readOnlyListDisplayType="UL"/>
                         </list>
                     </property>
                 </bean>

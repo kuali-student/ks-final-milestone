@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistra
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
+import org.kuali.student.enrollment.class2.registration.admin.form.TermResult;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -53,7 +54,7 @@ public interface AdminRegistrationViewHelperService {
      * @param termId    required
      * @return Returns a list of validation result messages
      */
-    public List<String> checkStudentEligibilityForTermLocal(String studentId, String termId);
+    public List<TermResult> checkStudentEligibilityForTermLocal(String studentId, String termId);
 
     /**
      * Using the Student ID and term entered to get the registered courses for that student

@@ -89,7 +89,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
      * Term Issues contain issues that did not pass the Term eligibility checks. Administrative
      * users has the option to continue or cancel.
      */
-    private List<String> termIssues = new ArrayList<String>();
+    private List<TermResult> termIssues = new ArrayList<TermResult>();
 
     /**
      * Registered Courses contain courses that the student is currently enrolled for.
@@ -271,11 +271,11 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.registrationResults = registrationResults;
     }
 
-    public List<String>  getTermIssues() {
+    public List<TermResult>  getTermIssues() {
         return termIssues;
     }
 
-    public void setTermIssues(List<String> termIssues) {
+    public void setTermIssues(List<TermResult> termIssues) {
         this.termIssues = termIssues;
     }
 

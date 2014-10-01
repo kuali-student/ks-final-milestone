@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationA
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResultItem;
+import org.kuali.student.enrollment.class2.registration.admin.form.TermResult;
 import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegClientCache;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
@@ -163,27 +164,28 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
 
     @Override
-    public List<String> checkStudentEligibilityForTermLocal(String studentId, String termId) {
+    public List<TermResult> checkStudentEligibilityForTermLocal(String studentId, String termId) {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<String> reasons = new ArrayList<String>();
+        List<TermResult> reasons = new ArrayList<TermResult>();
 
         try {
 
             List<ValidationResultInfo> validationResults = AdminRegResourceLoader.getCourseRegistrationService()
                     .checkStudentEligibilityForTerm(studentId, termId, contextInfo);
 
-            // Filter out anything that isn't an error
             for (ValidationResultInfo vr : validationResults) {
+                TermResult termResult = new TermResult();
                 if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
-
+                    termResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
 
                     if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-                        reasons.add(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)));
+                        termResult.setMessage(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)));
                     } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
-                        reasons.add((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
+                        termResult.setMessage((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
                 }
+                reasons.add(termResult);
             }
 
         } catch (Exception e) {
