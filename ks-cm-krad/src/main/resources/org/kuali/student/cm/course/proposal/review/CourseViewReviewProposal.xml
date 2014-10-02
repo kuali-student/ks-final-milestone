@@ -23,7 +23,7 @@
 
         <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
              also sizes the text areas. -->
-        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();setupCharCounters();"/>
 
         <property name="items">
             <list>
@@ -599,10 +599,25 @@
     <!-- DIALOG BOX BEANS IN THIS SECTION BELOW -->
 
     <bean id="CM-DialogExplanation-DecisionRationale" parent="CM-DialogExplanation-DecisionRationale-parentBean" />
-    <bean id="CM-DialogExplanation-DecisionRationale-parentBean" parent="Uif-DialogExplanation" abstract="true"
+    <bean id="CM-DialogExplanation-DecisionRationale-parentBean" parent="Uif-InputField"
           p:label="Decision Rationale"
           p:render="true"
-          p:readOnly="false"/>
+          p:readOnly="false">
+        <property name="control">
+            <bean parent="Uif-TextAreaControl">
+             <property name="cssClasses">
+                <list merge="true">
+                    <value>cm-charcount-max-1000</value>
+                </list>
+             </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-dialogExplanation</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{#uiHelper.showMessage}"/>
