@@ -240,6 +240,9 @@ public class HoldServiceMapImpl
         }
         // Might want check the rest of the readonly fields that are specified on the create to make sure they match the info object
         AppliedHoldInfo copy = new AppliedHoldInfo(holdInfo);
+        copy.setPersonId(personId);
+        copy.setHoldIssueId(issueId);
+        copy.setTypeKey(holdTypeKey);
         if (copy.getId() == null) {
             copy.setId(String.valueOf(nextId++));
         }
