@@ -103,6 +103,7 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY = "kuali.lpr.trans.message.reggroup.notoffered";
     public static final String LPRTRANS_ITEM_FAILED_ANTI_REQUISITES_MESSAGE_KEY = "kuali.lpr.trans.message.failed.antirequisites";
     public static final String LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY = "kuali.lpr.trans.message.course.already.taken";
+    public static final String LPRTRANS_ITEM_COURSE_REPEATABILITY_MESSAGE_KEY = "kuali.lpr.trans.message.repeatability.warning";
     public static final String LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY = "kuali.lpr.trans.message.drop.period.closed";
     public static final String LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY = "kuali.lpr.trans.message.edit.period.closed";
     public static final String LPRTRANS_ITEM_ALREADY_REGISTERED_MESSAGE_KEY = "kuali.lpr.trans.message.course.already.registered";
