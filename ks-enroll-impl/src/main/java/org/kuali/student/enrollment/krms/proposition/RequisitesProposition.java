@@ -10,32 +10,23 @@
  */
 package org.kuali.student.enrollment.krms.proposition;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.Rule;
-import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
-import org.kuali.student.core.process.evaluator.AbstractCheckProposition;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.class2.courseoffering.krms.service.RequisitesService;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This proposition evaluates all the instructions associated with a process
@@ -57,6 +48,9 @@ public class RequisitesProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
+
+        DateTime startTime = new DateTime();
+
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestItemInfo requestItem = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
 
@@ -77,6 +71,9 @@ public class RequisitesProposition extends AbstractLeafProposition {
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
+
+        DateTime endTime = new DateTime();
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.OTHER, "RequisitesProposition", startTime, endTime);
 
         return KRMSEvaluator.buildPropositionResult(environment, true, this);
     }
