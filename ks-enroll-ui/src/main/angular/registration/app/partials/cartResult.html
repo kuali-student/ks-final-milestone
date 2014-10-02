@@ -37,7 +37,10 @@
         <div class="kscr-Card-buttons">
             <div class="kscr-Card-button" ng-if="(cartResultItem.status == statuses.error)">
                 <!-- Add to cart, then remove the result item-->
-                <button class="kscr-Button" id="addBackToCart_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToCart(cartResultItem);  removeCartResultItem($index);">Keep in Cart</button>
+                <button class="kscr-Button" id="addBackToCart_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToCart(cartResultItem);  removeCartResultItem($index);">
+                    <span ng-if="!directRegister">Keep in Cart</span>
+                    <span ng-if="directRegister">Put in Cart</span>
+                </button>
             </div>
 
             <div class="kscr-Card-button" ng-if="cartResultItem.statusMessages && (cartResultItem.status == statuses.action)">

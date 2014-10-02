@@ -24,7 +24,7 @@
  * Events:
  * - broadcast:
  *      - registerForCourse - broadcast when the full course object exists (credit & grading option) & it is confirmed
- *      - addCourseToCart - broadcast when the user clicks the Keep in Cart button in the event of a failure
+ *      - addCourseToCart - broadcast when the user clicks the "Put in Cart" button in the event of a failure
  * - emits: none
  * - catches: none
  */
@@ -37,6 +37,8 @@ angular.module('regCartApp')
             $scope.course = course;
             $scope.results = [];
             $scope.statuses = STATUS;
+
+            $scope.directRegister = true;
 
 
             var confirmed = false,
