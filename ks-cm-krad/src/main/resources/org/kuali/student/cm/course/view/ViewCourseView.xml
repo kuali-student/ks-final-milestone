@@ -110,7 +110,7 @@
         <property name="items">
             <list>
                 <bean id="CM-ViewCourse-View-CourseStatus" parent="CM-Lozenge-Message">
-                    <property name="messageText" value="@{courseInfoWrapper.courseInfo.stateKey}"/>
+                    <property name="messageText" value="@{courseInfoWrapper.courseInfo.stateKey eq 'NotApproved' ? 'Not Approved' : courseInfoWrapper.courseInfo.stateKey}"/>
                     <property name="dataToStyle" value="@{courseInfoWrapper.courseInfo.stateKey}"/>
                     <property name="dataStyleMapping">
                         <map>
