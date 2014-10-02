@@ -57,6 +57,7 @@ angular.module('regCartApp')
 
                 var days = '';                                          // days column
                 var time = '';                                          // time column
+                var dateTime = '';                                      // dateTime column
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
                 var seatsOpen = '';                                     // seats open column
@@ -66,9 +67,12 @@ angular.module('regCartApp')
 
                 if (scheduleComponents && angular.isArray(scheduleComponents) && scheduleComponents.length > 0) {
                     for (var i = 0; i < scheduleComponents.length; i++) {
-                        days += denullify(scheduleComponents[i].days);
-                        time += denullify(scheduleComponents[i].displayTime);
+                        var displayDays = denullify(scheduleComponents[i].days);
+                        var displayTime = denullify(scheduleComponents[i].displayTime);
+                        days += displayDays;
+                        time += displayTime;
                         location += denullify(scheduleComponents[i].buildingCode) + ' ' + denullify(scheduleComponents[i].roomCode);
+                        dateTime += displayDays + '&nbsp;&nbsp;' + displayTime;
                         if (i < (scheduleComponents.length - 1)) {
                             days += '<br />';
                             time += '<br />';
@@ -132,6 +136,7 @@ angular.module('regCartApp')
                     activity: ao.activityOfferingTypeName,
                     days: days,
                     time: time,
+                    dateTime: dateTime,
                     instructor: instructorList,
                     location: location,
                     seatsOpen: seatsOpen,
@@ -193,6 +198,8 @@ angular.module('regCartApp')
             if (angular.isString(string) && string.length > 0) {
                 var lowercase = string.toLowerCase();
                 return lowercase.charAt(0).toUpperCase() + lowercase.slice(1);
+            } else {
+                return string;
             }
         }
 

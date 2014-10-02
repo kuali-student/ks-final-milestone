@@ -33,7 +33,7 @@ angular.module('regCartApp')
                 id: 'time',
                 selected: true,
                 name: 'Time',
-                fields: ['days', 'time']
+                fields: ['dateTime']
             },
             {
                 id: 'instr',
@@ -42,11 +42,16 @@ angular.module('regCartApp')
                 fields: ['instructor']
             },
             {
-                id: 'seatsLoc',
+                id: 'loc',
                 selected: false,
-                name: 'Loc/Seats',
-                fields: ['location', 'seatsOpen'],
-                wide: true
+                name: 'Loc',
+                fields: ['location']
+            },
+            {
+                id: 'seats',
+                selected: false,
+                name: 'Seats',
+                fields: ['seatsOpen']
             }
         ],
         // selectedTab defines which tab is selected by default (by id).
@@ -64,18 +69,21 @@ angular.module('regCartApp')
          *      right: if true, the field will align to the right
          *      block: if true, the field will be displayed as a block if the 'all' tab is selected
          *      append: if set, the text will be appended to the end of the field when displayed
+         *      highlight: if set, the text will be highlighted
          *
          */
         fieldOptions: {
-            time: {
-                right: true
+            dateTime: {
+                highlight: true
             },
             instructor: {
                 block: true
             },
+            location: {
+                block: true
+            },
             seatsOpen: {
-                right: true,
-                append: '&nbsp;available'
+                append: 'available'
             }
         },
         /*
