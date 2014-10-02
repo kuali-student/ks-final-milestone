@@ -123,10 +123,14 @@
     </div>
 
     <!-- No access message -->
-    <div class="kscr-Main-noAccessContainer" ng-show="!studentIsEligibleForTerm">
+    <div class="kscr-Main-noAccess-container" ng-show="!studentIsEligibleForTerm">
         <div class="util-Alert util-Alert--locked" id="reg_locked_container">
-            <span class=""><i class="glyphicon glyphicon-lock"></i></span>
-            <span id="reg_locked_message" class="">Registration is not currently open</span>
+            <span class="kscr-Main-noAccess-icon"><i class="glyphicon glyphicon-lock"></i></span>
+            <div id="reg_locked_message" class="kscr-Main-noAccess-messages">
+                <div class="kscr-Main-noAccess-message" ng-repeat="message in term.eligibilityMessages">
+                    <span validation-message message="message"></span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

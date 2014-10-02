@@ -86,10 +86,15 @@ angular.module('regCartApp')
                 deferred.resolve(termEligibility[term.termId]);
             } else {
                 this.checkStudentEligibilityForTerm().query({termId: term.termId}, function (response) {
-                    var isEligible = (angular.isDefined(response.isEligible) && response.isEligible) || false;
-                    termEligibility[term.termId] = isEligible;
+                    response.isEligible = response.isEligible || false;
+                    termEligibility[term.termId] = response.isEligible;
 
-                    deferred.resolve(isEligible, response);
+                    term.eligibilityMessages = [];
+                    if (angular.isDefined(response.messages) && angular.isArray(response.messages)) {
+                        term.eligibilityMessages = response.messages;
+                    }
+
+                    deferred.resolve(response);
                 }, function(error) {
                     deferred.reject(error);
                 });

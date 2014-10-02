@@ -12,6 +12,10 @@
         "message": "Course code required"
     },
     {
+        "messageKey": "kuali.lpr.trans.message.registration.term.not.open",
+        "message": "Registration is not currently open"
+    },
+    {
         "messageKey": "kuali.lpr.trans.message.credit.load.exceeded",
         "message": "Exceeded maximum credit limit <strong ng-if='maxCredits'>({{maxCredits}} credits)</strong>"
     },

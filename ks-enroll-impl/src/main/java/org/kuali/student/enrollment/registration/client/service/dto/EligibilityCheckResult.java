@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.registration.client.service.dto;
 
+import org.codehaus.jackson.annotate.JsonRawValue;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,15 +35,24 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EligibilityCheckResult", propOrder = {
-        "isEligible", "reasons", "userId"})
+        "isEligible", "messages", "userId"})
 public class EligibilityCheckResult {
     private boolean isEligible;
-    private List<ValidationResultInfo> reasons;
     private String userId;
 
+    @JsonRawValue
+    private List<String> messages;
+
+
     public EligibilityCheckResult() {}
+
     public EligibilityCheckResult(List<ValidationResultInfo> reasons) {
-        setReasons(reasons);
+        List<String> messages = new ArrayList<>();
+        for (ValidationResultInfo reason : reasons) {
+            messages.add(reason.getMessage());
+        }
+
+        setMessages(messages);
     }
 
     public boolean getIsEligible() {
@@ -53,16 +63,16 @@ public class EligibilityCheckResult {
         this.isEligible = isEligible;
     }
 
-    public List<ValidationResultInfo> getReasons() {
-        if (reasons == null) {
-            reasons = new ArrayList<ValidationResultInfo>(0);
+    public List<String> getMessages() {
+        if (messages == null) {
+            messages = new ArrayList<>(0);
         }
 
-        return reasons;
+        return messages;
     }
 
-    public void setReasons(List<ValidationResultInfo> reasons) {
-        this.reasons = reasons;
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
     }
 
     public String getUserId() {

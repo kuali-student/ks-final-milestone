@@ -22,8 +22,8 @@ angular.module('regCartApp')
                 data: '=message',
                 course: '=?' // optional handle on the course
             },
-            controller: ['$scope', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'STATE', 'MessageService', 'TermsService',
-            function($scope, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, STATE, MessageService, TermsService) {
+            controller: ['$scope', '$q', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'STATE', 'MessageService', 'TermsService',
+            function($scope, $q, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, STATE, MessageService, TermsService) {
 
                 // Make the data object available at the root level to the formatted messages
                 if (angular.isObject($scope.data)) {
@@ -42,39 +42,51 @@ angular.module('regCartApp')
                  * In this method we take a course & validation message object and return a formatted
                  * message depending on the validation message key.
                  *
-                 * @returns {string}
+                 * @returns {promise}
                  */
-                $scope.getFormattedMessage = function() {
+                $scope.formatMessage = function() {
+                    var deferred = $q.defer();
+
                     var message = '',
                         data = $scope.data,
                         course = $scope.course;
 
                     if (data) {
-                        if (typeof(data) === 'string') {
+                        if (angular.isString(data)) {
                             // Backwards compatibility, allow a straight string to go through
                             message = data;
                         } else if (data.txt) {
                             message = data.txt;
                         } else if (data.messageKey) {
-                            // Validation message w/ messageKey value
-                            switch (data.messageKey) {
+                            // We need to load config the message from the MessageService
+                            MessageService.getMessage(data.messageKey)
+                                .then(function(msg) {
+                                    // Validation message w/ messageKey value
+                                    switch (data.messageKey) {
 
-                                case VALIDATION_ERROR_TYPE.timeConflict:
-                                    message = formatTimeConflict(data, course);
-                                    break;
+                                        case VALIDATION_ERROR_TYPE.timeConflict:
+                                            msg = formatTimeConflict(msg, data, course);
+                                            break;
 
-                                case GENERAL_ERROR_TYPE.noRegGroup:
-                                    message = parseMessage(data.txt, data.course);
-                                    break;
+                                        case GENERAL_ERROR_TYPE.noRegGroup:
+                                            msg = parseMessage(data.txt, data.course);
+                                            break;
 
-                                default:
-                                    message = getBaseMessage(data.messageKey);
-                            }
+                                    }
+
+                                    message = parseMessage(msg, course);
+                                    deferred.resolve(message);
+                                });
+
+                            // Return out to give the MessageService time to load the messages
+                            return deferred.promise;
                         }
                     }
 
                     message = parseMessage(message, course);
-                    return message;
+                    deferred.resolve(message);
+
+                    return deferred.promise;
                 };
 
 
@@ -90,6 +102,7 @@ angular.module('regCartApp')
                  * 2. conflictingCourses array:
                  *    { messageKey: '...', conflictingCourses: [{ courseCode: '...' }, { courseCode: '...' }]}
                  *
+                 * @param message
                  * @param data
                  * @param course
                  * @returns {string}
@@ -97,10 +110,7 @@ angular.module('regCartApp')
                  *
                  * Need to update id field to be the actual one coming from the server
                  */
-                function formatTimeConflict(data, course) {
-
-                    // look up the core message text
-                    var message = getBaseMessage(data.messageKey);
+                function formatTimeConflict(message, data, course) {
 
                     // Try to include the course codes of the conflicting items
                     var conflicts = [];
@@ -157,16 +167,6 @@ angular.module('regCartApp')
                 }
 
                 /* ---------- Begin General Use Methods ---------- */
-
-                /**
-                 * Get the base message from the MessageService
-                 *
-                 * @param messageKey
-                 * @returns string
-                 */
-                function getBaseMessage(messageKey) {
-                    return MessageService.getMessage(messageKey);
-                }
 
                 /**
                  * Parse the message and inject any additional parameters that are found
@@ -235,9 +235,10 @@ angular.module('regCartApp')
                  * Update the element contents with the formatted message value
                  */
                 function updateMessage() {
-                    var message = scope.getFormattedMessage();
-                    element.html(message);
-                    $compile(element.contents())(scope);
+                    scope.formatMessage().then(function(message) {
+                        element.html(message);
+                        $compile(element.contents())(scope);
+                    });
                 }
 
                 // Update the message when the data || course objects change

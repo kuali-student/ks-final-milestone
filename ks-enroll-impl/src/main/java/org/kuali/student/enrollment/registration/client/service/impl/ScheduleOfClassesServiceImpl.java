@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Course
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
+import org.kuali.student.enrollment.util.KSIdentityServiceHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -92,6 +93,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private AtpService atpService;
     private LRCService lrcService;
     private LuiService luiService;
+    private KSIdentityServiceHelper ksIdentityServiceHelper;
 
     private Map<String, Integer> activityPriorityMap;
 
@@ -154,8 +156,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             contextInfo.setCurrentDate(staticDate.toDate());
         }
 
+
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(contextInfo.getPrincipalId());
         List<ValidationResultInfo> validationResults = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService()
-                .checkStudentEligibilityForTerm(contextInfo.getPrincipalId(), termId, contextInfo);
+                .checkStudentEligibilityForTerm(entityId, termId, contextInfo);
 
         // Filter out anything that isn't an error
         List<ValidationResultInfo> reasons = new ArrayList<>();
@@ -166,7 +170,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         EligibilityCheckResult result = new EligibilityCheckResult(reasons);
-        result.setIsEligible(result.getReasons().isEmpty()); // The check passes if there are no errors
+        result.setIsEligible(result.getMessages().isEmpty()); // The check passes if there are no errors
         result.setUserId(contextInfo.getPrincipalId());
 
         return result;
@@ -1516,6 +1520,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
+    }
+
+    public KSIdentityServiceHelper getKsIdentityServiceHelper() {
+        return ksIdentityServiceHelper;
+    }
+
+    public void setKsIdentityServiceHelper(KSIdentityServiceHelper ksIdentityServiceHelper) {
+        this.ksIdentityServiceHelper = ksIdentityServiceHelper;
     }
 
     private Map<String, Integer> getActivityPriorityMap(ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {

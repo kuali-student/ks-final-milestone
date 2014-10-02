@@ -19,10 +19,27 @@
     }
 }
 
-.kscr-Main-noAccessContainer {
-    margin: 1rem auto;
-    max-width: @largeFormatMax;
-    padding: 0 1rem;
+
+.kscr-Main-noAccess {
+    &-container {
+        margin: 1rem auto;
+        max-width: @largeFormatMax;
+        padding: 0 1rem;
+
+        .util-Alert {
+            padding-left: 3rem;
+            position: relative;
+        }
+    }
+
+    &-icon {
+        left: 1rem;
+        position: absolute;
+        top: 1rem;
+    }
+
+    &-messages {}
+    &-message {}
 }
 
 

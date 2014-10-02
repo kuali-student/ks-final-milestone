@@ -65,7 +65,7 @@ angular.module('regCartApp')
         });
 
         // Load up the messages
-        MessageService.getMessages();
+        // MessageService.getMessages();
 
         var logout = function() {
             console.log('Logging out');
@@ -176,8 +176,8 @@ angular.module('regCartApp')
 
                 // Check to see if the term is open or closed for registration
                 console.log('- Checking term eligibility');
-                TermsService.isStudentEligibleForTerm(term).then(function(isEligible, response) {
-                    $scope.studentIsEligibleForTerm = isEligible;
+                TermsService.isStudentEligibleForTerm(term).then(function(response) {
+                    $scope.studentIsEligibleForTerm = response.isEligible;
 
                     // Broadcast a termIdChanged event notifying any listeners that the new termId is ready to go.
                     // Doing it this way prevents unnecessary loading & processing from the term change

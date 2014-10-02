@@ -1556,6 +1556,7 @@ the program will get the rule management service by calling the global resource 
         <property name="atpService" ref="AtpService"/>
         <property name="luiService" ref="LuiService"/>
         <property name="lrcService" ref="lrcServiceCache" />
+        <property name="ksIdentityServiceHelper" ref="ksIdentityServiceHelper"/>
     </bean>
 
     <bean id="scheduleOfClassesServiceCache" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceCacheImpl">
@@ -1563,6 +1564,7 @@ the program will get the rule management service by calling the global resource 
         <property name="luiService" ref="LuiService"/>
         <property name="atpService" ref="AtpService"/>
         <property name="lrcService" ref="lrcServiceCache" />
+        <property name="ksIdentityServiceHelper" ref="ksIdentityServiceHelper"/>
         <property name="cacheManager" ref="ksCacheManager" />
     </bean>
 
@@ -1571,6 +1573,7 @@ the program will get the rule management service by calling the global resource 
         <property name="luiService" ref="LuiService"/>
         <property name="atpService" ref="AtpService"/>
         <property name="lrcService" ref="lrcServiceCache" />
+        <property name="ksIdentityServiceHelper" ref="ksIdentityServiceHelper"/>
         <property name="elasticEmbedded" ref="elasticEmbedded"/>
         <property name="cacheManager" ref="ksCacheManager" />
     </bean>
@@ -1591,6 +1594,7 @@ the program will get the rule management service by calling the global resource 
         <property name="elasticEmbedded" ref="elasticEmbedded"/>
         <property name="cacheManager" ref="ksCacheManager" />
         <property name="atpService" ref="AtpService"/>
+        <property name="ksIdentityServiceHelper" ref="ksIdentityServiceHelper"/>
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

@@ -29,14 +29,23 @@ angular.module('regCartApp')
         };
 
         this.getMessage = function (messageKey) {
-            var message = '';
-            for (var i=0; i<messages.length; i++) {
-                if (messages[i].messageKey === messageKey) {
-                    message = messages[i].message;
-                    break;
-                }
-            }
-            return message;
+            var deferred = $q.defer();
+
+            this.getMessages()
+                .then(function(messages) {
+                    for (var i = 0; i < messages.length; i++) {
+                        if (messages[i].messageKey === messageKey) {
+                            deferred.resolve(messages[i].message);
+                            return;
+                        }
+                    }
+
+                    deferred.reject('message not found: ' + messageKey);
+                }, function(error) {
+                    deferred.reject('message not found: ' + messageKey + ' - ' + error);
+                });
+
+            return deferred.promise;
         };
 
         this.loadMessages = function() {
