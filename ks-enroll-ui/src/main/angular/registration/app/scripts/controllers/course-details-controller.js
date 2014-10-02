@@ -438,12 +438,12 @@ angular.module('regCartApp')
                 updatingTimeConflicts = true;
                 // clear existing conflicts
                 for (var aoId in $scope.aoMap) {
-                    delete $scope.aoMap[aoId].flags.timeConflict;
+                    delete $scope.aoMap[aoId].flags.highlight;
                 }
                 for (aoId in $scope.aoMap) {
                     var ao = $scope.aoMap[aoId];
                     if (ScheduleService.hasTimeConflict(ao) === true) {
-                        ao.flags.timeConflict = true;
+                        ao.flags.highlight = true;
                     }
                 }
                 updatingTimeConflicts = false;

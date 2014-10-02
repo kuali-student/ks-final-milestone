@@ -126,10 +126,6 @@ angular.module('regCartApp')
                     additionalInfo += '<span class="kscr-SearchDetails-icon--honors" title="Honors Course" />';
                 }
 
-                if (ao.flags && ao.flags.timeConflict) {
-                    indicator = true;
-                }
-
                 var aoId = ao.activityOfferingCode;
 
                 var formattedOffering = {

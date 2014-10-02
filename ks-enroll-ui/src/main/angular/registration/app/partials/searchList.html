@@ -48,7 +48,7 @@
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell kscr-courseSearch-results-cell--{{searchColumn.name}}"
                 ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
                 ng-class="{'kscr-Search-results--first' : $first,
-                'kscr-Search-results-cell--highlight' : (searchResult.flags.timeConflict && searchColumn.highlight)}">
+                'kscr-Search-results-cell--highlight' : (searchResult.flags.highlight && searchColumn.highlight)}">
                 <span ng-class="{'kscr-Search-results-cell--clickable' : searchColumn.url}" compile="applyFilter(searchResult, searchColumn.field, searchColumn.filter)"></span>
                 <span id="select_{{filteredDefault}}" class="kscr-Search-checkbox"
                       ng-if="searchColumn.checkbox" ng-hide="searchResult.flags.disabled"

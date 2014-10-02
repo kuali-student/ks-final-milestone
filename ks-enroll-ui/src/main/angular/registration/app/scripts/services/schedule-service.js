@@ -337,42 +337,59 @@ angular.module('regCartApp')
                 // compare each scheduled course with the provided ao
                 if (angular.isArray(courses)) {
                     for (var i=0; i<courses.length; i++) {
-                        var course = courses[i];
-                        if (!course.dropped) {
-                            // the course is not dropped, check each activity for the course
-                            for (var k=0; k<course.activityOfferings.length; k++) {
-                                var activityOffering = course.activityOfferings[k];
-                                // if the ao is the same, don't show it as a conflict
-                                if (activityOffering.activityOfferingId !== timeSlot.activityOfferingId) {
-                                    for (var l=0; l<activityOffering.scheduleComponents.length; l++) {
-                                        // get the date/time info for this activity
-                                        var courseTime = angular.copy(activityOffering.scheduleComponents[l]);
-                                        for (var j=0; j<DAY_CONSTANTS.dayArray.length; j++) {
-                                            var day = DAY_CONSTANTS.dayArray[j];
-                                            if (timeSlot.days.indexOf(day) > -1 && courseTime.days.indexOf(day) > -1) {
-                                                var course1 = {};
-                                                var course2 = {};
-                                                // convert the time strings to numbers
-                                                course1.startTime = RegUtil.convertTimeStringToTime(timeSlot.startTime);
-                                                course1.endTime = RegUtil.convertTimeStringToTime(timeSlot.endTime);
-                                                course2.startTime = RegUtil.convertTimeStringToTime(courseTime.startTime);
-                                                course2.endTime = RegUtil.convertTimeStringToTime(courseTime.endTime);
-                                                // adjust for courses that end past midnight (rare)
-                                                if (course1.endTime < course1.startTime) {
-                                                    course1.endTime += 1440; // 24 hours
-                                                }
-                                                if (course2.endTime < course2.startTime) {
-                                                    course2.endTime += 1440; // 24 hours
-                                                }
-                                                var conflict = RegUtil.coursesConflict(course1, course2);
-                                                if (conflict) {
-                                                    return true; // continue looking if conflict not found
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                        var conflict = checkCourseForConflict(timeSlot, courses[i]);
+                        if (conflict) return true;
+                    }
+                }
+                return false; // went through ever course, no conflict was found
+            }
+
+            function checkCourseForConflict(timeSlot, course) {
+                if (!course.dropped) {
+                    // the course is not dropped, check each activity for the course
+                    for (var k=0; k<course.activityOfferings.length; k++) {
+                        var activityOffering = course.activityOfferings[k];
+                        var conflict = checkActivityOfferingForConflict(timeSlot, course.activityOfferings[k]);
+                        if (conflict) return true;
+                    }
+                }
+                return false;
+            }
+
+            function checkActivityOfferingForConflict(timeSlot, activityOffering) {
+                // if the ao is the same, don't show it as a conflict
+                if (activityOffering.activityOfferingId !== timeSlot.activityOfferingId) {
+                    for (var l=0; l<activityOffering.scheduleComponents.length; l++) {
+                        // check the date/time info for this activity
+                        var conflict = checkScheduleComponentForConflict(timeSlot,
+                            angular.copy(activityOffering.scheduleComponents[l]));
+                        if (conflict) return true;
+                    }
+                }
+                return false;
+            }
+
+            function checkScheduleComponentForConflict(timeSlot, courseTime) {
+                for (var j=0; j<DAY_CONSTANTS.dayArray.length; j++) {
+                    var day = DAY_CONSTANTS.dayArray[j];
+                    if (timeSlot.days.indexOf(day) > -1 && courseTime.days.indexOf(day) > -1) {
+                        var course1 = {};
+                        var course2 = {};
+                        // convert the time strings to numbers
+                        course1.startTime = RegUtil.convertTimeStringToTime(timeSlot.startTime);
+                        course1.endTime = RegUtil.convertTimeStringToTime(timeSlot.endTime);
+                        course2.startTime = RegUtil.convertTimeStringToTime(courseTime.startTime);
+                        course2.endTime = RegUtil.convertTimeStringToTime(courseTime.endTime);
+                        // adjust for courses that end past midnight (rare)
+                        if (course1.endTime < course1.startTime) {
+                            course1.endTime += 1440; // 24 hours
+                        }
+                        if (course2.endTime < course2.startTime) {
+                            course2.endTime += 1440; // 24 hours
+                        }
+                        var conflict = RegUtil.coursesConflict(course1, course2);
+                        if (conflict) {
+                            return true; // continue looking if conflict not found
                         }
                     }
                 }
