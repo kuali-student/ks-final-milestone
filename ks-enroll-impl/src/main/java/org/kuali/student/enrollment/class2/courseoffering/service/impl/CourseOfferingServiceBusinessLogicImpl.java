@@ -428,6 +428,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             if (!CourseOfferingServiceUtil.evaluateRolloverGesParameter(GesServiceConstants.PARAMETER_KEY_ROLLOVER_SCHEDULING_INFORMATION_INCLUDE, targetTermId, sourceCo.getCourseId(), gesService, context)) {
                 optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
             }
+
+            optionKeys.remove(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY);
+            if (!CourseOfferingServiceUtil.evaluateRolloverGesParameter(GesServiceConstants.PARAMETER_KEY_ROLLOVER_ROOMASSIGNMENT_INCLUDE, targetTermId, sourceCo.getCourseId(), gesService, context)) {
+                optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY);
+            }
+
         }
 
         // Determine if source/target term is same

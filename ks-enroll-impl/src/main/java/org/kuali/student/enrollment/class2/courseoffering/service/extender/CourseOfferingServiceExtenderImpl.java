@@ -542,6 +542,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * @return The target SRS
      */
     private ScheduleRequestSetInfo common_copySourceADLsToTargetRDLs(String operation,
+                                                                     List<String> optionKeys,
                                                                      ScheduleRequestSetInfo sourceSRS,
                                                                      ScheduleRequestSetInfo targetSRS,
                                                                      ActivityOfferingInfo targetAo,
@@ -562,7 +563,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             return resultTargetSRS; // Exit if it's rollover so we don't bother with rest of code
         } else if (targetSRS == null || sourceAndTargetHaveSameTerm || operation.equals(COPY_OPERATION_COPY_AO)) {
             // Create a new target SRS
-            resultTargetSRS = common_createTargetSRSFromADLs(sourceSRS, targetAo, context);
+            resultTargetSRS = common_createTargetSRSFromADLs(operation,optionKeys, isColocated,sourceSRS, targetAo, context);
         } else {
             resultTargetSRS = targetSRS;
         }
@@ -598,7 +599,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return resultTargetSRS;
     }
 
-    private ScheduleRequestSetInfo common_createTargetSRSFromADLs(ScheduleRequestSetInfo sourceSRS,
+    private ScheduleRequestSetInfo common_createTargetSRSFromADLs(String operation,
+                                                                  List<String> optionKeys,
+                                                                  boolean isColocated,
+                                                                  ScheduleRequestSetInfo sourceSRS,
                                                                   ActivityOfferingInfo targetAo,
                                                                   ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -623,12 +627,15 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             scheduleIds.add(request.getScheduleId());
         }
         List<ScheduleRequestInfo> targetRequests =
-                common_createTargetScheduleRequestsFromScheduleIds(scheduleIds, targetAo,
+                common_createTargetScheduleRequestsFromScheduleIds(operation,optionKeys,isColocated,scheduleIds, targetAo,
                         targetSRS.getId(), context);
         return targetSRS;
     }
 
-    private  List<ScheduleRequestInfo> common_createTargetScheduleRequestsFromScheduleIds(List<String> sourceScheduleIds,
+    private  List<ScheduleRequestInfo> common_createTargetScheduleRequestsFromScheduleIds(String operation,
+                                                                                          List<String> optionKeys,
+                                                                                          boolean isColocated,
+                                                                                          List<String> sourceScheduleIds,
                                                                                           ActivityOfferingInfo targetAo,
                                                                                           String targetScheduleRequestSetId,
                                                                                           ContextInfo context)
@@ -638,8 +645,11 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
         for (String sourceSchedId : sourceScheduleIds) {
             // copy source SRCs to target
+            boolean isRolloverOperation = operation.equals(COPY_OPERATION_ROLLOVER);
+            boolean doNotScheduleRoomOptionKeyExists = optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY);
+            boolean doNotScheduleOptionKeyExists = optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
             ScheduleInfo sourceSchedule = schedulingService.getSchedule(sourceSchedId, context);
-            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleToRequest( sourceSchedule, roomService, context );
+            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleToRequest(isRolloverOperation, doNotScheduleOptionKeyExists, doNotScheduleRoomOptionKeyExists, isColocated, sourceSchedule, roomService, context );
 
             // set name & descr on target
             StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
@@ -843,7 +853,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             }
             // Main call to copy schedules
             ScheduleRequestSetInfo resultTargetSRS =
-                    common_copySchedulesHelper(operation, sourceSRS, coloTargetSRS, sourceAndTargetHaveSameTerm,
+                    common_copySchedulesHelper(operation, optionKeys, isColocated, sourceSRS, coloTargetSRS, sourceAndTargetHaveSameTerm,
                             sourceAo, targetAo, coService, context);
             // Save the mapping to the target SRS
             if (operation.equals(COPY_OPERATION_ROLLOVER) && isColocated && !targetSRSMappingExists) {
@@ -881,6 +891,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * @param context The context
      */
     private ScheduleRequestSetInfo common_copySchedulesHelper(String operation,
+                                                              List<String> optionKeys,
+                                                              boolean isColocated,
                                                               ScheduleRequestSetInfo sourceSRS,
                                                               ScheduleRequestSetInfo coloTargetSRS,
                                                               boolean sourceTargetHasSameTerm,
@@ -896,7 +908,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         try {
             if (common_hasADLs(sourceAo)) {
                 resultTargetSRS =
-                    common_copySourceADLsToTargetRDLs(operation, sourceSRS, coloTargetSRS, targetAo,
+                    common_copySourceADLsToTargetRDLs(operation, optionKeys, sourceSRS, coloTargetSRS, targetAo,
                             sourceTargetHasSameTerm, coService, context);
             } else { // Source AO has RDLs, but not ADLs
                 resultTargetSRS =
