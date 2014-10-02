@@ -133,6 +133,7 @@ angular.module('regCartApp')
                 var aoId = ao.activityOfferingCode;
 
                 var formattedOffering = {
+                    activityOfferingId: ao.activityOfferingId,
                     activity: ao.activityOfferingTypeName,
                     days: days,
                     time: time,

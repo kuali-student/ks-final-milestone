@@ -186,6 +186,27 @@ angular.module('regCartApp')
                 return RegUtil.isCourseInList(course, this.getWaitlistedCourses());
             };
 
+            this.isAoInSchedule = function(aoId) {
+                var inScheduleIndicator = {flag: false, colorIndex: null};
+                for (var i = 0; i < this.getRegisteredCourses().length; i++) {
+                    var course = this.getRegisteredCourses()[i];
+                    if (this.getDroppedRegistered().length === 0 || this.getDroppedRegistered().indexOf(course) === -1) {
+                        for (var j = 0; j < course.activityOfferings.length; j++) {
+                            var activityOffering = course.activityOfferings[j];
+                            if (aoId === activityOffering.activityOfferingId) {
+                                inScheduleIndicator.flag = true;
+                                inScheduleIndicator.colorIndex = GlobalVarsService.getCourseIndex(course);
+                                return inScheduleIndicator;
+                            }
+                        }
+                    } else {
+                        inScheduleIndicator.flag = false;
+                        inScheduleIndicator.colorIndex = GlobalVarsService.getCourseIndex(course);
+                        return inScheduleIndicator;
+                    }
+                }
+
+            };
 
             // This method takes the schedule list returned from the schedule service and updates the global counts.
             this.updateScheduleCounts = function(personSchedule) {

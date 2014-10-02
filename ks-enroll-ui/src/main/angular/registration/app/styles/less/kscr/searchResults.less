@@ -221,7 +221,20 @@ If more specific styling needs to take place add to courseSearch.less
 
 .kscr-Search-results-indicator {
   width: 0.5rem;
-  &--show {
-    background-color: @table-ShowIndicatorColor;
+}
+
+.searchResultIndicator(@courseCardColorCount);
+.searchResultIndicator(@n, @i: 1) when (@i =< @n) {
+  // Define the course color for this iteration
+  .defineCourseColor(@i);
+
+  .kscr-Search-results-indicator--@{i} {
+    width: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: @courseColor;
+    color: @white;
   }
+
+  .searchResultIndicator(@n, (@i + 1));
 }

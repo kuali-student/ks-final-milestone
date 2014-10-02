@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CartService', ['$q', 'URLS', 'RegUtil', 'ServiceUtilities', function CartService($q, URLS, RegUtil, ServiceUtilities) {
+    .service('CartService', ['$q', 'URLS', 'RegUtil', 'ServiceUtilities', 'GlobalVarsService', function CartService($q, URLS, RegUtil, ServiceUtilities, GlobalVarsService) {
 
         var cartCredits = 0;
         var cartCourseCount = 0;
@@ -64,6 +64,21 @@ angular.module('regCartApp')
 
         this.isCourseInCart = function(course) {
             return RegUtil.isCourseInList(course, this.getCartCourses());
+        };
+
+        this.isAoInCart = function(aoId) {
+            var inCartIndicator = {flag: false, colorIndex: null};
+            for (var i = 0; i < this.getCartCourses().length; i++) {
+                var course = this.getCartCourses()[i];
+                for (var j = 0; j < course.activityOfferings.length; j++) {
+                    var activityOffering = course.activityOfferings[j];
+                    if (aoId === activityOffering.activityOfferingId) {
+                        inCartIndicator.flag = true;
+                        inCartIndicator.colorIndex = GlobalVarsService.getCourseIndex(course);
+                        return inCartIndicator;
+                    }
+                }
+            }
         };
 
         // Server API Methods

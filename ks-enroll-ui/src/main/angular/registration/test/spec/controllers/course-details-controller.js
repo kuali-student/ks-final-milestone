@@ -15,7 +15,10 @@ describe('Controller: CourseDetailsCtrl', function () {
         isCourseInCartSpy,
         isCourseInWaitlistSpy,
         getRegisteredCoursesSpy,
-        getWaitlistedCoursesSpy;
+        getWaitlistedCoursesSpy,
+        getCartCoursesSpy,
+        isAoInCartSpy,
+        isAoInScheduleSpy;
 
 
     // provide mock services
@@ -30,6 +33,9 @@ describe('Controller: CourseDetailsCtrl', function () {
         isCourseInWaitlistSpy = jasmine.createSpy('ScheduleService.isCourseWaitlisted()');
         getRegisteredCoursesSpy = jasmine.createSpy('ScheduleService.getRegisteredCourses()');
         getWaitlistedCoursesSpy = jasmine.createSpy('ScheduleService.getWaitlistedCourses()');
+        getCartCoursesSpy = jasmine.createSpy('CartService.getCartCourses()');
+        isAoInCartSpy = jasmine.createSpy('CartService.isAoInCart()');
+        isAoInScheduleSpy = jasmine.createSpy('ScheduleService.isAoInSchedule()');
 
         module(function ($provide) {
             // Setup the mock queries
@@ -38,13 +44,16 @@ describe('Controller: CourseDetailsCtrl', function () {
             });
 
             $provide.value('CartService', {
-                isCourseInCart: isCourseInCartSpy
+                isCourseInCart: isCourseInCartSpy,
+                getCartCourses: getCartCoursesSpy,
+                isAoInCart: isAoInCartSpy
             });
 
             $provide.value('ScheduleService', {
                 isCourseWaitlisted: isCourseInWaitlistSpy,
                 getRegisteredCourses: getRegisteredCoursesSpy,
-                getWaitlistedCourses: getWaitlistedCoursesSpy
+                getWaitlistedCourses: getWaitlistedCoursesSpy,
+                isAoInSchedule: isAoInScheduleSpy
             });
         });
     });
