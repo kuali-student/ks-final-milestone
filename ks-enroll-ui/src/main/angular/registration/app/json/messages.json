@@ -97,6 +97,6 @@
     },
     {
         "messageKey": "kuali.cr.learningplan.message.learningplan.reggroup.not.offered",
-        "message": "<span ng-if='state === states.lui.canceled'>Section cancelled</span><span ng-if='state === states.lui.invalid'>Section does not exist</span><span ng-if='!state || state === states.lui.pending'>Section not offered</span><span ng-if='state === states.lui.suspended'>Section suspended</span>"
+        "message": "<span ng-if='state === states.lui.canceled'>Section {{regGroupCode}} cancelled</span><span ng-if='state === states.lui.invalid'>Section {{regGroupCode}} does not exist</span><span ng-if='!state || state === states.lui.pending'>Section {{regGroupCode}} not offered</span><span ng-if='state === states.lui.suspended'>Section {{regGroupCode}} suspended</span>"
     }
 ]
