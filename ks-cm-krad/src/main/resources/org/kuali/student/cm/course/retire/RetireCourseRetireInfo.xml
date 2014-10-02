@@ -70,7 +70,7 @@
                                 <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
                                 <property name="optionsFinder">
                                     <!-- This can come out when DatesKeyValuesFinder goes away. -->
-                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder"
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder"
                                           p:addBlankOption="true"/>
                                 </property>
                             </bean>
