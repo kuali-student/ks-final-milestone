@@ -739,7 +739,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
         } else if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
             return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
-        } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
+        } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey) ||
+                LprServiceConstants.LPRTRANS_ITEM_COURSE_REPEATABILITY_MESSAGE_KEY.equals(messageKey)) {
             return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
                     validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
         } else if ((LprServiceConstants.LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey) ||
