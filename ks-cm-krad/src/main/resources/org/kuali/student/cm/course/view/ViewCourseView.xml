@@ -109,14 +109,18 @@
     <bean id="CM-ViewCourse-View-Right-Header-Group-Status" parent="KS-Unified-Right-Header-Group-Status">
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="CM-ViewCourse-View-CourseStatus-Active-Lozenge" parent="KS-Lozenge-Green-Uif-Message"
-                                  p:messageText="Active" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Active'}"/>
-                            <bean id="CM-ViewCourse-View-CourseStatus-Retired-Lozenge" parent="KS-Lozenge-Orange-Uif-Message"
-                                  p:messageText="Retired" p:render="@{courseInfoWrapper.courseInfo.stateKey eq 'Retired'}"/>
-                        </list>
+                <bean id="CM-ViewCourse-View-CourseStatus" parent="CM-Lozenge-Message">
+                    <property name="messageText" value="@{courseInfoWrapper.courseInfo.stateKey}"/>
+                    <property name="dataToStyle" value="@{courseInfoWrapper.courseInfo.stateKey}"/>
+                    <property name="dataStyleMapping">
+                        <map>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_DRAFT}" value="state-draft"/>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_ACTIVE}" value="state-completed"/>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_SUPERSEDED}" value="state-suspended"/>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_RETIRED}" value="state-suspended"/>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_APPROVED}" value="state-ready"/>
+                            <entry key="#{T(org.kuali.student.r2.common.dto.DtoConstants).STATE_NOT_APPROVED}" value="state-canceled"/>
+                        </map>
                     </property>
                 </bean>
             </list>

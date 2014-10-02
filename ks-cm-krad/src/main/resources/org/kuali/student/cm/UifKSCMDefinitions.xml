@@ -350,4 +350,8 @@
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
+    <bean id="CM-Lozenge-Message" parent="CM-Lozenge-Message-parent"/>
+
+    <bean id="CM-Lozenge-Message-parent" parent="Uif-Message" class="org.kuali.student.cm.uif.element.CMLozengeMessage" abstract="true"/>
+
 </beans>
