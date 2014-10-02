@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -63,10 +64,6 @@ public class CourseOfferingTransformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingTransformer.class);
 
-    public static Logger getLog() {
-        return LOG;
-    }
-
     /**
      * Transform a list of LuiInfos into CourseOfferingInfos. It is the bulk version of lui2CourseOffering transformer
      *
@@ -82,13 +79,13 @@ public class CourseOfferingTransformer {
      */
     public void luis2CourseOfferings(List<String> courseOfferingIds, List<CourseOfferingInfo>cos, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(courseOfferingIds == null || courseOfferingIds.isEmpty()){
-            getLog().warn("invalid courseOfferingIds");
+            LOG.warn("invalid courseOfferingIds");
             return;
         }
 
         List<String> cluIds = new ArrayList<String>();
         List<String> luiIds = new ArrayList<String>();
-        List<LuiInfo> luiInfos = getLuiService().getLuisByIds(courseOfferingIds, context);
+        List<LuiInfo> luiInfos = luiService.getLuisByIds(courseOfferingIds, context);
 
         // lui id to list of result value group keys
         Map<String, List<String>>luiToResultValueGroupKeysMap = new HashMap<String, List<String>>();
@@ -113,9 +110,9 @@ public class CourseOfferingTransformer {
         }
 
         //retrieve a list of CluResultInfo by a list of cluId and generate the map of cluId to CluResultInfo list
-		if (getCluService() != null) {
-			List<CluResultInfo> cluResults = getCluService().getCluResultsByClus(
-                    cluIds, context);
+		if (cluService != null) {
+			List<CluResultInfo> cluResults = cluService.getCluResultsByClus(
+					cluIds, context);
 			for (CluResultInfo cluResultInfo : cluResults) {
 				List<CluResultInfo> resultsList = cluResultListMap
 						.get(cluResultInfo.getCluId());
@@ -129,7 +126,7 @@ public class CourseOfferingTransformer {
 						.getResultOptions().get(0).getResultComponentId());
 			}
 		} else {
-			getLog().warn("CourseOfferingTransformer: 'cluService' dependency is not configured.");
+			LOG.warn("CourseOfferingTransformer: 'cluService' dependency is not configured.");
 		}
 
         //retrieve a list of ResultValuesGroupInfo by a list of result value group key and generate the map of rvg key to ResultValuesGroupInfo
@@ -158,7 +155,7 @@ public class CourseOfferingTransformer {
             qbcBuilder.setPredicates(PredicateFactory.in("luiId", ao),
                     PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
             QueryByCriteria criteria = qbcBuilder.build();
-            lprs.addAll(getLprService().searchForLprs(criteria, context));
+            lprs.addAll(lprService.searchForLprs(criteria, context));
         }
         Map<String, List<LprInfo>>luiToLprListMap = new HashMap<String, List<LprInfo>>();
         for (LprInfo lprInfo : lprs) {
@@ -193,7 +190,7 @@ public class CourseOfferingTransformer {
      * @param resultValueMap        the cached map of result value key to ResultValueInfo
      *
      */
-    protected void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo> resultValueMap) {
+    private void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo> resultValueMap) {
         co.setId(lui.getId());
         co.setTypeKey(lui.getTypeKey());
         co.setStateKey(lui.getStateKey());
@@ -257,7 +254,7 @@ public class CourseOfferingTransformer {
         // we need to set the creditOptionId on the CO If it doesn't exist.
         if(co.getCreditOptionId() == null || co.getCreditOptionId().equals("")){
             //co.setCreditOptionId(this.getCreditOptionId(co.getCourseId(), cluResultListMap));
-            getLog().error("This course offering (" + co.getCourseOfferingCode() + ") is invalid. Credit option must have a value. ");
+            LOG.error("This course offering ("+co.getCourseOfferingCode()+") is invalid. Credit option must have a value. ");
             throw new NullPointerException("This course offering ("+co.getCourseOfferingCode()+") is invalid. Credit option must have a value. ");
         }
 
@@ -266,7 +263,7 @@ public class CourseOfferingTransformer {
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
         } else {
-            getLog().error("This course offering (" + co.getCourseOfferingCode() + ") is invalid. Grading option must have a value. ");
+            LOG.error("This course offering ("+co.getCourseOfferingCode()+") is invalid. Grading option must have a value. ");
             throw new NullPointerException("This course offering ("+co.getCourseOfferingCode()+") is invalid. Grading option must have a value. ");
         }
 
@@ -395,7 +392,7 @@ public class CourseOfferingTransformer {
         return;
     }
 
-    protected void courseOffering2Lui(CourseOfferingInfo co, LuiInfo lui, ContextInfo context) {
+    public void courseOffering2Lui(CourseOfferingInfo co, LuiInfo lui, ContextInfo context) {
 
         lui.setId(co.getId());
         lui.setTypeKey(co.getTypeKey());
@@ -511,7 +508,7 @@ public class CourseOfferingTransformer {
         //registrationOrderTypeKey
     }
 
-    protected void assignCourseOfferingInfoToCrossListings(CourseOfferingInfo co) {
+    private void assignCourseOfferingInfoToCrossListings(CourseOfferingInfo co) {
 
         if( co == null || co.getCrossListings() == null ) return;
 
@@ -548,7 +545,7 @@ public class CourseOfferingTransformer {
         return result;
     }
 
-    protected List<LuiIdentifierInfo> buildAlternateIdentifiersFromCo( CourseOfferingInfo co ) {
+    private List<LuiIdentifierInfo> buildAlternateIdentifiersFromCo( CourseOfferingInfo co ) {
 
         List<LuiIdentifierInfo> result = new ArrayList<LuiIdentifierInfo>();
         for(CourseOfferingCrossListingInfo crossListingInfo : co.getCrossListings()) {
@@ -580,7 +577,7 @@ public class CourseOfferingTransformer {
         }
     }
 
-    protected String getCreditOptionId(String courseId, Map<String, List<CluResultInfo>> cluResultListMap){
+    private String getCreditOptionId(String courseId, Map<String, List<CluResultInfo>> cluResultListMap){
 
         String creditOptionId = "";
         List<CluResultInfo> cluResults = cluResultListMap.get(courseId);
@@ -607,7 +604,7 @@ public class CourseOfferingTransformer {
         try{
             //Lookup persisted values (if the CO has a Credit set use that, otherwise the CO is invalid)
             if(creditOptionId == null || creditOptionId.equals("")){
-                getLog().info("Credit is missing for this course offering");
+                LOG.info("Credit is missing for this course offering");
                 return creditCount = "N/A";
             } else {
                 if (rvgMap!= null) {  //where the function is called from
@@ -628,7 +625,7 @@ public class CourseOfferingTransformer {
                     if(!resultValueInfos.isEmpty()){
                         creditCount = trimTrailing0(resultValueInfos.get(firstResultValueInfo).getValue());
                     } else{
-                        getLog().info("Credit is missing for this course offering");
+                        LOG.info("Credit is missing for this course offering");
                         return creditCount = "N/A";
                     }
 
@@ -662,7 +659,7 @@ public class CourseOfferingTransformer {
                     }
                 } else {
                     //no credit option
-                    getLog().info("Credit is missing for course id {}", courseId);
+                    LOG.info("Credit is missing for course id {}", courseId);
                     creditCount = "N/A";
                 }
             }
@@ -771,7 +768,7 @@ public class CourseOfferingTransformer {
 
         //Log warning if the Clu has multiple credit options
         if(courseInfo.getCreditOptions().size() > 1){
-            getLog().warn("When Copying from Course CLU, multiple credit options were found");
+            LOG.warn("When Copying from Course CLU, multiple credit options were found");
         }
 
         courseOfferingInfo.setDescr(courseInfo.getDescr());
@@ -787,7 +784,7 @@ public class CourseOfferingTransformer {
         if (courseOfferingInfo.getId() == null) {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
-        getKrmsRuleManagementCopyMethods().deepCopyReferenceObjectBindingsFromTo(
+        krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
                 CourseServiceConstants.REF_OBJECT_URI_COURSE,
                 courseInfo.getId(),
                 CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
@@ -806,7 +803,7 @@ public class CourseOfferingTransformer {
         if (targetCo.getId() == null) {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
-        getKrmsRuleManagementCopyMethods().deepCopyReferenceObjectBindingsFromTo(
+        krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
                 CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 sourceCo.getId(),
                 CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
@@ -818,7 +815,7 @@ public class CourseOfferingTransformer {
         if (courseOffering.getId() == null) {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
-        getKrmsRuleManagementCopyMethods().deleteReferenceObjectBindingsCascade(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering.getId());
+        krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering.getId());
     }
     
     public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
@@ -860,19 +857,19 @@ public class CourseOfferingTransformer {
             lprs = lprService.searchForLprs(criteria, context);
         } catch (InvalidParameterException e) {
             String errorMessage = String.format("Error getting instructors for LuiId: %s Invalid Parameter ", luiId);
-            getLog().error(errorMessage, e);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         } catch (MissingParameterException e) {
             String errorMessage = String.format("Error getting instructors for LuiId: %s Missing Parameter ", luiId);
-            getLog().error(errorMessage, e);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         } catch (OperationFailedException e) {
             String errorMessage = String.format("Error getting instructors for LuiId: %s Operation Failed ", luiId);
-            getLog().error(errorMessage, e);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         } catch (PermissionDeniedException e) {
             String errorMessage = String.format("Error getting instructors for LuiId: %s Permission Denied ", luiId);
-            getLog().error(errorMessage, e);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }
 
@@ -914,7 +911,7 @@ public class CourseOfferingTransformer {
      * @return                      ResultValueInfo list
      *
      */
-    protected List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueKeys,
+    private List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueKeys,
                                                         Map<String, ResultValueInfo>resultValueMap) {
 
         List<ResultValueInfo> values = new ArrayList<ResultValueInfo>();
