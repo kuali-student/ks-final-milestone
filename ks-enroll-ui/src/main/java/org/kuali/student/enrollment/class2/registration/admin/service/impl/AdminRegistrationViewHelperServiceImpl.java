@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
@@ -179,13 +180,22 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     termResult.setLevel(AdminRegConstants.ResultLevels.RESULT_LEVEL_WARNING);
                     Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(vr.getMessage());
 
+                    // Retrieve the hold issue id from the check if this is a hold based check
+                    if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_CHECKID_MSG_KEY)) {
+                        String checkId = (String) validationMap.get(AdminRegConstants.ADMIN_REG_CHECKID_MSG_KEY);
+                        CheckInfo check = AdminRegResourceLoader.getProcessService().getCheck(checkId, createContextInfo());
+                        if (check.getHoldIssueId() != null) {
+                            termResult.setHoldIssueId(check.getHoldIssueId());
+                        }
+                    }
+
                     if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
                         termResult.setMessage(AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY), termInfo.getName()));
                     } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
                         termResult.setMessage((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG));
                     }
+                    reasons.add(termResult);
                 }
-                reasons.add(termResult);
             }
 
         } catch (Exception e) {
@@ -436,14 +446,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
-    public List<String> getGradingOptionsForCourseOffering(CourseOfferingInfo courseOffering){
+    public List<String> getGradingOptionsForCourseOffering(CourseOfferingInfo courseOffering) {
 
         List<String> gradingOptions = courseOffering.getStudentRegistrationGradingOptions();
-        if((gradingOptions==null)){
+        if ((gradingOptions == null)) {
             gradingOptions = new ArrayList<String>();
         }
         // Create keyvalues from grading options for registration course.
-        if ((courseOffering.getGradingOptionId()!=null)&&(!gradingOptions.contains(courseOffering.getGradingOptionId()))) {
+        if ((courseOffering.getGradingOptionId() != null) && (!gradingOptions.contains(courseOffering.getGradingOptionId()))) {
             gradingOptions.add(0, courseOffering.getGradingOptionId());
         }
         return gradingOptions;
@@ -709,21 +719,38 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      */
     private List<RegistrationResultItem> createRegResultsFromValidationResults(RegistrationCourse course, TermInfo term,
                                                                                List<ValidationResultInfo> results) {
-        List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
-        // Add the messages to the issue items list.
-        for (ValidationResult validationResult : results) {
-            Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
 
-            String message;
-            if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
-                message = resolveMessageKeyResult(course, term, validationMap);
-            } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
-                message = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG);
-            } else {
-                message = validationResult.toString();
+        List<RegistrationResultItem> issueItems = new ArrayList<RegistrationResultItem>();
+        try {
+            // Add the messages to the issue items list.
+            for (ValidationResult validationResult : results) {
+                Map<String, Object> validationMap = RegistrationValidationResultsUtil.unmarshallResult(validationResult.getMessage());
+
+                String message;
+                if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY)) {
+                    message = resolveMessageKeyResult(course, term, validationMap);
+                } else if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG)) {
+                    message = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG);
+                } else {
+                    message = validationResult.toString();
+                }
+
+                // Retrieve the hold issue id from the check if this is a hold based check
+                RegistrationResultItem resultItem = new RegistrationResultItem(message);
+                if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_CHECKID_MSG_KEY)) {
+                    String checkId = (String) validationMap.get(AdminRegConstants.ADMIN_REG_CHECKID_MSG_KEY);
+                    CheckInfo check = AdminRegResourceLoader.getProcessService().getCheck(checkId, createContextInfo());
+                    if (check.getHoldIssueId() != null) {
+                        resultItem.setHoldIssueId(check.getHoldIssueId());
+                    }
+                }
+                issueItems.add(resultItem);
             }
-            issueItems.add(new RegistrationResultItem(message));
+
+        } catch (Exception e) {
+            convertServiceExceptionsToUI(e);
         }
+
         return issueItems;
     }
 

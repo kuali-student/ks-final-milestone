@@ -15,6 +15,7 @@ public class TermResult {
 
     private String message;
 
+    private String holdIssueId;
 
     public String getLevel() {
         return level;
@@ -30,5 +31,13 @@ public class TermResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getHoldIssueId() {
+        return holdIssueId;
+    }
+
+    public void setHoldIssueId(String holdIssueId) {
+        this.holdIssueId = holdIssueId;
     }
 }

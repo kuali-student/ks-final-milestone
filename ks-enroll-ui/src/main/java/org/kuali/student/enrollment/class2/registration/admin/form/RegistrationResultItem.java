@@ -12,6 +12,8 @@ public class RegistrationResultItem {
 
     private String description;
 
+    private String holdIssueId;
+
     public RegistrationResultItem(String description) {
         if(description==null){
             throw new IllegalArgumentException("Description can not be null.");
@@ -25,5 +27,13 @@ public class RegistrationResultItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getHoldIssueId() {
+        return holdIssueId;
+    }
+
+    public void setHoldIssueId(String holdIssueId) {
+        this.holdIssueId = holdIssueId;
     }
 }

@@ -152,7 +152,7 @@
 
     <bean id="KS-AdminRegistration-TermEligibility-Results" parent="Uif-TableCollectionGroup" p:colSpan="8">
         <property name="collectionObjectClass"
-                  value="org.kuali.student.r2.common.dto.ValidationResultInfo"/>
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.TermResult"/>
         <property name="propertyName" value="termIssues"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
@@ -186,6 +186,8 @@
                             <bean parent="KS-Uif-WarningImage"
                                   p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
                             <bean parent="Uif-DataField" p:propertyName="message" p:readOnlyListDisplayType="UL"/>
+                            <bean parent="Uif-Link" p:linkText="details" p:render="@{#line.holdIssueId!=null}" p:openInLightbox="true"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/inquiry?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper&amp;id=kuali.hold.issue.mandatory.advising&amp;renderedInLightBox=true&amp;flow=start"/>
                         </list>
                     </property>
                 </bean>
