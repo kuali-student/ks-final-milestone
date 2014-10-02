@@ -132,6 +132,7 @@ public class HoldsConstants {
     public static final String APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_BEFORE_INVALID_DATE_RANGE = "error.hold.issue.applied.effective.date.beforerange.invalid";
     public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_AFTER_INVALID_DATE_RANGE = "error.hold.issue.applied.expiration.date.afterrange.invalid";
     public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_DATE_BEFORE_INVALID_DATE_RANGE = "error.hold.issue.applied.expiration.date.beforerange.invalid";
+    public static final String APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERMEFFECTIVE_BEFORE_INVALID_TERM_RANGE= "error.hold.issue.applied.expiration.term.effective.beforerange.invalid";
 
     //applied hold actions
     public static final String APPLIED_HOLDS_ACTION_APPLY = "kuali.applied.hold.apply";

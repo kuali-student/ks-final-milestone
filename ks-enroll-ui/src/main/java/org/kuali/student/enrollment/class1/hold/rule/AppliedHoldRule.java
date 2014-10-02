@@ -178,15 +178,19 @@ public class AppliedHoldRule extends BasicHoldsRule {
                         }
                     }
                     if (expirationTerm != null && firstTerm != null ) {
-                        if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), effectiveTerm.getStartDate())) {
-                            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
-                                    HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, effectiveTerm.getCode());
-                            isValid = false;
-                        } else if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), firstTerm.getStartDate())) {
-                            GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
-                                   HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, firstTerm.getCode());
-                            isValid = false;
+                        if (holdWrapper.getAction().equals(HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE)) {
+                            if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), effectiveTerm.getStartDate())) {
+                                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
+                                        HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERMEFFECTIVE_BEFORE_INVALID_TERM_RANGE, effectiveTerm.getCode());
+                                isValid = false;
+                            }
+                            else if (!isDateBiggerThanOrEqual(expirationTerm.getStartDate(), firstTerm.getStartDate())) {
+                                GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
+                                        HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXPIRATION_TERM_BEFORE_INVALID_DATE_RANGE, firstTerm.getCode());
+                                isValid = false;
+                            }
                         }
+
                         if (lastTerm != null) {
                             if (!isDateSmallerThanOrEqual(expirationTerm.getEndDate(), lastTerm.getEndDate())) {
                                 GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EXPIRATION_TERM,
