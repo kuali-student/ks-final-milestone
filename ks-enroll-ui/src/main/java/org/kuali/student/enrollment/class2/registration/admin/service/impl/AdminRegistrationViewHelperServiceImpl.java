@@ -757,6 +757,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             } else {
                 return AdminRegistrationUtil.getMessageForKey(messageKey + ".pending", term.getName());
             }
+        }else if(AdminRegConstants.ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_TRANSACTIONS_LIMIT.equals(messageKey)){
+            return AdminRegistrationUtil.getMessageForKey(messageKey, term.getName());
         }
 
         return AdminRegistrationUtil.getMessageForKey(messageKey);
