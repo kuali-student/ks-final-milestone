@@ -95,7 +95,7 @@ public class AppliedHoldRule extends BasicHoldsRule {
 //                    isValid = false;
 
                     if (holdWrapper.getAction().equals(HoldsConstants.APPLIED_HOLDS_ACTION_APPLY)) {
-                        messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE,
+                        messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.HOLDS_ISSUE_MSG_ERROR_INVALID_DATE_RANGE_LAST_APPLIED_DATE,
                                 AcalCommonUtils.formatDate(appliedHold.getEffectiveDate()), AcalCommonUtils.formatDate(appliedHold.getExpirationDate()));
                         isValid = false;
                     } else if (holdWrapper.getAction().equals(HoldsConstants.APPLIED_HOLDS_ACTION_EXPIRE)) {
@@ -217,14 +217,6 @@ public class AppliedHoldRule extends BasicHoldsRule {
                             HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_AFTER_INVALID_DATE_RANGE,
                             AcalCommonUtils.formatDate(holdIssue.getFirstAppliedDate()));
                     isValid = false;
-                }
-                if (holdIssue.getLastAppliedDate() != null) {
-                    if (!isDateSmallerThanOrEqual(appliedHold.getEffectiveDate(), holdIssue.getLastAppliedDate())) {
-                        GlobalVariables.getMessageMap().putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE,
-                                HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EFFECTIVE_DATE_BEFORE_INVALID_DATE_RANGE,
-                                AcalCommonUtils.formatDate(holdIssue.getLastAppliedDate()));
-                        isValid = false;
-                    }
                 }
             }
 
