@@ -65,6 +65,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.io.IOException;
@@ -262,6 +263,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
         }
+
+        // Set the CacheControl on the response to not cache this at all.
+        CacheControl cc = new CacheControl();
+        cc.setNoCache(true);
+        cc.setMaxAge(0);
+        response.cacheControl(cc);
 
         return response.build();
     }
