@@ -31,6 +31,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +47,8 @@ import java.util.List;
  * @author Mezba Mahtab
  */
 public final class SchedulingServiceUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SchedulingServiceUtil.class);
 
     //  Since this is a utility class (all static methods) hide the constructor.
     private SchedulingServiceUtil() {}
@@ -249,7 +253,13 @@ public final class SchedulingServiceUtil {
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    public static ScheduleRequestInfo scheduleToRequest(ScheduleInfo scheduleInfo, RoomService roomService, ContextInfo callContext) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static ScheduleRequestInfo scheduleToRequest(boolean isRolloverOperation,
+                                                        boolean doNotScheduleOptionKeyExists,
+                                                        boolean doNotScheduleRoomOptionKeyExists,
+                                                        boolean isColocated,
+                                                        ScheduleInfo scheduleInfo,
+                                                        RoomService roomService,
+                                                        ContextInfo callContext) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ScheduleRequestInfo result = new ScheduleRequestInfo();
         result.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         result.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
@@ -259,19 +269,28 @@ public final class SchedulingServiceUtil {
             requestComponentInfo.setIsTBA(schedComp.getIsTBA());
             requestComponentInfo.setTimeSlotIds(schedComp.getTimeSlotIds());
 
-            // retrieve the room to find the building id
-            if (schedComp.getRoomId() != null) {
-                requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
-                RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
-                requestComponentInfo.getBuildingIds().add(room.getBuildingId());
+            String message = String.format("Checking properties: isRolloverOperation %s, doNotScheduleOptionKeyExists %s, doNotScheduleRoomOptionKeyExists %s, and isColocated %s for Room Assignment.",
+                    (isRolloverOperation ? "Yes" : "No"),
+                    (doNotScheduleOptionKeyExists ? "Yes" : "No"),
+                    (doNotScheduleRoomOptionKeyExists ? "Yes" : "No"),
+                    (isColocated ? "Yes" : "No"));
+            LOG.debug(message);
+            if (!isRolloverOperation || isColocated || (!doNotScheduleRoomOptionKeyExists && !doNotScheduleOptionKeyExists)) {
+                LOG.debug("Assigning room");
+                // retrieve the room to find the building id
+                if (schedComp.getRoomId() != null) {
+                    requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
+                    RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
+                    requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
-                BuildingInfo building = roomService.getBuilding(room.getBuildingId(), callContext);
-                requestComponentInfo.getCampusIds().add(building.getCampusId());
+                    BuildingInfo building = roomService.getBuilding(room.getBuildingId(), callContext);
+                    requestComponentInfo.getCampusIds().add(building.getCampusId());
 
-                List<String> responsibleOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom(schedComp.getRoomId(), callContext);
-                if(responsibleOrgIdList != null) {
-                    for(String id : responsibleOrgIdList) {
-                        requestComponentInfo.getOrgIds().add(id);
+                    List<String> responsibleOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom(schedComp.getRoomId(), callContext);
+                    if (responsibleOrgIdList != null) {
+                        for (String id : responsibleOrgIdList) {
+                            requestComponentInfo.getOrgIds().add(id);
+                        }
                     }
                 }
             }
