@@ -474,6 +474,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         StringBuilder timeSchedule = new StringBuilder();
         StringBuilder roomBuildInfo = new StringBuilder();
+        StringBuilder days = new StringBuilder();
 
         for (ScheduleInfo scheduleInfo : scheduleInfos) {
             /**
@@ -487,16 +488,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 // Assume only zero or one (should never be more than 1 until we support partial colo)
                 TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
 
-                regActivity.setDays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+                days.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
                 if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getEndTime() != null) {
                     timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
                     timeSchedule.append(" - ");
                     timeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
                 }
-            } else {
-                regActivity.setDays(StringUtils.EMPTY);
             }
-
 
             try {
                 //Check if the room ID is null, if not get the buildingInfo from the room
@@ -515,6 +513,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
 
         regActivity.setDateTime(timeSchedule.toString());
+        regActivity.setDays(days.toString());
         regActivity.setRoom(roomBuildInfo.toString());
         return regActivity;
     }
