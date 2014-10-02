@@ -1875,6 +1875,9 @@ the program will get the rule management service by calling the global resource 
         <entry key="b.julil" value="2014-02-08@00:01" />
         <!-- Registration Open window for Summer1 2014-->
         <entry key="b.amandak" value="2014-05-24@00:01" />
+
+        <!-- student with hold for fall 2012 -->
+        <entry key="A.JANED" value="2012-09-05@00:01" />
     </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
