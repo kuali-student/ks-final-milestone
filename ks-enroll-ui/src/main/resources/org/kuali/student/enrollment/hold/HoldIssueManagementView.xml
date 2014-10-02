@@ -170,7 +170,7 @@
                 <bean id="manageHoldEditLink" parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
                       p:iconClass="ks-fontello-icon-pencil" p:style="color:#0088CC;"/>
                 <bean id="manageHoldDeleteLink" parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete"
-                      p:iconClass="ks-fontello-icon-cancel"
+                      p:iconClass="ks-fontello-icon-cancel" p:render="false"
                       p:style="color:#0088CC;"/>
             </list>
         </property>
