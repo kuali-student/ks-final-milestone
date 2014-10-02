@@ -79,7 +79,7 @@ angular.module('regCartApp')
 
             if (term.termId !== DEFAULT_TERM) {
                 console.log('-- Term eligibility check bypassed - term != default term');
-                termEligibility[term.termId] = true;
+                termEligibility[term.termId] = { isEligible: true };
             }
 
             if (angular.isDefined(termEligibility[term.termId])) {
@@ -87,7 +87,7 @@ angular.module('regCartApp')
             } else {
                 this.checkStudentEligibilityForTerm().query({termId: term.termId}, function (response) {
                     response.isEligible = response.isEligible || false;
-                    termEligibility[term.termId] = response.isEligible;
+                    termEligibility[term.termId] = response;
 
                     term.eligibilityMessages = [];
                     if (angular.isDefined(response.messages) && angular.isArray(response.messages)) {

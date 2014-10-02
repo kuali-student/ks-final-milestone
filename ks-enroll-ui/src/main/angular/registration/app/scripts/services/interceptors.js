@@ -1,6 +1,22 @@
 'use strict';
 
 angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector, $window, $rootScope) {
+
+    // This should be removed for production. In the future, we should handle logouts in a user-friendly way.
+    function logonAsAdmin() {
+        var LoginService = $injector.get('LoginService');
+        LoginService.logOnAsAdmin().query({userId: 'student1', password: 'student1'}, function () {
+            //After logging in, reload the page.
+            console.log('Logged in, reloading page.');
+            $window.location.reload();
+        }, function () {
+            //After logging in, reload the page.
+            console.log('Not Logged in, reloading page.');
+            $window.location.reload();
+        });
+    }
+
+
     return {
         response: function(response) {
             /*
@@ -11,6 +27,12 @@ angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector
              */
             var responseData = response.data;
             if (!angular.isObject(responseData) && responseData.indexOf('Kuali Student Login') > -1) {
+                // if port 9000, log back in (test code only for development environments using grunt serve)
+                var $location = $injector.get('$location');
+                if ($location.port() === 9000) {
+                    return logonAsAdmin();
+                }
+
                 console.log('Informing user that session has expired...', response.headers());
                 $rootScope.$broadcast('sessionExpired');
                 return $q.reject(response);
@@ -20,19 +42,9 @@ angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector
         },
         responseError: function(rejection) {
             if (rejection.status === 0) {
-                //For failed connections, try to log in again and refresh the page
+                // For failed connections, try to log in again and refresh the page
                 console.log('Failed to execute request - trying to login');
-                var LoginService = $injector.get('LoginService');
-                //This should be removed for production. In the future, we should handle logouts in a user-friendly way.
-                LoginService.logOnAsAdmin().query({userId: 'student1', password: 'student1'}, function () {
-                    //After logging in, reload the page.
-                    console.log('Logged in, reloading page.');
-                    $window.location.reload();
-                }, function () {
-                    //After logging in, reload the page.
-                    console.log('Not Logged in, reloading page.');
-                    $window.location.reload();
-                });
+                logonAsAdmin();
             }
             return $q.reject(rejection);
         }
