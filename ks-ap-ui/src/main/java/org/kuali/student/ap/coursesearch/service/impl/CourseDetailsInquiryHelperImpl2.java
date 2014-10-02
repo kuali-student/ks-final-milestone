@@ -95,7 +95,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         courseDetails.setCourseId(course.getId());
         courseDetails.setCourseCode(course.getCode());
-        courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
+        courseDetails.setCourseCredits(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
 
         // courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
@@ -155,7 +155,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         // Load basic information
         courseDetails.setCourseId(course.getId());
         courseDetails.setCourseCode(course.getCode());
-        courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
+        courseDetails.setCourseCredits(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
         String subjectCode = course.getSubjectArea().trim();
         Map<String, String> subjectAreas = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas();

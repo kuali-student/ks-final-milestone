@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 
 import java.math.BigDecimal;
@@ -72,6 +73,6 @@ public class CourseCreditListBuilder extends UifKeyValuesFinderBase {
      */
     protected CreditsFormatter.Range getRange(ViewModel model) {
         PlannerFormImpl form = (PlannerFormImpl)model;
-        return CreditsFormatter.getRange(form.getCourse());
+        return KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(form.getCourse());
     }
 }

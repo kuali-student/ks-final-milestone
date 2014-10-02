@@ -344,13 +344,13 @@ public class KsapHelperUtil {
             } else {
                 Course course = KsapFrameworkServiceLocator.getCourseHelper()
                         .getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
-                CreditsFormatter.Range range = CreditsFormatter.getRange(course);
+                CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(course);
                 plannedTotalMin = plannedTotalMin.add(range.getMin());
                 plannedTotalMax = plannedTotalMax.add(range.getMax());
             }
         }
 
-        return CreditsFormatter.formatCredits(new CreditsFormatter.Range(plannedTotalMin,
+        return KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(new CreditsFormatter.Range(plannedTotalMin,
                 plannedTotalMax));
     }
 }

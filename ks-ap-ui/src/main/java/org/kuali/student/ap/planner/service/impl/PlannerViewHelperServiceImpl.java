@@ -84,12 +84,12 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         }
 
         // Set Credits to display for course
-        String creditString = CreditsFormatter.formatCredits(course);
+        String creditString = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course);
         dialogForm.setCreditsDisplay(creditString);
 
         // Set if course is variable credits
         boolean isVariableCredits = false;
-        CreditsFormatter.Range range = CreditsFormatter.getRange(course);
+        CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(course);
         if(range.getMultiple()!=null && !range.getMultiple().isEmpty()) isVariableCredits = true;
         isVariableCredits = !range.getMax().equals(range.getMin());
         dialogForm.setVariableCredit(isVariableCredits);
@@ -306,7 +306,7 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
                 planItem.getRefObjectId());
         dialogForm.setCourseCode(course.getCode());
         dialogForm.setCourseTitle(course.getCourseTitle());
-        dialogForm.setCourseCredits(CreditsFormatter.formatCreditsShortVersion(course));
+        dialogForm.setCourseCredits(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsShortVersion(course));
 
         String uniqueId= request.getParameter("uniqueId");
         if(uniqueId==null){

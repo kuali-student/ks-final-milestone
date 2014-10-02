@@ -528,7 +528,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
 
             // Create and fill in credit infomation from found groups
-            Map<String, String> types = CreditsFormatter.getCreditType(resultValuesGroupInfos);
+            Map<String, String> types = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getCreditType(resultValuesGroupInfos);
             if ((resultValuesGroupInfos != null) && (resultValuesGroupInfos.size() > 0)) {
                 for (ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos) {
                     CreditsFormatter.Range range = CreditsFormatter.getRange(resultValuesGroupInfo);
@@ -538,7 +538,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     Float tempValueHolder = 0F;
                     credit.setMin(tempValueHolder);
                     credit.setMax(tempValueHolder);
-                    credit.setDisplay(CreditsFormatter.formatCredits(range));
+                    credit.setDisplay(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(range));
                     if (range.getMin() != null && range.getMax() != null) {
                         credit.setMin(range.getMin().floatValue());
                         credit.setMax(range.getMax().floatValue());
@@ -549,7 +549,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                             credit.setMultiple(i,range.getMultiple().get(i).floatValue());
                         }
                         //Override the display with a "truncated" version
-                        credit.setDisplay(CreditsFormatter.formatCreditsTruncated(credit.getMultiple(), credit.getDisplay()));
+                        credit.setDisplay(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsTruncated(credit.getMultiple(), credit.getDisplay()));
                     }
                     creditMap.put(credit.getId(), credit);
                 }

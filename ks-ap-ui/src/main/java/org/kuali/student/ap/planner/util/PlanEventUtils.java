@@ -119,10 +119,10 @@ public class PlanEventUtils {
         addEvent.add("courseId", course.getId());
         addEvent.add("courseTitle", course.getCourseTitle());
         if (planItem.getCredits() != null) {
-            addEvent.add("credits", CreditsFormatter.trimCredits(planItem
+            addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(planItem
                     .getCredits().toString()));
         } else {
-            addEvent.add("credits", CreditsFormatter.formatCredits(course));
+            addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
         }
 
         StringBuilder code = new StringBuilder(course.getCode());
@@ -226,13 +226,13 @@ public class PlanEventUtils {
         updateCreditsEvent.add("uniqueId", uniqueId);
 
         if (planItem.getCredits() != null) {
-            updateCreditsEvent.add("credit", CreditsFormatter
+            updateCreditsEvent.add("credit", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter()
                     .trimCredits(planItem.getCredits().toString()));
         } else {
             Course course = KsapFrameworkServiceLocator.getCourseHelper()
                     .getCurrentVersionOfCourse(planItem.getRefObjectId());
             updateCreditsEvent.add("credit",
-                    CreditsFormatter.formatCredits(course));
+                    KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
         }
 
         JsonObjectBuilder events = getEventsBuilder();
@@ -337,10 +337,10 @@ public class PlanEventUtils {
 		addEvent.add("courseId", course.getId());
 		addEvent.add("courseTitle", course.getCourseTitle());
 		if (planItem.getCredits() != null) {
-			addEvent.add("credits", CreditsFormatter.trimCredits(planItem
+			addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(planItem
 					.getCredits().toString()));
 		} else {
-			addEvent.add("credits", CreditsFormatter.formatCreditsShortVersion(course));
+			addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsShortVersion(course));
 		}
         if (planItem.getDescr() != null && planItem.getDescr().getPlain()!=null && !planItem.getDescr().getPlain().isEmpty()) {
                 addEvent.add("courseNote", planItem.getDescr().getPlain());
@@ -475,12 +475,12 @@ public class PlanEventUtils {
         updatePlanItemEvent.add("uniqueId", uniqueId);
 
 		if (planItem.getCredits() != null) {
-            updatePlanItemEvent.add("credit", CreditsFormatter
+            updatePlanItemEvent.add("credit", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter()
 					.trimCredits(planItem.getCredits().toString()));
 		} else {
 			Course course = KsapFrameworkServiceLocator.getCourseHelper()
 					.getCurrentVersionOfCourseByVersionIndependentId(planItem.getRefObjectId());
-            updatePlanItemEvent.add("credit",CreditsFormatter.formatCredits(course));
+            updatePlanItemEvent.add("credit",KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
 		}
         if (planItem.getDescr() != null && planItem.getDescr().getPlain()!=null && !planItem.getDescr().getPlain().isEmpty()) {
             updatePlanItemEvent.add("courseNote", planItem.getDescr().getPlain());
@@ -511,7 +511,7 @@ public class PlanEventUtils {
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
         parameters.put("studentId",studentId);
         parameters.put("planId",KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId());
-		updateTotalCreditsEvent.add("totalCredits",CreditsFormatter.formatCredits(calculateCreditLineForTerm(termId, parameters)));
+		updateTotalCreditsEvent.add("totalCredits",KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(calculateCreditLineForTerm(termId, parameters)));
 
         eventList.add(
 				newTerm ? PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS
@@ -595,10 +595,10 @@ public class PlanEventUtils {
         addEvent.add("courseCd",course.getCode());
         addEvent.add("courseTitle", course.getCourseTitle());
         if (planItem.getCredits() != null) {
-            addEvent.add("credits", CreditsFormatter.trimCredits(planItem
+            addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(planItem
                     .getCredits().toString()));
         } else {
-            addEvent.add("credits", CreditsFormatter.formatCredits(course));
+            addEvent.add("credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
         }
 
         eventList.add(PlanConstants.JS_EVENT_NAME.BOOKMARK_ADDED.name(), addEvent);
@@ -691,7 +691,7 @@ public class PlanEventUtils {
                 if(item.getPlanTermIds().contains(termId)){
                     if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
                         if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
-                            CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
+                            CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
                             minCredits = minCredits.add(range.getMin());
                             maxCredits = maxCredits.add(range.getMax());
                         }
@@ -728,7 +728,7 @@ public class PlanEventUtils {
                     if(item.getPlanTermIds().contains(termId)){
                         if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)){
                             if(item.getRefObjectType().equals(PlanConstants.COURSE_TYPE)){
-                                CreditsFormatter.Range range = CreditsFormatter.getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
+                                CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourseByVersionIndependentId(item.getRefObjectId()));
                                 minCredits = minCredits.add(range.getMin());
                                 maxCredits = maxCredits.add(range.getMax());
                             }

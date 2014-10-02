@@ -91,7 +91,7 @@ public class BookmarkSideBarLookupableHelper extends
                 if(planItem.getCredits()!=null){
                     bookmark.setCredits(planItem.getCredits().toString());
                 }else {
-                    bookmark.setCredits(CreditsFormatter.formatCreditsShortVersion(course));
+                    bookmark.setCredits(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsShortVersion(course));
                 }
 
                 bookmark.setUniqueId(UUID.randomUUID().toString());

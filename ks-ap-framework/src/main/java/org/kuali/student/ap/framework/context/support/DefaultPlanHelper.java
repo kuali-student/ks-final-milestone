@@ -1029,7 +1029,7 @@ public class DefaultPlanHelper implements PlanHelper {
 
         BigDecimal credits = planItem.getCredits();
         if (credits == null) {
-            CreditsFormatter.Range range = CreditsFormatter.getRange(course);
+            CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(course);
             if (range != null) {
                 newPlannerItem.setMaxCredits(range.getMax());
                 newPlannerItem.setMinCredits(range.getMin());

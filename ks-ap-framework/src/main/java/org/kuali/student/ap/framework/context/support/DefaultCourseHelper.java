@@ -1,13 +1,12 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
@@ -48,12 +47,13 @@ import java.util.Map;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
-//
 public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	private static final long serialVersionUID = 8000868050066661992L;
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultCourseHelper.class);
+
+    private static CreditsFormatter creditsFormatter;
 
 	@Override
 	public void frontLoad(List<String> courseIds, String... termId) {
@@ -406,6 +406,20 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             }
         }
         return sortProjectedTerms(projectedTerms);
+    }
+
+    /**
+     * Retrieves formatter class for handling the retrieval and display of credit values
+     *
+     * @return Set formatter class
+     */
+    @Override
+    public CreditsFormatter getCreditsFormatter() {
+        return creditsFormatter;
+    }
+
+    public void setCreditsFormatter(CreditsFormatter formatter){
+        creditsFormatter = formatter;
     }
 
     /**

@@ -126,7 +126,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		courseDetails.setVersionIndependentId(course.getVersion().getVersionIndId());
 		courseDetails.setCourseId(course.getId());
 		courseDetails.setCode(course.getCode());
-		courseDetails.setCredit(CreditsFormatter.formatCredits(course));
+		courseDetails.setCredit(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course));
 		courseDetails.setCourseTitle(course.getCourseTitle());
 		courseDetails.setSubjectArea(course.getSubjectArea().trim());
 		courseDetails.setCourseNumber(course.getCourseNumberSuffix());

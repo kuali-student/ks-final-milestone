@@ -218,10 +218,10 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
             BigDecimal min = getCreditLineMinCredits();
             BigDecimal max = getCreditLineMaxCredits();
             StringBuilder sb = new StringBuilder();
-            sb.append(CreditsFormatter.trimCredits(min.toString()));
+            sb.append(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(min.toString()));
             if (min.compareTo(max) < 0) {
                 sb.append("&ndash;");
-                sb.append(CreditsFormatter.trimCredits(max.toString()));
+                sb.append(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(max.toString()));
             }
             creditLineString = sb.toString();
         }

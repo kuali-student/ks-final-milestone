@@ -93,7 +93,7 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
                     5);
             newMap.put("facet_quarter", KsapHelperUtil.TERMS);
             newMap.put("facet_genedureq", KsapHelperUtil.ALPHA);
-            newMap.put("facet_credits", CreditsFormatter.CREDIT);
+            newMap.put("facet_credits", KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().CREDIT);
             newMap.put("facet_level", KsapHelperUtil.NUMERIC);
             newMap.put("facet_curriculum", KsapHelperUtil.ALPHA);
             facet_sort = Collections

@@ -17,6 +17,7 @@ package org.kuali.student.ap.framework.context.decorators;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
@@ -120,5 +121,15 @@ public class CourseHelperDecorator implements CourseHelper {
     @Override
     public List<String> getProjectedTermsForCourse(Course course) {
         return getNextDecorator().getProjectedTermsForCourse(course);
+    }
+
+    /**
+     * Retrieves formatter class for handling the retrieval and display of credit values
+     *
+     * @return Set formatter class
+     */
+    @Override
+    public CreditsFormatter getCreditsFormatter() {
+        return getNextDecorator().getCreditsFormatter();
     }
 }

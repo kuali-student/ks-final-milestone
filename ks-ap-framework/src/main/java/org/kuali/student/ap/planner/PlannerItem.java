@@ -3,6 +3,7 @@ package org.kuali.student.ap.planner;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.common.infc.HasUniqueId;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;
 import org.slf4j.Logger;
@@ -203,18 +204,18 @@ public class PlannerItem implements HasUniqueId, HasMeta, Serializable {
     public String getCreditString() {
 		if (creditString == null && minCredits != null && maxCredits != null) {
 			StringBuilder sb = new StringBuilder();
-			sb.append(CreditsFormatter.trimCredits(minCredits.toString()));
+			sb.append(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(minCredits.toString()));
             if (multipleCredits != null && !multipleCredits.isEmpty()){
                 if (multipleCredits.size() == 2 ){
                     sb.append(", ");
-                    sb.append(CreditsFormatter.trimCredits(multipleCredits.get(1).toString()));
+                    sb.append(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(multipleCredits.get(1).toString()));
                     creditString = sb.toString();
                     return creditString;
                 }
             }
 			if (minCredits.compareTo(maxCredits) < 0) {
 				sb.append("&ndash;");
-				sb.append(CreditsFormatter.trimCredits(maxCredits.toString()));
+				sb.append(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().trimCredits(maxCredits.toString()));
 			}
 			creditString = sb.toString();
 		}

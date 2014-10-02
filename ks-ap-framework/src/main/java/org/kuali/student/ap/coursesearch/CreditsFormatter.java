@@ -108,21 +108,26 @@ public class CreditsFormatter {
     public static Range getRange(Course course){
         List<ResultValuesGroupInfo> options = course.getCreditOptions();
 
+        /* At UW this list should only contain one item. */
+        if (options.size() > 1) {
+            LOG.warn("Credit option list contained more than one value.");
+        }
+
         // Check group options
-        int creditGroupIndex = 0;
-        if (options.size() == 0) {
+        ResultValuesGroupInfo creditGroup = null;
+        for(ResultValuesGroupInfo option : options){
+            if(option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) ||
+                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+                creditGroup=option;
+                break;
+            }
+        }
+
+        if (creditGroup == null) {
             LOG.warn("Credit options list was empty.");
             return null;
         }
-		/* At UW this list should only contain one item. */
-        if (options.size() > 1) {
-            LOG.warn("Credit option list contained more than one value.");
-            // If more than 1 are found determine which to use
-            creditGroupIndex = 0;  //For ksap we are just using the first option
-        }
-
-        // Retrieve group options
-        ResultValuesGroupInfo creditGroup = options.get(creditGroupIndex);
 
         // Parse range
         Range range = getRange(creditGroup);

@@ -1338,7 +1338,7 @@ public class CourseDetailsViewHelperServiceImpl extends PlanEventViewHelperServi
      */
     public boolean isVariableCreditCourse(CourseOffering courseOffering) {
 
-        CreditsFormatter.Range range = CreditsFormatter.getRange(courseOffering);
+        CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(courseOffering);
 
         if(range.getMultiple()!=null && !range.getMultiple().isEmpty()) return true;
         return !range.getMax().equals(range.getMin());

@@ -2,6 +2,7 @@ package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingDisplay;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -140,4 +141,11 @@ public interface CourseHelper {
      * @return Formatted list of projected terms
      */
     public List<String> getProjectedTermsForCourse(Course course);
+
+    /**
+     * Retrieves formatter class for handling the retrieval and display of credit values
+     *
+     * @return Set formatter class
+     */
+    public CreditsFormatter getCreditsFormatter();
 }

@@ -18,6 +18,7 @@ package org.kuali.student.ap.planner.util;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 
 /**
  * OptionsFinder implementation that builds options based on a CourseOffering's possible credit values
@@ -33,6 +34,6 @@ public class CourseOfferingCreditListBuilder extends CourseCreditListBuilder {
     protected CreditsFormatter.Range getRange(ViewModel model) {
         CourseSectionDetailsDialogForm form = (CourseSectionDetailsDialogForm)model;
 
-        return CreditsFormatter.getRange(form.getCourseOffering());
+        return KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(form.getCourseOffering());
     }
 }

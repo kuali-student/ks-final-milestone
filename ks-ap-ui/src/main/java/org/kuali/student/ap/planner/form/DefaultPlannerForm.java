@@ -154,8 +154,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
     }
 
     public String getCreditString() {
-        return creditString == null ? creditString = courseCredit == null ? CreditsFormatter
-                .formatCredits(getCourse()) : CreditsFormatter
+        return creditString == null ? creditString = courseCredit == null ? KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter()
+                .formatCredits(getCourse()) : KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter()
                 .trimCredits(courseCredit.toString())
                 : creditString;
     }
@@ -364,7 +364,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
     }
 
     public boolean isVariableCredit() {
-        Range range = CreditsFormatter.getRange(getCourse());
+        Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(getCourse());
         if(range.getMultiple()!=null && !range.getMultiple().isEmpty()) return true;
         return !range.getMax().equals(range.getMin());
     }

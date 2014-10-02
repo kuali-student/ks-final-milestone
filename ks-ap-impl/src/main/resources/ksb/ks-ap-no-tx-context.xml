@@ -196,7 +196,12 @@
     <bean name="enrollStatusHelper"
           class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper"/>
 
-    <bean id="ksapDefaultCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper"/>
+    <bean id="ksapDefaultCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper">
+        <property name="creditsFormatter">
+            <bean class="org.kuali.student.ap.coursesearch.CreditsFormatter"/>
+        </property>
+    </bean>
+
     <bean id="ksapCourseHelperCacheDecorator" class="org.kuali.student.ap.framework.context.decorators.CourseHelperCacheDecorator">
         <property name="nextDecorator">
             <ref bean="ksapDefaultCourseHelper"/>
