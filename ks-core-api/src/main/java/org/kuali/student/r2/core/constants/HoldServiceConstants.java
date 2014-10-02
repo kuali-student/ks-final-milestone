@@ -36,7 +36,7 @@ public class HoldServiceConstants {
     /**
      * Hold types
      */
-    public static final String STUDENT_HOLD_TYPE_KEY = "kuali.hold.type.student";
+    public static final String STUDENT_HOLD_TYPE_KEY = "kuali.hold.appliedhold.type.student";
     public static final String INTRUCTOR_HOLD_TYPE_KEY = "kuali.hold.type.instructor";
 
     /**
