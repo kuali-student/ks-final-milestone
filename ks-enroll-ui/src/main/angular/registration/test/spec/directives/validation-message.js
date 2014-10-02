@@ -14,14 +14,19 @@ describe('Directive: ValidationMessage', function() {
 
     var mockMessageService = {
         getMessage : function(messageKey) {
-            var message = '';
-            for (var i=0; i<messages.length; i++) {
-                if (messages[i].messageKey === messageKey) {
-                    message = messages[i].message;
-                    break;
+            return {
+                then: function(fn) {
+                    var message = '';
+                    for (var i=0; i<messages.length; i++) {
+                        if (messages[i].messageKey === messageKey) {
+                            message = messages[i].message;
+                            break;
+                        }
+                    }
+
+                    fn(message);
                 }
-            }
-            return message;
+            };
         }
     };
 
