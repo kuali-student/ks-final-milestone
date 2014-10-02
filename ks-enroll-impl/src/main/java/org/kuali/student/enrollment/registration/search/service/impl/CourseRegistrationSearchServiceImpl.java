@@ -1128,9 +1128,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 (StringUtils.isEmpty(cartItemId) ? " " : "AND lprti.ID = :cartItemId ") +
                 (StringUtils.isEmpty(cartId) ? " " : "AND lprt.ID = :cartId ") +
                 "ORDER BY " +
-                "    lprt.ID, " +
-                "    lprti.ID, " +
-                "    ao.LUI_TYPE";
+                "    lprti.CREATETIME desc";
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.PERSON_ID, personId);
