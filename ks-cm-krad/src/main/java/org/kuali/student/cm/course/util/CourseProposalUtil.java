@@ -32,6 +32,7 @@ import org.kuali.student.cm.course.form.wrapper.RetireCourseWrapper;
 import org.kuali.student.cm.course.form.wrapper.VersionWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -553,6 +554,29 @@ public class CourseProposalUtil {
             termResult  = CourseProposalUtil.getPreviousTerm(startTerm, ContextUtils.createDefaultContextInfo());
         }
         return termResult;
+    }
+
+    /**
+     *  Add or update the attribute list.
+     * @param attributeInfoList
+     * @param key
+     * @param value
+     */
+    public static void addOrUpdateAttributes(List<AttributeInfo> attributeInfoList, String key, String value) {
+        boolean exist = false;
+        for (AttributeInfo attrInfo : attributeInfoList) {
+            if (attrInfo.getKey().equals(key)) {
+                exist = true;
+                if ((attrInfo.getValue() != null && !attrInfo.getValue().equalsIgnoreCase(value)) ||
+                        (attrInfo.getValue() == null && value != null)) {
+                    attrInfo.setValue(value);
+                    break;
+                }
+            }
+        }
+        if (!exist && StringUtils.isNotBlank(value)) {
+            attributeInfoList.add(new AttributeInfo(key, value));
+        }
     }
 
     public static class TermResult {

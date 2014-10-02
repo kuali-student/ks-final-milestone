@@ -70,6 +70,8 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
     // decides whether to set default data on the CourseInfo object at the save point
     private boolean disableCourseDefaulting = false;
 
+    private boolean supersededCourseFormerlyRetired = false;
+
     /**
      * For modify proposals this is the text for the end term that will be applied to the currently active
      * course when/if the draft course is made active.
@@ -331,5 +333,21 @@ public class CourseInfoWrapper extends CommonCourseDataWrapper implements Serial
 
     public void setFormats(List<FormatInfo> formats) {
         this.formats = formats;
+    }
+
+    /**
+     *  Returns true if the course state is superseded which has been previously retired
+     * @return supersededCourseFormerlyRetired
+     */
+    public boolean isSupersededCourseFormerlyRetired() {
+        return supersededCourseFormerlyRetired;
+    }
+
+    /**
+     * Sets to true if the course state is superseded which has been previously retired
+     * @param supersededCourseFormerlyRetired
+     */
+    public void setSupersededCourseFormerlyRetired(boolean supersededCourseFormerlyRetired) {
+        this.supersededCourseFormerlyRetired = supersededCourseFormerlyRetired;
     }
 }

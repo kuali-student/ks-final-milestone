@@ -132,37 +132,14 @@ public class RetireCourseMaintainableImpl extends CommonCourseMaintainableImpl i
             retireCourseWrapper.setLastUpdated(CurriculumManagementConstants.CM_DATE_FORMATTER.format(new DateTime()));
         }
 
-        addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_END_TERM, retireCourseWrapper.getRetireEndTerm());
-        addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED, retireCourseWrapper.getLastTerm());
-        addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR, retireCourseWrapper.getPublicationYear());
+        CourseProposalUtil.addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_END_TERM, retireCourseWrapper.getRetireEndTerm());
+        CourseProposalUtil.addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED, retireCourseWrapper.getLastTerm());
+        CourseProposalUtil.addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR, retireCourseWrapper.getPublicationYear());
         if (retireCourseWrapper.getRetirementComment() != null) {
-            addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS, retireCourseWrapper.getRetirementComment().getPlain());
+            CourseProposalUtil.addOrUpdateAttributes(proposal.getAttributes(), CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS, retireCourseWrapper.getRetirementComment().getPlain());
         }
 
         super.saveProposal();
-    }
-
-    /**
-     *  Add or update the attribute list.
-     * @param attributeInfoList
-     * @param key
-     * @param value
-     */
-    protected void addOrUpdateAttributes(List<AttributeInfo> attributeInfoList, String key, String value) {
-        boolean exist = false;
-        for (AttributeInfo attrInfo : attributeInfoList) {
-            if (attrInfo.getKey().equals(key)) {
-                exist = true;
-                if ((attrInfo.getValue() != null && !attrInfo.getValue().equalsIgnoreCase(value)) ||
-                        (attrInfo.getValue() == null && value != null)) {
-                    attrInfo.setValue(value);
-                   break;
-                }
-            }
-        }
-        if (!exist && StringUtils.isNotBlank(value)) {
-            attributeInfoList.add(new AttributeInfo(key, value));
-        }
     }
 
     @Override

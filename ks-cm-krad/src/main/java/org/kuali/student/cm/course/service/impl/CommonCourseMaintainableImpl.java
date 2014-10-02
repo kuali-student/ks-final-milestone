@@ -49,6 +49,7 @@ import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -401,10 +402,14 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             String retirementComment = new AttributeHelper(proposalInfo.getAttributes()).get(CurriculumManagementConstants.PROPOSED_OTHER_COMMENTS);
 
             courseInfo.setEndTerm(proposedEndTerm);
-            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, rationale));
-            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedLastTermOffered));
-            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, proposedLastCourseCatalogYear));
-            courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT, retirementComment));
+            if (ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY.equals(getProposalTypeKey()) && courseInfo.isPilotCourse()) {
+                CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, "Pilot Course");
+            } else {
+                CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, rationale);
+            }
+            CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedLastTermOffered);
+            CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, proposedLastCourseCatalogYear);
+            CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT, retirementComment);
 
             // lastTermOffered is a special case field, as it is required upon retire state
             // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
@@ -418,7 +423,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
             // into "courseInfo.lastTermOffered" to pass validation.
             if ((proposalInfo != null) && (courseInfo != null)
                     && (courseInfo.getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED) == null)) {
-                courseInfo.getAttributes().add(new AttributeInfo(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedEndTerm));
+                CourseProposalUtil.addOrUpdateAttributes(courseInfo.getAttributes(),CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, proposedEndTerm);
             }
         }
     }
@@ -541,7 +546,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
         CommonCourseDataWrapper courseWrapper = (CommonCourseDataWrapper) proposalElementsWrapper;
 
         // if proposal data is used then load the retirement information from the ProposalInfo
-        if (courseWrapper.isProposalDataUsed()) {
+        if (courseWrapper.isProposalDataUsed() && !courseWrapper.getUiHelper().isModifyWithoutNewVersionProposal()) {
             courseWrapper.setLastTerm(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_TERM_OFFERED));
             courseWrapper.setPublicationYear(courseWrapper.getProposalInfo().getAttributeValue(CurriculumManagementConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR));
             RichTextInfo retirementComment = new RichTextInfo();
@@ -557,6 +562,7 @@ public abstract class CommonCourseMaintainableImpl extends ProposalMaintainableI
 
             String lastTermOffered = courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED);
             courseWrapper.setLastTerm(lastTermOffered);
+            courseWrapper.setLastTermDesc(getTermDesc(lastTermOffered));
 
             courseWrapper.setPublicationYear(courseWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR));
             /*

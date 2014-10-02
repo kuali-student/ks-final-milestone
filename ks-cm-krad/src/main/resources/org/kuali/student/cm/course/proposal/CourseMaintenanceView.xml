@@ -129,6 +129,7 @@
                 <entry key="isModifyNoNewVersion" value="docTypeName eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_MODIFY_ADMIN_NOVERSION"/>
                 <entry key="isRetiredCourse" value="document.newMaintainableObject.dataObject.courseInfo.stateKey eq T(org.kuali.student.r2.common.dto.DtoConstants).STATE_RETIRED"/>
                 <entry key="isModifyReviewProposal" value="document.newMaintainableObject.dataObject.uiHelper.modifyWithNewVersionProposal and pageId eq T(org.kuali.student.cm.common.util.CurriculumManagementConstants$CoursePageIds).REVIEW_COURSE_PROPOSAL_PAGE"/>
+                <entry key="isSupersededCourseFormerlyRetired" value="document.newMaintainableObject.dataObject.supersededCourseFormerlyRetired" />
             </map>
         </property>
         <property name="header.rightGroup">
@@ -536,7 +537,7 @@
                     <property name="componentModifiers">
                         <list>
                             <!-- Exclude these sections for modify with no new version where course is retired -->
-                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and ! #isRetiredCourse }">
+                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and ! #isRetiredCourse and !#isSupersededCourseFormerlyRetired}">
                                 <property name="excludeItemIds">
                                     <list>
                                         <value>CM-Course-Modify-RetireInfo-Section-parent</value>
@@ -546,7 +547,7 @@
                                 </property>
                             </bean>
                             <!-- Exclude these sections for modify with no new version where course is retired -->
-                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and #isRetiredCourse}">
+                            <bean parent="CM-TabGroupTabsModifier" p:runCondition="@{#isModifyNoNewVersion and (#isRetiredCourse or #isSupersededCourseFormerlyRetired)}">
                                 <property name="excludeItemIds">
                                     <list>
                                         <value>CM-Proposal-Course-AuthorsAndCollaborator-Section</value>

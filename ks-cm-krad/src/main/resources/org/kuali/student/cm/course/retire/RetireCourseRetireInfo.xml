@@ -66,6 +66,39 @@
                                           p:addBlankOption="true"/>
                                 </property>
                             </bean>
+                            <bean parent="CM-RetireCourse-PublicationYear">
+                                <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
+                                <property name="optionsFinder">
+                                    <!-- This can come out when DatesKeyValuesFinder goes away. -->
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder"
+                                          p:addBlankOption="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="CM-RetireCourse-RetirementComment">
+                                <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="items"
+                                  p:condition="@{#isRetiredCourse and #dataObject.courseInfo.pilotCourse}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="CM-RetireCourse-Rationale" parent="KS-Uif-DataField" p:propertyName="retirementRationale"
+                                              p:label="Rationale for Retirement">
+                                            <property name="fieldLabel.renderColon" value="false"/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                        </bean>
+                                        <bean id="CM-RetireCourse-Rationale" parent="KS-Uif-DataField" p:propertyName="lastTermDesc"
+                                              p:label="Last Term Offered">
+                                            <property name="fieldLabel.renderColon" value="false"/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

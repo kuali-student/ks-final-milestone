@@ -190,12 +190,24 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setDisableCourseDefaulting(true);
         CourseMaintainable newMaintainble = (CourseMaintainable) form.getDocument().getNewMaintainableObject();
         newMaintainble.setDataObject(courseInfoWrapper);
+        courseInfoWrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
         newMaintainble.populateCourseAndReviewData(courseId, courseInfoWrapper);
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_NEW_ACTION);
         form.getDocument().getDocumentHeader().setDocumentDescription("Admin Modify: " + courseInfoWrapper.getCourseInfo().getCourseTitle());
 
-        courseInfoWrapper.getUiHelper().setModifyWithoutNewVersionProposal(true);
         courseInfoWrapper.getProposalInfo().setName(courseInfoWrapper.getCourseInfo().getCourseTitle());
+
+        // If the course state is a superseded which has been previously retired
+        if (DtoConstants.STATE_SUPERSEDED.equals(courseInfoWrapper.getCourseInfo().getStateKey()) &&
+            courseInfoWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE) != null) {
+
+            courseInfoWrapper.setSupersededCourseFormerlyRetired(true);
+            String retirementCommentString = courseInfoWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT);
+            RichTextInfo retirementComment = new RichTextInfo();
+            retirementComment.setPlain(retirementCommentString);
+            retirementComment.setFormatted(retirementCommentString);
+            courseInfoWrapper.setRetirementComment(retirementComment);
+        }
 
         return getUIFModelAndView(form);
     }
@@ -220,6 +232,15 @@ public class CourseController extends CourseRuleEditorController {
         wrapper.getProposalInfo().getRationale().setPlain("dummy");
         wrapper.getProposalInfo().setName(wrapper.getCourseInfo().getCourseTitle());
 
+        if (wrapper.getCourseInfo().getStateKey().equals(DtoConstants.STATE_RETIRED)) {
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, wrapper.getLastTerm());
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, wrapper.getRetirementRationale());
+        } else if (wrapper.getCourseInfo().getStateKey().equals(DtoConstants.STATE_SUPERSEDED) && wrapper.isSupersededCourseFormerlyRetired()) {
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED, wrapper.getLastTerm());
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, wrapper.getRetirementRationale());
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, wrapper.getPublicationYear());
+            CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT, wrapper.getRetirementComment().getPlain());
+        }
 //        doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
         // manually call the view validation service as this validation cannot be run client-side in current setup
         KRADServiceLocatorWeb.getViewValidationService().validateView(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD);

@@ -49,6 +49,8 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
 
     private String lastUpdated = "";
 
+    private String lastTermDesc;
+
     public CommonCourseDataWrapper(boolean curriculumSpecialistUser, CurriculumManagementConstants.UserInterfaceSections selectedSection) {
         super(curriculumSpecialistUser, selectedSection);
     }
@@ -155,4 +157,19 @@ public abstract class CommonCourseDataWrapper extends ProposalElementsWrapper {
         this.unitsContentOwner = unitsContentOwner;
     }
 
+    /**
+     *  Returns the last term description
+     * @return lastTermDesc
+     */
+    public String getLastTermDesc() {
+        return lastTermDesc;
+    }
+
+    /**
+     * Sets the last term description
+     * @param lastTermDesc
+     */
+    public void setLastTermDesc(String lastTermDesc) {
+        this.lastTermDesc = lastTermDesc;
+    }
 }
