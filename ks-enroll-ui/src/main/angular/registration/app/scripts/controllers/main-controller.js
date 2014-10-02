@@ -65,14 +65,14 @@ angular.module('regCartApp')
         });
 
         // Load up the messages
-        // MessageService.getMessages();
+        MessageService.getMessages();
 
         var logout = function() {
             console.log('Logging out');
             LoginService.logout().query({}, function () {
                 // if port 9000, log back in (test code only for development environments using grunt serve)
                 if ($location.port() === 9000) {
-                    LoginService.logOnAsAdmin().query({userId: 'student1', password: ''});
+                    LoginService.logOnAsAdmin().query({userId: '', password: ''});
                 }
 
                 // Reload the page.

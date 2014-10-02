@@ -38,6 +38,58 @@ angular.module('regCartApp')
 
     .filter('aoFormatter', ['DAY_CONSTANTS', 'RegUtil', function(DAY_CONSTANTS, RegUtil) {
 
+        function denullify(value) {
+            if (value === null) {
+                return '';
+            } else {
+                return value;
+            }
+        }
+
+        function zeroPad(value, len) {
+            value = '' + value; // convert to string
+            while (value.length < len) {
+                value = '0' + value;
+            }
+            return value;
+        }
+
+        function addSortField(field, sortField) {
+            field = '<span class="kscr-Search-result-sort">' + sortField + '</span>' + field;
+            return field;
+        }
+
+        // Converts the day of the week into a number for sorting purposes
+        function getNumericDays(days) {
+            var dayNumArray=[];
+            for (var i=0; i < DAY_CONSTANTS.dayArray.length; i++) {
+                if (days.indexOf(DAY_CONSTANTS.dayArray[i]) > -1) {
+                    dayNumArray.push(i);
+                }
+            }
+            return dayNumArray.sort().toString();
+        }
+
+        // Converts display time into the actual time for sorting purposes
+        function getActualTime(time) {
+            var actualTime = RegUtil.convertTimeStringToTime(time);
+            if (isNaN(actualTime)) {
+                actualTime = 9999;
+            }
+            return zeroPad(actualTime, 4);
+        }
+
+        // Capitalizes the first letter of a word, and leaves the rest lowercase
+        // e.g. "ZELDA" becomes "Zelda"
+        function capitalize(string) {
+            if (angular.isString(string) && string.length > 0) {
+                var lowercase = string.toLowerCase();
+                return lowercase.charAt(0).toUpperCase() + lowercase.slice(1);
+            } else {
+                return string;
+            }
+        }
+
         /**
          * Format an array of activity offerings for display using the search-list directive
          *
@@ -61,7 +113,7 @@ angular.module('regCartApp')
                 var location = '';                                      // location column
                 var instructorList = '';                                // instructors column
                 var seatsOpen = '';                                     // seats open column
-                var additionalInfo = undefined;                         // additional info column
+                var additionalInfo;                                     // additional info column
 
                 var indicator = false;                                  // determines if we show the row indicator on the left
 
@@ -86,9 +138,9 @@ angular.module('regCartApp')
                 if (instructors && angular.isArray(instructors)) {
                     if (instructors.length > 0) {
                         for (var j = 0; j < instructors.length; j++) {
-                            instructorList += capitalize(denullify(instructors[j].firstName))
-                                + ' '
-                                + capitalize(denullify(instructors[j].lastName));
+                            instructorList += capitalize(denullify(instructors[j].firstName)) +
+                                ' ' +
+                                capitalize(denullify(instructors[j].lastName));
                             if (j < (instructors.length - 1)) {
                                 instructorList += '<br />';
                             }
@@ -151,58 +203,6 @@ angular.module('regCartApp')
 
             return formattedOfferings;
         };
-
-        function denullify(value) {
-            if (value === null) {
-                return '';
-            } else {
-                return value;
-            }
-        }
-
-        function zeroPad(value, len) {
-            value = '' + value; // convert to string
-            while (value.length < len) {
-                value = '0' + value;
-            }
-            return value;
-        }
-
-        function addSortField(field, sortField) {
-            field = '<span class="kscr-Search-result-sort">' + sortField + '</span>' + field;
-            return field;
-        }
-
-        // Converts the day of the week into a number for sorting purposes
-        function getNumericDays(days) {
-            var dayNumArray=[];
-            for (var i=0; i < DAY_CONSTANTS.dayArray.length; i++) {
-                if (days.indexOf(DAY_CONSTANTS.dayArray[i]) > -1) {
-                    dayNumArray.push(i);
-                }
-            }
-            return dayNumArray.sort().toString();
-        }
-
-        // Converts display time into the actual time for sorting purposes
-        function getActualTime(time) {
-            var actualTime = RegUtil.convertTimeStringToTime(time);
-            if (isNaN(actualTime)) {
-                actualTime = 9999;
-            }
-            return zeroPad(actualTime, 4);
-        }
-
-        // Capitalizes the first letter of a word, and leaves the rest lowercase
-        // e.g. "ZELDA" becomes "Zelda"
-        function capitalize(string) {
-            if (angular.isString(string) && string.length > 0) {
-                var lowercase = string.toLowerCase();
-                return lowercase.charAt(0).toUpperCase() + lowercase.slice(1);
-            } else {
-                return string;
-            }
-        }
 
     }])
 ;

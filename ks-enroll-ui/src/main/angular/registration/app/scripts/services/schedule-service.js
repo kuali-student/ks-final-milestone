@@ -359,7 +359,9 @@ angular.module('regCartApp')
                 if (angular.isArray(courses)) {
                     for (var i=0; i<courses.length; i++) {
                         var conflict = checkCourseForConflict(timeSlot, courses[i]);
-                        if (conflict) return true;
+                        if (conflict) {
+                            return true;
+                        }
                     }
                 }
                 return false; // went through ever course, no conflict was found
@@ -369,9 +371,10 @@ angular.module('regCartApp')
                 if (!course.dropped) {
                     // the course is not dropped, check each activity for the course
                     for (var k=0; k<course.activityOfferings.length; k++) {
-                        var activityOffering = course.activityOfferings[k];
                         var conflict = checkActivityOfferingForConflict(timeSlot, course.activityOfferings[k]);
-                        if (conflict) return true;
+                        if (conflict) {
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -384,7 +387,9 @@ angular.module('regCartApp')
                         // check the date/time info for this activity
                         var conflict = checkScheduleComponentForConflict(timeSlot,
                             angular.copy(activityOffering.scheduleComponents[l]));
-                        if (conflict) return true;
+                        if (conflict) {
+                            return true;
+                        }
                     }
                 }
                 return false;

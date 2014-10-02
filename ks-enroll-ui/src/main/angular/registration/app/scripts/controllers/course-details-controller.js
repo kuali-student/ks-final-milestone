@@ -477,7 +477,9 @@ angular.module('regCartApp')
                             aoTypes[i].formattedOfferings[j].colorIndex = cartIndicator.colorIndex;
                         } else {
                             aoTypes[i].formattedOfferings[j].inCartIndicator = false;
-                            if (!aoTypes[i].formattedOfferings[j].inScheduleIndicator){ aoTypes[i].formattedOfferings[j].colorIndex = null; }
+                            if (!aoTypes[i].formattedOfferings[j].inScheduleIndicator) {
+                                aoTypes[i].formattedOfferings[j].colorIndex = null;
+                            }
                         }
                     }
                 }
@@ -496,7 +498,9 @@ angular.module('regCartApp')
                             aoTypes[i].formattedOfferings[j].colorIndex = scheduleIndicator.colorIndex;
                         } else {
                             aoTypes[i].formattedOfferings[j].inScheduleIndicator = false;
-                            if (!aoTypes[i].formattedOfferings[j].inCartIndicator){ aoTypes[i].formattedOfferings[j].colorIndex = null; }
+                            if (!aoTypes[i].formattedOfferings[j].inCartIndicator) {
+                                aoTypes[i].formattedOfferings[j].colorIndex = null;
+                            }
                         }
                     }
                 }
