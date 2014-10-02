@@ -793,6 +793,10 @@ public class CourseController extends CourseRuleEditorController {
         try {
             //Perform Service Layer Data Dictionary validation
             CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
+            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
+            for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
+                courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
+            }
             String courseAuditAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_AUDIT);
             String coursePassFailAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_PASS_FAIL);
 
