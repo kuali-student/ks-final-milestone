@@ -196,7 +196,7 @@ public class HoldServiceDerivedStateDecorator
             try {
                 effectiveTermInfo = academicCalendarService.getTerm(effectiveTermId, contextInfo);
             } catch(DoesNotExistException e) {
-                throw new InvalidParameterException("Term does not exist with effectiveTermId: " + effectiveTermId + " exception: " + e);
+                throw new InvalidParameterException("Term does not exist with effectiveTermId: " + effectiveTermId + " exception: ", e);
             }
             Date effectiveTermStartDate = effectiveTermInfo.getStartDate();
             Date effectiveTermEndDate = effectiveTermInfo.getEndDate();
@@ -204,7 +204,7 @@ public class HoldServiceDerivedStateDecorator
             try {
                 expirationTermInfo = academicCalendarService.getTerm(expirationTermId, contextInfo);
             } catch(DoesNotExistException e) {
-                throw new InvalidParameterException("Term does not exist with expirationTermId: " + expirationTermId + " exception: " + e);
+                throw new InvalidParameterException("Term does not exist with expirationTermId: " + expirationTermId + " exception: ", e);
             }
             Date expirationTermStartDate = expirationTermInfo.getStartDate();
             Date expirationTermEndDate = expirationTermInfo.getEndDate();
