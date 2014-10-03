@@ -469,9 +469,18 @@ function registerClickOutsideMenu(e){
 
 function registerClickOutsideRow(e){
     jQuery(document).mouseup(function (e){
+        var tempTarget = (e.target) ? e.target : e.srcElement;
         var activeRow = jQuery(".ksap-active-row");
         var menu = jQuery("div.jquerybubblepopup.jquerybubblepopup-ksap");
-        if (!activeRow.is(e.target) &&  !menu.is(e.target) && activeRow.has(e.target).length === 0 && menu.has(e.target).length === 0)
+        var validation = jQuery("div.ks-fontello-icon-attention");
+        var regGroups = jQuery(".ksap-planner-reggroup p");
+
+        if (!activeRow.is(tempTarget) &&               // Not active row
+            !menu.is(tempTarget) &&                    // Not open menu
+            !validation.is(tempTarget) &&              // Not validation icon
+            !regGroups.is(tempTarget) &&               // Not reg group
+            activeRow.has(tempTarget).length === 0 &&  // Not click inside active row
+            menu.has(tempTarget).length === 0)         // Not click inside menu
         {
             activeRow.removeClass("ksap-active-row");
         }
