@@ -56,7 +56,7 @@
                             <bean parent="KS-Uif-SecondaryActionButton"
                                   p:additionalCssClasses="ks-ManageRegistration-button"
                                   p:performClientSideValidation="true"
-                                  p:actionLabel="Search"
+                                  p:actionLabel="Show"
                                   p:methodToCall="searchForTerm"/>
 
                         </list>
