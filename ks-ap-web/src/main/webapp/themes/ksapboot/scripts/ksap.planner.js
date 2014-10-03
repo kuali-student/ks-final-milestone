@@ -424,7 +424,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     fnClosePopup();
 
-    popupBox.addClass("uif-tooltip");
+    popupBox.addClass("uif-tooltip ksap-active-row");
     initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
@@ -463,6 +463,17 @@ function registerClickOutsideMenu(e){
         }
         if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
             fnClosePopup();
+        }
+    });
+}
+
+function registerClickOutsideRow(e){
+    jQuery(document).mouseup(function (e){
+        var activeRow = jQuery(".ksap-active-row");
+        var menu = jQuery("div.jquerybubblepopup.jquerybubblepopup-ksap");
+        if (!activeRow.is(e.target) &&  !menu.is(e.target) && activeRow.has(e.target).length === 0 && menu.has(e.target).length === 0)
+        {
+            activeRow.removeClass("ksap-active-row");
         }
     });
 }

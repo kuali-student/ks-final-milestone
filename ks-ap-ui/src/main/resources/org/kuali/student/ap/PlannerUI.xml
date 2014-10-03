@@ -33,7 +33,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Ksap-Page" p:id="plan-page">
-                    <property name="onDocumentReadyScript" value="registerPlannerEvents(jQuery('#plan-page')); registerClickOutsideMenu(e); registerPlannerEventsForBookmarks(jQuery('#plan-page'));"/>
+                    <property name="onDocumentReadyScript" value="registerPlannerEvents(jQuery('#plan-page')); registerClickOutsideRow(e); registerClickOutsideMenu(e); registerPlannerEventsForBookmarks(jQuery('#plan-page'));"/>
                     <property name="cssClasses">
 						<list merge="true">
 							<value>ksap-planner</value>
