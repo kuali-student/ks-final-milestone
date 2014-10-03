@@ -3,7 +3,6 @@ package org.kuali.student.ap.coursesearch.service.impl;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;

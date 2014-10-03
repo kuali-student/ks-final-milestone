@@ -6,7 +6,6 @@ import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetails;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution;

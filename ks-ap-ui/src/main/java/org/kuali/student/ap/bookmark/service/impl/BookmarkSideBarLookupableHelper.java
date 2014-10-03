@@ -8,7 +8,6 @@ import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.bookmark.dto.BookmarkSideBarWrapper;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.service.PlanEventViewHelperService;

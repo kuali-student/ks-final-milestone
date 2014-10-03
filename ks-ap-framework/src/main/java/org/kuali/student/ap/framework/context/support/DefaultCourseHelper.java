@@ -53,7 +53,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultCourseHelper.class);
 
-    private static CreditsFormatter creditsFormatter;
+    private CreditsFormatter creditsFormatter;
 
 	@Override
 	public void frontLoad(List<String> courseIds, String... termId) {
@@ -415,11 +415,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
      */
     @Override
     public CreditsFormatter getCreditsFormatter() {
-        return creditsFormatter;
+        return this.creditsFormatter;
     }
 
     public void setCreditsFormatter(CreditsFormatter formatter){
-        creditsFormatter = formatter;
+        this.creditsFormatter = formatter;
     }
 
     /**

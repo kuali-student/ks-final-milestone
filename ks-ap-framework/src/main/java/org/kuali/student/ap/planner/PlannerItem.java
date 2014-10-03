@@ -2,7 +2,6 @@ package org.kuali.student.ap.planner;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.common.infc.HasUniqueId;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;

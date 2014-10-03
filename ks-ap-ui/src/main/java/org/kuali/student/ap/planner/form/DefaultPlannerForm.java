@@ -3,7 +3,6 @@ package org.kuali.student.ap.planner.form;
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;

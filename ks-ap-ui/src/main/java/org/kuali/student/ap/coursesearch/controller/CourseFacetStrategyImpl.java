@@ -17,7 +17,6 @@ package org.kuali.student.ap.coursesearch.controller;
 
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.coursesearch.FacetState;
 import org.kuali.student.ap.coursesearch.SearchInfo;
