@@ -372,6 +372,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    public void validateForDrop(AdminRegistrationForm form) {
+
+        if (form.getPendingDropCourse().getRegisteredDropDate() == null) {
+            form.getDropIssues().add(AdminRegistrationUtil.getMessageForKey(AdminRegConstants.ADMIN_REG_MSG_ERROR_EFFECTIVE_DROP_DATE_REQUIRED));
+        }
+    }
+
+    @Override
     public void validateCourseEdit(AdminRegistrationForm form) {
 
         for (RegistrationCourse editCourse : form.getCoursesInEdit()) {

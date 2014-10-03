@@ -446,6 +446,12 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=dropRegisteredCourse")
     public ModelAndView confirmDropCourse(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Validate the input values.
+        form.getDropIssues().clear();
+        getViewHelper(form).validateForDrop(form);
+        if (!form.getDropIssues().isEmpty()) {
+            return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
+        }
 
         // Submit the drop request.
         form.setRegRequestId(getViewHelper(form).submitCourse(form.getPerson().getId(), form.getTerm().getId(),

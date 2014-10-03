@@ -92,6 +92,13 @@ public interface AdminRegistrationViewHelperService {
     public void validateForSubmission(AdminRegistrationForm form);
 
     /**
+     * Validates the dropped course is ready for submission on save.
+     *
+     * @param form
+     */
+    public void validateForDrop(AdminRegistrationForm form);
+
+    /**
      * Validates the edited courses is ready for submission on save.
      *
      * @param form

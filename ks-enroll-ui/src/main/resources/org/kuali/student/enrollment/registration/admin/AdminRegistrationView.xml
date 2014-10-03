@@ -569,14 +569,32 @@
         <property name="style" value="width:350px;"/>
         <property name="items">
             <list>
+                <!--Work around until dialog requirednes is build in 2.5-->
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(dropIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="dropIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Drop Course errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
                 <bean id="KS-AdminRegistration-DropRegisteredIssues" parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
                                     p:renderColon="false"/>
-                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.registeredDropDate"
-                                  p:additionalCssClasses="nowrap">
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.registeredDropDate">
                                 <property name="control">
+                                    <!--KSENROLL-14124: using Uif-DateControl instead of KS-Uif-Default-DateControl as the validation does not work on the dialog
+                                        this results in being able to enter a blank value-->
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>

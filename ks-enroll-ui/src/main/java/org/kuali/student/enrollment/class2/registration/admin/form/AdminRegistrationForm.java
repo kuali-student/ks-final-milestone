@@ -103,6 +103,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private RegistrationCourse tempWaitlistCourseEdit;
 
     private RegistrationCourse pendingDropCourse = new RegistrationCourse();
+    private List<String> dropIssues = new ArrayList<String>();
 
     private boolean displayRegistrationTab = false;
 
@@ -375,4 +376,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
         return StringUtils.EMPTY;
     }
+
+    public List<String> getDropIssues() {
+        return dropIssues;
+    }
+
+    public void setDropIssues(List<String> dropIssues) {
+        this.dropIssues = dropIssues;
+    }
+
 }

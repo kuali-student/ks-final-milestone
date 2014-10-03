@@ -59,6 +59,7 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED = "error.admin.reg.credits.required";
     public static final String ADMIN_REG_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
     public static final String ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED = "error.admin.reg.effectiveDate.required";
+    public static final String ADMIN_REG_MSG_ERROR_EFFECTIVE_DROP_DATE_REQUIRED = "error.admin.reg.effectiveDropDate.required";
     public static final String ADMIN_REG_MSG_ERROR_REG_OPTIONS_REQUIRED = "error.admin.reg.regOption.required";
 
     public static final String ADMIN_REG_MSG_INFO_COURSE_TITLE_NOT_FOUND= "info.admin.reg.course.tittle.not.found";
