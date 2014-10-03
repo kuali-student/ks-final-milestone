@@ -6,6 +6,8 @@
 @diff-highlight-color: #ffffcc;
 @diff-border-color:  #fbeed5;
 
+@state-padding-top : 20px;
+
 /*
  * Style the pre tags to look like normal content. All of the inputs are rendered
  * in pres when the page is read-only. We need them to have same styling as the read-only inputs.
@@ -996,16 +998,21 @@ approve, return to previous, reject, blanket approve, withdraw and acknowledge*/
 }
 
 #CM-Proposal-Header-Right-Group-Status {
-  padding-top: 20px;
+  padding-top: @state-padding-top;
 }
 
-#CM-ViewCourse-View-Right-Header-Group-Status {
-  padding-top: 20px;
+.view-course-state {
+  padding-top: @state-padding-top;
+}
+
+.view-compare-course-state {
+  padding-top: @state-padding-top + 20;
 }
 
 #CM-Proposal-Course-Right-Header-Action-Group {
-  padding-right: 20px;
+  padding-right: @state-padding-top;
 }
+
 /* Header styling for course maintenance view and retire course maintenance view */
 
 /* styling for copy proposal */
