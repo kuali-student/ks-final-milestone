@@ -250,7 +250,7 @@ td.jquerybubblepopup-innerHtml { /*Really needed?*/
 }
 
 
-// Popovers (Using Bootstrap)
+// Bootstrap Popovers
 // --------------------------------------------------
 .ksap-tooltip-popover {
     width: 250px;
@@ -258,4 +258,30 @@ td.jquerybubblepopup-innerHtml { /*Really needed?*/
   .popover-content {
     word-wrap: break-word;
   }
+}
+
+// Bootstrap popovers.less override for arrow display issue caused by browser zooming
+.popover {
+  &.top .arrow {
+    &:after {
+      bottom: 2px;
+    }
+  }
+  &.right .arrow {
+    &:after {
+      left: 2px;
+    }
+  }
+  &.bottom .arrow {
+    &:after {
+      top: 2px;
+    }
+  }
+
+  &.left .arrow {
+    &:after {
+      right: 2px;
+    }
+  }
+
 }
