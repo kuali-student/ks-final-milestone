@@ -425,8 +425,12 @@ angular.module('regCartApp')
         If anything changes, check for time conflict between the activities and your schedule.
          */
 
-        $scope.$watch('registered', function() {
+        $scope.$watch('registered', function(newValue, oldValue) {
             updateTimeConflicts();
+            // Watch registered courses and update in-schedule indicator/s
+            if (newValue !== oldValue) {
+                setCartScheduleIndicators();
+            }
         }, true);
 
         $scope.$watch('waitlisted', function() {
@@ -456,16 +460,9 @@ angular.module('regCartApp')
             }
         }
 
-        /* Watch the cart and registered courses and show/hide the in-cart and in-schedule indicators */
-        $scope.$watch('registered', function(newValue, oldValue) {
-            if (newValue !== oldValue) {
-                setCartScheduleIndicators();
-            }
-        }, true);
-
+        // Watch the cart and show/hide the in-cart indicator/s
         $scope.$watchCollection('unusedCart', function() {
             setCartScheduleIndicators();
-
         });
 
         function setCartScheduleIndicators () {
