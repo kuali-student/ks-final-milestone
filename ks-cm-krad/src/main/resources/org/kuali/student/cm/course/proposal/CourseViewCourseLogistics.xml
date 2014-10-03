@@ -19,7 +19,6 @@
             <list>
                 <ref bean="CM-Proposal-Course-Logistics-Scheduling-Section" />
                 <ref bean="CM-Proposal-Course-Logistics-DurationCount-Section" />
-                <ref bean="CM-Proposal-Course-Logistics-LearningResults-Section" />
                 <ref bean="CM-Proposal-Course-Logistics-GradesAssessments-Section" />
                 <ref bean="CM-Proposal-Course-Logistics-StudentRegistrationOptions-Section" />
                 <ref bean="CM-Proposal-Course-Logistics-FinalExam-Section" />
@@ -83,11 +82,7 @@
             </list>
         </property>
     </bean>
-    <bean id="CM-Proposal-Course-Logistics-LearningResults-Section"
-          parent="Uif-HorizontalBoxSection" p:headerText="Learning Results">
-        <property name="instructionalText" value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options
-			    for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
-    </bean>
+
 
     <bean id="CM-Proposal-Course-Logistics-GradesAssessments-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Grades/Assessments">
