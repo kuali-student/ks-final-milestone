@@ -128,3 +128,23 @@
     }
   }
 }
+
+.kscr-Search-mobile-right-indicator {
+  //width: 0.5rem;
+}
+
+.searchMobileResultIndicator(@courseCardColorCount);
+.searchMobileResultIndicator(@n, @i: 1) when (@i =< @n) {
+  // Define the course color for this iteration
+  .defineCourseColor(@i);
+
+  .kscr-Search-mobile-right-indicator--@{i} {
+    height: 4rem;
+    margin-right: 0.1rem;
+    padding: 1rem 1rem 0 1rem;
+    background-color: @courseColor;
+    color: @white;
+  }
+
+  .searchMobileResultIndicator(@n, (@i + 1));
+}
