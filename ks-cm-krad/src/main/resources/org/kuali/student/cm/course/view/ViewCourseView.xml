@@ -282,6 +282,7 @@
                 <ref bean="CM-ViewCourse-View-Course-LearningObjectivesSection"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseRequisitesSection"/>
                 <ref bean="CM-ViewCourse-View-Course-ActiveDatesSection"/>
+                <ref bean="CM-Proposal-Review-Course-FinancialsSection" />
             </list>
         </property>
     </bean>
