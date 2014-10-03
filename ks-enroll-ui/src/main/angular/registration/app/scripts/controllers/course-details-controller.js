@@ -124,8 +124,7 @@ angular.module('regCartApp')
                     $scope.course = result;
 
                     // have to call here because of "details" button
-                    setCartIndicator();
-                    setScheduleIndicator();
+                    setCartScheduleIndicators();
 
                     $scope.singleRegGroup = singleRegGroup();
                     $scope.updateAOStates();
@@ -460,46 +459,31 @@ angular.module('regCartApp')
         /* Watch the cart and registered courses and show/hide the in-cart and in-schedule indicators */
         $scope.$watch('registered', function(newValue, oldValue) {
             if (newValue !== oldValue) {
-                setScheduleIndicator();
+                setCartScheduleIndicators();
             }
         }, true);
 
-        $scope.$watchCollection('unusedCart', setCartIndicator);
+        $scope.$watchCollection('unusedCart', function() {
+            setCartScheduleIndicators();
 
-        function setCartIndicator () {
+        });
+
+        function setCartScheduleIndicators () {
             if ($scope.course !== null) {
                 var aoTypes = $scope.course.activityOfferingTypes;
                 for (var i = 0; i < aoTypes.length; i++) {
                     for (var j = 0; j < aoTypes[i].formattedOfferings.length; j++) {
                         var cartIndicator = CartService.isAoInCart(aoTypes[i].formattedOfferings[j].activityOfferingId);
-                        if (angular.isDefined(cartIndicator)) {
-                            aoTypes[i].formattedOfferings[j].inCartIndicator = cartIndicator.flag;
-                            aoTypes[i].formattedOfferings[j].colorIndex = cartIndicator.colorIndex;
-                        } else {
-                            aoTypes[i].formattedOfferings[j].inCartIndicator = false;
-                            if (!aoTypes[i].formattedOfferings[j].inScheduleIndicator) {
-                                aoTypes[i].formattedOfferings[j].colorIndex = null;
-                            }
-                        }
-                    }
-                }
-                $scope.course.activityOfferingTypes = aoTypes;
-            }
-        }
-
-        function setScheduleIndicator () {
-            if ($scope.course !== null) {
-                var aoTypes = $scope.course.activityOfferingTypes;
-                for (var i = 0; i < aoTypes.length; i++) {
-                    for (var j = 0; j < aoTypes[i].formattedOfferings.length; j++) {
                         var scheduleIndicator = ScheduleService.isAoInSchedule(aoTypes[i].formattedOfferings[j].activityOfferingId);
-                        if (angular.isDefined(scheduleIndicator)) {
-                            aoTypes[i].formattedOfferings[j].inScheduleIndicator = scheduleIndicator.flag;
+                        if (!angular.isDefined(cartIndicator)) { cartIndicator = {flag: false, colorIndex: null};}
+                        if (!angular.isDefined(scheduleIndicator)) { scheduleIndicator = {flag: false, colorIndex: null};}
+                        aoTypes[i].formattedOfferings[j].inCartIndicator = cartIndicator.flag;
+                        aoTypes[i].formattedOfferings[j].inScheduleIndicator = scheduleIndicator.flag;
+                        if (scheduleIndicator.flag) {
                             aoTypes[i].formattedOfferings[j].colorIndex = scheduleIndicator.colorIndex;
                         } else {
-                            aoTypes[i].formattedOfferings[j].inScheduleIndicator = false;
-                            if (!aoTypes[i].formattedOfferings[j].inCartIndicator) {
-                                aoTypes[i].formattedOfferings[j].colorIndex = null;
+                            if (cartIndicator.flag) {
+                                aoTypes[i].formattedOfferings[j].colorIndex = cartIndicator.colorIndex;
                             }
                         }
                     }

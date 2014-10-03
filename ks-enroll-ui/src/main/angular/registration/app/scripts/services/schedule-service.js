@@ -205,7 +205,7 @@ angular.module('regCartApp')
                         return inScheduleIndicator;
                     }
                 }
-
+                return inScheduleIndicator;
             };
 
             // This method takes the schedule list returned from the schedule service and updates the global counts.

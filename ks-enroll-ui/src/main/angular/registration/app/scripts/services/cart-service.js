@@ -79,6 +79,7 @@ angular.module('regCartApp')
                     }
                 }
             }
+            return inCartIndicator;
         };
 
         // Server API Methods
