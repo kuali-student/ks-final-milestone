@@ -52,7 +52,7 @@
   .util-Grid;
   color: @primaryTextColor;
   cursor: pointer;
-  padding: 1rem 1rem 1rem 0.5rem;
+  padding: 0.1rem 0rem 0.1rem 0.5rem;
 
   &&--indicator {
     margin-left: 0.1rem;
@@ -83,6 +83,17 @@
   }
 }
 
+.kscr-Search-details-container {
+  padding: 0.9rem 0;
+}
+
+.kscr-Search-details-tabs-container {
+  .util-Grid-cell;
+  &--all {
+    padding: 0.9rem 0.5rem;
+  }
+}
+
 .kscr-Search-details-text {
   margin-left: 0.5rem;
   padding: 0.1rem 0rem 0.1rem 0.5rem;
@@ -91,6 +102,9 @@
   }
   &--block {
     display: block;
+  }
+  &--tall {
+    padding: 0.9rem 0.5rem;
   }
 }
 
@@ -140,7 +154,7 @@
 
   .kscr-Search-mobile-right-indicator--@{i} {
     height: 4rem;
-    margin-right: 0.1rem;
+    margin: 0.1rem 0.1rem 0 0;
     padding: 1rem 1rem 0 1rem;
     background-color: @courseColor;
     color: @white;
