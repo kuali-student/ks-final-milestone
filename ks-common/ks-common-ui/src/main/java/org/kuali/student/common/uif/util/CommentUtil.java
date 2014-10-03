@@ -73,7 +73,8 @@ public class CommentUtil {
             textLength = text.length();
             String strippedHtml = text.replaceAll("\\<.*?>", "");
             String strippedReturn = strippedHtml.replaceAll("[\n\r]", "");
-            textVisibleLength = strippedReturn.length();
+            String strippedSpace = strippedReturn.replace ("&nbsp;", " ");
+            textVisibleLength = strippedSpace.length();
         }
 
         if (textLength < minValue || textVisibleLength < minValue) {
