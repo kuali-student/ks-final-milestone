@@ -27,7 +27,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -50,6 +49,7 @@ import org.kuali.student.cm.proposal.form.wrapper.ProposalElementsWrapper;
 import org.kuali.student.cm.proposal.util.ProposalUtil;
 import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -60,7 +60,10 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
@@ -75,6 +78,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -793,10 +797,38 @@ public class CourseController extends CourseRuleEditorController {
         try {
             //Perform Service Layer Data Dictionary validation
             CourseInfo courseInfoToValidate = (CourseInfo) ObjectUtils.deepCopy(courseInfoWrapper.getCourseInfo());
-            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
+            courseInfoToValidate.getUnitsContentOwner().clear();
             for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
-                courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
+                courseInfoToValidate.getUnitsContentOwner().add(wrapper.getOrgId());
             }
+            List<CourseCrossListingInfo> toDelete = new ArrayList<>();
+            for (CourseCrossListingInfo crossListing : courseInfoToValidate.getCrossListings()) {
+                if (StringUtils.isBlank(crossListing.getSubjectArea()) && StringUtils.isBlank(crossListing.getCourseNumberSuffix())){
+                    toDelete.add(crossListing);
+                }
+            }
+            courseInfoToValidate.getCrossListings().removeAll(toDelete);
+
+            List<CourseJointInfo> jointToDelete = new ArrayList<>();
+            for (CourseJointInfo joint : courseInfoToValidate.getJoints()) {
+                if (StringUtils.isBlank(joint.getCourseId())){
+                    jointToDelete.add(joint);
+                }
+            }
+            courseInfoToValidate.getJoints().removeAll(toDelete);
+
+            List<CourseVariationInfo> variationToDelete = new ArrayList<>();
+            for (CourseVariationInfo variation : courseInfoToValidate.getVariations()) {
+                if (StringUtils.isBlank(variation.getSubjectArea()) && StringUtils.isBlank(variation.getVariationTitle())){
+                    variationToDelete.add(variation);
+                }
+                if (StringUtils.isBlank(variation.getTypeKey())){
+                    variation.setTypeKey(ProgramConstants.VARIATION_TYPE_KEY);
+                }
+            }
+            courseInfoToValidate.getVariations().removeAll(variationToDelete);
+
+
             String courseAuditAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_AUDIT);
             String coursePassFailAttribute = new AttributeHelper(courseInfoWrapper.getCourseInfo().getAttributes()).get(CurriculumManagementConstants.COURSE_PASS_FAIL);
 
@@ -929,10 +961,9 @@ public class CourseController extends CourseRuleEditorController {
                         if(unknownErrorCount==1) {
                             GlobalVariables.getMessageMap().putError(elementPath, CurriculumManagementConstants.MessageKeys.ERROR_KS_LEGACY_VALIDATION);
                         }
-                        continue;
                 }
                 if(StringUtils.isNotBlank(elementPath)) {
-                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, message);
+                    GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
                 }
             }
         }

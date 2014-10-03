@@ -421,6 +421,13 @@ public abstract class ProposalController extends RuleEditorController {
 
         ModelAndView modelAndView;
 
+
+        runStudentServiceValidation(form, DtoConstants.STATE_DRAFT);
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+
         modelAndView = save(form, result, request, response);
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
