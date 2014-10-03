@@ -1374,8 +1374,13 @@ the program will get the rule management service by calling the global resource 
         </property>
     </bean>
 
-    <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
+    <bean id="holdServiceDerivedState" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceDerivedStateDecorator">
         <property name="nextDecorator" ref="holdService"/>
+        <property name="academicCalendarService" ref="AcademicCalendarService"/>
+    </bean>
+
+    <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
+        <property name="nextDecorator" ref="holdServiceDerivedState"/>
         <property name="validator" ref="validator"/>
     </bean>
 
