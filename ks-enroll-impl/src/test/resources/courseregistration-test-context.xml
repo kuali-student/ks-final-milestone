@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/util
+          http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:base-courseregistration-test-context.xml" />
+    <import resource="classpath:ks-enroll-mq-context.xml" />
+
+    <alias name="luiService" alias="LuiService" />
+    <alias name="SearchService" alias="searchService" />
+    <alias name="courseRegistrationValidatorServiceImpl" alias="CourseRegistrationService" />
+    <alias name="lprService" alias="LprService" />
+    <alias name="kimIdentityService" alias="IdentityService" />
+
+    <!--  Preloaded data -->
+    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="JtaTxManager"/>
+        <property name="shouldLoadData" value="true"/>
+        <property name="preloadMap">
+            <map>
+                <entry key="co">
+                    <value>classpath:ks-reg.sql</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl">
+        <property name="searchService" ref="SearchService" />
+        <property name="courseRegistrationService" ref="CourseRegistrationService"/>  <!-- pointing at alias -->
+    </bean>
+
+
+    <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">
+        <property name="courseRegistrationService" ref="CourseRegistrationService"/>  <!-- pointing at alias -->
+        <property name="courseOfferingService" ref="CourseOfferingService" /> <!-- pointing at alias -->
+        <property name="lprService" ref="LprService" />
+        <property name="courseSeatCountService" ref="courseSeatCountService" />
+        <property name="luiService" ref="luiService" />
+        <property name="searchService" ref="SearchService" />
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
+
+    <bean id="courseRegistrationValidatorServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.TestCourseRegistrationValidationDecoratorMock">
+        <property name="nextDecorator" ref="courseRegistrationServiceImpl"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+    <bean id="kimIdentityService" class="org.kuali.student.kim.permission.mock.IdentityServiceMockImpl">
+    </bean>
+
+    <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+        <property name="lprService" ref="lprService" />
+        <property name="courseOfferingService" ref="CourseOfferingService" />
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="registrationRequestTransformer" ref="registrationRequestTransformer"/>
+    </bean>
+
+    <bean id="registrationRequestTransformer" class="org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer">
+        <property name="lrcService" ref="lrcService"/>
+    </bean>
+
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+        <property name="lprDao" ref="lprDao" />
+        <property name="lprTransactionDao" ref="lprTrasactionDao" />
+        <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+    </bean>
+
+
+    <bean id="courseRegistrationClientServiceImpl" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl" >
+          <property name="lprService" ref="lprService" />
+    </bean>
+
+    <!-- Seat count service START -->
+    <bean id="courseSeatCountService" class="org.kuali.student.enrollment.class2.courseseatcount.service.impl.CourseSeatCountServiceImpl"
+          scope="singleton">
+    </bean>
+
+    <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
+        <property name="regUserMap" ref="regUserMap" />
+    </bean>
+
+    <!-- This is a map of mock users with pre-set static dates. -->
+    <util:map id="regUserMap">
+        <entry key="TestStudent" value="2014-06-23@09:05" />
+    </util:map>
+
+    <!-- override the CourseRegistrationInitializationNode -->
+    <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
+    <bean id="registrationInitializationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationInitializationProcessorMock">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+    </bean>
+
+    <!-- override the request splitter -->
+    <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitterMock"/>
+
+    <!-- override the lpr action processor -->
+    <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessorMock">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+</beans>

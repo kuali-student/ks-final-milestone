@@ -1,0 +1,247 @@
+/**** Button Styles *****/
+
+// Base button
+.kscr-Button {
+    .kscr-Button-common-gradient(@btnBaseBg1, @btnBaseBg2, @btnBaseBorder, @btnBaseText);
+    .kscr-Button-hover(@btnBaseBg1-hover, @btnBaseBg2-hover, @btnBaseBorder-hover, @btnBaseText-hover);
+    .kscr-Button-pressed(@btnBaseBg1-pressed, @btnBaseBg2-pressed, @btnBaseBorder-pressed, @btnBaseText-pressed);
+    .kscr-Button-disabled(@btnBaseBg1-disabled, @btnBaseBg2-disabled, @btnBaseBorder-disabled, @btnBaseText-disabled);
+}
+
+
+// Primary Button
+.kscr-Button--primary {
+    .kscr-Button-common-gradient(@btnPrimaryBg1, @btnPrimaryBg2, @btnPrimaryBorder, @btnPrimaryText);
+    .kscr-Button-hover(@btnPrimaryBg1-hover, @btnPrimaryBg2-hover, @btnPrimaryBorder-hover, @btnPrimaryText-hover);
+    .kscr-Button-pressed(@btnPrimaryBg1-pressed, @btnPrimaryBg2-pressed, @btnPrimaryBorder-pressed, @btnPrimaryText-pressed);
+    .kscr-Button-disabled(@btnPrimaryBg1-disabled, @btnPrimaryBg2-disabled, @btnPrimaryBorder-disabled, @btnPrimaryText-disabled);
+
+    font-weight: bold;
+}
+
+// Directional Buttons
+.kscr-Button-directional-left,
+.kscr-Button-directional-right {
+  .kscr-Button-common-gradient(@btnBaseBg1, @btnBaseBg2, @btnBaseBorder, @btnBaseText);
+  .kscr-Button-hover(@btnBaseBg1-hover, @btnBaseBg2-hover, @btnBaseBorder-hover, @btnBaseText-hover);
+  .kscr-Button-disabled(@btnBaseBg1-disabled, @btnBaseBg2-disabled, @btnBaseBorder-disabled, @btnBaseText-disabled);
+
+  &:active:not([disabled]):not(:disabled), &.active:not([disabled]):not(:disabled) {
+    //use simple background for pressed
+    .linear-gradient(@btnBaseBg1-pressed, @btnBaseBg2-pressed);
+    border-color: @btnBaseBorder-pressed;
+    color: @btnBaseText-pressed;
+  }
+
+  display: none;
+  position: absolute;
+  text-align: center;
+  width: 6.4rem;
+  height: 3rem;
+  z-index: 0;
+
+  //hover property of pseudo elements
+  &:hover::before,
+  &:hover::after {
+    .directional-button-linear-gradient(to bottom right, @btnBaseBg1-hover, @btnBaseBg2-hover);
+    border-color: @btnBaseBorder-hover;
+    color: @btnBaseText-hover;
+  }
+
+  //pressed property of pseudo elements
+  &:active:not([disabled]):not(:disabled)::before, &.active:not([disabled]):not(:disabled)::before,
+  &:active:not([disabled]):not(:disabled)::after, &.active:not([disabled]):not(:disabled)::after {
+    .directional-button-linear-gradient(to bottom right, @btnBaseBg1-pressed, @btnBaseBg2-pressed);
+    border-color: @btnBaseBorder-pressed;
+    color: @btnBaseText-pressed;
+  }
+
+  & .glyphicon {
+    .kscr-util-vertical-align-element();
+    color: @darkGray;
+    .font-size(16);
+  }
+
+  @media @sm-Max {
+    // Main heading icons (cart, search & schedule)
+    // Shown only in small-format
+    display: inline-block;
+  }
+}
+
+.kscr-Button-directional-left {
+  left: 2rem;
+  border-left: none;
+  padding: 0;
+
+  &::before {
+    .directional-button-pseudo-common();
+    left: -0.95rem;
+    border-bottom: 2px solid @btnBaseBorder;
+    border-left: 1px solid @btnBaseBorder;
+  }
+}
+
+.kscr-Button-directional-right {
+  right: 2rem;
+  border-right: none;
+  padding: 0;
+
+  &:after {
+    .directional-button-pseudo-common();
+    right: -0.95rem;
+    border-right: 2px solid @btnBaseBorder;
+    border-top: 1px solid @btnBaseBorder;
+  }
+}
+
+
+// Outline button
+.kscr-Button--outline {
+    .kscr-Button-common(@whiteBackground, @btnBaseBorder, @btnBaseText);
+
+    &:active:not([disabled]):not(:disabled),
+    &.active:not([disabled]):not(:disabled) {
+      outline: 0;
+      .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    }
+
+    border-bottom-width: 1px;
+}
+
+
+// Button Group
+.kscr-Button-group {
+    position: relative; // For dropmenus
+
+    > .kscr-Button {
+        display: inline-block;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+
+    .dropdown-toggle {
+        // Cut the padding down a bit
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+
+        .caret {
+            // The caret is purely borders, to change the size we only need to alter the border-width.
+            border-width: 6px;
+            margin-left: 0;
+        }
+    }
+
+    &.open > .dropdown-toggle {
+        // Put a shadow in the dropdown toggle when the menu is open
+        .box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125));
+    }
+
+    .kscr-Button + .kscr-Button { // Prevent double borders
+        border-left: none;
+    }
+
+    // Clear the right border from all but the last element
+    // Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
+    > *:not(:last-child):not(.dropdown-toggle) {
+        .border-right-radius(0);
+    }
+
+    // Clear the left border-radius from the last element
+    > *:last-child:not(:first-child),
+    .dropdown-toggle:not(:first-child) {
+        .border-left-radius(0);
+    }
+
+    // Clear the border-radius for all but the first and last element
+    > *:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+        border-radius: 0;
+    }
+}
+
+//Override of Bootstrap class related to dropdown-toggle
+.dropdown-menu {
+  min-width: 100%;
+  margin: 0;
+
+  & > li > a {
+    padding: 0.5rem 1rem;
+  }
+}
+
+
+
+// Common button styles mixin
+.kscr-Button-common(@bg, @border, @text) {
+    background: @bg;
+
+    border: 1px solid @border;
+    border-bottom-width: 2px;
+    .Rounded(@buttonRadius);
+
+    color: @text;
+
+    font-family: @secondaryFontFamily;
+    .font-size(13);
+
+    padding: 0.5rem 1rem;
+}
+
+// Button Mixin for gradient background
+.kscr-Button-common-gradient(@bg1, @bg2, @border, @text) {
+    .kscr-Button-common(@bg1, @border, @text); // Call the base mixin
+    .linear-gradient(@bg1, @bg2);
+}
+
+// Hover mixin
+.kscr-Button-hover(@bg1, @bg2, @border, @text) {
+    &:hover {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+    }
+}
+
+// Pressed mixin
+.kscr-Button-pressed(@bg1, @bg2, @border, @text) {
+    &:active:not([disabled]):not(:disabled),
+    &.active:not([disabled]):not(:disabled) {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+        outline: 0;
+        .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    }
+}
+
+// Disabled mixin
+.kscr-Button-disabled(@bg1, @bg2, @border, @text) {
+    &[disabled], &:disabled {
+        .linear-gradient(@bg1, @bg2);
+        border-color: @border;
+        color: @text;
+    }
+}
+
+// Mixin for directional buttons only. Need to start and end transparent to mask stacked shapes.
+.directional-button-linear-gradient(@startDirection, @startColor, @endColor) {
+  background-color: @startColor; // fallback color if gradients are not supported
+  // rely on autoprefixer to generate for other versions
+  background:         linear-gradient(@startDirection, transparent, @startColor 8%, @endColor 96%, transparent 96%); /* Standard syntax; must be last */
+}
+
+.directional-button-pseudo-common() {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.17rem;
+  display: block;
+  width: 2.3rem;
+  height: 2.2rem;
+  .directional-button-linear-gradient(to bottom right, @btnBaseBg1, @btnBaseBg2);
+  .Rounded(4px);
+  transform: rotate(45deg);
+  content: "";
+  z-index: -1;
+}

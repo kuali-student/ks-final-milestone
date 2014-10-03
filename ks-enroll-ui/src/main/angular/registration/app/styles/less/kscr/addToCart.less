@@ -1,0 +1,74 @@
+/**** Add to Cart Section ****/
+
+.kscr-addToCart {
+    .kscr-Card-mixin();
+
+    .font-size(14);
+    margin: 1rem 0.5rem;
+    padding-top: 0.75rem;
+
+    /* Styles for large-size screens */
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+            border: none;
+            margin: 0.1rem 0 0.1rem 0;
+        }
+    }
+}
+
+.kscr-addToCart-heading {
+    cursor: pointer;
+    padding: 0.5rem 0 0.5rem 2.5rem;
+}
+
+.kscr-addToCart-header {
+    color: @secondaryTextColor;
+}
+
+.kscr-addToCart-contents {
+    .util-Grid;
+    align-items: flex-end;
+
+    .kscr-addToCart-cell {
+        &--courseCode {
+            .flex(2 1 0px);
+        }
+
+        &--regCode {
+            .flex(1 1 0px);
+        }
+
+        &--button {
+            .flex(2.2 1 0px);
+            text-align: right;
+        }
+    }
+}
+
+.kscr-addToCart-label {
+    color: @secondaryTextColor;
+    display: block;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+}
+
+.kscr-addToCart-input {
+    color: @secondaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    padding: 0.25rem;
+    text-transform: uppercase;
+    width: 90%;
+}
+
+.kscr-addToCart-button {
+    // Show a processing icon when the action is processing
+    .kscr-addToCart--processing & > span {
+        background: @processingGif no-repeat left center;
+        padding-left: 2.5rem;
+    }
+}
+
+

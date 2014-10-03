@@ -1,0 +1,104 @@
+/*
+Custom styles for course search results.
+
+This is separate from the main searchResults.less file as we want to keep those styles generic,
+and apply more specific styling here based on the field name.
+*/
+
+.kscr-Search-result {
+  color: @cardTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
+  font-weight: normal;
+  position: relative;
+
+  .kscr-SearchDetails-icon--honors {
+    float:right;
+  }
+}
+
+.kscr-Search-result-column-courseCode {
+  font-weight: bold;
+}
+
+.kscr-Search-result-column-creditOptions {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.kscr-Search-result-column-longName {
+  color: @primaryTextColor;
+}
+
+.kscr-Search-results {
+  .kscr-Search-results-cell {
+    .kscr-SearchDetails-icon--honors {
+      float:right;
+    }
+  }
+}
+
+.kscr-SearchDetails-activityOfferingGroups {
+  .kscr-SearchDetails-activityOfferings {
+    .kscr-Search-results-cell {
+      .kscr-SearchDetails-icon--honors {
+        float:left;
+      }
+    }
+  }
+}
+
+.kscr-Search-results-cell .kscr-Search-results-no-seats,
+.kscr-Search-details-section--singleRegGroup .kscr-Search-results-no-seats,
+.kscr-Search-results-cell--highlight {
+  .kscr-highlight-error;
+  padding: 1rem;
+}
+
+.kscr-Search-details-text--highlight {
+  .kscr-highlight-error;
+  padding: 0.1rem 0.5rem;
+  &-tall {
+    padding: 1rem;
+  }
+}
+
+.kscr-highlight-error {
+  background-color: @errorBackground;
+  border: 1px solid @errorBorder;
+  color: @courseSearchNoSeats;
+  font-weight: bold;
+}
+
+
+.kscr-courseSearch-results-cell {
+  //This aligns the content in the Credits column to the right
+  &--Credits {
+    text-align: right;
+    > span {
+      padding-right: 0.6rem;
+    }
+  }
+
+  &--Title {
+    > span {
+      &:hover,
+      &:focus{
+        color: @linkColorHover;
+      }
+    }
+  }
+}
+
+// Course Details -- AO column widths
+.kscr-Search-results-column {
+  &-Days {
+    width: 12%;
+  }
+
+  &-Time,
+  &-Instructor {
+    width: 20%;
+  }
+}

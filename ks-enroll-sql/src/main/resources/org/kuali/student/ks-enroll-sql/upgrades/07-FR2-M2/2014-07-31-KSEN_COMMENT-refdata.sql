@@ -1,0 +1,13 @@
+--  KSENROLL-13831 - Add admin comments to ref data
+-- CO comment
+INSERT INTO KSEN_COMMENT (COMMENTER_ID, COMMENT_PLAIN, COMMENT_STATE, COMMENT_TYPE, CREATEID, CREATETIME, ID, OBJ_ID, REF_OBJECT_ID, REF_OBJECT_URI, UPDATEID, UPDATETIME, VER_NBR) VALUES ('admin', 'This is a CO comment for 201208 / ENGL250.', 'kuali.comment.comment.state.active', 'kuali.comment.type.generalRemarks', 'admin', TO_DATE('20140731000000', 'YYYYMMDDHH24MISS'),'84763607-1a8d-4026-bb28-5611f4dfcbcb', 'f4097921-6e22-4855-b8bd-d9a2961de3d0', '443be82c-41e0-4e4f-bc09-c1cf086264df', 'http://student.kuali.org/wsdl/courseOffering/CourseOfferingInfo', 'admin', TO_DATE('20140731000000', 'YYYYMMDDHH24MISS'), 0)
+/
+-- AO comment
+INSERT INTO KSEN_COMMENT (COMMENTER_ID, COMMENT_PLAIN, COMMENT_STATE, COMMENT_TYPE, CREATEID, CREATETIME, ID, OBJ_ID, REF_OBJECT_ID, REF_OBJECT_URI, UPDATEID, UPDATETIME, VER_NBR) VALUES ('admin', 'This is a AO comment for 201208 / ENGL250 / A.', 'kuali.comment.comment.state.active', 'kuali.comment.type.generalRemarks', 'admin', TO_DATE('20140731000000', 'YYYYMMDDHH24MISS'),'7303f36e-d8f3-460c-b466-f43d16ef342c', '8fa2bc5e-7b8b-43d7-9161-d9aa34ee873a', '44cb726b-01eb-4d86-9517-b45bef99c120', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'admin', TO_DATE('20140731000000', 'YYYYMMDDHH24MISS'), 0)
+/
+-- CO edited comment
+INSERT INTO KSEN_COMMENT (COMMENTER_ID, COMMENT_PLAIN, COMMENT_STATE, COMMENT_TYPE, CREATEID, CREATETIME, ID, OBJ_ID, REF_OBJECT_ID, REF_OBJECT_URI, UPDATEID, UPDATETIME, VER_NBR) VALUES ('admin', 'This is a CO comment for 201208 / ENGL250. Edited.', 'kuali.comment.comment.state.active', 'kuali.comment.type.generalRemarks', 'admin', TO_DATE('20140731001000', 'YYYYMMDDHH24MISS'),'def3fa12-e690-4895-9d61-6d78e7db23d1', 'd1ce9243-052a-491c-a62b-1a0174c5eadb', '443be82c-41e0-4e4f-bc09-c1cf086264df', 'http://student.kuali.org/wsdl/courseOffering/CourseOfferingInfo', 'admin', TO_DATE('20140731010000', 'YYYYMMDDHH24MISS'), 1)
+/
+-- AO edited comment
+INSERT INTO KSEN_COMMENT (COMMENTER_ID, COMMENT_PLAIN, COMMENT_STATE, COMMENT_TYPE, CREATEID, CREATETIME, ID, OBJ_ID, REF_OBJECT_ID, REF_OBJECT_URI, UPDATEID, UPDATETIME, VER_NBR) VALUES ('admin', 'This is a AO comment for 201208 / ENGL250 / A. Edited.', 'kuali.comment.comment.state.active', 'kuali.comment.type.generalRemarks', 'admin', TO_DATE('20140731001000', 'YYYYMMDDHH24MISS'),'a04d33dc-8864-4efe-acc6-b26dbca3822c', 'fbdf4388-9889-4b0a-9832-fed856a3695f', '44cb726b-01eb-4d86-9517-b45bef99c120', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'admin', TO_DATE('20140731010000', 'YYYYMMDDHH24MISS'), 1)
+/

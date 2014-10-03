@@ -1,3 +1,0 @@
-<config>
-    <param name="ksap.theme.version">${project.version}</param>
-</config>

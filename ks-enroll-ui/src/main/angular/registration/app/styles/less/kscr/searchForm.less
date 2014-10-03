@@ -1,0 +1,60 @@
+/*** Search Form Section  ***/
+
+.kscr-SearchForm {
+  @media @lg-Min {
+    // Hide the search content area form in large-format since it's in the sidebar
+    .kscr-Search & {
+      display: none;
+    }
+  }
+}
+
+// Main search form container (header & form contents)
+.kscr-SearchForm-container {
+    margin-bottom: 1rem;
+}
+
+// Search form itself
+.kscr-SearchForm-form {
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    margin: 1rem;
+
+    & .util-Grid-cell:first-child {
+        // Push the first grid cell (input) off of the next (button)
+        margin-right: 1rem;
+    }
+
+    @media @lg-Min {
+      // Collapse the form contents onto the header in large-format
+      background-color: @whiteBackground;
+      margin: 0.1rem 0;
+      padding: 1rem;
+    }
+}
+
+// Search text input
+.kscr-SearchForm-input {
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    padding: 0.3rem 0.3rem 0.2rem;
+    width: 100%;
+}
+
+// Search label/tip below input
+.kscr-SearchForm-label {
+    color: @secondaryTextColor;
+    display: block;
+    font-family: @secondaryFontFamily;
+    .font-size(12);
+    font-style: italic;
+    font-weight: normal;
+    margin-top: 0.2rem;
+}
+
+// Search button
+.kscr-SearchForm-button .kscr-Button {
+    font-weight: normal !important; // Important to override the disabled styles
+}

@@ -1,0 +1,71 @@
+/* Splash page styles */
+.kscr-Splash {
+  @media @sm-Max {
+    .kscr-Main-scheduleWrapper & {
+      // Clear out the float from the toggles after the heading when viewing the list
+      clear: both;
+    }
+  }
+
+  @media @lg-Min {
+    .kscr-Main-sidebar & {
+      // Splash page/message shown in schedule when nothing is registered
+      display: none;
+    }
+  }
+}
+
+.kscr-Splash-card {
+  margin: 0 1rem 1rem;
+  border-width: 1px 1px 2px;
+  border-style: solid;
+  opacity: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  text-align: center;
+  padding: 6.5rem 0 3rem 0;
+
+  @media @sm-Max {
+    padding: 1.5rem 0 1rem 0;
+  }
+}
+
+.kscr-Splash-heading {
+  color: @secondaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(20);
+  font-weight: bold;
+  margin: auto;
+  padding-top: 6.5rem;
+
+  @media @sm-Max {
+    padding-top: 1.5rem;
+  }
+}
+
+.kscr-Splash-message {
+  color: @secondaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(16);
+  font-weight: normal;
+  margin: auto;
+  padding-top: 2.5rem;
+
+  @media @sm-Max {
+    padding-top: 1rem;
+  }
+}
+
+.kscr-Splash-logo {
+  max-width: 100%;
+}
+
+.kscr-MainHeading.kscr-Splash-header {
+  display: none;
+
+  @media @sm-Max {
+    display: flex;
+  }
+}

@@ -1,0 +1,120 @@
+<div class="kscr-Main-cartWrapper" ng-class="{ 'kscr-Main-cartWrapper--active' : uiState == 'root.cart' }">
+    <div id="kscr-CartHeading">
+        <!--My Cart Main Heading-->
+        <div class="kscr-MainHeading kscr-MainHeading-icons util-Grid util-Grid--center">
+            <div class="util-Grid-cell">
+                <a ui-sref="root.search"><div class="kscr-Button-directional-left"><i class="glyphicon glyphicon-search"></i></div></a>
+                <div class="kscr-MainHeading-header">My Cart</div>
+                <a ui-sref="root.schedule"><div class="kscr-Button-directional-right"><i class="glyphicon glyphicon-calendar"></i></div></a>
+            </div>
+        </div>
+        <!-- Sticky Cart Summary & Registration Action -->
+        <div sticky class="kscr-MainHeading-CartHeading">
+            <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation || states.processing.indexOf(cartResults.state) !== -1">
+                <div class="util-Grid-cell">
+                    <div class="kscr-MainHeading-header kscr-MainHeading-stickyHeader">My Cart</div>
+                    <div id="credit_count_title" class="kscr-MainHeading-support">
+                        <strong><ng-pluralize count="cart.items.length" when="{'1': '{} course', 'other': '{} courses'}"></ng-pluralize></strong>
+                        (<ng-pluralize count="creditTotal" when="{'1': '{} credit', 'other': '{} credits'}"></ng-pluralize>)
+                    </div>
+                    <div id="credit_count_title_large" class="kscr-MainHeading-support">
+                        <ng-pluralize count="creditTotal" when="{'1': '{} CREDIT', 'other': '{} CREDITS'}"></ng-pluralize>
+                    </div>
+                </div>
+                <div>
+                    <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+                    <button id="clear_cart" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button" type="button" ng-click="clearCart()">Clear</button>
+                </div>
+            </div>
+            <div class="kscr-MainHeading" ng-show="states.processing.indexOf(cartResults.state) !== -1">
+                <div id="registering_message" class="kscr-MainHeading-header--processing">
+                    Registering for courses...
+                </div>
+            </div>
+            <form ng-submit="register()">
+                <!-- Registration Confirmation Box-->
+                <div ng-show="showConfirmation" class="kscr-Confirmation-container">
+                    <div class="kscr-Confirmation-header  util-Grid">
+                        <ng-pluralize count="cart.items.length"
+                            when="{  '1'    : 'Register for the course below?',
+                                     'other': 'Register for the courses below?'}">
+                        </ng-pluralize>
+                    </div>
+                    <div class="util-Grid">
+                        <span class="kscr-Confirmation-buttons util-Grid-cell">
+                            <button id="confirmRegistration" class="kscr-Button--primary" type="submit" focus-me="showConfirmation">Confirm Registration</button>
+                                <div class="global-Base-divider"></div>
+                            <button id="cancelRegistration" class="kscr-Button" type="button" ng-click="showConfirmation = !showConfirmation">Cancel</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- My Cart Input Boxes and Add to Cart Button -->
+    <div class="kscr-addToCart kscr-addToCart--{{addToCartStatus}}">
+        <form novalidate name="form" ng-submit="addRegGroupToCart();">
+            <fieldset>
+                <div class="kscr-addToCart-contents">
+                    <div class="kscr-addToCart-cell kscr-addToCart-cell--courseCode">
+                        <label for="courseCode" class="kscr-addToCart-label">Course Code</label>
+                        <input id="courseCode" class="kscr-addToCart-input" type="text" size="9" maxlength="8" ng-model="courseCode" focus-once="courseAdded" />
+                    </div>
+                    <div class="kscr-addToCart-cell kscr-addToCart-cell--regCode">
+                        <label for="regCode" class="kscr-addToCart-label">Section</label>
+                        <input id="regCode" class="kscr-addToCart-input" type="text" size="4" maxlength="4" ng-model="regCode" />
+                    </div>
+                    <div class="kscr-addToCart-cell kscr-addToCart-cell--button">
+                        <button id="submit" name="submit" class="kscr-Button kscr-addToCart-button" ng-disabled="addToCartStatus === statuses.processing"><span>Add to Cart</span></button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <!--Alert message-->
+    <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
+        <span class="kscr-Card-statusRemove"><a href="" ng-click="removeUserMessage()"></a></span>
+        <span class="kscr-Card-statusUndo" ng-if="userMessage.linkText"  ng-click="invokeActionLink(userMessage.actionLink)"><a href="" title="Undo"></a></span>
+        <span validation-message message="userMessage"></span>
+        <div class="kscr-Card-buttons" ng-if="userMessage.linkText">
+            <button id="userMessageInvoke" class="kscr-Button" type="button" ng-click="invokeActionLink(userMessage.actionLink)">{{userMessage.linkText}}</button>
+        </div>
+    </div>
+
+    <div class="kscr-Card kscr-Card-Cart">
+        <div ng-repeat="cartItem in cart.items" is-open="isopen" class="kscr-Course-container kscr-Course-course{{courseIndex(cartItem)}}">
+            <div id="cartItem_status_message" class="util-Alert--card util-Alert--{{cartItem.alertMessage.type}}"  ng-if="cartItem.alertMessage.txt">
+                {{cartItem.alertMessage.txt}}
+                <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"></a></span>
+            </div>
+            <course-accordion course="cartItem" type="{{courseTypes.cart}}" card-index="$index" cart-id="cart.cartId"></course-accordion>
+         </div>
+    </div>
+
+    <div class="kscr-Card kscr-Card-Results" ng-show="cartResults.items.length">
+        <div class="kscr-Heading-sub kscr-cartResult-responseHeading"
+             ng-class="{'kscr-cartResult-responseHeading--success' : (cartResults.successCount > 0),
+                        'kscr-cartResult-responseHeading--waitlisted' : (cartResults.waitlistedCount > 0),
+                        'kscr-cartResult-responseHeading--waitlist' : (cartResults.waitlistCount > 0),
+                        'kscr-cartResult-responseHeading--fail' : (cartResults.errorCount > 0),
+                        'kscr-cartResult-responseHeading--info' : (cartResults.infoCount > 0)}">
+            <span class="kscr-cartResult-responseLabel">Results</span>
+            <span class="kscr-cartResult-responseCount">
+                <span ng-if="cartResults.successCount > 0" class="kscr-cartResult-responseCount--success">{{cartResults.successCount}}</span>
+                <span ng-if="cartResults.waitlistedCount > 0" class="kscr-cartResult-responseCount--waitlisted">{{cartResults.waitlistedCount}}</span>
+                <span ng-if="cartResults.waitlistCount > 0" class="kscr-cartResult-responseCount--waitlist">{{cartResults.waitlistCount}}</span>
+                <span ng-if="cartResults.errorCount > 0" class="kscr-cartResult-responseCount--fail">{{cartResults.errorCount}}</span>
+                <span ng-if="cartResults.infoCount > 0" class="kscr-cartResult-responseCount--info">{{cartResults.infoCount}}</span>
+            </span>
+            <span class="util-Grid--clearfix"></span>
+        </div>
+        <div id="resultsSection" class="panel-group">
+            <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel">
+                <ng-include src="'partials/cartResult.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>

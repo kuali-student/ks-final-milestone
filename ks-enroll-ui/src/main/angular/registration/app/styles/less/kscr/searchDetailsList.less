@@ -1,0 +1,130 @@
+.kscr-Search-details-header {
+  .util-Grid;
+  border-top: 1px solid @bodyColorDark;
+  border-right: 1px solid @bodyColorDark;
+  border-bottom: 1px solid @bodyColorDark;
+  margin-bottom: 1rem;
+}
+
+.kscr-Search-details-tab-container {
+  .kscr-Search-details-tab-container(1);
+  &--wide {
+    .kscr-Search-details-tab-container(2);
+  }
+}
+
+.kscr-Search-details-tab-container(@flex) {
+  .util-Grid-cell(@flex);
+  border-left: 1px solid @bodyColorDark;
+}
+
+.kscr-Search-details-tab {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-align: center;
+  margin: 0.1rem;
+  cursor: pointer;
+  &--selected {
+    color: @primaryTextColor;
+    background-color: @bodyColorDark;
+  }
+}
+
+.kscr-Search-details-grid {
+  .util-Grid;
+  margin: 0.1rem 0.1rem 0.1rem 0;
+}
+
+.kscr-Search-details-selector {
+  .util-Grid-cell;
+  .util-Grid;
+  background-color: @white;
+  border-bottom: @horizontalLineBorder;
+
+  &&--selected {
+    border: none;
+  }
+}
+
+.kscr-Search-details-section {
+  .util-Grid-cell;
+  .util-Grid;
+  color: @primaryTextColor;
+  cursor: pointer;
+  padding: 1rem 1rem 1rem 0.5rem;
+
+  &&--indicator {
+    margin-left: 0.1rem;
+    padding-left: 0.4rem;
+  }
+  &&--selected {
+    background-color: @searchDetailsSelectedBackgroundColor;
+    margin: 0.1rem 0.1rem 0.1rem 0;
+  }
+  &&--disabled {
+    font-style: italic;
+    cursor: not-allowed;
+  }
+  &&--unselectable {
+    background-color: @cardBorderColor;
+    color: @primaryTextColor;
+    cursor: auto;
+  }
+}
+
+.kscr-Search-details-checkbox {
+  .checkbox-icon();
+  &--selected {
+    .checkbox-dark-icon--checked();
+  }
+  &--disabled {
+    background: none;
+  }
+}
+
+.kscr-Search-details-text {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  &--right {
+    float: right;
+  }
+  &--block {
+    display: block;
+  }
+}
+
+.kscr-Search-details-indicator {
+  .util-Grid;
+  padding: 1rem 0;
+  width: 0.5rem;
+  float: left;
+
+  &--show {
+    background-color: @errorBackground;
+  }
+  &--selected {
+    background-color: @searchDetailsSelectedBackgroundColor;
+    margin: 0.1rem 0 0.1rem 0.1rem;
+  }
+  &--unselectable {
+    background-color: @cardBorderColor;
+  }
+}
+
+.kscr-Search-details-icons {
+  margin-left: 0.1rem;
+  padding: 1rem 0.5rem 0 0.5rem;
+  .kscr-SearchDetails-icon {
+    display: none;
+  }
+}
+
+.kscr-Search-details {
+  &-list{
+    // above this breakpoint, hide the tabbed view
+    @media @searchDetailsTable-Min {
+      display: none;
+    }
+  }
+}

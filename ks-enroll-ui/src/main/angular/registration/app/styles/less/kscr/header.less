@@ -1,0 +1,176 @@
+/**** global header ****/
+
+.kscr-Header-container {
+    background-color: @black;
+    height: @headerHeight;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 150;
+}
+
+.kscr-Header {
+    color: @headerFontColor; //#F8F8F8
+    font-family: @primaryFontFamily;
+    .font-size(14);
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 0.2rem;
+    position: relative;
+}
+
+.kscr-Header-logo {
+    background: url('../images/logo_kuali_k_only.png') no-repeat 5px center;
+    height: @headerHeight;
+    padding: 0 0.2rem 0 4rem;
+
+    @media @lg-Min {
+      .kscr-Main-header & {
+        // use the larger logo in the expanded mode
+          background-image: url('../images/logo_kuali_bak.png');
+          padding-left: 11.5rem;
+        }
+    }
+}
+
+.kscr-Header-title {
+    display: none;
+    @media @lg-Min {
+        .kscr-Main-header & {
+          display: block; /* show the header title & separator in large format only */
+        }
+    }
+}
+
+.kscr-Header-separator {
+    border-left: 2px solid @lightGray;
+    border-right: 2px solid @lightGray;
+    display: none;
+    height: 1.5rem;
+    margin: 0 0.7rem;
+    width: 0.8rem;
+
+    @media @lg-Min {
+      .kscr-Main-header & {
+        display: block; /* show the header title & separator in large format only */
+      }
+    }
+}
+
+.kscr-Header-termName {
+    display: block;
+    font-weight: normal;
+    line-height: 1.4rem;
+    position: relative;
+
+    &-icon {
+        float: left;
+        .font-size(12);
+        margin-right: 0.5rem;
+    }
+
+    &-selector {
+        display: block; // show the selector by default (large-format)
+
+        &-label {
+          .kscr-Header-moreOptions;
+        }
+
+        & .kscr-Header-termName-selectWrap {
+            // Position the term selector on top of the term label
+            height: 100%;
+            left: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+        }
+
+        & select {
+            // The goal here is to make the term select invisible while keeping the options list functional when you click on the label
+            background: transparent; // Removes any background styling
+            border: 0; // No border
+            border-radius: 0;
+            cursor: pointer;
+            height: 100%;
+            outline: none; // Outline shows when element is focused in some browsers (clicked or tabbed into)
+            text-indent: -999em; // Offsets the text in the select to a non-visible portion of the screen so that it won't conflict with the styled label
+            width: calc(~'100% + 2rem'); // Force the select arrow to be hidden by the parent div overflow
+            -webkit-appearance: none;
+
+            & option {
+                background: @white; // Reset the option background. Otherwise, it'll inherit the parent's transparent background
+                font-family: @secondaryFontFamily;
+                color: @black;
+            }
+        }
+
+        @media @lg-MaxWidth-Min {
+            display: none; // hide the term label selector in small format only
+        }
+    }
+}
+
+.kscr-Header-credits {
+    display: block;
+    font-family: @secondaryFontFamily;
+    .font-size(13);
+    font-weight: normal;
+    line-height: 1.3rem;
+    margin-top: 0.3rem;
+}
+
+.kscr-Header-user {
+  .kscr-Menu-user;
+  .kscr-Header-moreOptions;
+}
+
+.kscr-Header-menu {
+  cursor: pointer;
+  border: 1px solid @black;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-right: 1.5rem;
+
+  &:hover, &--clicked {
+    border-color: @white;
+  }
+
+  @media @lg-MaxWidth-Min {
+    display: none; /* only shown in large view */
+  }
+}
+
+.kscr-Header-moreOptions {
+  .arrow-down-icon;
+  margin-bottom: 0;
+  padding-right: 1.6rem;
+}
+
+.kscr-Header-userMenu {
+  background: @white;
+  position: absolute;
+  right: 2.1rem;
+  top: 3.6rem;
+
+  & ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  & ul li {
+    color: @black;
+    list-style-type: none;
+    font-weight: normal;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+    cursor: pointer;
+    padding: 0 1.5rem 0 1.5rem;
+
+    &:hover {
+      background-color: @blue;
+    }
+  }
+}

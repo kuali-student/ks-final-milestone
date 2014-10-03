@@ -1,0 +1,135 @@
+/**** soon to be in Menu dropdown ****/
+
+.kscr-Menu-button {
+    color: @whiteText;
+    border: 1px solid #797979;
+    border-radius: 5px;
+    font-family: @primaryFontFamily;
+    font-weight: normal;
+    .font-size(13);
+}
+
+.kscr-Menu-button {
+    &-menu {
+        background-color: @black;
+        padding: 0.3rem;
+        .kscr-Menu-button;
+
+        &--clicked {
+            background-color: @whiteBackground;
+            color: @secondaryTextColor;
+        }
+    }
+
+    &-logout {
+        background-color: @lightGray;
+        padding: 0.1rem 0.2rem;
+        .kscr-Menu-button;
+    }
+
+}
+
+
+.kscr-Menu-container{
+    background-color: @whiteBackground;
+    max-width: 90%;
+    z-index: 160;
+    float: right;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    white-space: nowrap;
+    position: absolute;
+    right: 0;
+    border: solid @border-color;
+    border-width: 0px 0px 2px 1px;
+
+    .util-transitions-browserHelper();
+    opacity:1;
+
+    a {
+      color: @primaryTextColor;
+      .font-size(14);
+    }
+
+    a:hover, a:focus {
+       outline: none;
+       text-decoration:none;
+    }
+
+    > li {
+        padding: 1rem;
+        &.kscr-Menu-links {
+            padding: 0 1rem;
+            a {
+                border-top: @horizontalLineBorder;
+                display: block;
+                padding: 1rem 0;
+            }
+        }
+    }
+}
+
+.kscr-Menu-Header{
+    background-color: @lightGray;
+    padding: 0.5rem 1rem 1rem;
+}
+
+.kscr-Menu-heading{
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    color: @secondaryTextColor;
+}
+
+.kscr-Menu-links {
+    cursor: pointer;
+    cursor: hand;
+    padding: 0;
+    .kscr-Menu-heading;
+
+    &:hover {
+        background-color: @menuHoverColor;
+    }
+}
+
+.kscr-Menu-links-heading{
+    color: @primaryTextColor;
+    font-weight: bold;
+}
+
+.kscr-Menu-subtext{
+    margin-left: 1.8rem;
+}
+
+
+.kscr-Menu-container.ng-hide-add,
+.kscr-Menu-container.ng-hide-remove {
+    display:block!important;
+    max-width: 90%;
+}
+
+.kscr-Menu-container.ng-hide {
+    opacity:0.8;
+    max-width:0%;
+}
+
+.kscr-Menu-searchTerm {
+    color: @primaryTextColor;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem 0;
+}
+
+#searchTerm{
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    margin-left: 0.5rem;
+    max-width: 85%;
+}
+
+.kscr-Menu-user {
+  font-weight: normal;
+  font-family: @secondaryFontFamily;
+}

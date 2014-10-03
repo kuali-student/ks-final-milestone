@@ -1,0 +1,33 @@
+<div class="row">
+
+  <div class="kscr-Header">
+
+    <div class="util-Grid util-Grid--center">
+      <span class="kscr-Header-title util-Grid-cell">Course Registration</span>
+      <nav class="kscr-Header-nav kscr-Nav">
+        <a
+          class="kscr-Nav-item"
+          ng-class="{ 'kscr-Nav-item--active': $state.includes('app.search') }"
+          ng-href="{{srefs['app.search']}}">Search</a>
+        <a
+          class="kscr-Nav-item"
+          href="#">Cart</a>
+        <a
+          class="kscr-Nav-item"
+          ng-class="{ 'kscr-Nav-item--active': $state.includes('app.schedule') }"
+          ui-sref="app.schedule">Schedule</a>
+      </nav>
+    </div>
+
+    <div class="kscr-TermContext">
+      <p class="kscr-TermContext-current">
+        <span class="kscr-TermContext-currentLabel">Fall 2013</span>
+        <a class="kscr-TermContext-currentChange">change term</a>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="kscr-Main" ui-view></div>
+
+</div>

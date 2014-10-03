@@ -1,0 +1,36 @@
+
+.kscr-Waitlisted-details {
+    border-top:@horizontalLineBorder;
+    color: @primaryTextColor;
+    .font-size(14);
+    font-family: @secondaryFontFamily;
+    font-weight: normal;
+    padding: 1rem 0 1rem 1rem;
+}
+
+.kscr-Waitlisted-clockIcon {
+    color: @primaryTextColor;
+    .font-size(13);
+}
+
+// Waitlisted coursed container
+.kscr-Waitlisted-container {
+    @media @lg-Min{
+        .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
+
+        &--inactive {
+          display: none; /* when there is no waitlist information, hide the section so that registered section takes up all of the space */
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Schedule in sidebar (search only)
+            border-top: @horizontalLineBorder;
+            margin-top: 0.1rem;
+
+            // Waitlist container when no courses exist in it
+            &--inactive {
+              display: none;
+            }
+        }
+    }
+}

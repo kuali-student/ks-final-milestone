@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="AppliedHoldMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass"
+                  value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
+        <property name="maintainableClass"
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.AppliedHoldMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class1.hold.rule.AppliedHoldRule"/>
+        <property name="documentTypeName" value="AppliedHoldMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>appliedHold.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AppliedHoldMaintenanceView" parent="KS-Uif-MaintenanceView">
+        <property name="viewName" value="AppliedHoldMaintenanceView"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.enrollment.class1.hold.dto.AppliedHoldMaintenanceWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.hold.service.impl.HoldsViewHelperServiceImpl"/>
+        <property name="headerText" value="@{#dp.viewHeaderInfo}"/>
+        <property name="items">
+            <list>
+                <bean id="KS-ApplyHold-Page" parent="KS-ApplyHold-Page-parent"/>
+                <bean id="KS-EditHold-Page" parent="KS-EditHold-Page-parent"/>
+                <bean id="KS-ExpireHold-Page" parent="KS-ExpireHold-Page-parent"/>
+                <bean id="KS-DeleteHold-Page" parent="KS-DeleteHold-Page-parent"/>
+            </list>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Applied Holds"/>
+                    <property name="url.viewId" value="KS-AppliedHoldManagementView"/>
+                    <property name="url.controllerMapping" value="appliedHoldManagement"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Apply Hold"/>
+                </bean>
+            </list>
+        </property>
+        <property name="singlePageView" value="false"/>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksboot/stylesheets/holds.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ApplyHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-ApplyHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-ApplyHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-ApplyHold-SubmitCancel" parent="KS-ApplyHold-SubmitCancel-parent"/>
+    <bean id="KS-ApplyHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="applyHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="apply" p:actionLabel="Apply Hold" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ApplyHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean id="KS-ApplyHold-HoldCode-Section" parent="Uif-HorizontalBoxGroup">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                         <list>
+                             <!--TODO-->
+                            <ref bean="KS-ApplyHold-HoldCode-Section-CodeInput"/>
+                            <!--<bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"-->
+                                  <!--p:actionLabel="Show" p:methodToCall="searchHoldIssueByCode" p:style="margin-top:19px"/>-->
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup" p:progressiveRender="@{#dp.maintenanceHold.holdIssue != null}">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term"
+                                  p:propertyName="effectiveTerm" p:required="false"
+                                  p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6"
+                                          p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Effective Date"
+                                  p:propertyName="appliedHold.effectiveDate" p:required="true">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+        <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
+    </bean>
+
+    <bean id="KS-ApplyHold-HoldCode-Section-CodeInput" parent="KS-Uif-InputField" p:label="Hold Code" p:propertyName="holdCode"
+          p:required="true" p:additionalCssClasses="ks-uif-quickFinder">
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:size="8"/>
+        </property>
+        <!-- The hold code auto-complete -->
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="holdCode">
+                <property name="returnFullQueryObject" value="true"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveHoldCodes"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="3"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder">
+                <property name="dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="code" value="holdCode"/>
+                    </map>
+                </property>
+                <property name="quickfinderAction">
+                    <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchHoldIssues"
+                          p:actionLabel="Find a Hold" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-EditHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-EditHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-SubmitCancel" parent="KS-EditHold-SubmitCancel-parent"/>
+    <bean id="KS-EditHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="editHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="apply" p:actionLabel="Save" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EditHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Code" p:propertyName="holdCode"
+                      p:required="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.holdCode"/>
+                    <property name="methodToCallOnRefresh" value="searchHoldIssueByCode"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Effective Term"
+                                  p:propertyName="effectiveTerm" p:required="false"
+                                  p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6"
+                                          p:disabled="false"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Effective Date"
+                                  p:propertyName="appliedHold.effectiveDate">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-SelectedAppliedHoldDeleteAndExpireConfirmation-WarningMessage"/>
+                            <ref bean="KS-ExpireHold-Section-Info"/>
+                            <ref bean="KS-ExpireHold-HoldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-ExpireHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-SubmitCancel" parent="KS-ExpireHold-SubmitCancel-parent"/>
+    <bean id="KS-ExpireHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="expireHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="expire" p:actionLabel="Expire Hold" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-HoldSection" parent="Uif-VerticalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-bottom:10px;"/>
+        <property name="headerText" value="Hold Details"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup"  >
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="Expiration Date" p:propertyName="appliedHold.expirationDate">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Expiration Term" p:propertyName="expirationTerm"
+                                  p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}"
+                                  p:fieldLabel.renderColon="true">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
+                                </property>
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.hold.issue.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ExpireHold-Section-Info" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+          p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Applied Hold"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.name"/>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Hold Code"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdCode"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:required="false" p:colSpan="3"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.typeKey" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
+                    </property>
+                </bean>
+				<bean parent="Uif-InputField" p:label="Effective Date" p:propertyName="appliedHold.effectiveDate"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:colSpan="3" >
+                    <property name="control">
+                        <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                    </property>
+				</bean>
+                <bean parent="Uif-InputField" p:label="Effective Term" p:propertyName="effectiveTerm"
+                      p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:colSpan="3" >
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="headerText" value="@{#dp.pageHeaderInfo}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-SelectedAppliedHoldDeleteAndExpireConfirmation-WarningMessage"/>
+                            <ref bean="KS-DeleteHold-Section-Info"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KS-DeleteHold-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KS-DeleteHold-SubmitCancel" parent="KS-DeleteHold-SubmitCancel-parent"/>
+    <bean id="KS-DeleteHold-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean id="deleteHoldButton" parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                      p:methodToCall="delete" p:actionLabel="Delete Hold"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-DeleteHold-Section-Info" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+          p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Applied Hold"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdIssue.name"/>
+                <bean parent="KS-Uif-DataField" p:colSpan="3" p:label="Hold Code"
+                      p:fieldLabel.renderColon="false" p:propertyName="holdCode"/>
+                <bean parent="KS-Uif-InputField" p:label="Category" p:required="false"
+                      p:fieldLabel.renderColon="false" p:colSpan="3" p:propertyName="holdIssue.typeKey"  p:readOnly="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueTypeKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Effective Date"  p:colSpan="3" p:propertyName="appliedHold.effectiveDate" p:readOnly="true"/>
+                <bean parent="KS-Uif-InputField-LabelTop" p:colSpan="3" p:label="Effective Term" p:propertyName="effectiveTerm"
+                      p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}" p:readOnly="true"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-SelectedAppliedHoldDeleteAndExpireConfirmation-WarningMessage" parent="Uif-VerticalBoxSection" >
+        <property name="headerText"
+                  value=""/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items" >
+            <list>
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to @{#dp.action == 'kuali.applied.hold.expire' ? 'expire' : 'permanently delete'} the following Applied Hold from the student."
+                                  p:render="true"/>
+                            <!--iF we decide to delete more than one Applied hold-->
+                            <!--<bean parent="Uif-Message"
+                                  p:messageText="Affected Activities:  @{selectedToDeleteList.size()}"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

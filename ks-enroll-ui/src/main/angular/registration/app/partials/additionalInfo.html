@@ -1,0 +1,20 @@
+<div class="kscr-Modal-additional-info">
+    <span class="kscr-Card-statusRemove">
+        <a href="" ng-click="$dismiss()"></a>
+    </span>
+    <div class="kscr-Modal-subterm" ng-if="subterm">
+        <h1>Sub Term Offering</h1>
+        <p>This activity is offered during the following sub term:</p>
+        <h2>{{subterm.name}}</h2>
+        <p>{{startDate()}} to {{endDate()}}</p>
+    </div>
+    <div class="kscr-Modal-requisites" ng-if="requisites">
+        <h1>Requisites</h1>
+        <p ng-repeat="requisite in requisites">{{requisite}}</p>
+    </div>
+    <div class="kscr-Card-buttons">
+        <span>
+            <button id="session-expired-logout" class="kscr-Button" ng-click="$dismiss()" focus-me="true">Dismiss</button>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+
+.util-Text--center{
+    text-align:center;
+}
+
+.util-Text--left{
+    text-align:left;
+}
+
+.util-Text--right{
+    text-align:right;
+}
+
+
+.util-Text-highlight {
+    background-color: @highlightColor;
+}
+
+.util-Text-highlight--withPadding(@hPadding, @vPadding) {
+    .util-Text-highlight;
+
+    @shadow: -@hPadding -@vPadding 0 0 @highlightColor,
+              -@hPadding @vPadding 0 0 @highlightColor,
+              @hPadding -@vPadding 0 0 @highlightColor,
+               @hPadding @vPadding 0 0 @highlightColor;
+
+    .box-shadow(@shadow);
+}
+
+
+.util-Text-highlighter--inset(@distance: 0, @angle: 0, @blur: 0, @spread: 5px, @shadowColor: @shadowColor--highlight) {
+
+    @shadow: inset -@distance -@angle @blur -@spread @shadowColor,
+              inset -@distance @angle @blur -@spread @shadowColor,
+              inset @distance -@angle @blur @spread @shadowColor,
+              inset @distance @angle @blur @spread @shadowColor;
+    .box-shadow(@shadow);
+}
+
+.util-Text-highlighter(@distance: 0, @angle: 0, @blur: 0, @spread: 5px, @shadowColor: @shadowColor--highlight){
+
+    @shadow: -@distance -@angle @blur -@spread @shadowColor,
+              -@distance @angle @blur -@spread @shadowColor,
+              @distance -@angle @blur @spread @shadowColor,
+              @distance @angle @blur @spread @shadowColor;
+    .box-shadow(@shadow);
+}
+
+
+/**
+ * Delimited elements mixin
+ * Appends each item in a list of sibling elements with a delimiter (except the last item)
+ * e.g. <p><span>1</span><span>2</span><span>3</span></p> with a ', ' delimiter will render as: 1, 2, 3
+ */
+.util-Text-delimited(@delimiter: ", ") {
+    // :after = CSS2 (IE8)
+    // ::after = CSS3
+    &:after,
+    &::after {
+        // Make the list delimited
+        content: @delimiter;
+    }
+    &:last-child:after,
+    &:last-child::after {
+        // Don't add any delimiter to the last child in the list
+        content: "";
+    }
+}
+
+// This helps convert large text to be hidden when the width is set and adds an ellipsis. i.e. Administrative Satisfactory to Administrative ...
+.util-Text-overflow(@width: auto, @overflow: hidden, @position: absolute, @text-overflow: ellipsis, @white-space: nowrap) {
+    max-width: @width;
+    overflow: @overflow;
+    position: @position;
+    text-overflow: @text-overflow;
+    white-space: @white-space;
+}

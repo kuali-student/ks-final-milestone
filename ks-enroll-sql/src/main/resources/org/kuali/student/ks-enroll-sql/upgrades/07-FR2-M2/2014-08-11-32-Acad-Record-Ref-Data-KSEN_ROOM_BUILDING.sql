@@ -1,0 +1,3 @@
+INSERT INTO KSEN_ROOM_BUILDING (BUILDING_CD,BUILDING_STATE,BUILDING_TYPE,CAMPUS_ID,CREATEID,CREATETIME,ID,NAME,OBJ_ID,VER_NBR)
+  VALUES ('TBA','kuali.room.facility.state.online','kuali.room.facility.type.building','1','SQLSCRIPT',TIMESTAMP '2014-07-22 14:12:53','d94b779b-e793-4b12-83fe-93c236f7f18b','Meeting place to be arranged','66b91609-d271-48ea-af30-140e48b5a84c',0)
+/

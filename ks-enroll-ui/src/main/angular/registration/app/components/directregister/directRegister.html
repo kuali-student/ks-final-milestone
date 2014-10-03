@@ -1,0 +1,83 @@
+<div class="kscr-DirectRegister">
+    <div class="kscr-DirectRegister-header">
+        <span ng-if="course.sourceAction === 'waitlist'">Waitlist</span>
+        <span ng-if="course.sourceAction !== 'waitlist'">Register</span>
+        <span> (<span id="direct_register_popup_course" class="kscr-DirectRegister-header-course">{{course.courseCode}} {{course.regGroupCode}}</span>)</span>
+    </div>
+
+    <div class="kscr-DirectRegister-content">
+        <!-- 1: Options -->
+        <div class="kscr-DirectRegister-options" ng-if="showOptions()">
+            <course-options course="course" prefix="directReg_"
+                            submit-text="Continue"
+                            on-submit="saveOptions(course)"
+                            on-cancel="cancel(course)"></course-options>
+        </div>
+
+        <!-- 2: Details -->
+        <div class="kscr-DirectRegister-details" ng-if="showConfirm()">
+            <div class="kscr-DirectRegister-details-header" ng-if="course.sourceAction === 'waitlist'">Waitlist for the course below?</div>
+            <div class="kscr-DirectRegister-details-header" ng-if="course.sourceAction !== 'waitlist'">Register for the course below?</div>
+
+            <div class="kscr-DirectRegister-details-overview">
+                <!-- Credits -->
+                <div id="directReg_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText kscr-Card-credits">
+                    <ng-pluralize count="course.credits" when="{'1': '{} cr', 'other': '{} cr'}"></ng-pluralize>
+                </div>
+
+                <!-- Course Header Section-->
+                <div class="util-Grid">
+                    <span class="kscr-Card-title" id="directReg_course_code_{{course.courseCode}}_{{course.regGroupCode}}">
+                        <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>
+                        <span ng-if="course.conflicts" class="kscr-Card-conflict-icon"></span>
+                    </span>
+                    <span class="kscr-Card-badge-wrap" ng-show="showBadge()">
+                        <span id="directReg_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-badge">
+                            {{gradingOption()}}
+                        </span>
+                    </span>
+                </div>
+
+                <!-- Course Title and description -->
+                <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
+            </div>
+
+            <!-- AO info: type, time, location (schedule -- closed) -->
+            <div class="kscr-DirectRegister-details-activityOfferings">
+                <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show">
+                    <span class="kscr-Card-courseTimes">
+                        <div id="directReg_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                        <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="directReg_schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                            <span ng-class="{'kscr-Card-courseTimes-highlighted' : course.conflicts}" ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                            <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
+                            <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="kscr-Card-buttons">
+                <span>
+                    <button class="kscr-Button--primary" id="directReg_edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="confirm()">
+                        <span ng-if="course.sourceAction === 'waitlist'">Add to Waitlist</span>
+                        <span ng-if="course.sourceAction !== 'waitlist'">Confirm Registration</span>
+                    </button>
+                    <button class="kscr-Button" id="directReg_remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="cancel()">Cancel</button>
+                </span>
+            </div>
+        </div>
+
+        <!-- 3: Processing -->
+        <div class="kscr-DirectRegister-processing" ng-if="showProcessing()">
+            <div id="registration_processing" class="kscr-MainHeading-header--processing"></div>
+        </div>
+
+        <!-- 4: Results -->
+        <div class="kscr-DirectRegister-results" ng-if="showResults()">
+            <div class="kscr-DirectRegister-result" ng-repeat="cartResultItem in results">
+                <ng-include src="'partials/cartResult.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
