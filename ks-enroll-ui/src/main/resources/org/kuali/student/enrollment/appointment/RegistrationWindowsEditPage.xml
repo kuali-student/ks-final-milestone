@@ -81,7 +81,7 @@
                                 </property>
                             </bean>
                             <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
-                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false"
+                            <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="false"
                                   p:additionalCssClasses="ks-ManageRegistration-button"/>
                         </list>
                    </property>
@@ -318,8 +318,8 @@
         <!--added the presubmit call-->
         <property name="lineActions">
             <list >
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="KS-Uif-Delete-ActionLink"
                       p:id="deleteRegistrationWindowRow"
                       p:actionLabel="Delete"
