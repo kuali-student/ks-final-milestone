@@ -777,26 +777,31 @@ public class PlannerController extends KsapControllerBase {
     public ModelAndView startAddCourseToPlanDialog(@ModelAttribute("KualiForm") UifFormBase form,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
-        if (plan == null)
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
+
+            AddCourseToPlanForm dialogForm = new AddCourseToPlanForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(ADD_TO_PLAN_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(ADD_TO_PLAN_DIALOG_FORM));
+
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadAddToPlanDialogForm(form, dialogForm, request, response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
             return null;
-
-        AddCourseToPlanForm dialogForm = new AddCourseToPlanForm();
-        super.start(dialogForm, request, response);
-
-        // Copy information from original view
-        dialogForm.setFormPostUrl(form.getFormPostUrl());
-        dialogForm.setRequestUrl(form.getRequestUrl());
-
-        dialogForm.setViewId(ADD_TO_PLAN_DIALOG_FORM);
-        dialogForm.setView(super.getViewService().getViewById(ADD_TO_PLAN_DIALOG_FORM));
-
-
-        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                .loadAddToPlanDialogForm(form, dialogForm, request, response);
-
-        return getUIFModelAndView(completedForm);
-
+        }
     }
 
     /**
@@ -806,27 +811,32 @@ public class PlannerController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=startQuickAddCourseToPlanDialog")
     public ModelAndView startQuickAddCourseToPlanDialog(@ModelAttribute("KualiForm") UifFormBase form,
                                                    HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
 
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
-        if (plan == null)
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
+
+            QuickAddCourseToPlanForm dialogForm = new QuickAddCourseToPlanForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(QUICKADD_TO_PLAN_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(QUICKADD_TO_PLAN_DIALOG_FORM));
+
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadQuickAddToPlanDialogForm(form,dialogForm,request,response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
             return null;
-
-        QuickAddCourseToPlanForm dialogForm = new QuickAddCourseToPlanForm();
-        super.start(dialogForm, request, response);
-
-        // Copy information from original view
-        dialogForm.setFormPostUrl(form.getFormPostUrl());
-        dialogForm.setRequestUrl(form.getRequestUrl());
-
-        dialogForm.setViewId(QUICKADD_TO_PLAN_DIALOG_FORM);
-        dialogForm.setView(super.getViewService().getViewById(QUICKADD_TO_PLAN_DIALOG_FORM));
-
-
-        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                .loadQuickAddToPlanDialogForm(form,dialogForm,request,response);
-
-        return getUIFModelAndView(completedForm);
-
+        }
     }
 
     /**
@@ -836,27 +846,31 @@ public class PlannerController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=startTermNoteDialog")
     public ModelAndView startTermNoteDialog(@ModelAttribute("KualiForm") UifFormBase form,
                                                         HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
 
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
-        if (plan == null)
+            TermNoteForm dialogForm = new TermNoteForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(TERMNOTE_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(TERMNOTE_DIALOG_FORM));
+            dialogForm.setPlanId(plan.getId());
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadTermNoteDialogForm(form,dialogForm,request,response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
             return null;
-
-        TermNoteForm dialogForm = new TermNoteForm();
-        super.start(dialogForm, request, response);
-
-        // Copy information from original view
-        dialogForm.setFormPostUrl(form.getFormPostUrl());
-        dialogForm.setRequestUrl(form.getRequestUrl());
-
-        dialogForm.setViewId(TERMNOTE_DIALOG_FORM);
-        dialogForm.setView(super.getViewService().getViewById(TERMNOTE_DIALOG_FORM));
-        dialogForm.setPlanId(plan.getId());
-
-        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                .loadTermNoteDialogForm(form,dialogForm,request,response);
-
-        return getUIFModelAndView(completedForm);
-
+        }
     }
 
     /**
@@ -866,27 +880,32 @@ public class PlannerController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=startCourseNoteDialog")
     public ModelAndView startCourseNoteDialog(@ModelAttribute("KualiForm") UifFormBase form,
             HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
 
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
-        if (plan == null)
+        if(form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
+
+            CourseNoteForm dialogForm = new CourseNoteForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(COURSENOTE_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(COURSENOTE_DIALOG_FORM));
+            dialogForm.setPlanId(plan.getId());
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadCourseNotePlanForm(form, dialogForm, request, response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
             return null;
-
-        CourseNoteForm dialogForm = new CourseNoteForm();
-        super.start(dialogForm, request, response);
-
-        // Copy information from original view
-        dialogForm.setFormPostUrl(form.getFormPostUrl());
-        dialogForm.setRequestUrl(form.getRequestUrl());
-
-        dialogForm.setViewId(COURSENOTE_DIALOG_FORM);
-        dialogForm.setView(super.getViewService().getViewById(COURSENOTE_DIALOG_FORM));
-        dialogForm.setPlanId(plan.getId());
-
-        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                .loadCourseNotePlanForm(form, dialogForm, request, response);
-
-        return getUIFModelAndView(completedForm);
-
+        }
     }
 
     /**
@@ -896,26 +915,31 @@ public class PlannerController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=startPlanItemEditDialog")
     public ModelAndView startPlanItemEditDialog(@ModelAttribute("KualiForm") UifFormBase form,
                                               HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
 
-        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
-        if (plan == null)
+            PlanItemEditForm dialogForm = new PlanItemEditForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(PLANITEMEDIT_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(PLANITEMEDIT_DIALOG_FORM));
+            dialogForm.setPlanId(plan.getId());
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadPlanItemEditForm(form,dialogForm,request,response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
             return null;
-
-        PlanItemEditForm dialogForm = new PlanItemEditForm();
-        super.start(dialogForm, request, response);
-
-        // Copy information from original view
-        dialogForm.setFormPostUrl(form.getFormPostUrl());
-        dialogForm.setRequestUrl(form.getRequestUrl());
-
-        dialogForm.setViewId(PLANITEMEDIT_DIALOG_FORM);
-        dialogForm.setView(super.getViewService().getViewById(PLANITEMEDIT_DIALOG_FORM));
-        dialogForm.setPlanId(plan.getId());
-
-        UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                .loadPlanItemEditForm(form,dialogForm,request,response);
-
-        return getUIFModelAndView(completedForm);
+        }
 
     }
 }
