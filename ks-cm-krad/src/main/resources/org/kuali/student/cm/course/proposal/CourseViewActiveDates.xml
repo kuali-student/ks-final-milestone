@@ -24,7 +24,7 @@
                     </property>
 
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshEndTerm(); @{#uiHelper.modifyWithNewVersionProposal ? 'refreshCurrentCourseEndTerm();' : ''}"/>
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="resetEndTerm(); refreshEndTerm();refreshCurrentCourseEndTerm();"/>
                     </property>
                     <property name="optionsFinder">
                         <!-- For Add/Create, and Modify without a new course version, all terms should be available.
