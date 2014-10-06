@@ -79,6 +79,7 @@ public class AcademicYearInfo implements Comparable<AcademicYearInfo> {
 			}
 			else {
 				lookupTerm = term;
+                terms.add(lookupTerm);
 			}			
 		}
 	}
