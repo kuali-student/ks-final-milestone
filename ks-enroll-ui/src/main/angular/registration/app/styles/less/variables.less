@@ -6,25 +6,17 @@
 // --------------------------------------------------
 
 
-// Header sizing
-// -------------------------
-@headerHeight:          4rem;
-
-
 // Z-index master list
 // -------------------------
-// Used for a bird's eye view of components dependent on the z-axis
-// Try to avoid customizing these :)
-@zindexDropdown:          1000;
-@zindexPopover:           1010;
-@zindexTooltip:           1030;
-@zindexFixedNavbar:       1030;
-@zindexModalBackdrop:     1040;
-@zindexModal:             1050;
-
-
-//Positioning of Status icon (e.g. Success check, Fail, Progressing spinner)
-@iconPosition: 1rem center;
+@zindex-CourseCalendar:               210;
+@zindex-CourseCalendar--selected:     200;
+@zindex-DropCourse-background:         90;
+@zindex-DropCourse-content:           100;
+@zindex-Header-container:             150;
+@zindex-Util-Mask:                    140;
+@zindex-Menu-container:               160;
+@zindex-SearchFacets:                 100;
+@zindex-util-sticky--stuck:         10000;
 
 // Responsive breakpoints
 //these are based on 16px and not the base html of 62.5% or 10px.
@@ -38,32 +30,34 @@
 @wideFormatMin: 53.75em;    // 860px
 
 //Used inside of class: @media @sm-Min {}
-@sm-Min: ~'screen and (min-width: @{smallFormatMin})';
-@sm-Max: ~'screen and (max-width: @{smallFormatMax})';
-//@md-Min: ~'screen and (min-width: @{midFormatMin})';
-@md-Max: ~'screen and (max-width: @{midFormatMax})';
-@lg-Min: ~'screen and (min-width: @{largeFormatMin})';
-@lg-Max: ~'screen and (max-width: @{largeFormatMax})';
-@lg-MaxWidth-Min: ~'screen and (max-width: @{largeFormatMin})';
-@wide-Min: ~'screen and (max-width: @{wideFormatMin})';
-@wide-MinWidth-Min: ~'screen and (min-width: @{wideFormatMin})';
+@sm-Min:                 ~'screen and (min-width: @{smallFormatMin})';
+@sm-Max:                 ~'screen and (max-width: @{smallFormatMax})';
+//@md-Min:               ~'screen and (min-width: @{midFormatMin})';
+@md-Max:                 ~'screen and (max-width: @{midFormatMax})';
+@lg-Min:                 ~'screen and (min-width: @{largeFormatMin})';
+@lg-Max:                 ~'screen and (max-width: @{largeFormatMax})';
+@lg-MaxWidth-Min:        ~'screen and (max-width: @{largeFormatMin})';
+@wide-Min:               ~'screen and (max-width: @{wideFormatMin})';
+@wide-MinWidth-Min:      ~'screen and (min-width: @{wideFormatMin})';
 // END Responsive breakpoints
 
 // Custom responsive breakpoints for pages that need them
 @searchDetailsTabbedMax: 61.8125em; // 989px
 @searchDetailsTableMin: 61.875em;   // 990px
 
-@searchDetailsTabbed-Max:  ~'screen and (max-width: @{searchDetailsTabbedMax})';
+@searchDetailsTabbed-Max: ~'screen and (max-width: @{searchDetailsTabbedMax})';
 @searchDetailsTable-Min:  ~'screen and (min-width: @{searchDetailsTableMin})';
 // END Custom responsive breakpoints
 
-@largeFormatSidebarWidth: 32rem;
 
 /*------------------- BEGIN MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/
+@largeFormatSidebarWidth: 32rem;
+
+// Header sizing
+// -------------------------
+@headerHeight:          4rem;
+
 // Borders
 @horizontalLineBorder: 1px solid @border-light-color;
-// for dotted line border
-@dottedLineBorder: 1px dotted @border-color;
 
-@rightGroupRightAlignment: 0px;
 /*------------------- END MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/

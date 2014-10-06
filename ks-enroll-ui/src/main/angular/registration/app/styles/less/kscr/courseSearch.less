@@ -52,24 +52,25 @@ and apply more specific styling here based on the field name.
 .kscr-Search-results-cell .kscr-Search-results-no-seats,
 .kscr-Search-details-section--singleRegGroup .kscr-Search-results-no-seats,
 .kscr-Search-results-cell--highlight {
-  .kscr-highlight-error;
   padding: 1rem;
+  .kscr-highlight-error;
 }
 
 .kscr-Search-details-text--highlight {
-  .kscr-highlight-error;
-  padding: 0.1rem 0.5rem;
   margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  .kscr-highlight-error;
+
   &-tall {
-    .kscr-highlight-error;
     padding: 0.9rem 0rem 0.9rem 0.5rem;
+    .kscr-highlight-error;
   }
 }
 
 .kscr-highlight-error {
   background-color: @errorBackground;
   border: 1px solid @errorBorder;
-  color: @courseSearchNoSeats;
+  color: @errorText;
   font-weight: bold;
 }
 

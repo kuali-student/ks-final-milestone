@@ -70,13 +70,12 @@
         margin-right: 0.5rem;
         padding-left: 0.3rem;
         text-transform: uppercase;
+        .courseBlock(#333);
 
         &-label {
             padding-left: 0;
             padding-right: 0.2rem;
         }
-
-        .courseBlock(#333);
 
         &--deselected {
             .courseBlock(#666);
@@ -386,7 +385,7 @@
     opacity: 0.85;
     padding-left: 3rem;
     position: relative;
-    z-index: 210;
+    z-index: @zindex-CourseCalendar;
 
     // Override styling for sidebar calendars
     .kscr-Course-legendIndicator {
@@ -406,7 +405,6 @@
 
 /*** BEGIN Small / Mobile Styles ***/
 .kscr-CourseCalendar--small {
-
     background: none;
     border: none;
     padding: 0;
@@ -483,7 +481,7 @@
 
         // Selected state
         &--selected {
-            z-index: 200;
+            z-index: @zindex-CourseCalendar--selected;
 
             .kscr-CourseCalendar-courseBlock {
                 .util-Text-highlighter(0, 0, 2px);

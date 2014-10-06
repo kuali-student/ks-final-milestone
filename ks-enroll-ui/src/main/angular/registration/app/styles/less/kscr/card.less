@@ -29,7 +29,7 @@
         // Sidebar styles
         .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
             // Course card list
-            background-color: @whiteBackground;
+            background-color: @cardBackgroundColor;
         }
     }
 }
@@ -47,7 +47,7 @@
 .kscr-Card-Results {
   @media @lg-Min {
     .kscr-Main-sidebar & {
-      background-color: @whiteBackground;
+      background-color: @cardBackgroundColor;
       padding-left: 1rem;
       padding-right: 1rem;
     }
@@ -92,8 +92,8 @@
 
 // Mixin for card bg & borders
 .kscr-Card-mixin() {
-    background-color: @whiteBackground;
-    border: 1px @cardBorderColor solid;
+    background-color: @cardBackgroundColor;
+    border: 1px solid @cardBorderColor;
     border-bottom-width: 2px;
     color: @cardTextColor;
     font-family: @secondaryFontFamily;
@@ -192,6 +192,7 @@
 .kscr-Card-courseTimes {
   display: inline-flex;
   width: 100%;
+
   &-highlighted {
     .util-Text-highlight--withPadding(0.5rem, 0.1rem);
   }
@@ -428,7 +429,6 @@
     border-color: @cardBorderColor;
     color: @cardTextColor;
     cursor: pointer;
-    cursor: hand;
     padding: 0;
 }
 
@@ -563,7 +563,7 @@
     // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
     .kscr-Card-icon {
         background-repeat: no-repeat;
-        background-position: @iconPosition;
+        background-position: 1rem center;
         height: 3rem;
         left: 0;
         position: absolute;
@@ -721,8 +721,8 @@
 
 .kscr-Card-conflicts {
   border-top: @horizontalLineBorder;
-  padding-top: 1rem;
   color: @primaryTextColor;
+  padding-top: 1rem;
 
   &-list {
     font-weight: bold;

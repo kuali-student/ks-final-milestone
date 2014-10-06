@@ -54,7 +54,7 @@
 // Search details content container
 .kscr-SearchDetails-container {
     background-color: @whiteBackground;
-    border: 1px @cardBorderColor solid;
+    border: 1px solid @cardBorderColor;
     border-bottom-width: 2px;
     color: @cardTextColor;
     font-family: @secondaryFontFamily;
@@ -334,27 +334,27 @@
 
             // Remove button (X)
             &-remove {
-                .dismiss-icon;
                 display: block;
                 float: right;
                 height: 2rem;
                 margin-left: 1rem;
+                .dismiss-icon;
             }
 
             // Error State
             &--error {
+                color: @errorText;
                 .kscr-SearchDetails-actionMessage-icon {
                     .error-icon;
                 }
-                color: @errorText;
             }
 
             // Success state
             &--success {
+                color: @successText;
                 .kscr-SearchDetails-actionMessage-icon {
                     .success-icon;
                 }
-                color: @successText;
             }
         }
     }
@@ -418,6 +418,7 @@
         .font-size(14);
         font-weight: bold;
         margin-bottom: 0.5rem;
+
         &--padded {
           margin-top: 2rem;
         }

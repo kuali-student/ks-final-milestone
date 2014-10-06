@@ -6,7 +6,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: 150;
+    z-index: @zindex-Header-container;
 }
 
 .kscr-Header {
@@ -101,7 +101,7 @@
             & option {
                 background: @white; // Reset the option background. Otherwise, it'll inherit the parent's transparent background
                 font-family: @secondaryFontFamily;
-                color: @black;
+                color: @textColor;
             }
         }
 
@@ -159,15 +159,15 @@
   }
 
   & ul li {
-    color: @black;
-    list-style-type: none;
-    font-weight: normal;
-    text-align: center;
+    color: @textColor;
+    cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
-    cursor: pointer;
+    font-weight: normal;
+    list-style-type: none;
     padding: 0 1.5rem 0 1.5rem;
+    text-align: center;
 
     &:hover {
       background-color: @blue;

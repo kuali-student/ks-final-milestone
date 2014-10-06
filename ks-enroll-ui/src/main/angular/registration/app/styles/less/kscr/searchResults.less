@@ -131,9 +131,9 @@ If more specific styling needs to take place add to courseSearch.less
 }
 
 .kscr-Search-results-table {
-  .kscr-Search-results-card;
-  width: 100%;
   margin-bottom: 4rem;
+  width: 100%;
+  .kscr-Search-results-card;
 
   @media @sm-Max {
       display: none;
@@ -141,9 +141,9 @@ If more specific styling needs to take place add to courseSearch.less
 }
 
 .kscr-Search-no-results-table {
-  .kscr-Search-results-card;
-  width: 100%;
   margin-bottom: 1rem;
+  width: 100%;
+  .kscr-Search-results-card;
 }
 
 .kscr-Search-no-results-suggestions {
@@ -151,12 +151,12 @@ If more specific styling needs to take place add to courseSearch.less
 }
 
 .kscr-Search-results-paginate {
+  bottom: 0;
+  padding-top: 0.5rem;
+  position: absolute;
+  right: 0;
   .util-Grid;
   .kscr-Search-results-card;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-top: 0.5rem;
 
   @media @sm-Max {
       display: none;
@@ -168,9 +168,9 @@ If more specific styling needs to take place add to courseSearch.less
   border-style: solid;
   border-color: @cardBorderColor;
   border-width: 0 1px 0 0;
-  width: 2.5rem;
   height: 2.5rem;
   text-align: center;
+  width: 2.5rem;
 }
 
 .kscr-Search-results-pageBox a.hover {
@@ -199,7 +199,7 @@ If more specific styling needs to take place add to courseSearch.less
     }
   }
   &--disabled {
-    color: @lightGray;
+    color: @secondaryTextColor;
     cursor: not-allowed;
     font-style: italic;
   }

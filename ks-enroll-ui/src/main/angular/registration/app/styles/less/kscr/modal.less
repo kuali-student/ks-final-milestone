@@ -6,9 +6,9 @@
 }
 
 .kscr-Modal-header(@fontSize) {
+  color: @primaryTextColor;
   .font-size(@fontSize);
   font-family: @secondaryFontFamily;
-  color: @darkGray;
   font-weight: bold;
   margin: 0;
 }
@@ -18,13 +18,13 @@
 }
 
 .kscr-Modal-additional-info h1 {
-  .kscr-Modal-header(16);
-  text-align: center;
   margin-bottom: 1rem;
+  text-align: center;
   text-transform: uppercase;
+  .kscr-Modal-header(16);
 }
 
 .kscr-Modal-additional-info h2 {
-  .kscr-Modal-header(14);
   margin-bottom: 0.5rem;
+  .kscr-Modal-header(14);
 }

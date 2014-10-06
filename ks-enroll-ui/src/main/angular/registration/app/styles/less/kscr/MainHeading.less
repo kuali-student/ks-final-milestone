@@ -132,10 +132,10 @@
     }
 
     &--processing {
-        .kscr-Mainheading-styles();
-        .spinner-big-icon; // Processing icon mixin
         font-weight: normal;
         padding: 1.8rem 1.8rem 1.8rem 4.5rem;
+        .kscr-Mainheading-styles();
+        .spinner-big-icon; // Processing icon mixin
 
         @media @lg-Min {
             .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading & {
@@ -261,7 +261,7 @@
 
 .kscr-MainHeading-roundedText {
     background-color: @whiteBackground;
-    border: 1px solid @bodyColorDark;
+    border: 1px solid @border-dark-color;
     color: @lightGray;
     display: inline-block;
     font: @primaryFontFamily;

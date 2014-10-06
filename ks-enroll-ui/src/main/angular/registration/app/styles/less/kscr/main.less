@@ -15,7 +15,7 @@
 
 .kscr-Main-contentContainer {
     @media @lg-Min {
-        border-top: 10px solid @bodyColorDark;
+        border-top: 10px solid @border-dark-color;
     }
 }
 
@@ -51,7 +51,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: 140;
+    z-index: @zindex-Util-Mask;
 
     body > & {
         position: fixed;

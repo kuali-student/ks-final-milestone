@@ -1,9 +1,9 @@
 .kscr-Search-details-header {
-  .util-Grid;
-  border-top: 1px solid @bodyColorDark;
-  border-right: 1px solid @bodyColorDark;
-  border-bottom: 1px solid @bodyColorDark;
+  border-top: 1px solid @border-dark-color;
+  border-right: 1px solid @border-dark-color;
+  border-bottom: 1px solid @border-dark-color;
   margin-bottom: 1rem;
+  .util-Grid;
 }
 
 .kscr-Search-details-tab-container {
@@ -15,16 +15,17 @@
 
 .kscr-Search-details-tab-container(@flex) {
   .util-Grid-cell(@flex);
-  border-left: 1px solid @bodyColorDark;
+  border-left: 1px solid @border-dark-color;
 }
 
 .kscr-Search-details-tab {
-  text-transform: uppercase;
+  cursor: pointer;
   font-weight: bold;
+  margin: 0.1rem;
   padding: 0.5rem;
   text-align: center;
-  margin: 0.1rem;
-  cursor: pointer;
+  text-transform: uppercase;
+
   &--selected {
     color: @primaryTextColor;
     background-color: @bodyColorDark;
@@ -32,15 +33,15 @@
 }
 
 .kscr-Search-details-grid {
-  .util-Grid;
   margin: 0.1rem 0.1rem 0.1rem 0;
+  .util-Grid;
 }
 
 .kscr-Search-details-selector {
-  .util-Grid-cell;
-  .util-Grid;
   background-color: @white;
   border-bottom: @horizontalLineBorder;
+  .util-Grid-cell;
+  .util-Grid;
 
   &&--selected {
     border: none;
@@ -48,11 +49,11 @@
 }
 
 .kscr-Search-details-section {
-  .util-Grid-cell;
-  .util-Grid;
   color: @primaryTextColor;
   cursor: pointer;
   padding: 0.1rem 0rem 0.1rem 0.5rem;
+  .util-Grid-cell;
+  .util-Grid;
 
   &&--indicator {
     margin-left: 0.1rem;
@@ -67,7 +68,7 @@
     cursor: not-allowed;
   }
   &&--unselectable {
-    background-color: @cardBorderColor;
+    background-color: @searchDetailsUnselectedBgColor;
     color: @primaryTextColor;
     cursor: auto;
   }
@@ -109,10 +110,10 @@
 }
 
 .kscr-Search-details-indicator {
-  .util-Grid;
+  float: left;
   padding: 1rem 0;
   width: 0.5rem;
-  float: left;
+  .util-Grid;
 
   &--show {
     background-color: @errorBackground;
@@ -122,7 +123,7 @@
     margin: 0.1rem 0 0.1rem 0.1rem;
   }
   &--unselectable {
-    background-color: @cardBorderColor;
+    background-color: @searchDetailsUnselectedBgColor;
   }
 }
 
@@ -153,11 +154,11 @@
   .defineCourseColor(@i);
 
   .kscr-Search-mobile-right-indicator--@{i} {
+    color: @white;
+    background-color: @courseColor;
     height: 4rem;
     margin: 0.1rem 0.1rem 0 0;
     padding: 1rem 1rem 0 1rem;
-    background-color: @courseColor;
-    color: @white;
   }
 
   .searchMobileResultIndicator(@n, (@i + 1));

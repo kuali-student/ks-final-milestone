@@ -1,14 +1,10 @@
 /*------------------- Colors ---------------------------*/
 
+@black:                   #000;
+@white:                   #fff;
+
 // Grays
 // -------------------------
-@black:                   #000;
-@grayDarker:              #222;
-@grayDark:                #333;
-@gray:                    #555;
-@grayLight:               #999;
-@grayLighter:             #eee;
-@white:                   #fff;
 @darkGray:                #333333;
 @lightGray:               #666666;
 
@@ -20,21 +16,15 @@
 @green:                   #46a546;
 @red:                     #FF0000;
 @darkRed:                 #a3403c;
-@yellow:                  #ffc40d;
-@orange:                  #f89406;
-@pink:                    #c3325f;
-@purple:                  #7a43b6;
-
-
 
 //custom mobile colors
 @bodyColor:               #F4F4F4;
 @bodyColorDark:           #D7D7D7;
 @sectionColor:            #F4F4F4;
-@supportHeading:          @lightGray;
-@cardBackgroundColor:     @whiteBackground;
-@cardBorderColor:         #E4E4E4;
 @whiteBackground:         #FFFFFF;
+@cardBackgroundColor:     @whiteBackground;
+@dropCourse-background:   #FCFCFC;
+
 
 //Mask
 @mask-bgColor:            @black;
@@ -43,14 +33,13 @@
 @badgeColor:              @lightGray;
 
 // Text
-@whiteText:               #F8F8F8;
-@cardTextColor:           @lightGray;
 @primaryTextColor:        @darkGray;
 @secondaryTextColor:      @lightGray;
+@whiteText:               #F8F8F8;
+@textColor:               @black;
+@cardTextColor:           @lightGray;
 @badgeTextColor:          #F2F2F2;
 @headerFontColor:         @whiteText;
-@textColor:               @black;
-@selectedText:            @textColor;
 
 @menuHoverColor:          #EBEBEB;
 
@@ -102,13 +91,13 @@
 @btnPrimaryBg1-hover:       #3071A9;
 @btnPrimaryBg2-hover:       #2C669A;
 @btnPrimaryBorder-hover:    #285EAE;
-@btnPrimaryText-hover:      #F2F2F2;
+@btnPrimaryText-hover:      @btnPrimaryText;
 
 // Primary button - pressed
 @btnPrimaryBg1-pressed:     #214B72 25%;
 @btnPrimaryBg2-pressed:     #2C669A;
 @btnPrimaryBorder-pressed:  #285EAE;
-@btnPrimaryText-pressed:    #F2F2F2;
+@btnPrimaryText-pressed:    @btnPrimaryText;
 
 // Primary button - disabled
 @btnPrimaryBg1-disabled:    #84BBDC;
@@ -154,18 +143,17 @@
 // Borders
 @border-color:            #AAAAAA;
 @border-light-color:      #F2F2F2;
+@border-dark-color:      @bodyColorDark;
+@cardBorderColor:         #E4E4E4;
 
 
 //Table
 @table-SelectedBackgroundColor:        #C4C4C4;
 @table-SelectedRowBackgroundColor:     #eff7fd;
-@table-ShowIndicatorColor:             #CCCCCC;
 
 //Course search
-@courseSearchNoSeats:                  @darkRed;
-@searchDetailsTextColor:               @optionText;
-@searchDetailsBackgroundColor:         #D0E9FD;
 @searchDetailsSelectedBackgroundColor: @table-SelectedRowBackgroundColor;
+@searchDetailsUnselectedBgColor:  #E4E4E4;
 
 
 // Form option lists
@@ -188,7 +176,7 @@
 @dropdownDividerTop:      #e5e5e5;
 @dropdownDividerBottom:   @white;
 
-@dropdownLinkColor:       @grayDark;
+@dropdownLinkColor:       @darkGray;
 @dropdownLinkColorHover:  @white;
 @dropdownLinkColorActive: @white;
 
