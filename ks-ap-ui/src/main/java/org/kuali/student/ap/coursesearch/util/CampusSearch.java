@@ -38,12 +38,12 @@ public class CampusSearch extends KeyValuesBase {
 
 	@Override
 	public List<KeyValue> getKeyValues() {
-		ContextInfo context = KsapFrameworkServiceLocator.getContext()
-				.getContextInfo();
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		if (blankOption) {
 			keyValues.add(new ConcreteKeyValue("", ""));
 		}
+//        ContextInfo context = KsapFrameworkServiceLocator.getContext()
+//                .getContextInfo();
 		// List<OrgInfo> orgInfoList = new ArrayList<OrgInfo>();
 		// if (!this.getHashMap().containsKey(
 		// CourseSearchConstants.CAMPUS_LOCATION)) {

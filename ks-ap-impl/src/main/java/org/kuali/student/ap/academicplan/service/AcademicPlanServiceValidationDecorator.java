@@ -424,7 +424,6 @@ public class AcademicPlanServiceValidationDecorator extends
      */
     private void checkPlanItemDuplicate(PlanItemInfo planItem, ContextInfo context) throws AlreadyExistsException {
 
-        String planItemId = planItem.getLearningPlanId();
         String courseId = planItem.getRefObjectId();
         AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
 

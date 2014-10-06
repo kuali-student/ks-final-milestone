@@ -277,7 +277,6 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getTermsByDateRange(Date startDate, Date endDate) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
 		AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
-		AcademicCalendarService academicCalendarService = KsapFrameworkServiceLocator.getAcademicCalendarService();
 		List<AtpInfo> atps;
 		try {
 			atps = atpService.getAtpsByDates(startDate, endDate, ctx);
@@ -617,7 +616,6 @@ public class DefaultTermHelper implements TermHelper {
      */
     @Override
     public List<Term> getCurrentTermsBasedOnKeyDate() {
-        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         List<Term> currentTermsForCourseSearch = new ArrayList<Term>();
         List<Term> rv = getCurrentTerms();
         for (Term term:rv){

@@ -101,8 +101,6 @@ public class SessionSearchInfo {
      */
     SessionSearchInfo(HttpServletRequest request, FormKey formKey,
                       List<CourseSearchItem> courses) {
-        CourseSearchStrategy searcher = KsapFrameworkServiceLocator
-                .getCourseSearchStrategy();
         List<SearchInfo> resultList = new ArrayList<SearchInfo>(
                 courses.size());
         for (CourseSearchItem course : courses)

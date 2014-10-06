@@ -54,7 +54,6 @@ public class BookmarkDetailLookupableHelper extends
     protected List<BookmarkDetailWrapper> getPlanItemsWishList(String studentId)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
                    OperationFailedException, PermissionDeniedException {
-        AcademicPlanServiceConstants.ItemCategory planItemCategory = AcademicPlanServiceConstants.ItemCategory.WISHLIST;
         List<BookmarkDetailWrapper> bookmarkList = new ArrayList<BookmarkDetailWrapper>();
 
         AcademicPlanService academicPlanService = KsapFrameworkServiceLocator.getAcademicPlanService();
