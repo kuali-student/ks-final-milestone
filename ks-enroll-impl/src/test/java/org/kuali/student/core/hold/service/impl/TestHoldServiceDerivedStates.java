@@ -155,7 +155,7 @@ public class TestHoldServiceDerivedStates {
     }
 
     @Test
-    public void testOpenState() throws Exception {
+    public void testActiveState() throws Exception {
         String personId = "123";
         String issueId = "123";
 
@@ -171,13 +171,13 @@ public class TestHoldServiceDerivedStates {
         AppliedHoldInfo updatedAppliedHold = holdService.updateAppliedHold(createdAppliedHold.getId(),
                 createdAppliedHold, contextInfo);
 
-        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY,
+        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY,
                 updatedAppliedHold.getStateKey());
 
     }
 
     @Test
-    public void testActiveState() throws Exception {
+    public void testOpenState() throws Exception {
         String personId = "123";
         String issueId = "123";
 
@@ -193,7 +193,7 @@ public class TestHoldServiceDerivedStates {
         AppliedHoldInfo updatedAppliedHold = holdService.updateAppliedHold(createdAppliedHold.getId(),
                 createdAppliedHold, contextInfo);
 
-        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY,
+        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY,
                 updatedAppliedHold.getStateKey());
 
     }
@@ -242,7 +242,7 @@ public class TestHoldServiceDerivedStates {
             }
         }
 
-        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY,
+        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY,
                 openAppliedHoldStateKey);
     }
 
@@ -264,7 +264,7 @@ public class TestHoldServiceDerivedStates {
 
         AppliedHoldInfo appliedHoldByHoldIssue = holdService.getAppliedHold(createdAppliedHold.getId(), contextInfo);
 
-        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY,
+        Assert.assertEquals("AppliedHold unexpected state", HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY,
                 appliedHoldByHoldIssue.getStateKey());
     }
 

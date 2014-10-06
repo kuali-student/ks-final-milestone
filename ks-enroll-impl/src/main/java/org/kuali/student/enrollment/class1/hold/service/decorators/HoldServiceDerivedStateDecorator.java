@@ -168,52 +168,24 @@ public class HoldServiceDerivedStateDecorator
             OperationFailedException,
             PermissionDeniedException {
 
-        if(isStatePersistent(appliedHoldInfo.getStateKey())) {
+        if (isStatePersistent(appliedHoldInfo.getStateKey())) {
             return appliedHoldInfo.getStateKey(); // not going to derive if state is persistent
         }
 
-        String effectiveTermId = appliedHoldInfo.getApplicationEffectiveTermId();
-        String expirationTermId = appliedHoldInfo.getApplicationExpirationTermId();
         Date effectiveDate = appliedHoldInfo.getEffectiveDate();
         Date expirationDate = appliedHoldInfo.getExpirationDate();
 
         Date currentDate = contextInfo.getCurrentDate();
 
-        if(effectiveDate != null) { // an effectiveDate means the AppliedHold is based on effectiveDate/expirationDate
-            if(currentDate.equals(effectiveDate) || currentDate.after(effectiveDate)) {
-                if(expirationDate == null  // if expirationDate is null, assume no expiration date
-                        || currentDate.before(expirationDate)) {
-                    return HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY;
-                } else if(currentDate.equals(expirationDate) || currentDate.after(expirationDate)) {
-                    return HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY;
-                }
-            } else {
+        if (currentDate.equals(effectiveDate) || currentDate.after(effectiveDate)) {
+            if (expirationDate == null  // if expirationDate is null, assume no expiration date
+                    || currentDate.before(expirationDate)) {
                 return HoldServiceConstants.APPLIED_HOLD_ACTIVE_STATE_KEY;
-            }
-        } else if(effectiveTermId != null) { // an effectiveTermId means the AppliedHold
-            TermInfo effectiveTermInfo = null; // is based on effectiveTermId/expirationTermId
-            TermInfo expirationTermInfo = null;
-            try {
-                effectiveTermInfo = academicCalendarService.getTerm(effectiveTermId, contextInfo);
-            } catch(DoesNotExistException e) {
-                throw new InvalidParameterException("Term does not exist with effectiveTermId: " + effectiveTermId + " exception: ", e);
-            }
-            Date effectiveTermStartDate = effectiveTermInfo.getStartDate();
-            Date effectiveTermEndDate = effectiveTermInfo.getEndDate();
-
-            try {
-                expirationTermInfo = academicCalendarService.getTerm(expirationTermId, contextInfo);
-            } catch(DoesNotExistException e) {
-                throw new InvalidParameterException("Term does not exist with expirationTermId: " + expirationTermId + " exception: ", e);
-            }
-            Date expirationTermStartDate = expirationTermInfo.getStartDate();
-            Date expirationTermEndDate = expirationTermInfo.getEndDate();
-            if(currentDate.after(effectiveTermStartDate) && currentDate.before(effectiveTermEndDate)
-                    && currentDate.before(expirationTermStartDate) && currentDate.before(expirationTermEndDate)) {
-                return HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY;
+            } else if (currentDate.equals(expirationDate) || currentDate.after(expirationDate)) {
+                return HoldServiceConstants.APPLIED_HOLD_EXPIRED_STATE_KEY;
             }
         } else {
-            throw new InvalidParameterException("One of effectiveTermId or effectiveDate must not be null");
+            return HoldServiceConstants.APPLIED_HOLD_OPEN_STATE_KEY;
         }
         return appliedHoldInfo.getStateKey(); // if nothing else, just return the state of the AppliedHold
     }
