@@ -108,7 +108,7 @@
                   <bean id="delete_schedule_request" parent="KS-Uif-Delete-ActionLink"
                         p:methodToCall="deleteScheduleComponent"
                         p:actionLabel="Delete"
-                        p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();"/>
+                        p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
     </bean>
