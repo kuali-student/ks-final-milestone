@@ -308,13 +308,13 @@ limitations under the License.
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Expiration Date" p:propertyName="appliedHold.expirationDate">
+                            <bean parent="Uif-InputField" p:label="Expiration Date" p:propertyName="appliedHold.expirationDate" p:required="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Expiration Term" p:propertyName="expirationTerm"
-                                  p:required="false" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}"
+                                  p:required="@{#dp.maintenanceHold.isHoldIssueTermBased}" p:progressiveRender="@{#dp.maintenanceHold.isHoldIssueTermBased == true}"
                                   p:fieldLabel.renderColon="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:minLength="6" p:maxLength="6" p:disabled="false"/>
