@@ -48,13 +48,13 @@ insert into KSEN_LPR_RESULT_VAL_GRP (LPR_ID, RESULT_VAL_GRP_ID) values ('7df4892
                                                                         'kuali.resultComponent.grade.audit')
 /
 insert into KSEN_LPR_RESULT_VAL_GRP (LPR_ID, RESULT_VAL_GRP_ID) values ('7df48928-a968-4198-8632-a634b3edd775',
-                                                                        'kuali.result.value.credit.degree.2.0')
+                                                                        'kuali.creditType.credit.degree.2.0')
 /
 insert into KSEN_LPR_RESULT_VAL_GRP (LPR_ID, RESULT_VAL_GRP_ID) values ('b2f09c81-3542-47e2-a5d4-f804e478f1b3',
                                                                         'kuali.resultComponent.grade.audit')
 /
 insert into KSEN_LPR_RESULT_VAL_GRP (LPR_ID, RESULT_VAL_GRP_ID) values ('b2f09c81-3542-47e2-a5d4-f804e478f1b3',
-                                                                        'kuali.result.value.credit.degree.2.0')
+                                                                        'kuali.creditType.credit.degree.2.0')
 /
 
 -- User A.JANED (KS-8152) waitlisted for 201208/HIST266/1001 (picked letter)
