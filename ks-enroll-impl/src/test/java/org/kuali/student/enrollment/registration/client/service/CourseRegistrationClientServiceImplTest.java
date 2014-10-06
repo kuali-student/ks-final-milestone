@@ -133,7 +133,7 @@ public class CourseRegistrationClientServiceImplTest {
                 queryParam("termId", KUALI_ATP_2012_FALL).
         // as a GET request
         when().
-                get("/searchForCart").
+                get("/cart").
         // validate the response
         then().
                 statusCode(200).and().
