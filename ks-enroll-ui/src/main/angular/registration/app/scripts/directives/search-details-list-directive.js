@@ -40,6 +40,16 @@ angular.module('regCartApp')
                 // initialize the tabs
                 for (var i=0; i<scope.sections.length; i++) {
                     scope.sections[i].tabs = angular.copy(detailsConfig.tabs);
+                    var timeIndex = findTabIndexById ('time');
+                    var seatsIndex = findTabIndexById ('seats');
+                    for (var j=0; j<scope.sections[i].details.length; j++) {
+                        if (scope.sections[i].details[j].indicator) {
+                            scope.sections[i].tabs[seatsIndex].conflict = true;
+                        }
+                        if (scope.sections[i].details[j].flags.highlight) {
+                            scope.sections[i].tabs[timeIndex].conflict = true;
+                        }
+                    }
                     scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
                 }
 
@@ -72,6 +82,28 @@ angular.module('regCartApp')
                         }, 250);
                     }
                 });
+
+                scope.$on('timeConflictChanged', function(event) {
+                    // update the time tab
+                    for (var i=0; i<scope.sections.length; i++) {
+                        for (var j=0; j<scope.sections[i].details.length; j++) {
+                            if (scope.sections[i].details[j].flags.highlight) {
+                                scope.sections[i].tabs[timeIndex].conflict = true;
+                                // No need to loop further. If one AO has time conflict, indicator should appear
+                                break;
+                            }
+                        }
+                        scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
+                    }
+                });
+
+                function findTabIndexById (tabId) {
+                    for (var i=0; i<detailsConfig.tabs.length; i++){
+                        if (detailsConfig.tabs[i].id === tabId) {
+                            return i;
+                        }
+                    }
+                }
             }
         };
     }])

@@ -458,6 +458,8 @@ angular.module('regCartApp')
                 }
                 updatingTimeConflicts = false;
             }
+
+            $scope.$broadcast('timeConflictChanged');
         }
 
         // Watch the cart and show/hide the in-cart indicator/s

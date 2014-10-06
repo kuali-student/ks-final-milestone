@@ -33,25 +33,29 @@ angular.module('regCartApp')
                 id: 'time',
                 selected: true,
                 name: 'Time',
-                fields: ['dateTime']
+                fields: ['dateTime'],
+                conflict: false
             },
             {
                 id: 'instr',
                 selected: false,
                 name: 'Instr',
-                fields: ['instructor']
+                fields: ['instructor'],
+                conflict: false
             },
             {
                 id: 'loc',
                 selected: false,
                 name: 'Loc',
-                fields: ['location']
+                fields: ['location'],
+                conflict: false
             },
             {
                 id: 'seats',
                 selected: false,
                 name: 'Seats',
-                fields: ['seatsOpen']
+                fields: ['seatsOpen'],
+                conflict: false
             }
         ],
         // selectedTab defines which tab is selected by default (by id).
