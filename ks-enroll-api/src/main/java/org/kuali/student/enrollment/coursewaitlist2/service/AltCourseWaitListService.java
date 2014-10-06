@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.coursewaitlist2.dto.WaitlistInfo;
 import org.kuali.student.enrollment.coursewaitlist2.infc.ActivityOfferingWaitListConfig;
 import org.kuali.student.enrollment.coursewaitlist2.infc.WaitListConfig;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -221,6 +222,30 @@ public interface AltCourseWaitListService {
             PermissionDeniedException,
             ReadOnlyException,
             VersionMismatchException;
+
+    /**
+     * Deletes an existing ActivityOfferingWaitListConfig.
+     *
+     * @param activityOfferingWaitListConfigId  the identifier for the CourseWaitList to be
+     *                    deleted
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException     courseWaitListId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseWaitListId or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    StatusInfo
+    deleteActivityOfferingWaitListConfig(@WebParam(name = "activityOfferingWaitListConfigId") String activityOfferingWaitListConfigId,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     public List<WaitlistInfo> getPeopleToProcessFromWaitlist(List<String> aoIds,
                                                              Map<String, Integer> aoid2openSeatsMap,
