@@ -56,6 +56,8 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_COURSE_CODE_INVALID = "error.admin.reg.courseoffering.code.invalid";
     public static final String ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID = "error.admin.reg.section.code.invalid";
     public static final String ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED = "error.admin.reg.registration.group.canceled";
+    public static final String ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_SUSPENDED ="error.admin.reg.registration.group.suspended";
+    public static final String ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_PENDING ="error.admin.reg.registration.group.pending";
     public static final String ADMIN_REG_MSG_ERROR_CREDITS_REQUIRED = "error.admin.reg.credits.required";
     public static final String ADMIN_REG_MSG_ERROR_NO_STUDENT_AFFILIATION = "error.admin.reg.studentId.no.affiliation";
     public static final String ADMIN_REG_MSG_ERROR_EFFECTIVE_DATE_REQUIRED = "error.admin.reg.effectiveDate.required";

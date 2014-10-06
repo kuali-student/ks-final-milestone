@@ -348,6 +348,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 if (regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
                     GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
                             AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_CANCELED, course.getCode(), course.getSection());
+                } else if (regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY)) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
+                            AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_SUSPENDED, course.getCode(), course.getSection());
+                } else if (regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY)) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.PENDING_COURSES + "[" + i + "]." + AdminRegConstants.SECTION,
+                            AdminRegConstants.ADMIN_REG_MSG_ERROR_REGISTRATION_GROUP_PENDING, course.getCode(), course.getSection());
                 }
 
             } catch (Exception e) {
@@ -797,8 +803,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS).toString(),
                     validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
         } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_REPEATABILITY_MESSAGE_KEY.equals(messageKey)) {
-            return AdminRegistrationUtil.getMessageForKey(messageKey, ((Integer)validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS)+1) +
-                            ordinalNo((Integer) validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS)+1),
+            return AdminRegistrationUtil.getMessageForKey(messageKey, ((Integer) validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS) + 1) +
+                            ordinalNo((Integer) validationMap.get(AdminRegConstants.ADMIN_REG_ATTEMPTS) + 1),
                     validationMap.get(AdminRegConstants.ADMIN_REG_MAX_REPEATS).toString());
         } else if ((LprServiceConstants.LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey) ||
                 LprServiceConstants.LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey))) {
