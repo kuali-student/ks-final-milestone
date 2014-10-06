@@ -85,4 +85,7 @@
     <cache name="agendaCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
     <cache name="agendaItemCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
 
+    <!-- Keydate cache -->
+    <cache name="keydateCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
 </ehcache>

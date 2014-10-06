@@ -84,4 +84,7 @@
 
     <!-- Cache for KIM Principal. Intended for getEntityIdByPrincipalId -->
     <cache name="kimPrincipalCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
+    <!-- Keydate cache -->
+    <cache name="keydateCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
 </ehcache>
