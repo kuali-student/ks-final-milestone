@@ -534,7 +534,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 */
 	public List<ActivityOfferingItem> getActivityOfferingItemsById(String courseId, String termId) {
 
-		List<ActivityOfferingItem> activityOfferingItems = new ArrayList<ActivityOfferingItem>();
+		List<ActivityOfferingItem> activityOfferingItems;
 
 		try {
 			CourseInfo course = (CourseInfo)KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);

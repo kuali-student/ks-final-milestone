@@ -28,8 +28,6 @@ public class GenEduReqFacet extends AbstractFacet {
 	@Override
 	public void process(CourseSearchItem item) {
 
-		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
-
 		FacetItem itemFacet = new FacetItem();
 		List<String> genEdStrings = item.getGenEduReqs();
 		// Set of keys which pertain to this course.

@@ -118,7 +118,7 @@ public class BookmarkController extends KsapControllerBase {
         }
 
         // Add the course to the plan
-        PlanItemInfo newBookmark = new PlanItemInfo();
+        PlanItemInfo newBookmark;
         TypedObjectReferenceInfo typedRef = new TypedObjectReferenceInfo(PlanConstants.COURSE_TYPE,
                 course.getVersion().getVersionIndId());
         // Attribute list

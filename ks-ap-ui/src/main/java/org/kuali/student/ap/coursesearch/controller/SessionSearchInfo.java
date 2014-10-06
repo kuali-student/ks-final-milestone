@@ -101,8 +101,7 @@ public class SessionSearchInfo {
      */
     SessionSearchInfo(HttpServletRequest request, FormKey formKey,
                       List<CourseSearchItem> courses) {
-        List<SearchInfo> resultList = new ArrayList<SearchInfo>(
-                courses.size());
+        List<SearchInfo> resultList = new ArrayList<SearchInfo>(courses.size());
         for (CourseSearchItem course : courses)
             resultList.add(new SearchInfoImpl(course));
         this.searchResults = Collections.unmodifiableList(Collections

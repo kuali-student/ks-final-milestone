@@ -45,7 +45,7 @@ public class CourseDetailsUtil {
      * @return Formatted list of requisites
      */
     public static List<String> getCourseRequisites(Course course){
-        List<String> courseRequisites = new ArrayList<String>();
+        List<String> courseRequisites;
         try {
             TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(
                     course.getTypeKey(), KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -121,7 +121,7 @@ public class CourseDetailsUtil {
      * @return Formatted map of requisites
      */
     public static Map<String,List<String>> getCourseRequisitesMap(Course course){
-        Map<String,List<String>> courseRequisitesMap = new HashMap<String, List<String>>();
+        Map<String,List<String>> courseRequisitesMap;
         try {
             TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(
                 course.getTypeKey(), KsapFrameworkServiceLocator.getContext().getContextInfo());

@@ -189,7 +189,7 @@ public class ConversationCreateController extends ConversationControllerBase {
 			for (PlanTermInfo term : year.getTerms()) {
 				LearningPlanReviewTermInfo lprTerm = new LearningPlanReviewTermInfo();
 				lprTerm.setTermId(term.getTermId());
-				List<CourseInfo> courses = new ArrayList<CourseInfo>();
+				List<CourseInfo> courses;
 				if (includeBackup
 						|| ConversationConstants.CONV_TOPIC_TYPE_COURSES
 								.equals(selectionType)) {
