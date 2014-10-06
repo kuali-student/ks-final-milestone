@@ -1141,7 +1141,7 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
                 for (String rvKey : rvg.getResultValueKeys()) {
                     String value = StringUtils.strip(rvKey, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
-                    resultValueList.add(StringUtils.strip(value, ".0")); // This can be only be integer at ui.
+                    resultValueList.add(StringUtils.remove(value, ".0")); // This can be only be integer at ui.
                 }
 
                 // Sort the values to be displayed at ui
@@ -1150,12 +1150,12 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
 
-                String minValue = StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0"); // This can be only be integer at ui.
-                String maxValue = StringUtils.strip(rvg.getResultValueRange().getMaxValue(), ".0"); // This can be only be integer at ui.
+                String minValue = StringUtils.remove(rvg.getResultValueRange().getMinValue(), ".0"); // This can be only be integer at ui.
+                String maxValue = StringUtils.remove(rvg.getResultValueRange().getMaxValue(), ".0"); // This can be only be integer at ui.
 
                 rvgWrapper.getUiHelper().setResultValue(minValue + "-" + maxValue);
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                rvgWrapper.getUiHelper().setResultValue(StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0"));
+                rvgWrapper.getUiHelper().setResultValue(StringUtils.remove(rvg.getResultValueRange().getMinValue(), ".0"));
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
