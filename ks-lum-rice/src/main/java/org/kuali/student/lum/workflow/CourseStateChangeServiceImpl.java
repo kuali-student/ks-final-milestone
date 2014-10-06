@@ -1,8 +1,7 @@
 package org.kuali.student.lum.workflow;
 
-import java.util.Iterator;
-import java.util.List;
-
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -16,14 +15,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-
-import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Iterator;
+import java.util.List;
 
 @Transactional(noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })
 public class CourseStateChangeServiceImpl {
@@ -71,6 +68,7 @@ public class CourseStateChangeServiceImpl {
                 // in this case, we don't need to supersede anything.  
                 if (!isOnlyVersion){
                     currVerCourse.setStateKey(DtoConstants.STATE_SUPERSEDED);
+                    currVerCourse.setEndTerm(prevEndTermAtpId);
                     courseService.updateCourse(currVerCourse.getId(), currVerCourse, contextInfo);
                     updateStatementTreeViewInfoState(currVerCourse, contextInfo);
 
