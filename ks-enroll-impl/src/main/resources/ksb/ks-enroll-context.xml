@@ -1996,7 +1996,6 @@ the program will get the rule management service by calling the global resource 
                     <property name="courseOfferingService" ref="CourseOfferingService" />
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.BestEffortCreditLoadTermResolver">
-                    <property name="courseOfferingService" ref="CourseOfferingService" />
                     <property name="countWaitlistedCoursesTowardsCreditLimit" value="true"/>
                 </bean>
                 <bean class="org.kuali.student.enrollment.krms.termresolver.BestEffortTimeConflictTermResolver">

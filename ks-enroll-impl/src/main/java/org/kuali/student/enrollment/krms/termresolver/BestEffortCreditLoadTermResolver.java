@@ -19,8 +19,8 @@ package org.kuali.student.enrollment.krms.termresolver;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseOfferingTermResolverSupport;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
@@ -43,7 +43,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolverSupport<Boolean> {
+public class BestEffortCreditLoadTermResolver implements TermResolver<Boolean> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BestEffortCreditLoadTermResolver.class);
 
@@ -74,7 +74,7 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
 
     @Override
     public int getCost() {
-        return 2;
+        return 0;
     }
 
     @Override
@@ -110,7 +110,9 @@ public class BestEffortCreditLoadTermResolver extends CourseOfferingTermResolver
 
             // If this is an add request, add it to the list of courses calculated
             if (addRequest) {
-                CourseRegistrationInfo regItem = createNewCourseRegistration(requestItemInfo, contextInfo);
+                CourseRegistrationInfo regItem = new CourseRegistrationInfo();
+                regItem.setRegistrationGroupId(requestItemInfo.getRegistrationGroupId());
+                regItem.setCredits(requestItemInfo.getCredits());
                 existingCrs.add(regItem);
             } else {
                 // see if we are editing an existing item

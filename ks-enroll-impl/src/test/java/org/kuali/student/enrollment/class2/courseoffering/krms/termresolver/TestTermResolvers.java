@@ -974,11 +974,6 @@ public class TestTermResolvers extends AbstractTermResolverTestHelper {
         RegistrationGroupInfo registrationGroupInfo = mock(RegistrationGroupInfo.class);
         when(registrationGroupInfo.getId()).thenReturn(mockRegGroup01);
 
-        //Mock the course offering service and inject it into the term resolver
-        CourseOfferingService courceOfferingServiceMock = mock(CourseOfferingService.class);
-        when(courceOfferingServiceMock.getRegistrationGroup(mockRegGroup01, contextInfo)).thenReturn(registrationGroupInfo);
-        termResolver.setCourseOfferingService(courceOfferingServiceMock);
-
         //Mock a registration request item
         RegistrationRequestItemInfo requestItemInfo = mock(RegistrationRequestItemInfo.class);
         when(requestItemInfo.getTypeKey()).thenReturn(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY);
