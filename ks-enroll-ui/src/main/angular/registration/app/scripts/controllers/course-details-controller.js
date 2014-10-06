@@ -169,6 +169,11 @@ angular.module('regCartApp')
             return $scope.selectedRegGroup && CartService.isCourseInCart($scope.selectedRegGroup.regGroupId);
         };
 
+        // Method for checking if the selected reg group is registered
+        $scope.isSelectedRegGroupRegistered = function() {
+            return $scope.selectedRegGroup && ScheduleService.isCourseRegistered($scope.selectedRegGroup.regGroupId);
+        };
+
         // Method for checking if the selected reg group is in the waitlist
         $scope.isSelectedRegGroupInWaitlist = function() {
             return $scope.selectedRegGroup && ScheduleService.isCourseWaitlisted($scope.selectedRegGroup.regGroupId);

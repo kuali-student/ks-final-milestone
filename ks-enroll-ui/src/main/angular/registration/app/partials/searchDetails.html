@@ -132,7 +132,7 @@
             <!-- Actions -->
             <div class="kscr-SearchDetails-actions">
                 <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
-                <div class="kscr-SearchDetails-button kscr-Button-group" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()">
+                <div class="kscr-SearchDetails-button kscr-Button-group" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()  && !isSelectedRegGroupRegistered()">
                     <!-- Add to Cart -->
                     <button id="search_details_add_to_cart" name="submit" ng-click="addToCart()"
                             class="kscr-Button kscr-SearchDetails-button--addToCart"
@@ -162,6 +162,9 @@
                 <!-- In Cart / Waitlist - Only if in cart / waitlist -->
                 <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
                     <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
+                </div>
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupRegistered()">
+                    <button id="search_details_registered" class="kscr-Button--outline" ng-disabled="true">Registered</button>
                 </div>
                 <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInWaitlist()">
                     <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
