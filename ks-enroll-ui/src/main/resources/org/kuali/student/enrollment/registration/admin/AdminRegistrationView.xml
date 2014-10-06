@@ -135,7 +135,7 @@
                                     </bean>
                                 </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="6" />
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" />
                                 </property>
                             </bean>
 
