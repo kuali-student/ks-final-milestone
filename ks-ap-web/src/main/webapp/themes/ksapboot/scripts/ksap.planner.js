@@ -197,7 +197,7 @@ function ksapPlannerAddPlanItem (data) {
                 unitcell.addClass("ks-plan-Bucket-footer-show");
                 unitcell.removeClass("ks-plan-Bucket-footer-hide");
             })
-            .animate({backgroundColor:"#ffffff"}, 1500, function() {
+            .animate({backgroundColor:"#fff"}, 1500, function() {
                 itemElement.css({background: "none"});
                 runHiddenScripts(data.uid);
             });
