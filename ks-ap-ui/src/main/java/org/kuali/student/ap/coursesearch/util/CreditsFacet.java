@@ -5,6 +5,7 @@ import org.kuali.student.ap.coursesearch.CourseSearchItem.CreditType;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -59,25 +60,25 @@ public class CreditsFacet extends AbstractFacet {
             list.add(min);
         }else{
 		switch (course.getCreditType()) {
-            case Range:
+            case RANGE:
                 for (float x = min; x <= max; x++) {
                     list.add(x);
                 }
                 break;
-            case Fixed:
+            case FIXED:
                 list.add(min);
                 break;
-            case Multiple:
+            case MULTIPLE:
                 if (course.getMultipleCredits() != null) {
-                    for (float credit : course.getMultipleCredits()) {
-                        list.add(credit);
+                    for (BigDecimal credit : course.getMultipleCredits()) {
+                        list.add(credit.floatValue());
                     }
                 }
                 else {
                     list.add(min);
                 }
                 break;
-            case Unknown:
+            case UNKNOWN:
             default:
                 list.add(min);
                 break;
@@ -94,7 +95,7 @@ public class CreditsFacet extends AbstractFacet {
             else
                 facetKeys.add(DISPLAY_MAX + "+");
         }
-		if (CreditType.Range.equals(course.getCreditType())
+		if (CreditType.RANGE.equals(course.getCreditType())
 				&& max >= DISPLAY_MAX)
 			facetKeys.add(DISPLAY_MAX + "+");
 		((CourseSearchItemImpl) course).setCreditsFacetKeys(facetKeys);

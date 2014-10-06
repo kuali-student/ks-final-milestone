@@ -33,6 +33,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	private String credit;
 	private float creditMin;
 	private float creditMax;
-    private float[] multipleCredits;
+    private List<BigDecimal> multipleCredits;
 	private CreditType creditType;
 
 	private List<String> genEduReqs;
@@ -175,11 +176,11 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		this.creditMax = creditMax;
 	}
 
-    public float[] getMultipleCredits() {
+    public List<BigDecimal> getMultipleCredits() {
         return multipleCredits;
     }
 
-    public void setMultipleCredits(float[] multipleCredits) {
+    public void setMultipleCredits(List<BigDecimal> multipleCredits) {
         this.multipleCredits = multipleCredits;
     }
 

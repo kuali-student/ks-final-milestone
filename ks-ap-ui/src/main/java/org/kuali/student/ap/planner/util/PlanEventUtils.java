@@ -738,7 +738,7 @@ public class PlanEventUtils {
             }
         }
 
-        return new CreditsFormatter.Range(minCredits,maxCredits);
+        return new CreditsFormatter.Range(minCredits,maxCredits,"");
     }
 
     /**

@@ -360,14 +360,17 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                         course.setCourseName(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_NAME));
                         course.setCode(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CODE));
                         course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID));
-                        String cellValue = KsapHelperUtil.getCellValue(row, CourseSearchConstants.SearchResultColumns.COURSE_CREDITS);
-                        Credit credit = getCreditByID(cellValue);
-                        if (credit != null) {
-                            course.setCreditMin(credit.getMin());
-                            course.setCreditMax(credit.getMax());
-                            course.setCreditType(credit.getType());
-                            course.setMultipleCredits(credit.getMultiple());
-                            course.setCredit(credit.getDisplay());
+                        CreditsFormatter.Range range = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getRange(id);
+                        if (range != null) {
+                            course.setCreditMin(range.getMin().floatValue());
+                            course.setCreditMax(range.getMax().floatValue());
+                            course.setMultipleCredits(range.getMultiple());
+                            course.setCreditType(CourseSearchItem.CreditType.valueOf(range.getType()));
+                            course.setCredit(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(range));
+                            if (range.getMultiple() != null && range.getMultiple().size() > 0) {
+                                //Override the display with a "truncated" version
+                                course.setCredit(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsTruncated(range.getMultiple(), course.getCredit()));
+                            }
                         }
                         listOfCourses.add(course);
                         break;
@@ -502,65 +505,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public Map<String, Credit> getCreditMap() {
-        Map<String, Credit> rv = creditMapRef == null ? null : creditMapRef
-                .get();
-        if (rv == null) {
-            Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
-
-            // Get credit information from the result values groups using the scalue key
-            String resultScaleKey = CourseSearchConstants.COURSE_SEARCH_SCALE_CREDIT_DEGREE;
-            List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
-            try {
-                resultValuesGroupInfos = KsapFrameworkServiceLocator
-                        .getLrcService().getResultValuesGroupsByResultScale(
-                                resultScaleKey, KsapFrameworkServiceLocator.getContext()
-                                .getContextInfo());
-            } catch (DoesNotExistException e) {
-                throw new IllegalArgumentException("LRC lookup error", e);
-            } catch (InvalidParameterException e) {
-                throw new IllegalArgumentException("LRC lookup error", e);
-            } catch (MissingParameterException e) {
-                throw new IllegalArgumentException("LRC lookup error", e);
-            } catch (OperationFailedException e) {
-                throw new IllegalStateException("LRC lookup error", e);
-            } catch (PermissionDeniedException e) {
-                throw new IllegalStateException("LRC lookup error", e);
-            }
-
-            // Create and fill in credit infomation from found groups
-            Map<String, String> types = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().getCreditType(resultValuesGroupInfos);
-            if ((resultValuesGroupInfos != null) && (resultValuesGroupInfos.size() > 0)) {
-                for (ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos) {
-                    CreditsFormatter.Range range = CreditsFormatter.getRange(resultValuesGroupInfo);
-                    CreditImpl credit = new CreditImpl();
-                    credit.setId(resultValuesGroupInfo.getKey());
-                    credit.setType(CourseSearchItem.CreditType.valueOf(types.get(resultValuesGroupInfo.getTypeKey())));
-                    Float tempValueHolder = 0F;
-                    credit.setMin(tempValueHolder);
-                    credit.setMax(tempValueHolder);
-                    credit.setDisplay(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(range));
-                    if (range.getMin() != null && range.getMax() != null) {
-                        credit.setMin(range.getMin().floatValue());
-                        credit.setMax(range.getMax().floatValue());
-                    }
-                    if (range.getMultiple() != null && range.getMultiple().size() > 0) {
-                        credit.setMultiple(new float[range.getMultiple().size()]);
-                        for (int i = 0; i < range.getMultiple().size(); i++) {
-                            credit.setMultiple(i,range.getMultiple().get(i).floatValue());
-                        }
-                        //Override the display with a "truncated" version
-                        credit.setDisplay(KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCreditsTruncated(credit.getMultiple(), credit.getDisplay()));
-                    }
-                    creditMap.put(credit.getId(), credit);
-                }
-            }
-
-            // Fill in stored map
-            creditMapRef = new WeakReference<Map<String, Credit>>(
-                    rv = Collections.unmodifiableMap(Collections
-                            .synchronizedMap(creditMap)));
-        }
-        return rv;
+        // Unused
+        return null;
     }
 
     /**

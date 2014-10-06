@@ -351,6 +351,6 @@ public class KsapHelperUtil {
         }
 
         return KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(new CreditsFormatter.Range(plannedTotalMin,
-                plannedTotalMax));
+                plannedTotalMax,""));
     }
 }

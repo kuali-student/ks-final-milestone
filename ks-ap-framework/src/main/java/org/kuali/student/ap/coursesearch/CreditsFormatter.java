@@ -19,6 +19,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -26,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
@@ -36,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -56,6 +61,9 @@ public class CreditsFormatter {
     private static final String MIN_CREDIT_ATTRIBUTE_KEY = "minCreditValue";
     private static final String MAX_CREDIT_ATTRIBUTE_KEY = "maxCreditValue";
     private static final int MULTI_CREDIT_DISPLAY_LIMIT = 3;
+    private static final String COURSE_RESULT_TYPE = "kuali.resultType.creditCourseResult";
+    private static final String CREDIT_TYPE_PREFIX = "kuali.result.values.group.type.";
+
 
     /**
      * Stores information about a variety of values
@@ -64,14 +72,16 @@ public class CreditsFormatter {
 		private final BigDecimal min;
         private final BigDecimal max;
 		private final List<BigDecimal> multiple;
+        private final String type;
 
-		public Range(BigDecimal min, BigDecimal max) {
+		public Range(BigDecimal min, BigDecimal max, String type) {
 			this.min = min;
 			this.max = max;
 			this.multiple = null;
+            this.type = type.replace(CREDIT_TYPE_PREFIX,"").toUpperCase();
 		}
 
-		public Range(List<BigDecimal> multiple) {
+		public Range(List<BigDecimal> multiple, String type) {
 
             if (multiple == null || multiple.isEmpty()) {
                 LOG.warn("the input of a multiple-value list is empty or null");
@@ -84,6 +94,7 @@ public class CreditsFormatter {
                 this.max = multiple.get(multiple.size()-1);
                 this.multiple = multiple;
             }
+            this.type = type.replace(CREDIT_TYPE_PREFIX,"").toUpperCase();
 		}
 
 		public BigDecimal getMin() {
@@ -97,6 +108,10 @@ public class CreditsFormatter {
 		public List<BigDecimal> getMultiple() {
 			return multiple;
 		}
+
+        public String getType(){
+            return type;
+        }
 	}
 
     /**
@@ -114,15 +129,7 @@ public class CreditsFormatter {
         }
 
         // Check group options
-        ResultValuesGroupInfo creditGroup = null;
-        for(ResultValuesGroupInfo option : options){
-            if(option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) ||
-                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
-                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
-                creditGroup=option;
-                break;
-            }
-        }
+        ResultValuesGroupInfo creditGroup = getSelectedCreditGroup(options);
 
         if (creditGroup == null) {
             LOG.warn("Credit options list was empty.");
@@ -134,6 +141,73 @@ public class CreditsFormatter {
 
         return range;
     }
+
+    /**
+     * Retrieves the range of values for the credits of a course
+     *
+     * @param courseId - The course to retrieve credit information for
+     * @return A filled in Range for possible credit values of the course
+     */
+    public static Range getRange(String courseId){
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        List<CluResultInfo> cluResults = null;
+        try {
+            cluResults = KsapFrameworkServiceLocator.getCluService().getCluResultByClu(courseId,contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException("Clu service error", e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException("Clu service error", e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException("Clu service error", e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException("Clu service error", e);
+        }
+
+        List<ResultValuesGroupInfo> results = new ArrayList<ResultValuesGroupInfo>();
+        //Loop through all the CluResults to find the one with the matching type
+        for(CluResultInfo cluResult:cluResults){
+            if(COURSE_RESULT_TYPE.equals(cluResult.getTypeKey())){
+                //Loop through all options and add to the list of Strings
+                for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
+                    try {
+                        if(resultOption.getResultComponentId()!=null){
+                            ResultValuesGroupInfo resultValuesGroup = KsapFrameworkServiceLocator.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), contextInfo);
+                            results.add(resultValuesGroup);
+                        }
+                    } catch (Exception e) {
+                        LOG.warn("Course Credit option:"+resultOption.getId()+" refers to a invalid ResultValuesGroupInfo "+ resultOption.getResultComponentId());
+                    }
+                }
+            }
+        }
+        ResultValuesGroupInfo creditGroup = getSelectedCreditGroup(results);
+
+        if (creditGroup == null) {
+            LOG.warn("Credit options list was empty.");
+            return null;
+        }
+
+        // Parse range
+        Range range = getRange(creditGroup);
+
+        return range;
+    }
+
+    private static ResultValuesGroupInfo getSelectedCreditGroup(List<ResultValuesGroupInfo> options){
+        ResultValuesGroupInfo creditGroup = null;
+
+        for(ResultValuesGroupInfo option : options){
+            if(option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) ||
+                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                    option.getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+                creditGroup=option;
+                break;
+            }
+        }
+
+        return creditGroup;
+    }
+
 
     /**
      * Retrieves the range of values for the credits of a course offering
@@ -158,7 +232,7 @@ public class CreditsFormatter {
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("LRC lookup error", e);
         }
-        Range range = CreditsFormatter.getRange(resultValuesGroupInfo);
+        Range range = getRange(resultValuesGroupInfo);
         return range;
     }
 
@@ -260,10 +334,10 @@ public class CreditsFormatter {
 					throw new IllegalStateException("LRC lookup error", e);
 				}
 			Collections.sort(resultValues);
-			return new Range(resultValues);
+			return new Range(resultValues,type);
 		}
 
-		return new Range(min, max);
+		return new Range(min, max,type);
 	}
 
     /**
@@ -436,12 +510,12 @@ public class CreditsFormatter {
      * @param initialDisplay - Previously computed, full credit display
      * @return
      */
-    public static String formatCreditsTruncated(float[] credits, String initialDisplay) {
+    public static String formatCreditsTruncated(List<BigDecimal> credits, String initialDisplay) {
         StringBuilder creditStr = new StringBuilder(initialDisplay);
-        if (credits != null && credits.length > MULTI_CREDIT_DISPLAY_LIMIT) {
+        if (credits != null && credits.size() > MULTI_CREDIT_DISPLAY_LIMIT) {
             creditStr = new StringBuilder();
             for (int i=0; i<MULTI_CREDIT_DISPLAY_LIMIT-1; i++) {
-                creditStr.append(trimCredits(String.valueOf(credits[i])));
+                creditStr.append(trimCredits(String.valueOf(credits.get(i))));
                 creditStr.append(", ");
             }
             creditStr.append("&hellip;");

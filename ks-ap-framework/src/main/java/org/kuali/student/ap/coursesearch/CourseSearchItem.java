@@ -1,5 +1,6 @@
 package org.kuali.student.ap.coursesearch;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public interface CourseSearchItem {
 	static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
 
 	enum CreditType {
-		Fixed, Range, Multiple, Unknown
+		FIXED, RANGE, MULTIPLE, UNKNOWN
 	}
 
 	/**
@@ -62,7 +63,7 @@ public interface CourseSearchItem {
      * Get the multiple values of credits, for use with CreditsFacet
      * @return The array of credit values
      */
-    float[] getMultipleCredits();
+    List<BigDecimal> getMultipleCredits();
 
 	/**
 	 * Get the credit type for use with CreditsFacet.

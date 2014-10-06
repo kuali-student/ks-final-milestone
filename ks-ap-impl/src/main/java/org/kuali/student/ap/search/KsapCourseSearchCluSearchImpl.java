@@ -249,19 +249,12 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
 
         String queryStr =
                 "SELECT  clu.ID, ident.LNG_NAME, trim( ident.SUFX_CD ), trim( ident.DIVISION ), trim( ident.LVL )," +
-                "opt.RES_COMP_ID, ident.cd, clu.ver_ind_id" +
+                "ident.cd, clu.ver_ind_id" +
                         "    FROM" +
                         "    KSLU_CLU clu," +
-                        "    KSLU_CLU_IDENT ident," +
-                        "    KSLU_CLU_RSLT res," +
-                        "    KSLU_RSLT_OPT opt," +
-                        "    KSLU_CLURES_JN_RESOPT jn" +
+                        "    KSLU_CLU_IDENT ident" +
                         "    WHERE clu.VER_IND_ID IN :"+CourseSearchConstants.SearchParameters.VERSION_IND_ID_LIST +
                         "    AND clu.offic_clu_id = ident.id" +
-                        "    AND clu.id = res.clu_id" +
-                        "    AND res.id = jn.clu_res_id" +
-                        "    AND jn.res_opt_id = opt.id" +
-                        "    AND res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'" +
                         "    AND clu.EFF_DT = " +
                         "    (select min(c.EFF_DT) from KSLU_CLU c WHERE c.VER_IND_ID = clu.VER_IND_ID " +
                         "    AND c.ID NOT IN (SELECT att.OWNER FROM KSLU_CLU_ATTR att where att.ATTR_NAME='course.catalogOmit_ind' and att.ATTR_VALUE='Y')" +
@@ -288,9 +281,8 @@ public class KsapCourseSearchCluSearchImpl extends SearchServiceAbstractHardwire
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_NUMBER, (String)resultRow[2]);
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_SUBJECT, (String)resultRow[3]);
             row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_LEVEL, (String)resultRow[4]);
-            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_CREDITS, (String)resultRow[5]);
-            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_CODE, (String)resultRow[6]);
-            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String)resultRow[7]);
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_CODE, (String)resultRow[5]);
+            row.addCell(CourseSearchConstants.SearchResultColumns.COURSE_VERSION_INDEPENDENT_ID, (String)resultRow[6]);
             resultInfo.getRows().add(row);
         }
 
