@@ -308,7 +308,11 @@ public final class SchedulingServiceUtil {
      * @param srsId The new srs ID to set this to
      * @return A copy of the SRI minus the IDs
      */
-    public static ScheduleRequestInfo copyScheduleRequest(ScheduleRequestInfo origRequest, String srsId) {
+    public static ScheduleRequestInfo copyScheduleRequest(boolean isRolloverOperation,
+                                                          boolean doNotScheduleOptionKeyExists,
+                                                          boolean doNotScheduleRoomOptionKeyExists,
+                                                          boolean isColocated,
+                                                          ScheduleRequestInfo origRequest, String srsId) {
         ScheduleRequestInfo copy = new ScheduleRequestInfo(origRequest);
         copy.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED); // Reset the state
         copy.setScheduleRequestSetId(srsId);
@@ -316,6 +320,17 @@ public final class SchedulingServiceUtil {
         if (copy.getScheduleRequestComponents() != null) {
             for (ScheduleRequestComponentInfo comp: copy.getScheduleRequestComponents()) {
                 comp.setId(null); // Null these out too
+
+                // remove room assignment from request component if:
+                // 1. is rollover
+                // 2. not colocated AO
+                // 3. include scheduling information but exclude room assignment
+                if (isRolloverOperation && !isColocated && (doNotScheduleRoomOptionKeyExists && !doNotScheduleOptionKeyExists)) {
+                    comp.getRoomIds().clear();
+                    comp.getBuildingIds().clear();
+                    comp.getCampusIds().clear();
+                    comp.getOrgIds().clear();
+                }
             }
         }
         return copy;
