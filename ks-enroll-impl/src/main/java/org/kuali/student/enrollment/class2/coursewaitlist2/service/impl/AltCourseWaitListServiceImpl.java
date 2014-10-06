@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.coursewaitlist2.service.impl;
 
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao;
 import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListAttributeEntity;
 import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
@@ -30,9 +31,11 @@ import org.kuali.student.enrollment.coursewaitlist2.dto.WaitlistInfo;
 import org.kuali.student.enrollment.coursewaitlist2.infc.ActivityOfferingWaitListConfig;
 import org.kuali.student.enrollment.coursewaitlist2.infc.WaitListConfig;
 import org.kuali.student.enrollment.coursewaitlist2.service.AltCourseWaitListService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -43,6 +46,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,7 +99,42 @@ public class AltCourseWaitListServiceImpl implements AltCourseWaitListService {
                                                              ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return null;
+
+        // Not the best impl.  Should have an LPR method to get what we want.
+        List<LprInfo> lprs = lprService.getLprsByMasterLprId(courseWaitListEntryId, contextInfo);
+        LprInfo rgLpr = null, coLpr = null;
+        for (LprInfo lpr: lprs) {
+            if (lpr.getTypeKey().equals(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+                coLpr = lpr;
+            } else if (lpr.getTypeKey().equals(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
+                rgLpr = lpr;
+            }
+        }
+        if (rgLpr == null || coLpr == null) {
+            throw new DoesNotExistException("Either RG WL LPR or CO WL LPR is missing");
+        }
+        AltCourseWaitListEntryInfo info = new AltCourseWaitListEntryInfo();
+        info.setPersonId(rgLpr.getPersonId());
+        info.setStateKey(rgLpr.getStateKey()); // For now, don't translate
+        info.setTypeKey(rgLpr.getTypeKey()); // For now, don't translate
+        info.setTermId(rgLpr.getAtpId());
+        info.setCourseOfferingId(coLpr.getLuiId());
+        info.setRegistrationGroupId(rgLpr.getLuiId());
+        info.setId(rgLpr.getMasterLprId());
+        info.setCrossListedCode(rgLpr.getCrossListedCode());
+        info.setAttributes(rgLpr.getAttributes());
+        for (String rvgKey: rgLpr.getResultValuesGroupKeys()) {
+            if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
+                info.setGradingOptionId(rvgKey);
+            } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
+                //This will be replaced with just the key in the future
+                info.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length())));
+            }
+        }
+        info.setEffectiveDate(rgLpr.getEffectiveDate());
+        info.setExpirationDate(rgLpr.getExpirationDate());
+        info.setMeta(rgLpr.getMeta());
+        return info;
     }
 
     @Override
@@ -249,6 +288,23 @@ public class AltCourseWaitListServiceImpl implements AltCourseWaitListService {
         } else {
             throw new InvalidParameterException("activityOfferingWaitListConfig can not be null");
         }
+    }
+
+    @Override
+    public StatusInfo deleteActivityOfferingWaitListConfig(String activityOfferingWaitListConfigId,
+                                                           ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(activityOfferingWaitListConfigId);
+        if (null != courseWaitListEntity) {
+            courseWaitListDao.remove(courseWaitListEntity);
+        } else {
+            throw new DoesNotExistException(activityOfferingWaitListConfigId);
+        }
+        return status;
     }
 
     @Override

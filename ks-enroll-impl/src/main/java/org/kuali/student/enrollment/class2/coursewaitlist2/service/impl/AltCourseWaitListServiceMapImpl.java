@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.coursewaitlist2.service.AltCourseWaitListSer
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -98,6 +99,7 @@ public class AltCourseWaitListServiceMapImpl implements AltCourseWaitListService
         info.setPersonId(rgLpr.getPersonId());
         info.setStateKey(rgLpr.getStateKey()); // For now, don't translate
         info.setTypeKey(rgLpr.getTypeKey()); // For now, don't translate
+        info.setTermId(rgLpr.getAtpId());
         info.setCourseOfferingId(coLpr.getLuiId());
         info.setRegistrationGroupId(rgLpr.getLuiId());
         info.setId(rgLpr.getMasterLprId());
@@ -113,6 +115,7 @@ public class AltCourseWaitListServiceMapImpl implements AltCourseWaitListService
         }
         info.setEffectiveDate(rgLpr.getEffectiveDate());
         info.setExpirationDate(rgLpr.getExpirationDate());
+        info.setMeta(rgLpr.getMeta());
         return info;
     }
 
@@ -166,6 +169,14 @@ public class AltCourseWaitListServiceMapImpl implements AltCourseWaitListService
 
     @Override
     public ActivityOfferingWaitListConfig updateActivityOfferingWaitListConfig(String activityOfferingWaitListConfigId, ActivityOfferingWaitListConfigInfo activityOfferingWaitListConfigInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return null;
+    }
+
+    @Override
+    public StatusInfo deleteActivityOfferingWaitListConfig(String activityOfferingWaitListConfigId,
+                                                           ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
