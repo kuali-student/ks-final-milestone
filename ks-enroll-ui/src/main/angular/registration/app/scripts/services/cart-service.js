@@ -1,100 +1,142 @@
 'use strict';
 
+// Cart REST Resource Factory
+angular.module('regCartApp').factory('Cart', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistrationCart + '/cart', {}, {
+        submit: {
+            method: 'GET',
+            url: APP_URL + URLS.courseRegistrationCart + '/cart/submit'
+        }
+    });
+}]);
+
+// Cart Item REST Resource Factory
+angular.module('regCartApp').factory('CartItem', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistrationCart + '/cart/items', {}, {
+        put: {
+            method: 'PUT'
+        }
+    });
+}]);
+
+
 angular.module('regCartApp')
-    .service('CartService', ['$q', 'URLS', 'RegUtil', 'ServiceUtilities', 'GlobalVarsService', function CartService($q, URLS, RegUtil, ServiceUtilities, GlobalVarsService) {
+    .service('CartService', ['$q', '$resource', 'APP_URL', 'Cart', 'CartItem', 'RegUtil', 'GlobalVarsService', 'RegRequestStatusPoller',
+        function CartService($q, $resource, APP_URL, Cart, CartItem, RegUtil, GlobalVarsService, RegRequestStatusPoller) {
 
-        var cartCredits = 0;
-        var cartCourseCount = 0;
-        var cartCourses = [];
+            var cartCredits = 0;
+            var cartCourseCount = 0;
+            var cartCourses = [];
 
-        // Cache of carts per term
-        var carts = {};
+            // Cache of carts per term
+            var carts = {};
 
-        this.getCart = function(termId) {
-            var deferred = $q.defer();
+            this.getCart = function(termId) {
+                var deferred = $q.defer();
 
-            if (angular.isDefined(carts[termId])) {
-                // Return the cached cart
-                deferred.resolve(carts[termId]);
-            } else {
-                this.getCartFromServer().query({termId: termId}, function(cart) {
-                    // Cache the cart
-                    carts[termId] = cart;
-                    deferred.resolve(cart);
-                }, function(error) {
-                    // Report out the error
-                    deferred.reject(error);
-                });
-            }
+                if (angular.isDefined(carts[termId])) {
+                    // Return the cached cart
+                    deferred.resolve(carts[termId]);
+                } else {
+                    return this.getCartFromServer(termId).then(function(cart) {
+                        // Cache the cart
+                        carts[termId] = cart;
+                        return cart;
+                    });
+                }
 
-            return deferred.promise;
-        };
+                return deferred.promise;
+            };
 
-        this.getCartCredits = function () {
-            return cartCredits;
-        };
+            this.pollForCartUpdates = function(cart) {
+                // This is currently the last place that knows or cares about the cartId.
+                // The cartId is really just the regRequestId so we do need it to poll for status changes.
+                return RegRequestStatusPoller.pollRegistrationRequestStatus(cart.cartId);
+            };
 
-        this.setCartCredits = function (value) {
-            cartCredits = value;
-        };
+            this.getCartCredits = function () {
+                return cartCredits;
+            };
 
-        this.getCartCourseCount = function () {
-            return cartCourseCount;
-        };
+            this.setCartCredits = function (value) {
+                cartCredits = value;
+            };
 
-        this.setCartCourseCount = function (value) {
-            cartCourseCount = value;
-        };
+            this.getCartCourseCount = function () {
+                return cartCourseCount;
+            };
 
-        this.getCartCourses = function() {
-            return cartCourses;
-        };
+            this.setCartCourseCount = function (value) {
+                cartCourseCount = value;
+            };
 
-        this.setCartCourses = function(courses) {
-            cartCourses.splice(0, cartCourses.length);
+            this.getCartCourses = function() {
+                return cartCourses;
+            };
 
-            if (courses) {
-                angular.forEach(courses, function(course) {
-                    cartCourses.push(course);
-                });
+            this.setCartCourses = function(courses) {
+                cartCourses.splice(0, cartCourses.length);
 
-                this.setCartCourseCount(courses.length);
-            }
-        };
+                if (courses) {
+                    angular.forEach(courses, function(course) {
+                        cartCourses.push(course);
+                    });
 
-        this.isCourseInCart = function(course) {
-            return RegUtil.isCourseInList(course, this.getCartCourses());
-        };
+                    this.setCartCourseCount(courses.length);
+                }
+            };
 
-        this.isAoInCart = function(aoId) {
-            var inCartIndicator = {flag: false, colorIndex: null};
-            for (var i = 0; i < this.getCartCourses().length; i++) {
-                var course = this.getCartCourses()[i];
-                for (var j = 0; j < course.activityOfferings.length; j++) {
-                    var activityOffering = course.activityOfferings[j];
-                    if (aoId === activityOffering.activityOfferingId) {
-                        inCartIndicator.flag = true;
-                        inCartIndicator.colorIndex = GlobalVarsService.getCourseIndex(course);
-                        return inCartIndicator;
+            this.isCourseInCart = function(course) {
+                return RegUtil.isCourseInList(course, this.getCartCourses());
+            };
+
+            this.isAoInCart = function(aoId) {
+                var inCartIndicator = {flag: false, colorIndex: null};
+                for (var i = 0; i < this.getCartCourses().length; i++) {
+                    var course = this.getCartCourses()[i];
+                    for (var j = 0; j < course.activityOfferings.length; j++) {
+                        var activityOffering = course.activityOfferings[j];
+                        if (aoId === activityOffering.activityOfferingId) {
+                            inCartIndicator.flag = true;
+                            inCartIndicator.colorIndex = GlobalVarsService.getCourseIndex(course);
+                            return inCartIndicator;
+                        }
                     }
                 }
-            }
-            return inCartIndicator;
-        };
+        
+                return inCartIndicator;
+            };
 
-        // Server API Methods
+            // Server API Methods
 
-        this.getCartFromServer = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/searchForCart');
-        };
+            this.clearCart = function(termId) {
+                return CartItem.delete({
+                    termId: termId
+                }).$promise;
+            };
 
-        this.addCourseToCart = function (cartId, termId, course) {
-            if (course.courseCode) {
-                course.courseCode = course.courseCode.toUpperCase();
-            }
+            this.getCartFromServer = function(termId) {
+                return Cart.get({
+                    termId: termId
+                }).$promise;
+            };
 
-            return ServiceUtilities.postData(URLS.courseRegistrationCart + '/addCourseToCart').query({
-                    cartId: cartId,
+            this.submitCart = function(termId) {
+                return Cart.submit({
+                    termId: termId
+                }).$promise
+                    .then(function(registrationRequest) {
+                        console.log('- Cart submitted - starting to poll for request status');
+                        return RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id);
+                    });
+            };
+
+            this.addCourseToCart = function(termId, course) {
+                if (course.courseCode) {
+                    course.courseCode = course.courseCode.toUpperCase();
+                }
+
+                return CartItem.put({
                     termId: termId,
                     courseCode: course.courseCode || null,
                     regGroupCode: course.regGroupCode || null,
@@ -102,31 +144,25 @@ angular.module('regCartApp')
                     gradingOptionId: course.gradingOptionId || null,
                     credits: course.credits || null
                 }).$promise;
-        };
+            };
 
-        this.removeItemFromCart = function ($actionLink) {
-            return ServiceUtilities.deleteData($actionLink);
-        };
+            this.removeItemFromCart = function(termId, item) {
+                return CartItem.remove({
+                    termId: termId,
+                    cartItemId: item.cartItemId
+                }).$promise;
+            };
 
-        this.invokeActionLink = function ($actionLink) {
-            return ServiceUtilities.getData($actionLink);
-        };
+            this.updateCartItem = function(termId, item) {
+                return CartItem.save({
+                    termId: termId,
+                    cartItemId: item.cartItemId,
+                    credits: item.credits,
+                    gradingOptionId: item.gradingOptionId
+                }).$promise;
+            };
 
-        this.updateCartItem = function () {
-            return ServiceUtilities.putData(URLS.courseRegistrationCart + '/updateCartItem');
-        };
-
-        this.clearCart = function (termId) {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/clearCart').query({
-                termId: termId
-            }).$promise;
-        };
-
-        this.submitCart = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/submitCart');
-        };
-
-        this.undoDeleteCourse = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/undoDeleteCourse');
-        };
-    }]);
+            this.invokeActionLink = function (actionLink) {
+                return $resource(APP_URL + actionLink).get().$promise;
+            };
+        }]);

@@ -182,7 +182,8 @@ angular.module('regCartApp')
                     STATUS.processing);
 
 
-                $scope.$emit('dropCourse', $scope.type, course, function() {
+                var event = $scope.$emit('dropCourse', $scope.type, course);
+                event.promise.then(function() {
                     course.dropped = true; // used to display course details vs success to drop message
                     course.dropProcessing = false;
 
@@ -217,7 +218,8 @@ angular.module('regCartApp')
                 var newCourse = angular.copy(course);
                 applyCourseUpdates(newCourse);
 
-                $scope.$emit('updateCourse', $scope.type, course, newCourse, function() {
+                var event = $scope.$emit('updateCourse', $scope.type, course, newCourse);
+                event.promise.then(function() {
                     course.requestProcessing = false;
                     updateCard(course);
                 }, function(messages) {

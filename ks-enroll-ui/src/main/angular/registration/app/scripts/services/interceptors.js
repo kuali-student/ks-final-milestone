@@ -2,18 +2,27 @@
 
 angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector, $window, $rootScope) {
 
+    var attempted = false;
+
     // This should be removed for production. In the future, we should handle logouts in a user-friendly way.
     function logonAsAdmin() {
+        if (attempted) {
+            return;
+        }
+
+        attempted = true;
+
         var LoginService = $injector.get('LoginService');
-        LoginService.logOnAsAdmin().query({userId: 'student1', password: 'student1'}, function () {
-            //After logging in, reload the page.
-            console.log('Logged in, reloading page.');
-            $window.location.reload();
-        }, function () {
-            //After logging in, reload the page.
-            console.log('Not Logged in, reloading page.');
-            $window.location.reload();
-        });
+        LoginService.login('student1', '')
+            .then(function () {
+                // After logging in, reload the page.
+                console.log('Logged in, reloading page.');
+                $window.location.reload();
+            }, function () {
+                // After logging in, reload the page.
+                console.log('Not Logged in, reloading page.');
+                $window.location.reload();
+            });
     }
 
 

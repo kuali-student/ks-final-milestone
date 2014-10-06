@@ -1,7 +1,14 @@
 'use strict';
 
+// Messages Resource Factory
+angular.module('regCartApp').factory('Messages', ['$resource', function($resource) {
+    // Currently we are getting the messages from a static json file...
+    // this will likely be replaced by a RESTful service call...
+    return $resource('json/messages.json');
+}]);
+
 angular.module('regCartApp')
-    .service('MessageService', ['$q', '$resource', function MessageService($q, $resource) {
+    .service('MessageService', ['$q', 'Messages', function MessageService($q, Messages) {
 
         // Cached messages
         var messages = null;
@@ -14,7 +21,7 @@ angular.module('regCartApp')
                 deferred.resolve(messages);
             } else {
                 // The messages aren't cached, load them
-                this.loadMessages().query({}, function(result) {
+                this.loadMessages().then(function(result) {
                     // Cache the messages
                     messages = result;
                     deferred.resolve(messages);
@@ -49,12 +56,6 @@ angular.module('regCartApp')
         };
 
         this.loadMessages = function() {
-            /*
-             Currently we are getting the messages from a static json file...
-             this will likely be replaced by a RESTful service call...
-             */
-            return $resource('json/messages.json', {}, {
-                query: { method: 'GET', cache: false, isArray: true }
-            });
+            return Messages.query().$promise;
         };
     }]);

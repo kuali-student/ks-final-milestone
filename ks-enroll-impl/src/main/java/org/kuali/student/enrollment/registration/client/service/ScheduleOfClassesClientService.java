@@ -174,7 +174,7 @@ public interface ScheduleOfClassesClientService {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/checkStudentEligibilityForTerm")
+    @Path("/termEligibility")
     Response checkStudentEligibilityForTerm(@QueryParam("termId") String termId);
 
     /**

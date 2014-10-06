@@ -69,7 +69,7 @@ angular.module('regCartApp')
 
         var logout = function() {
             console.log('Logging out');
-            LoginService.logout().query({}, function () {
+            LoginService.logout().then(function () {
                 // Reload the page.
                 var url = $location.absUrl();
                 url = url.substring(0, url.indexOf('#'));

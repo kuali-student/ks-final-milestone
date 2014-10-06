@@ -370,10 +370,10 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return null;
     }
 
-    protected Link buildDeleteLink(String cartId, String cartItemId, String gradingOptionId, String credits) {
-        String action = "removeItemFromCart";
-        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
-        String uri = String.format(uriFormat, cartId, cartItemId, gradingOptionId, credits);
+    protected Link buildDeleteLink(String cartItemId, String gradingOptionId, String credits) {
+        String action = CourseRegistrationCartClientServiceConstants.ACTION_LINKS.REMOVE_ITEM_FROM_CART.getAction();
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/" + action + "?cartItemId=%s&gradingOptionId=%s&credits=%s";
+        String uri = String.format(uriFormat, cartItemId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
@@ -468,7 +468,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
                 currentCartItem.setRegGroupId(rgId);
-                currentCartItem.getActionLinks().add(buildDeleteLink(cartId, cartItemId, grading, creditsStr));
+                currentCartItem.getActionLinks().add(buildDeleteLink(cartItemId, grading, creditsStr));
                 currentCartItem.setState(cartItemState);
                 currentCartItem.setCartId(cartId);
                 currentCartItem.setTermId(termId);

@@ -1,10 +1,37 @@
 'use strict';
 
+// Schedule REST Resource Factory
+angular.module('regCartApp').factory('Schedule', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistration + '/studentSchedule');
+}]);
+
+// RegistrationRequest REST Resource Factory
+angular.module('regCartApp').factory('RegistrationRequest', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistration + '/registrationRequest', {}, {
+        put: {
+            method: 'PUT'
+        }
+    });
+}]);
+
+// WaitlistRegistrationRequest REST Resource Factory
+angular.module('regCartApp').factory('WaitlistRegistrationRequest', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistration + '/waitlistRegistrationRequest', {}, {
+        put: {
+            method: 'PUT'
+        }
+    });
+}]);
+
+
+
 angular.module('regCartApp')
-    .service('ScheduleService', ['$q', '$timeout', 'URLS', 'STATUS', 'ServiceUtilities', 'GlobalVarsService', 'RegUtil',
-        'COURSE_TYPES', 'DAY_CONSTANTS',
-        function ScheduleService($q, $timeout, URLS, STATUS, ServiceUtilities, GlobalVarsService, RegUtil, COURSE_TYPES,
-            DAY_CONSTANTS) {
+    .service('ScheduleService', ['$q', '$timeout', 'STATUS', 'COURSE_TYPES', 'DAY_CONSTANTS',
+        'Schedule', 'RegistrationRequest', 'WaitlistRegistrationRequest',
+        'GlobalVarsService', 'RegUtil', 'RegRequestStatusPoller',
+        function ScheduleService($q, $timeout, STATUS, COURSE_TYPES, DAY_CONSTANTS,
+                                 Schedule, RegistrationRequest, WaitlistRegistrationRequest,
+                                 GlobalVarsService, RegUtil, RegRequestStatusPoller) {
 
             var selectedSchedule; // Currently selected schedule
 
@@ -41,7 +68,7 @@ angular.module('regCartApp')
                     // Return the cached cart
                     deferred.resolve(scheduleMap[termId]);
                 } else {
-                    this.getScheduleFromServer().query({termId: termId}, function(schedule) {
+                    this.getScheduleFromServer(termId).then(function(schedule) {
                         // Cache the schedule
                         scheduleMap[termId] = schedule;
                         deferred.resolve(schedule);
@@ -268,78 +295,7 @@ angular.module('regCartApp')
                 return { courses: courses, totalCredits: totalCredits };
             };
 
-
-            // Schedule Poller
-            this.pollRegistrationRequestStatus = function(registrationRequestId, interval, deferred) {
-                // Make sure the interval is defined
-                if (!angular.isNumber(interval)) {
-                    interval = 1000;
-                }
-
-                // Make sure the promise is set up.
-                if (!deferred) {
-                    deferred = $q.defer();
-                }
-
-                var me = this; // Get a handle on the service so we can refer to it within the $timeout.
-                $timeout(function() {
-                    // Query for the registration status
-                    me.getRegistrationStatus().query({regReqId: registrationRequestId}, function (result) {
-                        var status = GlobalVarsService.getCorrespondingStatusFromState(result.state);
-                        switch (status) {
-
-                            case STATUS.new:
-                            case STATUS.processing:
-                                // The request is still new or processing, first make sure at least 1 of the items are still processing.
-                                var processing = false;
-                                angular.forEach(result.responseItemResults, function(item) {
-                                    if (processing) {
-                                        return;
-                                    }
-
-                                    var itemStatus = GlobalVarsService.getCorrespondingStatusFromState(item.state);
-                                    switch (itemStatus) {
-                                        case STATUS.new:
-                                        case STATUS.processing:
-                                            processing = true; // At least 1 item is still processing.
-                                            break;
-                                    }
-                                });
-
-                                deferred.notify(result); // Notify out as well to give any itemized processors full coverage of all items.
-
-                                if (processing) {
-                                    // The request is still new or processing, reschedule the poller
-                                    me.pollRegistrationRequestStatus(registrationRequestId, interval, deferred);
-                                } else {
-                                    // A state mismatch exists on the request, all items have finished
-                                    // successfully even though the request is still marked as new or processing.
-                                    deferred.resolve(result);
-                                }
-                                break;
-
-                            case STATUS.success:
-                                // The request has finished successfully
-                                deferred.notify(result); // Notify out as well to give any itemized processors full coverage of all items.
-                                deferred.resolve(result);
-                                break;
-
-                            case STATUS.error:
-                                // The request has finished with an error state
-                                deferred.reject(result);
-                                break;
-
-                        }
-                    }, function(error) {
-                        // Return out the error
-                        deferred.reject(error);
-                    });
-                }, interval);
-
-                return deferred.promise;
-            };
-
-            // check the schedule for any time conflicts with the provided ao
+            // Check the schedule for any time conflicts with the provided ao
             this.hasTimeConflict = function (ao) {
                 if (angular.isArray(ao.scheduleComponents)) {
                     for (var i=0; i<ao.scheduleComponents.length; i++) {
@@ -422,34 +378,179 @@ angular.module('regCartApp')
                 return false;
             }
 
+
             // Server API Methods
 
-            this.getScheduleFromServer = function () {
-                return ServiceUtilities.getData(URLS.courseRegistration + '/studentSchedule');
+            this.getScheduleFromServer = function(termId) {
+                return Schedule.get({
+                    termId: termId
+                }).$promise;
             };
 
-            this.dropRegistrationGroup = function () {
-                return ServiceUtilities.deleteData(URLS.courseRegistration + '/registrationRequest');
+            this.registerForRegistrationGroup = function(course, allowWaitlist) {
+                return RegistrationRequest.put({
+                    courseCode: course.courseCode || null,
+                    regGroupId: course.regGroupId || null,
+                    gradingOption: course.gradingOptionId || null,
+                    credits: course.credits || null,
+                    allowWaitlist: allowWaitlist || course.allowWaitlist || false,
+                    allowRepeatedCourses: course.allowRepeatedCourses || false
+                }).$promise
+                    .then(function(registrationRequest) {
+                        // Set the course's cartItemId to be the regRequestItemId so the poller can map the status back correctly.
+                        if (angular.isArray(registrationRequest.registrationRequestItems) &&
+                            angular.isDefined(registrationRequest.registrationRequestItems[0])) {
+
+                            course.cartItemId = registrationRequest.registrationRequestItems[0].id;
+                        }
+
+                        // Return out the promise of the poller
+                        return RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id);
+                    });
             };
 
-            this.registerForRegistrationGroup = function () {
-                return ServiceUtilities.postData(URLS.courseRegistration + '/registrationRequest');
+            this.dropRegistrationGroup = function(course) {
+                var me = this,
+                    deferred = $q.defer(); // Create our own promise so we can throw a single list of messages if there is an error.
+
+                RegistrationRequest.delete({
+                    masterLprId: course.masterLprId
+                }).$promise
+                    .then(function(registrationRequest) {
+                        console.log('- Drop course registration request submitted - starting to poll for request status');
+
+                        // Return out the promise of the poller
+                        RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id).then(function(result) {
+                            console.log('-- Stop polling - Success');
+
+                            // Polling was successful, update the new Schedule counts.
+                            me.removeRegisteredCourse(course);
+                            me.addDroppedRegistered(course);
+
+                            deferred.resolve(result);
+                        }, function(result) {
+                            console.log('-- Stop polling - Error', result);
+                            deferred.reject(result.responseItemResults[0].messages);
+                        }, function(result) {
+                            console.log('-- Continue polling');
+                            deferred.notify(result);
+                        });
+                    }, function(error) {
+                        console.log('- Drop course registration request failed', error);
+                        deferred.reject(error.data);
+                    });
+
+                return deferred.promise;
             };
 
-            this.updateScheduleItem = function () {
-                return ServiceUtilities.putData(URLS.courseRegistration + '/registrationRequest');
+            this.updateScheduleItem = function(termId, course, newCourse) {
+                var me = this,
+                    deferred = $q.defer(); // Create our own promise so we can throw a single list of messages if there is an error.
+
+                RegistrationRequest.save({
+                    termId: termId,
+                    masterLprId: course.masterLprId,
+                    courseCode: course.courseCode,
+                    regGroupId: course.regGroupId,
+                    credits: newCourse.credits,
+                    gradingOptionId: newCourse.gradingOptionId
+                }).$promise
+                    .then(function(registrationRequest) {
+                        console.log('- Update course registration request submitted - starting to poll for request status');
+
+                        // Return out the promise of the poller
+                        RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id).then(function(result) {
+                            console.log('-- Stop polling - Success');
+
+                            // Polling was successful, update the seat counts
+                            me.updateRegisteredCourse(course, newCourse);
+
+                            deferred.resolve(result);
+                        }, function(result) {
+                            console.log('-- Stop polling - Error', result);
+                            deferred.reject(result.responseItemResults[0].messages);
+                        }, function(result) {
+                            console.log('-- Continue polling');
+                            deferred.notify(result);
+                        });
+                    }, function(error) {
+                        console.log('- Update course registration request failed', error);
+                        deferred.reject(error.data);
+                    });
+
+                return deferred.promise;
             };
 
-            this.dropFromWaitlist = function () {
-                return ServiceUtilities.deleteData(URLS.courseRegistration + '/waitlistRegistrationRequest');
+            this.dropFromWaitlist = function (course) {
+                var me = this,
+                    deferred = $q.defer(); // Create our own promise so we can throw a single list of messages if there is an error.
+
+                WaitlistRegistrationRequest.delete({
+                    masterLprId: course.masterLprId
+                }).$promise
+                    .then(function(registrationRequest) {
+                        console.log('- Drop waitlist course registration request submitted - starting to poll for request status');
+
+                        // Return out the promise of the poller
+                        RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id).then(function(result) {
+                            console.log('-- Stop polling - Success');
+
+                            // Polling was successful, update the new Schedule counts.
+                            me.removeWaitlistedCourse(course);
+                            me.addDroppedWaitlisted(course);
+
+                            deferred.resolve(result);
+                        }, function(result) {
+                            console.log('-- Stop polling - Error', result);
+                            deferred.reject(result.responseItemResults[0].messages);
+                        }, function(result) {
+                            console.log('-- Continue polling');
+                            deferred.notify(result);
+                        });
+                    }, function(error) {
+                        console.log('- Drop waitlist course registration request failed', error);
+                        deferred.reject(error.data);
+                    });
+
+                return deferred.promise;
             };
 
-            this.updateWaitlistItem = function () {
-                return ServiceUtilities.putData(URLS.courseRegistration + '/waitlistRegistrationRequest');
-            };
+            this.updateWaitlistItem = function(termId, course, newCourse) {
+                var me = this,
+                    deferred = $q.defer(); // Create our own promise so we can throw a single list of messages if there is an error.
 
-            this.getRegistrationStatus = function () {
-                return ServiceUtilities.getData(URLS.courseRegistration + '/registrationStatus');
+                WaitlistRegistrationRequest.save({
+                    termId: termId,
+                    masterLprId: course.masterLprId,
+                    courseCode: course.courseCode,
+                    regGroupId: course.regGroupId,
+                    credits: newCourse.credits,
+                    gradingOptionId: newCourse.gradingOptionId
+                }).$promise
+                    .then(function(registrationRequest) {
+                        console.log('- Update waitlist course registration request submitted - starting to poll for request status');
+
+                        // Return out the promise of the poller
+                        RegRequestStatusPoller.pollRegistrationRequestStatus(registrationRequest.id).then(function(result) {
+                            console.log('-- Stop polling - Success');
+
+                            // Polling was successful, update the course counts
+                            me.updateWaitlistedCourse(course, newCourse);
+
+                            deferred.resolve(result);
+                        }, function(result) {
+                            console.log('-- Stop polling - Error', result);
+                            deferred.reject(result.responseItemResults[0].messages);
+                        }, function(result) {
+                            console.log('-- Continue polling');
+                            deferred.notify(result);
+                        });
+                    }, function(error) {
+                        console.log('- Update waitlist course registration request failed', error);
+                        deferred.reject(error.data);
+                    });
+
+                return deferred.promise;
             };
 
         }]);

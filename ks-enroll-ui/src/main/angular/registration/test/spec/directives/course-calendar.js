@@ -265,19 +265,24 @@ describe('Service: CourseCalendarDataParser', function() {
             service.setWaitlisted(waitlisted);
             service.getCalendar(); // Clear the dirty
 
-            course.dropped = true;
+            var droppedCourse = angular.copy(course);
+            droppedCourse.dropped = true;
 
-            expect(service.setCart(cart)).toBeTruthy();
-            service.getCalendar(); // Clear the dirty
-            expect(service.setCart(cart)).toBeFalsy();
+            var newCart = [droppedCourse],
+                newRegistered = [droppedCourse],
+                newWaitlist = [droppedCourse];
 
-            expect(service.setRegistered(registered)).toBeTruthy();
+            expect(service.setCart(newCart)).toBeTruthy();
             service.getCalendar(); // Clear the dirty
-            expect(service.setRegistered(registered)).toBeFalsy();
+            expect(service.setCart(newCart)).toBeFalsy();
 
-            expect(service.setWaitlisted(waitlisted)).toBeTruthy();
+            expect(service.setRegistered(newRegistered)).toBeTruthy();
             service.getCalendar(); // Clear the dirty
-            expect(service.setWaitlisted(waitlisted)).toBeFalsy();
+            expect(service.setRegistered(newRegistered)).toBeFalsy();
+
+            expect(service.setWaitlisted(newWaitlist)).toBeTruthy();
+            service.getCalendar(); // Clear the dirty
+            expect(service.setWaitlisted(newWaitlist)).toBeFalsy();
         });
     });
 

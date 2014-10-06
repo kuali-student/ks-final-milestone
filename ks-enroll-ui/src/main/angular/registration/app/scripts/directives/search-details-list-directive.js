@@ -37,11 +37,19 @@ angular.module('regCartApp')
                 // turn off ng-repeat animations for better performance
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
+                function findTabIndexById (tabId) {
+                    for (var i=0; i<detailsConfig.tabs.length; i++){
+                        if (detailsConfig.tabs[i].id === tabId) {
+                            return i;
+                        }
+                    }
+                }
+
                 // initialize the tabs
                 for (var i=0; i<scope.sections.length; i++) {
                     scope.sections[i].tabs = angular.copy(detailsConfig.tabs);
-                    var timeIndex = findTabIndexById ('time');
-                    var seatsIndex = findTabIndexById ('seats');
+                    var timeIndex = findTabIndexById('time');
+                    var seatsIndex = findTabIndexById('seats');
                     for (var j=0; j<scope.sections[i].details.length; j++) {
                         if (scope.sections[i].details[j].indicator) {
                             scope.sections[i].tabs[seatsIndex].conflict = true;
@@ -83,7 +91,7 @@ angular.module('regCartApp')
                     }
                 });
 
-                scope.$on('timeConflictChanged', function(event) {
+                scope.$on('timeConflictChanged', function() {
                     // update the time tab
                     for (var i=0; i<scope.sections.length; i++) {
                         for (var j=0; j<scope.sections[i].details.length; j++) {
@@ -96,14 +104,6 @@ angular.module('regCartApp')
                         scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
                     }
                 });
-
-                function findTabIndexById (tabId) {
-                    for (var i=0; i<detailsConfig.tabs.length; i++){
-                        if (detailsConfig.tabs[i].id === tabId) {
-                            return i;
-                        }
-                    }
-                }
             }
         };
     }])

@@ -114,7 +114,8 @@ angular.module('regCartApp')
     // Action link identifiers that get returned from the server
     .constant('ACTION_LINK', {
         removeItemFromCart: 'removeItemFromCart',
-        undoDeleteCourse:   'undoDeleteCourse'
+        undoDeleteCourse:   'undoDeleteCourse',
+        undoClearCart:      'undoClearCart'
     })
 
 

@@ -177,11 +177,11 @@ angular.module('regCartApp')
             // Store off to prevent a provide a way to reference the search results that come back in case
             // the user runs another search request while this one is still running.
             lastSearchHash = searchHash;
-            SearchService.searchForCourses().query({
+            SearchService.searchForCourses({
                 termId: TermsService.getTermId(),
                 criteria: criteria || null,
                 cluId: cluId || null
-            }, function(results) {
+            }).then(function(results) {
                 if (lastSearchHash === searchHash) {
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);

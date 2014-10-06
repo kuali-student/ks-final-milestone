@@ -1,14 +1,31 @@
 'use strict';
 
-angular.module('regCartApp')
-    .service('LoginService', ['URLS', 'ServiceUtilities', function LoginService(URLS, ServiceUtilities) {
+// Development Login REST Resource Factory
+angular.module('regCartApp').factory('Login', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.developmentLogin, {}, {
+        login: {
+            method: 'GET',
+            url: APP_URL + URLS.developmentLogin + '/login'
+        },
+        logout: {
+            method: 'GET',
+            url: APP_URL + URLS.developmentLogin + '/logout'
+        }
+    });
+}]);
 
-        this.logOnAsAdmin = function () {
-            return ServiceUtilities.getData(URLS.developmentLogin + '/login');
+angular.module('regCartApp')
+    .service('LoginService', ['Login', function LoginService(Login) {
+
+        this.login = function (username, password) {
+            return Login.login({
+                userId: username,
+                password: password
+            }).$promise;
         };
 
         this.logout = function () {
-            return ServiceUtilities.getData(URLS.developmentLogin + '/logout');
+            return Login.logout().$promise;
         };
 
     }]);

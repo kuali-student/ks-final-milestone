@@ -11,8 +11,8 @@
  *              "updateCourse" -- received from course-card-directive.js, updates course (edit credits, grading option, etc)
  */
 angular.module('regCartApp')
-    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'RegUtil', 'TermsService', 'ScheduleService', 'CartService',
-    function ScheduleCtrl($scope, $modal, $timeout, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, RegUtil, TermsService, ScheduleService, CartService) {
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', '$q', 'STATUS', 'GRADING_OPTION', 'COURSE_TYPES', 'GlobalVarsService', 'RegUtil', 'TermsService', 'ScheduleService', 'CartService',
+    function ScheduleCtrl($scope, $modal, $timeout, $q, STATUS, GRADING_OPTION, COURSE_TYPES, GlobalVarsService, RegUtil, TermsService, ScheduleService, CartService) {
         console.log('>> ScheduleCtrl');
 
         $scope.schedule = ScheduleService.getSchedule();
@@ -65,7 +65,7 @@ angular.module('regCartApp')
         /*
          Listens for the "courseStatusMessageRemoved" event and removes the card for the given course.
          */
-        $scope.$on('courseStatusMessageRemoved',function (event, type, course, statusMessage) {
+        $scope.$on('courseStatusMessageRemoved', function(event, type, course, statusMessage) {
             if (angular.isObject(statusMessage) && angular.isDefined(statusMessage.action) && statusMessage.action === 'drop' && statusMessage.type === STATUS.success) {
                 // Splice course card when message is dismissed
                 ScheduleService.spliceCourse(type, course);
@@ -82,171 +82,39 @@ angular.module('regCartApp')
         /*
          Listens for the "dropCourse" event and calls the appropriate RESTful service depending on the course type.
          */
-        $scope.$on('dropCourse', function(event, type, course, successCallback, errorCallback) {
+        $scope.$on('dropCourse', function(event, type, course) {
             switch (type) {
                 case COURSE_TYPES.waitlisted:
                     console.log('Drop waitlisted course');
-                    executeDrop(type, course, successCallback, errorCallback,
-                        ScheduleService.dropFromWaitlist().query, {
-                            masterLprId: course.masterLprId
-                        });
+                    event.promise = ScheduleService.dropFromWaitlist(course).then(function() {
+                        // need a count on how many success drop message for WL are opened. So if there are no WL courses
+                        // when we "X" the last success drop message the "Waitlisted" section name would disappear
+                        numberOfDroppedWailistedCourses++;
+                    });
                     break;
                 case COURSE_TYPES.registered:
                     console.log('Drop registered course');
-                    executeDrop(type, course, successCallback, errorCallback,
-                        ScheduleService.dropRegistrationGroup().query, {
-                            masterLprId: course.masterLprId
-                        });
+                    event.promise = ScheduleService.dropRegistrationGroup(course).then(function() {
+                        // need a count on how many success drop message are opened. So if there are no courses when we "X" the last
+                        // success drop message the section can be replaced by the splash screen (unless there are waitlisted courses)
+                        numberOfDroppedCourses++;
+                    });
             }
         });
 
         /*
          Listens for the "updateCourse" event and calls the appropriate RESTful service depending on the course type.
          */
-        $scope.$on('updateCourse', function(event, type, course, newCourse, successCallback, errorCallback) {
+        $scope.$on('updateCourse', function(event, type, course, newCourse) {
             switch (type) {
                 case COURSE_TYPES.waitlisted:
                     console.log('Update waitlisted course');
-                    executeUpdate(type, course, newCourse, successCallback, errorCallback,
-                        ScheduleService.updateWaitlistItem().query, {
-                            courseCode: course.courseCode,
-                            regGroupId: course.regGroupId,
-                            masterLprId: course.masterLprId,
-                            termId: TermsService.getTermId(),
-                            credits: newCourse.credits,
-                            gradingOptionId: newCourse.gradingOptionId
-                        });
+                    event.promise = ScheduleService.updateWaitlistItem(TermsService.getTermId(), course, newCourse);
                     break;
                 case COURSE_TYPES.registered:
                     console.log('Update registered course');
-                    executeUpdate(type, course, newCourse, successCallback, errorCallback,
-                        ScheduleService.updateScheduleItem().query, {
-                            courseCode: course.courseCode,
-                            regGroupId: course.regGroupId,
-                            masterLprId: course.masterLprId,
-                            termId: TermsService.getTermId(),
-                            credits: newCourse.credits,
-                            gradingOptionId: newCourse.gradingOptionId
-                        });
+                    event.promise = ScheduleService.updateScheduleItem(TermsService.getTermId(), course, newCourse);
             }
         });
-
-
-        /**
-         * Execute a drop request against the RESTful service and manage it accordingly.
-         * Drops are a registration request that needs to be polled until they return a terminal state.
-         *
-         * @param type of course
-         * @param course being updated
-         * @param successCallback to be called when the drop has completely finished
-         * @param errorCallback to be called if the drop fails at any point
-         * @param request to be executed
-         * @param params to be provided to the request
-         */
-        function executeDrop(type, course, successCallback, errorCallback, request, params) {
-            request(params, function(regRequest) {
-                console.log('- Drop course registration request submitted - starting to poll for request status');
-
-                ScheduleService.pollRegistrationRequestStatus(regRequest.id)
-                    .then(function() { // Success
-                        console.log('-- Stop polling - Success');
-                        switch (type) {
-                            case COURSE_TYPES.waitlisted:
-                                // After all the processing is complete, update the new Schedule counts.
-                                ScheduleService.removeWaitlistedCourse(course);
-                                ScheduleService.addDroppedWaitlisted(course);
-
-                                // need a count on how many success drop message for WL are opened. So if there are no WL courses
-                                // when we "X" the last success drop message the "Waitlisted" section name would disappear
-                                numberOfDroppedWailistedCourses++;
-                                break;
-                            case COURSE_TYPES.registered:
-                                // After all the processing is complete, update the new Schedule counts.
-                                ScheduleService.removeRegisteredCourse(course);
-                                ScheduleService.addDroppedRegistered(course);
-
-                                // need a count on how many success drop message are opened. So if there are no courses when we "X" the last
-                                // success drop message the section can be replaced by the splash screen (unless there are waitlisted courses)
-                                numberOfDroppedCourses++;
-                        }
-
-                        // Call the success callback function
-                        if (angular.isFunction(successCallback)) {
-                            successCallback();
-                        }
-                    }, function(response) { // Error
-                        console.log('-- Stop polling - Error', response);
-
-                        // Call the error callback function with the error message
-                        if (angular.isFunction(errorCallback)) {
-                            errorCallback(response.responseItemResults[0].messages);
-                        }
-                    }, function() { // Notify
-                        console.log('-- Continue polling');
-                    });
-
-            }, function(error) {
-                console.log('- Drop course registration request failed', error);
-
-                // Call the error callback function with the error message
-                if (angular.isFunction(errorCallback)) {
-                    errorCallback(error.data);
-                }
-            });
-        }
-
-        /**
-         * Execute an update request against the RESTful service and manage it accordingly.
-         * Updates are a registration request that needs to be polled until they return a terminal state.
-         *
-         * @param type of course
-         * @param course is the actual course prior to any updates (original data)
-         * @param newCourse is a clone with the updated data applied
-         * @param successCallback to be called when the drop has completely finished
-         * @param errorCallback to be called if the drop fails at any point
-         * @param request to be executed
-         * @param params to be provided to the request
-         */
-        function executeUpdate(type, course, newCourse, successCallback, errorCallback, request, params) {
-            request(params, function (regRequest) {
-                console.log('- Update course registration request submitted - starting to poll for request status');
-
-                ScheduleService.pollRegistrationRequestStatus(regRequest.id)
-                    .then(function() { // Success
-                        console.log('-- Stop polling - Success');
-                        switch (type) {
-                            case COURSE_TYPES.waitlisted:
-                                // Update the course counts
-                                ScheduleService.updateWaitlistedCourse(course, newCourse);
-                                break;
-                            case COURSE_TYPES.registered:
-                                // Update the course counts
-                                ScheduleService.updateRegisteredCourse(course, newCourse);
-                        }
-
-                        // Call the success callback function
-                        if (angular.isFunction(successCallback)) {
-                            successCallback();
-                        }
-                    }, function(response) { // Error
-                        console.log('-- Stop polling - Error', response);
-
-                        // Call the error callback function with the error message
-                        if (angular.isFunction(errorCallback)) {
-                            errorCallback(response.responseItemResults[0].messages);
-                        }
-                    }, function() { // Notify
-                        console.log('-- Continue polling');
-                    });
-
-            }, function (error) {
-                console.log('- Update course registration request failed', error);
-
-                // Call the error callback function with the error message
-                if (angular.isFunction(errorCallback)) {
-                    errorCallback(error.data);
-                }
-            });
-        }
 
     }]);

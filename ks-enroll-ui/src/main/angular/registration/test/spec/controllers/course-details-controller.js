@@ -24,7 +24,7 @@ describe('Controller: CourseDetailsCtrl', function () {
     // provide mock services
     beforeEach(function() {
         searchSpy = jasmine.createSpy('SearchService.getCourse()').andReturn({
-            query: function(params, success) {
+            then: function(success) {
                 success(selectedCourse);
             }
         });

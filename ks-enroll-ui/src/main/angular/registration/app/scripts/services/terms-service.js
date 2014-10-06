@@ -1,7 +1,17 @@
 'use strict';
 
+// Term REST Resource Factory
+angular.module('regCartApp').factory('Term', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.scheduleOfClasses + '/terms', {}, {
+        checkEligibility: {
+            method: 'GET',
+            url: APP_URL + URLS.scheduleOfClasses + '/termEligibility'
+        }
+    });
+}]);
+
 angular.module('regCartApp')
-    .service('TermsService', ['$q', 'ServiceUtilities', 'URLS', 'DEFAULT_TERM', function TermsService($q, ServiceUtilities, URLS, DEFAULT_TERM) {
+    .service('TermsService', ['$q', 'Term', 'URLS', 'DEFAULT_TERM', function TermsService($q, Term, URLS, DEFAULT_TERM) {
 
         var selectedTerm = null;
 
@@ -58,7 +68,7 @@ angular.module('regCartApp')
             if (terms !== null) {
                 deferred.resolve(terms);
             } else {
-                this.getTermsFromServer().query({termCode: null, active: true}, function(result) {
+                this.getTermsFromServer().then(function(result) {
                     // Cache the terms
                     terms = result;
                     deferred.resolve(result);
@@ -85,7 +95,7 @@ angular.module('regCartApp')
             if (angular.isDefined(termEligibility[term.termId])) {
                 deferred.resolve(termEligibility[term.termId]);
             } else {
-                this.checkStudentEligibilityForTerm().query({termId: term.termId}, function (response) {
+                this.checkStudentEligibilityForTerm(term).then(function (response) {
                     response.isEligible = response.isEligible || false;
                     termEligibility[term.termId] = response;
 
@@ -106,12 +116,18 @@ angular.module('regCartApp')
 
         // Server API Methods
 
-        this.checkStudentEligibilityForTerm = function () {
-            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/checkStudentEligibilityForTerm');
+        this.checkStudentEligibilityForTerm = function (term) {
+            return Term.checkEligibility({
+                termId: term.termId
+            }).$promise;
         };
 
         this.getTermsFromServer = function () {
-            return ServiceUtilities.getArray(URLS.scheduleOfClasses + '/terms');
+            return Term.query({
+                termId: null,
+                termCode: null,
+                active: true
+            }).$promise;
         };
 
     }]);

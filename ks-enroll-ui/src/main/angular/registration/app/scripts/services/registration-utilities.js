@@ -104,11 +104,13 @@ angular.module('regCartApp')
          */
         this.coursesHaveScheduledTimes = function(courses) {
             for (var i = 0; i < courses.length; i++) {
-                for (var j = 0; j < courses[i].activityOfferings.length; j++) {
-                    var scheduleComponents = courses[i].activityOfferings[j].scheduleComponents;
-                    for (var k = 0; k < scheduleComponents.length; k++) {
-                        if (!scheduleComponents[k].isTBA) {
-                            return true;
+                if (!courses[i].dropped) {
+                    for (var j = 0; j < courses[i].activityOfferings.length; j++) {
+                        var scheduleComponents = courses[i].activityOfferings[j].scheduleComponents;
+                        for (var k = 0; k < scheduleComponents.length; k++) {
+                            if (!scheduleComponents[k].isTBA) {
+                                return true;
+                            }
                         }
                     }
                 }

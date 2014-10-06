@@ -53,17 +53,18 @@ angular.module('regCartApp')
 
         // this method loads the cart and kicks off polling if needed
         function loadCart(termId) {
-            CartService.getCart(termId).then(function (theCart) {
-                $scope.cart = theCart; // right now theCart is a mix of processing and cart items
+            CartService.getCart(termId).then(function(cart) {
+                $scope.cart = cart; // right now theCart is a mix of processing and cart items
                 var cartItems = [],
-                    submittedCartId = null; // we must assume that the items are all from one cart
+                    hasProcessing = false;
 
-                // if there are any processing items in the cart we need to start polling
-                angular.forEach(theCart.items, function(item) {
+                for (var i = 0; i < cart.items.length; i++) {
+                    var item = cart.items[i];
+
                     // Standardize the fields between cart & scheduled courses. This should really be done on the REST side.
                     standardizeCourseData(item);
 
-
+                    // if there are any processing items in the cart we need to start polling
                     if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === STATUS.processing) {
                         item.status = STATUS.processing;
 
@@ -74,16 +75,17 @@ angular.module('regCartApp')
                         $scope.cartResults.state = STATE.lpr.processing;
                         $scope.cartResults.status = STATUS.processing;  // set the overall status to processing
 
-                        submittedCartId = item.cartId;
+                        hasProcessing = true;
                     } else {
                         cartItems.push(item);
                     }
-                });
+                }
 
                 $scope.cart.items = cartItems;
 
-                if (submittedCartId !== null) {
-                    cartPoller(submittedCartId);  // each items has a reference back to the cartId
+                if (hasProcessing) {
+                    var poller = CartService.pollForCartUpdates(cart);
+                    handlePoller(poller);
                 }
             });
         }
@@ -152,8 +154,8 @@ angular.module('regCartApp')
         });
 
 
-        // Allows you to add a cartResultItem back into the cart. useful when a user wants to add a failed item back
-        // into their cart.
+        // Allows you to add a cartItem back into the cart.
+        // Useful when a user wants to add a failed item back into their cart.
         $scope.addCartItemToCart = function (cartItem) {
             addCourseToCart(cartItem);
         };
@@ -169,7 +171,7 @@ angular.module('regCartApp')
             $scope.courseAdded = false; // reset cursor focus
             $scope.addToCartStatus = STATUS.processing;
 
-            CartService.addCourseToCart($scope.cart.cartId, TermsService.getTermId(), course)
+            CartService.addCourseToCart(TermsService.getTermId(), course)
                 .then(function (response) {
                     console.log('Searched for course: ' + $scope.courseCode + ' ' + $scope.regCode + ', Term: ' + TermsService.getTermId());
                     $scope.courseCode = '';
@@ -241,19 +243,9 @@ angular.module('regCartApp')
         remove the given cart item from the cart.
          */
         $scope.$on('deleteCartItem', function (event, item) {
-            var actionLinks = item.actionLinks,
-                deleteUri = null;
-
-            angular.forEach(actionLinks, function (actionLink) {
-                if (actionLink.action === ACTION_LINK.removeItemFromCart) {
-                    deleteUri = actionLink.uri;
-                }
-            });
-
-            // call the backend service here to persist something
-            CartService.removeItemFromCart(deleteUri).query({},
-                function (response) {
-                    console.log('Cart item removed', response);
+            CartService.removeItemFromCart(TermsService.getTermId(), item)
+                .then(function(response) {
+                    console.log('Cart item removed');
 
                     $scope.cart.items.splice($scope.cart.items.indexOf(item), 1);
 
@@ -263,6 +255,7 @@ angular.module('regCartApp')
                             actionUri = actionLink.uri;
                         }
                     });
+                    console.log(actionUri, response.actionLinks);
 
                     $scope.userMessage = {
                         'txt': 'Removed <b>' + item.courseCode + '(' + item.regGroupCode + ')</b>',
@@ -276,28 +269,14 @@ angular.module('regCartApp')
         /*
          Listens for the "updateCourse" event and calls the cart update RESTful service.
          */
-        $scope.$on('updateCourse', function(event, type, course, newCourse, successCallback, errorCallback) {
+        $scope.$on('updateCourse', function(event, type, course, newCourse) {
             if (type === COURSE_TYPES.cart) {
                 console.log('Updating cart item');
 
-                CartService.updateCartItem().query({
-                    cartId: $scope.cart.cartId,
-                    cartItemId: course.cartItemId,
-                    credits: newCourse.credits,
-                    gradingOptionId: newCourse.gradingOptionId
-                }, function () {
-                    console.log('- Cart item successfully updated');
-                    $scope.creditTotal = creditTotal() - Number(course.credits) + Number(newCourse.credits);
-                    // This perhaps should run through the poller...
-                    if (angular.isFunction(successCallback)) {
-                        successCallback();
-                    }
-                }, function(error) {
-                    console.log('- Error updating cart item', error);
-                    if (angular.isFunction(errorCallback)) {
-                        errorCallback(error.genericMessage);
-                    }
-                });
+                event.promise = CartService.updateCartItem(TermsService.getTermId(), newCourse)
+                    .then(function () {
+                        $scope.creditTotal = creditTotal() - Number(course.credits) + Number(newCourse.credits);
+                    });
             }
         });
 
@@ -318,7 +297,7 @@ angular.module('regCartApp')
                     $scope.userMessage = {
                         txt: 'Cleared Cart',
                         type: STATUS.success,
-                        actionLink: 'UNDO_CLEAR_CART',
+                        actionLink: ACTION_LINK.undoClearCart,
                         linkText: 'Undo'
                     };
                 }, function(error) {
@@ -344,7 +323,7 @@ angular.module('regCartApp')
 
             if (courses.length > 0) {
                 var course = courses.pop(); // Put it back in the order it was in before
-                CartService.addCourseToCart($scope.cart.cartId, TermsService.getTermId(), course)
+                CartService.addCourseToCart(TermsService.getTermId(), course)
                     .then(function(response) {
                         var newCourse = standardizeCourseData(response);
                         $scope.cart.items.unshift(newCourse);
@@ -358,37 +337,26 @@ angular.module('regCartApp')
         }
 
         $scope.invokeActionLink = function (actionLink) {
-            if (actionLink === 'UNDO_CLEAR_CART') {
+            if (actionLink === ACTION_LINK.undoClearCart) {
                 $scope.undoClearCart();
             } else {
                 // call the backend service here to persist something
-                CartService.invokeActionLink(actionLink).query({},
-                    function (response) {
-                        standardizeCourseData(response);
-                        $scope.cart.items.unshift(response);
-                        $scope.removeUserMessage();
-                    });
+                CartService.invokeActionLink(actionLink).then(function (response) {
+                    standardizeCourseData(response);
+                    $scope.cart.items.unshift(response);
+                    $scope.removeUserMessage();
+                });
             }
         };
 
         $scope.addCartItemToWaitlist = function (cartItem) {
             console.log('Adding cart item to waitlist... ');
-            ScheduleService.registerForRegistrationGroup().query({
-                courseCode: cartItem.courseCode,
-                regGroupId: cartItem.regGroupId,
-                gradingOption: cartItem.gradingOptionId,
-                credits: cartItem.credits,
-                allowWaitlist: true
-            }, function (registrationResponseInfo) {
-                cartItem.state = STATE.lpr.item.processing;
-                cartItem.status = STATUS.processing;
-                cartItem.cartItemId = registrationResponseInfo.registrationRequestItems[0].id;
 
-                $timeout(function () {
-                    console.log('Just waited 250, now start the polling');
-                    cartPoller(registrationResponseInfo.id);
-                }, 250);
-            });
+            cartItem.state = STATE.lpr.item.processing;
+            cartItem.status = STATUS.processing;
+
+            var poller = ScheduleService.registerForRegistrationGroup(cartItem, true);
+            handlePoller(poller);
         };
 
         $scope.removeAlertMessage = function (cartItem) {
@@ -404,55 +372,44 @@ angular.module('regCartApp')
             $scope.lastCartItems = null;
         };
 
-        $scope.removeCartResultItem = function (cartResultItem) {
+        $scope.removeCartResultItem = function(cartResultItem) {
             $scope.cartResults.items.splice(cartResultItem, 1);
             calculateCartResultCounts();
         };
 
         $scope.register = function () {
-            CartService.submitCart().query({
-                cartId: $scope.cart.cartId
-            }, function (registrationResponseInfo) {
-                console.log('Submitted cart. RegReqId[' + registrationResponseInfo.id + ']');
+            $scope.removeUserMessage();
 
-                $scope.removeUserMessage();
+            // Move all of the cart over to the cartResults
+            $scope.cartResults = angular.copy($scope.cart);
+            $scope.cart.items.splice(0, $scope.cart.items.length);
 
-                // Move all of the cart over to the cartResults
-                $scope.cartResults = angular.copy($scope.cart);
-                $scope.cart.items.splice(0, $scope.cart.items.length);
-
-                // set cart and all items in cart to processing
-                $scope.showConfirmation = false;
-                $scope.cartResults.state = STATE.lpr.processing;
-                $scope.cartResults.status = STATUS.processing;  // set the overall status to processing
-                $scope.creditTotal = 0; // your cart will always update to zero upon submit
-                angular.forEach($scope.cartResults.items, function (item) {
-                    item.state = STATE.lpr.item.processing;
-                    item.status = STATUS.processing;
-                });
-
-                $timeout(function () {
-                    console.log('Just waited 250, now start the polling');
-                    cartPoller(registrationResponseInfo.id);
-                }, 250);
+            // set cart and all items in cart to processing
+            $scope.showConfirmation = false;
+            $scope.cartResults.state = STATE.lpr.processing;
+            $scope.cartResults.status = STATUS.processing;  // set the overall status to processing
+            $scope.creditTotal = 0; // your cart will always update to zero upon submit
+            angular.forEach($scope.cartResults.items, function (item) {
+                item.state = STATE.lpr.item.processing;
+                item.status = STATUS.processing;
             });
+
+
+            var poller = CartService.submitCart(TermsService.getTermId());
+            handlePoller(poller);
         };
 
-        // This method is used to update the STATE/status of each cart item by polling the server
-        function cartPoller(registrationRequestId) {
-            ScheduleService.pollRegistrationRequestStatus(registrationRequestId)
-                .then(function(response) { // Success
-                    console.log('- Stop polling - Success');
-
-                    updateCartWithResults(response);
-                }, function(response) { // Error
-                    console.log('- Stop polling - Error: ', response);
-
-                    updateCartWithResults(response);
-                }, function(response) { // Notify
-                    console.log('- Continue polling');
-                    $scope.cart.state = response.state;
-                });
+        function handlePoller(promise) {
+            promise.then(function(response) { // Success
+                console.log('- Stop polling - Success');
+                updateCartWithResults(response);
+            }, function(response) { // Error
+                console.log('- Stop polling - Failed: ', response);
+                updateCartWithResults(response);
+            }, function(response) { // Notify
+                console.log('- Continue polling');
+                $scope.cart.state = response.state;
+            });
         }
 
         // Update the cart results with the response from the cartPoller
@@ -606,37 +563,26 @@ angular.module('regCartApp')
             }
 
 
-            ScheduleService.registerForRegistrationGroup().query({
-                courseCode: course.courseCode || null,
-                regGroupId: course.regGroupId || null,
-                gradingOption: course.gradingOptionId || null,
-                credits: course.credits || null,
-                allowWaitlist: course.allowWaitlist || false,
-                allowRepeatedCourses: course.allowRepeatedCourses || false
-            }, function (regRequest) {
-                ScheduleService.pollRegistrationRequestStatus(regRequest.id)
-                    .then(function(response) {
-                        var state = null;
-                        angular.forEach(response.responseItemResults, function(responseItem) {
-                            if (state === null) {
-                                state = responseItem.state;
-                            }
-                        });
-
-                        if (state === STATE.lpr.item.failed) {
-                            deferred.resolve(response);
-                        } else {
-                            // After all the processing is complete, get the final Schedule counts.
-                            reloadSchedule();
-
-                            deferred.resolve(response);
+            ScheduleService.registerForRegistrationGroup(course)
+                .then(function(response) {
+                    // Check to see if the request failed, if so don't reload the schedule
+                    var state = null;
+                    angular.forEach(response.responseItemResults, function(responseItem) {
+                        if (state === null) {
+                            state = responseItem.state;
                         }
-                    }, function(error) {
-                        deferred.reject(error);
                     });
-            }, function(error) {
-                deferred.reject(error);
-            });
+
+                    if (state === STATE.lpr.item.failed) {
+                        deferred.resolve(response);
+                    } else {
+                        // After all the processing is complete, get the final Schedule counts.
+                        reloadSchedule();
+                        deferred.resolve(response);
+                    }
+                }, function(error) {
+                    deferred.reject(error);
+                });
 
             return deferred.promise;
         }

@@ -1,7 +1,12 @@
 'use strict';
 
+// Learning Plan REST Resource Factory
+angular.module('regCartApp').factory('LearningPlan', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
+    return $resource(APP_URL + URLS.courseRegistration + '/learningPlan');
+}]);
+
 angular.module('regCartApp')
-    .service('LearningPlanService', ['$q', 'URLS', 'ServiceUtilities', function LearningPlanService($q, URLS, ServiceUtilities) {
+    .service('LearningPlanService', ['$q', 'LearningPlan', function LearningPlanService($q, LearningPlan) {
 
         // Cache of learning plans per term
         var learningPlans = {};
@@ -31,7 +36,7 @@ angular.module('regCartApp')
         // Server API Methods
 
         this.getLearningPlanFromServer = function getLearningPlanFromServer(termId) {
-            return ServiceUtilities.getArray(URLS.courseRegistration + '/learningPlan').query({
+            return LearningPlan.query({
                 termId: termId
             }).$promise;
         };

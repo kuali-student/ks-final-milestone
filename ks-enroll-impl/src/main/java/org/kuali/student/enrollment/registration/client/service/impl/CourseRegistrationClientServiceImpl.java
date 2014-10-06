@@ -147,7 +147,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             if (contextInfo.getPrincipalId() != null && !contextInfo.getPrincipalId().isEmpty()
                     && termId != null && !termId.isEmpty()) {
-                StudentScheduleTermResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTerm(termId, termCode);
+                StudentScheduleTermResult scheduleResult = getStudentScheduleAndWaitlistedCoursesByTermLocal(termId, termCode, contextInfo);
 
                 List<StudentScheduleCourseResult> coursesToDrop = new ArrayList<>();
                 if (scheduleResult != null) {
@@ -188,47 +188,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public StudentScheduleTermResult getStudentScheduleAndWaitlistedCoursesByTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        String userId = contextInfo.getPrincipalId();
-
-        if (StringUtils.isEmpty(userId)) {
-            userId = contextInfo.getPrincipalId();
-        }
-
-        if (StringUtils.isEmpty(userId)) {
-            throw new LoginException("[CourseRegistrationClientServiceImpl::getStudentScheduleAndWaitlistedCoursesByTerm] User must be logged in to access this service");
-        }
-
-        if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
-            termId = "";
-        } else {
-            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
-        }
-
-        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(userId);
-        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId, termId, contextInfo);
-
-        StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
-
-        if (!studentScheduleTermResults.isEmpty()) {
-            studentScheduleTermResult = KSCollectionUtils.getOptionalZeroElement(studentScheduleTermResults);
-        }
-        studentScheduleTermResult.setUserId(userId);
-        TermSearchResult termInfo = new TermSearchResult();
-        termInfo.setTermId(termId);
-        studentScheduleTermResult.setTerm(termInfo);
-
-        return studentScheduleTermResult;
-    }
-
-    @Override
-    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response getStudentScheduleAndWaitlistedCoursesByTerm(String termId, String termCode) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(getStudentScheduleAndWaitlistedCoursesByTermLocal(termId, termCode,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -239,11 +203,26 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId) {
+    public Response createAndSubmitUpdateCourseRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId,
+            response = Response.ok(updateScheduleItem(courseCode, regGroupId, masterLprId, credits, gradingOptionId,
+                    ContextUtils.createDefaultContextInfo()));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response createAndSubmitUpdateWaitlistRegistrationRequest(String courseCode, String regGroupId, String masterLprId, String credits, String gradingOptionId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupId, masterLprId, credits, gradingOptionId,
                     ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
@@ -285,6 +264,37 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return response.build();
+    }
+
+    private StudentScheduleTermResult getStudentScheduleAndWaitlistedCoursesByTermLocal(String termId, String termCode, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        String userId = contextInfo.getPrincipalId();
+
+        if (StringUtils.isEmpty(userId)) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::getStudentScheduleAndWaitlistedCoursesByTerm] User must be logged in to access this service");
+        }
+
+        if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
+            termId = "";
+        } else {
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode, contextInfo);
+        }
+
+        String entityId = getKsIdentityServiceHelper().getEntityIdByPrincipalId(userId);
+        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(entityId, termId, contextInfo);
+
+        StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
+
+        if (!studentScheduleTermResults.isEmpty()) {
+            studentScheduleTermResult = KSCollectionUtils.getOptionalZeroElement(studentScheduleTermResults);
+        }
+
+        studentScheduleTermResult.setUserId(userId);
+        TermSearchResult termInfo = new TermSearchResult();
+        termInfo.setTermId(termId);
+        studentScheduleTermResult.setTerm(termInfo);
+
+        return studentScheduleTermResult;
     }
 
     private RegistrationRequestInfo dropFromWaitlistLocal(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
@@ -748,22 +758,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    private RegistrationRequestInfo updateScheduleItem(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private RegistrationRequestInfo updateScheduleItem(String courseCode, String regGroupId, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupId, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
     }
 
-    private RegistrationRequestInfo updateWaitlistEntry(String courseCode, String regGroupId, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private RegistrationRequestInfo updateWaitlistEntry(String courseCode, String regGroupId, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupId, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupId, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
 
     }
 
     /*
      * Utility method to update any kind of schedule item (registered, waitlisted, etc)
      */
-    private RegistrationRequestInfo updateRegistrationItem(String courseCode, String regGroupId, String masterLprId, String termId, String credits,
+    private RegistrationRequestInfo updateRegistrationItem(String courseCode, String regGroupId, String masterLprId, String credits,
                                                            String gradingOptionId, ContextInfo contextInfo, String typeKey)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
@@ -783,7 +793,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
-        registrationRequestInfo.setTermId(termId);
+
+        // Load the term from the masterLpr
+        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
+        registrationRequestInfo.setTermId(masterLpr.getAtpId());
 
         //Create Registration Request
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().

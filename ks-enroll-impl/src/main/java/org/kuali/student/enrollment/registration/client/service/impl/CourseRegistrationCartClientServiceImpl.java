@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseCodeValidationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -18,19 +19,15 @@ import org.kuali.student.enrollment.registration.client.service.exception.Missin
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 
@@ -42,20 +39,22 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationCartClientServiceImpl.class);
 
     @Override
-    public Response submitCartRS(String cartId) {
+    public Response submitCartRS(String termId) {
         Response.ResponseBuilder response;
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         try {
-            RegistrationRequestInfo info = submitCart(contextInfo, cartId);
+            CartResult cart = searchForCart(contextInfo, termId);
+
+            RegistrationRequestInfo info = submitCart(contextInfo, cart.getCartId());
             response = Response.ok(info);
         } catch (Exception e) {
-            LOGGER.warn("Error submitting cart id {} for {}", cartId, contextInfo.getPrincipalId(), e);
+            LOGGER.warn("Error submitting cart for term {} for {}", termId, contextInfo.getPrincipalId(), e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Error submitting cart");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s])",
-                    cartId);
+            String technicalInfo = String.format("Technical Info: (termId:[%s])",
+                    termId);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
@@ -65,17 +64,13 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
     @Override
-    public Response addCourseToCartRS(String termId, String cartId, String regGroupId, String courseCode,  String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public Response addCourseToCartRS(String termId, String regGroupId, String courseCode,  String regGroupCode, String gradingOptionId, String credits) {
         Response.ResponseBuilder response;
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-
-            if(cartId == null || cartId.isEmpty()){
-                RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), termId, contextInfo);
-                cartId = request.getId();
-            }
+            CartResult cart = searchForCart(contextInfo, termId);
 
             RegGroupSearchResult rg = resolveRegGroup(termId, null, courseCode, regGroupCode, regGroupId, contextInfo);
 
@@ -120,41 +115,41 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
                 throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + rg.getRegGroupName() + ")");
             }
 
-            CartItemResult result = addCourseToCart(cartId,rg.getRegGroupId(),gradingOptionId, credits,rvgCourseOptions, courseCode, contextInfo);
+            CartItemResult result = addCourseToCart(cart.getCartId(), rg.getRegGroupId(), gradingOptionId, credits, rvgCourseOptions, courseCode, contextInfo);
 
             // build the link to delete this item.
-            result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildDeleteLink(result.getCartItemId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
         }  catch(CourseDoesNotExistException e) {
-            String technicalInfo = String.format("Unable to add item to cart. CourseDoesNotExistException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            String technicalInfo = String.format("Unable to add item to cart. CourseDoesNotExistException. Technical Info:(termId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    termId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, new CourseCodeValidationResult(e.getMessageKey(), e.getCourseCode()));
         } catch (MissingOptionException e) {
-            String technicalInfo = String.format("Unable to add item to cart. MissingOptionException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            String technicalInfo = String.format("Unable to add item to cart. MissingOptionException. Technical Info:(termId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    termId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
-            String technicalInfo = String.format("Unable to add item to cart. DoesNotExistException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            String technicalInfo = String.format("Unable to add item to cart. DoesNotExistException. Technical Info:(termId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    termId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.debug(technicalInfo, e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (GenericUserException e) {
-            String technicalInfo = String.format("Unable to add item to cart. GenericUserException. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            String technicalInfo = String.format("Unable to add item to cart. GenericUserException. Technical Info:(termId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    termId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
             LOGGER.error(technicalInfo,e);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getUserMessage());
         } catch (Exception e) {
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to add item to cart. Exception.");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
+            String technicalInfo = String.format("Technical Info:(termId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    termId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
 
             userMessage.setConsoleMessage(technicalInfo);
             userMessage.setType(UserMessageResult.MessageTypes.ERROR);
@@ -247,9 +242,8 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
     @Override
-    public Response undoDeleteCourseRS(String termId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        return  addCourseToCartRS(termId, cartId,regGroupId, courseCode, regGroupCode, gradingOptionId, credits);
-
+    public Response undoDeleteCourseRS(String termId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) {
+        return addCourseToCartRS(termId, regGroupId, courseCode, regGroupCode, gradingOptionId, credits);
     }
 
     private Response.ResponseBuilder getResponse(Response.Status status, Object entity) {
@@ -261,22 +255,25 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         return response;
     }
 
-    protected Link buildUndoLink(String termId, String cartId, String regGroupId, String gradingOptionId, String credits) {
-        String action = "undoDeleteCourse";
-        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/undoDeleteCourse?termId=%s&cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
-        String uri = String.format(uriFormat,termId, cartId, regGroupId, gradingOptionId, credits);
+    protected Link buildUndoLink(String termId, String regGroupId, String gradingOptionId, String credits) {
+        String action = CourseRegistrationCartClientServiceConstants.ACTION_LINKS.UNDO_DELETE_COURSE.getAction();
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/" + action + "?termId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
+        String uri = String.format(uriFormat,termId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
 
     @Override
-    public Response removeItemFromCartRS(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId) {
+    public Response removeItemFromCartRS(String termId, String cartItemId) {
         Response.ResponseBuilder response;
 
         try {
-            CartItemResult result = removeItemFromCart(cartId, cartItemId);
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            CartResult cart = searchForCart(contextInfo, termId);
+
+            CartItemResult result = removeItemFromCart(cart.getCartId(), cartItemId);
             // build the link to add this item.
-            result.getActionLinks().add(buildUndoLink(result.getTermId(), cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildUndoLink(result.getTermId(), result.getRegGroupId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
@@ -285,7 +282,7 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Error removing item from cart. ");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s])", cartId, cartItemId);
+            String technicalInfo = String.format("Technical Info:(termId:[%s] cartItemId[%s])", termId, cartItemId);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
@@ -295,19 +292,22 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
     @Override
-    public Response updateCartItemRS(String cartId, String cartItemId, String credits, String gradingOptionId) {
+    public Response updateCartItemRS(String termId, String cartItemId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            CartResult cart = searchForCart(contextInfo, termId);
+
             //This will need to be changed to the cartItemResponse object in the future!
-            response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, gradingOptionId));
+            response = Response.ok(updateCartItem(contextInfo, cart.getCartId(), cartItemId, credits, gradingOptionId));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to update item in cart");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s] gradingOptionId[%s] credits:[%s] )",
-                    cartId, cartItemId, gradingOptionId, credits);
+            String technicalInfo = String.format("Technical Info:(termId:[%s] cartItemId[%s] gradingOptionId[%s] credits:[%s] )",
+                    termId, cartItemId, gradingOptionId, credits);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);

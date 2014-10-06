@@ -31,7 +31,7 @@ describe('Service: CartService', function () {
 
 
     it('should get the cart', inject(function (CartService, APP_URL) {
-        $httpBackend.expectGET(APP_URL + 'CourseRegistrationCartClientService/searchForCart?termId=kuali.atp.2012Fall')
+        $httpBackend.expectGET(APP_URL + 'CourseRegistrationCartClientService/cart?termId=kuali.atp.2012Fall')
             .respond(200, {
                 cartId: 'a399078d-31e4-4a92-9319-c5cd02f48ca2',
                 termId: 'kuali.atp.2012Fall',
@@ -55,7 +55,7 @@ describe('Service: CartService', function () {
                 courseCode = 'chem232',
                 regGroupCode = '1001';
 
-            $httpBackend.expectPOST(APP_URL + 'CourseRegistrationCartClientService/addCourseToCart')
+            $httpBackend.expectPUT(APP_URL + 'CourseRegistrationCartClientService/cart/items')
                 .respond(200, {
                     cartItemId:'81fd8bbd-7382-42fb-a3cb-52feed4e5fbc',
                     courseCode:'chem232',
@@ -68,7 +68,7 @@ describe('Service: CartService', function () {
                     cartId:'a399078d-31e4-4a92-9319-c5cd02f48ca2'
                 });
 
-            CartService.addCourseToCart(cartId, termId, {
+            CartService.addCourseToCart(termId, {
                 courseCode: courseCode,
                 regGroupCode: regGroupCode
             }).then(function(response) {
