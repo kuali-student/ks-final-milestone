@@ -419,16 +419,7 @@ public abstract class ProposalController extends RuleEditorController {
         ProposalElementsWrapper proposalElementsWrapper = getProposalElementsWrapper(form);
         form.getDocument().getDocumentHeader().setDocumentDescription(proposalElementsWrapper.getProposalInfo().getName());
 
-        ModelAndView modelAndView;
-
-
-        runStudentServiceValidation(form, DtoConstants.STATE_DRAFT);
-
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            return getUIFModelAndView(form);
-        }
-
-        modelAndView = save(form, result, request, response);
+        ModelAndView modelAndView = save(form, result, request, response);
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return modelAndView;

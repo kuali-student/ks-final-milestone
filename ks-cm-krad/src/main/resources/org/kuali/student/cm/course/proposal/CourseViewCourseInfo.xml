@@ -491,7 +491,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="CM-Proposal-Course-CourseInfo-VariationTitle" p:label="Course Title" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="CM-Proposal-Course-CourseInfo-VariationTitle" p:label="Course Title"  p:disableNativeAutocomplete="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl"   p:size="70" />
                                 </property>

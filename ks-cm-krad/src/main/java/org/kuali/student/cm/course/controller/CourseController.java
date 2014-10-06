@@ -961,6 +961,7 @@ public class CourseController extends CourseRuleEditorController {
                         if(unknownErrorCount==1) {
                             GlobalVariables.getMessageMap().putError(elementPath, CurriculumManagementConstants.MessageKeys.ERROR_KS_LEGACY_VALIDATION);
                         }
+                        continue;
                 }
                 if(StringUtils.isNotBlank(elementPath)) {
                     GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
