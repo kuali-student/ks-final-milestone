@@ -421,6 +421,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
 
      */
     private ScheduleRequestSetInfo common_copySourceRDLsToTargetRDLs(String operation,
+                                                                     List<String> optionKeys,
                                                                      ScheduleRequestSetInfo sourceSRS,
                                                                      ScheduleRequestSetInfo targetSRS,
                                                                      ActivityOfferingInfo targetAo,
@@ -444,15 +445,18 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             } else {
                 // The source AO was not co-located, so the copied AO has its own SRS, and we copy
                 // the RDLs from the source AO to the target SRS
-                resultTargetSRS = common_createOrUpdateTargetScheduleRequestSet(sourceSRS, targetSRS, targetAo, context);
+                resultTargetSRS = common_createOrUpdateTargetScheduleRequestSet(isColocated, operation, optionKeys, sourceSRS, targetSRS, targetAo, context);
             }
         } else {
-            resultTargetSRS = common_createOrUpdateTargetScheduleRequestSet(sourceSRS, targetSRS, targetAo, context);
+            resultTargetSRS = common_createOrUpdateTargetScheduleRequestSet(isColocated, operation, optionKeys, sourceSRS, targetSRS, targetAo, context);
         }
         return resultTargetSRS;
     }
 
-    private ScheduleRequestSetInfo common_createOrUpdateTargetScheduleRequestSet(ScheduleRequestSetInfo sourceSRS,
+    private ScheduleRequestSetInfo common_createOrUpdateTargetScheduleRequestSet(boolean isColocated,
+                                                                                 String operation,
+                                                                                 List<String> optionKeys,
+                                                                                 ScheduleRequestSetInfo sourceSRS,
                                                                                  ScheduleRequestSetInfo targetSRS,
                                                                                  ActivityOfferingInfo targetAo,
                                                                                  ContextInfo context)
@@ -461,7 +465,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             ReadOnlyException, VersionMismatchException {
         ScheduleRequestSetInfo resultTargetSRS;
         if (targetSRS == null) {
-            resultTargetSRS = common_createTargetSRSFromRDLs(sourceSRS, targetAo, context);
+            resultTargetSRS = common_createTargetSRSFromRDLs(isColocated, operation, optionKeys, sourceSRS, targetAo, context);
         } else {
             // If an AO is copied across terms, then it is part of a rollover or Copy CO
             // Colocation means something else, that is, if rhe source AO was colocated in the source
@@ -475,7 +479,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return resultTargetSRS;
     }
 
-    private ScheduleRequestSetInfo common_createTargetSRSFromRDLs(ScheduleRequestSetInfo sourceSRS,
+    private ScheduleRequestSetInfo common_createTargetSRSFromRDLs(boolean isColocated,
+                                                                  String operation,
+                                                                  List<String> optionKeys,
+                                                                  ScheduleRequestSetInfo sourceSRS,
                                                                   ActivityOfferingInfo targetAo,
                                                                   ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -486,9 +493,14 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                 targetSRS.getRefObjectTypeKey(), targetSRS, context);
         List<ScheduleRequestInfo> sourceRequests =
                 schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRS.getId(), context);
+
+        boolean isRolloverOperation = operation.equals(COPY_OPERATION_ROLLOVER);
+        boolean doNotScheduleRoomOptionKeyExists = optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_ROOM_OPTION_KEY);
+        boolean doNotScheduleOptionKeyExists = optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+
         for (ScheduleRequestInfo sourceRequest: sourceRequests) {
             // For each request, create a copy, and attach it to new SRS
-            ScheduleRequestInfo targetRequest = SchedulingServiceUtil.copyScheduleRequest(sourceRequest, targetSRS.getId());
+            ScheduleRequestInfo targetRequest = SchedulingServiceUtil.copyScheduleRequest(isRolloverOperation, doNotScheduleOptionKeyExists, doNotScheduleRoomOptionKeyExists, isColocated, sourceRequest, targetSRS.getId());
             // Persist to DB..we refer to targetRequest even though it isn't used in case someone is debugging and
             // wants to see the variable.
             targetRequest =
@@ -912,7 +924,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                             sourceTargetHasSameTerm, coService, context);
             } else { // Source AO has RDLs, but not ADLs
                 resultTargetSRS =
-                    common_copySourceRDLsToTargetRDLs(operation, sourceSRS, coloTargetSRS, targetAo,
+                    common_copySourceRDLsToTargetRDLs(operation, optionKeys, sourceSRS, coloTargetSRS, targetAo,
                             sourceTargetHasSameTerm, context);
             }
         } catch (VersionMismatchException e) {
