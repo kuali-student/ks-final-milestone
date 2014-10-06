@@ -16,6 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -44,7 +48,46 @@ public abstract class KeyDateTermResolverSupport<T> implements TermResolver<T> {
     private LuiService luiService;
     private AtpService atpService;
 
-    protected List<MilestoneInfo> getMilestones(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo, String keydateTypeParameter) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    private CacheManager cacheManager;
+    private Cache cache;
+
+    private static final String KEYDATE_CACHE = "keydateCache";
+
+    protected Date getEndDateForKeydateType(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo,
+                                            String keydateTypeParameter) throws MissingParameterException,
+            PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        Date endDate = null;
+        List<MilestoneInfo> mstones = getMilestones(contextInfo, regGroupInfo, keydateTypeParameter);
+        for (MilestoneInfo mstone : mstones) {
+            if (mstone.getEndDate() != null) {
+                if (endDate == null || endDate.before(mstone.getEndDate())) {
+                    endDate = mstone.getEndDate();
+                }
+            }
+        }
+        return endDate;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<MilestoneInfo> getMilestones(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo,
+                                                String keydateTypeParameter)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+
+        MultiKey cacheKey = new MultiKey(regGroupInfo.getId(),keydateTypeParameter);
+        Element cachedValue = getCache().get(cacheKey);
+        List<MilestoneInfo> milestones;
+        if (cachedValue == null) {
+            milestones = lookupMilestones(contextInfo, regGroupInfo, keydateTypeParameter);
+            getCache().put(new Element(cacheKey, milestones));
+        } else {
+            milestones = (List<MilestoneInfo>) cachedValue.getValue();
+        }
+
+        return milestones;
+    }
+
+    private List<MilestoneInfo> lookupMilestones(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo, String keydateTypeParameter) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
         String termId;
         // getting CO and AOs for the RegGroup to find the correct term
@@ -64,19 +107,6 @@ public abstract class KeyDateTermResolverSupport<T> implements TermResolver<T> {
         return getAtpService().getMilestonesByTypeForAtp(termId, keydateTypeParameter, contextInfo);
     }
 
-    protected Date getEndDateForKeydateType(ContextInfo contextInfo, RegistrationGroupInfo regGroupInfo, String keydateTypeParameter) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        Date endDate = null;
-        List<MilestoneInfo> mstones = getMilestones(contextInfo, regGroupInfo, keydateTypeParameter);
-        for (MilestoneInfo mstone : mstones) {
-            if (mstone.getEndDate() != null) {
-                if (endDate == null || endDate.before(mstone.getEndDate())) {
-                    endDate = mstone.getEndDate();
-                }
-            }
-        }
-        return endDate;
-    }
-
     // helper method that takes in a list of luis and returns if all atpIds are the same
     private boolean isAllAtpIdsTheSame(List<LuiInfo> l) {
         Set<String> set = new HashSet<>(l.size());
@@ -90,6 +120,13 @@ public abstract class KeyDateTermResolverSupport<T> implements TermResolver<T> {
             }
         }
         return true;
+    }
+
+    private Cache getCache() {
+        if (cache == null) {
+            cache = cacheManager.getCache(KEYDATE_CACHE);
+        }
+        return cache;
     }
 
     public LuiService getLuiService() {
@@ -106,5 +143,9 @@ public abstract class KeyDateTermResolverSupport<T> implements TermResolver<T> {
 
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 }
