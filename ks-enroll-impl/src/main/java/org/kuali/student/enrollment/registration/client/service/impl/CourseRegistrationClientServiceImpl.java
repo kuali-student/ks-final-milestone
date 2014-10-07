@@ -266,6 +266,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
+    @Override
+    public Response clearScheduleAliasRS(String termId, String termCode) {
+        return clearScheduleRS(termId, termCode);
+    }
+
     private StudentScheduleTermResult getStudentScheduleAndWaitlistedCoursesByTermLocal(String termId, String termCode, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         String userId = contextInfo.getPrincipalId();

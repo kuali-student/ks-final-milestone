@@ -158,4 +158,22 @@ public interface CourseRegistrationClientService {
     Response getLearningPlan(@QueryParam("termId") String termId,
                              @QueryParam("termCode") String termCode);
 
+
+
+    /** ------------------ ALIAS METHODS --------------------- */
+
+    /**
+     * Finds all LPRs for a logged in personId and drops them. If term is passed - deletes LPRs only for that term.
+     * Returns a Response object with status.
+     *
+     * @param termId - optional
+     * @param termCode - optional, human readable code representing the term. ex: 201208
+     * @return Empty Response Object or Response object with Error text
+     */
+    @GET
+    @Path("/clearSchedule")
+    Response clearScheduleAliasRS(@QueryParam("termId") String termId,
+                             @QueryParam("termCode") String termCode);
+
+
 }
