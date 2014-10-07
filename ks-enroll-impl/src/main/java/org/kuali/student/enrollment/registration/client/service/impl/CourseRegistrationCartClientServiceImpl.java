@@ -379,8 +379,25 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
     @Override
-    public Response submitCartAliasRS(String termId) {
-        return submitCartRS(termId);
+    public Response submitCartAliasRS(String cartId) {
+        Response.ResponseBuilder response;
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        try {
+            RegistrationRequestInfo info = submitCart(contextInfo, cartId);
+            response = Response.ok(info);
+        } catch (Exception e) {
+            LOGGER.warn("Error submitting cart id {} for {}", cartId, contextInfo.getPrincipalId(), e);
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Error submitting cart");
+            String technicalInfo = String.format("Technical Info: (cartId:[%s])",cartId);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
+        }
+
+        return response.build();
     }
 
     @Override
