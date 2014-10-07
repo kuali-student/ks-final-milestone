@@ -23,6 +23,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.wrapper.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseCopyHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -40,6 +41,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -109,9 +111,19 @@ public class CourseCopyHelperImpl implements CourseCopyHelper {
         //  Fix the state. Courses start in state draft.
         course.setStateKey(DtoConstants.STATE_DRAFT);
 
-        //  Clobber the IDs in these collections.
-        for (AttributeInfo attribute : course.getAttributes()) {
-            attribute.setId(null);
+        //  Clobber the IDs in these collections and remove the retirement related attributes.
+        List<AttributeInfo> attributes = course.getAttributes();
+        for (Iterator<AttributeInfo> it = attributes.iterator(); it.hasNext();) {
+            AttributeInfo attributeInfo = it.next();
+            if (attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT)
+                    || attributeInfo.getKey().equals(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE)
+                    ) {
+                it.remove();
+            } else {
+                attributeInfo.setId(null);
+            }
         }
 
         for (CourseJointInfo joint : course.getJoints()) {
