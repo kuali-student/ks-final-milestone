@@ -69,6 +69,17 @@ public class AcademicPlanServiceMockTest implements AcademicPlanService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public List<PlanItemInfo> getPlanItemsByPlanTermAndCategories(
+            @WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "termId") String termId,
+            @WebParam(
+                    name = "categories") List<AcademicPlanServiceConstants.ItemCategory> categories,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /**
      * Gets plan items for a
      *

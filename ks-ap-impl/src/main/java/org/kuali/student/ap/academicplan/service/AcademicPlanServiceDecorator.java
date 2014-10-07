@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
 
+import javax.jws.WebParam;
 import java.util.List;
 
 public class AcademicPlanServiceDecorator implements AcademicPlanService {
@@ -79,6 +80,17 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
                    PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlanByTermIdByCategory(learningPlanId, termId, category, context);
+    }
+
+    @Override
+    public List<PlanItemInfo> getPlanItemsByPlanTermAndCategories(
+            @WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "termId") String termId,
+            @WebParam(
+                    name = "categories") List<AcademicPlanServiceConstants.ItemCategory> categories,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
+        return getNextDecorator().getPlanItemsByPlanTermAndCategories(learningPlanId,termId,categories, context);
     }
 
     @Override

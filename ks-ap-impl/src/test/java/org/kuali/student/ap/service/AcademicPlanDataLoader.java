@@ -79,6 +79,10 @@ public class AcademicPlanDataLoader {
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
 
+        loadItem("lp1-i4.a", "0", "BSCI122ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.BACKUP, "lp1",
+                "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
+
         List<String> termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId2");}};
         loadItem("lp1-i5", "0", "BSCI123ind", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
                 AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",

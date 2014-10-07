@@ -41,6 +41,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
+
 
 public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanService
 {
@@ -195,8 +197,24 @@ public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanSer
 		}
 		return list;
 	}
-	
-	@Override
+
+    @Override
+    public List<PlanItemInfo> getPlanItemsByPlanTermAndCategories(
+            @WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "termId") String termId,
+            @WebParam(
+                    name = "categories") List<AcademicPlanServiceConstants.ItemCategory> categories,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
+        List<PlanItemInfo> planItemDtos = new ArrayList<PlanItemInfo>();
+        for (AcademicPlanServiceConstants.ItemCategory category : categories) {
+            planItemDtos.addAll(getPlanItemsInPlanByTermIdByCategory(learningPlanId, termId,
+                    category, context));
+        }
+        return planItemDtos;
+    }
+
+    @Override
 	public List<PlanItemInfo> getPlanItemsInPlanByRefObjectIdByRefObjectType(String learningPlanId, String refObjectId, String refObjectType, ContextInfo context)
 		throws InvalidParameterException
 		      ,MissingParameterException

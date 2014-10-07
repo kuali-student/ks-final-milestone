@@ -16,11 +16,17 @@
 package org.kuali.student.ap.service;
 
 
+import org.apache.commons.lang.mutable.MutableLong;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.IdEntityTester;
+import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,9 +44,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -222,19 +232,96 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
         expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated2", "<span>descr_Updated2</span>"));
         expected.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
 	}
-	
-	
+
+
 	// ========================================
 	// SERVICE OPS NOT TESTED IN BASE TEST CLASS
 	// ========================================
-	
+
 	/* Method Name: getPlanItemsInPlanByCategory */
 	@Test
-	public void test_getPlanItemsInPlanByCategory() 
+	public void test_getPlanItemsInPlanByCategory()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	{
 	}
-	
-	/* Method Name: getPlanItemsInPlan */
+
+    /* Method Name: getPlanItemsInPlanByCategories */
+    @Test
+    public void test_getPlanItemsByPlanTermAndCategories()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+
+        String studentId = "student1";
+        List<LearningPlanInfo> learningPlans;
+        learningPlans = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
+                studentId,
+                AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
+                KsapFrameworkServiceLocator.getContext().getContextInfo());
+        assertNotNull(learningPlans);
+        assertTrue(String.format("no learning plans found for studenId=%s to test",studentId),
+                learningPlans.size()>1); //"should be > 1
+        int plansThatHaveItems=0;
+        String useThisTerm=null;
+        for (LearningPlan plan : learningPlans) {
+            int categoryCount=0;
+            boolean planHasMultipleCategories=false;
+            HashMap<String,HashMap<AcademicPlanServiceConstants.ItemCategory,MutableLong>> termCategoryMap = new
+                    HashMap<>();
+
+            List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
+                    .getPlanItemsInPlan(plan.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+            //Look for non-empty learning plans
+            if (items.size()>0)
+                ++plansThatHaveItems;
+
+            //Look for and count distinct items per categor per term
+            if (items.size()>1) {
+                for (PlanItemInfo item : items) {
+                    for (String term : item.getPlanTermIds()) {
+                        if (!termCategoryMap.containsKey(term)) {
+                            termCategoryMap.put(term,new HashMap<AcademicPlanServiceConstants.ItemCategory,MutableLong>());
+                        }
+                        if (!termCategoryMap.get(term).containsKey(item.getCategory())) {
+                            termCategoryMap.get(term).put(item.getCategory(),new MutableLong(0L));
+                        }
+                        termCategoryMap.get(term).get(item.getCategory()).add(1L);
+                    }
+                }
+            }
+            //No look for terms that use more that one category
+            for (String term : termCategoryMap.keySet()) {
+                if (useThisTerm==null && termCategoryMap.get(term).size()>1 ) {
+                        planHasMultipleCategories=true;
+                        useThisTerm=term;
+                        continue;
+                }
+            }
+
+            //No check that  getPlanItemsByPlanTermAndCategories returns the appropriate # of items
+            //for categories
+            if (planHasMultipleCategories) {
+                int totalItemsPerTermSoFar=0;
+                List<AcademicPlanServiceConstants.ItemCategory> categories = new ArrayList<>();
+                //Get items for 1st category of term, then 1st+2nd categories then 1st+2nd+3rd categories...
+                // .... & check count ea. time
+                for (AcademicPlanServiceConstants.ItemCategory category : termCategoryMap.get(useThisTerm).keySet()) {
+                    totalItemsPerTermSoFar+=termCategoryMap.get(useThisTerm).get(category).longValue(); //sum counts
+                    categories.add(category);
+                    List<PlanItemInfo> itemsSoFar = getAcademicPlanService().
+                            getPlanItemsByPlanTermAndCategories(plan.getId(), useThisTerm, categories, contextInfo);
+
+                    //compare sum of map counts to items returned b getPlanItemsByPlanTermAndCategories
+                    assertEquals("wrong item count returned by getPlanItemsByPlanTermAndCategories",
+                            totalItemsPerTermSoFar,itemsSoFar.size());
+                }
+            }
+        }
+        assertTrue(String.format("this test expects multiple plans to exist for student %s",studentId),
+                plansThatHaveItems > 1);
+        assertTrue("this test expects a learning plan having items in more than one category in a term",
+            useThisTerm!=null);
+    }
+
+    /* Method Name: getPlanItemsInPlan */
 	@Test
 	public void test_getPlanItemsInPlan() 
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	{

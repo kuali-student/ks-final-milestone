@@ -172,7 +172,23 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		return planItemDtos;
 	}
 
-	@Override
+    @Override
+    public List<PlanItemInfo> getPlanItemsByPlanTermAndCategories(
+            @WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "termId") String termId,
+            @WebParam(
+                    name = "categories") List<AcademicPlanServiceConstants.ItemCategory> categories,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
+        List<PlanItemInfo> planItemDtos = new ArrayList<PlanItemInfo>();
+        for (AcademicPlanServiceConstants.ItemCategory category : categories) {
+            planItemDtos.addAll(getPlanItemsInPlanByTermIdByCategory(learningPlanId, termId,
+                    category, context));
+        }
+        return planItemDtos;
+    }
+
+    @Override
     public List<PlanItemInfo> getPlanItemsInPlanByRefObjectIdByRefObjectType(
 			@WebParam(name = "learningPlanId") String learningPlanId,
 			@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "refObjectType") String refObjectType,
