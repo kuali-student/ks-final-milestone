@@ -154,13 +154,13 @@ public class SessionSearchInfo {
      * Updates the count displayed for each facet based on the courses being shown by the current facet selections
      */
     private void updateFacetCounts() {
-        if (searchResults.isEmpty())
+        if (searchResults != null && searchResults.isEmpty())
             return;
 
         // Determine the number of facet columns - this should be uniform
         // across the facet state table and the facet columns in each row
         Map<String, List<String>> facetCols;
-        if(!(searchResults==null) && !searchResults.isEmpty()){
+        if(searchResults != null && !searchResults.isEmpty()){
             facetCols = searchResults.get(0).getFacetColumns();
         }else{
             return;
