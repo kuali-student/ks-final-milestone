@@ -7,12 +7,12 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
-
-
-                              http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
@@ -2109,12 +2109,12 @@ the program will get the rule management service by calling the global resource 
             </aggregate>
         </route>
         <route>
-            <from uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+            <from uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.deleteQueue"/>
             <aggregate strategyRef="eventMessageIdAggregator" completionTimeout="5000">
                 <correlationExpression>
                     <simple>body.type</simple>
                 </correlationExpression>
-                <bean ref="elasticEmbedded" method="updateRegistrationGroupCache"/>
+                <bean ref="elasticEmbedded" method="removeRegistrationGroupCache"/>
             </aggregate>
         </route>
     </camelContext>
@@ -2123,6 +2123,31 @@ the program will get the rule management service by calling the global resource 
         <property name="cacheManager" ref="ksCacheManager"/>
         <property name="identityService" ref="coreIdentityServiceClient" />
     </bean>
+
+    <!-- AOP of LUI Service. Needed for Eventing -->
+    <bean id="luiBroadcastAspect" class="org.kuali.student.enrollment.class1.lui.aop.LuiBroadcastAspect">
+        <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
+        <property name="jmsDestination" value="org.kuali.student.enrollment.lui.service.LuiEventTopic"/>
+    </bean>
+    <bean id="courseOfferingBroadcastAspect" class="org.kuali.student.enrollment.class2.courseoffering.aop.CourseOfferingBroadcastAspect">
+        <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
+        <property name="jmsDestination" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic"/>
+    </bean>
+
+
+    <!-- The following AOP is used to trigger events like: processing people from waitlist when class size changes -->
+    <aop:config proxy-target-class="false">
+        <aop:aspect ref="luiBroadcastAspect">
+            <aop:pointcut id="luiUpdate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.updateLui(..))" />
+            <aop:after-returning pointcut-ref="luiUpdate" method="updateLuiAdvice" returning="retVal"  />
+            <aop:pointcut id="luiCreate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.createLui(..))" />
+            <aop:after-returning pointcut-ref="luiCreate" method="createLuiAdvise" returning="retVal" />
+        </aop:aspect>
+        <aop:aspect ref="courseOfferingBroadcastAspect">
+            <aop:pointcut id="registrationGroupDelete" expression="execution(* org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl.deleteRegistrationGroup(..))" />
+            <aop:after-returning pointcut-ref="registrationGroupDelete" method="deleteRegistrationGroupAdvise" />
+        </aop:aspect>
+    </aop:config>
 
 </beans>
 

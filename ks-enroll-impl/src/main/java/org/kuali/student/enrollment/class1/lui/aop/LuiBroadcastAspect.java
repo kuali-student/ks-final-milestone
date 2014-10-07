@@ -23,7 +23,7 @@ public class LuiBroadcastAspect extends BaseEventingAspect {
      * @return
      * @throws Throwable
      */
-    public void updateLuiAdvise(JoinPoint joinPoint, LuiInfo retVal) throws Throwable {
+    public void updateLuiAdvice(JoinPoint joinPoint, LuiInfo retVal) throws Throwable {
         Object[] args = joinPoint.getArgs();
         ContextInfo contextInfo = (ContextInfo)args[2];
 

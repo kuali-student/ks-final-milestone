@@ -153,15 +153,24 @@
             </aggregate>
         </route>
 
+        <!-- Below we have the various Topics configured. When configuring a Topic we must set the concurrentConsumer to 1.
+             If the concurrent consumer is not set to 1 then every consumer we have set up in camel (default is 10) will try
+             to process events that are broadcast to the topic. Ie. we have 10 consumers that can process events, but in this case,
+             we only want ONE to process the event. -->
         <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
+            <!-- Listen for LuiEvents -->
             <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
             <filter>
+                <!-- Only act on AO Update Events -->
                 <simple>${in.body.type} contains 'kuali.lui.type.activity.offering' and ${in.body.action} == 'UPDATE'</simple>
+                <!-- When an AO gets updated it can result in 3-10 calls to updateLui. Ie. 3-10 update lui events will be triggered.
+                     We ONLY care that a lui has been updated. So, just let me know what LUI has been updated over the span of 5 seconds-->
                 <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
                     <correlationExpression>
                         <simple>body.id</simple>
                     </correlationExpression>
-                    <bean ref="waitlistManagerService" method="processLuiChangeEvent"/> <!-- go to the java code that makes all the decisions -->
+                    <!-- let the waitlist manager know that a LUI has changed. We could set up a queue here, but a pure update will work. -->
+                    <bean ref="waitlistManagerService" method="processLuiChangeEvent"/>
                 </aggregate>
             </filter>
 
@@ -170,18 +179,26 @@
         <route>    <!-- This is used to detect changes course offerings and notify our UI caches -->
             <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
             <filter>
+                <!-- Only act on CO Events -->
                 <simple>${in.body.type} contains 'kuali.lui.type.course.offering'</simple>
                 <filter>
+                    <!-- Only act on CO Update or Create Events -->
                     <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <!-- When an CO gets updated it can result in 3-10 calls to update co. Ie. 3-10 update co events will be triggered.
+                     We ONLY care that a co has been updated. So, just let me know what CO has been updated over the span of 5 seconds-->
                     <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
                         <correlationExpression>
                             <simple>body.id</simple>
                         </correlationExpression>
+                        <!-- We're taking the general CO updates events and distilling them down and notifying an internal
+                             elastic QUEUE. We could have called elastic directly (like WL Manager above) but this is a
+                             nice decoupling. -->
                         <to uri="activemq:org.kuali.student.enrollment.registration.elastic.courseoffering.updateQueue"/>
                     </aggregate>
                 </filter>
             </filter>
             <filter>
+                <!-- Only act on RG Events -->
                 <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
                 <filter>
                     <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
@@ -189,21 +206,9 @@
                         <correlationExpression>
                             <simple>body.id</simple>
                         </correlationExpression>
-                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
-                    </aggregate>
-                </filter>
-            </filter>
-        </route>
-        <route>    <!-- This is used to detect changes in registration groups and notify our UI reg group caches -->
-            <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
-            <filter>
-                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
-                <filter>
-                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
-                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
-                        <correlationExpression>
-                            <simple>body.id</simple>
-                        </correlationExpression>
+                        <!-- We're taking the general RG updates events and distilling them down and notifying an internal
+                             elastic QUEUE. We could have called elastic directly (like WL Manager above) but this is a
+                             nice decoupling. This elastic queue is only for reg group updates. -->
                         <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
                     </aggregate>
                 </filter>
@@ -219,7 +224,7 @@
                         <correlationExpression>
                             <simple>body.id</simple>
                         </correlationExpression>
-                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.deleteQueue"/>
                     </aggregate>
                 </filter>
             </filter>
@@ -248,45 +253,9 @@
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
-
-
-
     <!-- Groups common registration functions into a single service -->
     <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">
         <property name="waitlistManagerService" ref="waitlistManagerService"/>
     </bean>
-
-
-    <!-- AOP of LUI Service. Needed for Eventing -->
-    <bean id="luiBroadcastAspect" class="org.kuali.student.enrollment.class1.lui.aop.LuiBroadcastAspect">
-        <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
-        <property name="jmsDestination" value="org.kuali.student.enrollment.lui.service.LuiEventTopic"/>
-    </bean>
-    <bean id="courseOfferingBroadcastAspect" class="org.kuali.student.enrollment.class2.courseoffering.aop.CourseOfferingBroadcastAspect">
-        <property name="jmsTemplate" ref="jmsTopicTemplate"/> <!-- send messages to the topic, not queue -->
-        <property name="jmsDestination" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic"/>
-    </bean>
-
-
-    <aop:config proxy-target-class="false">
-        <aop:aspect ref="luiBroadcastAspect">
-            <aop:pointcut id="luiUpdate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.updateLui(..))" />
-            <aop:after-returning pointcut-ref="luiUpdate" method="updateLuiAdvise" returning="retVal"  />
-        </aop:aspect>
-        <aop:aspect ref="luiBroadcastAspect">
-            <aop:pointcut id="luiCreate" expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.createLui(..))" />
-            <aop:after-returning pointcut-ref="luiCreate" method="createLuiAdvise" returning="retVal" />
-        </aop:aspect>
-        <aop:aspect ref="courseOfferingBroadcastAspect">
-            <aop:pointcut id="registrationGroupDelete" expression="execution(* org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl.deleteRegistrationGroup(..))" />
-            <aop:after-returning pointcut-ref="registrationGroupDelete" method="deleteRegistrationGroupAdvise" />
-        </aop:aspect>
-
-
-    </aop:config>
-
-
-
-
 
 </beans>

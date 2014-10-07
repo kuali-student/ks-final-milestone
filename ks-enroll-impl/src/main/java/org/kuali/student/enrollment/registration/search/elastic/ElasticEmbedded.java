@@ -233,6 +233,27 @@ public class ElasticEmbedded {
         LOG.info("Done Loading Reg Group Data - " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
     }
 
+    private void deleteIndex(String indexName, String type, List<String> idsToDelete){
+        LOG.info("deleting Data from Elastic");
+        Date startTime = new Date();
+
+        BulkRequestBuilder bulkRequest = client.prepareBulk();
+        ObjectMapper mapper = new ObjectMapper();
+
+        //Create a bulk request to push all data into elastic
+        for (String id : idsToDelete) {
+            bulkRequest.add(client.prepareDelete(indexName, type, id));
+        }
+
+        //Execute the bulk operation
+        BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+        if (bulkResponse.hasFailures()) {
+            throw new RuntimeException("Error Bulk Deleting elasticsearch items: " + bulkResponse.buildFailureMessage());
+        }
+
+        LOG.info("Done Deleting indexes for " + indexName + " " + type + " " + (System.currentTimeMillis() - startTime.getTime()) + "ms");
+    }
+
     /**
      * Method to grab all of the course offerings from a search service (get the data that will be pushed into elastic)
      *
@@ -285,6 +306,28 @@ public class ElasticEmbedded {
 
         if(regGroupSearchResults != null && !regGroupSearchResults.isEmpty()){
             indexRegistrationGroupData(regGroupSearchResults);
+        }
+    }
+
+    /**
+     *
+     * pass in a list of rg ids to remove from elastic cache.
+     *
+     * @param registrationGroupToDeleteIds
+     * @throws DoesNotExistException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws IOException
+     */
+    public void removeRegistrationGroupCache(List<String> registrationGroupToDeleteIds) throws DoesNotExistException, MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, IOException {
+        if(LOG.isDebugEnabled()) {
+            LOG.debug("Deleting index for registration group ids: " + registrationGroupToDeleteIds);
+        }
+
+        if(registrationGroupToDeleteIds != null && !registrationGroupToDeleteIds.isEmpty()){
+            deleteIndex(KS_ELASTIC_INDEX, REGISTRATION_GROUP_ELASTIC_TYPE, registrationGroupToDeleteIds);
         }
     }
 

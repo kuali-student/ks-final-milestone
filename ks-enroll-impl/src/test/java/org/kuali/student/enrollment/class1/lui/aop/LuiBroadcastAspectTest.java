@@ -55,7 +55,7 @@ public class LuiBroadcastAspectTest {
 
         luiService.updateLui("Lui-1", lui, callContext);    // should trigger aspect
 
-        verify(luiBroadcastAspect, times(1)).updateLuiAdvise(any(JoinPoint.class), any(LuiInfo.class));
+        verify(luiBroadcastAspect, times(1)).updateLuiAdvice(any(JoinPoint.class), any(LuiInfo.class));
 
 
     }
