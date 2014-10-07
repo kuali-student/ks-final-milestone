@@ -35,7 +35,7 @@
         <aop:aspect ref="luiBroadcastAspect">
             <aop:pointcut id="luiUpdate"
                           expression="execution(* org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl.updateLui(..))"/>
-            <aop:after-returning pointcut-ref="luiUpdate" method="updateLuiAdvise" returning="retVal" />
+            <aop:after-returning pointcut-ref="luiUpdate" method="updateLuiAdvice" returning="retVal" />
         </aop:aspect>
     </aop:config>
 
