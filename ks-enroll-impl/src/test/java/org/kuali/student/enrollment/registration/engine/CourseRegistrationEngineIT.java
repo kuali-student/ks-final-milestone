@@ -44,7 +44,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:courseregistration-test-context.xml" })
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = false)
-public class TestCourseRegistrationEngine {
+public class CourseRegistrationEngineIT {
 
     public static final String TRUE = "true";
     public static final String VALIDATION_EXCEPTION = "validationException";

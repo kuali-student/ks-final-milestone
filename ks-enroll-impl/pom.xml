@@ -9,10 +9,9 @@
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
     <properties>
-        <gmaven.stubs.phase>generate-resources</gmaven.stubs.phase>
-        <gmaven.compile.phase>compile</gmaven.compile.phase>
-        <gmaven.test.compile.phase>test-compile</gmaven.test.compile.phase>
-    </properties>
+        <skipTests>false</skipTests>
+        <skipITs>${skipTests}</skipITs>
+        <skipUTs>${skipTests}</skipUTs>    </properties>
     <build>
         <plugins>
             <plugin>
@@ -24,7 +23,23 @@
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>-Xms256m -Xmx512m</argLine>
+                    <skipTests>${skipUTs}</skipTests>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipTests>${skipTests}</skipTests>
+                    <skipITs>${skipITs}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

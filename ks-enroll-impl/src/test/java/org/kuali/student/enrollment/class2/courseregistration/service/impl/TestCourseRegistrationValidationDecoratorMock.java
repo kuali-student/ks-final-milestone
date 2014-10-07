@@ -4,7 +4,7 @@ import org.apache.activemq.command.ActiveMQMapMessage;
 import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.registration.engine.TestCourseRegistrationEngine;
+import org.kuali.student.enrollment.registration.engine.CourseRegistrationEngineIT;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -37,8 +37,8 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
     public List<ValidationResultInfo> verifyRegistrationRequestForSubmission(String registrationRequestId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AttributeInfo> attributes=contextInfo.getAttributes();
         for (AttributeInfo attribute:attributes) {
-            if (attribute.getKey().equals(TestCourseRegistrationEngine.VALIDATION_EXCEPTION)
-                    && attribute.getValue().equals(TestCourseRegistrationEngine.TRUE)) {
+            if (attribute.getKey().equals(CourseRegistrationEngineIT.VALIDATION_EXCEPTION)
+                    && attribute.getValue().equals(CourseRegistrationEngineIT.TRUE)) {
                 throw new OperationFailedException("Validation Exception attribute found in context info");
             }
         }
@@ -63,8 +63,8 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regRequestInfo.getId());
             for (AttributeInfo attribute:contextInfo.getAttributes()) {
-                for (String exception : TestCourseRegistrationEngine.EXCEPTIONS) {
-                    if (attribute.getKey().equals(exception) && attribute.getValue().equals(TestCourseRegistrationEngine.TRUE)) {
+                for (String exception : CourseRegistrationEngineIT.EXCEPTIONS) {
+                    if (attribute.getKey().equals(exception) && attribute.getValue().equals(CourseRegistrationEngineIT.TRUE)) {
                         mapMessage.setBoolean(exception, true);
                     }
                 }

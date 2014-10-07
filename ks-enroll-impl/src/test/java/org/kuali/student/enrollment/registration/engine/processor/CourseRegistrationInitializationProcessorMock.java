@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.processor;
 
-import org.kuali.student.enrollment.registration.engine.TestCourseRegistrationEngine;
+import org.kuali.student.enrollment.registration.engine.CourseRegistrationEngineIT;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -18,9 +18,9 @@ public class CourseRegistrationInitializationProcessorMock extends CourseRegistr
         ContextInfo contextInfo = requestEngineMessage.getContextInfo();
 
         try {
-            for (String exception : TestCourseRegistrationEngine.EXCEPTIONS) {
+            for (String exception : CourseRegistrationEngineIT.EXCEPTIONS) {
                 if (message.get(exception)!=null && (Boolean)message.get(exception)) {
-                    contextInfo.getAttributes().add(new AttributeInfo(exception, TestCourseRegistrationEngine.TRUE));
+                    contextInfo.getAttributes().add(new AttributeInfo(exception, CourseRegistrationEngineIT.TRUE));
                 }
             }
         } catch (Exception e) {
