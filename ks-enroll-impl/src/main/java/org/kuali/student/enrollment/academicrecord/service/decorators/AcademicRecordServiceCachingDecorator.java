@@ -21,7 +21,6 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -37,8 +36,6 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class AcademicRecordServiceCachingDecorator extends AcademicRecordServiceDecorator {
-
-    private AcademicRecordService nextDecorator;
 
     private CacheManager cacheManager;
     private Cache cache;
@@ -59,7 +56,7 @@ public class AcademicRecordServiceCachingDecorator extends AcademicRecordService
         List<StudentCourseRecordInfo> studentCourseRecords = (List<StudentCourseRecordInfo>) getCacheResult(cacheKey);
 
         if (studentCourseRecords == null) {
-            studentCourseRecords = nextDecorator.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
+            studentCourseRecords = getNextDecorator().getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
             putCacheResult(cacheKey, studentCourseRecords);
         }
 
@@ -86,10 +83,6 @@ public class AcademicRecordServiceCachingDecorator extends AcademicRecordService
             cache = cacheManager.getCache(ACADEMIC_RECORD_CACHE);
         }
         return cache;
-    }
-
-    public void setNextDecorator(AcademicRecordService nextDecorator) {
-        this.nextDecorator = nextDecorator;
     }
 
     public void setCacheManager(CacheManager cacheManager) {
