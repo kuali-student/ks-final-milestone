@@ -599,7 +599,7 @@ angular.module('regCartApp')
         function showAdditionalOptionsModal(cartItem) {
             var modal = $modal.open({
                 backdrop: 'static',
-                templateUrl: 'partials/additionalOptions.html',
+                templateUrl: 'components/cart/cart-additional-options.html',
                 size: 'sm',
                 resolve: {
                     item: function () {

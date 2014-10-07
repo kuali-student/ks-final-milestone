@@ -14,7 +14,7 @@ angular.module('regCartApp', [
 
         // Define some of the more commonly used components
         var myCart = {
-                templateUrl: 'partials/cart.html',
+                templateUrl: 'components/cart/cart.html',
                 controller: 'CartCtrl'
             },
             mySchedule = {
