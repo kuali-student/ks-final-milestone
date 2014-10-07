@@ -569,8 +569,6 @@ public class CourseDetailsViewHelperServiceImpl extends PlanEventViewHelperServi
      */
     @Override
     public List<String> getValidRegGroupIds(String courseOfferingId, Map<Object,Object> additionalRestrictions){
-        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
-
         // Retrieve reg groups for the Course Offering
         List<String> regGroupIds = new ArrayList<String>();
         try {
