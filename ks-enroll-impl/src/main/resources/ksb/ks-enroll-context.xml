@@ -1009,8 +1009,14 @@ the program will get the rule management service by calling the global resource 
 
     <!-- Academic Record Service -->
 
-    <!-- parent -->
-    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+    <!-- caching decorator -->
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.academicrecord.service.decorators.AcademicRecordServiceCachingDecorator">
+        <property name="nextDecorator" ref="academicRecordServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager" />
+    </bean>
+
+    <!-- federate history and current -->
+    <bean id="academicRecordServiceImpl" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
         <property name="academicRecordServiceHistory" ref="academicRecordServiceHistory" />
         <property name="academicRecordServiceCurrent" ref="academicRecordServiceCurrent" />
     </bean>

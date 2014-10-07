@@ -80,4 +80,7 @@
     <!-- Keydate cache -->
     <cache name="keydateCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
 
+    <!-- Academic Record cache -->
+    <cache name="academicRecordCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
 </ehcache>
