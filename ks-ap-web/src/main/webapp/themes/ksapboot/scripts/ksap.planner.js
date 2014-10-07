@@ -51,6 +51,7 @@ function ksapInitializePlannerItems(pageSize) {
  */
 function setupTermNotePopovers(){
     var popoverOptions = getPopoverOptions();
+    popoverOptions.placement='bottom'; //flip termnote popover to prevent note chop at top of page
     jQuery(".filled-termnote").popover(popoverOptions);
 }
 
