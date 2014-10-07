@@ -1063,7 +1063,10 @@ public abstract class ProposalController extends RuleEditorController {
         //Perform Rules validation
         KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(form.getDocument()));
 
-        runStudentServiceValidation(form, forcedStudentObjectStateKey);
+        // only check the Kuali Student service validations if there are no KRAD based errors
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            runStudentServiceValidation(form, forcedStudentObjectStateKey);
+        }
     }
 
     protected abstract void runStudentServiceValidation(DocumentFormBase form, String forcedStudentObjectStateKey);

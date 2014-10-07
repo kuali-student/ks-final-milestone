@@ -207,19 +207,19 @@ public class RetireCourseController extends ProposalController {
                     case "code":        // ignore this one since it is only valid for the old GWT UI
                         break;
                     default:
-                        elementPath = KRADConstants.GLOBAL_ERRORS;
-                        wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
-                        error.setMessage(error.getElement() + ": " + error.getMessage());
-                        LOG.warn("[" + error.getLevel() + "] - " + error.getMessage());
+                        // add an unknown error to the counter
                         unknownErrorCount++;
-                        if(unknownErrorCount==1) {
-                            GlobalVariables.getMessageMap().putError(elementPath, CurriculumManagementConstants.MessageKeys.ERROR_KS_LEGACY_VALIDATION);
-                        }
-                        continue;
+                        // log the specific error details so that developers can come back to the logs and find the information
+                        LOG.warn("Validation Error from Kuali Student Service validate method call: [Level: " + error.getLevel() + "] - [Element: " + error.getElement() + "] - [Message: " + error.getMessage() + "]");
                 }
                 if(StringUtils.isNotBlank(elementPath)) {
                     GlobalVariables.getMessageMap().putError(elementPath, RiceKeyConstants.ERROR_CUSTOM, message);
                 }
+            }
+            // if we have at least one unknown error message we need to process it to the screen
+            if (unknownErrorCount > 0) {
+                wrapper.getReviewProposalDisplay().setShowUnknownErrors(true);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_KS_LEGACY_VALIDATION, Integer.toString(unknownErrorCount));
             }
         }
     }
