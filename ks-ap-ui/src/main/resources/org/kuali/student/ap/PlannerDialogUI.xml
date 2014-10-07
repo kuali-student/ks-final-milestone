@@ -29,7 +29,6 @@
 				<ref bean="planner_copy_course_page" />
 				<ref bean="planner_copy_plan_item_page" />
 				<ref bean="planner_move_plan_item_page" />
-				<ref bean="planner_delete_plan_item_page" />
                 <ref bean="bookmark_delete_course_page" />
 			</list>
 		</property>
@@ -328,46 +327,6 @@
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.move.button')}"
                                                       p:actionScript="ksapSubmitDialog('planner_move_plan_item_page',e);"/>
-												<bean parent="planner_cancel_button" />
-											</list>
-										</property>
-									</bean>
-									<bean parent="planner_error_placeholder" />
-								</list>
-							</property>
-						</bean>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-    <bean id="planner_delete_plan_item_page" parent="planner_delete_plan_item_page-parent"/>
-	<bean id="planner_delete_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
-		<property name="id" value="planner_delete_plan_item_page" />
-		<property name="innerViewWrapperId" value="planner_delete_plan_item_page_inner" />
-		<property name="headerText" value="@{#textHelper.getText('dialog.planner.delete.header1')}
-		                                    @{course.code} @{termId eq null
-		                                    ? #textHelper.getText('dialog.planner.delete.header2')
-		                                    : #textHelper.getFormattedMessage('dialog.planner.edit.header3', new Object[]{term.name})}" />
-		<property name="items">
-			<list merge="true">
-				<bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
-						p:messageText="@{#textHelper.getFormattedMessage('dialog.planner.delete.message', new Object[]{course.code})}"/>
-			</list>
-		</property>
-		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="Uif-VerticalBoxGroup">
-							<property name="items">
-								<list>
-									<bean parent="Uif-HorizontalBoxGroup">
-										<property name="items">
-											<list>
-												<bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('dialog.planner.delete.button')}"
-                                                      p:actionScript="ksapSubmitDialog('planner_delete_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -734,6 +693,65 @@
             </list>
         </property>
     </bean>
+
+    <!-- Define "Delete Plan Item" popover on planner page  -->
+    <bean id="KSAP-DeletePlanItem-FormView" parent="KSAP-DeletePlanItem-FormView-parent"/>
+    <bean id="KSAP-DeletePlanItem-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-DeletePlanItem-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.DeletePlanItemForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage">
+                <property name="id" value="planner_delete_plan_item_page" />
+                <property name="innerViewWrapperId" value="planner_delete_plan_item_page_inner" />
+                <property name="headerText"
+                          value=" @{#textHelper.getFormattedMessage('dialog.planner.delete.header', new Object[]{termName})}" />
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.delete.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_delete_plan_item_page',e);"/>
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="Uif-Message"
+                              p:messageText="@{courseCode} @{courseTitle} @{#textHelper.getFormattedMessage('dialog.all.add.message', new Object[]{creditsDisplay})}"
+                              p:additionalCssClasses="dialog-add-title"/>
+                        <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
+                              p:messageText="@{#textHelper.getFormattedMessage('dialog.planner.delete.message', new Object[]{courseCode,termName})}"/>
+                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
+                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+                        <bean parent="planner_hidden_input" p:propertyName="termId" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 	<!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">

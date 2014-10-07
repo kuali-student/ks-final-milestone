@@ -1060,7 +1060,7 @@
 	<bean id="planner_menu_delete_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="@{#textHelper.getText('planner.menu.delete')}"
         p:title="@{#textHelper.getText('planner.menu.delete')}"
-        p:actionScript="ksapOpenPlanDialog('planner_delete_plan_item_page','planner','startDialog', this, e);"
+        p:actionScript="ksapOpenPlanDialog('planner_delete_plan_item_page','planner','startDeletePlanItemDialog', this, e);"
         p:additionalCssClasses="ks-fontello-icon-trash ksap-noMargin">
 	</bean>
 
