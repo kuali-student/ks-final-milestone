@@ -60,16 +60,16 @@
                         <list>
                             <ref bean="CM-Modify-RetireCourse-Rationale" />
                             <bean id="CM-Modify-RetireCourse-LastTerm" parent="CM-RetireCourse-LastTerm">
+                                <!-- TODO Remove this optionsFinder override when KSCM-2947 is complete as it will change parent bean to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
                                 <property name="optionsFinder">
-                                    <!-- This can come out when DatesKeyValuesFinder goes away. -->
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder"
                                           p:addBlankOption="true"/>
                                 </property>
                             </bean>
                             <bean parent="CM-RetireCourse-PublicationYear">
                                 <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
+                                <!-- TODO Remove this optionsFinder override when KSCM-2947 is complete as it will change parent bean to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
                                 <property name="optionsFinder">
-                                    <!-- This can come out when DatesKeyValuesFinder goes away. -->
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder"
                                           p:addBlankOption="true"/>
                                 </property>
@@ -183,6 +183,7 @@
             <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
             <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
                   p:addBlankOption="true"/>
         </property>
@@ -196,6 +197,7 @@
             <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
             <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
                   p:addBlankOption="true"/>
         </property>
@@ -209,6 +211,7 @@
             <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
             <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
                   p:addBlankOption="true"/>
         </property>
