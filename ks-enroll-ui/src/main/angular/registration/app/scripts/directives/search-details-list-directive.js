@@ -91,17 +91,16 @@ angular.module('regCartApp')
                     }
                 });
 
-                scope.$on('timeConflictChanged', function() {
+                scope.$on('conflictChanged', function(tabId) {
                     // update the time tab
                     for (var i=0; i<scope.sections.length; i++) {
                         for (var j=0; j<scope.sections[i].details.length; j++) {
                             if (scope.sections[i].details[j].flags.highlight) {
-                                scope.sections[i].tabs[timeIndex].conflict = true;
+                                scope.sections[i].tabs[tabId].conflict = true;
                                 // No need to loop further. If one AO has time conflict, indicator should appear
                                 break;
                             }
                         }
-                        scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
                     }
                 });
             }
