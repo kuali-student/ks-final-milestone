@@ -8,10 +8,6 @@
     </parent>
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
-    <properties>
-        <skipTests>false</skipTests>
-        <skipITs>${skipTests}</skipITs>
-        <skipUTs>${skipTests}</skipUTs>    </properties>
     <build>
         <plugins>
             <plugin>
@@ -23,15 +19,10 @@
                 <configuration>
                     <reuseForks>false</reuseForks>
                     <argLine>-Xms256m -Xmx512m</argLine>
-                    <skipTests>${skipUTs}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <skipTests>${skipTests}</skipTests>
-                    <skipITs>${skipITs}</skipITs>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -223,4 +214,24 @@
             <artifactId>powermock-api-mockito</artifactId>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>skip-unit-tests</id>
+            <activation>
+                <property>
+                    <name>skipUTs</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
