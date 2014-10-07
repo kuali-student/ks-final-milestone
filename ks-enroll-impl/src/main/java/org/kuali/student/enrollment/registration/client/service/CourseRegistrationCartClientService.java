@@ -128,6 +128,70 @@ public interface CourseRegistrationCartClientService {
                                        @QueryParam("gradingOptionId") String gradingOptionId,
                                        @QueryParam("credits") String credits);
 
+
+
+
+    /** ------------------ ALIAS METHODS --------------------- */
+
+    /**
+     * Find cart if it exists and delete all items from cart.
+     *
+     * @deprecated
+     * @param termId   - optional, but more efficient to use
+     * @param termCode  - optional, but human readable. 201208
+     * @return
+     */
+    @GET
+    @Path("/clearCart")
+    public Response clearCartAliasRS(@QueryParam("termId") String termId,
+                                     @QueryParam("termCode") String termCode);
+
+    /**
+     * Looks up cart information for the given user and term. if no cart exists, one is created
+     *
+     * @deprecated
+     * @param termId term for the cart
+     * @return a Cart Result that contains the courses a student is intending to enroll in for the given term.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/searchForCart")
+    public Response searchForCartAliasRS(@QueryParam("termId") String termId);
+
+    /**
+     * The REST version of submitCart
+     *
+     * @deprecated
+     * @param cartId ID of the registrationRequest representing the cart
+     * @return A Response containing the Boolean value of TRUE or a server error response.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/submitCart")
+    public Response submitCartAliasRS(@QueryParam("cartId") String cartId);
+
+    /**
+     * The REST version of addCourseToCart
+     *
+     * @deprecated
+     * @param courseCode      course offering to add to the cart
+     * @param regGroupId      Optional. Will speed things up if passed instead of (courseCode, regGroupCode)
+     * @param regGroupCode    reg group we want to add
+     * @param gradingOptionId the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
+     * @param credits         The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @return Response containing the cart item that was updated or a server error response.
+     */
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Path("/addCourseToCart")
+    public Response addCourseToCartAliasRS(@FormParam("termId") String termId,
+                                           @FormParam("regGroupId") String regGroupId,
+                                           @FormParam("courseCode") String courseCode,
+                                           @FormParam("regGroupCode") String regGroupCode,
+                                           @FormParam("gradingOptionId") String gradingOptionId,
+                                           @FormParam("credits") String credits);
+
 }
 
 

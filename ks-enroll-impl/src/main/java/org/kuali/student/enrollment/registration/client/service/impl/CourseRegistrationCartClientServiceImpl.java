@@ -368,4 +368,26 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
     }
 
 
+    @Override
+    public Response clearCartAliasRS(String termId, String termCode) {
+        return clearCartRS(termId, termCode);
+    }
+
+    @Override
+    public Response searchForCartAliasRS(String termId) {
+        return searchForCartRS(termId);
+    }
+
+    @Override
+    public Response submitCartAliasRS(String termId) {
+        return submitCartRS(termId);
+    }
+
+    @Override
+    public Response addCourseToCartAliasRS(String termId, String regGroupId, String courseCode, String regGroupCode, String gradingOptionId, String credits) {
+        return addCourseToCartRS(termId, regGroupId, courseCode, regGroupCode, gradingOptionId, credits);
+    }
+
+
+
 }
