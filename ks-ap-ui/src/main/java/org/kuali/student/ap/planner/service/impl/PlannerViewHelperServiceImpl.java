@@ -29,6 +29,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.dataobject.CourseSummaryPopoverDetailsWrapper;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
+import org.kuali.student.ap.planner.form.CourseSummaryForm;
 import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
@@ -94,31 +95,7 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         isVariableCredits = !range.getMax().equals(range.getMin());
         dialogForm.setVariableCredit(isVariableCredits);
 
-        CourseSummaryPopoverDetailsWrapper courseDetails = new CourseSummaryPopoverDetailsWrapper();
-
-        // courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
-        courseDetails.setCourseRequisitesMap(CourseDetailsUtil.getCourseRequisitesMap(course));
-
-        // Load Term information
-        courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
-                .getScheduledTermsForCourse(course));
-        courseDetails.setProjectedTerms(KsapFrameworkServiceLocator.getCourseHelper().getProjectedTermsForCourse(course));
-
-        // Load Last Offered Term information if course is not scheduled
-        if(courseDetails.getScheduledTerms().isEmpty()){
-            Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
-            if (lastOfferedTerm != null){
-                courseDetails.setLastOffered(lastOfferedTerm.getName());
-            }
-            else {
-                // If no last offered is found set as null
-                courseDetails.setLastOffered(null);
-            }
-        }else{
-            courseDetails.setLastOffered(null);
-        }
-
-        dialogForm.setCourseSummaryDetails(courseDetails);
+        dialogForm.setCourseSummaryDetails(getCourseSummaryPopoverDetails(course));
 
         //Find terms that already contain this planned course
         List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
@@ -317,5 +294,60 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         dialogForm.setUniqueId(uniqueId);
 
         return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadCourseSummaryForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.CourseSummaryForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadCourseSummaryForm(UifFormBase submittedForm, CourseSummaryForm dialogForm,
+                                              HttpServletRequest request, HttpServletResponse response){
+
+        String courseId = request.getParameter("courseId");
+
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
+
+        dialogForm.setCourseId(courseId);
+        dialogForm.setCourseCode(course.getCode());
+        dialogForm.setCourseTitle(course.getCourseTitle());
+        dialogForm.setCourseSummaryDetails(getCourseSummaryPopoverDetails(course));
+
+        // Set Credits to display for course
+        String creditString = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course);
+        dialogForm.setCreditsDisplay(creditString);
+
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        dialogForm.setPlannedMessage(KsapFrameworkServiceLocator.getPlanHelper().createPlanningStatusMessages(planItems));
+        dialogForm.setBookmarkMessage(KsapFrameworkServiceLocator.getPlanHelper().createBookmarkStatusMessages(planItems));
+
+        return dialogForm;
+    }
+
+    private CourseSummaryPopoverDetailsWrapper getCourseSummaryPopoverDetails(Course course){
+        CourseSummaryPopoverDetailsWrapper courseDetails = new CourseSummaryPopoverDetailsWrapper();
+
+        // courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
+        courseDetails.setCourseRequisitesMap(CourseDetailsUtil.getCourseRequisitesMap(course));
+
+        // Load Term information
+        courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
+                .getScheduledTermsForCourse(course));
+        courseDetails.setProjectedTerms(KsapFrameworkServiceLocator.getCourseHelper().getProjectedTermsForCourse(course));
+
+        // Load Last Offered Term information if course is not scheduled
+        if(courseDetails.getScheduledTerms().isEmpty()){
+            Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
+            if (lastOfferedTerm != null){
+                courseDetails.setLastOffered(lastOfferedTerm.getName());
+            }
+            else {
+                // If no last offered is found set as null
+                courseDetails.setLastOffered(null);
+            }
+        }else{
+            courseDetails.setLastOffered(null);
+        }
+
+        return courseDetails;
     }
 }

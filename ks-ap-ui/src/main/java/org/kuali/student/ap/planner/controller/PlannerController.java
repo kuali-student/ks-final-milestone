@@ -14,6 +14,7 @@ import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
+import org.kuali.student.ap.planner.form.CourseSummaryForm;
 import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
@@ -74,6 +75,7 @@ public class PlannerController extends KsapControllerBase {
 	private static final String TERMNOTE_DIALOG_FORM = "KSAP-TermNoteDialog-FormView";
     private static final String COURSENOTE_DIALOG_FORM = "KSAP-CourseNoteDialog-FormView";
     private static final String PLANITEMEDIT_DIALOG_FORM = "KSAP-PlanItemEditDialog-FormView";
+    private static final String COURSESUMMARY_DIALOG_FORM = "KSAP-CourseSummary-FormView";
 
 	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
@@ -934,6 +936,40 @@ public class PlannerController extends KsapControllerBase {
 
             UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
                     .loadPlanItemEditForm(form,dialogForm,request,response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
+            return null;
+        }
+
+    }
+
+    /**
+     * Loads the initial information for the course summary dialog screen opened in the planner.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startCourseSummaryDialog")
+    public ModelAndView startCourseSummaryDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                                HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
+
+            CourseSummaryForm dialogForm = new CourseSummaryForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(COURSESUMMARY_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(COURSESUMMARY_DIALOG_FORM));
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadCourseSummaryForm(form,dialogForm,request,response);
 
             return getUIFModelAndView(completedForm);
         }

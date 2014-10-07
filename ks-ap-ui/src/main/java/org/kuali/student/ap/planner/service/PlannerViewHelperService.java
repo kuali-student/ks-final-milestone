@@ -20,6 +20,7 @@ import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
+import org.kuali.student.ap.planner.form.CourseSummaryForm;
 import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.TermNoteForm;
@@ -88,6 +89,19 @@ public interface PlannerViewHelperService extends PlanEventViewHelperService{
 
     public UifFormBase loadCourseNotePlanForm(UifFormBase submittedForm, CourseNoteForm dialogForm,
             HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * Creates and fills in the needed information for displaying a dialog to display the course summary.
+     *
+     * @param submittedForm - Original form submitted
+     * @param dialogForm - Dialog form to build on
+     * @param request - Server request object
+     * @param response - Server response object
+     * @return Filled in form for displaying the Course Note Dialog for Courses
+     */
+
+    public UifFormBase loadCourseSummaryForm(UifFormBase submittedForm, CourseSummaryForm dialogForm,
+                                              HttpServletRequest request, HttpServletResponse response);
 
     /**
      * Helps with adding courses to the student's plan.

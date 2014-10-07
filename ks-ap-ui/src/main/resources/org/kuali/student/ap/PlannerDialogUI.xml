@@ -26,7 +26,6 @@
 		</property>
 		<property name="items">
 			<list>
-				<ref bean="planner_course_summary_page" />
 				<ref bean="planner_copy_course_page" />
 				<ref bean="planner_copy_plan_item_page" />
 				<ref bean="planner_move_plan_item_page" />
@@ -50,32 +49,6 @@
 		</property>
 	</bean>
 
-    <bean id="planner_course_summary_page" parent="planner_course_summary_page-parent"/>
-    <bean id="planner_course_summary_page-parent" abstract="true" parent="KSAP-PopoverPage">
-		<property name="id" value="planner_course_summary_page" />
-		<property name="innerViewWrapperId" value="planner_course_summary_page_inner" />
-		<property name="headerText" value="@{#textHelper.getText('dialog.planner.summary.header')}" />
-	    <property name="items">
-    		<list merge="true">
-				<ref bean="planner_course_summary_link" />
-				<ref bean="planner_course_details_summary_info"/>
-			</list>
-		</property>
-		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="planner_course_summary_link">
-							<property name="linkText" value="@{#textHelper.getText('dialog.planner.summary.link.text')}"/>
-							<property name="title" value="@{#textHelper.getFormattedMessage('dialog.planner.term.edit.header', new Object[]{courseSummaryDetails.code})}}"/>
-                            <property name="additionalCssClasses" value="modal-summary-details-link"/>
-						</bean>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
     <bean id="planner_course_summary_link" parent="planner_course_summary_link-parent"/>
 	<bean id="planner_course_summary_link-parent" abstract="true" parent="Uif-Link" p:target="">
 		<property name="cssClasses">
@@ -84,8 +57,8 @@
 				<value>ks-Popover-bodyLabel</value>
 			</list>
 		</property>
-		<property name="linkText" value="@{course.code} @{course.courseTitle} (@{creditString})"/>
-		<property name="title" value="@{course.code} @{course.courseTitle} (@{creditString})"/>
+		<property name="linkText" value="View more details"/>
+		<property name="title" value="View more details"/>
 		<property name="href" value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseId}"/>
 	</bean>
 
@@ -737,6 +710,30 @@
         </property>
     </bean>
 
+
+    <!-- Define "Course Summary" popover on all pages  -->
+    <bean id="KSAP-CourseSummary-FormView" parent="KSAP-CourseSummary-FormView-parent"/>
+    <bean id="KSAP-CourseSummary-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-CourseSummary-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.CourseSummaryForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage" p:additionalCssClasses="ksap-dialog-centered">
+                <property name="id" value="planner_course_summary_page" />
+                <property name="innerViewWrapperId" value="planner_course_summary_page_inner" />
+                <property name="headerText" value="@{#textHelper.getText('dialog.planner.summary.header')}" />
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="@{courseCode} @{courseTitle} @{#textHelper.getFormattedMessage('dialog.all.add.message', new Object[]{creditsDisplay})}"
+                      p:additionalCssClasses="dialog-add-title"/>
+                <ref bean="planner_course_summary_details_data"/>
+                <ref bean="planner_course_summary_link"/>
+                <ref bean="KSAP-Component-PlanStatusMessages"/>
+            </list>
+        </property>
+    </bean>
 	<!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">
@@ -835,6 +832,45 @@
 			</bean>
 		</property>
 	</bean>
+
+    <bean id="KSAP-Component-PlanStatusMessages" parent="KSAP-Component-PlanStatusMessages-parent"/>
+    <bean id="KSAP-Component-PlanStatusMessages-parent" parent="Uif-HorizontalBoxGroup">
+        <property name="render" value="@{!#empty(bookmarkMessage) or !#empty(plannedMessage)}"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-validationMessages</value>
+                <value>uif-groupValidationMessages</value>
+                <value>uif-pageValidationMessages</value>
+                <value>uif-pageValidationMessages-info</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image"
+                      p:source="../themes/ksboot/images/validation/info.png">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-validationImage</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxGroup" p:id="planStatusMessageHolder">
+                    <property name="items">
+                        <list>
+                            <bean p:id="plannedMessage" parent="Uif-Message">
+                                <property name="render" value="@{!#empty(plannedMessage)}"/>
+                                <property name="messageText" value="@{plannedMessage}"/>
+                            </bean>
+                            <bean p:id="bookmarkMessage" parent="Uif-Message">
+                                <property name="render" value="@{!#empty(bookmarkMessage)}"/>
+                                <property name="messageText" value="@{bookmarkMessage}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <!--  KSAP-1828
     <bean id="planner_course_credit_input_field" parent="planner_course_credit_input_field-parent"/>

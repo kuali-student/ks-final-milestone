@@ -1005,7 +1005,7 @@
     <bean id="planner_menu_course_summary-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="@{#textHelper.getText('planner.menu.summary')}"
           p:title="@{#textHelper.getText('planner.menu.summary')}"
-          p:actionScript="ksapOpenPlanDialog('planner_course_summary_page','planner','startDialog', this, e);"
+          p:actionScript="ksapOpenPlanDialog('planner_course_summary_page','planner','startCourseSummaryDialog', this, e);"
           p:additionalCssClasses="ks-fontello-icon-summary">
     </bean>
 
