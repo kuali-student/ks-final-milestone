@@ -210,8 +210,9 @@
                     <map>
                         <entry key="I">
                             <map>
-                                <entry key="text" value=""/>
-                                <entry key="propertyNames" value-ref="propertiesRequiredForSave"/>
+                                <!-- Using same settings here as for Saved -->
+                                <entry key="text" value="Required for Submit"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForEnroute"/>
                             </map>
                         </entry>
 
@@ -261,9 +262,9 @@
     </bean>
 
     <!-- The propertyName of the InputField goes in these lists. (Unfortunately, util:list doesn't support merging items.)
-         Each of these fields includes the memebers of the previous lists for previous states. -->
+         Each of these fields includes the members of the previous lists for previous states. -->
 
-    <!-- Required properties to change to state 'S'aved -->
+    <!-- Required properties to change to state 'S'aved. This list isn't currently being used. -->
     <bean id="propertiesRequiredForSave" class="org.springframework.beans.factory.config.ListFactoryBean">
         <property name="sourceList">
             <list>
