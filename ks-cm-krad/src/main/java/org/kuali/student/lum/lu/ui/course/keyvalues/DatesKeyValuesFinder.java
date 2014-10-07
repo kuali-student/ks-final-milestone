@@ -42,9 +42,9 @@ import java.util.List;
 /**
  * This is the helper class for CourseView
  *
- * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ * @deprecated Implementations should use the abstract base class {@link org.kuali.student.lum.lu.ui.course.keyvalues.TermOptionsFinder} and it's subclasses. This class will be removed in favor of those in a future release
  */
-
+@Deprecated
 public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
     private transient AtpService atpService;
 
