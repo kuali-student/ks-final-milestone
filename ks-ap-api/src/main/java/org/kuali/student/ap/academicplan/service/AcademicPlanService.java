@@ -194,6 +194,24 @@ public interface AcademicPlanService {
                    PermissionDeniedException;
 
     /**
+     * @param learningPlanId id of learning plan for which items are to be retrieved
+     * @param termId id of the academic term for which items are to be retrieved
+     * @param categories the list of categories (e.g. planned, bookmarked, backup) of items to be retrieved
+     * @param context service call context, including: date-time of call, id of user executing the call
+     * @return a list of plan items for the indicated plan id, term id, and item category
+     * @throws InvalidParameterException a passed in parameter value is invalid
+     * @throws MissingParameterException a passed in parameter value is missing or null
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<PlanItemInfo> getPlanItemsByPlanTermAndCategories(
+            @WebParam(name = "learningPlanId") String learningPlanId,
+            @WebParam(name = "termId") String termId,
+            @WebParam(name = "categories") List<AcademicPlanServiceConstants.ItemCategory> categories,
+            @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
+
+    /**
      * Gets plan items for the indicated reference object id and reference object type
      *
      * @param learningPlanId The id of the plan.
