@@ -38,10 +38,14 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.constants.AtpSearchServiceConstants;
-import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.dto.SortDirection;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.kuali.student.r1.lum.course.service.CourseServiceConstants.COURSE_NAMESPACE_URI;
+import static org.kuali.student.r2.lum.util.constants.CourseServiceConstants.COURSE_NAMESPACE_URI;
 
 /**
  * This class is a Util class designed to hold common course proposal related code that should be shared across multiple classes

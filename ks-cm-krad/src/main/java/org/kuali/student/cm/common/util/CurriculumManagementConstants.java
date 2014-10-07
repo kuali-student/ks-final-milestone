@@ -41,9 +41,13 @@ public class CurriculumManagementConstants {
         public final static String CM_RETIRE_COURSE = "/retireCourse";
 
         public static enum MappingsByProposalType {
-            CREATE_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, COURSE_MAINTENANCE),
-            MODIFY_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_MODIFY_KEY, COURSE_MAINTENANCE),
-            RETIRE_COURSE_MAPPING(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_RETIRE_KEY, CM_RETIRE_COURSE);
+            CREATE_COURSE_MAPPING(DocumentTypeNames.CourseProposal.COURSE_CREATE, COURSE_MAINTENANCE),
+            CREATE_COURSE_ADMIN_MAPPING(DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN, COURSE_MAINTENANCE),
+            MODIFY_COURSE_MAPPING(DocumentTypeNames.CourseProposal.COURSE_MODIFY, COURSE_MAINTENANCE),
+            MODIFY_COURSE_ADMIN_MAPPING(DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN, COURSE_MAINTENANCE),
+            MODIFY_COURSE_ADMIN_NOVERSION_MAPPING(DocumentTypeNames.CourseProposal.COURSE_MODIFY_ADMIN_NOVERSION, COURSE_MAINTENANCE),
+            RETIRE_COURSE_MAPPING(DocumentTypeNames.CourseProposal.COURSE_RETIRE, CM_RETIRE_COURSE),
+            RETIRE_COURSE_ADMIN_MAPPING(DocumentTypeNames.CourseProposal.COURSE_RETIRE_ADMIN, CM_RETIRE_COURSE);
 
             private String proposalTypeKey;
             private String controllerMapping;
@@ -103,7 +107,7 @@ public class CurriculumManagementConstants {
 
     public static class DocumentTypeNames {
 
-        public final static String CM_PARENT_DOCUMENT_TYPE = "kuali.proposal.type.course.create";
+        public final static String CM_PARENT_DOCUMENT_TYPE = "CluParentDocument";
 
         public final static String[] ADMIN_DOC_TYPE_NAMES =
                 {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN, CourseProposal.COURSE_RETIRE_ADMIN};
