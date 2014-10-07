@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
@@ -59,7 +59,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseVariationInfo.variationTitle" parent="CourseVariationInfo.variationTitle-parent"/>
 	<bean id="CourseVariationInfo.variationTitle-parent" abstract="true" parent="CourseVariationInfo.variationTitle-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <property name="maxLength" value="150" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
 	</bean>
 
 	<bean id="CourseVariationInfo.subjectArea" parent="CourseVariationInfo.subjectArea-parent"/>
