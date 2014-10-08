@@ -61,6 +61,8 @@ angular.module('regCartApp')
                             }
                         }
 
+                        shouldStick = shouldStick && elem.is(':visible');
+
                         if (!isStuck && shouldStick) {
                             // Element is not stuck but should be.
                             // console.log('Stick it!', scrollTop, stickyLine);
