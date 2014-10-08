@@ -87,7 +87,8 @@ angular.module('regCartApp')
                 block: true
             },
             seatsOpen: {
-                append: 'available'
+                append: 'available',
+                conflict: true
             }
         },
         /*
