@@ -55,8 +55,8 @@
             </div>
         </div>
         <div class="kscr-Search-details-icons" ng-if="searchResult[icons]" compile="searchResult[icons]"></div>
-        <div class="kscr-Search-mobile-right-indicator" ng-class="{true: 'kscr-Search-mobile-right-indicator--' + (searchResult.colorIndex), false: 'kscr-Search-mobile-right-indicator'}[searchResult.inScheduleIndicator || searchResult.inCartIndicator]">
-            <i class="glyphicon" ng-class="{'glyphicon-calendar': searchResult.inScheduleIndicator, 'glyphicon-shopping-cart': searchResult.inCartIndicator && !searchResult.inScheduleIndicator}"></i>
+        <div ng-if="searchResult.indicatorIcon" class="kscr-Search-mobile-right-indicator--{{searchResult.indicatorType}}">
+            <i class="glyphicon glyphicon-{{searchResult.indicatorIconType}}"></i>
         </div>
     </div>
 </div>

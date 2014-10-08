@@ -481,13 +481,16 @@ angular.module('regCartApp')
                         var scheduleIndicator = ScheduleService.isAoInSchedule(aoTypes[i].formattedOfferings[j].activityOfferingId);
                         if (!angular.isDefined(cartIndicator)) { cartIndicator = {flag: false, colorIndex: null};}
                         if (!angular.isDefined(scheduleIndicator)) { scheduleIndicator = {flag: false, colorIndex: null};}
-                        aoTypes[i].formattedOfferings[j].inCartIndicator = cartIndicator.flag;
-                        aoTypes[i].formattedOfferings[j].inScheduleIndicator = scheduleIndicator.flag;
+                        aoTypes[i].formattedOfferings[j].indicatorIcon = false;
                         if (scheduleIndicator.flag) {
-                            aoTypes[i].formattedOfferings[j].colorIndex = scheduleIndicator.colorIndex;
+                            aoTypes[i].formattedOfferings[j].indicatorType = scheduleIndicator.colorIndex;
+                            aoTypes[i].formattedOfferings[j].indicatorIcon = true;
+                            aoTypes[i].formattedOfferings[j].indicatorIconType = 'calendar';
                         } else {
                             if (cartIndicator.flag) {
-                                aoTypes[i].formattedOfferings[j].colorIndex = cartIndicator.colorIndex;
+                                aoTypes[i].formattedOfferings[j].indicatorType = cartIndicator.colorIndex;
+                                aoTypes[i].formattedOfferings[j].indicatorIcon = true;
+                                aoTypes[i].formattedOfferings[j].indicatorIconType = 'shopping-cart';
                             }
                         }
                     }

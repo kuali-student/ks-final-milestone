@@ -42,9 +42,8 @@
                        'kscr-Search-row--selected' : searchResult.flags.selected,
                        'kscr-Search-row--bottom' : last && $last}"
             ng-hide="searchResult.flags.hidden" ng-click="emitEvent(onClick, searchResult)">
-            <!-- in cart/schedule indicator -->
-            <td class="kscr-Search-results-indicator" ng-class="{true: 'kscr-Search-results-indicator--' + (searchResult.colorIndex), false: 'kscr-Search-results-indicator'}[searchResult.inScheduleIndicator || searchResult.inCartIndicator]">
-                <i class="glyphicon" ng-class="{'glyphicon-calendar': searchResult.inScheduleIndicator, 'glyphicon-shopping-cart': searchResult.inCartIndicator && !searchResult.inScheduleIndicator}"></i>
+            <td ng-class="{true: 'kscr-Search-results-indicator--' + (searchResult.indicatorType), false: 'kscr-Search-results-indicator'}[searchResult.indicatorIcon]">
+                <i ng-if="searchResult.indicatorIcon" class="glyphicon glyphicon-{{searchResult.indicatorIconType}}"></i>
             </td>
             <td ng-repeat="searchColumn in searchColumns" class="kscr-Search-results-cell kscr-courseSearch-results-cell--{{searchColumn.name}}"
                 ng-hide="searchColumn.optional && !hasData('{{searchColumn.field}}')"
