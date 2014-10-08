@@ -18,7 +18,6 @@
        ng-class="{'kscr-Search-no-results-table' : searchResults.length == 0}" ng-hide="searchResults.length == 0">
     <thead class="kscr-Search-results-table-head">
         <tr>
-            <!-- in cart/schedule indicator -->
             <th class="kscr-Search-results-indicator-header" ng-class="{'kscr-Search-results-indicator-header--selected': predicate === '{{searchColumns[0].field}}'}"></th>
             <th class="kscr-Search-results-header kscr-Search-results-column-{{searchColumn.name | cleanse}}" ng-repeat="searchColumn in searchColumns"
                 ng-class="{'kscr-Search-results--selected': $parent.predicate === '{{searchColumn.field}}',

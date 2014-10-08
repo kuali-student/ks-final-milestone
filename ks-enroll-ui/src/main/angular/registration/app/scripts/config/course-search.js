@@ -26,7 +26,8 @@ angular.module('regCartApp')
          *      selected: boolean indicating whether the tab is selected by default. Only one should be set to true.
          *      name: the name of the tab to be displayed to the user
          *      fields: an array of fields that will be shown if the tab is selected
-         *
+         *      highlightConflict: adds an indicator to the tab if a field is highlighted
+         *      indicatorConflict: adds a tab indicator if there is a field indicator
          */
         tabs: [
             {
@@ -34,28 +35,26 @@ angular.module('regCartApp')
                 selected: true,
                 name: 'Time',
                 fields: ['dateTime'],
-                conflict: false
+                highlightConflict: true
             },
             {
                 id: 'instr',
                 selected: false,
                 name: 'Instr',
-                fields: ['instructor'],
-                conflict: false
+                fields: ['instructor']
             },
             {
                 id: 'loc',
                 selected: false,
                 name: 'Loc',
-                fields: ['location'],
-                conflict: false
+                fields: ['location']
             },
             {
                 id: 'seats',
                 selected: false,
                 name: 'Seats',
                 fields: ['seatsOpen'],
-                conflict: false
+                indicatorConflict: true
             }
         ],
         // selectedTab defines which tab is selected by default (by id).

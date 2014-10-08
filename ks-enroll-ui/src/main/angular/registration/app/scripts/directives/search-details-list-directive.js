@@ -37,25 +37,15 @@ angular.module('regCartApp')
                 // turn off ng-repeat animations for better performance
                 $animate.enabled(false, angular.element(document.querySelector('.kscr-Search-details-grid')));
 
-                function findTabIndexById (tabId) {
-                    for (var i=0; i<detailsConfig.tabs.length; i++){
-                        if (detailsConfig.tabs[i].id === tabId) {
-                            return i;
-                        }
-                    }
-                }
-
                 // initialize the tabs
                 for (var i=0; i<scope.sections.length; i++) {
                     scope.sections[i].tabs = angular.copy(detailsConfig.tabs);
-                    var timeIndex = findTabIndexById('time');
-                    var seatsIndex = findTabIndexById('seats');
                     for (var j=0; j<scope.sections[i].details.length; j++) {
                         if (scope.sections[i].details[j].indicator) {
-                            scope.sections[i].tabs[seatsIndex].conflict = true;
+                            setIndicatorConflicts(scope.sections[i].tabs);
                         }
                         if (scope.sections[i].details[j].flags.highlight) {
-                            scope.sections[i].tabs[timeIndex].conflict = true;
+                            setHighlightConflicts(scope.sections[i].tabs);
                         }
                     }
                     scope.sections[i].tab = angular.copy(detailsConfig.selectedTab);
@@ -95,15 +85,42 @@ angular.module('regCartApp')
                     // update the time tab
                     for (var i=0; i<scope.sections.length; i++) {
                         var tabIndex = findTabIndexById(tabId);
-                        for (var j=0; j<scope.sections[i].details.length; j++) {
-                            if (scope.sections[i].details[j].flags.highlight) {
-                                scope.sections[i].tabs[tabIndex].conflict = true;
-                                // No need to loop further. If one AO has time conflict, indicator should appear
-                                break;
+                        if (tabIndex > -1) {
+                            for (var j=0; j<scope.sections[i].details.length; j++) {
+                                if (scope.sections[i].details[j].flags.highlight) {
+                                    scope.sections[i].tabs[tabIndex].conflict = true;
+                                    // No need to loop further. If one AO has time conflict, indicator should appear
+                                    break;
+                                }
                             }
                         }
                     }
                 });
+
+                function findTabIndexById (tabId) {
+                    for (var i=0; i<detailsConfig.tabs.length; i++){
+                        if (detailsConfig.tabs[i].id === tabId) {
+                            return i;
+                        }
+                    }
+                    return -1; // not found
+                }
+
+                function setIndicatorConflicts(tabs) {
+                    for (var i=0; i<tabs.length; i++) {
+                        if (tabs[i].indicatorConflict) {
+                            tabs[i].conflict = true;
+                        }
+                    }
+                }
+
+                function setHighlightConflicts(tabs) {
+                    for (var i=0; i<tabs.length; i++) {
+                        if (tabs[i].highlightConflict) {
+                            tabs[i].conflict = true;
+                        }
+                    }
+                }
             }
         };
     }])
