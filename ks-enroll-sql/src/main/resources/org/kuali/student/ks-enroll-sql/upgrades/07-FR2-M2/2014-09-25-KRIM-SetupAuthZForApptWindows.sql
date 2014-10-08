@@ -13,7 +13,7 @@ values ('KS-KRIM-PERM-ATTR-DATA-4007', 'registrationWindowsManagementView', '47'
 
 --Create the new role
 insert into KRIM_ROLE_T (ACTV_IND, DESC_TXT, KIM_TYP_ID, LAST_UPDT_DT, NMSPC_CD, OBJ_ID, ROLE_ID, ROLE_NM, VER_NBR)
-values ('Y', 'KS Administrator with global abilities Appointment Windows Permission', 1, SYSDATE, 'KS-ENR', '0d71c654-667f-4c3c-b9e0-af52b5e4d08f', 'KS-10008', 'Appointment Windows Personnel Role', 1)
+values ('Y', 'KS ENR - Registration Appointment Windows', 1, SYSDATE, 'KS-ENR', '0d71c654-667f-4c3c-b9e0-af52b5e4d08f', 'KS-10008', 'Appointment Windows Personnel Role', 1)
 /
 
 
