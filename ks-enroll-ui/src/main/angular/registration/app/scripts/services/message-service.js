@@ -40,14 +40,11 @@ angular.module('regCartApp')
 
             this.getMessages()
                 .then(function(messages) {
-                    for (var i = 0; i < messages.length; i++) {
-                        if (messages[i].messageKey === messageKey) {
-                            deferred.resolve(messages[i].message);
-                            return;
-                        }
+                    if (angular.isDefined(messages[messageKey])) {
+                        deferred.resolve(messages[messageKey]);
+                    } else {
+                        deferred.reject('message not found: ' + messageKey);
                     }
-
-                    deferred.reject('message not found: ' + messageKey);
                 }, function(error) {
                     deferred.reject('message not found: ' + messageKey + ' - ' + error);
                 });
@@ -56,6 +53,6 @@ angular.module('regCartApp')
         };
 
         this.loadMessages = function() {
-            return Messages.query().$promise;
+            return Messages.get().$promise;
         };
     }]);

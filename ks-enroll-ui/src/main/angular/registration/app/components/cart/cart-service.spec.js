@@ -55,7 +55,7 @@ describe('Service: CartService', function () {
                 courseCode = 'chem232',
                 regGroupCode = '1001';
 
-            $httpBackend.expectPUT(APP_URL + 'CourseRegistrationCartClientService/cart/items')
+            $httpBackend.expectPOST(APP_URL + 'CourseRegistrationCartClientService/cart/items')
                 .respond(200, {
                     cartItemId:'81fd8bbd-7382-42fb-a3cb-52feed4e5fbc',
                     courseCode:'chem232',

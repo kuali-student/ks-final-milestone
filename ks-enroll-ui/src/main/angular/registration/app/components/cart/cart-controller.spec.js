@@ -6,19 +6,16 @@ describe('Controller: CartCtrl', function () {
     beforeEach(module('regCartApp'));
 
     var CartCtrl,
-        scope,
-        $httpBackend;
+        scope;
 
 
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, _$httpBackend_) {
+    beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         CartCtrl = $controller('CartCtrl', {
             $scope: scope
         });
-
-        $httpBackend = _$httpBackend_;
     }));
 
 
@@ -53,7 +50,6 @@ describe('Controller: CartCtrl', function () {
 
         scope.removeUserMessage();
 
-        expect(scope.userMessage.txt).toBeNull();
-        expect(scope.userMessage.linkText).toBeNull();
+        expect(scope.userMessage).toBeNull();
     });
 });

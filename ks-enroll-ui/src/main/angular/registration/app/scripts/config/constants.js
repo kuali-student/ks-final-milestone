@@ -29,6 +29,11 @@ angular.module('regCartApp')
         };
 
         return {
+            addToCart: {
+                error: 'kuali.cr.cart.state.error',
+                success: 'kuali.cr.cart.state.success'
+            },
+
             // DTO states (generic but used for CLUs/COs)
             dto: {
                 draft: 'Draft',
@@ -121,6 +126,7 @@ angular.module('regCartApp')
 
     // Validation error type identifiers that get returned from the server
     .constant('VALIDATION_ERROR_TYPE', {
+        creditOrGradingOptionsMissing: 'kuali.cr.cart.message.options.missing', // Credit or Grading options not set for Add to Cart
         maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
         timeConflict: 'kuali.lpr.trans.message.time.conflict',
         regGroupNotOffered: 'kuali.lpr.trans.message.reggroup.notoffered',

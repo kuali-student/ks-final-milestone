@@ -13,7 +13,17 @@ angular.module('regCartApp').factory('Cart', ['$resource', 'APP_URL', 'URLS', fu
 // Cart Item REST Resource Factory
 angular.module('regCartApp').factory('CartItem', ['$resource', 'APP_URL', 'URLS', function($resource, APP_URL, URLS) {
     return $resource(APP_URL + URLS.courseRegistrationCart + '/cart/items', {}, {
-        put: {
+        addList: {
+            method: 'POST',
+            url: APP_URL + URLS.courseRegistrationCart + '/cart/items/list',
+            isArray: true, // We're expecting an array back
+            transformRequest: function(data, getHeaders) { // This should go across as JSON
+                var headers = getHeaders();
+                headers['Content-Type'] = 'application/json';
+                return angular.toJson(data);
+            }
+        },
+        update: {
             method: 'PUT'
         }
     });
@@ -110,7 +120,7 @@ angular.module('regCartApp')
             // Server API Methods
 
             this.clearCart = function(termId) {
-                return CartItem.delete({
+                return Cart.delete({
                     termId: termId
                 }).$promise;
             };
@@ -136,7 +146,7 @@ angular.module('regCartApp')
                     course.courseCode = course.courseCode.toUpperCase();
                 }
 
-                return CartItem.put({
+                return CartItem.save({
                     termId: termId,
                     courseCode: course.courseCode || null,
                     regGroupCode: course.regGroupCode || null,
@@ -144,6 +154,23 @@ angular.module('regCartApp')
                     gradingOptionId: course.gradingOptionId || null,
                     credits: course.credits || null
                 }).$promise;
+            };
+
+            this.addCoursesToCart = function(termId, courses) {
+                var list = [];
+                for (var i = 0; i < courses.length; i++) {
+                    var course = courses[i];
+                    list.push({
+                        termId: termId,
+                        courseCode: course.courseCode || null,
+                        regGroupCode: course.regGroupCode || null,
+                        regGroupId: course.regGroupId || null,
+                        gradingOptionId: course.gradingOptionId || null,
+                        credits: course.credits || null
+                    });
+                }
+
+                return CartItem.addList(list).$promise;
             };
 
             this.removeItemFromCart = function(termId, item) {
@@ -154,7 +181,7 @@ angular.module('regCartApp')
             };
 
             this.updateCartItem = function(termId, item) {
-                return CartItem.save({
+                return CartItem.update({
                     termId: termId,
                     cartItemId: item.cartItemId,
                     credits: item.credits,

@@ -50,15 +50,11 @@ angular.module('regCartApp')
                 lastSearch = angular.copy(params);
                 lastSearch.timestamp = timestamp; // Store the current timestamp (in seconds) on the lastSearch
 
-                CourseDetails.query(params).$promise
+                return CourseDetails.query(params).$promise
                     .then(function(results) {
                         // Cache the search results
                         lastSearch.results = results;
                         searches.push(lastSearch);
-
-                        deferred.resolve(results);
-                    }, function(error) {
-                        deferred.reject(error);
                     });
             } else {
                 console.log('- Returning Cached Results (valid for ' + (searchCacheTTL - (timestamp - lastSearch.timestamp)) + 's) ');

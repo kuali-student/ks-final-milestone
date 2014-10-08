@@ -30,4 +30,30 @@ public class CourseRegistrationCartClientServiceConstants {
             return action;
         }
     }
+
+    public interface AddToCartStates {
+        final String ERROR = "kuali.cr.cart.add.state.error";
+        final String SUCCESS = "kuali.cr.cart.add.state.success";
+    }
+
+    public interface CartMessages {
+        // Course Code / Section (RegGroupCode) Missing
+        final String COURSE_CODE_REQUIRED = "kuali.cr.cart.message.course.code.required";
+        final String REG_GROUP_CODE_REQUIRED = "kuali.cr.cart.message.section.required";
+        final String COURSE_CODE_AND_SECTION_REQUIRED = "kuali.cr.cart.message.course.code.and.section.required";
+
+        // Couldn't find Cart / Course
+        final String CART_DOES_NOT_EXIST = "kuali.cr.cart.message.cart.does.not.exist";
+        final String COURSE_DOES_NOT_EXIST = "kuali.cr.cart.message.course.does.not.exist";
+
+        // Required Reg options missing / invalid
+        final String CREDIT_OR_GRADING_OPTIONS_MISSING = "kuali.cr.cart.message.options.missing";
+        final String CREDIT_OPTION_INVALID = "kuali.cr.cart.message.credits.invalid";
+        final String GRADING_OPTION_INVALID = "kuali.cr.cart.message.grading.invalid";
+
+        // Reg Group State != Offered
+        final String REG_GROUP_NOT_OFFERED = "kuali.cr.cart.message.reg.group.not.offered";
+
+        final String ADD_TO_CART_UNKNOWN_EXCEPTION = "kuali.cr.cart.message.add.failed.unknown";
+    }
 }

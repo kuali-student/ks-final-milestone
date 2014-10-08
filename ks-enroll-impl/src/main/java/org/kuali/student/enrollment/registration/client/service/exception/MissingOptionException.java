@@ -11,13 +11,13 @@ import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
  * To change this template use File | Settings | File Templates.
  */
 public class MissingOptionException extends Exception{
-    private CartItemResult cartItemOptions;
+    private String messageKey;
 
-    public MissingOptionException(CartItemResult cartItemOptions) {
-        this.cartItemOptions = cartItemOptions;
+    public MissingOptionException(String messageKey) {
+        this.messageKey = messageKey;
     }
 
-    public CartItemResult getCartItemOptions() {
-        return cartItemOptions;
+    public String getMessageKey() {
+        return messageKey;
     }
 }

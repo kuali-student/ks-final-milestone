@@ -217,9 +217,6 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Return just the item
         return cartItemResult;
-
-
-
     }
 
     protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
@@ -249,7 +246,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return bRet;
     }
 
-    protected static String getSingleCreditValue(ResultValueGroupCourseOptions rvgCourseOptions) throws OperationFailedException {
+    protected static String getSingleCreditValue(ResultValueGroupCourseOptions rvgCourseOptions) {
         String sRet = null;
         if(rvgCourseOptions.getCreditOptions().size() == 1){
             sRet = rvgCourseOptions.getCreditOptions().values().iterator().next();
@@ -257,7 +254,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return sRet;
     }
 
-    protected static String getSingleGradingOptionsValue(ResultValueGroupCourseOptions rvgCourseOptions) throws OperationFailedException {
+    protected static String getSingleGradingOptionsValue(ResultValueGroupCourseOptions rvgCourseOptions) {
         String sRet = null;
         if(rvgCourseOptions.getGradingOptions().size() == 1){
             sRet = rvgCourseOptions.getGradingOptions().keySet().iterator().next();
@@ -318,7 +315,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         throw new DoesNotExistException("No matching cart item was found.");
     }
 
-    public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+    public CartResult searchForCart(ContextInfo contextInfo, String termId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         if (termId == null) {
             throw new InvalidParameterException("Term Id cannot be null.");
         }
@@ -370,10 +367,13 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         return null;
     }
 
-    protected Link buildDeleteLink(String cartItemId, String gradingOptionId, String credits) {
+    protected Link buildDeleteLink(CartItemResult cartItemResult) {
         String action = CourseRegistrationCartClientServiceConstants.ACTION_LINKS.REMOVE_ITEM_FROM_CART.getAction();
-        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/" + action + "?cartItemId=%s&gradingOptionId=%s&credits=%s";
-        String uri = String.format(uriFormat, cartItemId, gradingOptionId, credits);
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART +
+                "/%s?cartItemId=%s&gradingOptionId=%s&credits=%s";
+
+        String uri = String.format(uriFormat, action,
+                cartItemResult.getCartItemId(), cartItemResult.getGrading(), cartItemResult.getCredits());
 
         return new Link(action, uri);
     }
@@ -468,10 +468,10 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
                 currentCartItem.setRegGroupId(rgId);
-                currentCartItem.getActionLinks().add(buildDeleteLink(cartItemId, grading, creditsStr));
                 currentCartItem.setState(cartItemState);
                 currentCartItem.setCartId(cartId);
                 currentCartItem.setTermId(termId);
+                currentCartItem.getActionLinks().add(buildDeleteLink(currentCartItem));
                 cartResult.getItems().add(currentCartItem);
                 //Reset the lastAO Name
                 lastAoName = "";

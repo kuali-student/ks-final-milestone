@@ -124,4 +124,32 @@ describe('Filters: CR-Util-Filters -', function() {
             }
         });
     });
+
+
+    describe('HumanizeRegGroupState', function() {
+        var STATE;
+
+        // instantiate the filter
+        beforeEach(inject(function(humanizeRegGroupStateFilter, _STATE_) {
+            filter = humanizeRegGroupStateFilter;
+            STATE = _STATE_;
+        }));
+
+        it('should humanize the states', function() {
+            // Base Cases - Various data types
+            expect(filter()).toBe('not offered');
+            expect(filter(null)).toBe('not offered');
+            expect(filter(false)).toBe('not offered');
+            expect(filter('abcdef')).toBe('not offered');
+            expect(filter([])).toBe('not offered');
+            expect(filter({})).toBe('not offered');
+            expect(filter(STATE.lui)).toBe('not offered');
+
+            expect(filter(STATE.lui.canceled)).toBe('cancelled');
+            expect(filter(STATE.lui.invalid)).toBe('does not exist');
+            expect(filter(STATE.lui.offered)).toBe('offered');
+            expect(filter(STATE.lui.pending)).toBe('not offered');
+            expect(filter(STATE.lui.suspended)).toBe('suspended');
+        });
+    });
 });

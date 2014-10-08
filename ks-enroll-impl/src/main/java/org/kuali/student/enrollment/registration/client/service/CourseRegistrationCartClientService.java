@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
+import org.kuali.student.enrollment.registration.client.service.dto.AddCourseToCartRequestInfo;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -11,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Services for Registration Cart Operations
@@ -28,6 +31,18 @@ public interface CourseRegistrationCartClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/cart")
     public Response searchForCartRS(@QueryParam("termId") String termId);
+
+    /**
+     * Find cart if it exists and delete all items from cart.
+     *
+     * @param termId   - optional, but more efficient to use
+     * @param termCode  - optional, but human readable. 201208
+     * @return
+     */
+    @DELETE
+    @Path("/cart")
+    public Response clearCartRS(@QueryParam("termId") String termId,
+                                @QueryParam("termCode") String termCode);
 
     /**
      * The REST version of submitCart
@@ -52,7 +67,7 @@ public interface CourseRegistrationCartClientService {
      * @param credits         The numeric string value of credit student registration option. Must convert to KualiDecimal.
      * @return Response containing the cart item that was updated or a server error response.
      */
-    @PUT
+    @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Path("/cart/items")
@@ -62,18 +77,6 @@ public interface CourseRegistrationCartClientService {
                                       @FormParam("regGroupCode") String regGroupCode,
                                       @FormParam("gradingOptionId") String gradingOptionId,
                                       @FormParam("credits") String credits);
-
-    /**
-     * Find cart if it exists and delete all items from cart.
-     *
-     * @param termId   - optional, but more efficient to use
-     * @param termCode  - optional, but human readable. 201208
-     * @return
-     */
-    @DELETE
-    @Path("/cart/items")
-    public Response clearCartRS(@QueryParam("termId") String termId,
-                                @QueryParam("termCode") String termCode);
 
     /**
      * The REST version of removeItemFromCart
@@ -96,7 +99,7 @@ public interface CourseRegistrationCartClientService {
      * @param gradingOptionId    the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
      * @return Response containing the cart item that was updated or a server error response.
      */
-    @POST
+    @PUT
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Path("/cart/items")
@@ -104,6 +107,20 @@ public interface CourseRegistrationCartClientService {
                                      @FormParam("cartItemId") String cartItemId,
                                      @FormParam("credits") String credits,
                                      @FormParam("gradingOptionId") String gradingOptionId);
+
+    /**
+     * Adds a list of courses to the cart for the given user and term.
+     *
+     * @param termId term for the cart
+     * @param cartItems List of AddCourseToCartRequestInfo to be added
+     * @return Response containing a list of the cart items that were updated or a server error response.
+     */
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("/cart/items/list")
+    public Response addCoursesToCartRS(@QueryParam("termId") String termId,
+                                       List<AddCourseToCartRequestInfo> cartItems);
 
     /**
      * The REST version of undoDeleteCourse

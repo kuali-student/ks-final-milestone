@@ -13,7 +13,7 @@ angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector
         attempted = true;
 
         var LoginService = $injector.get('LoginService');
-        LoginService.login('student1', '')
+        LoginService.login('b.nanal', '')
             .then(function () {
                 // After logging in, reload the page.
                 console.log('Logged in, reloading page.');

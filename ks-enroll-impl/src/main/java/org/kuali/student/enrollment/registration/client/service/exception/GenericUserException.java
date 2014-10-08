@@ -12,6 +12,11 @@ public class GenericUserException extends Exception {
         this.userMessage = userMessage;
     }
 
+    public GenericUserException(UserMessageResult userMessage, Throwable cause) {
+        super(cause);
+        this.userMessage = userMessage;
+    }
+
     public UserMessageResult getUserMessage() {
         return userMessage;
     }

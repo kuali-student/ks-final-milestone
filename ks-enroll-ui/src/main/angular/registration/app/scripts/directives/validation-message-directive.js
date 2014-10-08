@@ -25,18 +25,7 @@ angular.module('regCartApp')
             controller: ['$scope', '$q', 'VALIDATION_ERROR_TYPE', 'GENERAL_ERROR_TYPE', 'STATE', 'MessageService', 'TermsService',
             function($scope, $q, VALIDATION_ERROR_TYPE, GENERAL_ERROR_TYPE, STATE, MessageService, TermsService) {
 
-                // Make the data object available at the root level to the formatted messages
-                if (angular.isObject($scope.data)) {
-                    angular.extend($scope, $scope.data);
-                }
-
                 $scope.states = STATE;
-
-                var selectedTerm = TermsService.getSelectedTerm();
-                if (selectedTerm) {
-                    $scope.termName = TermsService.getSelectedTerm().termName;
-                }
-
 
                 /**
                  * In this method we take a course & validation message object and return a formatted
@@ -55,23 +44,15 @@ angular.module('regCartApp')
                         if (angular.isString(data)) {
                             // Backwards compatibility, allow a straight string to go through
                             message = data;
-                        } else if (data.txt) {
-                            message = data.txt;
                         } else if (data.messageKey) {
                             // We need to load config the message from the MessageService
                             MessageService.getMessage(data.messageKey)
                                 .then(function(msg) {
                                     // Validation message w/ messageKey value
                                     switch (data.messageKey) {
-
                                         case VALIDATION_ERROR_TYPE.timeConflict:
                                             msg = formatTimeConflict(msg, data, course);
                                             break;
-
-                                        case GENERAL_ERROR_TYPE.noRegGroup:
-                                            msg = parseMessage(data.txt, data.course);
-                                            break;
-
                                     }
 
                                     message = parseMessage(msg, course);
@@ -80,6 +61,8 @@ angular.module('regCartApp')
 
                             // Return out to give the MessageService time to load the messages
                             return deferred.promise;
+                        } else if (data.txt) {
+                            message = data.txt;
                         }
                     }
 
@@ -176,56 +159,66 @@ angular.module('regCartApp')
                  * @returns parsed message
                  */
                 function parseMessage(message, course) {
-                    // Create a copy of the data object so we don't mess with any base data
-                    if (!$scope.courseCode) {
-                        // Try to pull out the courseCode && regGroupCode and provide them as a standard parameters for the messages
-                        if (angular.isString(course)) { // Allow a straight string to come through
-                            $scope.courseCode = course;
-                        } else if (angular.isObject(course)) { // Course object
-                            if (angular.isDefined(course.courseCode)) {
-                                $scope.courseCode = course.courseCode;
-                            }
-                        }
-                    }
 
-                    if (!$scope.cluCode) {
-                        // Remove the suffix from the course code (if any)
-                        if (angular.isString($scope.courseCode)) {
-                            $scope.cluCode = $scope.courseCode.replace(/\D+$/, '');
-                        }
-                    }
-
-                    if (!$scope.regGroupCode) {
-                        if (angular.isObject(course) && angular.isDefined(course.regGroupCode)) {
-                            $scope.regGroupCode = course.regGroupCode;
-                        }
-                    }
-
-
+                    exposeDataToScope(course);
 
                     // Wrap any instance of the course code with <strong></strong>
-                    var checks = [
-                        '{{courseCode}} ({{regGroupCode}})',
-                        '{{courseCode}} {{regGroupCode}}',
-                        '{{courseCode}}',
-                        '({{regGroupCode}})',
-                        '{{regGroupCode}}',
-                        '{{cluCode}}'
-                    ];
+                    if (angular.isString(message)) {
+                        var checks = [
+                            '{{courseCode}} ({{regGroupCode}})',
+                            '{{courseCode}} {{regGroupCode}}',
+                            '{{courseCode}}',
+                            '({{regGroupCode}})',
+                            '{{regGroupCode}}',
+                            '{{cluCode}}'
+                        ];
 
-                    for (var i = 0; i < checks.length; i++) {
-                        var check = checks[i];
-                        if (message.indexOf(check) !== -1) {
-                            var target = '<strong>' + check + '</strong>';
-                            if (message.indexOf(target) === -1) { // Don't rebold something that's already bolded
-                                message = message.replace(check, target, 'g'); // 'g' to do a global match
+                        for (var i = 0; i < checks.length; i++) {
+                            var check = checks[i];
+                            if (message.indexOf(check) !== -1) {
+                                var target = '<strong>' + check + '</strong>';
+                                if (message.indexOf(target) === -1) { // Don't rebold something that's already bolded
+                                    message = message.replace(check, target, 'g'); // 'g' to do a global match
+                                }
+
+                                break;
                             }
-
-                            break;
                         }
                     }
 
                     return message;
+                }
+
+                function exposeDataToScope(course) {
+                    // Make the data object available at the root level to the formatted messages
+                    if (angular.isObject($scope.data)) {
+                        angular.extend($scope, $scope.data);
+                    }
+
+                    var selectedTerm = TermsService.getSelectedTerm();
+                    if (selectedTerm) {
+                        $scope.termName = TermsService.getSelectedTerm().termName;
+                    }
+
+
+                    // Create a copy of the data object so we don't mess with any base data
+                    // Try to pull out the courseCode && regGroupCode and provide them as a standard parameters for the messages
+                    if (angular.isString(course)) { // Allow a straight string to come through
+                        $scope.courseCode = course;
+                    } else if (angular.isObject(course)) { // Course object
+                        if (angular.isDefined(course.courseCode)) {
+                            $scope.courseCode = course.courseCode;
+                        }
+                    }
+
+                    // Remove the suffix from the course code (if any)
+                    if (angular.isString($scope.courseCode)) {
+                        $scope.cluCode = $scope.courseCode.replace(/\D+$/, '');
+                    }
+
+                    if (angular.isObject(course) && angular.isDefined(course.regGroupCode)) {
+                        $scope.regGroupCode = course.regGroupCode;
+                    }
                 }
 
             }],

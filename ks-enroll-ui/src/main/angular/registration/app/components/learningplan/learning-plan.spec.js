@@ -308,12 +308,12 @@ describe('Controller: LearningPlanCtrl', function() {
         it('should fire the addCourseToCart event for each actionable item', function() {
             loadLearningPlan();
 
-            var spy = jasmine.createSpy('addCourseToCart');
-            scope.$on('addCourseToCart', spy);
+            var spy = jasmine.createSpy('addCoursesToCart');
+            scope.$on('addCoursesToCart', spy);
 
             scope.addAllToCart();
             expect(spy).toHaveBeenCalled();
-            expect(spy.callCount).toBe(2);
+            expect(spy.callCount).toBe(1);
         });
     });
 

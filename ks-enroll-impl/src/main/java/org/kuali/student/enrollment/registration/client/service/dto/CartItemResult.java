@@ -67,7 +67,7 @@ public class CartItemResult {
 
     public List<String> getCreditOptions() {
         if(creditOptions == null){
-            creditOptions = new ArrayList<String>();
+            creditOptions = new ArrayList<>();
         }
         return creditOptions;
     }
@@ -76,7 +76,7 @@ public class CartItemResult {
 
     public Map<String, String> getGradingOptions() {
         if(gradingOptions == null){
-            gradingOptions = new HashMap<String, String>();
+            gradingOptions = new HashMap<>();
         }
         return gradingOptions;
     }
@@ -85,7 +85,7 @@ public class CartItemResult {
 
     public List<ActivityOfferingScheduleResult> getSchedule() {
         if(schedule == null){
-            schedule = new ArrayList<ActivityOfferingScheduleResult>();
+            schedule = new ArrayList<>();
         }
         return schedule;
     }
@@ -102,7 +102,7 @@ public class CartItemResult {
 
     public List<Link> getActionLinks() {
         if(actionLinks == null){
-            actionLinks = new ArrayList<Link>();
+            actionLinks = new ArrayList<>();
         }
         return actionLinks;
     }

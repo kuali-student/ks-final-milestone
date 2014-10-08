@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
@@ -98,14 +99,6 @@ import java.util.Map;
 public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationAndScheduleOfClassesUtil.class);
-
-    /*
-    Message keys
-     */
-    private static final String COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.and.section.required";
-    private static final String COURSE_CODE_NOT_FOUND_MESSAGE_KEY = "kuali.cr.cart.message.course.code.not.found";
-    private static final String COURSE_CODE_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.course.code.required";
-    private static final String SECTION_REQUIRED_MESSAGE_KEY = "kuali.cr.cart.message.section.required";
 
     private static SearchService searchService;
     private static LprService lprService;
@@ -376,7 +369,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, CourseDoesNotExistException {
         RegGroupSearchResult rg;
 
         if (!StringUtils.isEmpty(regGroupId)) {
@@ -384,13 +377,13 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         } else {
             if (courseCode == null || courseCode.isEmpty()) {
                 if (regGroupCode == null || regGroupCode.isEmpty()) {
-                    throw new CourseDoesNotExistException(COURSE_CODE_AND_SECTION_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
+                    throw new CourseDoesNotExistException(CourseRegistrationCartClientServiceConstants.CartMessages.COURSE_CODE_AND_SECTION_REQUIRED, "Course Code cannot be empty");
                 } else {
-                    throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
+                    throw new CourseDoesNotExistException(CourseRegistrationCartClientServiceConstants.CartMessages.COURSE_CODE_REQUIRED, "Course Code cannot be empty");
                 }
             }
             if (regGroupCode == null || regGroupCode.isEmpty()) {
-                throw new CourseDoesNotExistException(SECTION_REQUIRED_MESSAGE_KEY, courseCode, "Section cannot be empty");
+                throw new CourseDoesNotExistException(CourseRegistrationCartClientServiceConstants.CartMessages.REG_GROUP_CODE_REQUIRED, courseCode, "Section cannot be empty");
             }
             // get the registration group
             rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode, contextInfo);
@@ -401,9 +394,9 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
                 String technicalInfo = String.format("getRegGroup. Cannot find Course. Technical Info:(termId:[%s] termCode:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s])",
                         termId, termCode, courseCode, regGroupCode, regGroupId);
                 LOGGER.warn(technicalInfo);
-                throw new CourseDoesNotExistException(COURSE_CODE_NOT_FOUND_MESSAGE_KEY, courseCode, "Cannot find the course " + courseCode + " in the selected term");
+                throw new CourseDoesNotExistException(CourseRegistrationCartClientServiceConstants.CartMessages.COURSE_DOES_NOT_EXIST, courseCode, "Cannot find the course " + courseCode + " in the selected term");
             } else {
-                throw new CourseDoesNotExistException(COURSE_CODE_REQUIRED_MESSAGE_KEY, "Course Code cannot be empty");
+                throw new CourseDoesNotExistException(CourseRegistrationCartClientServiceConstants.CartMessages.COURSE_CODE_REQUIRED, "Course Code cannot be empty");
             }
         }
 

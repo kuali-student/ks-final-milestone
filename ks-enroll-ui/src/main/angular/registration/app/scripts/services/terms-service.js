@@ -11,7 +11,7 @@ angular.module('regCartApp').factory('Term', ['$resource', 'APP_URL', 'URLS', fu
 }]);
 
 angular.module('regCartApp')
-    .service('TermsService', ['$q', 'Term', 'URLS', 'DEFAULT_TERM', function TermsService($q, Term, URLS, DEFAULT_TERM) {
+    .service('TermsService', ['$q', 'Term', 'DEFAULT_TERM', function TermsService($q, Term, DEFAULT_TERM) {
 
         var selectedTerm = null;
 
@@ -68,13 +68,10 @@ angular.module('regCartApp')
             if (terms !== null) {
                 deferred.resolve(terms);
             } else {
-                this.getTermsFromServer().then(function(result) {
+                return this.getTermsFromServer().then(function(result) {
                     // Cache the terms
                     terms = result;
-                    deferred.resolve(result);
-                }, function(error) {
-                    // Report out the error
-                    deferred.reject(error);
+                    return terms;
                 });
             }
 

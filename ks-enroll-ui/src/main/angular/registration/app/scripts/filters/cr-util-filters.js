@@ -71,6 +71,7 @@ angular.module('regCartApp')
  *
  * @param num Number to humanize
  * @param nonMultiplicativeSuffix Suffix to append to the number if it has no multiplicative format
+ * @return {{string}}
  */
     .filter('multiplicativeAdverb', function() {
         return function(num, nonMultiplicativeSuffix) {
@@ -99,4 +100,38 @@ angular.module('regCartApp')
             return h;
         };
     })
+
+/**
+ * Humanize a Reg Group State key.
+ * TODO: test
+ *
+ * Usage:
+ *  {{ state | humanizeRegGroupState }}
+ *
+ * @param {{string}} State key
+ * @return {{string}}
+ */
+    .filter('humanizeRegGroupState', ['STATE', function(STATE) {
+        return function(state) {
+            var h;
+            switch (state) {
+                case STATE.lui.canceled:
+                    h = 'cancelled';
+                    break;
+                case STATE.lui.invalid:
+                    h = 'does not exist';
+                    break;
+                case STATE.lui.offered:
+                    h = 'offered';
+                    break;
+                case STATE.lui.suspended:
+                    h = 'suspended';
+                    break;
+                default:
+                    h = 'not offered';
+            }
+
+            return h;
+        };
+    }])
 ;

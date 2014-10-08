@@ -7,7 +7,7 @@
  *
  * Events:
  * - broadcast:
- *      - addCourseToCart - broadcast when the user clicks the Keep in Cart button in the event of a failure
+ *      - addCoursesToCart - broadcast when the user clicks the Keep in Cart button in the event of a failure
  * - emits: none
  * - catches:
  *      - termIdChanged - loads learning plan for new term
@@ -41,14 +41,12 @@ angular.module('regCartApp')
 
             /**
              * Add all actionable items to the cart
-             * Utilizes the 'addCourseToCart' event to push over to the CartCtrl to manage the adds
+             * Utilizes the 'addCoursesToCart' event to push over to the CartCtrl to manage the adds
              */
             $scope.addAllToCart = function() {
                 var actionableItems = $scope.getActionableItems();
                 if (actionableItems.length > 0) {
-                    for (var i = 0; i < actionableItems.length; i++) {
-                        $rootScope.$broadcast('addCourseToCart', actionableItems[i]);
-                    }
+                    $rootScope.$broadcast('addCoursesToCart', actionableItems);
                 }
             };
 

@@ -138,7 +138,6 @@ public class CourseRegistrationClientServiceImplTest {
         then().
                 statusCode(200).and().
                 contentType(JSON).and().
-                body("cartId", is(expectedRegistrationRequestInfo.getId())).and().
                 body("termId", is(expectedRegistrationRequestInfo.getTermId()));
     }
 }

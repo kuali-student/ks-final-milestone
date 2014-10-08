@@ -12,36 +12,29 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by pauldanielrichardson on 8/6/14
+ * Created by jmorris on 10/7/14
  */
 package org.kuali.student.enrollment.registration.client.service.exception;
 
 /**
- * This class is a custom exception for use in the cart RESTful services
+ * This class is thrown when a course registration option is not valid for a given reg group.
  *
  * @author Kuali Student Team
  */
-public class CourseDoesNotExistException extends Exception {
-    private static final long serialVersionUID = 1L;
+public class InvalidOptionException extends Exception {
     private String messageKey;
-    private String courseCode;
+    private String option;
 
-    public CourseDoesNotExistException(String messageKey, String message) {
-        super(message);
+    public InvalidOptionException(String messageKey, String option) {
         this.messageKey = messageKey;
-    }
-
-    public CourseDoesNotExistException(String messageKey, String courseCode, String message) {
-        super(message);
-        this.messageKey = messageKey;
-        this.courseCode = courseCode;
+        this.option = option;
     }
 
     public String getMessageKey() {
         return messageKey;
     }
 
-    public String getCourseCode() {
-        return courseCode;
+    public String getOption() {
+        return option;
     }
 }
