@@ -232,8 +232,8 @@
                 <bean parent="Uif-SecondaryActionButton"
                       p:methodToCall="addLine"
                       p:actionLabel="Add"
-                      p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
-                      p:dirtyOnAction="true"/>
+                      p:onClickScript="jQuery('#dirtyForm').val(true);"
+                      p:dirtyOnAction="true" />
             </list>
         </property>
         <property name="lineActions">
