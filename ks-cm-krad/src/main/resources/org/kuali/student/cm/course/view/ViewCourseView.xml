@@ -283,10 +283,12 @@
                 <ref bean="CM-ViewCourse-View-Course-LearningObjectivesSection"/>
                 <ref bean="CM-ViewCourse-View-Course-CourseRequisitesSection"/>
                 <ref bean="CM-ViewCourse-View-Course-ActiveDatesSection"/>
-                <ref bean="CM-Proposal-Review-Course-FinancialsSection" />
+                <ref bean="CM-ViewCourse-View-Course-FinancialsSection" />
             </list>
         </property>
     </bean>
+
+    <bean id="CM-ViewCourse-View-Course-FinancialsSection" parent="CM-Proposal-Review-Course-FinancialsSection" />
 
     <bean id="CM-ViewCourse-View-HomewardPathBreadcrumbs" parent="Uif-BreadcrumbItem">
         <property name="label" value="Find a Course"/>
