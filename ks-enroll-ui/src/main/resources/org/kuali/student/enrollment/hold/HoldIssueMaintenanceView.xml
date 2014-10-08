@@ -136,6 +136,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="holdIssue.name" p:required="true">
+                    <property name="enableAutoDirectInquiry" value="false"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20"/>
                     </property>
