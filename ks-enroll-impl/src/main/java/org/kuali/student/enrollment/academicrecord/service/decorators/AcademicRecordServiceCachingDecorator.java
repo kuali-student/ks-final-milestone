@@ -43,6 +43,26 @@ public class AcademicRecordServiceCachingDecorator extends AcademicRecordService
     private static final String ACADEMIC_RECORD_CACHE = "academicRecordCache";
 
     @Override
+    public List<StudentCourseRecordInfo> getCompletedCourseRecords(String personId, ContextInfo contextInfo) throws
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey(new String[] {personId});
+
+        @SuppressWarnings("unchecked")
+        List<StudentCourseRecordInfo> studentCourseRecords = (List<StudentCourseRecordInfo>) getCacheResult(cacheKey);
+
+        if (studentCourseRecords == null) {
+            studentCourseRecords = getNextDecorator().getCompletedCourseRecords(personId, contextInfo);
+            putCacheResult(cacheKey, studentCourseRecords);
+        }
+
+        return studentCourseRecords;
+    }
+
+    @Override
     public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId,
                                                                           ContextInfo contextInfo)
             throws DoesNotExistException,
