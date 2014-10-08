@@ -142,7 +142,6 @@
     <bean id="CM-Proposal-Course-Logistics-FinalExam-Section"
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <property name="onDocumentReadyScript" value="initializeFinalExamRefreshScript();"/>
         <property name="items">
             <list>
                 <bean id="CM-Proposal-Course-Logistics-FinalExamStatus" parent="CM-InputField" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
@@ -158,7 +157,8 @@
                     </property>
                 </bean>
                 <bean id="CM-Proposal-Course-Logistics-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
-                      p:render="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
+                      p:progressiveRender="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
+                      p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.finalExamStatus"
                       p:propertyName="finalExamRationale">
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" p:maxLength="255" />
