@@ -79,6 +79,7 @@
                             </bean>
                         </list>
                     </property>
+                    <!-- If it is a pilot Course and course state is Retired then display the rationale and last term as readonly  -->
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer"

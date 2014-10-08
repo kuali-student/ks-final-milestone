@@ -201,7 +201,8 @@ public class CourseController extends CourseRuleEditorController {
 
         courseInfoWrapper.getProposalInfo().setName(courseInfoWrapper.getCourseInfo().getCourseTitle());
 
-        // If the course state is a superseded which has been previously retired
+        // If the course state is superseded which has been previously retired
+        // Then set the boolean property to display the Retire info(Rationale, Last Term Offered, Last Catalog Pub Year, Other Comments).
         if (DtoConstants.STATE_SUPERSEDED.equals(courseInfoWrapper.getCourseInfo().getStateKey()) &&
             courseInfoWrapper.getCourseInfo().getAttributeValue(CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE) != null) {
 
