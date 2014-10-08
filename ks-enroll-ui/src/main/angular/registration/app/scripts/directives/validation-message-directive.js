@@ -14,7 +14,7 @@
  * @param course Course object that the message pertains to (optional)
  */
 angular.module('regCartApp')
-    .directive('validationMessage', ['$compile', function($compile) {
+    .directive('validationMessage', ['$interpolate', function($interpolate) {
 
         return {
             restrict: 'CAE',
@@ -55,8 +55,7 @@ angular.module('regCartApp')
                                             break;
                                     }
 
-                                    message = parseMessage(msg, course);
-                                    deferred.resolve(message);
+                                    deferred.resolve(parseMessage(msg));
                                 });
 
                             // Return out to give the MessageService time to load the messages
@@ -66,8 +65,7 @@ angular.module('regCartApp')
                         }
                     }
 
-                    message = parseMessage(message, course);
-                    deferred.resolve(message);
+                    deferred.resolve(parseMessage(message));
 
                     return deferred.promise;
                 };
@@ -158,9 +156,7 @@ angular.module('regCartApp')
                  * @param course
                  * @returns parsed message
                  */
-                function parseMessage(message, course) {
-
-                    exposeDataToScope(course);
+                function parseMessage(message) {
 
                     // Wrap any instance of the course code with <strong></strong>
                     if (angular.isString(message)) {
@@ -189,37 +185,47 @@ angular.module('regCartApp')
                     return message;
                 }
 
-                function exposeDataToScope(course) {
-                    // Make the data object available at the root level to the formatted messages
-                    if (angular.isObject($scope.data)) {
-                        angular.extend($scope, $scope.data);
-                    }
-
-                    var selectedTerm = TermsService.getSelectedTerm();
-                    if (selectedTerm) {
-                        $scope.termName = TermsService.getSelectedTerm().termName;
-                    }
+                $scope.getDataForMessage = function() {
+                    if (!angular.isDefined($scope.data._messageData)) {
+                        var data = {};
+                        data.states = STATE;
 
 
-                    // Create a copy of the data object so we don't mess with any base data
-                    // Try to pull out the courseCode && regGroupCode and provide them as a standard parameters for the messages
-                    if (angular.isString(course)) { // Allow a straight string to come through
-                        $scope.courseCode = course;
-                    } else if (angular.isObject(course)) { // Course object
-                        if (angular.isDefined(course.courseCode)) {
-                            $scope.courseCode = course.courseCode;
+                        // Make the data object available at the root level to the formatted messages
+                        if (angular.isObject($scope.data)) {
+                            angular.extend(data, $scope.data);
                         }
+
+                        var selectedTerm = TermsService.getSelectedTerm();
+                        if (selectedTerm) {
+                            data.termName = TermsService.getSelectedTerm().termName;
+                        }
+
+
+                        // Create a copy of the data object so we don't mess with any base data
+                        // Try to pull out the courseCode && regGroupCode and provide them as a standard parameters for the messages
+                        if (angular.isString($scope.course)) { // Allow a straight string to come through
+                            data.courseCode = $scope.course;
+                        } else if (angular.isObject($scope.course)) { // Course object
+                            if (angular.isDefined($scope.course.courseCode)) {
+                                data.courseCode = $scope.course.courseCode;
+                            }
+                        }
+
+                        // Remove the suffix from the course code (if any)
+                        if (angular.isString(data.courseCode)) {
+                            data.cluCode = data.courseCode.replace(/\D+$/, '');
+                        }
+
+                        if (angular.isObject($scope.course) && angular.isDefined($scope.course.regGroupCode)) {
+                            data.regGroupCode = $scope.course.regGroupCode;
+                        }
+
+                        $scope.data._messageData = data;
                     }
 
-                    // Remove the suffix from the course code (if any)
-                    if (angular.isString($scope.courseCode)) {
-                        $scope.cluCode = $scope.courseCode.replace(/\D+$/, '');
-                    }
-
-                    if (angular.isObject(course) && angular.isDefined(course.regGroupCode)) {
-                        $scope.regGroupCode = course.regGroupCode;
-                    }
-                }
+                    return $scope.data._messageData; // Pin the message data into the data object that lives outside of this scope so that it's not regenerated multiple times for the same message
+                };
 
             }],
             link: function(scope, element) {
@@ -229,8 +235,8 @@ angular.module('regCartApp')
                  */
                 function updateMessage() {
                     scope.formatMessage().then(function(message) {
-                        element.html(message);
-                        $compile(element.contents())(scope);
+                        var msg = $interpolate(message)(scope.getDataForMessage());
+                        element.html(msg);
                     });
                 }
 
