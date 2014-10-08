@@ -71,8 +71,8 @@ public class ExportCourseHelperImpl extends AbstractExportCourseHelperImpl {
         populateLearningObjectives(exportElements, courseInfoWrapper);
         populateCourseRequisites(exportElements, courseInfoWrapper);
         populateActiveDates(exportElements, courseInfoWrapper);
+        populateFinancials(exportElements, courseInfoWrapper);
         if (isProposal) {
-            populateFinancials(exportElements, courseInfoWrapper);
             populateAuthorsCollaborators(exportElements, courseInfoWrapper);
             populateSupportingDocuments(exportElements, courseInfoWrapper);
         }
