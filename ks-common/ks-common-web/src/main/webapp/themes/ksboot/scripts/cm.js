@@ -1007,6 +1007,7 @@ function refreshEndTerm() {
 }
 
 function resetEndTerm(){
+     jQuery('#CM-Proposal-Course-ActiveDates-EndTerm_control').prop("disabled", false)
      jQuery('#CM-Proposal-Course-ActiveDates-EndTerm_control').val('');
 }
 /*
