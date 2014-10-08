@@ -337,55 +337,60 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
             LoCategoryInfo loCategoryInfo = (LoCategoryInfo) newLine;
 
             boolean isCategoryAlreadyExist = false;
+
             if (StringUtils.isNotBlank(loCategoryInfo.getName())) {
-                String[] categoryItems = loCategoryInfo.getName().split("-");
+
+                String categoryType = loCategoryInfo.getTypeKey();
+                String categoryName = loCategoryInfo.getName();
+
+                //If it's a new category, then user has to select the type. For the one selected from autosuggest,
+                //name always include the type in the format "<name> - <type>". We need to split that to get the
+                //name and type here
+                if (StringUtils.isBlank(categoryType)){
+                    categoryType = StringUtils.substringAfterLast(loCategoryInfo.getName(),"-").trim();
+                    categoryName = StringUtils.substringBeforeLast(loCategoryInfo.getName(),"-").trim();
+                }
+
                 //Check if Category is an existing one or a new.
-                if (categoryItems != null) {
-                    String categoryType = null;
-                    String categoryName = categoryItems[0].trim();
-                    if (categoryItems.length == 2) {
-                        categoryType = categoryItems[1].trim();
+                if (StringUtils.isNotBlank(categoryName)) {
+                    List<LoCategoryInfoWrapper> loCategoryInfoWrapper = searchForLoCategories(categoryName);
+                    if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
+                        //Check against the each existing category and its type
+                        for (LoCategoryInfoWrapper loCategoryInfoWrap : loCategoryInfoWrapper) {
+                            if (loCategoryInfoWrap.getName().equals(categoryName) && loCategoryInfoWrap.getTypeName().equals(categoryType)) {
+                                //get the complete category record
+                                LoCategoryInfo origLoCat = (LoCategoryInfo) loCategoryInfoWrap;
+                                BeanUtils.copyProperties(origLoCat, loCategoryInfo);
+                                isCategoryAlreadyExist = true;
+                                break;
+                            }
+                        }
                     }
-                    if (StringUtils.isNotBlank(categoryName)) {
-                        List<LoCategoryInfoWrapper> loCategoryInfoWrapper = searchForLoCategories(categoryName);
-                        if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
-                            //Check against the each existing category and its type
-                            for (LoCategoryInfoWrapper loCategoryInfoWrap : loCategoryInfoWrapper) {
-                                if (loCategoryInfoWrap.getName().equals(categoryName) && loCategoryInfoWrap.getTypeName().equals(categoryType)) {
-                                    //get the complete category record
-                                    LoCategoryInfo origLoCat = (LoCategoryInfo) loCategoryInfoWrap;
-                                    BeanUtils.copyProperties(origLoCat, loCategoryInfo);
-                                    isCategoryAlreadyExist = true;
-                                    break;
-                                }
-                            }
-                        }
 
-                        if (!isCategoryAlreadyExist) {
-                            //if category doesn't exist then create newly.
-                            loCategoryInfo.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
-                            loCategoryInfo.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
-                            try {
-                                LoCategoryInfo savedLoCat = getLearningObjectiveService().createLoCategory(loCategoryInfo.getTypeKey(), loCategoryInfo,
-                                        ContextUtils.createDefaultContextInfo());
-                                BeanUtils.copyProperties(savedLoCat, loCategoryInfo);
-                            } catch (DataValidationErrorException e) {
-                                LOG.error("An error occurred while trying to create a duplicate Learning Objective Category", e);
-                            } catch (Exception e) {
-                                LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
-                            }
-                        }
-
+                    if (!isCategoryAlreadyExist) {
+                        //if category doesn't exist then create newly.
+                        loCategoryInfo.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
+                        loCategoryInfo.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
                         try {
-                            //Get the type info
-                            TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
-                            loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                            LoCategoryInfo savedLoCat = getLearningObjectiveService().createLoCategory(loCategoryInfo.getTypeKey(), loCategoryInfo,
+                                    ContextUtils.createDefaultContextInfo());
+                            BeanUtils.copyProperties(savedLoCat, loCategoryInfo);
+                        } catch (DataValidationErrorException e) {
+                            LOG.error("An error occurred while trying to create a duplicate Learning Objective Category", e);
                         } catch (Exception e) {
-                            LOG.error("An error occurred while retrieving the LoCategoryType", e);
+                            LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
                         }
-                    } else {
-                        return false;
                     }
+
+                    try {
+                        //Get the type info
+                        TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                        loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                    } catch (Exception e) {
+                        LOG.error("An error occurred while retrieving the LoCategoryType", e);
+                    }
+                } else {
+                    return false;
                 }
             } else {
                 return false;

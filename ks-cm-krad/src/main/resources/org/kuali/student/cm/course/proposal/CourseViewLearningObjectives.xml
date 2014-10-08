@@ -246,6 +246,16 @@
                                                         }
                                                     </value>
                                                 </entry>
+                                                <!-- Clean up the Id selected by the user before doing a fresh suggest-->
+                                                <entry key="search">
+                                                    <value>
+                                                        function (event, ui) {
+                                                            var id = jQuery(this).attr('id');
+                                                            var hiddenFieldId = id.replace("_control", "_h0");
+                                                            jQuery("#" + hiddenFieldId).val("");
+                                                        }
+                                                    </value>
+                                                </entry>
                                             </map>
                                         </property>
                                         <property name="suggestQuery">
