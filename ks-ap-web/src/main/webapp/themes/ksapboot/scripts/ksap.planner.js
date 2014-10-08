@@ -306,6 +306,7 @@ function ksapPlannerUpdateTermNote (data) {
         field.remove("empty-termnote");
 
         var popoverOptions = getPopoverOptions();
+        popoverOptions.placement='bottom'; //flip termnote popover to prevent note chop at top of page
         field.popover(popoverOptions);
         var popover = field.data("popover");
         popover.options.content = field.attr("data-content");
