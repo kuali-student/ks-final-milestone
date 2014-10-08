@@ -107,6 +107,9 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_DROP_PERIOD_CLOSED_MESSAGE_KEY = "kuali.lpr.trans.message.drop.period.closed";
     public static final String LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY = "kuali.lpr.trans.message.edit.period.closed";
     public static final String LPRTRANS_ITEM_ALREADY_REGISTERED_MESSAGE_KEY = "kuali.lpr.trans.message.course.already.registered";
+    public static final String LPRTRANS_ITEM_COURSE_NOT_OPEN_MESSAGE_KEY = "kuali.lpr.trans.message.course.not.open";
+    public static final String LPRTRANS_ITEM_TRANSACTIONS_LIMIT_MESSAGE_KEY = "kuali.lpr.trans.message.failed.holds.transactions.limit";
+    public static final String LPRTRANS_ITEM_MANDATORY_ADVISING_MESSAGE_KEY = "kuali.lpr.trans.message.failed.holds.mandatory.advising";
 
     // transaction item states
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
