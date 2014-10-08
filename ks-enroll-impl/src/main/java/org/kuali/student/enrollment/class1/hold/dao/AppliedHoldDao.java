@@ -26,25 +26,10 @@ public class AppliedHoldDao
         return query.getResultList();
     }
 
-    public List<AppliedHoldEntity> getByPersonAndState(String personId, String stateKey) {
-        Query query = em.createNamedQuery("AppliedHoldEntity.getByPersonAndState");
-        query.setParameter("personId", personId);
-        query.setParameter("stateKey", stateKey);
-        return query.getResultList();
-    }
-    
-    
     public List<AppliedHoldEntity> getByIssueAndPerson(String holdIssueId, String personId) {
         Query query = em.createNamedQuery("AppliedHoldEntity.getByIssueAndPerson");
         query.setParameter("holdIssueId", holdIssueId);
         query.setParameter("personId", personId);
         return query.getResultList();
     } 
-    public List<AppliedHoldEntity> getByIssuePersonAndState(String holdIssueId, String personId, String stateKey) {
-        Query query = em.createNamedQuery("AppliedHoldEntity.getByIssuePersonAndState");
-        query.setParameter("holdIssueId", holdIssueId);
-        query.setParameter("personId", personId);
-        query.setParameter("stateKey", stateKey);
-        return query.getResultList();
-    }
 }
