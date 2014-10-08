@@ -97,12 +97,6 @@ public class CourseRegistrationLprActionProcessor {
 
     private void handleAddRequests(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
-        //Check if admin and continue with registration.
-        if (isAdminRegistration(message.getRequestItem().getRegistrationRequestId(), contextInfo)){
-            registerPersonForCourse(message, contextInfo);
-            return;
-        }
-
         //Do a seat check & waitlist check only for non admin registrations.
         List<SeatCount> seatCounts = getSeatCountsForActivityOfferings(message, contextInfo);
 
@@ -110,23 +104,32 @@ public class CourseRegistrationLprActionProcessor {
             //Register person
             registerPersonForCourse(message, contextInfo);
         } else {
-            //No Seats available
-            if (isThereAWaitlist(seatCounts, contextInfo)) {
-                if (isWaitlistFull(seatCounts, contextInfo)) {
-                    //The waitlist is full for this request
-                    notifyWaitlistIsFull(message, contextInfo);
-                } else {
-                    if (doesStudentWantToWaitlist(message)) {
-                        //Add the student to the waitlist
-                        addStudentToWaitList(message, contextInfo);
-                    } else {
-                        //Notify waitlist is available
-                        notifyWaitlistAvailable(message, contextInfo);
-                    }
-                }
+
+            //Check if admin and continue with registration.
+            if (isAdminRegistration(message.getRequestItem().getRegistrationRequestId(), contextInfo)){
+                registerPersonForCourse(message, contextInfo);
+                notifyNoSeatsAvailable(message, contextInfo);
+
             } else {
-                //Handle no waitlist available and no seats
-                notifyNoSeatsNoWaitlistAvailable(message, contextInfo);
+
+                //No Seats available
+                if (isThereAWaitlist(seatCounts, contextInfo)) {
+                    if (isWaitlistFull(seatCounts, contextInfo)) {
+                        //The waitlist is full for this request
+                        notifyWaitlistIsFull(message, contextInfo);
+                    } else {
+                        if (doesStudentWantToWaitlist(message)) {
+                            //Add the student to the waitlist
+                            addStudentToWaitList(message, contextInfo);
+                        } else {
+                            //Notify waitlist is available
+                            notifyWaitlistAvailable(message, contextInfo);
+                        }
+                    }
+                } else {
+                    //Handle no waitlist available and no seats
+                    notifyNoSeatsNoWaitlistAvailable(message, contextInfo);
+                }
             }
         }
     }
@@ -308,6 +311,16 @@ public class CourseRegistrationLprActionProcessor {
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
                 RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY),
+                false,
+                contextInfo);
+    }
+
+    private void notifyNoSeatsAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
+                null,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE_KEY),
                 false,
                 contextInfo);
     }
