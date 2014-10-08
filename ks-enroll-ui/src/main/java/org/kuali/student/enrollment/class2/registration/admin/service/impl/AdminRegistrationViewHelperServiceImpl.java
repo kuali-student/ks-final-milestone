@@ -40,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -127,7 +128,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         try {
             SocInfo soc = AdminRegistrationUtil.getMainSocForTermId(termId, createContextInfo());
             if (soc != null) {
-                if (!soc.getStateKey().equals(AdminRegConstants.PUBLISHED_SOC_STATE_KEY)) {
+                if (!soc.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
                     GlobalVariables.getMessageMap().putError(AdminRegConstants.TERM_CODE, AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_SOC_NOT_PUBLISHED);
                 }
                 return soc;
@@ -786,17 +787,11 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
-
     private String resolveMessageKeyResult(RegistrationCourse course, TermInfo term, Map<String, Object> validationMap) {
 
         String messageKey = (String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY);
         if (validationMap.containsKey(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
-            List<String> conflictCourses = new ArrayList<>();
-            for (LinkedHashMap<String, Object> conflictCourse : (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
-                conflictCourses.add((String) conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
-            }
-            return AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
-                    org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
+            return constructConflictingCoursesMessage(validationMap);
         } else if (LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY.equals(messageKey)) {
             return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_MAX_CREDITS).toString());
         } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_ALREADY_TAKEN_MESSAGE_KEY.equals(messageKey)) {
@@ -810,21 +805,50 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 LprServiceConstants.LPRTRANS_ITEM_EDIT_PERIOD_CLOSED_MESSAGE_KEY.equals(messageKey))) {
             return AdminRegistrationUtil.getMessageForKey(messageKey, validationMap.get(AdminRegConstants.ADMIN_REG_ENDDATE).toString());
         } else if (LprServiceConstants.LPRTRANS_ITEM_REG_GROUP_NOT_OFFERED_MESSAGE_KEY.equals(messageKey)) {
-            String state = (String) validationMap.get(AdminRegConstants.ADMIN_REG_STATE);
-            if (LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY.equals(state)) {
-                return AdminRegistrationUtil.getMessageForKey(messageKey + ".canceled", term.getName());
-            } else if (LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals(state)) {
-                return AdminRegistrationUtil.getMessageForKey(messageKey + ".invalid", term.getName());
-            } else if (LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY.equals(state)) {
-                return AdminRegistrationUtil.getMessageForKey(messageKey + ".suspended", term.getName());
-            } else {
-                return AdminRegistrationUtil.getMessageForKey(messageKey + ".pending", term.getName());
-            }
-        } else if (AdminRegConstants.ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_TRANSACTIONS_LIMIT.equals(messageKey)) {
+            return constructRegGroupMessage(term, validationMap, messageKey);
+        } else if (LprServiceConstants.LPRTRANS_ITEM_TRANSACTIONS_LIMIT_MESSAGE_KEY.equals(messageKey)) {
             return AdminRegistrationUtil.getMessageForKey(messageKey, term.getName());
+        } else if (LprServiceConstants.LPRTRANS_ITEM_COURSE_NOT_OPEN_MESSAGE_KEY.equals(messageKey)) {
+            return constructRegWindowMessage(validationMap, messageKey);
         }
 
         return AdminRegistrationUtil.getMessageForKey(messageKey);
+    }
+
+    private String constructRegWindowMessage(Map<String, Object> validationMap, String messageKey) {
+        LinkedHashMap<String, Object> details = (LinkedHashMap<String, Object>) validationMap.get(AdminRegConstants.ADMIN_REG_DETAILS);
+        if (details.containsKey(AdminRegConstants.ADMIN_REG_APPOINTMENTSLOT)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".appointmentSlot", (String) details.get(AdminRegConstants.ADMIN_REG_APPOINTMENTSLOT));
+        } else if (details.containsKey(AdminRegConstants.ADMIN_REG_NOAPPOINTMENT)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".noAppointment");
+        } else if (details.containsKey(AdminRegConstants.ADMIN_REG_STARTDATE)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".startDate", (String) details.get(AdminRegConstants.ADMIN_REG_STARTDATE));
+        } else if (details.containsKey(AdminRegConstants.ADMIN_REG_ENDDATE)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".endDate", (String) details.get(AdminRegConstants.ADMIN_REG_ENDDATE));
+        }
+        return StringUtils.EMPTY;
+    }
+
+    private String constructRegGroupMessage(TermInfo term, Map<String, Object> validationMap, String messageKey) {
+        String state = (String) validationMap.get(AdminRegConstants.ADMIN_REG_STATE);
+        if (LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY.equals(state)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".canceled", term.getName());
+        } else if (LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals(state)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".invalid", term.getName());
+        } else if (LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY.equals(state)) {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".suspended", term.getName());
+        } else {
+            return AdminRegistrationUtil.getMessageForKey(messageKey + ".pending", term.getName());
+        }
+    }
+
+    private String constructConflictingCoursesMessage(Map<String, Object> validationMap) {
+        List<String> conflictCourses = new ArrayList<>();
+        for (LinkedHashMap<String, Object> conflictCourse : (List<LinkedHashMap<String, Object>>) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_CONFLICTINGCOURSES)) {
+            conflictCourses.add((String) conflictCourse.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY_COURSES_CODE));
+        }
+        return AdminRegistrationUtil.getMessageForKey((String) validationMap.get(AdminRegConstants.ADMIN_REG_VALIDATION_MSG_KEY),
+                org.springframework.util.StringUtils.arrayToCommaDelimitedString(conflictCourses.toArray()));
     }
 
 }

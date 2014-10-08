@@ -78,7 +78,11 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MAX_CREDITS = "maxCredits";
     public static final String ADMIN_REG_ATTEMPTS = "attempts";
     public static final String ADMIN_REG_MAX_REPEATS = "maxRepeats";
+    public static final String ADMIN_REG_STARTDATE = "startDate";
     public static final String ADMIN_REG_ENDDATE = "endDate";
+    public static final String ADMIN_REG_DETAILS = "details";
+    public static final String ADMIN_REG_APPOINTMENTSLOT = "appointmentSlot";
+    public static final String ADMIN_REG_NOAPPOINTMENT = "noAppointment";
     public static final String ADMIN_REG_STATE = "state";
     public static final String ADMIN_REG_CHECKID_MSG_KEY = "checkId";
     //sections ids
@@ -96,22 +100,5 @@ public class AdminRegConstants {
 
     //Affiliation Types
     public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
-
-    //Soc state
-    public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
-
-    //PROCESS_INSTRN messageKey
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_TERM_NOT_OPEN = "kuali.lpr.trans.message.registration.term.not.open";
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_TIME_CONFLICT = "kuali.lpr.trans.message.registration.time.conflict";
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_FEES_OUTSTANDING = "kuali.lpr.trans.message.registration.fees.outstanding";
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_SUSPENDED = "kuali.lpr.trans.message.registration.suspended";
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_EXPELLED = "kuali.lpr.trans.message.registration.expelled";
-    public static final String ADMIN_REG_MESSAGEKEY_REGISTRATION_CREDIT_LIMIT_EXCEEDED = "kuali.lpr.trans.message.registration.credit.limit.exceeded";
-    public static final String ADMIN_REG_MESSAGEKEY_BASIC_NOT_ALIVE = "kuali.lpr.trans.message.basic.not.alive";
-    public static final String ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_MANDATORY_ADVISING = "kuali.lpr.trans.message.failed.holds.mandatory.advising";
-    public static final String ADMIN_REG_MESSAGEKEY_FAILED_HOLDS_TRANSACTIONS_LIMIT = "kuali.lpr.trans.message.failed.holds.transactions.limit";
-
-
-
 
 }
