@@ -55,6 +55,7 @@ public class ProcessIntegrationTestHoldServiceDataLoadingDecorator extends HoldS
         issue.setName(name);
         issue.setTypeKey(type);
         issue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
+        issue.setIsHoldIssueTermBased(false);
         try {
             issue = this.createHoldIssue(issue.getTypeKey(), issue, context);
         } catch (Exception ex) {
