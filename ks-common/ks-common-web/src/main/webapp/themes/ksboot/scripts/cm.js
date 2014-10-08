@@ -1068,13 +1068,18 @@ jQuery.validator.addMethod("validLoCategory",
 
 
 function validateNewLoCategoryAndType(value, element) {
+
     var loCategoryType_control = element.id;
+    var hiddenFieldId = loCategoryType_control.replace("_control", "_h0");
+    //If user selected the LO name from autosuggest, then this Id should be already available.
+    var loId = jQuery("#" + hiddenFieldId).val();
+
     loCategoryType_control = loCategoryType_control.replace('CM-Proposal-Course-LearningObjectives-Category', 'CM-Proposal-Course-LearningObjectives-CategoryType');
-    var items = value.split('-');
     var loCategoryType = jQuery('#' + loCategoryType_control).parent();
     var loCategoryInfoMessage = jQuery('#' + loCategoryType_control).closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field');
 
-    if (value != '' && items.length < 2) {
+    //If user doesnt select from autosuggest and keyed in their own data, show the type to pick
+    if (value != '' && loId == '') {
         if (!loCategoryType.is(':visible')) {
             //  Show the category type drop down and give it focus.
             loCategoryType.show();
