@@ -244,6 +244,9 @@ public class CourseController extends CourseRuleEditorController {
             CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_RATIONALE, wrapper.getRetirementRationale());
             CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_PUBLICATION_YEAR, wrapper.getPublicationYear());
             CourseProposalUtil.addOrUpdateAttributes(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_RETIREMENT_COMMENT, wrapper.getRetirementComment().getPlain());
+        } else if (wrapper.getCourseInfo().getStateKey().equals(DtoConstants.STATE_SUPERSEDED)) {
+            // perhaps check if the startTerm has changd and then remove the lastTermOffered >
+            CourseProposalUtil.removeAttribute(wrapper.getCourseInfo().getAttributes(), CurriculumManagementConstants.COURSE_ATTRIBUTE_LAST_TERM_OFFERED);
         }
 //        doValidationForProposal(form, KewApiConstants.ROUTE_HEADER_PROCESSED_CD, null);
         // manually call the view validation service as this validation cannot be run client-side in current setup
@@ -276,6 +279,12 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfo courseInfo = getCourseService().createNewCourseVersion(versionIndId,"", ContextUtils.createDefaultContextInfo());
         courseInfo.setCourseTitle("Modify: " + courseInfo.getCourseTitle());
+
+        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
+        courseInfoWrapper.setCourseInfo(courseInfo);
+        CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
+        newMaintainble.setDataObject(courseInfoWrapper);
+        newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
         List<AttributeInfo> attributes = courseInfo.getAttributes();
         // kscm-2844: When a new version of a retired course is created, these attributes need to be removed.
         for (Iterator<AttributeInfo> it = attributes.iterator(); it.hasNext();) {
@@ -288,12 +297,6 @@ public class CourseController extends CourseRuleEditorController {
                 it.remove();
             }
         }
-        CourseInfoWrapper courseInfoWrapper = new CourseInfoWrapper();
-        courseInfoWrapper.setCourseInfo(courseInfo);
-        CourseMaintainable newMaintainble = (CourseMaintainable)form.getDocument().getNewMaintainableObject();
-        newMaintainble.setDataObject(courseInfoWrapper);
-        newMaintainble.populateCourseAndReviewData(courseInfo.getId(),courseInfoWrapper);
-
         ProposalInfo proposalInfo = new ProposalInfo();
         courseInfoWrapper.setProposalInfo(proposalInfo);
         proposalInfo.setName(courseInfo.getCourseTitle());

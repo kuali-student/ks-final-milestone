@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -580,6 +581,23 @@ public class CourseProposalUtil {
         }
         if (!exist && StringUtils.isNotBlank(value)) {
             attributeInfoList.add(new AttributeInfo(key, value));
+        }
+    }
+
+    /**
+     *  Remove the attribute identified by key, if it exists
+     *
+     * @param attributes
+     * @param attributeKey
+     */
+
+    public static void removeAttribute(List<AttributeInfo> attributes, String attributeKey) {
+        for (Iterator<AttributeInfo> it = attributes.iterator(); it.hasNext();) {
+            AttributeInfo attributeInfo = it.next();
+            if (attributeInfo.getKey().equals(attributeKey)) {
+                it.remove();
+                // There could be multiple entries with the same key, so don't break
+            }
         }
     }
 

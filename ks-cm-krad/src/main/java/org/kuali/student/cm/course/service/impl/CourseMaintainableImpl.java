@@ -974,10 +974,6 @@ public class CourseMaintainableImpl extends CommonCourseMaintainableImpl impleme
 
         populateJointCourseOnDTO();
 
-        courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
-        courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
-        courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
-
         try {
             LOG.info("Saving Proposal for course {}", courseInfoWrapper.getCourseInfo().getId());
             updateAndSaveCourseInfo();
