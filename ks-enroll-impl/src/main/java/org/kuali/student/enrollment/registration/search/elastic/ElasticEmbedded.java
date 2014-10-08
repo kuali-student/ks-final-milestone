@@ -125,7 +125,8 @@ public class ElasticEmbedded {
         //Create a bulk request to push all data into elastic
         for (CourseSearchResult searchResult : courses) {
             String json = mapper.writeValueAsString(searchResult);
-            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId()).setSource(json));
+            //Prefix the CO id with the course code because crosslistings share CO ids, but have different codes, we don't want to override these records.
+            bulkRequest.add(client.prepareIndex(KS_ELASTIC_INDEX, COURSEOFFERING_ELASTIC_TYPE, searchResult.getCourseId() + "-" + searchResult.getCourseCode()).setSource(json));
         }
 
         //Execute the bulk operation

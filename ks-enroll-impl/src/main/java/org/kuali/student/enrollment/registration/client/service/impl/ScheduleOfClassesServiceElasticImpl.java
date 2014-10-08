@@ -52,12 +52,26 @@ public class ScheduleOfClassesServiceElasticImpl extends ScheduleOfClassesServic
         CourseSearchResult searchResult = null;
         try {
 
-            GetResponse getResponse = elasticEmbedded.getClient().prepareGet(ElasticEmbedded.KS_ELASTIC_INDEX, ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE, courseOfferingId).execute().actionGet();
-            ObjectMapper objectMapper = new ObjectMapper();
+            //Look in elastic using a filtered query on the course offering id field
+            //This may result in multiple courses being returned since cross-listings can have multiple records with the same CO id
+            FilteredQueryBuilder query = QueryBuilders.filteredQuery(
+                    QueryBuilders.matchAllQuery(),
+                    FilterBuilders.termFilter("courseId", courseOfferingId)
+            );
 
-            if (getResponse.isExists()) {
-                searchResult = objectMapper.readValue(getResponse.getSourceAsString(), CourseSearchResult.class);
+            SearchResponse sr = elasticEmbedded.getClient()
+                    .prepareSearch(ElasticEmbedded.KS_ELASTIC_INDEX)
+                    .setTypes(ElasticEmbedded.COURSEOFFERING_ELASTIC_TYPE)
+                    .setQuery(query)
+                    .execute().actionGet();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            for (SearchHit hit : sr.getHits().getHits()) {
+                //Return the first hit (until we find out how KSAP stores the alias for crosslists)
+                CourseSearchResult courseSearchResult = objectMapper.readValue(hit.getSourceAsString(), CourseSearchResult.class);
+                return  courseSearchResult;
             }
+
 
         } catch (Exception e) {
             throw new OperationFailedException("Error searching for course offering id. ", e);
