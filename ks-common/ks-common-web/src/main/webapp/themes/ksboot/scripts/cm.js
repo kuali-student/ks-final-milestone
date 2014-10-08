@@ -641,17 +641,6 @@ function updateStickyHeaderText() {
 }
 
 /**
- * This method setups the click event binding to all the radio buttons at Final exam status. It refreshes the entire
- * final exam section to hide/show the rational field. For standard type,  it's not needed to enter rational and
- * can be hide from the user
- */
-function initializeFinalExamRefreshScript(){
-    jQuery('#CM-Proposal-Course-Logistics-FinalExamStatus input:radio').click(function () {
-        retrieveComponent('CM-Proposal-Course-Logistics-FinalExam-Section');
-    });
-}
-
-/**
  * This method retrieves/refreshes the outcome component sothat the result value clears out for the specific
  * index row
  * @param index
