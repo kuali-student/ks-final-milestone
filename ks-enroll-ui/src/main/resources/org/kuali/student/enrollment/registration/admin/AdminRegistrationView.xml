@@ -156,7 +156,7 @@
         <property name="propertyName" value="termIssues"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
-        <!--<property name="onDocumentReadyScript" value="renderResults();"/>-->
+        <property name="onDocumentReadyScript" value="renderResults();"/>
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
