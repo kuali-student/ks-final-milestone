@@ -419,6 +419,15 @@
                         <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <!-- persuade sonar to show test coverage for integration tests by storing Failsafe
+                        reports in the same directory as Surefire (instead of the default failsafe-reports) -->
+                        <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                        <summaryFile>${project.build.directory}/surefire-reports/failsafe-summary.xml</summaryFile>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
