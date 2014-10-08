@@ -59,6 +59,10 @@ describe('Directive: ValidationMessage', function() {
         scope.data = data;
         scope.course = course || null;
 
+        if (angular.isObject(data) && angular.isDefined(data._messageData)) {
+            delete data._messageData; // Remove the cached message data
+        }
+
         // Compile the template and apply the scope
         el = $compile('<validation-message message="data" course="course"></validation-message>')(scope);
         scope.$digest();
@@ -314,7 +318,8 @@ describe('Directive: ValidationMessage', function() {
     describe('registration group not offered', function() {
         it('should format the message correctly', inject(function(STATE) {
             var data = {
-                    messageKey: VALIDATION_ERROR_TYPE.regGroupNotOffered
+                    messageKey: VALIDATION_ERROR_TYPE.regGroupNotOffered,
+                    state: ''
                 },
                 course = {
                     courseCode: 'code1',
@@ -322,7 +327,6 @@ describe('Directive: ValidationMessage', function() {
                 };
 
             // Base case
-            data.state = '';
             expect(compile(data, course)).toBe('code1 (rgCode1) is not offered for Fall 2012');
 
             data.state = STATE.lui.canceled;

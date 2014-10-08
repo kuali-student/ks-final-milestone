@@ -14,7 +14,7 @@
  * @param course Course object that the message pertains to (optional)
  */
 angular.module('regCartApp')
-    .directive('validationMessage', ['$interpolate', function($interpolate) {
+    .directive('validationMessage', ['$compile', function($compile) {
 
         return {
             restrict: 'CAE',
@@ -186,7 +186,11 @@ angular.module('regCartApp')
                 }
 
                 $scope.getDataForMessage = function() {
-                    if (!angular.isDefined($scope.data._messageData)) {
+                    if (angular.isUndefined($scope.data)) {
+                        $scope.data = {};
+                    }
+
+                    if (angular.isUndefined($scope.data._messageData)) {
                         var data = {};
                         data.states = STATE;
 
@@ -235,8 +239,10 @@ angular.module('regCartApp')
                  */
                 function updateMessage() {
                     scope.formatMessage().then(function(message) {
-                        var msg = $interpolate(message)(scope.getDataForMessage());
-                        element.html(msg);
+                        element.html(message);
+
+                        // Compile the element using a new isolated scope
+                        $compile(element.contents())(angular.extend(scope.$new(true), scope.getDataForMessage()));
                     });
                 }
 
