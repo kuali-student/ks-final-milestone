@@ -226,7 +226,6 @@ public class CourseController extends CourseRuleEditorController {
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
 
-        // TODO KSCM-2836 -- validations fire if these proposal fields aren't filled out even thought we don't use proposalInfo on this document
         if (wrapper.getProposalInfo() == null) {
             wrapper.setProposalInfo(new ProposalInfo());
         }
