@@ -16,10 +16,12 @@
  */
 package org.kuali.student.enrollment.krms.termresolver;
 
+import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.registration.engine.util.RegEnginePerformanceUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -76,6 +78,9 @@ public class CluId2CluVersionIndIdTermResolver implements TermResolver<String> {
 
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+
+        DateTime startTime = new DateTime();
+
         ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         String cluId = (String) resolvedPrereqs.get(RulesExecutionConstants.CLU_ID_TERM.getName());
 
@@ -85,6 +90,9 @@ public class CluId2CluVersionIndIdTermResolver implements TermResolver<String> {
         } catch (DoesNotExistException | InvalidParameterException | MissingParameterException | OperationFailedException | PermissionDeniedException e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
+
+        DateTime endTime = new DateTime();
+        RegEnginePerformanceUtil.putStatistics(RegEnginePerformanceUtil.TERMS, getOutput(), startTime, endTime);
 
         return versionIndId;
     }
