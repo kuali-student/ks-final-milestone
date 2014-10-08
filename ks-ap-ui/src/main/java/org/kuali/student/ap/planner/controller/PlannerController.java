@@ -16,6 +16,7 @@ import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
 import org.kuali.student.ap.planner.form.CourseSummaryForm;
 import org.kuali.student.ap.planner.form.DeletePlanItemForm;
+import org.kuali.student.ap.planner.form.MovePlanItemForm;
 import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
@@ -77,7 +78,8 @@ public class PlannerController extends KsapControllerBase {
     private static final String COURSENOTE_DIALOG_FORM = "KSAP-CourseNoteDialog-FormView";
     private static final String PLANITEMEDIT_DIALOG_FORM = "KSAP-PlanItemEditDialog-FormView";
     private static final String COURSESUMMARY_DIALOG_FORM = "KSAP-CourseSummary-FormView";
-    private static final String DELTEPLANITEM_DIALOG_FORM = "KSAP-DeletePlanItem-FormView";
+    private static final String DELETEPLANITEM_DIALOG_FORM = "KSAP-DeletePlanItem-FormView";
+    private static final String MOVEPLANITEM_DIALOG_FORM = "KSAP-MovePlanItem-FormView";
 
 	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
@@ -982,7 +984,7 @@ public class PlannerController extends KsapControllerBase {
     }
 
     /**
-     * Loads the initial information for the course summary dialog screen opened in the planner.
+     * Loads the initial information for the delete plan item dialog screen opened in the planner.
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=startDeletePlanItemDialog")
@@ -1001,11 +1003,45 @@ public class PlannerController extends KsapControllerBase {
             dialogForm.setFormPostUrl(form.getFormPostUrl());
             dialogForm.setRequestUrl(form.getRequestUrl());
 
-            dialogForm.setViewId(DELTEPLANITEM_DIALOG_FORM);
-            dialogForm.setView(super.getViewService().getViewById(DELTEPLANITEM_DIALOG_FORM));
+            dialogForm.setViewId(DELETEPLANITEM_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(DELETEPLANITEM_DIALOG_FORM));
 
             UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
-                    .loadDeletePlanItemForm(form,dialogForm,request,response);
+                    .loadDeletePlanItemForm(form, dialogForm, request, response);
+
+            return getUIFModelAndView(completedForm);
+        }
+        else {
+            return null;
+        }
+
+    }
+
+    /**
+     * Loads the initial information for the move plan item dialog screen opened in the planner.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startMovePlanItemDialog")
+    public ModelAndView startMovePlanItemDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                                  HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        LearningPlan plan;
+        if (form instanceof PlannerFormImpl) {
+            plan = PlanItemControllerHelper.getAuthorizedLearningPlan((PlannerFormImpl)form, request, response);
+            if (plan == null)
+                return null;
+
+            MovePlanItemForm dialogForm = new MovePlanItemForm();
+            super.start(dialogForm, request, response);
+
+            // Copy information from original view
+            dialogForm.setFormPostUrl(form.getFormPostUrl());
+            dialogForm.setRequestUrl(form.getRequestUrl());
+
+            dialogForm.setViewId(MOVEPLANITEM_DIALOG_FORM);
+            dialogForm.setView(super.getViewService().getViewById(MOVEPLANITEM_DIALOG_FORM));
+
+            UifFormBase completedForm = ((PlannerViewHelperService) dialogForm.getView().getViewHelperService())
+                    .loadMovePlanItemForm(form,dialogForm,request,response);
 
             return getUIFModelAndView(completedForm);
         }

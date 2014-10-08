@@ -31,6 +31,7 @@ import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
 import org.kuali.student.ap.planner.form.CourseNoteForm;
 import org.kuali.student.ap.planner.form.CourseSummaryForm;
 import org.kuali.student.ap.planner.form.DeletePlanItemForm;
+import org.kuali.student.ap.planner.form.MovePlanItemForm;
 import org.kuali.student.ap.planner.form.PlanItemEditForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.form.QuickAddCourseToPlanForm;
@@ -350,6 +351,45 @@ public class PlannerViewHelperServiceImpl extends PlanEventViewHelperServiceImpl
         dialogForm.setPlanItemId(planItemId);
         dialogForm.setTermId(termId);
         dialogForm.setTermName(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId).getLongName());
+
+
+        return dialogForm;
+    }
+
+    /**
+     * @see org.kuali.student.ap.planner.service.PlannerViewHelperService#loadMovePlanItemForm(org.kuali.rice.krad.web.form.UifFormBase, org.kuali.student.ap.planner.form.MovePlanItemForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public UifFormBase loadMovePlanItemForm(UifFormBase submittedForm, MovePlanItemForm dialogForm,
+                                              HttpServletRequest request, HttpServletResponse response){
+
+        String courseId = request.getParameter("courseId");
+        String planItemId = request.getParameter("planItemId");
+        String uniqueId = request.getParameter("uniqueId");
+        String termId = request.getParameter("termId");
+
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
+
+        dialogForm.setCourseId(courseId);
+        dialogForm.setCourseCode(course.getCode());
+        dialogForm.setCourseTitle(course.getCourseTitle());
+
+        CourseSummaryPopoverDetailsWrapper courseDetails = new CourseSummaryPopoverDetailsWrapper();
+        courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course));
+        dialogForm.setCourseSummaryDetails(courseDetails);
+
+        // Set Credits to display for course
+        String creditString = KsapFrameworkServiceLocator.getCourseHelper().getCreditsFormatter().formatCredits(course);
+        dialogForm.setCreditsDisplay(creditString);
+
+        //Find terms that already contain this planned course
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        List<String> plannedTermIds = KsapFrameworkServiceLocator.getPlanHelper().getTermIdsForPlanItems(planItems);
+        dialogForm.setPlannedTermIds(plannedTermIds);
+
+        dialogForm.setUniqueId(uniqueId);
+        dialogForm.setPlanItemId(planItemId);
+        dialogForm.setTermId(termId);
 
 
         return dialogForm;

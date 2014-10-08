@@ -1052,7 +1052,7 @@
 	<bean id="planner_menu_move_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="@{#textHelper.getText('planner.menu.move')}"
         p:title="@{#textHelper.getText('planner.menu.move')}"
-        p:actionScript="ksapOpenPlanDialog('planner_move_plan_item_page','planner','startDialog', this, e);"
+        p:actionScript="ksapOpenPlanDialog('planner_move_plan_item_page','planner','startMovePlanItemDialog', this, e);"
         p:additionalCssClasses="ks-fontello-icon-exchange">
 	</bean>
 

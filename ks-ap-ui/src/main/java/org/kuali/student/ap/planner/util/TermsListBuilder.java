@@ -12,6 +12,7 @@ import org.kuali.student.ap.framework.context.support.DefaultYearTerm;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.AddCourseToPlanForm;
+import org.kuali.student.ap.planner.form.SelectableTermListForm;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class TermsListBuilder extends UifKeyValuesFinderBase {
         List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getPlanningTerms();
 
         for (Term term : terms) {
-            AddCourseToPlanForm form = (AddCourseToPlanForm) model;
+            SelectableTermListForm form = (SelectableTermListForm) model;
             String plannedSuffix = "";
             if (form.getPlannedTermIds().contains(term.getId()))
                 plannedSuffix = " (planned)";

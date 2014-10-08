@@ -25,7 +25,7 @@ import java.util.List;
  * Used for beans:
  * PlannerDialogUI.xml#KSAP-AddToPlanDialog-FormView
  */
-public class AddCourseToPlanForm extends UifFormBase{
+public class AddCourseToPlanForm extends UifFormBase implements SelectableTermListForm{
 
     // Hidden Values
     private String courseId;
@@ -134,6 +134,7 @@ public class AddCourseToPlanForm extends UifFormBase{
         this.termId = termId;
     }
 
+    @Override
     public List<String> getPlannedTermIds() {
         return plannedTermIds;
     }

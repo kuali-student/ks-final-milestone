@@ -92,33 +92,7 @@
         <property name="items">
             <list>
                 <!-- Scheduled Terms -->
-                <bean parent="Uif-CssGridGroup">
-                    <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.planner.summary.scheduled')}">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ksap-label</value>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.scheduledTermsForUI}"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="KSAP-Component-ScheduleTermsList" />
                 <!-- Last Offered -->
                 <bean parent="Uif-CssGridGroup">
                     <property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
@@ -752,7 +726,108 @@
         </property>
     </bean>
 
-	<!-- Dialog Input Components-->
+    <!-- Define "Move Plan Item" popover on planner page  -->
+    <bean id="KSAP-MovePlanItem-FormView" parent="KSAP-MovePlanItem-FormView-parent"/>
+    <bean id="KSAP-MovePlanItem-FormView-parent" abstract="true" parent="KSAP-BaseDialog-FormView">
+        <property name="id" value="KSAP-MovePlanItem-FormView" />
+        <property name="formClass" value="org.kuali.student.ap.planner.form.MovePlanItemForm" />
+        <property name="page">
+            <bean parent="KSAP-PopoverPage">
+                <property name="id" value="planner_move_plan_item_page" />
+                <property name="innerViewWrapperId" value="planner_move_plan_item_page_inner" />
+                <property name="headerText"
+                          value=" @{#textHelper.getFormattedMessage('dialog.planner.move.header')}" />
+                <property name="footer">
+                    <bean parent="Uif-FooterBase">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="planner_submit_button"
+                                                              p:actionLabel="@{#textHelper.getText('dialog.planner.move.button')}"
+                                                              p:actionScript="ksapSubmitDialog('planner_move_plan_item_page',e);"/>
+                                                        <bean parent="planner_cancel_button" />
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="planner_error_placeholder" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ksap-dialog-centered</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="Uif-Message"
+                              p:messageText="@{courseCode} @{courseTitle} @{#textHelper.getFormattedMessage('dialog.all.add.message', new Object[]{creditsDisplay})}"
+                              p:additionalCssClasses="dialog-add-title"/>
+                        <bean parent="KSAP-Component-ScheduleTermsList" />
+                        <bean parent="planner_term_input_field">
+                            <property name="items">
+                                <list>
+                                    <!-- Term & Year -->
+                                    <bean parent="Uif-CssGridGroup">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                                                    <property name="items">
+                                                        <list>
+                                                            <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('dialog.planner.move.term.label', new Object[]{courseCode})}">
+                                                                <property name="cssClasses">
+                                                                    <list merge="true">
+                                                                        <value>ksap-label</value>
+                                                                    </list>
+                                                                </property>
+                                                            </bean>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                                <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                                    <property name="items">
+                                                        <list>
+                                                            <bean parent="planner_term_input" p:fieldLabel.render="false">
+                                                                <property name="propertyName" value="targetTermId" />
+                                                                <property name="instructionalText" value="" />
+                                                            </bean>
+                                                            <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.component.term.note')}">
+                                                                <property name="cssClasses">
+                                                                    <list merge="true">
+                                                                        <value>ksap-source</value>
+                                                                    </list>
+                                                                </property>
+                                                            </bean>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="planner_hidden_input" p:propertyName="planItemId" />
+                        <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                        <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+                        <bean parent="planner_hidden_input" p:propertyName="termId" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">
         <property name="cssClasses">
@@ -1013,6 +1088,34 @@
             <list>
                 <bean parent="Uif-CheckboxInputField" p:propertyName="backup"
                       p:fieldLabel.renderColon="false" p:control.checkboxLabel="@{#textHelper.getText('dialog.component.backup.label')}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Component-ScheduleTermsList" parent="Uif-CssGridGroup">
+        <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('dialog.planner.summary.scheduled')}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-label</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.scheduledTermsForUI}"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
