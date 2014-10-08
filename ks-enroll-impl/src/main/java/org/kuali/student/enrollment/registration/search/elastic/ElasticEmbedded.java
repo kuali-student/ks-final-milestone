@@ -239,7 +239,6 @@ public class ElasticEmbedded {
         Date startTime = new Date();
 
         BulkRequestBuilder bulkRequest = client.prepareBulk();
-        ObjectMapper mapper = new ObjectMapper();
 
         //Create a bulk request to push all data into elastic
         for (String id : idsToDelete) {
