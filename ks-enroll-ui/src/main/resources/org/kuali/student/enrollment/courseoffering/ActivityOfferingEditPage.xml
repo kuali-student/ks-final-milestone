@@ -601,16 +601,13 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <!--This is not delivered functionality.-->
-                                        <!--Eventually, this option would be moved to the course offering.-->
-                                        <!--AO specific not needed. KSENROLL-14454 -->
-                                        <!--<bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox"-->
-                                              <!--p:propertyName="courseWaitListInfo.allowHoldUntilEntries">-->
-                                            <!--<property name="control">-->
-                                                <!--<bean parent="KS-Uif-CheckboxControl"-->
-                                                      <!--p:checkboxLabel="Allow Hold List"/>-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
+                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox"
+                                              p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-CheckboxControl"
+                                                      p:checkboxLabel="Allow Hold List"/>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
