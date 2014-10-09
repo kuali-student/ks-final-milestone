@@ -192,6 +192,15 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation"/>
+                <bean parent="Uif-Message" p:messageText="[br]" />
+                <bean parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  Adding colocated activities here will delete their requested or actual scheduling information and replace them with the scheduling information from this activity offering.">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-informational-message-for-field</value>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="ActivityOfferingEdit-CoLocatedActivities"/>
                 <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment"/>
                 <bean id="share_seats" parent="KS-Uif-InputField" p:propertyName="maxEnrollmentShared">
