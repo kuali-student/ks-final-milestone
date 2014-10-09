@@ -24,6 +24,32 @@ angular.module('regCartApp')
             },
             link:function(scope) {
 
+                function findTabIndexById (tabId) {
+                    for (var i=0; i<detailsConfig.tabs.length; i++){
+                        if (detailsConfig.tabs[i].id === tabId) {
+                            return i;
+                        }
+                    }
+                    return -1; // not found
+                }
+
+                function setIndicatorConflicts(tabs) {
+                    for (var i=0; i<tabs.length; i++) {
+                        if (tabs[i].indicatorConflict) {
+                            tabs[i].conflict = true;
+                        }
+                    }
+                }
+
+                function setHighlightConflicts(tabs) {
+                    for (var i=0; i<tabs.length; i++) {
+                        if (tabs[i].highlightConflict) {
+                            tabs[i].conflict = true;
+                        }
+                    }
+                }
+
+
                 var detailsConfig = new DetailsFactory(scope.config);
 
                 // reorganize the data into sections
@@ -96,31 +122,6 @@ angular.module('regCartApp')
                         }
                     }
                 });
-
-                function findTabIndexById (tabId) {
-                    for (var i=0; i<detailsConfig.tabs.length; i++){
-                        if (detailsConfig.tabs[i].id === tabId) {
-                            return i;
-                        }
-                    }
-                    return -1; // not found
-                }
-
-                function setIndicatorConflicts(tabs) {
-                    for (var i=0; i<tabs.length; i++) {
-                        if (tabs[i].indicatorConflict) {
-                            tabs[i].conflict = true;
-                        }
-                    }
-                }
-
-                function setHighlightConflicts(tabs) {
-                    for (var i=0; i<tabs.length; i++) {
-                        if (tabs[i].highlightConflict) {
-                            tabs[i].conflict = true;
-                        }
-                    }
-                }
             }
         };
     }])

@@ -475,27 +475,29 @@ angular.module('regCartApp')
         function setCartScheduleIndicators () {
             if ($scope.course !== null) {
                 var aoTypes = $scope.course.activityOfferingTypes;
-                for (var i = 0; i < aoTypes.length; i++) {
-                    for (var j = 0; j < aoTypes[i].formattedOfferings.length; j++) {
-                        var cartIndicator = CartService.isAoInCart(aoTypes[i].formattedOfferings[j].activityOfferingId);
-                        var scheduleIndicator = ScheduleService.isAoInSchedule(aoTypes[i].formattedOfferings[j].activityOfferingId);
-                        if (!angular.isDefined(cartIndicator)) { cartIndicator = {flag: false, colorIndex: null};}
-                        if (!angular.isDefined(scheduleIndicator)) { scheduleIndicator = {flag: false, colorIndex: null};}
-                        aoTypes[i].formattedOfferings[j].indicatorIcon = false;
-                        if (scheduleIndicator.flag) {
-                            aoTypes[i].formattedOfferings[j].indicatorType = scheduleIndicator.colorIndex;
-                            aoTypes[i].formattedOfferings[j].indicatorIcon = true;
-                            aoTypes[i].formattedOfferings[j].indicatorIconType = 'calendar';
-                        } else {
-                            if (cartIndicator.flag) {
-                                aoTypes[i].formattedOfferings[j].indicatorType = cartIndicator.colorIndex;
+                if (angular.isArray(aoTypes)) {
+                    for (var i = 0; i < aoTypes.length; i++) {
+                        for (var j = 0; j < aoTypes[i].formattedOfferings.length; j++) {
+                            var cartIndicator = CartService.isAoInCart(aoTypes[i].formattedOfferings[j].activityOfferingId);
+                            var scheduleIndicator = ScheduleService.isAoInSchedule(aoTypes[i].formattedOfferings[j].activityOfferingId);
+                            if (!angular.isDefined(cartIndicator)) { cartIndicator = {flag: false, colorIndex: null};}
+                            if (!angular.isDefined(scheduleIndicator)) { scheduleIndicator = {flag: false, colorIndex: null};}
+                            aoTypes[i].formattedOfferings[j].indicatorIcon = false;
+                            if (scheduleIndicator.flag) {
+                                aoTypes[i].formattedOfferings[j].indicatorType = scheduleIndicator.colorIndex;
                                 aoTypes[i].formattedOfferings[j].indicatorIcon = true;
-                                aoTypes[i].formattedOfferings[j].indicatorIconType = 'shopping-cart';
+                                aoTypes[i].formattedOfferings[j].indicatorIconType = 'calendar';
+                            } else {
+                                if (cartIndicator.flag) {
+                                    aoTypes[i].formattedOfferings[j].indicatorType = cartIndicator.colorIndex;
+                                    aoTypes[i].formattedOfferings[j].indicatorIcon = true;
+                                    aoTypes[i].formattedOfferings[j].indicatorIconType = 'shopping-cart';
+                                }
                             }
                         }
                     }
+                    $scope.course.activityOfferingTypes = aoTypes;
                 }
-                $scope.course.activityOfferingTypes = aoTypes;
             }
         }
 
