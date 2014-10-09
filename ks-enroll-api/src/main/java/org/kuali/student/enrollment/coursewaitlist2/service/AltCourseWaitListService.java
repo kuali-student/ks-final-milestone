@@ -94,19 +94,42 @@ public interface AltCourseWaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the global values used to govern the behavior of waitlists in the system.
+     * Retrieves a list of ActivityWaitListEntry objects
      *
+     * @param courseWaitListEntryId The master LPR id for the waitlist entry
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
-     * @return the ActivityRegistration requested
-     * @throws DoesNotExistException activityWaitListEntryId is not found
+     * @return A list of ActivityWaitListEntries with the same masterLprId as the CourseWati
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException activityWaitListEntryId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
+    List<AltActivityWaitListEntryInfo> getActivityWaitListEntriesForCourseWaitListEntry(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    List<AltCourseWaitListEntryInfo> getCourseWaitListEntriesByStudent(@WebParam(name = "studentId") String studentId,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+        /**
+         * Retrieves the global values used to govern the behavior of waitlists in the system.
+         *
+         * @param contextInfo information containing the principalId and
+         *        locale information about the caller of the service
+         *        operation
+         * @return the ActivityRegistration requested
+         * @throws DoesNotExistException activityWaitListEntryId is not found
+         * @throws InvalidParameterException contextInfo is not valid
+         * @throws MissingParameterException activityWaitListEntryId or
+         *         contextInfo is missing or null
+         * @throws OperationFailedException unable to complete request
+         * @throws PermissionDeniedException an authorization failure occurred
+         */
     WaitListConfig getGlobalWaitListConfig(@WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
