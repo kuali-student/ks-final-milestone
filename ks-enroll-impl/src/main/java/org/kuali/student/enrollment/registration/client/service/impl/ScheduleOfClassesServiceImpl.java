@@ -1414,17 +1414,23 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String rgWlCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WAITLIST_COUNT);
             String aoSeatCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT);
+            String aoMaxSeatsStr = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS);
 
             //Look up the associated ao and update the seatcount values
             StudentScheduleActivityOfferingResult ao = aoId2Ao.get(aoId);
             // adding logic here because of caching: rgId should be technically there, but not yet
             if (ao != null) {
+                // make sure the max seats are up-to-date.
+                if(aoMaxSeatsStr != null && !aoMaxSeatsStr.isEmpty()){
+                    ao.setSeatsAvailable(Integer.parseInt(aoMaxSeatsStr));
+                }
                 if (!ao.getRegGroupInfos().isEmpty() && ao.getRegGroupInfos().containsKey(rgId)) {
                     RegGroupLimitedInfoSearchResult rg = ao.getRegGroupInfos().get(rgId);
                     rg.setWaitListSize(Integer.parseInt(rgWlCount));
                 }
                 if (ao.getSeatsAvailable() != null) {
-                    ao.setSeatsOpen(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount));
+                    // if the number is negative, then set to 0
+                    ao.setSeatsOpen(Math.max(0,(ao.getSeatsAvailable() - Integer.parseInt(aoSeatCount))));
                 }
             }
         }

@@ -441,7 +441,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "        WHERE " +
                         "            lpr.LUI_ID = rg2ao.LUI_ID " +
                         "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') rgWaitlisted " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') rgWaitlisted, " +
+                        "     ao.MAX_SEATS aoMaxSeats " +
                         "FROM " +
                         "    KSEN_LUILUI_RELTN co2fo, " +
                         "    KSEN_LUILUI_RELTN fo2rg, " +
@@ -475,7 +476,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i++].toString());
-            row.addCell(SearchResultColumns.WAITLIST_COUNT, resultRow[i].toString());
+            row.addCell(SearchResultColumns.WAITLIST_COUNT, resultRow[i++].toString());
+            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i++].toString());
             resultInfo.getRows().add(row);
         }
 
