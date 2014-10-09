@@ -4,10 +4,10 @@
     <div class="kscr-LearningPlan-container">
 
         <!-- Learning Plan Heading -->
-        <div class="kscr-MainHeading kscr-LearningPlan-heading" ng-init="collapsed = true" ng-click="collapsed = !collapsed">
+        <div class="kscr-MainHeading kscr-LearningPlan-heading" ng-click="toggleCollapsed()">
             <!-- Expand/Collapse Icon -->
             <span class="kscr-Card-icon">
-                <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !collapsed, 'glyphicon-chevron-right' : collapsed}"></i>
+                <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isCollapsed(), 'glyphicon-chevron-right' : isCollapsed()}"></i>
             </span>
 
             <div class="kscr-MainHeading-header">My Learning Plan</div>
@@ -16,7 +16,7 @@
             <div class="util-Grid--clearfix"></div>
         </div>
 
-        <div class="kscr-LearningPlan-content" ng-show="!collapsed">
+        <div class="kscr-LearningPlan-content" ng-show="!isCollapsed()">
             <!-- Learning Plan Message -->
             <div class="kscr-LearningPlan-message" ng-if="message">
                 <span validation-message message="message"></span>

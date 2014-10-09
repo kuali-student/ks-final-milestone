@@ -25,6 +25,8 @@ angular.module('regCartApp')
             $scope.categories = {};
             $scope.selectedCategory = null;
             $scope.isLoaded = false;
+            $scope.isCollapsed = LearningPlanService.isCollapsed;
+
             $scope.message = null;
             $scope.plan = null;
 
@@ -214,6 +216,14 @@ angular.module('regCartApp')
              */
             $scope.selectCategory = function(category) {
                 $scope.selectedCategory = category;
+            };
+
+            /**
+             * Toggle the collapsed nature of the LP widget.
+             * This is done it the service b/c it needs to be persisted between scopes.
+             */
+            $scope.toggleCollapsed = function() {
+                LearningPlanService.toggleCollapsed();
             };
 
             /**

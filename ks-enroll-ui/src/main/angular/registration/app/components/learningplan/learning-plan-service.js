@@ -32,6 +32,16 @@ angular.module('regCartApp')
             return deferred.promise;
         };
 
+        var collapsed = true;
+        this.isCollapsed = function() {
+            return collapsed;
+        };
+
+        this.toggleCollapsed = function() {
+            collapsed = !collapsed;
+            return collapsed;
+        };
+
 
         // Server API Methods
 
