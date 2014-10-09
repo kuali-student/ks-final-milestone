@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -601,13 +601,16 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox"
-                                              p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
-                                            <property name="control">
-                                                <bean parent="KS-Uif-CheckboxControl"
-                                                      p:checkboxLabel="Allow Hold List"/>
-                                            </property>
-                                        </bean>
+                                        <!--This is not delivered functionality.-->
+                                        <!--Eventually, this option would be moved to the course offering.-->
+                                        <!--AO specific not needed. KSENROLL-14454 -->
+                                        <!--<bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox"-->
+                                              <!--p:propertyName="courseWaitListInfo.allowHoldUntilEntries">-->
+                                            <!--<property name="control">-->
+                                                <!--<bean parent="KS-Uif-CheckboxControl"-->
+                                                      <!--p:checkboxLabel="Allow Hold List"/>-->
+                                            <!--</property>-->
+                                        <!--</bean>-->
                                     </list>
                                 </property>
                             </bean>
