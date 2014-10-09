@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.coursewaitlist2.service.impl;
 
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao;
@@ -52,6 +54,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -143,6 +146,103 @@ public class AltCourseWaitListServiceImpl implements AltCourseWaitListService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null;
+    }
+
+    @Override
+    public List<AltActivityWaitListEntryInfo>
+    getActivityWaitListEntriesForCourseWaitListEntry(String courseWaitListEntryId,
+                                                     ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("masterLprId", courseWaitListEntryId),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY),
+                PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+        QueryByCriteria lprCriteria = qbcBuilder.build();
+        List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
+
+        //Convert these lprs to ActivityRegistrationInfos
+        List<AltActivityWaitListEntryInfo> activityWaitListEntryInfoList = new ArrayList<>(lprs.size());
+        for(LprInfo lpr:lprs){
+            AltActivityWaitListEntryInfo activityWaitListEntry = new AltActivityWaitListEntryInfo();
+            activityWaitListEntry.setTypeKey(lpr.getTypeKey());
+            activityWaitListEntry.setStateKey(lpr.getStateKey());
+            activityWaitListEntry.setId(lpr.getId());
+            activityWaitListEntry.setEffectiveDate(lpr.getEffectiveDate());
+            activityWaitListEntry.setExpirationDate(lpr.getExpirationDate());
+            activityWaitListEntry.setTermId(lpr.getAtpId());
+            activityWaitListEntry.setAttributes(lpr.getAttributes());
+            activityWaitListEntry.setActivityOfferingId(lpr.getLuiId());
+            activityWaitListEntry.setPersonId(lpr.getPersonId());
+            activityWaitListEntry.setCourseRegistrationId(lpr.getMasterLprId());
+            activityWaitListEntry.setMeta(lpr.getMeta());
+            activityWaitListEntryInfoList.add(activityWaitListEntry);
+        }
+        return activityWaitListEntryInfoList;
+    }
+
+    @Override
+    public List<AltCourseWaitListEntryInfo> getCourseWaitListEntriesByStudent(String studentId,
+                                                                              ContextInfo contextInfo)
+            throws MissingParameterException, InvalidParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // Do a query for all lprs that have a matching person id. Limit to RG and CO Lprs that are in state
+        // registrant(might want to change to active in future)
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("personId", studentId),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
+                        LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY),
+                PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+        QueryByCriteria lprCriteria = qbcBuilder.build();
+        List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
+
+        return getCourseWaitListEntriesFromLprs(lprs);
+    }
+
+    private List<AltCourseWaitListEntryInfo> getCourseWaitListEntriesFromLprs(List<LprInfo> lprs) {
+        // Get a mapping from the master lprid to the COid since CourseRegistrationInfo has both CO and RG ids
+        Map<String,String> masterLprIdToCoIdMap = new HashMap<>();
+        for (LprInfo lpr:lprs) {
+            if (LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())) {
+                masterLprIdToCoIdMap.put(lpr.getMasterLprId(), lpr.getLuiId());
+            }
+        }
+
+        // For each RG lpr, create a new courseRegistrationInfo and lookup the corresponding CO id
+        List<AltCourseWaitListEntryInfo> courseWaitListEntries = new ArrayList<>(lprs.size());
+        for (LprInfo lpr:lprs) {
+            if (LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())) {
+                courseWaitListEntries.add(toCourseWaitListEntry(lpr, masterLprIdToCoIdMap.get(lpr.getMasterLprId())));
+            }
+        }
+
+        return courseWaitListEntries;
+    }
+
+    private AltCourseWaitListEntryInfo toCourseWaitListEntry(LprInfo rgLpr, String courseOfferingId) {
+        AltCourseWaitListEntryInfo courseWaitListEntry = new AltCourseWaitListEntryInfo();
+        for (String rvgKey:rgLpr.getResultValuesGroupKeys()) {
+            if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
+                courseWaitListEntry.setGradingOptionId(rvgKey);
+            } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
+                //This will be replaced with just the key in the future
+                courseWaitListEntry.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length())));
+            }
+        }
+
+        courseWaitListEntry.setId(rgLpr.getId());
+        courseWaitListEntry.setStateKey(rgLpr.getStateKey());
+        courseWaitListEntry.setTypeKey(rgLpr.getTypeKey());
+        courseWaitListEntry.setRegistrationGroupId(rgLpr.getLuiId());
+        courseWaitListEntry.setCourseOfferingId(courseOfferingId);
+        courseWaitListEntry.setPersonId(rgLpr.getPersonId());
+        courseWaitListEntry.setTermId(rgLpr.getAtpId());
+        courseWaitListEntry.setCrossListedCode(rgLpr.getCrossListedCode());
+        courseWaitListEntry.setAttributes(rgLpr.getAttributes());
+        courseWaitListEntry.setMeta(rgLpr.getMeta());
+        courseWaitListEntry.setEffectiveDate(rgLpr.getEffectiveDate());
+        courseWaitListEntry.setExpirationDate(rgLpr.getExpirationDate());
+        return courseWaitListEntry;
     }
 
     @Override

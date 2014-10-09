@@ -48,7 +48,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -134,6 +133,16 @@ public class AltCourseWaitListServiceMapImpl implements AltCourseWaitListService
         info.setEffectiveDate(aoLpr.getEffectiveDate());
         info.setExpirationDate(aoLpr.getExpirationDate());
         return info;
+    }
+
+    @Override
+    public List<AltActivityWaitListEntryInfo> getActivityWaitListEntriesForCourseWaitListEntry(String courseWaitListEntryId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<AltCourseWaitListEntryInfo> getCourseWaitListEntriesByStudent(String studentId, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     @Override
