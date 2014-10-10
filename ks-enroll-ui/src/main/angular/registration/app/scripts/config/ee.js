@@ -6,7 +6,10 @@
 
 
 /**
- * These easter eggs are baked into the search form.
+ * These easter eggs are baked into the search form, but can easily be removed.
+ * They have been added to illustrate how an implementing institution could customize / override default behavior.
+ * This was a critical concern so we felt it necessitated adding it to our reference code. to remove,
+ * just remove ee.js line in index.html
  */
 angular.module('regCartApp')
     .config(['$provide', function($provide) {
