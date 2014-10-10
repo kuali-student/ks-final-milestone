@@ -110,6 +110,12 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
 
+        if (StringUtils.isNotEmpty(searchForm.getPeriodId())) {
+            // If they're reselecting a term we should clear out the period values.
+            searchForm.setPeriodId("");
+            populatePeriodCollections(searchForm);
+        }
+
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(searchForm, AppointmentConstants.SELECT_TERM_PAGE);
         }
