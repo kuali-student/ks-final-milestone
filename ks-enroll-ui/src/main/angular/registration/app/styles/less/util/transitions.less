@@ -136,3 +136,115 @@
   background-size: 80rem 1rem;
   position: relative;
 }
+
+
+
+
+
+// ---------------- Easter Egg Transitions ------------------
+
+// Barrel Roll
+.util-transitions-barrelRoll {
+    -webkit-transition: -webkit-transform 4s ease;
+    -webkit-transform: rotate(360deg);
+    -moz-transition: -moz-transform 4s ease;
+    -moz-transform: rotate(360deg);
+    -o-transition: -o-transform 4s ease;
+    -o-transform: rotate(360deg);
+    transition: transform 4s ease;
+    transform: rotate(360deg);
+}
+
+// ----------------
+// Wobble
+.util-transitions-wobble {
+    animation: wobble 4s ease-in-out;
+}
+
+@keyframes wobble {
+    20% { transform: rotate(5deg); }
+    40% { transform: rotate(-5deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+@-webkit-keyframes wobble {
+    20% { transform: rotate(5deg); }
+    40% { transform: rotate(-5deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+
+// ----------------
+// Doctor Who scene
+.util-transitions-doctorWho {
+    &, &-tardis, &-dalek {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .util-transitions-browserHelper(10s);
+
+    &-tardis {
+        background: url('../images/animations/tardis.png') no-repeat bottom left;
+
+        .util-transitions-doctorWho-add & {
+            -webkit-animation: tardis 10s ease-in-out;
+            animation: tardis 10s ease-in-out;
+        }
+    }
+
+    &-dalek {
+        background: url('../images/animations/dalek.png') no-repeat bottom right;
+        left: 100%;
+
+        .util-transitions-doctorWho-add & {
+            -webkit-animation: dalek 10s ease-in-out;
+            animation: dalek 10s ease-in-out;
+        }
+    }
+}
+
+@keyframes tardis {
+    0%  { opacity: 0; }
+    8%  { opacity: 0.4; }
+    16% { opacity: 0.2; }
+    24% { opacity: 0.6; }
+    32% { opacity: 0.3; }
+    40% { opacity: 1; } // Fully in @ 40%
+    60% { opacity: 1; } // Start fading out @ 60%
+    68% { opacity: 0.3; }
+    76% { opacity: 0.6; }
+    84% { opacity: 0.2; }
+    92% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+@-webkit-keyframes tardis {
+    0%  { opacity: 0; }
+    8%  { opacity: 0.4; }
+    16% { opacity: 0.2; }
+    24% { opacity: 0.6; }
+    32% { opacity: 0.3; }
+    40% { opacity: 1; } // Fully in @ 40%
+    60% { opacity: 1; } // Start fading out @ 60%
+    68% { opacity: 0.3; }
+    76% { opacity: 0.6; }
+    84% { opacity: 0.2; }
+    92% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+
+@keyframes dalek {
+    40% { left: 100%; } // Stay out until 40%
+    60% { left: 0; } // Fully in @ 60%
+    90% { left: 0; } // Start left
+    100% { left: -100%; } // Moving out of frame on left at 100%
+}
+@-webkit-keyframes dalek {
+    40% { left: 100%; } // Stay out until 40%
+    60% { left: 0; } // Fully in @ 60%
+    90% { left: 0; } // Start left
+    100% { left: -100%; } // Moving out of frame on left at 100%
+}

@@ -66,6 +66,7 @@ module.exports = function (grunt) {
             },
             jsTest:{
                 files:[
+                    'karma.conf.js',
                     'test/spec/{,*/}*.js',
                     'test/mock/{,*/}*',
                     '<%= yeoman.app %>/components/{,*/}*.spec.js'

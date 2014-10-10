@@ -22,8 +22,7 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.js',
 
       // Base scripts
-      'scripts/*.js',
-      'scripts/**/*.js',
+      'scripts/{,*/}*.js',
       'components/{,*/}*.js',
 
       // HTML Partials
@@ -40,7 +39,9 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: [
+        'scripts/config/ee.js'
+    ],
 
     // web server port
     port: 8080,
