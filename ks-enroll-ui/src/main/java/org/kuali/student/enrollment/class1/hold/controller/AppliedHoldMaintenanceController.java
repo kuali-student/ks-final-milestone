@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * This class provides a controller for HoldIssue objects
@@ -157,6 +158,7 @@ public class AppliedHoldMaintenanceController extends MaintenanceDocumentControl
         } else {
             try {
                 holdWrapper.getAppliedHold().setStateKey(HoldServiceConstants.APPLIED_HOLD_DELETED_STATE_KEY);
+                holdWrapper.getAppliedHold().setExpirationDate(new Date());
                 super.route(form, result, request, response);
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());

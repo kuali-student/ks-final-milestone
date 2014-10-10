@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 
@@ -107,13 +108,15 @@ public class AppliedHoldRule extends BasicHoldsRule {
                     List<AppliedHoldInfo> appliedHolds = HoldsResourceLoader.getHoldService().getActiveAppliedHoldsByIssueAndPerson(appliedHold.getHoldIssueId(),
                             appliedHold.getPersonId(), createContextInfo());
                     for (AppliedHoldInfo existingAppliedHold : appliedHolds) {
-                        if (existingAppliedHold.getExpirationDate() == null) {
+                        if (!existingAppliedHold.getStateKey().equals(HoldServiceConstants.APPLIED_HOLD_DELETED_STATE_KEY)) {
                             messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_CODE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_ACTIVE_HOLD_CODE_ALREADY_APPLIED);
                             isValid = false;
                         } else {
-                            if (appliedHold.getEffectiveDate().before(existingAppliedHold.getExpirationDate())) {
-                                messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXISTING_HOLD_CODE_INVALID_DATE_RANGE);
-                                isValid = false;
+                            if (existingAppliedHold.getExpirationDate() != null) {
+                                if (appliedHold.getEffectiveDate().before(existingAppliedHold.getExpirationDate())) {
+                                    messages.putError(HoldsConstants.APPLIED_HOLDS_PROP_NAME_EFFECTIVE_DATE, HoldsConstants.APPLIED_HOLDS_MSG_ERROR_EXISTING_HOLD_CODE_INVALID_DATE_RANGE);
+                                    isValid = false;
+                                }
                             }
                         }
                     }
