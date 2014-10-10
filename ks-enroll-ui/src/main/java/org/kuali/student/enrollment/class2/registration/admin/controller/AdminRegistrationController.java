@@ -362,7 +362,8 @@ public class AdminRegistrationController extends UifControllerBase {
             }
         } else if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(item.getStateKey())) {
             result = this.getViewHelper(form).buildRegistrationResult(addCourse, form.getTerm(), null, item.getValidationResults());
-            result.setOriginRequestTypeKey(item.getTypeKey());
+//            result.setOriginRequestTypeKey(item.getTypeKey());
+            result.setCollectionId(AdminRegConstants.REG_COLL_ID);
         }
 
         return result;
