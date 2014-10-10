@@ -56,6 +56,34 @@ import java.util.Map;
 public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
     /**
+     *  This method is overridden to provide custom rules for processing document 'Approve And Activate'
+     *
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
+        if (maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof CourseInfoWrapper) {
+
+            CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
+            boolean returnVal = true;
+            Integer item = 0;
+            for (ResultValuesGroupInfoWrapper rvg : dataObject.getCreditOptionWrappers()) {
+                if (((rvg.getUiHelper() == null))|| (rvg.getUiHelper().getResultValue() == null) || (rvg.getUiHelper().getResultValue().isEmpty()) ) {
+                        String propertyKey = CurriculumManagementConstants.DATA_OBJECT_PATH + ".creditOptionWrappers[" + item.intValue() + "]" + ".uiHelper.resultValue";
+                        GlobalVariables.getMessageMap().putError(propertyKey,
+                                CurriculumManagementConstants.MessageKeys.ERROR_OUTCOME_CREDIT_VALUE_REQUIRED);
+                        returnVal = false;
+                }
+                item++;
+            }
+            return returnVal;
+        }
+        return true;
+    }
+
+
+    /**
      * This method is overridden to provide custom rules for processing document routing
      *
      * @param document
