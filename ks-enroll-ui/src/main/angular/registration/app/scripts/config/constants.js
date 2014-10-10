@@ -30,8 +30,8 @@ angular.module('regCartApp')
 
         return {
             addToCart: {
-                error: 'kuali.cr.cart.state.error',
-                success: 'kuali.cr.cart.state.success'
+                error: 'kuali.cr.cart.add.state.error',
+                success: 'kuali.cr.cart.add.state.success'
             },
 
             // DTO states (generic but used for CLUs/COs)
