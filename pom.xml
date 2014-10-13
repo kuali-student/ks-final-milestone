@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.1.1-FR2-M1-SNAPSHOT</version>
+        <version>2.1.1-FR2-M1-build-917</version>
     </parent>
     <groupId>org.kuali.student.fa</groupId>
     <artifactId>ks-fa</artifactId>
-    <version>0.1.0-FR2-M1-SNAPSHOT</version>
+    <version>0.1.0-FR2-M1-build-917</version>
     <packaging>pom</packaging>
     <name>KS Financial Aid</name>
     <modules>
