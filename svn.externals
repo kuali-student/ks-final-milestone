@@ -1,25 +1,7 @@
-#
-# The svn.externals file (indirectly) controls what local directories appear
-# in the checkout, and what actual location inside Subversion they represent
-# (by tying in with the svn:externals property).
-# 
-# This enables development streams to be independently managed and released 
-# while also providing a single spot to perform an aggregated Kuali Student checkout
-# and build.
-#
-# The SVN command for using this file to create SVN external definitions is
-# 
-# svn propset svn:externals -F svn.externals .
-#
-# *** IMPORTANT ***
-# You must rerun the svn propset command (shown above) and commit after editing any of
-# the external paths for the changes to take effect.
-#
-
-^/enrollment/ks-api/branches/2.0.0-Mx ks-api
-^/enrollment/ks-core/trunk ks-core
-^/enrollment/ks-lum/trunk ks-lum
-^/enrollment/ks-enroll/trunk ks-enroll
-^/enrollment/ks-ap/trunk ks-ap
-^/enrollment/ks-fa/trunk ks-fa
-^/enrollment/ks-deployments/trunk ks-deployments
+^/enrollment/ks-ap/tags/builds/ks-ap-0.8/0.8.0-FR2-M1/build-917 ks-ap
+^/enrollment/ks-api/tags/builds/ks-api-2.1/2.1.1-FR2-M1/build-917 ks-api
+^/enrollment/ks-core/tags/builds/ks-core-2.1/2.1.1-FR2-M1/build-917 ks-core
+^/enrollment/ks-deployments/tags/builds/ks-deployments-2.1/2.1.1-FR2-M1/build-917 ks-deployments
+^/enrollment/ks-enroll/tags/builds/ks-enroll-0.2/0.2.0-FR2-M1/build-917 ks-enroll
+^/enrollment/ks-fa/tags/builds/ks-fa-0.1/0.1.0-FR2-M1/build-917 ks-fa
+^/enrollment/ks-lum/tags/builds/ks-lum-2.1/2.1.1-FR2-M1/build-917 ks-lum
