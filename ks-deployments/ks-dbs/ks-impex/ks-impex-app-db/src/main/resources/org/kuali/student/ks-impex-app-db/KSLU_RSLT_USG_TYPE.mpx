@@ -1,1 +1,3 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+TYPE_KEY,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,OBJ_ID,VER_NBR
+"lrType.finalGrade","Final learning result for an LU. A stereotypical usage is the final grade in a course.","2000-01-01T00:00:00.000-0500","${mpx.null}","Final Grade","66CF4F9EA32B45959A91C3AEA33D0215","0"
+"lrType.midtermGrade","Midterm learning result for an LU. A stereotypical usage is the midterm grade in a course.","2000-01-01T00:00:00.000-0500","${mpx.null}","Midterm Grade","1811D2788C914B1088FDCD845D56B75E","0"

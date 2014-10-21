@@ -1,1 +1,3 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+VERSION,MODULE_NAME,UPGRADE_TIME,BUILD_ID,BUILD_TIMESTAMP
+"2.0.0-SNAPSHOT","ks-core-sql","2014-10-20T16:27:34.000-0400","ks-enr-1.0-db-impex-build-279","2013-01-10 13:48 UTC"
+"2.0.0-SNAPSHOT","ks-lum-sql","2014-10-20T16:27:34.000-0400","ks-enr-1.0-db-impex-build-279","2013-01-10 13:48 UTC"

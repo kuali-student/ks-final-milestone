@@ -1,1 +1,14 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ATTR_DEFN_ID,NM,NMSPC_CD,LBL,ACTV,CMPNT_NM,VER_NBR,DESC_TXT
+"1000","peopleFlowId","KR-RULE","PeopleFlow","Y","${mpx.null}","0","An identifier for a PeopleFlow"
+"1001","ruleTypeCode","KR-RULE","Invalid Rule","Y","${mpx.null}","1","If true, execute the action"
+"1004","actionTypeCode","KR-RULE","Error Action","Y","${mpx.null}","1","Error"
+"1005","actionMessage","KR-RULE","Action Message","Y","${mpx.null}","1","Message validation action returns"
+"1006","peopleFlowName","KR-RULE","PeopleFlow Name","Y","${mpx.null}","1","PeopleFlow Name"
+"KS-KRMS-ATTR-DEFN-10000","day","KS-SYS","Day","Y","${mpx.null}","1","day"
+"KS-KRMS-ATTR-DEFN-10001","startTime","KS-SYS","Start Time","Y","${mpx.null}","1","start.time"
+"KS-KRMS-ATTR-DEFN-10002","endTime","KS-SYS","End Time","Y","${mpx.null}","1","end.time"
+"KS-KRMS-ATTR-DEFN-10003","facility","KS-SYS","Facility","Y","${mpx.null}","1","facility"
+"KS-KRMS-ATTR-DEFN-10004","room","KS-SYS","Room","Y","${mpx.null}","1","room"
+"KS-KRMS-ATTR-DEFN-10005","kuali.krms.agenda.attribute.owner.term.type","KS-SYS","Master Term Type","Y","${mpx.null}","1","Master Term Type for Agenda"
+"KS-KRMS-ATTR-DEFN-10006","tba","KS-SYS","Tba","Y","${mpx.null}","1","tba"
+"KS-KRMS-ATTR-DERN-10007","kuali.krms.nl.template.attribute.operator","KS-SYS","Operator","Y","${mpx.null}","0","operator"

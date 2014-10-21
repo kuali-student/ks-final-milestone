@@ -1,1 +1,16 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+NMSPC_CD,OBJ_ID,VER_NBR,NM,ACTV_IND,APPL_ID
+"KR-BUS","5B960CFDBB370FDFE0404F8189D83CBD","1","Service Bus","Y","RICE"
+"KR-IDM","61645D045B0005D7E0404F8189D849B1","1","Identity Management","Y","RICE"
+"KR-KRAD","B5BA065471F8326EE0404F8189D87F9A","1","Kuali Rapid Application Development","Y","RICE"
+"KR-LOC","F7586A9C3E621F6EE0406E0AC31D1D3A","1","Kuali Location","Y","RICE"
+"KR-NS","53680C68F595AD9BE0404F8189D80A6C","1","Kuali Nervous System","Y","RICE"
+"KR-NTFCN","5B960CFDBB360FDFE0404F8189D83CBD","1","Notification","Y","RICE"
+"KR-RULE","AE3195EDFF2300E2E0404F8189D822AE","1","Kuali Rules","Y","RICE"
+"KR-RULE-TEST","5a83c912-94b9-4b4d-ac3f-88c53380a4a3","1","Kuali Rules Test","Y","RICE"
+"KR-SYS","5B960CFDBB390FDFE0404F8189D83CBD","1","Enterprise Infrastructure","Y","RICE"
+"KR-WKFLW","5E1D690C419B3E2EE0404F8189D82677","0","Workflow","Y","RICE"
+"KS-AP","7DD4111C8C7E4ADBB6CDED76B618D08E","1","Kuali Student Application Planning","Y","STUDENT"
+"KS-CM","F102F3FA08CF45CFAA404FBB89D831AB","1","Kuali Student Learning Unit Management","Y","STUDENT"
+"KS-ENR","D2F07FCB2E7DFFC9E040760A4A45207E","1","Kuali Student Enrollment","Y","STUDENT"
+"KS-SYS","G102F3FA08CF45CFAA404FBB89D831AA","1","Kuali Student System","Y","STUDENT"
+"KUALI","5ADF18B6D4817954E0404F8189D85002","1","Kuali Systems","Y","${mpx.null}"

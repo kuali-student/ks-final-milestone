@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+AGENDA_ATTR_ID,AGENDA_ID,ATTR_VAL,ATTR_DEFN_ID,VER_NBR
+"KS-KRMS-AGENDA-ATTR-10000","KS-KRMS-AGENDA-11923","kuali.atp.type.Fall","KS-KRMS-ATTR-DEFN-10005","1"
+"KS-KRMS-AGENDA-ATTR-10001","KS-KRMS-AGENDA-11924","kuali.atp.type.Fall","KS-KRMS-ATTR-DEFN-10005","1"
+"KS-KRMS-AGENDA-ATTR-10002","KS-KRMS-AGENDA-11925","kuali.atp.type.Spring","KS-KRMS-ATTR-DEFN-10005","1"
+"KS-KRMS-AGENDA-ATTR-10003","KS-KRMS-AGENDA-11926","kuali.atp.type.Spring","KS-KRMS-ATTR-DEFN-10005","1"

@@ -1,1 +1,6 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+RULE_TMPL_ID,NM,RULE_TMPL_DESC,DLGN_RULE_TMPL_ID,VER_NBR,OBJ_ID
+"1015","WorkflowDocumentDelegationTemplate","WorkflowDocumentDelegationTemplate","${mpx.null}","2","6166CBA1BA86644DE0404F8189D86C09"
+"1016","WorkflowDocumentTemplate","Workflow Document Template","1015","4","6166CBA1BA87644DE0404F8189D86C09"
+"1023","ReviewersRouting","Routes to channel reviewers","${mpx.null}","2","6166CBA1BA8C644DE0404F8189D86C09"
+"1025","NotificationRouting","The standard rule template for sending notification messages.","${mpx.null}","2","6166CBA1BA8D644DE0404F8189D86C09"
+"1320","RuleRoutingTemplate","RuleRoutingTemplate","${mpx.null}","2","6166CBA1BA96644DE0404F8189D86C09"

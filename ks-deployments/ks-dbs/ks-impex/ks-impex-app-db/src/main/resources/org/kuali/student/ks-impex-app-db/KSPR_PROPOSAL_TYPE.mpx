@@ -1,1 +1,8 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+TYPE_KEY,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,OBJ_ID,VER_NBR
+"kuali.proposal.type.course.create","A create course proposal type","2000-01-01T00:00:00.000-0500","${mpx.null}","Create Course Proposal","644BEFA1E0A740418D85FDC10B93DC29","0"
+"kuali.proposal.type.course.create.admin","Credit Course Admin Proposal","2000-01-01T00:00:00.000-0500","${mpx.null}","Credit Course Admin Proposal","b0153829-89b9-4c6e-8aab-a8f914b7a417","0"
+"kuali.proposal.type.course.modify","A modify course proposal type","2000-01-01T00:00:00.000-0500","${mpx.null}","Modify Course Proposal","8F4456ECC6A140479018CCF4970A1C7E","0"
+"kuali.proposal.type.course.modify.admin","Modify Credit Course Admin Proposal","2000-01-01T00:00:00.000-0500","${mpx.null}","Modify Credit Course Admin Proposal","3ba80f94-2945-49b5-90f0-a010e8ef9eb5","0"
+"kuali.proposal.type.course.retire","A retire course proposal type","2000-01-01T00:00:00.000-0500","${mpx.null}","Retire Course Proposal","9ADA9C5759BA40439240ED1C1A9B6EDF","0"
+"kuali.proposal.type.majorDiscipline.create","Create Major Discipline Proposal","2000-01-01T00:00:00.000-0500","${mpx.null}","Create Major Discipline Proposal","b9a5ed17-ba00-4eae-bcbb-660d293d8107","0"
+"kuali.proposal.type.majorDiscipline.modify","Modify Major Discipline Proposal","2000-01-01T00:00:00.000-0500","${mpx.null}","Modify Major Discipline Proposal","70c7efa4-d269-472e-8333-41decae7c041","0"

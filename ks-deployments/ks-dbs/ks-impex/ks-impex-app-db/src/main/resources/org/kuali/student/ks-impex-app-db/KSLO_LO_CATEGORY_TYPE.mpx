@@ -1,1 +1,4 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,DESCR,EFF_DT,EXPIR_DT,NAME,TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC
+"loCategoryType.accreditation","Accreditation","2008-01-01T00:00:00.000-0500","${mpx.null}","Accreditation","${mpx.null}","F475938A00DC461CB67C62C94A53E550","0","${mpx.null}"
+"loCategoryType.skillarea","Skill","2008-01-01T00:00:00.000-0500","${mpx.null}","Skill","${mpx.null}","A72827C7B2884C20A4879822D39841D8","0","${mpx.null}"
+"loCategoryType.subject","Subject","2008-01-01T00:00:00.000-0500","${mpx.null}","Subject","${mpx.null}","5498FE8008CB4CBEBDC9EB970470B38A","0","${mpx.null}"

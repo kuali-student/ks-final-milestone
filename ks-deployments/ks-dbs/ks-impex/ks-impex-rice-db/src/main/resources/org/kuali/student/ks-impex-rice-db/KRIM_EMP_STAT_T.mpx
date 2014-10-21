@@ -1,1 +1,8 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+EMP_STAT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND,DISPLAY_SORT_CD,LAST_UPDT_DT
+"A","5B97C50B037A6110E0404F8189D85213","1","Active","Y","01","2008-11-13T14:06:31.000-0500"
+"D","5B97C50B037B6110E0404F8189D85213","1","Deceased","Y","99","2008-11-13T14:06:31.000-0500"
+"L","5B97C50B037C6110E0404F8189D85213","1","On Non-Pay Leave","Y","04","2008-11-13T14:06:32.000-0500"
+"N","5B97C50B037D6110E0404F8189D85213","1","Status Not Yet Processed","Y","03","2008-11-13T14:06:32.000-0500"
+"P","5B97C50B037E6110E0404F8189D85213","1","Processing","Y","02","2008-11-13T14:06:32.000-0500"
+"R","5B97C50B037F6110E0404F8189D85213","1","Retired","Y","10","2008-11-13T14:06:32.000-0500"
+"T","5B97C50B03806110E0404F8189D85213","1","Terminated","Y","97","2008-11-13T14:06:32.000-0500"

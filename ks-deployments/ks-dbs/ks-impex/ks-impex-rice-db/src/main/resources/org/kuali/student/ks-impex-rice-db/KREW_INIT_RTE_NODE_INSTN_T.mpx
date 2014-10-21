@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+DOC_HDR_ID,RTE_NODE_INSTN_ID
+"KS-KREW-DOC-HDR-1000","KS-KREW-RTE-NODE-INSTN-1000"
+"KS-KREW-DOC-HDR-1001","KS-KREW-RTE-NODE-INSTN-1001"
+"KS-KREW-DOC-HDR-1002","KS-KREW-RTE-NODE-INSTN-1002"
+"KS-KREW-DOC-HDR-1003","KS-KREW-RTE-NODE-INSTN-1003"

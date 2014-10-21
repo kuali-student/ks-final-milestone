@@ -1,1 +1,4 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+CNTXT_ID,NMSPC_CD,NM,TYP_ID,ACTV,VER_NBR,DESC_TXT
+"10000","KS-SYS","Course Requirements","T1004","Y","0","Course Requirements"
+"10001","KS-SYS","Program Requirements","T1004","Y","0","Program Requirements"
+"KS-KRMS-CNTXT-10002","KS-SYS","Final Exam Matrix Rules","KS-KRMS-TYP-55665","Y","0","FinalExamMatrix"

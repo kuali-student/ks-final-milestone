@@ -1,1 +1,12 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,OBJ_ID,VER_NBR,CHLD_STMT_TYPE_ID,SORT_ORDER,STMT_TYPE_ID
+"1","${mpx.null}","0","kuali.statement.type.course.enrollmentEligibility","1","kuali.statement.type.course"
+"12","${mpx.null}","0","kuali.statement.type.program.entrance","1","kuali.statement.type.program"
+"13","${mpx.null}","0","kuali.statement.type.program.satisfactoryProgress","2","kuali.statement.type.program"
+"14","${mpx.null}","0","kuali.statement.type.program.completion","3","kuali.statement.type.program"
+"2","${mpx.null}","0","kuali.statement.type.course.academicReadiness.studentEligibilityPrereq","2","kuali.statement.type.course.enrollmentEligibility"
+"3","${mpx.null}","0","kuali.statement.type.course.academicReadiness.coreq","3","kuali.statement.type.course.enrollmentEligibility"
+"4","${mpx.null}","0","kuali.statement.type.course.recommendedPreparation","4","kuali.statement.type.course.enrollmentEligibility"
+"5","${mpx.null}","0","kuali.statement.type.course.academicReadiness.antireq","5","kuali.statement.type.course.enrollmentEligibility"
+"6","${mpx.null}","0","kuali.statement.type.course.creditConstraints","6","kuali.statement.type.course"
+"7","${mpx.null}","0","kuali.statement.type.course.credit.restriction","7","kuali.statement.type.course.creditConstraints"
+"8","${mpx.null}","0","kuali.statement.type.course.credit.repeatable","8","kuali.statement.type.course.creditConstraints"

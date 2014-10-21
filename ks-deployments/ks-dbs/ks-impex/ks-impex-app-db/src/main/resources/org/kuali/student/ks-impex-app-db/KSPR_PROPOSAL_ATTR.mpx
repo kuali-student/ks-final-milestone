@@ -1,1 +1,16 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,ATTR_NAME,ATTR_VALUE,OWNER,OBJ_ID,VER_NBR
+"115ba5fd-877c-4032-ad87-a7df692a57ed","workflowNode","PreRoute","d8b6cb16-0c95-4994-925d-b8061afb4d27","76049fa0-4011-4fed-988c-3650c41eb082","0"
+"34653125-7982-4920-a2f8-221be1f10c84","workflowNode","PreRoute","cee1f753-a3d8-49b8-a1f7-12fbf62f7226","63805a2b-b92f-492b-9fc6-4e3839c8a930","0"
+"3fb97e15-07d6-4e60-b443-211778c22b78","prevStartTerm","kuali.atp.2012Fall","cee1f753-a3d8-49b8-a1f7-12fbf62f7226","9ee25d74-645f-425e-af8b-ae774e8d1a1a","0"
+"47bab146-a95e-4219-a524-41c0f9035033","workflowNode","PreRoute","d4d0b3ce-8bb4-41c1-a629-ae26f1bd1262","1f4c0007-bf60-405d-83fd-8fd3c98ac48e","0"
+"4b3efa21-0acf-47f0-ada5-bc9e1d035285","workflowNode","PreRoute","20dc6b94-1d0a-4712-85ca-5846c7e82ca6","f26d089b-2b4d-4c02-958b-2b4cb01da923","0"
+"647b080e-daa2-4d6d-93c7-d9dfc28afc03","workflowNode","PreRoute","d8b6cb16-0c95-4994-925d-b8061afb4d27","60c7693b-4c6f-4c28-8b32-23d57a5cb8f5","0"
+"74d3a75e-f885-4c60-b0e7-59f08264d3a1","workflowNode","PreRoute","20dc6b94-1d0a-4712-85ca-5846c7e82ca6","b8672ad0-3b2f-443f-ace0-745dbe75b510","0"
+"888e04fc-9381-47a4-8372-34e96916716a","workflowNode","PreRoute","d4d0b3ce-8bb4-41c1-a629-ae26f1bd1262","83b80d92-eedf-4295-9db1-ac5c1b72cff3","0"
+"8b12d837-eca6-4ad0-b708-fc3c44eabc12","workflowNode","PreRoute","d4d0b3ce-8bb4-41c1-a629-ae26f1bd1262","ed7ced8e-3120-4562-8ada-accf80b98bd8","0"
+"b51c7999-98f1-448d-92fa-529bedd057e4","prevStartTerm","kuali.atp.2012Fall","cee1f753-a3d8-49b8-a1f7-12fbf62f7226","463bc05b-9ad6-4598-9c26-2d2f2daebb4c","0"
+"cc4f2903-c009-4e12-8ac2-c961cc97f8fc","prevStartTerm","kuali.atp.1980Spring","d8b6cb16-0c95-4994-925d-b8061afb4d27","a9cc9f66-4103-4ca1-bc15-7d63c0903a5a","0"
+"dd8a232b-708d-4c2a-823f-49ef0b520d3a","workflowNode","PreRoute","d4d0b3ce-8bb4-41c1-a629-ae26f1bd1262","e2f6e005-dd3c-4e21-9d37-548b8e8377e0","0"
+"e81f9017-d81c-4bf9-93d8-2a994cad23f2","workflowNode","PreRoute","20dc6b94-1d0a-4712-85ca-5846c7e82ca6","b51db246-0590-45db-8a8c-a43db5d793fe","0"
+"e8c28adf-4ad1-4b4e-adbf-e83d512a19ee","prevStartTerm","kuali.atp.1980Spring","d8b6cb16-0c95-4994-925d-b8061afb4d27","0196e22a-4bbe-4966-82bb-76dd387f8e60","0"
+"f3f207bb-63d1-47da-ad16-f058fbf59f6f","workflowNode","PreRoute","cee1f753-a3d8-49b8-a1f7-12fbf62f7226","4e115dc4-c2ee-411f-bc59-cc920308056f","0"

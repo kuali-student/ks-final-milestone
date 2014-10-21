@@ -1,1 +1,14 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,ATP_TYPE_KEY,CLU_ID,OBJ_ID,VER_NBR
+"008b6cf7-84e6-4b65-407a-35eb92f82020","kuali.atp.season.Fall","CLUID-ENGL679-199608000000","4abdd93a-84e6-407a-ba25-150e0624219c","0"
+"008b6cf7-84e6-4b65-a0c4-35eb92f82020","kuali.atp.season.Fall","3437ef80-bd75-4247-a00c-bff6f6c1d2e4","4abdd93a-60bd-407a-ba25-150e0624219c","0"
+"008b6cf7-84e6-4b65-ba25-35eb92f82020","kuali.atp.season.Spring","3437ef80-bd75-4247-a00c-bff6f6c1d2e4","4abdd93a-a0c4-407a-ba25-150e0624219c","0"
+"008b6cf7-84e6-ba25-a0c4-35eb92f82020","kuali.atp.season.Winter","3437ef80-bd75-4247-a00c-bff6f6c1d2e4","4abdd93a-60bd-a0c4-ba25-150e0624219c","0"
+"008b6cf7-84e6-ba25-ba25-35eb92f82020","kuali.atp.season.Spring","fbaef52c-442b-4761-85e7-5ab3b238c627","4abdd93a-a0c4-407a-a0c4-150e0624219c","0"
+"008b6cf7-ba25-4b65-a0c4-35eb92f82020","kuali.atp.season.Fall","eb3b04cd-cf70-459d-9c87-479055223df6","4abdd93a-60bd-407a-a0c4-150e0624219c","0"
+"008b6cf7-ba25-4b65-ba25-35eb92f82020","kuali.atp.season.Spring","eb3b04cd-cf70-459d-9c87-479055223df6","4abdd93a-a0c4-a0c4-ba25-150e0624219c","0"
+"008b6cf7-ba25-ba25-a0c4-35eb92f82020","kuali.atp.season.Fall","fbaef52c-442b-4761-85e7-5ab3b238c627","4abdd93a-60bd-a0c4-a0c4-150e0624219c","0"
+"008b6cf7-ba25-ba25-ba25-35eb92f82020","kuali.atp.season.Fall","244840aa-4e66-4a6b-9151-86d9ab6b4b9c","4abdd93a-a0c4-a0c4-a0c4-150e0624219c","0"
+"KS-CLU-ATP-TYP-KEY-refdata-105","kuali.atp.season.Any","KS-CLU-refdata-89","6D44022E487347AAB478261B58368670","0"
+"KS-CLU-ATP-TYPE-KEY-refdata-16","kuali.atp.season.Any","KS-CLU-refdata-0","AEF66545DE824B0784EC1302E84BB3DB","0"
+"KS-CLU-ATP-TYPE-KEY-refdata-43","kuali.atp.season.Any","KS-CLU-refdata-27","E417050156BC4D448D894A31143B5CD1","0"
+"KS-CLU-ATP-TYPE-KEY-refdata-78","kuali.atp.season.Any","KS-CLU-refdata-62","D763EF819AB143E3B5582A64701987F3","0"

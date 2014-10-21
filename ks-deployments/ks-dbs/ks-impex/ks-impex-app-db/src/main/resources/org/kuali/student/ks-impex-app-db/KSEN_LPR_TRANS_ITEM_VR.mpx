@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,LPR_TRANS_ITEM_ID,ELEMENT,ERROR_LEVEL_CD,VR_MESSAGE
+"156685b5-227c-4c44-9f0f-e7847fca7b2b","56d6d081-2bc1-43bb-a60f-63cf944f0fc3","${mpx.null}","ERROR","{${mpx.quote}messageKey${mpx.quote}:${mpx.quote}kuali.lpr.trans.message.waitlist.available${mpx.quote}}"
+"3242dd25-eee5-4176-b5d9-ab61fddc171a","0caf7419-13cb-4e54-9766-3cff293c4fc2","${mpx.null}","ERROR","{${mpx.quote}messageKey${mpx.quote}:${mpx.quote}kuali.lpr.trans.message.waitlist.available${mpx.quote}}"
+"8447dd53-a092-480e-9b8c-a46bb689791a","e19e2568-e888-4009-9afa-2c72baea8dfc","${mpx.null}","ERROR","{${mpx.quote}messageKey${mpx.quote}:${mpx.quote}kuali.lpr.trans.message.waitlist.available${mpx.quote}}"
+"fc19ad2f-fc85-46f7-9d85-80b69f76f688","56645499-940f-4c92-8ca6-67c74be5f017","${mpx.null}","ERROR","{${mpx.quote}messageKey${mpx.quote}:${mpx.quote}kuali.lpr.trans.message.waitlist.available${mpx.quote}}"

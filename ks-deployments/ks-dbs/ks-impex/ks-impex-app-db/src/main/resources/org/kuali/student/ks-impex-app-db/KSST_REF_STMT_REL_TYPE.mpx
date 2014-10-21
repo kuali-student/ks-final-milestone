@@ -1,1 +1,13 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+TYPE_KEY,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,OBJ_ID,VER_NBR
+"clu.antirequisites","CLU Anti-requisites","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Anti-requisites","${mpx.null}","0"
+"clu.completion","CLU Completion Requirements","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Completion Requirements","${mpx.null}","0"
+"clu.corequisites","CLU Co-requisites","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Co-requisites","${mpx.null}","0"
+"clu.credit.repeatable","CLU Repeatable for Credit","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Repeatable for Credit","${mpx.null}","0"
+"clu.credit.restriction","CLU That Restrict Credit","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU That Restrict Credit","${mpx.null}","0"
+"clu.eligibilitiesandprerequisites","CLU Eligibilities and Pre-requisites","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Eligibilities and Pre-requisites","${mpx.null}","0"
+"clu.entrance","CLU Entrance Requirements","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Entrance Requirements","${mpx.null}","0"
+"clu.prerequisites","CLU Pre-requisites","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Pre-requisites","${mpx.null}","0"
+"clu.recommendedpreparation","CLU Recommended Preparations","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Recommended Preparations","${mpx.null}","0"
+"clu.rule","CLU Rules","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Rules","${mpx.null}","0"
+"clu.satisfactoryprogress","CLU Satisfactory Progress Requirements","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU Satisfactory Progress Requirements","${mpx.null}","0"
+"kuali.referenceType.CLU","CLU reference type","2000-01-01T00:00:00.000-0500","${mpx.null}","CLU reference type","${mpx.null}","0"

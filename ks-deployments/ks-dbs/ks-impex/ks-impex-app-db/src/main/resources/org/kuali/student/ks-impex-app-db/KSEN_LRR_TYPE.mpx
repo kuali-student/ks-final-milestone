@@ -1,1 +1,10 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI
+"kuali.lrr.type.credential.awarded ","${mpx.null}","0","Indicates the credential that was awarded","${mpx.null}","${mpx.null}","Credential Awarded","${mpx.null}"
+"kuali.lrr.type.credits.earned","${mpx.null}","0","Indicates the number of credits the student earned for successfully completing the course.  Often done via a calculation by looking at the calculated grade and either awarding the number of attempted credits if it is a passing grade.","${mpx.null}","${mpx.null}","Credits Earned","${mpx.null}"
+"kuali.lrr.type.final.grade.administrative","${mpx.null}","0","Administrative Grade that was recorded for this student","${mpx.null}","${mpx.null}","Administrative Final Grade","${mpx.null}"
+"kuali.lrr.type.final.grade.assigned","${mpx.null}","0","Grade as it was originally submitted by the faculty member on the grade sheet.","${mpx.null}","${mpx.null}","Assigned Final Grade","${mpx.null}"
+"kuali.lrr.type.final.grade.calculated","${mpx.null}","0","Grade calculated based on the scale or option chosen and the grade actually submitted by the faculty member.","${mpx.null}","${mpx.null}","Calculated Final Grade","${mpx.null}"
+"kuali.lrr.type.interim.grade","${mpx.null}","0","Grade assigned during at an interim period often used to flag students who might be struggling","${mpx.null}","${mpx.null}","Interim Grade","${mpx.null}"
+"kuali.lrr.type.standardized.test.ranking","${mpx.null}","0","The ranking of the student within the peer group who took the test during the same time period.  Often recorded as a percentage or a decile","${mpx.null}","${mpx.null}","Standardized Test Ranking","${mpx.null}"
+"kuali.lrr.type.standardized.test.score","${mpx.null}","0","A score a student got by taking standardized test.","${mpx.null}","${mpx.null}","Standardized Test Score","${mpx.null}"
+"result.source.type.notdefined.yet","${mpx.null}","1","Not defined yet.","${mpx.null}","${mpx.null}","NA","${mpx.null}"

@@ -1,1 +1,8 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+GRP_ID,OBJ_ID,VER_NBR,GRP_NM,NMSPC_CD,GRP_DESC,KIM_TYP_ID,ACTV_IND,LAST_UPDT_DT
+"1","5B97C50B04A16110E0404F8189D85213","1","WorkflowAdmin","KR-WKFLW","WorkflowAdmin","1","Y","2008-11-13T14:07:21.000-0500"
+"10010","7A2540C48DF94192A3ECE39B36363DE8","1","Hold Functionaries for Ctr Crim Justice Technology","KS-HLD","${mpx.null}","KS-KRIM-TYP-1011","Y","2014-09-10T00:00:00.000-0400"
+"10011","21C10AD581994FA3805DA86C96D7D592","1","Hold Functionaries for VA-MD Reg Col Vet Med","KS-HLD","${mpx.null}","KS-KRIM-TYP-1011","Y","2014-09-10T00:00:00.000-0400"
+"10012","189DD110459043A284B4CA92064C8D0D","1","Hold Functionaries for Freshmen Connection-CLIS","KS-HLD","${mpx.null}","KS-KRIM-TYP-1011","Y","2014-09-10T00:00:00.000-0400"
+"10013","5CFDF2622F4F4EA39EC8FFF39874F249","1","Hold Functionaries for AES-CMREC-Trfgrss Res Fac","KS-HLD","${mpx.null}","KS-KRIM-TYP-1011","Y","2014-09-10T00:00:00.000-0400"
+"10014","34771F4356E2435EAB3862BCCF3B0F3B","1","Hold Functionaries for UME-1890 Cecil","KS-HLD","${mpx.null}","KS-KRIM-TYP-1011","Y","2014-09-10T00:00:00.000-0400"
+"2000","5B97C50B04A26110E0404F8189D85213","1","NotificationAdmin","KR-WKFLW","Notification system admin group for automation.","1","Y","2008-11-13T14:07:21.000-0500"

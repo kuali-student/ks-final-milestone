@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+TYP_ATTR_ID,SEQ_NO,TYP_ID,ATTR_DEFN_ID,ACTV,VER_NBR
+"KS-KRMS-TYP_ATTR-10000","1","KS-KRMS-TYP-55668","KS-KRMS-ATTR-DEFN-10005","Y","1"
+"KS-KRMS-TYP_ATTR-10001","1","KS-KRMS-TYP-55671","KS-KRMS-ATTR-DEFN-10005","Y","1"
+"KS-KRMS-TYP_ATTR-10002","1","KS-KRMS-TYP-55669","KS-KRMS-ATTR-DEFN-10005","Y","1"
+"KS-KRMS-TYP_ATTR-10003","1","KS-KRMS-TYP-55666","KS-KRMS-ATTR-DEFN-10005","Y","1"

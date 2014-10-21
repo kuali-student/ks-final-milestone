@@ -1,1 +1,10 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+"KS-55566","5ADFE1V2441D6320E04AAAA189D85169","1","2","KS-SYS","Resolve Exception","Responsibility for Kuali Student Exception Routing","Y"
+"KS-55567","DepartmentReview0000000000000RSP","1","1","KS-CM","DepartmentReview","Responsibility for Department Review","Y"
+"KS-55568","CollegeReview0000000000000000RSP","1","1","KS-CM","CollegeReview","Responsibility for College Review","Y"
+"KS-55569","DivisionReview000000000000000RSP","1","1","KS-CM","DivisionReview","Responsibility for Division Review","Y"
+"KS-55570","SenateReview00000000000000000RSP","1","1","KS-CM","SenateReview","Responsibility for Senate Review","Y"
+"KS-55571","PublicationReview000000000000RSP","1","1","KS-CM","PublicationReview","Responsibility for Publication Review","Y"
+"KS-55572","87BF0F95-368E-8863-F65E-6AE4FDF96373","1","1","KS-CM","PublicationDecisionReview","Responsibility for Publication Decision Review","Y"
+"KS-55573","294E015D-D736-802E-2B98-0B8D62B66442","1","1","KS-CM","DocOrgReview","Responsibility for Document Organization Review","Y"
+"KS-55574","5D8B0E3E613996A3E0404F8189D8468D","1","2","KR-SYS","Resolve Exception","Responsibility for Kuali Rice Exception Routing","Y"

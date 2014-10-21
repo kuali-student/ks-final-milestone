@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+RTE_BRCH_ID,NM,PARNT_ID,INIT_RTE_NODE_INSTN_ID,SPLT_RTE_NODE_INSTN_ID,JOIN_RTE_NODE_INSTN_ID,VER_NBR
+"KS-KREW-RTE-BRCH-1000","PRIMARY","${mpx.null}","KS-KREW-RTE-NODE-INSTN-1000","${mpx.null}","${mpx.null}","18"
+"KS-KREW-RTE-BRCH-1001","PRIMARY","${mpx.null}","KS-KREW-RTE-NODE-INSTN-1001","${mpx.null}","${mpx.null}","14"
+"KS-KREW-RTE-BRCH-1002","PRIMARY","${mpx.null}","KS-KREW-RTE-NODE-INSTN-1002","${mpx.null}","${mpx.null}","10"
+"KS-KREW-RTE-BRCH-1003","PRIMARY","${mpx.null}","KS-KREW-RTE-NODE-INSTN-1003","${mpx.null}","${mpx.null}","10"

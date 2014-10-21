@@ -1,1 +1,6 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ATTR_DATA_ID,OBJ_ID,VER_NBR,GRP_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL
+"10010","8148CAE1D9004630AA7C0D59EB601BCE","1","10010","KS-KRIM-TYP-1011","KS-KRIM-ATTR-DEFN-1003","ORGID-1863972184"
+"10011","9D6B0B024A7945D3B189DE1992B2C416","1","10011","KS-KRIM-TYP-1011","KS-KRIM-ATTR-DEFN-1003","ORGID-1869859059"
+"10012","FC774313582F46499F05C2EAC7D4C3EF","1","10012","KS-KRIM-TYP-1011","KS-KRIM-ATTR-DEFN-1003","ORGID-1863972184"
+"10013","276BCD63220D4DE4B56AC465D940ACBA","1","10013","KS-KRIM-TYP-1011","KS-KRIM-ATTR-DEFN-1003","ORGID-1872941743"
+"10014","2DDB822211F2444E97E51FD598E89A92","1","10014","KS-KRIM-TYP-1011","KS-KRIM-ATTR-DEFN-1003","ORGID-1873606557"

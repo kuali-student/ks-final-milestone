@@ -1,1 +1,9 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ID,OBJ_ID,ATTR_KEY,ATTR_VALUE,OWNER_ID
+"0176d203-5457-48f4-954d-0710b58ac809","82FD467AB2A64AD990728DC12D85DBEE","kauli.ap.type.note.term.attr.atpid","kuali.atp.2014Summer1","4edda3c5-04d5-450e-958f-f439c0fc1076"
+"0d0963a4-7236-4564-911f-55b727d074bc","9126EEB6A4D04119B1DEF251640DEE16","kauli.ap.type.note.term.attr.atpid","kuali.atp.2016Fall","1d650374-4739-4882-b871-880576912cd0"
+"15a3ea91-4aee-422c-b076-a76ef97d2350","FA972DA549064EFD80636432AF896AE7","kauli.ap.type.note.term.attr.atpid","kuali.atp.2014Fall","da3cb5a4-e673-4a94-b974-a354b1d22a7c"
+"83ccc144-521e-45a0-9290-023b1e75af33","91700858CADB4F11AAAD014EF13D02C3","kauli.ap.type.note.term.attr.atpid","kuali.atp.2014Fall","6b24fa30-7a6b-44ad-9440-efcccf2f4e8e"
+"898a3586-5493-494f-8dac-bb8c9867a846","4E3C72E7338B4419A71F662D087762A0","kauli.ap.type.note.term.attr.atpid","kuali.atp.2014Spring","8d414b0a-b8cf-4dfc-8ce3-32ef6feba719"
+"a137fb8e-a6f3-4df0-8041-952643d9fb29","313058551AF44732A593E648E883AC2E","kauli.ap.type.note.term.attr.atpid","kuali.atp.2015Spring","ec2fb8fe-1dd9-4d2b-ab26-0fd559aaf593"
+"a822c067-9588-4955-ad7d-5e773473cf58","3B3764DA290D4BF79B09B02987EE3929","kauli.ap.type.note.term.attr.atpid","kuali.atp.2014Spring","0434be3c-8236-41d4-a6b4-73ac2235e484"
+"bed8abf6-afcb-4237-9205-71f578f446a0","20BE5E84A9CB437D9C0F1E79FA27F413","kauli.ap.type.note.term.attr.atpid","kuali.atp.2015Winter","3b3644e1-af79-4ca6-af51-cb35a744d615"

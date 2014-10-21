@@ -1,1 +1,5 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+ACTN_TKN_ID,DOC_HDR_ID,PRNCPL_ID,DLGTR_PRNCPL_ID,ACTN_CD,ACTN_DT,DOC_VER_NBR,ANNOTN,CUR_IND,VER_NBR,DLGTR_GRP_ID
+"KS-KREW-ACTN-TKN-1000","KS-KREW-DOC-HDR-1000","admin","${mpx.null}","S","2013-02-18T13:11:27.000-0500","1","${mpx.null}","1","1","${mpx.null}"
+"KS-KREW-ACTN-TKN-1001","KS-KREW-DOC-HDR-1001","admin","${mpx.null}","S","2013-02-18T13:20:11.000-0500","1","${mpx.null}","1","1","${mpx.null}"
+"KS-KREW-ACTN-TKN-1002","KS-KREW-DOC-HDR-1002","admin","${mpx.null}","S","2013-02-18T13:23:34.000-0500","1","${mpx.null}","1","1","${mpx.null}"
+"KS-KREW-ACTN-TKN-1003","KS-KREW-DOC-HDR-1003","admin","${mpx.null}","S","2013-02-18T13:26:07.000-0500","1","${mpx.null}","1","1","${mpx.null}"

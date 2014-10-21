@@ -1,1 +1,9 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+NL_USAGE_ID,NM,NMSPC_CD,DESC_TXT,ACTV,VER_NBR
+"KS-KRMS-NL-USAGE-1000","kuali.krms.edit","KS-SYS","Kuali Rule Edit","Y","0"
+"KS-KRMS-NL-USAGE-1001","kuali.krms.composition","KS-SYS","Kuali Rule Composition","Y","0"
+"KS-KRMS-NL-USAGE-1002","kuali.krms.example","KS-SYS","Kuali Rule Example","Y","0"
+"KS-KRMS-NL-USAGE-1003","kuali.krms.preview","KS-SYS","Kuali Rule Preview","Y","0"
+"KS-KRMS-NL-USAGE-1004","kuali.krms.type.description","KS-SYS","Kuali Rule Type Description","Y","0"
+"KS-KRMS-NL-USAGE-1005","kuali.krms.catalog","KS-SYS","Kuali Rule Catalog","Y","0"
+"KS-KRMS-NL-USAGE-1006","kuali.krms.type.instruction","KS-SYS","Kuali Rule Type Instructions","Y","0"
+"KS-KRMS-NL-USAGE-1007","kuali.krms.matrix","KS-SYS","Kuali Rule Matrix","Y","0"

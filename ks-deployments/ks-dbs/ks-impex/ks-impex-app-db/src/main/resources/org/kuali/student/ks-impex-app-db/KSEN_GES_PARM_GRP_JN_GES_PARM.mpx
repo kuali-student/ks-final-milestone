@@ -1,1 +1,8 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+GES_PARM_GRP_ID,GES_PARM_ID
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.activityofferingscolocation.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.activityofferingsstateofcancelled.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.allschedulinginformation.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.cluversions.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.instructorinformation.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.requisitesaddedincourseoffering.include"
+"kuali.ges.parametergroup.key.rollover","kuali.ges.parameter.key.rollover.roomassignment.include"

@@ -1,1 +1,9 @@
-Content removed as part of the subversion to git conversion process.  MPX files are stored in the database maven artifacts (for releases) aswell as in the original git conversion of the repository which due to its size is not hosted on the public github site.  For more information consult the Kuali Student Documentation or ask for help on ks.collab@kuali.org
+GRP_MBR_ID,VER_NBR,OBJ_ID,GRP_ID,MBR_ID,MBR_TYP_CD,ACTV_FRM_DT,ACTV_TO_DT,LAST_UPDT_DT
+"1123","1","5B97C50B04CC6110E0404F8189D85213","1","admin","P","${mpx.null}","${mpx.null}","2008-12-08T12:49:57.000-0500"
+"1124","1","5B97C50B04CD6110E0404F8189D85213","1","notsys","P","${mpx.null}","${mpx.null}","2008-12-08T12:49:57.000-0500"
+"1207","1","6798B3E6C3C49827AE62E5F7A275A1A3","2000","admin","P","${mpx.null}","${mpx.null}","2009-08-11T08:59:07.000-0400"
+"1250","1","F16A9AB0CD1647FA97CC64D150C6D95D","10010","carol","P","${mpx.null}","${mpx.null}","2014-09-10T00:00:00.000-0400"
+"1251","1","0A1BED55AD4844CC915FCA7A609FABC6","10011","carol","P","${mpx.null}","${mpx.null}","2014-09-10T00:00:00.000-0400"
+"1252","1","57CE6A3838534F719759A19E15F54E64","10012","carol","P","${mpx.null}","${mpx.null}","2014-09-10T00:00:00.000-0400"
+"1253","1","85BC7611868F4B078A9EE6AF23D9314E","10013","carol","P","${mpx.null}","${mpx.null}","2014-09-10T00:00:00.000-0400"
+"1254","1","4F49103D8DDE4A9080F23A2A6811A520","10014","carol","P","${mpx.null}","${mpx.null}","2014-09-10T00:00:00.000-0400"
