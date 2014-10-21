@@ -1,0 +1,207 @@
+/* Layout Settings */
+.jquerypopover {
+    width: auto;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    border: 0px;
+    z-index: 100;
+    text-align: center;
+    background-color: transparent;
+}
+
+.jquerypopover a {
+    color: #1d8fd9;
+}
+
+.jquerypopover table {
+    width: auto;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border: 0px;
+    empty-cells: show;
+    background-color: transparent;
+}
+
+.jquerypopover tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border: 0px;
+    background-color: transparent;
+}
+
+.jquerypopover td {
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+
+.jquerypopover-top-left, .jquerypopover-top-right,
+.jquerypopover-bottom-left, .jquerypopover-bottom-right {
+    /*width:21px;
+    height:21px;*/
+    overflow: hidden;
+    background-repeat: no-repeat;
+    font-size: 1px;
+    line-height: 1px;
+}
+
+.jquerypopover-top-middle, .jquerypopover-bottom-middle {
+    overflow: hidden;
+    background-repeat: repeat-x;
+    height: 21px;
+    line-height: 1px;
+}
+
+.jquerypopover-middle-left, .jquerypopover-middle-right {
+    overflow: hidden;
+    background-repeat: repeat-y;
+    width: 21px;
+}
+
+.jquerypopover-tail {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+}
+
+.jquerypopover-innerHtml {
+    position: relative;
+    display: block;
+    min-height: 26px;
+}
+
+/*.jquerypopover-top-left img, .jquerypopover-top-right img,
+.jquerypopover-bottom-left img, .jquerypopover-bottom-right img
+{
+    width:21px;
+    height:21px;
+    font-size:1px;
+    line-height:1px;
+    min-width:21px;
+    min-height:21px;
+    margin:0px;
+    padding:0px;
+}*/
+
+/*  
+	Themes:
+
+	The plugin adds the class of the theme (for example ".jquerypopover-azure") 
+	to the main <DIV> container, then you can edit the style of any element inside the 
+	Bubble Popup markup for each theme.
+	
+	The following code defines fonts and backgrounds of the "innerHtml" for each theme:
+*/
+.jquerypopover-azure  .jquerypopover-innerHtml,
+.jquerypopover-black  .jquerypopover-innerHtml,
+.jquerypopover-blue   .jquerypopover-innerHtml,
+.jquerypopover-green  .jquerypopover-innerHtml,
+.jquerypopover-grey   .jquerypopover-innerHtml,
+.jquerypopover-orange .jquerypopover-innerHtml,
+.jquerypopover-violet .jquerypopover-innerHtml,
+.jquerypopover-yellow .jquerypopover-innerHtml,
+.jquerypopover-ksap .jquerypopover-innerHtml {
+    font-weight: normal;
+    color: #000000;
+    background-color: #FFFFFF;
+}
+
+.jquerypopover-all-azure  .jquerypopover-innerHtml,
+.jquerypopover-all-black  .jquerypopover-innerHtml,
+.jquerypopover-all-blue   .jquerypopover-innerHtml,
+.jquerypopover-all-green  .jquerypopover-innerHtml,
+.jquerypopover-all-grey   .jquerypopover-innerHtml,
+.jquerypopover-all-orange .jquerypopover-innerHtml,
+.jquerypopover-all-violet .jquerypopover-innerHtml,
+.jquerypopover-all-yellow .jquerypopover-innerHtml {
+    font-weight: normal;
+    color: #FFFFFF;
+}
+
+.jquerypopover-all-azure  .jquerypopover-innerHtml {
+    background-color: #0099FF;
+}
+
+.jquerypopover-all-black  .jquerypopover-innerHtml {
+    background-color: #000000;
+}
+
+.jquerypopover-all-blue   .jquerypopover-innerHtml {
+    background-color: #0066CC;
+}
+
+.jquerypopover-all-green  .jquerypopover-innerHtml {
+    background-color: #66FF00;
+}
+
+.jquerypopover-all-grey   .jquerypopover-innerHtml {
+    background-color: #666666;
+}
+
+.jquerypopover-all-orange .jquerypopover-innerHtml {
+    background-color: #FF9933;
+}
+
+.jquerypopover-all-violet .jquerypopover-innerHtml {
+    background-color: #FF33FF;
+}
+
+.jquerypopover-all-yellow .jquerypopover-innerHtml {
+    background-color: #FFCC00;
+}
+
+.jquerypopover-heading {
+    font-size: 115%;
+    font-weight: bold;
+    line-height: 24px;
+    height: 24px;
+    margin-bottom: 1em;
+}
+
+.jquerypopover-ksap-help .jquerypopover-innerHtml,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-innerHtml {
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.5em;
+    padding: 5px;
+    background: url('jquerypopover-theme/ksap-help/innerHtml.png') repeat;
+}
+
+.jquerypopover-ksap-help .jquerypopover-top-middle,
+.jquerypopover-ksap-help .jquerypopover-bottom-middle,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-middle,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-middle {
+    height: 16px;
+}
+
+.jquerypopover-ksap-help .jquerypopover-middle-left,
+.jquerypopover-ksap-help .jquerypopover-middle-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-middle-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-middle-right {
+    width: 16px;
+}
+
+.jquerypopover-ksap-help .jquerypopover-top-left,
+.jquerypopover-ksap-help .jquerypopover-top-right,
+.jquerypopover-ksap-help .jquerypopover-bottom-left,
+.jquerypopover-ksap-help .jquerypopover-bottom-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-right {
+    width: 16px;
+    height: 16px;
+}
+
+.jquerypopover-ksap-help .jquerypopover-innerHtml a,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-innerHtml a {
+    color: #9be4f9;
+    text-decoration: underline;
+}

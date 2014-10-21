@@ -1,0 +1,104 @@
+<div ng-repeat="schedule in schedules" ui-gauge="scheduleWidth">
+  <h1>{{schedule.term.termName}} Schedule</h1>
+  <div ng-repeat="course in schedule.courseOfferings">
+    <h2>
+      {{course.courseCode}}
+      <strong>{{course.longName}}</strong>
+      <small>{{course.credits}} CR</small>
+    </h2>
+    <p>{{course.description}}</p>
+    <ul>
+      <li ng-repeat="ao in course.activityOfferings" class="util-Grid">
+        <div class="util-Grid-cell">{{ao.activityOfferingTypeShortName}}</div>
+        <div class="util-Grid-cell" ng-bind-html="ao.schedule | meetingTimes"></div>
+        <div class="util-Grid-cell">{{ao.schedule.buildingCode}} {{ao.schedule.roomCode}}</div>
+        <div class="util-Grid-cell" ng-if="scheduleWidth > 500">
+          <div ng-repeat="instructor in ao.instructors">
+            {{instructor.firstName}} {{instructor.lastName}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>    </div>
+<style type="text/css">
+    .stripes {
+        /*sets up a repeating background image with a linear gradient to simulate a table's grid lines
+this makes it easier to position the events within each column and reduces the overhead of lots of cellsb*/
+        height: 100%;
+        background-size: 1px 40px; /* Controls the size of the stripes */
+        background-color: #fff; /* background color of the stripes */
+        background-image: linear-gradient(#000 1px, transparent 1px, transparent 20px, #AAA 20px, transparent 21px, transparent); /* sets up a black line, then spacing then a light line, then spacing */
+        border: 1px solid #000; /* border around the events */
+    }
+
+    .times {
+        /* style for the right most column that contains times ( 9:00, 10:00, ... )*/
+        vertical-align: top;
+        text-align: right;
+        height: 40px; /* matches up with the stripes height */
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+
+    }
+
+    .event {
+        /* style for each event in the calenar surrounded by a border */
+        position: relative;
+        /* each event pushes further down the column. The logic for relative
+positioning is strange, each subsequent div's top value needs to factor in the previous values */
+        border-radius: 5px;
+        border: 1px black solid;
+        box-shadow: 2px 2px 2px black;
+        padding: 2px;
+        font-size: 10pt;
+    }
+
+    .calendar td {
+        vertical-align: top;
+    }
+    .calendar {
+        margin-top:40px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+</style>
+<table class="calendar" height='400' width='80%'>
+    <tr>
+        <td width="10%"></td>
+        <td width="18%" style="text-align: center;">M</td>
+        <td width="18%" style="text-align: center;">Tu</td>
+        <td width="18%" style="text-align: center;">W</td>
+        <td width="18%" style="text-align: center;">Th</td>
+        <td width="18%" style="text-align: center;">F</td>
+    </tr>
+    <tr>
+        <td>
+            <div class="times" style="border-top: 2px solid #000;height:41px;">8:00</div>
+            <div class="times">9:00</div>
+            <div class="times">10:00</div>
+            <div class="times">11:00</div>
+            <div class="times">12:00</div>
+            <div class="times">1:00</div>
+            <div class="times">2:00</div>
+            <div class="times">3:00</div>
+            <div class="times">4:00</div>
+            <div class="times">5:00</div>
+            <div class="times" style="border-bottom: 1px solid #000;height:40px;margin-bottom:-1px;">6:00</div>
+        </td>
+        <!-- text":"CHEM237 Lecture","colour":"#BDF","startTimeMin":540,"durationMin":50,"sumPrecedingDurations -->
+        <td ng-repeat="i in [0,1,2,3,4]" class="stripes">
+            <div ng-repeat="event in events[i]" class="event"
+                 style="top:{{((event.startTimeMin -  480) * 2 / 3) + (-event.sumPrecedingDurations * 2 / 3) + ($index * 6)}}px;height:{{(event.durationMin * 2 / 3) - 6}}px;background-color:{{event.colour}}">
+                {{event.text}}
+            </div>
+        </td>
+        <!-- Example of how conflicts could work: -->
+        <!--   <td class="stripes"><div class="event" style="top:40px;width:32%;height:34px;background-color:#FCC">MATH240</div>
+      <div class="event" style="top:20px;left:32%;width:32%;height:34px;background-color:#CCF">PHYS&shy;230</div>
+<div class="event" style="top:0px;left:65%;width:32%;height:34px;background-color:#FCF">WMST&shy;230</div>
+<div class="event" style="top:40px;height:74px;background-color:#FFC">HIST&shy;230</div></td>
+-->
+    </tr>
+</table>

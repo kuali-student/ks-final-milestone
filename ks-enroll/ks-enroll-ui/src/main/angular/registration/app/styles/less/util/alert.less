@@ -1,0 +1,157 @@
+/**** Alert messages ****/
+
+@successImage:  url("../images/validation/success.png");
+@infoImage:     url("../images/validation/info.png");
+@warningImage:  url("../images/validation/warning.png");
+@errorImage:    url("../images/validation/error.png");
+@processingGif: url("../images/animations/spinner_small.gif");
+
+
+.util-Alert-success-mixin() {
+    background-color: @successBackground;
+    border-color: @successBorder;
+    color: @successText;
+    .ks-fonts-textShadow;
+}
+
+.util-Alert-information-mixin() {
+    background-color: @infoBackground;
+    border-color: @infoBorder;
+    color: @infoText;
+    .ks-fonts-textShadow;
+}
+
+.util-Alert-warning-mixin() {
+    background-color: @warningBackground;
+    border-color: @warningBorder;
+    color: @warningText;
+    .ks-fonts-textShadow;
+}
+
+.util-Alert-error-mixin() {
+    background-color: @errorBackground;
+    border-color: @errorBorder;
+    color: @errorText;
+    .ks-fonts-textShadow;
+}
+
+
+.util-Alert {
+    border-radius: 0.2rem;
+    border-style: solid;
+    border-width:1px 1px 2px 1px;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    margin: 0.5rem;
+    padding: 1rem 1rem 1rem 3.5rem;
+
+    @media @lg-Min {
+        margin: 0.1rem 0 0.5rem 0;
+    }
+
+    &--success,
+    &--information,
+    &--warning,
+    &--error,
+    &--processing {
+        background-repeat: no-repeat;
+        background-position: 1rem 1rem;
+    }
+
+    &--success {
+        background-image: @successImage;
+        .util-Alert-success-mixin();
+
+        @media @lg-Min {
+            // Sidebar styles
+            .kscr-Main-sidebar & {
+                background-color: @cardBackgroundColor;
+                border: none;
+                .kscr-Card-buttons {
+                  display: none;
+                }
+            }
+        }
+    }
+
+    &--information {
+        background-image: @infoImage;
+        .util-Alert-information-mixin();
+    }
+
+    &--warning {
+        background-image: @warningImage;
+        .util-Alert-warning-mixin();
+    }
+
+    &--error {
+        background-image: @errorImage;
+        .util-Alert-error-mixin();
+    }
+
+    &--processing {
+        background-image: @processingGif;
+        background-color: @cardBackgroundColor; //#D9EDF7;
+        border-color: @cardBorderColor;  //#BCE8F1;
+        color: @cardTextColor; //#2A617D;
+    }
+
+    &--locked { // No Access Alert
+        .util-Alert-information-mixin();
+        margin: 0;
+        max-width: @largeFormatMax;
+        padding-left: 1rem;
+        & .glyphicon { // Icon element
+            color: @primaryTextColor;
+            margin-right: 0.5rem;
+        }
+    }
+
+
+    // Transitions
+    &.ng-enter,
+    &.ng-leave {
+        .util-transitions-browserHelper();
+    }
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+        opacity: 0;
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+        opacity: 1;
+    }
+}
+
+.util-Alert a {
+    cursor: pointer;
+}
+
+
+.util-Alert-dropCourse-container.ng-hide-add,
+.util-Alert.ng-hide-remove {
+    display: block !important; // Important to override allow the transition to be visible while ng-hide'ing
+}
+
+
+.util-Alert--card {
+    border-radius: 0.2rem;
+    border-style: solid;
+    border-width: 1px;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    padding: 1rem 1rem 1rem 3.5rem;
+}
+
+.util-Alert--card--dropped {
+    margin-bottom: 0.7rem;
+    &:extend(.util-Alert--card);
+
+    @media @lg-Min {
+      margin: 0 0 1rem;
+    }
+}

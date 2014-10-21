@@ -1,0 +1,239 @@
+<div class="kscr-SearchDetails">
+
+    <!-- Search Details Header - Back to Results Link -->
+    <div class="kscr-SearchDetails-top">
+        <div class="kscr-SearchDetails-loading" ng-if="loading">Loading...</div>
+        <a id="returnToSearch" ui-sref="root.search.results(stateParams)" ng-if="origin !== origins.schedule"><span>&#x00ab;</span> Return to Search Results</a>
+        <a id="returnToSchedule" ui-sref="root.schedule" ng-if="origin === origins.schedule"><span>&#x00ab;</span> Return to Schedule</a>
+    </div>
+
+    <!-- Start Page Loading Skeleton View -->
+    <div class="kscr-SearchDetails-container" ng-if="loading">
+        <div class="kscr-SearchDetails-header util-Grid">
+            <span class="kscr-SearchDetails-courseHeader util-Grid-cell util-Grid">
+                <span class="kscr-SearchDetails-courseCode-skeleton"></span>
+                <span class="kscr-SearchDetails-courseTitle-skeleton util-Grid-cell"></span>
+            </span>
+            <span class="kscr-SearchDetails-credits-skeleton"></span>
+        </div>
+
+        <div class="kscr-SearchDetails-description-skeleton1"></div>
+        <div class="kscr-SearchDetails-description-skeleton2"></div>
+
+        <!-- Prerequisites -->
+        <div class="kscr-SearchDetails-prerequisites-skeleton"></div>
+
+        <!-- Selected Activity Offerings Area -->
+        <div sticky class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center">
+            <!-- Message -->
+            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell">
+                <div class="kscr-SearchDetails-selection-skeleton"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Loading Skeleton View -->
+
+    <!-- Search Details Content -->
+    <div class="kscr-SearchDetails-container" ng-if="!loading">
+        <div class="kscr-SearchDetails-header util-Grid">
+            <span class="kscr-SearchDetails-courseHeader util-Grid-cell util-Grid">
+                <span id="search_details_code" class="kscr-SearchDetails-courseCode">{{course.courseOfferingCode}}</span>
+                <span id="search_details_title" class="kscr-SearchDetails-courseTitle util-Grid-cell">{{course.courseOfferingLongName}}</span>
+            </span>
+            <span id="search_details_credits" class="kscr-SearchDetails-credits">{{course.creditOptions | creditRangeFormatter}}</span>
+        </div>
+
+        <div id="courseDescription_{{course.courseOfferingCode}}" class="kscr-SearchDetails-description">{{course.courseOfferingDesc}}</div>
+
+        <!-- Cross-listed courses -->
+        <div class="kscr-SearchDetails-crosslists" ng-if="course.crossListedCourses.length > 0">
+            <i class="kscr-SearchDetails-crosslists-icon">CR</i>
+            <span class="kscr-SearchDetails-label">Crosslisted as</span>
+            <ul>
+                <li ng-repeat="crosslist in course.crossListedCourses">{{crosslist.courseOfferingCode}}</li>
+            </ul>
+        </div>
+
+        <!-- Prerequisites -->
+        <div class="kscr-SearchDetails-prerequisites" ng-if="course.prerequisites.length > 0">
+            <span class="kscr-SearchDetails-label">Prerequisites:</span>
+            <ul>
+                <li ng-repeat="prerequisite in course.prerequisites">{{prerequisite}}</li>
+            </ul>
+        </div>
+
+        <!-- Grading methods -->
+        <div class="kscr-SearchDetails-grading">
+            <span class="kscr-SearchDetails-label">Grading Methods:</span>
+            <ul class="kscr-SearchDetails-grading-methods">
+                <li class="kscr-SearchDetails-grading-method" ng-repeat="(key, label) in course.gradingOptions">{{label}}</li>
+            </ul>
+        </div>
+
+        <!-- No offered Reg Groups -> no Activity Offerings are displayed -->
+        <div sticky class="kscr-SearchDetails-actionsContainer util-Grid util-Grid--center" ng-if="!course.regGroupsOffered">
+            <div class="kscr-SearchDetails-selection kscr-SearchDetails-selection--empty util-Grid-cell">
+                <span class="kscr-SearchDetails-label">No Activities Available</span>
+            </div>
+        </div>
+
+        <!-- Selected Activity Offerings Area -->
+        <div sticky class="kscr-SearchDetails-actionsContainer kscr-SearchDetails-actionsContainer--{{actionStatus}} kscr-SearchDetails-actionsContainer--{{actionType}} util-Grid util-Grid--center"
+             ng-if="course.regGroupsOffered">
+
+            <!-- Selected Messages -->
+            <div class="kscr-SearchDetails-selectionContainer">
+                <div class="kscr-SearchDetails-selection"
+                     ng-class="{'kscr-SearchDetails-selection--empty' : !selectedRegGroup && !hasSelectedAOs(),
+                                'kscr-SearchDetails-selection--blocked' : actionBlocked && !selectedRegGroup,
+                                'kscr-SearchDetails-selection--warning' : actionWarning && !selectedRegGroup,
+                                'kscr-SearchDetails-selection--selected' : hasSelectedAOs(),
+                                'kscr-SearchDetails-selection--complete' : selectedRegGroup,
+                                'kscr-SearchDetails-selection--full' : selectedRegGroup.isFull}">
+
+                    <i class="kscr-SearchDetails-selection-icon"></i>
+
+                    <div ng-if="!selectedRegGroup && !hasSelectedAOs()" class="kscr-SearchDetails-label">
+                        No Activities Selected
+                    </div>
+                    <div ng-if="!selectedRegGroup && hasSelectedAOs()" class="kscr-SearchDetails-label">
+                        {{selectedAOs.length}} of {{course.activityOfferingTypes.length}} activities selected
+                    </div>
+                    <div ng-if="selectedRegGroup && !singleRegGroup" class="kscr-SearchDetails-label" id="one_ao_selected">
+                        <span>Section {{selectedRegGroup.regGroupCode}}</span>
+                        <span ng-if="!selectedRegGroup.isFull">Selected</span>
+                        <span ng-if="selectedRegGroup.isFull">
+                            <span>Full</span>
+                            <span class="kscr-SearchDetails-selection-sublabel">
+                                <span ng-if="!selectedRegGroup.waitListOffered">(No waitlist offered)</span>
+                                <span ng-if="selectedRegGroup.waitListOffered && !selectedRegGroup.maxWaitListSize">
+                                    ({{selectedRegGroup.waitListSize}}&nbsp;
+                                    <ng-pluralize count="selectedRegGroup.waitListSize" when="{'1': 'student', 'other': 'students'}"></ng-pluralize>
+                                    &nbsp;on waitlist)
+                                </span>
+                                <span ng-if="selectedRegGroup.waitListOffered && selectedRegGroup.maxWaitListSize">
+                                    ({{selectedRegGroup.maxWaitListSize - selectedRegGroup.waitListSize}}/{{selectedRegGroup.maxWaitListSize}} waitlist spots available)
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                    <div ng-if="selectedRegGroup && singleRegGroup" class="kscr-SearchDetails-label kscr-SearchDetails-single-selection">
+                        Section {{selectedRegGroup.regGroupCode}}
+                    </div>
+                </div>
+
+                <div ng-if="hasSelectedAOs() && !singleRegGroup" class="kscr-SearchDetails-selection-clear">
+                    <a ng-click="clearSelectedAOs()">
+                        <ng-pluralize count="selectedAOs.length" when="{'1': 'Clear Selection', 'other': 'Clear Selections'}"></ng-pluralize>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="kscr-SearchDetails-actions">
+                <!-- Add to Cart / Waitlist - Only if not in cart || waitlist already -->
+                <div class="kscr-SearchDetails-button kscr-Button-group" ng-if="!isSelectedRegGroupInCart() && !isSelectedRegGroupInWaitlist()  && !isSelectedRegGroupRegistered()">
+                    <!-- Add to Cart -->
+                    <button id="search_details_add_to_cart" name="submit" ng-click="addToCart()"
+                            class="kscr-Button kscr-SearchDetails-button--addToCart"
+                            ng-disabled="(selectedRegGroup.isFull && !selectedRegGroup.isWaitlistAvailable) || actionStatus === statuses.processing"
+                            ng-if="!selectedRegGroup || !selectedRegGroup.isFull || !selectedRegGroup.isWaitlistAvailable"><span>Add to Cart</span></button>
+
+                    <!-- Add to Waitlist -->
+                    <button id="search_details_add_to_waitlist" name="submit" class="kscr-Button kscr-SearchDetails-button--addToWaitlist"
+                            ng-disabled="actionStatus === statuses.processing" ng-click="addToWaitlist()"
+                            ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable">Add to Waitlist</button>
+
+                    <!-- Split Button Dropdown -->
+                    <button id="search_details_add_dropdown" class="kscr-Button dropdown-toggle" data-toggle="dropdown"
+                            ng-disabled="actionStatus === statuses.processing"
+                            ng-if="(!selectedRegGroup.isFull) || (selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable)">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <!-- Alt Add to Cart - Only when Add to Waitlist takes over the primary action -->
+                        <li ng-if="selectedRegGroup && selectedRegGroup.isFull && selectedRegGroup.isWaitlistAvailable"><a id="alt_add_to_cart" ng-click="addToCart()">Add to Cart</a></li>
+
+                        <!-- Direct Register - Only when Add to Cart is the primary action -->
+                        <li ng-if="!selectedRegGroup || !selectedRegGroup.isFull"><a id="direct_register" ng-click="directRegister()">Register Now</a></li>
+                    </ul>
+                </div>
+
+                <!-- In Cart / Waitlist - Only if in cart / waitlist -->
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInCart()">
+                    <button id="search_details_in_cart" class="kscr-Button--outline" ng-disabled="true">In Cart</button>
+                </div>
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupRegistered()">
+                    <button id="search_details_registered" class="kscr-Button--outline" ng-disabled="true">Registered</button>
+                </div>
+                <div class="kscr-SearchDetails-button" ng-if="isSelectedRegGroupInWaitlist()">
+                    <button id="search_details_in_waitlist" class="kscr-Button--outline" ng-disabled="true">In Waitlist</button>
+                </div>
+
+                <!-- Action Failure Message -->
+                <div class="kscr-SearchDetails-actionMessage" ng-if="actionStatus === 'error'" ng-class="{'kscr-SearchDetails-actionMessage--{{actionStatus}}' : actionStatus}">
+                    <i class="kscr-SearchDetails-actionMessage-icon"></i>
+                    <a class="kscr-SearchDetails-actionMessage-remove" ng-click="removeActionMessage()"></a>
+                    <span ng-if="actionType === 'register'">Failed to register for <strong>{{course.courseOfferingCode}}</strong></span>
+                    <span ng-if="actionType !== 'register'">Failed to add <strong>{{course.courseOfferingCode}}</strong> to {{actionType}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Offering Table (single reg group) -->
+        <div class="kscr-SearchDetails-activityOfferingGroups kscr-SearchDetails-activityOfferingGroups--singleRegGroup" ng-if="singleRegGroup" ng-init="aoDisplayLimit = 999">
+            <div class="kscr-SearchDetails-activityOfferingGroup">
+                <div class="kscr-SearchDetails-activityOfferings">
+                    <search-results>
+                        <search-column name="Activity" field="activity" order="1"></search-column>
+                        <search-column name="Days" field="days" order="2" highlight="true"></search-column>
+                        <search-column name="Time" field="time" order="3" highlight="true"></search-column>
+                        <search-column name="Instructor" field="instructor" order="4"></search-column>
+                        <search-column name="Location" field="location" order="5"></search-column>
+                        <search-column name="Seats Open" field="seatsOpen" order="6"></search-column>
+                        <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="7"></search-column>
+                        <search-list search-results="singleRegFormatted" search-columns="searchColumns" default-field="aoId" display-limit="999" last="true"></search-list>
+                    </search-results>
+                </div>
+            </div>
+            <!-- Search Details List for Mobile -->
+            <search-details-list search-details="singleRegFormatted" selectable="false" config="COURSE_DETAILS"></search-details-list>
+        </div>
+
+        <!-- Activity Offering Tables (multiple reg groups) -->
+        <div class="kscr-SearchDetails-activityOfferingGroups" ng-if="!singleRegGroup">
+            <div class="kscr-SearchDetails-activityOfferingGroup" ng-repeat="aoType in course.activityOfferingTypes">
+                <div id="{{aoType.activityOfferingTypeName}}_details_heading" class="kscr-SearchDetails-label">
+                    {{aoType.activityOfferingTypeName}}<ng-pluralize count="aoType.activityOfferings.length" when="{'1' : '', 'other': 's'}"></ng-pluralize>
+
+                    <span ng-if="isAOTypeSelected(aoType)">&nbsp;(Selected)</span>
+                    <span ng-if="!isAOTypeSelected(aoType) && !hasSelectedAOs()">({{aoType.activityOfferings.length}})</span>
+                    <span ng-if="!isAOTypeSelected(aoType) && hasSelectedAOs()">({{countEligibleAOs(aoType.activityOfferings)}} of {{aoType.activityOfferings.length}} eligible)
+                        <a ng-click="aoType.showAll = !aoType.showAll; updateAOStates();" ng-show="aoType.activityOfferings.length > 1">
+                            <span ng-if="!aoType.showAll">Show all</span>
+                            <span ng-if="aoType.showAll">Hide ineligible</span>
+                        </a>
+                    </span>
+                </div>
+                <div class="kscr-SearchDetails-activityOfferings">
+                    <search-results>
+                        <search-column name="Days" field="days" order="1" highlight="true"></search-column>
+                        <search-column name="Time" field="time" order="2" highlight="true"></search-column>
+                        <search-column name="Instructor" field="instructor" order="3"></search-column>
+                        <search-column name="Location" field="location" order="4"></search-column>
+                        <search-column name="Seats Open" field="seatsOpen" order="5"></search-column>
+                        <search-column name="Additional Info" field="additionalInfo" sort-field="false" optional="{{!additionalInfo}}" order="6"></search-column>
+                        <search-column name="Select" checkbox="true" sort-field="false" order="7"></search-column>
+                        <search-list search-results="aoType.formattedOfferings" search-columns='searchColumns' on-click="toggleAO"
+                                     default-field="aoId" display-limit="999" prefix="{{aoType.activityOfferingTypeName}}_"
+                                     last="$last"></search-list>
+                    </search-results>
+                </div>
+                <!-- Search Details List for Mobile -->
+                <search-details-list search-details='aoType.formattedOfferings' selectable="true" config="COURSE_DETAILS"></search-details-list>
+            </div>
+        </div>
+
+    </div>
+
+</div>

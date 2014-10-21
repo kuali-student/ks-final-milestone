@@ -1,0 +1,95 @@
+<div id="learningPlan" class="kscr-LearningPlan" ng-if="isLoaded">
+
+    <!-- Learning Plan -->
+    <div class="kscr-LearningPlan-container">
+
+        <!-- Learning Plan Heading -->
+        <div class="kscr-MainHeading kscr-LearningPlan-heading" ng-click="toggleCollapsed()">
+            <!-- Expand/Collapse Icon -->
+            <span class="kscr-Card-icon">
+                <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isCollapsed(), 'glyphicon-chevron-right' : isCollapsed()}"></i>
+            </span>
+
+            <div class="kscr-MainHeading-header">My Learning Plan</div>
+
+            <div class="kscr-MainHeading-roundedText" ng-if="plan">{{plan.length}}</div>
+            <div class="util-Grid--clearfix"></div>
+        </div>
+
+        <div class="kscr-LearningPlan-content" ng-show="!isCollapsed()">
+            <!-- Learning Plan Message -->
+            <div class="kscr-LearningPlan-message" ng-if="message">
+                <span validation-message message="message"></span>
+            </div>
+            <div class="kscr-LearningPlan-message" ng-if="!message && plan.length === 0">
+                <span>There is nothing in your learning plan for this term</span>
+            </div>
+
+            <div class="kscr-LearningPlan-plan" ng-if="plan">
+                <div class="kscr-MainHeading-toggles kscr-LearningPlan-toggles">
+                    <a class="kscr-MainHeading-toggle"
+                       ng-click="selectCategory(categories.planned)" ng-disabled="!categories.planned.count"
+                       ng-class="{'kscr-MainHeading-toggle--selected' : selectedCategory === categories.planned,
+                                  'kscr-MainHeading-toggle--disabled' : !categories.planned.count }">
+                        <span>Planned</span>
+                    </a>
+                    <a class="kscr-MainHeading-toggle"
+                       ng-click="selectCategory(categories.backup)" ng-disabled="!categories.backup.count"
+                       ng-class="{'kscr-MainHeading-toggle--selected' : selectedCategory === categories.backup,
+                                  'kscr-MainHeading-toggle--disabled' : !categories.backup.count }">
+                        <span>Backup</span>
+                    </a>
+                    <div class="util-Grid--clearfix"></div>
+                </div>
+
+                <!-- Learning Plan List -->
+                <ul class="kscr-LearningPlan-list">
+                    <li class="kscr-LearningPlan-item" ng-repeat="item in plan | filter : {category : selectedCategory.id}">
+                        <div class="kscr-LearningPlan-item-icon">
+                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_scheduleIcon"
+                                  class="kscr-LearningPlan-item-icon--schedule" ng-if="isItemInSchedule(item)"
+                                  title="This course is in your Schedule">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_cartIcon"
+                                  class="kscr-LearningPlan-item-icon--cart" ng-if="isItemInCart(item) && !isItemInSchedule(item)"
+                                  title="This course is in your Cart">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                            </span>
+                            <span id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_warning"
+                                  class="kscr-LearningPlan-item-icon--warning" ng-if="isWarning(item)"></span>
+                        </div>
+                        <div class="kscr-LearningPlan-item-content">
+                            <div class="kscr-LearningPlan-item-label">
+                                <a id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_courseCode" title="{{item.longName}}"
+                                   ng-click="viewDetails(item)" ng-disabled="!item.regGroupId && item.coursesOffered < 1">
+                                    <span class="kscr-LearningPlan-item-label-courseCode">{{item.courseCode | courseSpace}}</span>
+                                    <span class="kscr-LearningPlan-item-label-regGroupCode" ng-if="item.regGroupCode">&nbsp;({{item.regGroupCode}})</span>
+                                    <span class="kscr-LearningPlan-item-label-icon">&nbsp;&#x00bb;</span>
+                                </a>
+                            </div>
+                            <div id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_credits"
+                                 class="kscr-LearningPlan-item-credits">{{item.creditOptions | creditRangeFormatter}}</div>
+                        </div>
+
+                        <div id="learningPlanItem_{{item.courseCode}}_{{item.regGroupCode}}_warnings"
+                             class="kscr-LearningPlan-item-warnings" ng-if="checkPlanItemForIssues(item)">
+                            <span class="kscr-LearningPlan-item-warnings-icon"></span>
+                            <div class="kscr-LearningPlan-item-warnings-warning" ng-repeat="warning in item.warnings">
+                                <span validation-message message="warning" course="item"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Learning Plan Buttons -->
+            <div class="kscr-Card-buttons">
+                <button id="learningPlan_addAllToCart" class="kscr-Button" type="submit"
+                        ng-click="addAllToCart()" ng-disabled="getActionableItems().length < 1">Add All to Cart</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

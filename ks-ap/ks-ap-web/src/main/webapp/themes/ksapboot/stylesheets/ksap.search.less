@@ -1,0 +1,421 @@
+// Reset
+// --------------------------------------------------
+
+.ksap-course-sections .dataTables_wrapper,
+.ksap-course-sections .dataTables_wrapper .dataTables_info,
+.ksap-course-sections table.uif-tableCollectionLayout tr,
+.ksap-course-sections table.uif-tableCollectionLayout th,
+.ksap-course-sections table.uif-tableCollectionLayout td,
+.ksap-course-sections table.uif-tableCollectionLayout td.uif-rowDetails {
+  background: transparent;
+  border: 1px solid #000;
+  padding: 0;
+  margin: 0;
+}
+
+
+// Course Search General Styles
+// --------------------------------------------------
+
+#course_search_results abbr {
+  border-bottom: none;
+  cursor: default;
+}
+
+table.ksap-course-search-results-datatable .blockUI { /*Really needed?*/
+  display: none !important;
+}
+
+
+// Course Search Input
+// --------------------------------------------------
+
+.ksap-course-search-panel {
+  border-radius: 5px;
+  margin: 35px 10px 35px 0;
+  overflow: hidden;
+
+  .uif-label {
+    display: inline;
+    margin: 0 10px 0 0;
+  }
+  input[type='text'] {
+    width: 290px;
+  }
+  select {
+    height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    white-space: nowrap;
+  }
+  .ksap-course-search-params span input[type='checkbox'] {
+    margin: 0 5px 0 0;
+  }
+  .ksap-course-search-params span label {
+    margin: 0 35px 0 0;
+  }
+  #text_searchQuery,
+  #select_searchTerm {
+    margin-right: 10px;
+  }
+}
+
+// Input min character error messaging overrides (Course Search KSAP-886)
+#text_searchQuery.uif-inputField {
+  position: relative;
+
+  .uif-validationMessages {
+    background: transparent;
+    border: none;
+    left: 64px;
+    position: absolute;
+    top: -25px;
+  }
+  .uif-validationMessages ul {
+    border: none;
+    color:red;
+  }
+  .uif-validationMessages ul .uif-errorMessageItem-field .uif-validationImage {
+    display: none;
+  }
+}
+
+
+// Course Search Results
+// --------------------------------------------------
+
+// Showing results messaging
+.ksap-course-search-results .dataTables_wrapper .dataTables_info {
+  font-family: "Lato", sans-serif;
+  font-size: 1em;
+  padding-top: 3px;
+  width: 70%;
+}
+
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword {
+  font-style: italic;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:before {
+  content: open-quote;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:after {
+  content: close-quote;
+}
+
+// Show results page numbers
+.ksap-course-search-results .dataTables_wrapper .dataTables_length {
+  float: left;
+  margin: 0 0 0.5em 0;
+  text-align: right;
+  width: 30%;
+}
+
+// Results table
+.ksap-course-search-results .dataTables_wrapper {
+  clear: none;
+  float: left;
+  margin: 0;
+  width:80%;
+
+  tr {
+    border: none;
+  }
+  th,
+  td {
+    vertical-align: middle;
+  }
+  td {
+    padding: 10px 15px;
+  }
+
+  // Table headers
+  th {
+    background-color: #eee;
+    border: none;
+    color: #333;
+    cursor: default;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px 0 5px 0;
+    text-transform: none;
+    vertical-align: middle;
+  }
+  th span,
+  th div {
+    margin-left: 15px;
+  }
+  th[aria-sort='ascending'],
+  th[aria-sort='descending'] {
+    color: #06c;
+  }
+  th.sortable {
+    cursor: pointer;
+  }
+}
+
+// Title ellipsis
+.ksap-course-search-results-datatable a.ksap-text-ellipsis {
+  width: 205px;
+  :visited{
+    color: #3355a6;
+  }
+}
+
+// Scheduled and projected terms styling
+.ksap-data-list {
+  dl,
+  dl dd {
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  dl dd.projected dl dd {
+    display: inline-block;
+  }
+  dd.scheduled,
+  dd.projected {
+    clear: both;
+    display: block;
+  }
+  .scheduled dl dd,
+  dl.scheduled dd {
+    border-radius: 3px;
+    background: #ccc;
+    clear: none;
+    color: #333;
+    display: inline-block;
+    font-size: 80%;
+    font-weight: bold;
+    line-height: 1.8em;
+    padding: 0 4px;
+  }
+  .scheduled dl dd a,
+  dl.scheduled dd a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  dl dd:before {
+    content: ", ";
+  }
+  dl dd:first-child:before,
+  .scheduled:before,
+  .projected:before,
+  .scheduled dl dd:before,
+  dl.scheduled dd:before {
+    content: "";
+  }
+  dd.scheduled {
+    min-width: 110px;
+  }
+  dd.projected {
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 3px;
+    width: 85px;
+  }
+  dl dd.projected dl dd:before {
+    content: '' !important;
+    display: none;
+  }
+  dl dd.projected dl dd {
+    background: #fff;
+    border: 1px solid #000;
+    color:#A3A2A2;
+    font-weight: normal;
+    line-height: 2em;
+    padding: 1px 3px;
+    text-align:center;
+    width:13px;
+  }
+  dl dd.projected dl dd.ks-ProjectedTerms-term {
+    border-color: #999;
+    color:#333333;
+  }
+  dl dd.projected dl dd.ks-ProjectedTerms-term--empty {
+    border-color: #e4e4e4;
+    color: #e4e4e4;
+  }
+}
+
+// Add to plan and bookmark buttons
+.ksap-course-search-results-datatable td.ksap-status-column {
+  padding: 0;
+
+  span {
+    display: inline-block;
+
+    a {
+      font-size: 16px;
+
+      &::before {margin: 0;}
+      &.ks-fontello-icon-ok-circled {
+        color: green;
+        &:hover {cursor: default;}
+      } // End icon circle
+      &.ks-fontello-icon-star {
+        color: #0088cc;
+      } // End icon star
+    } // End a
+  } // End span
+} // End add to plan and bookmark buttons
+
+// Empty results styles
+.ksap-course-search-empty {
+  padding: 25px 100px;
+}
+
+.ksap-course-search-empty ul li {
+  display: list-item;
+  list-style-type: disc;
+  list-style-position: inside;
+  margin: 0;
+}
+
+
+// Pagination
+// --------------------------------------------------
+
+.dataTables_paginate {
+  a {
+    padding: 0;
+  }
+  a:hover {
+    border: 1px solid #ccc;
+    border-right: none;
+  }
+  a.first.paginate_button:before,
+  a.last.paginate_button:after {
+    font-size: 10px;
+    font-weight: 400;
+  }
+}
+
+
+// Facets
+// --------------------------------------------------
+
+#course_search_results_facets {
+  margin-right: 10px;
+  width: 15%;
+}
+
+// Facet panel
+.ksap-facets-panel {
+  border: solid 1px #ddd;
+  border-radius: 5px;
+
+  input {
+    vertical-align: middle;
+  }
+
+  a,
+  a:hover,
+  a:focus {
+    color: #333;
+    text-decoration: none;
+    vertical-align: middle;
+  }
+
+  // Reset
+  .uif-boxLayoutVerticalItem,
+  .ksap-facets-group.uif-boxLayoutVerticalItem,
+  .ksap-facets-group ul,
+  .ksap-facets-group ul li {
+    margin: 0;
+    padding: 0;
+  }
+
+  // Facet headers
+  .uif-header {
+    background: #eee;
+    border: 1px solid #ddd;
+  }
+  .uif-headerText {
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+    vertical-align: middle;
+  }
+  .uif-headerText-span {
+    display: block !important;
+  }
+  h6.uif-headerText {
+    color: #323232;
+    padding: 0;
+    text-transform: none;
+  }
+  [class*="icon-"]:before {
+    padding: 0 3px;
+  }
+  section.uif-disclosure {
+    background-color: none;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 0 12px;
+  }
+
+  // Facet groups
+  .ksap-facets-group {
+    a[id$='_toggle'] {
+      line-height: 2.5em;
+    }
+    div.facets ul li:hover {
+      background-color: #eee;
+    }
+    .uif-disclosureContent{
+      margin-bottom: 5px;
+      margin-left: 0;
+      margin-top: 5px;
+      padding: 0;
+    }
+    ul li.all.checked {
+      display:none;
+    }
+    ul li.all {
+      background: none;
+      cursor: pointer;
+      display: block;
+      line-height: 18px;
+      min-height: 18px;
+      opacity: 1;
+      padding: 0 0 0 5px;
+    }
+    ul li.all a,
+    ul li.all:hover a {
+      color: #0088cc;
+    }
+    ul li {
+      cursor: pointer;
+      display: block;
+      line-height: 18px;
+      min-height: 18px;
+      opacity: 1;
+      padding: 0 0 0 6px;
+    }
+    ul li.checked {
+      background-position: 5px -82px;
+    }
+    ul li span {
+      color: #777;
+      font-size: 11px;
+      line-height: 11px;
+      margin-left: 4px;
+    }
+    ul li.disabled,
+    ul li.disabled:hover {
+      cursor: default;
+      opacity: 0.33;
+    }
+    ul li.static,
+    li.static:hover,
+    li.static a,
+    ul li.static a:hover {
+      background-position: 5px -82px;
+      cursor: default;
+    }
+  } // End facet groups
+} // End facet panel

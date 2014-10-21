@@ -1,0 +1,119 @@
+
+// Main Container
+.kscr-LearningPlan {
+    margin: 0 0 1rem
+}
+
+// Inner Container
+.kscr-LearningPlan-container {
+
+}
+
+
+// LP Header
+.kscr-LearningPlan-heading {
+    cursor: pointer;
+    padding-left: 3rem;
+    position: relative;
+
+    .kscr-Card-icon {
+        top: 1rem;
+    }
+    .kscr-MainHeading-header {
+        float: left !important;
+    }
+    .kscr-MainHeading-roundedText {
+        position: absolute;
+        right: 1rem;
+    }
+}
+
+
+// LP Content Area (everything below heading)
+.kscr-LearningPlan-content {
+    .kscr-Card-mixin();
+    border: none;
+}
+
+
+.kscr-LearningPlan-toggles {
+    .flexbox();
+
+    align-items: center;
+    justify-content: center;
+
+    .kscr-MainHeading-toggle {
+        display: block;
+        float: none;
+    }
+}
+
+
+// Learning Plan Item List
+.kscr-LearningPlan-list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+}
+
+.kscr-LearningPlan-item {
+    padding: 0 0 0 2rem;
+    position: relative;
+
+    &-icon {
+        height: 2rem;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 2rem;
+    }
+}
+
+// Primary content line for the plan item
+.kscr-LearningPlan-item-content {
+    .flexbox();
+
+    .kscr-LearningPlan-item-label {
+        .flex(1);
+        font-weight: bold;
+        margin: 0 1rem 0 0;
+
+        a {
+            text-decoration: none;
+
+            &:disabled,
+            &[disabled] {
+                color: @warningText;
+                cursor: default;
+
+                .kscr-LearningPlan-item-label-icon {
+                    display: none; // Hide the >> icon when the link is disabled
+                }
+            }
+        }
+
+        &-courseCode {
+            min-width: 3rem;
+        }
+    }
+
+    .kscr-LearningPlan-item-credits {}
+}
+
+// Warnings container
+.kscr-LearningPlan-item-warnings {
+    color: @warningText;
+    padding: 0 0 0 2.5rem;
+    position: relative;
+
+    &-icon {
+        .warning-icon;
+        position: absolute;
+        left: 0;
+    }
+}
+
+// Single warning item
+.kscr-LearningPlan-item-warning {
+
+}

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php
+    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+    governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section" parent="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent"/>
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Section-Parent" parent="Uif-VerticalBoxSubSection" abstract="true">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
+        <property name="header.headerText" value="Authors &amp; Collaborators"/>
+        <property name="header.headerLevel" value="h2"/>
+        <property name="header.style" value="font-weight:bold;"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-AuthorsAndCollaborators-Section"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Section"  parent="CM-Proposal-Course-AuthorsAndCollaborators-Section-Parent"/>
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Section-Parent" parent="KS-TableCollectionSubSection-BottomAddLine"
+          p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;"
+          class="org.kuali.student.cm.uif.container.CMCollectionGroupBase">
+        <property name="collectionObjectClass" value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"/>
+        <property name="propertyName" value="collaboratorWrappers"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Person"/>
+        <property name="addBlankLineAction.render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_ADD_COLLABORATOR]}"/>
+        <property name="addBlankLineAction.id" value="CM-Proposal-Course-AddAuthorsAndCollaborators"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="render" value="@{#workflowDoc.initiated}"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The proposal must be saved before authors and collaborators can be added.">
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>ks-informational-message-for-field</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink"
+                      p:methodToCall="deleteLine"
+                      p:actionLabel="Delete"
+                      p:actionEvent="deleteLine"
+                      p:dirtyOnAction="true"
+                      p:render="@{(#line.canRevokeRequest) and (#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_ADD_COLLABORATOR])}"/>
+            </list>
+        </property>
+        <property name="Items">
+            <list>
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborators-Name" parent="KS-Uif-InputField" p:label="Name"
+                      p:propertyName="displayName">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="50" p:style="width: 200px;" p:cssClasses="validCollaboratorNameAndID" />
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="valuePropertyName" value="displayName"/>
+                            <property name="templateOptions">
+                                <map>
+                                    <entry key="minLength" value="3"/>
+                                    <entry key="delay" value="3"/>
+                                    <entry key="change">
+                                        <value>
+                                            function(event, ui) {
+                                                if (ui.item==null) {
+                                                    jQuery(this).focus();
+                                                }
+                                            }
+                                        </value>
+                                    </entry>
+                                </map>
+                            </property>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="getCollaboratorWrappersSuggest"
+                                      p:queryMethodArgumentFieldList=""/>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="action">
+                                <property name="messageKey" value="error.proposal.collaborators.action.required"/>
+                            </bean>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="permission">
+                                <property name="messageKey" value="error.proposal.collaborators.permission.required"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-ActionRequest" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
+                      p:label="Action Required" p:style="width:10em">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorActionValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl"/>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-AuthorsAndCollaborator-Permission" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
+                      p:label="Permission">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.collaboratorWrappers[@{#index}].action" />
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AuthorCollaboratorPermissionValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation"
+                      p:style="width:9em">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="readOnlyDisplayReplacement" value="@{#line.author?'Yes':'No'}"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Add Author Notation"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+        <property name="style" value="display: none;"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessage-ExpandLink"
+                      p:actionScript="createCourseShowHideObjectiveElements('CM-Proposal-Course-AuthorsAndCollaborators-NoRequiredMessageLink', 'CourseView-AuthorsAndCollaborators-TableCollectionSection');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

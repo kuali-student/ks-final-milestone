@@ -1,0 +1,261 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+            http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
+            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+    <!-- Basic AMQ connection factory -->
+    <!-- <amq:connectionFactory id="amqConnectionFactory" brokerURL="vm://localhost" /> -->
+    <!-- In many cases the ActiveMQ broker will be embedded. If this is the case, connect via the vm transport. If you
+         can't connect via the vm transport, use the configured connection url -->
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${ks.mqlistener.url}" />
+
+    <!-- Wraps the AMQ connection factory in Spring's caching (ie: pooled) factory
+         From the AMQ "Spring Support"-page: "You can use the PooledConnectionFactory for efficient pooling... or you
+         can use the Spring JMS CachingConnectionFactory to achieve the same effect."
+         See "Consuming JMS from inside Spring" at http://activemq.apache.org/spring-support.html
+         Also see http://codedependents.com/2010/07/14/connectionfactories-and-caching-with-spring-and-activemq/
+
+         Note: there are pros/cons to using Spring's caching factory vs Apache's PooledConnectionFactory; but, until
+         we have more explicit reasons to favor one over the other, Spring's is less tightly-coupled to a specific
+         AMQP-implementation.
+         See http://stackoverflow.com/a/19594974
+    -->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+        <property name="sessionCacheSize" value="1"/>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory" />
+    </bean>
+
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory" />
+        <property name="pubSubDomain" value="true"/>
+    </bean>
+
+    <bean id="jmsConfig"
+          class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="concurrentConsumers" value="1"/>
+    </bean>
+
+    <!-- The ActiveMQ camel component allows messages to be sent to a JMS Queue or Topic or messages to be consumed from a JMS Queue or Topic using Apache ActiveMQ -->
+    <bean id="activemq"
+          class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration" ref="jmsConfig"/>
+    </bean>
+
+    <jms:listener-container concurrency="1" >
+        <!-- This is used for performance monitoring of queues -->
+        <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
+    </jms:listener-container>
+
+    <!--Used to collect performance statistics -->
+    <bean id="performanceStatsListener" class="org.kuali.student.enrollment.registration.engine.listener.SimplePerformanceListener">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+    <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
+    <bean id="registrationInitializationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationInitializationProcessor">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+    </bean>
+
+    <!-- Verifies the reg request -->
+    <bean id="registrationVerificationProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationVerifyRegRequestProcessor">
+        <property name="courseRegistrationErrorProcessor" ref="courseRegistrationErrorProcessor"/>
+    </bean>
+
+    <!-- Processes the waitlist when seats open up -->
+    <bean id="waitlistManagerProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationWaitlistManagerProcessor">
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+        <!--
+        Any uncaught exceptions will go through the error processor, which
+        will set the state of the error item(s) as "failed". The transaction
+        will be marked as "handled".
+        -->
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <handled><constant>true</constant></handled>
+            <bean ref="courseRegistrationErrorProcessor" method="process" />
+        </onException>
+
+        <route>
+            <from uri="activemq:org.kuali.student.enrollment.registration.seatOpenEventQueue"/>
+            <bean ref="waitlistManagerProcessor" method="process"/>
+        </route>
+
+        <route> <!-- This route sets the status of the transaction to processing.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.initializationListenerQueue"/>
+            <bean ref="regEnginePerfPojo" method="notifyPerfStart(${body['regReqId']})" />
+            <bean ref="registrationInitializationProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.verificationQueue"/>
+        </route>
+
+        <route> <!-- This route validates the request.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.verificationQueue?concurrentConsumers=100"/>
+            <bean ref="registrationVerificationProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue"/>
+        </route>
+
+        <route> <!-- This route splits the reg request into it's items. Adding needed info to the message header.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue" />  <!-- pick up the reg req -->
+            <setHeader headerName="regReqId"> <!-- Need to store the Reg Req in the header  -->
+                <simple>${body.registrationRequest.id}</simple>
+            </setHeader>
+            <setHeader headerName="regReqItemCount"> <!-- In order to join back later we need to know the req item count -->
+                <simple>${body.registrationRequest.registrationRequestItems.size}</simple>
+            </setHeader>
+            <split parallelProcessing="false"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
+                <method ref="requestSplitter"  method="split" />   <!-- does the actual splitting -->
+                <setHeader headerName="JMSXGroupID"> <!-- This is CRITICAL. It is how we ensure valid seat check counts without db locking -->
+                    <simple>FOID=${body.registrationGroup.formatOfferingId}</simple>  <!-- grouping on the foid -->
+                </setHeader>
+                <to uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue"/> <!-- send to queue's for processing-->
+            </split>
+        </route>
+
+        <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue?concurrentConsumers=200" />
+            <onException>
+                <exception>java.lang.Exception</exception>
+                <handled><constant>true</constant></handled>
+                <bean ref="courseRegistrationErrorProcessor" method="process" />
+                <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- attempt to rejoin the queue -->
+            </onException>
+            <bean ref="courseRegistrationLprActionProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- send to join queue's for final processing-->
+        </route>
+
+        <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
+            <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue?concurrentConsumers=1" />  <!-- Every Reg Req Item will come here-->
+            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="false"> <!-- take all the Reg Req Items an join them to their req -->
+                <correlationExpression>
+                    <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
+                </correlationExpression>
+                <completionSize>
+                    <header>regReqItemCount</header> <!-- stop aggregating when we've reached the reg req item count size-->
+                </completionSize>
+                <bean ref="courseRegistrationLprActionProcessor" method="updateRegistrationRequestStatus"/> <!-- update lprTrans status -->
+                <bean ref="regEnginePerfPojo" method="notifyPerfEnd(${header.regReqId})" /> <!-- notify perf listener that we're done -->
+            </aggregate>
+        </route>
+
+        <!-- Below we have the various Topics configured. When configuring a Topic we must set the concurrentConsumer to 1.
+             If the concurrent consumer is not set to 1 then every consumer we have set up in camel (default is 10) will try
+             to process events that are broadcast to the topic. Ie. we have 10 consumers that can process events, but in this case,
+             we only want ONE to process the event. -->
+        <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
+            <!-- Listen for LuiEvents -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
+            <filter>
+                <!-- Only act on AO Update Events -->
+                <simple>${in.body.type} contains 'kuali.lui.type.activity.offering' and ${in.body.action} == 'UPDATE'</simple>
+                <!-- When an AO gets updated it can result in 3-10 calls to updateLui. Ie. 3-10 update lui events will be triggered.
+                     We ONLY care that a lui has been updated. So, just let me know what LUI has been updated over the span of 5 seconds-->
+                <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                    <correlationExpression>
+                        <simple>body.id</simple>
+                    </correlationExpression>
+                    <!-- let the waitlist manager know that a LUI has changed. We could set up a queue here, but a pure update will work. -->
+                    <bean ref="waitlistManagerService" method="processLuiChangeEvent"/>
+                </aggregate>
+            </filter>
+
+        </route>
+
+        <route>    <!-- This is used to detect changes course offerings and notify our UI caches -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.lui.service.LuiEventTopic?concurrentConsumers=1" />
+            <filter>
+                <!-- Only act on CO Events -->
+                <simple>${in.body.type} contains 'kuali.lui.type.course.offering'</simple>
+                <filter>
+                    <!-- Only act on CO Update or Create Events -->
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <!-- When an CO gets updated it can result in 3-10 calls to update co. Ie. 3-10 update co events will be triggered.
+                     We ONLY care that a co has been updated. So, just let me know what CO has been updated over the span of 5 seconds-->
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <!-- We're taking the general CO updates events and distilling them down and notifying an internal
+                             elastic QUEUE. We could have called elastic directly (like WL Manager above) but this is a
+                             nice decoupling. -->
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.courseoffering.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+            <filter>
+                <!-- Only act on RG Events -->
+                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <!-- We're taking the general RG updates events and distilling them down and notifying an internal
+                             elastic QUEUE. We could have called elastic directly (like WL Manager above) but this is a
+                             nice decoupling. This elastic queue is only for reg group updates. -->
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.updateQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+        </route>
+        <route>    <!-- This is used to detect changes in registration and notify our UI reg group caches -->
+            <from uri="activemq:topic:org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingEventTopic?concurrentConsumers=1" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.registration.group'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'DELETE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="activemq:org.kuali.student.enrollment.registration.elastic.registrationgroup.deleteQueue"/>
+                    </aggregate>
+                </filter>
+            </filter>
+        </route>
+
+    </camelContext>
+
+    <bean id="useLatestAggregationStrategy" class="org.apache.camel.processor.aggregate.UseLatestAggregationStrategy"/>
+
+    <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitter"/>  <!-- pull reg info from db. transform into useful objects -->
+    <bean id="simpleAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.SimpleAggregator"/>  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
+    <bean id="eventMessageIdAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.EventMessageIdAggregator"/>  <!-- EventMessage ID aggregator. Returns a list of EventMessage Ids -->
+    <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+    <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+    <bean id="courseRegistrationErrorProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+    </bean>
+
+    <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
+    <!-- Groups common registration functions into a single service -->
+    <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
+
+</beans>

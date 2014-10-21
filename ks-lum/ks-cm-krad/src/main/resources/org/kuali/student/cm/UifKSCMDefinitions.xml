@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <!-- Used by beans which are required for states Enroute and beyond -->
+    <bean id="CM-RequiredConstraints-Enroute" parent="RequiredConstraint" abstract="true">
+        <property name="states">
+            <list>
+                <value>R+</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Used by beans which are required for states Approve and beyond -->
+    <bean id="CM-RequiredConstraints-Approve" parent="RequiredConstraint" abstract="true">
+        <property name="states">
+            <list>
+                <value>P+</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
+    <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-link</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
+          p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
+
+    <!-- InputField with a state aware label which should be the parent of all CM input fields that need (or potentially
+         might need) a custom required indicator. If the input has a required constraint which evaluates to true the
+         required indicator will be displayed. Otherwise, it will remain hidden. -->
+    <bean id="CM-InputField" parent="CM-InputField-parentBean"/>
+    <bean id="CM-InputField-parentBean" abstract="true" parent="Uif-InputField">
+        <property name="help">
+            <null/>
+        </property>
+        <property name="fieldLabel">
+            <bean parent="CM-Required-Label"/>
+        </property>
+    </bean>
+
+    <bean id="CM-IconLabelMessage" parent="CM-IconLabelMessage-parentBean"/>
+    <bean id="CM-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
+          class="org.kuali.student.cm.uif.element.CMIconLabelMessage" scope="prototype" />
+
+    <!-- A section header that can display and info icon with a tooltip. As well as a required indicator (in the rightGroup). -->
+    <bean id="CM-IconHeader" parent="Uif-SectionHeader">
+        <property name="richHeaderMessage">
+            <bean parent="CM-IconLabelMessage"/>
+        </property>
+        <property name="rightGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:cssClasses="cm_requiredMessage_text"/>
+        </property>
+    </bean>
+
+    <!-- This is used within org.kuali.student.cm.uif.element.CMIconLabelMessage -->
+    <bean id="CM-IconImage" parent="CM-IconImage-parentBean"/>
+    <bean id="CM-IconImage-parentBean" parent="Uif-ImageField" abstract="true"
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+        <property name="image.style" value="vertical-align:top;"/>
+        <property name="toolTip">
+            <bean parent="Uif-KS-Tooltip"/>
+        </property>
+    </bean>
+
+    <!--
+        Override the default theme to include all the cm specific css/js.
+        This will load only if ks-cm profile is active.
+    -->
+    <bean id="KSTheme" abstract="true" parent="KSTheme-CM-parentBean"/>
+
+    <bean id="KSTheme-CM-parentBean" parent="KSTheme-parentBean">
+        <property name="minCssSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/cm.css</value>
+            </list>
+        </property>
+        <property name="minScriptSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/cm.js</value>
+                <value>themes/ksboot/scripts/jquery.jqEasyCharCounter.custom.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement" parent="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent"/>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent" parent="Uif-BreadcrumbItem" abstract="true">
+        <property name="label" value="Curriculum Management KRAD"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+        <property name="siblingBreadcrumbComponent">
+           <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+       </property>
+    </bean>
+
+    <!--
+       The vertical subsection header font needs to be H5 on Course review section for Requisites so
+       overriding the parent.
+   -->
+    <bean id="CM-VerticalBoxSubSection" parent="CM-VerticalBoxSubSection-parentBean"/>
+    <bean id="CM-VerticalBoxSubSection-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" scope="prototype">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-boxSubSection</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="CM-SubSectionHeader"/>
+        </property>
+        <property name="help">
+            <bean parent="Uif-Help"/>
+        </property>
+    </bean>
+
+    <bean id="CM-SubSectionHeader" parent="CM-SubSectionHeader-parentBean"/>
+    <bean id="CM-SubSectionHeader-parentBean" abstract="true" parent="Uif-HeaderFive">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-subSectionHeader</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-ExportHiddenField" parent="Uif-InputField" p:propertyName="extensionData['export_type']">
+        <property name="hidden" value="true"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl"/>
+        </property>
+    </bean>
+
+    <!--
+        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
+    -->
+    <bean id="CM-Required-Label" parent="CM-Required-Label-parent" abstract="true" />
+    <bean id="CM-Required-Label-parent" parent="Uif-Label" abstract="true"
+            class="org.kuali.student.cm.uif.util.LabelWithRequiredIndicatorOverride">
+
+        <property name="cssClasses">
+            <list merge="false">
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+
+        <!--  These properties belong to  LabelWithRequiredIndicatorOverride -->
+        <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <!-- The parent input field property name must be in one of the lists in the required indicator config -->
+        <property name="parentPropertyName" value="@{#parent.propertyName}" />
+        <property name="workflowDocumentType" value="@{docTypeName}" />
+        <property name="workflowState" value="@{#workflowDoc.status.code}" />
+
+        <property name="renderColon" value="false"/>
+    </bean>
+
+    <!-- An overridden Message which displays a requiredness indicator. -->
+    <bean id="CM-RequiredIndicator-Message" parent="CM-RequiredIndicator-Message-parent" abstract="true" />
+    <bean id="CM-RequiredIndicator-Message-parent" parent="Uif-Message" abstract="true"
+            class="org.kuali.student.cm.uif.util.RequiredIndicatorMessage">
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-requiredMessage</value>
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+
+        <property name="messageText" value="Needs a value to work properly"/>
+
+        <!--  These properties belong to RequiredIndicatorMessage -->
+        <property name="requiredIndicatorService" value="#{requiredIndicatorService}" />
+        <!-- The message bean has to be given an Id and the Id must be in one of the lists in the required indicator config -->
+        <property name="messageKey" value="@{#component.id}" />
+        <property name="workflowDocumentType" value="@{docTypeName}" />
+        <property name="workflowState" value="@{#workflowDoc.status.code}" />
+    </bean>
+
+    <!--
+        Configuration for requiredIndicatorServiceImpl.
+    -->
+    <bean id="requiredIndicatorService" class="org.kuali.student.cm.uif.util.RequiredIndicatorServiceImpl">
+        <property name="indicatorTextMap">
+            <map>
+                <!-- Workflow document type or default -->
+                <entry key="default">
+                    <map>
+                        <entry key="I">
+                            <map>
+                                <!-- Using same settings here as for Saved -->
+                                <entry key="text" value="Required for Submit"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForEnroute"/>
+                            </map>
+                        </entry>
+
+                        <!-- State key -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Submit"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForEnroute"/>
+                            </map>
+                        </entry>
+                        <entry key="R">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+
+                <!-- Config for admin create course proposals -->
+                <entry key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_CREATE_ADMIN}">
+                     <map>
+                        <!-- Admin proposals are in state 'S'aved until they are approved. -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+
+                <!-- Config for admin modify course proposals -->
+                <entry key="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$DocumentTypeNames$CourseProposal).COURSE_MODIFY_ADMIN}">
+                     <map>
+                        <!-- Admin proposals are in state 'S'aved until they are approved. -->
+                        <entry key="S">
+                            <map>
+                                <entry key="text" value="Required for Approval"/>
+                                <entry key="propertyNames" value-ref="propertiesRequiredForApprove"/>
+                            </map>
+                        </entry>
+                    </map>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- The propertyName of the InputField goes in these lists. (Unfortunately, util:list doesn't support merging items.)
+         Each of these fields includes the members of the previous lists for previous states. -->
+
+    <!-- Required properties to change to state 'S'aved. This list isn't currently being used. -->
+    <bean id="propertiesRequiredForSave" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <value>proposalInfo.name</value>
+                <value>courseInfo.courseTitle</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Required properties to change to state en'R'oute -->
+    <bean id="propertiesRequiredForEnroute" parent="propertiesRequiredForSave"
+          class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list merge="true">
+                <value>courseInfo.subjectArea</value>
+                <value>courseInfo.descr.plain</value>
+                <value>proposalInfo.rationale.plain</value>
+                <value>gradingOptions</value>
+                <value>finalExamStatus</value>
+                <value>courseInfo.startTerm</value>
+                <value>curriculum_oversight_required_indicator</value>
+                <value>outcome_required_indicator</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Required properties to change to state a'P'proved -->
+    <bean id="propertiesRequiredForApprove" parent="propertiesRequiredForEnroute"
+          class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list merge="true">
+                <value>courseInfo.transcriptTitle</value>
+                <value>courseInfo.courseNumberSuffix</value>
+                <value>campusLocations</value>
+                <value>formats_required_indicator</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-PrintAction" parent="CM-PrintAction-parent"/>
+    <bean id="CM-PrintAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:methodToCall="export" p:title="Print" p:disableBlocking="true">
+        <property name="additionalSubmitData"
+                  value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).RETURN_SAVE_HEADERS}:false" />
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Print" p:cssClasses="ks-fontello-icon-print" p:title="Print"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <!--
+        Popover content for export links
+     -->
+    <bean id="CM-Export-ActionLinks" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CM-ExportAction-PDF" parent="Uif-KS-NavigationActionLink-parentBean"
+                    p:methodToCall="export" p:title=".pdf (Adobe Acrobat)" p:actionLabel=".pdf (Adobe Acrobat)" p:disableBlocking="true">
+                    <property name="additionalSubmitData"
+                        value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).EXPORT_TYPE}:#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).PDF.toString()}" />
+                </bean>
+
+                <bean id="CM-ExportAction-DOC" parent="Uif-KS-NavigationActionLink-parentBean"
+                      p:methodToCall="export" p:title=".doc (Microsoft Word)" p:actionLabel=".doc (Microsoft Word)" p:disableBlocking="true">
+                   <property name="additionalSubmitData"
+                        value="#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$UrlParams).EXPORT_TYPE}:#{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$Export$FileType).DOC.toString()}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-ExportAction" parent="CM-ExportAction-parent"/>
+    <bean id="CM-ExportAction-parent" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true"
+          p:actionScript="openPopupContent(e,'CM-Export-ActionLinks',{position:'top',align:'center',tail: { hidden: true }});" p:title="Export">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Export" p:cssClasses="ks-fontello-icon-export" p:title="Export"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="CM-Lozenge-Message" parent="CM-Lozenge-Message-parent"/>
+
+    <bean id="CM-Lozenge-Message-parent" parent="Uif-Message" class="org.kuali.student.cm.uif.element.CMLozengeMessage" abstract="true"/>
+
+</beans>

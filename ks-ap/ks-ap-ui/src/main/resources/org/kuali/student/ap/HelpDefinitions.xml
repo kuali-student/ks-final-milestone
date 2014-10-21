@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="quarter_facet_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+          <bean parent="KSAP-Tooltip-Left" p:tooltipContent="@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+        </property>
+    </bean>
+
+    <bean id="bookmarks_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+          <bean parent="KSAP-Tooltip-Right" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
+        </property>
+
+    </bean>
+
+    <bean id="course_requisite_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+            <bean parent="KSAP-Tooltip-Left"
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
+                                    @{#textHelper.getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}&lt;/div&gt;"/>
+        </property>
+    </bean>
+
+    <bean id="course_quarter_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+            <bean parent="KSAP-Tooltip-Left"
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}&lt;/div&gt;"/>
+        </property>
+    </bean>
+
+    <bean id="course_gened_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+            <bean parent="KSAP-Tooltip-Left"
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_GENED_TOOLTIP_TEXT')}&lt;/div&gt;"/>
+        </property>
+    </bean>
+
+    <bean id="course_sections_help_icon" parent="KSAPHelpImage">
+        <property name="toolTip">
+            <bean parent="KSAP-Tooltip-Right"
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;&lt;strong&gt;ENRL/LIMIT&lt;/strong&gt; = section enrollment and overall enrollment limit&lt;/br&gt;
+                  &lt;strong&gt;ENRL. RESTR.&lt;/strong&gt; = applicable enrollment restrictions for each section&lt;/br&gt;
+                  &lt;strong&gt;OTHER&lt;/strong&gt; = additional information for each section&lt;/br&gt;
+                  &lt;strong&gt;PCE&lt;/strong&gt; = Professional &amp; Continuing Education&lt;/br&gt;&lt;/div&gt;
+                  "/>
+        </property>
+    </bean>
+
+    <bean id="planner_academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.completed.tooltip')}"/>
+    <bean id="planner_registered_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.registered.tooltip')}"/>
+    <bean id="planner_planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.planned.tooltip')}"/>
+    <bean id="planner_backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('planner.body.backup.tooltip')}"/>
+    <bean id="bookmarks_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
+    <bean id="quarter_facet_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+    <bean id="gened_col_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('help.coursesearch.col.gened')}"/>
+    <bean id="details_course_req_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Restrictions or conditions that may limit your ability to enroll in a course."/>
+    <bean id="details_scheduled_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Current and all future terms for which the course is offered."/>
+    <bean id="details_projected_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Terms when a course may be offered. This is not a guarantee that the course will be offered within the specified terms."/>
+    <bean id="details_bottom_course_format_tooltip" parent="KSAP-Tooltip" p:tooltipContent="This course is offered in multiple formats."/>
+    <bean id="details_bottom_add_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Please select from each of the categories below to add this course to your plan."/>
+
+</beans>

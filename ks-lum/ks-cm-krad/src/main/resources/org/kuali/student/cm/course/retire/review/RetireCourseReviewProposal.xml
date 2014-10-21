@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Review-RetireCourse-Page" parent="CM-ViewCourse-View-Course-Page" class="org.kuali.student.cm.uif.view.CMReviewPage">
+
+        <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
+             also sizes the text areas. -->
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
+        <property name="headerText" value="Retire Course" />
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Review-RetireCourse-PageSections"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="CM-Proposal-Review-RetireCourse-Footer"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list merge="true">
+                <ref bean="KS-HomewardPathBreadcrumbs-RetireCourse"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-RetireCourseReviewProposal-Page"/>
+            </list>
+        </property>
+        <!-- Hide the validation messages if no unknown error messages are there to display -->
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validationMessages"
+                      p:condition="@{!#dataObject.reviewProposalDisplay.showUnknownErrors}">
+                    <property name="replacement">
+                        <ref bean="KS-ValidationMessages-Off" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourse" parent="Uif-BreadcrumbItem">
+        <property name="label"
+                  value="Retire Course"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-RetireCourseReviewProposal-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#uiHelper.proposalName}: Review Retire Proposal"/>
+    </bean>
+
+    <bean id="CM-Proposal-Review-RetireCourse-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Review-RetireCourse-Page-ReviewErrorMessageLink"/>
+                <ref bean="CM-Proposal-Review-Section"/>
+                <ref bean="CM-Proposal-Review-RetireCourseSection"/>
+                <ref bean="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection"/>
+                <ref bean="CM-Proposal-Review-Course-SupportingDocumentsSection"/>
+                <ref bean="CM-ExportHiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-RetireCourse-Page-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
+          p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-View-AdminMessage-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                      p:showLabel="false"
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:id="CM-Proposal-Review-Error-Message"
+                                  p:messageText="This proposal is incomplete."
+                                  p:style="margin-right: 0pt; margin-top: 5px;">
+                            </bean>
+                            <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
+                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-RetireCourse-PageSections');"
+                                  p:actionLabel="Hide error highlighting.">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>review_proposal_ReviewErrorMessageActionLink</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Section" parent="Uif-VerticalBoxSection"
+          p:additionalCssClasses="ks-cm-course_detail-section">
+        <property name="headerText" value="Review Proposal"/>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course_ref_details-grid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" id="CM-Proposal-Review-RetireCourse-Number"
+                                  p:propertyName="courseInfo.code"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="CM-Proposal-Review-RetireCourse-Title"
+                                  p:propertyName="courseInfo.courseTitle">
+                            </bean>
+                            <bean parent="CM-ReadOnlyInput" p:label="Crosslisted/Jointly Offered Courses" id="CM-Proposal-Review-RetireCourse-Joint-Crosslisted-Courses"
+                                  p:propertyName="reviewProposalDisplay.referenceDataSection.jointlyOfferedAndCrossListedCoursesAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight" id="CM-Proposal-Review-RetireCourse-CurricOversight"
+                                  p:propertyName="reviewProposalDisplay.referenceDataSection.curriculumOversightAsString"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-RetireCourseSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection"
+          p:additionalCssClasses="ks-cm-course_detail-section">
+        <property name="headerText" value="Retire Proposal Information"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-RetireCourse-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-RetireInfo-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="CM-Proposal-Review-RetireCourse-Proposal-Name"
+                                  p:propertyName="proposalInfo.name"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Rationale for Retirement" id="CM-Proposal-Review-RetireCourse-Rationale"
+                                  p:propertyName="proposalInfo.rationale.plain">
+                                  <!--TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                 <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
+                                 </property>
+                            </bean>
+                            <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="CM-Proposal-Review-RetireCourse-StartTerm"
+                                  p:propertyName="retireStartTerm"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="End Term" id="CM-Proposal-Review-RetireCourse-EndTerm"
+                                  p:propertyName="reviewProposalDisplay.retireCourseSection.endTerm"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Last Term Offered" id="CM-Proposal-Review-RetireCourse-LastTerm"
+                                  p:propertyName="reviewProposalDisplay.retireCourseSection.lastTerm"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Last Course Catalog Publication Year" id="CM-Proposal-Review-RetireCourse-PublicationYear"
+                                  p:propertyName="reviewProposalDisplay.retireCourseSection.publicationYear"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Other Comments" id="CM-Proposal-Review-RetireCourse-RetirementComment"
+                                  p:propertyName="retirementComment.plain"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- FOOTER BEANS IN THIS SECTION BELOW -->
+
+    <bean id="CM-Proposal-Review-RetireCourse-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
+                            <bean parent="CM-Proposal-Button-Submit"/>
+                            <bean parent="CM-Proposal-Button-BlanketApprove"/>
+                            <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
+                            <bean parent="CM-Proposal-Button-Reject"/>
+                            <bean parent="CM-Proposal-Button-Acknowledge"/>
+                            <bean parent="CM-Proposal-Button-Fyi"/>
+                            <bean parent="CM-Proposal-Button-Withdraw"/>
+                            <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
+                            <bean parent="CM-Proposal-Button-Cancel"
+                                  p:style="margin-right: 10px;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- FOOTER BEANS IN THIS SECTION ABOVE -->
+
+</beans>

@@ -1,0 +1,61 @@
+<project>
+  <context id="metainf">
+    <context id="sql">
+      <location value="${db.source.common}"/>
+    </context>
+  </context>
+  <context id="db">
+    <context id="source">
+      <context id="init">
+        <location value="${db.source.common}"/>
+        <location value="${db.source.prefix}/init.properties"/>
+      </context>
+      <context id="dump">
+        <location value="${db.source.common}"/>
+        <location value="${db.source.dump}"/>
+      </context>
+      <context id="scm">
+        <location value="${db.source.common}"/>
+        <location value="${db.source.dump}"/>
+        <location value="${db.source.prefix}/staging.properties"/>
+        <location value="${db.source.prefix}/scm.properties"/>
+      </context>
+    </context>
+    <context id="app">
+      <context id="init">
+        <context id="ks-impex-app-db">
+          <location value="${db.app.common}"/>
+          <location value="${db.app.ks}"/>
+        </context>
+        <context id="ks-impex-bundled-db">
+          <location value="${db.app.common}"/>
+          <location value="${db.app.bundled}"/>
+        </context>
+        <context id="ks-impex-rice-db">
+          <location value="${db.app.common}"/>
+          <location value="${db.app.rice}"/>
+        </context>
+      </context>
+    </context>
+  </context>
+  <context id="deploy">
+    <context id="ks-with-rice-bundled">
+      <location value="${db.app.common}"/>
+      <location value="${db.app.bundled}"/>
+      <location value="${deploy.common}"/>
+      <location value="${deploy.prefix}/ks-with-rice-bundled.properties"/>
+    </context>
+    <context id="ks-rice-standalone">
+      <location value="${db.app.common}"/>
+      <location value="${db.app.rice}"/>
+      <location value="${deploy.common}"/>
+      <location value="${deploy.prefix}/ks-rice-standalone.properties"/>
+    </context>
+    <context id="ks-with-rice-embedded">
+      <location value="${db.app.common}"/>
+      <location value="${db.app.ks}"/>
+      <location value="${deploy.common}"/>
+      <location value="${deploy.prefix}/ks-with-rice-embedded.properties"/>
+    </context>
+  </context>
+</project>

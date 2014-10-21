@@ -1,0 +1,88 @@
+/****Sub Heading and Support Heading ****/
+
+
+.kscr-Heading-sub {
+    .font-size(14);
+    color: @secondaryTextColor;
+    font-weight: bold;
+    padding: 0 0.7rem;
+    text-transform: uppercase;
+
+    @media @lg-Min {
+        color: @primaryTextColor;
+
+        // Main/left content area
+        .kscr-Main-content--left & {
+            padding: 0 1rem;
+        }
+
+        .kscr-Main-sidebar & {
+            // Update sub-headings in the sidebar to have better spacing from sibling elements (Cart Results, Registered, Waitlisted)
+            padding: 1rem 0;
+        }
+
+        // Schedule in sidebar (search only)
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+          // Sub-headings, make sure they are well spaced in the schedule (Registered & Waitlisted)
+            background-color: @sectionColor;
+            border-bottom: @horizontalLineBorder;
+            margin: 0 0 0.1rem;
+            padding: 0.5rem 1rem;
+        }
+    }
+}
+
+.kscr-Heading-support {
+    color: @secondaryTextColor; //#666666
+    display: block;
+    font-family: @primaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+
+    @media @sm-Max {
+        display: block;
+    }
+
+    @media @lg-Min {
+        float: right;
+        padding-right: 1rem;
+
+        // Main/left content area
+        .kscr-Main-content--left .kscr-Heading-sub & {
+           // Credits count
+           padding-right: 0;
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub & {
+        // Credits count
+          padding-right: 0;
+        }
+    }
+}
+
+.kscr-Heading-scheduleHeading--empty {
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub& {
+            &, .kscr-Heading-message {
+                // Empty schedule heading
+                background-color: @whiteBackground;
+                border: none;
+            }
+        }
+    }
+}
+
+.kscr-Heading-message {
+    .kscr-Heading-sub;
+    font-weight: normal;
+    font-family: @secondaryFontFamily;
+    text-transform: none;
+    padding: 0;
+
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Heading-sub & {
+            display: block;
+            padding: 0;
+        }
+    }
+}

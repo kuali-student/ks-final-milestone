@@ -1,0 +1,233 @@
+/**** Main content styles ****/
+
+.kscr-Main-container {
+    height: 100%;
+    min-height: 100%;
+    padding-top: @headerHeight;
+    position: relative;
+}
+
+.kscr-Main-contentContainer,
+.kscr-Main-content {
+    height: 100%;
+    min-height: 100%;
+}
+
+.kscr-Main-contentContainer {
+    @media @lg-Min {
+        border-top: 10px solid @border-dark-color;
+    }
+}
+
+
+.kscr-Main-noAccess {
+    &-container {
+        margin: 1rem auto;
+        max-width: @largeFormatMax;
+        padding: 0 1rem;
+
+        .util-Alert {
+            padding-left: 3rem;
+            position: relative;
+        }
+    }
+
+    &-icon {
+        left: 1rem;
+        position: absolute;
+        top: 1rem;
+    }
+
+    &-messages {}
+    &-message {}
+}
+
+
+// Main App Mask
+.util-Mask {
+    background-color: @mask-bgColor;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: @zindex-Util-Mask;
+
+    body > & {
+        position: fixed;
+    }
+
+    // Transitions
+    .util-transitions-browserHelper(0.25s);
+
+    opacity: 0;
+    .util-Mask--masked & {
+        opacity: 0.5;
+    }
+}
+
+.kscr-Main-header {
+  // Set up outer width of site and set to be centered beyond that
+  margin: 0 auto;
+  max-width: @largeFormatMax;
+}
+
+// Parent container of the content & sidebar areas
+.kscr-Main-maincontent {
+  // Set up outer width of site and set to be centered beyond that
+  margin: 0 auto;
+  max-width: @largeFormatMax;
+
+  @media @lg-Min {
+    .flexbox(); /* Used to display child elements (schedule and cart) side by side in a flexible way */
+    min-height: 100%;
+  }
+}
+
+
+.kscr-Navigation-container {
+  display: none; /* Navigation (menu button) is hidden initially */
+}
+
+.kscr-Main-logout {
+  display: block; /* show the logout button if the menu is hidden */
+
+  @media @sm-Max {
+    display: none; /* hide the logout button if the menu is present */
+  }
+}
+
+.kscr-Main-learingPlanWrapper {
+    @media @sm-Max {
+        display: none; // Hide the learning plan in small format
+    }
+}
+
+
+.kscr-Main-cartWrapper {
+  @media @sm-Max {
+    display: none;
+    &--active {
+      display: block; /* show only when active */
+    }
+  }
+
+  @media @lg-Min {
+    .kscr-Main-sidebar & {
+        // Cart in sidebar (search only)
+        clear: both;
+        margin: 1rem 0 0;
+    }
+  }
+}
+
+.kscr-Main-scheduleWrapper {
+    @media @sm-Max {
+        display: none;
+        &--active {
+          display: block; /* show only when active */
+        }
+    }
+
+    @media @lg-Min {
+        .kscr-Main-sidebar & {
+            // Schedule in sidebar (search only)
+            clear: both;
+            margin: 1rem 0 0;
+        }
+    }
+}
+
+.kscr-Main-calendar {
+    @media @sm-Max {
+        .kscr-Main-scheduleWrapper & {
+          display: none;
+          margin-top: 1.5rem;
+            &--selected {
+              display: block;
+            }
+        }
+    }
+}
+
+.kscr-Main-scheduleTab {
+  @media @sm-Max {
+	  .kscr-Main-scheduleWrapper & {
+	  display: none;
+
+	  &--selected {
+	  display: block;
+	  }
+	}
+  }
+}
+
+.kscr-Main-searchFormWrapper {
+    @media @sm-Max {
+        display: none;
+    }
+}
+
+.kscr-Main-sidebar {
+    @media @lg-Min {
+        // Move the expand/collapse icon (chevron) 10px from left instead of 5px.
+        background: @bodyColorDark;
+        margin: 0;
+        padding: 0 1rem 1rem;
+        width: @largeFormatSidebarWidth; /* fixed width for sidebar */
+    }
+}
+
+.kscr-Main-schedule {
+    /* Styles for mid-size screens */
+    @media @md-Max {
+        flex-direction: column; /* items appear vertically stacked*/
+      }
+
+    @media @lg-Min {
+        .kscr-Main-content--left & {
+            // Schedule container (Registered & Waitlist)
+            .flex(1); /*set so that this takes up all the room left over from cart*/
+            .flexbox();/*child elements (registered and waitlist) are displayed in a flexible way*/
+            color: @primaryTextColor;
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Schedule contents
+            margin: 0.1rem 0;
+        }
+    }
+}
+
+// Main/left content area
+.kscr-Main-content--left {
+  @media @lg-Min {
+      .flex(1);
+      background-color: @sectionColor;
+      padding: 0.7rem 0 0;
+  }
+}
+
+/* Styles for large-size screens */
+@media  @lg-Min {
+  .kscr-Header-termName-label {
+    display: none; // show the term label selector in large format only
+  }
+}
+
+.kscr-MainHeading  {
+  @media @lg-Min {
+    .kscr-Main-searchWrapper & {
+      display: none; // Hide the Search main heading in large-format
+    }
+  }
+}
+
+.kscr-MainHeading-toggles {
+  @media @lg-Min {
+    // List/Grid toggle buttons
+    .kscr-Main-scheduleWrapper & {
+      display: none; // Hide the main buttons in large-format
+    }
+  }
+}

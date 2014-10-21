@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-CourseInfo-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <!-- The header text for this section has to be set for the tabs to initialize properly.
+             And, we don't want "CM-Proposal-Course-CourseInfo-CourseData-Section" (aka the Titles) sub-section to have a header.
+             But since the validation messaging is weird in the sub-section without a header we are actually
+             displaying this header in the sub-section. -->
+        <property name="headerText" value="Course Information"/>
+        <property name="header.render" value="false" />
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-CourseInfo-CourseData-Section" /> <!-- Course Information -->
+
+                <ref bean="CM-Proposal-Course-CourseInfo-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
+
+                <bean id="CM-Proposal-Course-CourseInfo-Instructor-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:layoutManager.style="width: 100%;"
+                      p:headerText="Instructor(s)">
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CluInstructorInfoWrapper" />
+                    <property name="propertyName" value="instructorWrappers" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Instructor"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddInstructor"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayInstructor();"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="header">
+                        <bean parent="CM-IconHeader">
+                            <property name="richHeaderMessage.iconToolTipText"
+                                      value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
+                        </bean>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>cm-collection-width</value>
+                            <value>admin-not-required-field</value>
+                            <value>ks-cm-course-instructor</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-CourseInfo-Instructor-Name" parent="KS-Uif-InputField" p:propertyName="displayName">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validInstructorNameAndID" />
+                                </property>
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="valuePropertyName" value="displayName" />
+                                        <property name="templateOptions">
+                                            <map>
+                                                <entry key="minLength" value="3" />
+                                                <entry key="delay" value="3" />
+                                                <entry key="change">
+                                                    <value>
+                                                        function(event, ui) {
+                                                            if (ui.item==null) {
+                                                                jQuery(this).focus();
+                                                            }
+                                                        }
+                                                    </value>
+                                                </entry>
+                                            </map>
+                                        </property>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest"
+                                                  p:queryMethodArgumentFieldList="" />
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-Instructor-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
+                    <property name="header">
+                        <bean parent="Uif-HeaderThree" />
+                    </property>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-CourseInfo-Description" parent="CM-InputField"
+                                p:label="Description" p:propertyName="courseInfo.descr.plain" >
+                                <property name="instructionalText" value="This description will appear in the catalog." />
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-LargeTextAreaControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>cm-charcount-max-1000</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="CM-Proposal-Course-CourseInfo-Rationale" parent="CM-InputField" p:render="@{!#isModifyNoNewVersion}"
+                                p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
+
+                                <property name="instructionalText"
+                                          value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-LargeTextAreaControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>cm-charcount-max-255</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-CourseInfo-CourseData-Section" parent="Uif-VerticalBoxSubSection">
+        <!-- The validation messaging is weird if this sub-section doesn't have a header, so we are displaying the
+             tab/section header here. -->
+        <property name="headerText" value="Course Information" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
+                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CM-Proposal-Course-CourseInfo-ProposalTitle" p:render="@{!#isModifyNoNewVersion}"
+                      p:propertyName="proposalInfo.name">
+                    <property name="fieldLabel.richLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
+                            <property name="iconToolTipText" value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
+                        </bean>
+                    </property>
+                    <property name="fieldLabel.renderColon" value="false"/>
+                    <property name="instructionalText"
+                              value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="70" />
+                    </property>
+                </bean>
+                <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
+                <bean parent="KS-Uif-InputField" p:label="Course Title" p:propertyName="courseInfo.courseTitle">
+                    <property name="fieldLabel.renderColon" value="false"/>
+                    <property name="instructionalText"
+                              value="It is highly recommended that you use the same name for the course and proposal title."/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="70" />
+                    </property>
+                </bean>
+
+                <bean id="CM-Proposal-Course-CourseInfo-TranscriptTitle" parent="CM-InputField" p:label="Transcript Course Title"
+                      p:propertyName="courseInfo.transcriptTitle" >
+                    <property name="instructionalText"
+                              value="This is the truncated title that will appear on the printed transcript."/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="24" >
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-24</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="CM-Proposal-Course-CourseInfo-SubjectCode-CourseNum" parent="Uif-HorizontalBoxSection" >
+                    <property name="items">
+                        <list>
+                            <bean  id="CM-Proposal-Course-CourseInfo-SubjectCode" parent="CM-InputField"
+                                p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
+                                <property name="constraintText" value="Must be a 4 letter code"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="AAAA"
+                                         p:cssClasses="validSubjectCode" />
+                                </property>
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true">
+                                        <property name="valuePropertyName" value="code"/>
+                                        <property name="templateOptions" value="minLength:1,delay:0"/>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="getSubjectCodesForSuggest"/>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="CM-Proposal-Course-CourseInfo-CourseNumSuffix" parent="CM-InputField"
+                                  p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix"
+                                  p:minLength="3">
+                                <property name="constraintText" value="Must be a 3 digit number"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
+                                </property>
+                                <property name="fieldLabel.richLabelMessage">
+                                    <bean parent="CM-IconLabelMessage">
+                                        <property name="iconToolTipText" value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-CourseInfo-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
+        <property name="disclosure.defaultOpen"
+                  value="false"/>
+        <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-CourseInfo-CrossList-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="CM-Proposal-Course-CourseInfo-CrossList" p:layoutManager.style="width: 100%;"
+                      p:headerText="Cross Listed Courses">
+                    <property name="header.headerLevel" value="h4"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo" />
+                    <property name="propertyName" value="courseInfo.crossListings" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Course"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddCrossList"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayCrosslistedCourse();"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="header">
+                        <bean parent="CM-IconHeader">
+                           <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
+                            <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - Courses here are crosslisted."/>
+                        </bean>
+                    </property>
+
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>cm-collection-width</value>
+                            <value>admin-not-required-field</value>
+                            <value>cm_requiredMessage_sectionHeader</value>
+                            <value>cm-CurriculumOversight-subtext</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField" p:propertyName="subjectArea" p:id="CM-Proposal-Course-CourseInfo-CrossList-SubjectCode" p:label="Subject Code" p:required="false" >
+                                <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
+                                <property name="constraintText" value="Must be a 4 letter code"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="AAAA" p:cssClasses="validSubjectCode" />
+                                </property>
+
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseNumberSuffix" p:id="CM-Proposal-Course-CourseInfo-CrossList-CourseNumSuffix" p:label="Course Number" p:required="false" >
+                                <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
+                                <property name="constraintText" value="Must be a 3 digit number"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111">
+                                    </bean>
+                                </property>
+
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-CrossList-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="CM-Proposal-Course-CourseInfo-JointlyOffered-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="CM-Proposal-Course-CourseInfo-JointlyOffered" p:layoutManager.style="width: 100%;"
+                      p:headerText="Jointly Offered Courses">
+                    <property name="header.headerLevel" value="h4"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
+                    <property name="propertyName" value="courseJointWrappers" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Course"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddJointlyOffered"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="header">
+                        <bean parent="CM-IconHeader">
+                            <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
+                            <property name="richHeaderMessage.iconToolTipText" value="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
+                        </bean>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>cm-collection-width</value>
+                            <value>admin-not-required-field</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-CourseInfo-JointOffer-CourseCode" parent="CM-InputField" p:label="Course Code"
+                                  p:propertyName="courseCode" p:additionalHiddenPropertyNames="courseId">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
+                                </property>
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true" p:labelPropertyName="courseCode" p:valuePropertyName="courseId">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="searchForJointOfferingCourses" />
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                                <entry key="delay" value="0"/>
+                                                <entry key="select">
+                                                    <value>
+                                                        function(event, ui) {
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers[" + @{#index} + "].courseCode']" ).val(ui.item.label);
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers[" + @{#index} + "].courseId']" ).val(ui.item.value);
+                                                            return false;
+                                                        }
+                                                    </value>
+                                                </entry>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:returnByScript="true">
+                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="courseCode" value="courseCode"/>
+                                                <entry key="courseId" value="courseId"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-JointOffer-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="CM-Proposal-Course-CourseInfo-VersionCode-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="version-code" p:layoutManager.style="width: 100%;"
+                      p:headerText="Version Codes">
+                    <property name="header.headerLevel" value="h4"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseVariationInfo" />
+                    <property name="propertyName" value="courseInfo.variations" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Version Code"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-CourseInfo-AddVersionCode"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayVersionCode();"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="header">
+                        <bean parent="CM-IconHeader">
+                            <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
+                            <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list."/>
+                        </bean>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>cm-collection-width</value>
+                            <value>admin-not-required-field</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="CM-Proposal-Course-CourseInfo-VariationCode" p:label="Version Code">
+                                <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
+                                <property name="constraintText" value="Must be a capital letter"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="10" p:maxLength="1" />
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint" p:propertyName="variationTitle">
+                                            <property name="messageKey" value="error.course.version.code.and.title.required"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                 <bean parent="ValidCharactersConstraint" p:value="^[A-Z]$"
+                                                 p:messageKey="Must be a capital letter"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="CM-Proposal-Course-CourseInfo-VariationTitle" p:label="Course Title"  p:disableNativeAutocomplete="true">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl"   p:size="70" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-CourseInfo-VersionCode-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="CourseDetails-FormView" parent="CourseDetails-FormView-parent"/>
+    <bean abstract="true" id="CourseDetails-FormView-parent" parent="KSAPBaseFormView">
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl"/>
+        <property name="id" value="CourseDetails-FormView"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.coursedetails.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>themes/ksapboot/scripts/ksap.search.details.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Ksap-Page" p:id="coursedetails-page">
+                    <property name="cssClasses">
+                        <list merge="true">
+                        </list>
+                    </property>
+                    <property name="layoutManager">
+                        <bean parent="Uif-VerticalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
+                                  p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"
+                                    p:render="@{courseTermDetailsWrappers.size() > 0}"/>
+                            <ref bean="course-term-list"/>
+                            <ref bean="KSAP-CourseSectionDetails-PlannedSection-Template"/>
+                            <ref bean="KSAP-CourseSectionDetails-PlannedSection-Activity-Template"/>
+                        </list>
+                    </property>
+                    <property name="stickyFooter" value="false"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="persistFormToSession" value="true"/>
+        <property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm"/>
+    </bean>
+
+    <!--Terms-->
+    <bean id="course-term-list" parent="course-term-list-parent">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-course-sections</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="course-term-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="courseTermDetailsWrappers"/>
+        <!-- Disclosure items REQUIRE a summary title to work correctly -->
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_section"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
+                  value="@{#line.getTermAbbreviation()}"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.id" value="@{#line.getXmlSafeTermId()}_disclosure"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass"
+                  value="ks-fontello-icon-right-open"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
+                  value="ks-fontello-icon-down-open"/>
+        <property name="layoutManager.summaryTitle"
+                  value="@{#line.termName} [css='ksap-text-small']@{#textHelper.getFormattedMessage(#line.courseOfferingDetailsWrappers.size() == 1 ? 'details.term.coSummary.1' : 'details.term.coSummary.many', new Object[]{#line.courseOfferingDetailsWrappers.size()})}[/css]"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="@{#index==0}"/>
+        <property name="subCollections">
+            <list>
+                <ref bean="course-offering-list"/>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="setupCourseSectionPage()"/>
+    </bean>
+
+    <!--Course Info-->
+    <bean id="course-offering-list" parent="course-offering-list-parent"/>
+    <bean id="course-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="courseOfferingDetailsWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_section"/>
+        <property name="layoutManager.lineGroupPrototype.cssClasses">
+            <list merge="true">
+                <value>ksap-courseoffering-section</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <!-- The below finalizeMethodToCall will handle turning on/off the rendering of the disclosure based on how many COs there are "/>-->
+        <property name="layoutManager.lineGroupPrototype.disclosure.finalizeMethodToCall" value="determineDisclosureRendering"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass"
+                  value="ks-fontello-icon-right-open"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
+                  value="ks-fontello-icon-down-open"/>
+        <property name="layoutManager.summaryTitle"
+                  value="@{#textHelper.getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} @{#line.plannedActivityDetailsWrappers.size() > 0 ? '[css=''ksap-section-planned-marker ksap-section-planned ks-fontello-icon-ok-circled'']'+#textHelper.getText('details.courseOffering.header.planned') + '[/css]' : '[css=''ksap-section-planned-marker ksap-section-planned ks-fontello-icon-ok-circled ksap-hide'']'+#textHelper.getText('details.courseOffering.header.planned') + '[/css]'} "/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section-courses</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="checkboxSelectAndHighlight();"/>
+        <!-- property to activate disclosure -->
+        <property name="items">
+            <list>
+                <!--Honors Info-->
+                <bean parent="Uif-MessageField" p:render="@{#line.honors}" p:id="courseOfferingHonors"
+                      p:messageText="[b]@{#textHelper.getText('details.course.honors.label')}[/b]">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-honors</value>
+                        </list>
+                    </property>
+                </bean>
+                <!--Requisite Info-->
+                <bean parent="Uif-MessageField" p:render="@{#line.courseRequisites.size() > 0}" p:id="courseOfferingRequisites"
+                      p:messageText="[b]@{#textHelper.getText('details.course.requisites.label')}:[/b] @{#line.courseRequisites}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-requisites</value>
+                        </list>
+                    </property>
+                </bean>
+                <!--Description Info-->
+                <bean parent="Uif-MessageField" p:id="courseOfferingDescription"
+                      p:messageText="[b]@{#textHelper.getText('details.course.description.label')}:[/b] @{#line.courseOfferingDescription}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-description</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="KSAP-CourseSectionDetails-PlannedSections"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalFieldGroup" p:render="@{#line.formatOfferingInfoWrappers.size()>1}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-format-options</value>
+                        </list>
+                    </property>
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getFormattedMessage('details.courseOffering.formats', new Object[]{#line.formatOfferingInfoWrappers.size()})}" >
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-heading</value>
+                                    </list>
+                                </property>
+                                <property name="toolTip">
+                                    <ref bean="details_bottom_course_format_tooltip"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="@{#textHelper.getText('details.courseOffering.format.options')}"
+                                  p:additionalCssClasses="ksap-section-format-header"
+                                  p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_formatOfferingOptions"
+                                  p:propertyName="selectedFormatOfferingId"
+                                  p:width="auto"
+                                  p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
+                                  p:onDocumentReadyScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ksap-format-radio</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+
+                                    <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.ap.coursesearch.util.FormatOfferingOptionsFinder" p:addBlankOption="false"/>
+                                </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termId" value="@{#line.termId}" />
+                                        <entry key="courseOfferingId" value="@{#line.courseOfferingId}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="format-offering-list"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Course Format Offering Wrapper-->
+    <bean id="format-offering-list" parent="format-offering-list-parent"/>
+    <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.FormatOfferingInfoWrapper"/>
+        <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
+        <!--<property name="refreshWhenChangedPropertyNames" value="#lp.selectedFormatOfferingId"/>-->
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="propertyName" value="formatOfferingInfoWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_section"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
+        <!--<property name="layoutManager.lineGroupPrototype.render" value="@{#parentLine.formatOfferingInfoWrappers.size() eq 1 or #parentLine.selectedFormatOfferingId eq #line.formatOfferingId}"/>-->
+        <property name="layoutManager.lineGroupPrototype.cssClasses">
+            <list merge="true">
+                <value>@{#parentLine.formatOfferingInfoWrappers.size() > 1 ? 'ksap-hide' : ''}</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
+
+        <!-- property to activate disclosure -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section-format</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="format-list"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Course Format Offering List-->
+    <bean id="format-list" parent="format-list-parent"/>
+    <bean id="format-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="propertyName" value="activityFormatDetailsWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="dataAttributes">
+            <map>
+                <entry key="validFormatOffering" value="@{#line.validFormat}" />
+                <entry key="formatId" value="@{#line.formatOfferingId}" />
+            </map>
+        </property>
+        <!-- property to activate disclosure -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section-format</value>
+            </list>
+        </property>
+
+        <!--Add to Plan Button for Multi-type offerings-->
+        <property name="header.rightGroup">
+            <bean parent="Uif-HeaderRightGroup" p:render="@{#parentLine.activityFormatDetailsWrappers.size() > 1}">
+                <property name="toolTip">
+                    <ref bean="details_bottom_add_tooltip"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:actionLabel="@{#textHelper.getText('details.button.addToPlan')}"
+                              p:disabled="true"
+                              p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_addButton"
+                              p:actionScript="addRegGroupToPlan(this, e);">
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="reggroupid" value="none" />
+                                    <entry key="quickadd" value="@{!#line.variableCredit}" />
+                                    <entry key="variablecredit" value="@{#line.variableCredit}" />
+                                    <entry key="formatOrder" value="@{#line.activityFormatOrder}" />
+                                </map>
+                            </property>
+                              </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-format-list-header</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                                <property name="id" value="formatLabel_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-title</value>
+                                    </list>
+                                </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="totalactivities" value="@{#line.activityOfferingDetailsWrappers.size()}" />
+                                        <entry key="formatName" value="@{#line.formatName}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink"
+                                  p:id="toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"
+                                  p:actionLabel="Show All"
+                                  p:actionScript="toggleHideShowInvalidActivities('toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}')">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-toggle</value>
+                                    </list>
+                                </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="show" value="false" />
+                                        <entry key="relatedTable" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
+                                    </map>
+                                </property>
+                                <property name="onDocumentReadyScript" value="hideShowToggleHideShowInvalidActivities('toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}');"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="activity_offering_table"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Planned Activity Sections (Data similar to Activity Offering Table, but layout is different) -->
+    <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="KSAP-CourseSectionDetails-PlannedSections-parent"/>
+    <bean id="KSAP-CourseSectionDetails-PlannedSections-parent" abstract="true" parent="Uif-StackedCollectionGroup">
+        <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.courseOfferingId}"/>
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="header">
+            <bean parent="Uif-HeaderFive"/>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <!--Header "Planned Registration Groups (#)" -->
+        <property name="headerText"
+                  value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedGroupsCount})}"/>
+        <property name="dataAttributes">
+            <map>
+                <entry key="numberPlanned" value="@{#line.plannedGroupsCount}" />
+            </map>
+        </property>
+        <!--Hide section if no planned registration groups -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{#line.plannedGroupsCount == 0 ? 'ksap-hide' : ''}</value>
+                <value>ksap-section-reg</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.PlannedRegistrationGroupDetailsWrapper"/>
+        <property name="propertyName" value="plannedActivityDetailsWrappers"/>
+        <property name="renderAddLine" value="false" />
+        <property name="renderLineActions" value="false" />
+        <property name="bindingInfo.bindToForm" value="true" />
+        <property name="disclosure.render" value="false" />
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem" />
+                </property>
+            </bean>
+        </property>
+        <!--Registration Group Column Headers and Results -->
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <!--Registration Group Column Headers -->
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.type')}" p:additionalCssClasses="ksap-section-type "/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.code')}" p:additionalCssClasses="ksap-section-code"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="ksap-section-instructor"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.days')}" p:additionalCssClasses="ksap-section-days"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.time')}" p:additionalCssClasses="ksap-section-time"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.location')}" p:additionalCssClasses="ksap-section-location"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.seats')}" p:additionalCssClasses="ksap-section-seats"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.additionalDetails')}" p:additionalCssClasses="ksap-section-details"/>
+                    </list>
+                </property>
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ksap-section-reg-header</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <!--Planned Activity Registration Code "Registration Group: #" -->
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
+                                  p:labelRendered="true">
+                            </bean>
+                            <!--Planned Activity Layout (Data similar to Activity Offering Table, but layout is different) -->
+                            <bean parent="Uif-StackedCollectionGroup">
+                                <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.regGroupCode}"/>
+                                <property name="validationMessages.displayMessages" value="false" />
+                                <property name="header">
+                                    <bean parent="Uif-HeaderFour" p:render="false" />
+                                </property>
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="render" value="false"/>
+                                    </bean>
+                                </property>
+                                <property name="collectionObjectClass"
+                                          value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+                                <property name="propertyName" value="activities"/>
+                                <property name="renderAddLine" value="false" />
+                                <property name="renderLineActions" value="false" />
+                                <property name="bindingInfo.bindToForm" value="true" />
+                                <property name="disclosure.render" value="false" />
+                                <property name="layoutManager">
+                                    <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                                        <property name="lineGroupPrototype">
+                                            <bean parent="Uif-CollectionHorizontalBoxItem" />
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-type"
+                                              p:id="type"
+                                              p:label="@{#textHelper.getText('details.ao.header.type')}"
+                                              p:messageText="@{#line.activityFormatName}"
+                                              p:labelRendered="true">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-code"
+                                              p:id="code"
+                                              p:label="@{#textHelper.getText('details.ao.header.code')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.activityOfferingCode}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-instructor"
+                                              p:id="instructor"
+                                              p:label="@{#textHelper.getText('details.ao.header.instructor')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.instructorName}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-days"
+                                              p:id="days"
+                                              p:label="@{#textHelper.getText('details.ao.header.days')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.days}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-time"
+                                              p:id="time"
+                                              p:label="@{#textHelper.getText('details.ao.header.time')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.time}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-location"
+                                              p:id="location"
+                                              p:label="@{#textHelper.getText('details.ao.header.location')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.location}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-seats"
+                                              p:id="seats"
+                                              p:label="@{#textHelper.getText('details.ao.header.seats')}"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
+                                        </bean>
+                                        <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                                        <bean parent="Uif-FieldGroupBase"
+                                              p:fieldLabel.labelText="@{#textHelper.getText('details.ao.header.additionalDetails')}"
+                                              p:labelRendered="true"
+                                              p:id="additionalDetails"
+                                              p:additionalCssClasses="ksap-section-details">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message"
+                                                          p:render="@{#line.honors==true}"
+                                                          p:id="honors"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                                                    <bean parent="Uif-Link"
+                                                          p:render="@{#line.classUrl != null}"
+                                                          p:id="classUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:href="@{#line.classUrl}"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
+                                                          p:target="_blank"/>
+                                                    <bean parent="Uif-ActionLink"
+                                                          p:render="@{#line.hasActivityOfferingRequisites}"
+                                                          p:id="requirementsUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
+                                                          p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <!--For dynamic updating: Planned Activity Registration Code "Registration Group: #"-->
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="KSAP-CourseSectionDetails-PlannedSection-Template-parent" p:hidden="true"/>
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:hidden="true">
+        <property name="dataAttributes">
+            <map>
+                <entry key="open" value="false" />
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="id" value="Activities-Placeholder"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', '__KSAP__REGGROUPCODE__')}"
+                                  p:labelRendered="true">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--For dynamic updating: Planned Activity Layout (Data similar to Activity Offering Table, but layout is different) -->
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Activity-Template" parent="KSAP-CourseSectionDetails-PlannedSection-Activity-Template-parent" p:hidden="true"/>
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Activity-Template-parent" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-type"
+                      p:id="type"
+                      p:label="@{#textHelper.getText('details.ao.header.type')}"
+                      p:messageText="__KSAP__ACTIVITYFORMATNAME__"
+                      p:labelRendered="true">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-code"
+                      p:id="code"
+                      p:label="@{#textHelper.getText('details.ao.header.code')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__ACTIVITYOFFERINGCODE__">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-instructor"
+                      p:id="instructor"
+                      p:label="@{#textHelper.getText('details.ao.header.instructor')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__INSTRUCTOR__">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-days"
+                      p:id="days"
+                      p:label="@{#textHelper.getText('details.ao.header.days')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__DAYS__">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-time"
+                      p:id="time"
+                      p:label="@{#textHelper.getText('details.ao.header.time')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__TIME__">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-location"
+                      p:id="location"
+                      p:label="@{#textHelper.getText('details.ao.header.location')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__LOCATION__">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-seats"
+                      p:id="seats"
+                      p:label="@{#textHelper.getText('details.ao.header.seats')}"
+                      p:labelRendered="true"
+                      p:messageText="__KSAP__CURRENTENROLLMENT__/__KSAP__MAXENROLLMENT__">
+                </bean>
+                <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                <bean parent="Uif-FieldGroupBase"
+                      p:fieldLabel.labelText="@{#textHelper.getText('details.ao.header.additionalDetails')}"
+                      p:labelRendered="true"
+                      p:id="additionalDetails"
+                      p:additionalCssClasses="ksap-section-details">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:render="true"
+                                  p:id="honors"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                            <bean parent="Uif-Link"
+                                  p:render="true"
+                                  p:id="classUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:href="__KSAP__CLASSURL__"
+                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
+                                  p:target="_blank"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:render="true"
+                                  p:id="requirementsUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '__KSAP__ACTIVITYOFFERINGID__'});"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Activity Offering Table-->
+    <!--TODO: TextHelper not working for table header labels-->
+    <bean id="activity_offering_table" parent="activity_offering_table_parent"/>
+    <bean id="activity_offering_table_parent" parent="Uif-TableCollectionSubSection"
+          p:renderAddLine="false" p:renderLineActions="false" p:renderHeader="false">
+        <property name="id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+        <property name="propertyName" value="activityOfferingDetailsWrappers"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.conditionalRowCssClasses">
+          <map>
+              <entry key="@{#line.singleFormatOffering}" value="ksap-activity-single"/>
+              <entry key="@{!#line.validActivity}" value="ksap-invalid-activity"/>
+              <entry key="@{!#line.validActivityToRemain}" value="ksap-removed-activity"/>
+              <entry key="all" value="ksap-activity-row"/>
+          </map>
+        </property>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!--<entry key="sDom" value="opir"/>-->
+                <!--<entry key="aaSorting" value="[[0, 'asc']]"/>-->
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
+            </map>
+        </property>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="items">
+            <list>
+                <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-type"
+                      p:id="type"
+                      p:label="Type"
+                      p:messageText="@{#line.activityFormatName}"
+                      p:render="@{#line.partOfRegGroup==true}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-code"
+                      p:id="code"
+                      p:label="Code"
+                      p:messageText="@{#line.activityOfferingCode}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}"-->
+                <bean parent="Uif-DataField"
+                      p:additionalCssClasses="ksap-section-instructor"
+                      p:id="instructor"
+                      p:label="Instructor"
+                      p:propertyName="instructorName">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-days"
+                      p:id="days"
+                      p:label="Days"
+                      p:messageText="@{#line.days}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-time"
+                      p:id="time"
+                      p:label="Time"
+                      p:messageText="@{#line.time}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-location"
+                      p:id="location"
+                      p:label="Location"
+                      p:messageText="@{#line.location}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-seats"
+                      p:id="seats"
+                      p:label="Seats Open"
+                      p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
+                </bean>
+                <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                <bean parent="Uif-FieldGroupBase"
+                      p:fieldLabel.labelText="Additional Info"
+                      p:id="additionalDetails"
+                      p:additionalCssClasses="ksap-section-details">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:render="@{#line.honors==true}"
+                                  p:id="honors"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                            <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
+                                  p:id="classUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:href="@{#line.classUrl}"
+                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
+                                  p:target="_blank"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:render="@{#line.hasActivityOfferingRequisites}"
+                                  p:id="requirementsUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
+                            <bean parent="Uif-Message"
+                                  p:additionalCssClasses="ksap-hide rowActivityOfferingId"
+                                  p:messageText="@{#line.activityOfferingId}">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!--@{#textHelper.getText('details.ao.header.select')}" >-->
+                <bean parent="Uif-InputField"
+                      p:additionalCssClasses="ksap-section-select"
+                      p:propertyName="selected"
+                      p:id="select"
+                      p:label="Select"
+                      p:render="@{#line.partOfRegGroup==false and #line.singleFormatOffering==false}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="onChangeScript" value="clickActivity(this,e);"/>
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="activityId" value="@{#line.activityOfferingId}" />
+                                    <entry key="courseCode" value="@{#parentLine.courseOfferingCode}" />
+                                    <entry key="termId" value="@{#parentLine.termId}" />
+                                    <entry key="formatId" value="@{#parentLine.formatOfferingId}" />
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-FieldGroupBase"
+                      p:additionalCssClasses="ksap-section-add"
+                      p:fieldLabel.labelText="Add to Plan"
+                      p:render="@{#line.singleFormatOffering==true}"
+                        p:id="addPlanLink">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionLink" p:render="@{#line.singleFormatOffering==true}">
+                                <property name="id" value="@{#line.activityOfferingId}_addLink"/>
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>@{#line.inPlan ? 'ks-fontello-icon-ok-circled' : 'ks-fontello-icon-hollow-circled-plus'}</value>
+                                    </list>
+                                </property>
+                                <property name="actionScript" value="addRegGroupToPlan(this, e);"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="reggroupid" value="@{#line.regGroupId}" />
+                                        <entry key="quickadd" value="@{!#line.variableCredit}" />
+                                        <entry key="variablecredit" value="@{#line.variableCredit}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,57 @@
+$ns: '.kscr-Article';
+
+#{$ns} {
+
+  border-width: 1px;
+  border-style: solid;
+  border-color: $border-color-normal;
+  border-radius: 8px 8px 0 0;
+  list-style-type: none;
+  //margin: -10px;
+  //width: 20em;
+  background-color: $secondary-color;
+  font-size: 1.1em;
+  
+  h2, p {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  h1 {
+    font-size: rem-calc(20);
+
+    > strong {
+      display: block;
+    }
+  }
+
+  h2 {
+    font-size: rem-calc(20);
+    margin-bottom: 0;
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: rem-calc(14);
+    margin-bottom: 0.5rem;
+
+    & + p {
+      margin-top: 1rem;
+    }
+  }
+}
+
+#{$ns}-header {
+  background-color: $header-secondary-color;
+  border-top-right-radius: ($border-radius - 2px);
+  border-top-left-radius: ($border-radius - 2px);
+  width: 100%;
+  padding-left: 0.5em;
+   margin-top: 0;
+   color: $secondary-font-color;
+}
+
+#{$ns}-content {
+  padding-left: 0.1em;
+  
+}

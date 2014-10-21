@@ -1,0 +1,515 @@
+/*** Course Calendar ***/
+
+// Main calendar container
+.kscr-CourseCalendar {
+    .kscr-Card-mixin();
+    margin: 1rem 0.5rem 2rem;
+
+    // Apply the --small styles to all calendars in mobile
+    @media @sm-Max {
+        .kscr-CourseCalendar--small;
+    }
+
+    @media @lg-Min {
+        // Schedule in sidebar (search only)
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Course Calendar Container in Sidebar
+            .kscr-Card-mixin();
+            margin: 0;
+
+            &-calendar {
+              background: none;
+              border: none;
+              margin-bottom: 0;
+              padding: 0;
+            }
+        }
+    }
+}
+
+
+// Calendar orientation helper widgets
+.kscr-CourseCalendar-orientation {
+    left: -999rem; // Position outside of normal view
+    position: absolute;
+    top: -999rem;
+
+    &--horizontal,
+    &--vertical {
+        display: none;
+    }
+
+    &--horizontal {
+        display: none;
+
+        @media @lg-Min {
+            .kscr-CourseCalendar--large & {
+                // Show the horizontal layout helper element when in small format
+                display: block;
+            }
+        }
+    }
+
+    &--vertical {
+        display: block;
+    }
+}
+
+
+// Header/Top row of course calendar (including the legend)
+.kscr-CourseCalendar-header {
+
+}
+
+.kscr-CourseCalendar-legend {
+    // Legend For course types (registered, waitlisted, in cart)
+    .kscr-CourseCalendar-courseBlock {
+        cursor: pointer;
+        float: left;
+        font-weight: bold;
+        margin-right: 0.5rem;
+        padding-left: 0.3rem;
+        text-transform: uppercase;
+        .courseBlock(#333);
+
+        &-label {
+            padding-left: 0;
+            padding-right: 0.2rem;
+        }
+
+        &--deselected {
+            .courseBlock(#666);
+        }
+    }
+}
+
+
+// Content area for calendar view
+.kscr-CourseCalendar-calendar {
+    position: relative;
+
+    & > .util-sticky-placeholder {
+        display: none;
+    }
+
+    @media @lg-Min {
+        .kscr-CourseCalendar--large & {
+            // Disable the selection behavior when in large-format layout
+            .util-Mask {
+              display: none;
+            }
+        }
+    }
+}
+
+// Time labels
+.kscr-CourseCalendar-times {
+    display: block;
+    margin: 1rem 0 1rem 3rem;
+}
+
+.kscr-CourseCalendar-time {
+    text-align: left;
+
+    &-label {
+        font-size: 1.3rem;
+    }
+
+    &-label-period {
+        font-size: 80%;
+        text-transform: lowercase;
+    }
+}
+
+
+// Day Containers
+.kscr-CourseCalendar-days {
+    .util-Grid;
+    flex-flow: column nowrap;
+}
+
+// Single day lane container
+.kscr-CourseCalendar-day {
+    .util-Grid;
+    margin-top: 1px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:nth-child(odd) &-content-bg {
+        background-color: #F2F2F2;
+    }
+
+    &:nth-child(even) &-content-bg {
+        background-color: #D7D7D7;
+    }
+
+    @media @lg-Min {
+        .kscr-CourseCalendar--large & {
+            align-items: center; // Center all items in the layout (day label & content)
+        }
+    }
+}
+
+// Background striping elements
+.kscr-CourseCalendar-day-content {
+    .util-Grid-cell;
+    height: 100%;
+    padding: 0 1px 0 0;
+    position: relative;
+
+    &-bgs {
+        .util-Grid;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    &-bg {
+        .util-Grid-cell;
+        height: 100%;
+        border-left: 1px solid @whiteBackground;
+
+        &:first-child {
+            border-left: none;
+        }
+    }
+}
+
+
+// Course lane container
+.kscr-CourseCalendar-day-lane-wrap {
+}
+
+// Main lane element
+.kscr-CourseCalendar-day-lane {
+    position: relative;
+
+    .kscr-CourseCalendar-courseBlock-wrap {
+        left: -999rem; // Initialize offset to the left. This prevents them popping into place while the browser is rendering.
+        position: absolute;
+        top: 0;
+    }
+}
+
+.kscr-CourseCalendar-day-label {
+    margin-right: 1rem;
+    text-align: right;
+    width: 2rem;
+}
+
+/*** BEGIN Course Block Styles ***/
+
+// Wrapping element that gets the height & width applied through the directive.
+// Done this way b/c the border is outside of the defined width which artificially
+// inflates the size of the element in relation to the visible schedule.
+
+.kscr-CourseCalendar-courseBlock-wrap {
+    //.util-transition-fade;
+     @media @lg-Min {
+          .kscr-CourseCalendar--large & {
+              height: auto !important; // Important to override the values getting set in the directive for large-format.
+
+              // Don't override the positioning of conflicting courses
+              &:not(.kscr-CourseCalendar-courseBlock-wrap--conflicting) {
+                top: 0 !important;
+              }
+          }
+     }
+}
+
+// Styled course block element
+.kscr-CourseCalendar-courseBlock {
+    .Rounded(0.5rem);
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 1px;
+    margin-left: 1px; // Offset to align w/ the bg stripe offset & to give cushion between courses
+    overflow: hidden;
+    padding: 0.1rem;
+
+    // Course block text holder
+    &-text, {
+      line-height: 1.1;
+      padding: 0 0.2rem;
+    }
+
+    // Course block label
+    &-label {
+        box-shadow: 1rem 0 0 @transparent, -1rem 0 0 @transparent;
+    }
+
+    @media @lg-Min {
+        .kscr-CourseCalendar--large & {
+            .box-shadow(none);
+            cursor: default;
+
+            // Hide the 'truncated' label in favor of the normal version in small-format
+            &-label--truncated {
+              display: none;
+            }
+        }
+    }
+}
+
+.generate-courseBlocks(@courseCardColorCount);
+.generate-courseBlocks(@n, @i: 1) when (@i =< @n) {
+    // Define the course color for this iteration
+    .defineCourseColor(@i);
+
+    .kscr-CourseCalendar-courseBlock--@{i} {
+        .courseBlock(@courseColor);
+    }
+
+    .generate-courseBlocks(@n, (@i + 1));
+}
+
+
+// Course Block Mixin
+.courseBlock(@color) {
+    .defineCourseContrastColors(@color);
+    .courseBlock(@color, @primaryContrastColor, @secondaryContrastColor);
+}
+
+.courseBlock(@color, @primaryContrastColor, @secondaryContrastColor) {
+    border-color: @color;
+
+    &.kscr-CourseCalendar-courseBlock--registered {
+        background-color: @color;
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        background-color: hsl(hue(@color), saturation(@color), 85%);
+    }
+
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        background-color: @whiteBackground;
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted,
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        color: @color;
+
+        // Course block label
+        .kscr-CourseCalendar-courseBlock-label {
+            background: @waitlistedBgColor;
+            .Rounded(0.3rem);
+        }
+    }
+
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        // Diagonal Striping: default & explicitly small calendars:
+        &,
+        .kscr-CourseCalendar--small .kscr-CourseCalendar-calendar & {
+            background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+        }
+
+        // Diagonal Striping: all toggles (legend)
+        &.kscr-CourseCalendar-toggle {
+            background-image: repeating-linear-gradient(45deg, @whiteBackground 0rem, @whiteBackground 0.5rem, transparent 0.5rem, transparent 1rem); // white 0-0.5rem, transparent 0.5rem-1rem - repeated
+           i {
+              background: @waitlistedBgColor;
+              box-shadow: 0px 0px 0px 2px @waitlistedBgColor;
+          }
+        }
+    }
+}
+
+.courseBlock(@color, @primaryContrastColor, @secondaryContrastColor) when not (@primaryContrastColor = @secondaryContrastColor) {
+    &.kscr-CourseCalendar-courseBlock--registered {
+        color: @primaryContrastColor;
+        .kscr-CourseCalendar-courseBlock-label {
+            background-color: @secondaryContrastColor;
+            .Rounded(0.3rem);
+        }
+    }
+    &.kscr-CourseCalendar-courseBlock--waitlisted {
+        color: @secondaryContrastColor;
+    }
+}
+
+// Pick the darker of the contrast colors for the text color
+.courseBlock(@color, @primaryContrastColor, @secondaryContrastColor) when (luma(@primaryContrastColor) < luma(@secondaryContrastColor)) {
+    &.kscr-CourseCalendar-courseBlock--waitlisted,
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        color: @primaryContrastColor;
+    }
+}
+.courseBlock(@color, @primaryContrastColor, @secondaryContrastColor) when (luma(@secondaryContrastColor) < luma(@primaryContrastColor)) {
+    &.kscr-CourseCalendar-courseBlock--waitlisted,
+    &.kscr-CourseCalendar-courseBlock--inCart {
+        color: @secondaryContrastColor;
+    }
+}
+
+/*** END Course Block Styles ***/
+
+
+.kscr-CourseCalendar-courseDetails-wrap {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+
+    &.util-sticky--stuck {
+        padding: 0 0.5rem;
+    }
+
+    @media @lg-Min {
+        .kscr-CourseCalendar--large .kscr-CourseCalendar-calendar & {
+          // Disable the selection behavior when in large-format layout
+            display: none; // Never show the course details for the selected course in the large format
+        }
+
+        &.util-sticky--stuck {
+          padding: 0;
+          position: absolute !important;
+        }
+    }
+}
+
+// Selected Course Details Card
+.kscr-CourseCalendar-courseDetails {
+    .kscr-Card-mixin();
+
+    &:not(.util-sticky--stuck .kscr-CourseCalendar-courseDetails) {
+        border-left: none;
+        border-right: none;
+    }
+
+    opacity: 0.85;
+    padding-left: 3rem;
+    position: relative;
+    z-index: @zindex-CourseCalendar;
+
+    // Override styling for sidebar calendars
+    .kscr-Course-legendIndicator {
+        bottom: 0;
+        top: 0;
+    }
+
+    // Override styling for sidebar calendars
+    .kscr-Card-courseTimes {
+        display: inline-flex;
+    }
+}
+
+
+
+
+
+/*** BEGIN Small / Mobile Styles ***/
+.kscr-CourseCalendar--small {
+    background: none;
+    border: none;
+    padding: 0;
+
+    // Show the vertical layout helper element when in small format
+    .kscr-CourseCalendar-orientation--vertical {
+        display: block;
+    }
+
+    .kscr-CourseCalendar-calendar {
+        .util-Grid;
+        .kscr-Card-mixin();
+
+        flex-flow: row nowrap;
+        height: 400px;
+        margin-top: 0.5rem;
+        margin: 0.5rem 0 1rem;
+    }
+    .kscr-CourseCalendar-times {
+        flex-flow: column nowrap;
+        margin: 1.5rem 0.5rem 0 0;
+    }
+    .kscr-CourseCalendar-days {
+        flex-flow: row nowrap;
+        .util-Grid-cell;
+    }
+    .kscr-CourseCalendar-day {
+        .util-Grid-cell;
+        flex-flow: column nowrap;
+        margin-top: 0;
+
+        &-label {
+            height: 2.5rem;
+            margin-right: 0;
+            text-align: center;
+            width: auto;
+        }
+        &-lane-wrap {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        &-lane {
+            .util-Grid-cell;
+
+            height: 100% !important;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+        &-content-bgs {
+            flex-flow: column nowrap;
+        }
+        &-content-bg {
+            border-left: none;
+            border-top: 1px solid @whiteBackground;
+            &:first-child {
+                border-top: none;
+            }
+        }
+    }
+    .kscr-CourseCalendar-courseBlock-wrap {
+        // Don't override the positioning of conflicting courses
+        &:not(.kscr-CourseCalendar-courseBlock-wrap--conflicting) {
+            left: 0 !important;
+            width: 100% !important;
+        }
+
+        // Conflicting state
+        &--conflicting {
+        }
+
+        // Selected state
+        &--selected {
+            z-index: @zindex-CourseCalendar--selected;
+
+            .kscr-CourseCalendar-courseBlock {
+                .util-Text-highlighter(0, 0, 2px);
+                .util-transitions-browserHelper(0.2s);
+            }
+        }
+    }
+    .kscr-CourseCalendar-courseBlock {
+        height: 100%;
+
+        // Hide the 'normal' label in favor of the truncated version in small-format
+        &-label--normal {
+            display: none;
+        }
+    }
+}
+
+.kscr-Main-calendar {
+    // Apply the --small styles to all calendars in mobile
+    @media @sm-Max {
+
+        .kscr-Main-scheduleWrapper & {
+            display: none;
+            margin-top: 1.5rem;
+
+            &--selected {
+              display: block;
+            }
+        }
+    }
+}

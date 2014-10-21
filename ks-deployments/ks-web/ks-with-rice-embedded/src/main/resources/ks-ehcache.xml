@@ -1,0 +1,93 @@
+<ehcache name="ks-ehcache">
+    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" />
+    <cache name="enumCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="atpSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="orgCache" maxElementsInMemory="300" eternal="true" timeToIdleSeconds="0" />
+    <cache name="lrcCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" />
+    <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="luiLuiRelationCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600">
+        <searchable>
+            <searchAttribute name="luiId"/>
+            <searchAttribute name="relatedLuiId"/>
+        </searchable>
+    </cache>
+    <cache name="scheduleCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="scheduleDisplayCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="100"/>
+    <cache name="lprCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="statementCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="roomCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="buildingCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" />
+    <cache name="roomRespOrgCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="buildingRoomCodeCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="buildingCodeCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="atpCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
+    <cache name="atpCodeCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
+    <cache name="milestoneCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
+    <cache name="cluCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="clusetCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="cluCluRelationCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0">
+        <searchable>
+            <searchAttribute name="cluId"/>
+            <searchAttribute name="relatedCluId"/>
+        </searchable>
+    </cache>
+
+    <!-- This is for the Course Code Lookup Cache.  -->
+    <cache name="CourseOfferingCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="AdminRegistrationCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <!-- These caches are for Course Offering. -->
+    <cache name="courseOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingClusterCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="activityOfferingTypeCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="formatOfferingCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="registrationGroupCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="seatPoolCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+
+    <!-- Cache for Course Service -->
+    <cache name="courseCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+
+    <!-- Cache Setup for KSAP search with elements in validating after 12hr life span.-->
+    <cache name="ksapCourseSearchCluCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="60" />
+    <cache name="ksapCourseSearchLuiCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapCourseSearchSupportCluCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapTermHelperCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+    <cache name="ksapCourseHelperCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="43200" />
+
+    <!-- These caches do no refresh. These are for objects that do not change after startup -->
+    <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+    <cache name="TypeServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+    <cache name="StateServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+
+    <!-- Cache for course details on the registration application-->
+    <cache name="courseDetailsCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="instructorCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+    <cache name="aoTimeslot" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="1200" />
+
+    <!-- GES Service Cache -->
+    <cache name="gesServiceCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600"  >
+        <searchable>
+            <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
+        </searchable>
+    </cache>
+
+    <!-- GES Service Cache for Rollover-->
+    <cache name="gesServiceCacheRollover" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="21600"  >
+        <searchable>
+            <searchAttribute name="id" class="org.kuali.student.core.ges.service.decorators.GesValueAttributeExtractor"/>
+        </searchable>
+    </cache>
+
+    <!-- These caches are for Requisites. -->
+    <cache name="agendaCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="agendaItemCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+
+    <!-- Cache for KIM Principal. Intended for getEntityIdByPrincipalId -->
+    <cache name="kimPrincipalCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
+    <!-- Keydate cache -->
+    <cache name="keydateCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+
+    <!-- Academic Record cache -->
+    <cache name="academicRecordCache" maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="3600" />
+</ehcache>

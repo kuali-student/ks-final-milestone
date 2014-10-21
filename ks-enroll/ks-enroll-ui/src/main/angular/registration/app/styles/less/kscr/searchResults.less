@@ -1,0 +1,240 @@
+/*
+This contains generic styling for the Search-results section.
+If more specific styling needs to take place add to courseSearch.less
+*/
+
+// Variables
+@leftRightPadding: 0.8rem;
+@firstResultPadding: @leftRightPadding - 0.5;
+
+.kscr-Search-results {
+  .util-Grid-cell;
+  color: @primaryTextColor;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
+  font-weight: normal;
+  position: relative;
+
+  @media @lg-Min {
+      margin: 2.5rem 1rem 0 1rem;
+  }
+//
+//  // wide format styling
+//  @media @wide-Min {
+//      margin: 0 1rem 1rem 0;
+//  }
+
+
+  &-container {
+    @media @lg-Min {
+        .util-Grid;
+    }
+  }
+
+  &-list {
+    @media @lg-Min {
+      display: none;
+    }
+  }
+}
+
+.kscr-Search-result {
+  .kscr-Search-results-card;
+  margin: 1rem 1rem 0rem 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.kscr-Search-results-heading {
+  padding: 0 0 0.5rem 1.5rem;
+  .util-Grid;
+
+  // small format styling
+  @media @sm-Max {
+      display: none;
+  }
+
+  &--small {
+    margin-right: 1rem;
+    text-align: right;
+
+      @media @lg-Min {
+        display: none;
+      }
+  }
+}
+
+.kscr-Search-results-summary {
+  .util-Grid-cell(2);
+  padding-top: 0.2rem;
+}
+
+.kscr-Search-results-picker {
+  .util-Grid-cell;
+  text-align: right;
+}
+
+.kscr-Search-results-header {
+  color: @secondaryTextColor;
+  cursor: pointer;
+  font-family: @secondaryFontFamily;
+  .font-size(14);
+  font-weight: bold;
+  background-color: @cardBorderColor;
+  padding: 1rem @leftRightPadding;
+  &-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+}
+
+.kscr-Search-results-cell {
+  padding: 1rem @leftRightPadding;
+
+  &--clickable {
+    &:extend(a);
+  }
+}
+
+.kscr-Search-results--selected {
+  background: @table-SelectedBackgroundColor;
+  &--first {
+    padding-left: @firstResultPadding;
+  }
+}
+
+.kscr-Search-results-sortIcon {
+  .icons-Sort;
+  height: 1.2rem;
+  margin: 0.5rem 0 0 0.5rem;
+  padding: 0 0 0 1.4rem;
+  width: 1.2rem;
+  &--up {
+    .icons-Sort--up;
+  }
+  &--down {
+    .icons-Sort--down;
+  }
+}
+
+.kscr-Search-results-table-head {
+  height: 3rem;
+}
+
+.kscr-Search-results-card {
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px 1px 2px;
+}
+
+.kscr-Search-results-table {
+  margin-bottom: 4rem;
+  width: 100%;
+  .kscr-Search-results-card;
+
+  @media @sm-Max {
+      display: none;
+  }
+}
+
+.kscr-Search-no-results-table {
+  margin-bottom: 1rem;
+  width: 100%;
+  .kscr-Search-results-card;
+}
+
+.kscr-Search-no-results-suggestions {
+  margin-bottom: 1rem;
+}
+
+.kscr-Search-results-paginate {
+  bottom: 0;
+  padding-top: 0.5rem;
+  position: absolute;
+  right: 0;
+  .util-Grid;
+  .kscr-Search-results-card;
+
+  @media @sm-Max {
+      display: none;
+  }
+}
+
+.kscr-Search-results-pageBox {
+  .util-Grid-cell;
+  border-style: solid;
+  border-color: @cardBorderColor;
+  border-width: 0 1px 0 0;
+  height: 2.5rem;
+  text-align: center;
+  width: 2.5rem;
+}
+
+.kscr-Search-results-pageBox a.hover {
+  text-decoration: none;
+}
+
+.kscr-Search-results-limits {
+  margin-left: 0.5rem;
+}
+
+.kscr-Search-row {
+  border-bottom: @horizontalLineBorder;
+  .kscr-Search-checkbox {
+    .checkbox-icon();
+    float: right;
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+  &--selected {
+    background: @table-SelectedRowBackgroundColor;
+
+    .kscr-Search-checkbox {
+        .checkbox-dark-icon--checked();
+    }
+  }
+  &--disabled {
+    color: @secondaryTextColor;
+    cursor: not-allowed;
+    font-style: italic;
+  }
+  &--bottom {
+    border-bottom: none;
+  }
+}
+
+.kscr-Search-result-sort {
+  display: none;
+}
+
+.kscr-Search-results-indicator-header {
+  background-color: @cardBorderColor;
+  &--selected {
+    background: @table-SelectedBackgroundColor;
+  }
+}
+
+.kscr-Search-results-indicator {
+  width: 0.5rem;
+}
+
+.searchResultIndicator(@courseCardColorCount);
+.searchResultIndicator(@n, @i: 1) when (@i =< @n) {
+  // Define the course color for this iteration
+  .defineCourseColor(@i);
+
+  .kscr-Search-results-indicator--@{i} {
+    width: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: @courseColor;
+    color: @white;
+  }
+
+  .searchResultIndicator(@n, (@i + 1));
+}

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational
+	Community License, Version 2.0 (the "License"); you may not use this file
+	except in compliance with the License. You may obtain a copy of the License
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+	law or agreed to in writing, software distributed under the License is distributed
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+	express or implied. See the License for the specific language governing permissions
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-Logistics-Section" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="headerText" value="Course Logistics"/>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Logistics-Scheduling-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-DurationCount-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-GradesAssessments-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-StudentRegistrationOptions-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-FinalExam-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-Outcome-Section" />
+                <ref bean="CM-Proposal-Course-Logistics-Formats-Section" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Logistics-Scheduling-Section" parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-InputField" p:propertyName="courseInfo.termsOffered"
+                      p:label="Term"
+                      p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
+								course to be offered in any term that matches the duration selected below.">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder" p:addBlankOption="false" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="CM-Proposal-Course-Logistics-DurationCount-Section"
+          parent="Uif-HorizontalBoxSection" p:headerText="Duration Count"
+          p:instructionalText="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course.
+			Most courses will have 1 or 2 terms, for example.">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Logistics-DurationType" parent="KS-Uif-InputField-LabelTop"
+                      p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
+                      p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-Logistics-DurationCount" parent="KS-Uif-InputField-LabelTop"
+                      p:label="Duration Count" p:propertyName="courseInfo.duration.timeQuantity">
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint" />
+                    </property>
+                    <property name="maxLength" value="3" />
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationCountOnBlur();"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="CM-Proposal-Course-Logistics-GradesAssessments-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Grades/Assessments">
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Logistics-GradingOptions" parent="CM-InputField" p:label="Assessment Scale"
+                      p:propertyName="gradingOptions" >
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
+                    </property>
+
+                    <property name="fieldLabel.richLabelMessage">
+                        <bean parent="CM-IconLabelMessage">
+                            <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                    A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                    Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                    ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                    ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                    Notation&lt;b&gt;&lt;br&gt;complete,incomplete"/>
+                        </bean>
+                    </property>
+                    <!-- Make required for Enroute and beyond -->
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Enroute"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="CM-Proposal-Course-Logistics-StudentRegistrationOptions-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Student Registration Options" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-InputField" p:propertyName="audit" p:label="Audit" >
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
+                    </property>
+                </bean>
+                <bean parent="CM-InputField" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Logistics-FinalExam-Section"
+          parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Logistics-FinalExamStatus" parent="CM-InputField" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
+                            p:addBlankOption="false" />
+                    </property>
+                    <property name="simpleConstraint">
+                        <bean parent="CM-RequiredConstraints-Enroute"/>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-Logistics-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
+                      p:progressiveRender="@{#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'}"
+                      p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.finalExamStatus"
+                      p:propertyName="finalExamRationale">
+                    <property name="control">
+                        <bean parent="Uif-LargeTextAreaControl" p:maxLength="255" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Logistics-Outcome-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+            p:headerText="Outcome">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.ResultValuesGroupInfoWrapper" />
+        <property name="propertyName" value="creditOptionWrappers" />
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine">
+                <property name="actionLabel" value="Add Outcome"/>
+                <property name="additionalCssClasses" value="outcome-addline" />
+                <property name="id" value="CM-Proposal-Course-Logistics-AddOutcome"/>
+                <property name="dirtyOnAction" value="true" />
+            </bean>
+        </property>
+        <property name="layoutManager.style" value="width: 100%;"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
+        <property name="header">
+            <bean parent="CM-IconHeader">
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="CM-RequiredIndicator-Message" id="outcome_required_indicator"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_sectionHeader</value>
+                <value>course_outcome</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-Logistics-Outcome-Type" parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshOutcome(@{#index});">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed" p:value="Fixed" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple" p:value="Multiple" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range" p:value="Range" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-Logistics-Outcome-Credit" parent="KS-Uif-InputField-LabelTop" p:label="Credits" p:propertyName="uiHelper.resultValue">
+                    <property name="constraintText" value=""/>
+                    <property name="constraintMessage">
+                        <bean parent="Uif-ConstraintMessage"/>
+                    </property>
+                    <property name="refreshWhenChangedPropertyNames" value="typeKey"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="@{#lp.typeKey eq null or #lp.typeKey eq '1'}"/>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="control.cssClasses"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <value>rangeMaxMinCheck</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.multiple'}" >
+                                <property name="replacement">
+                                    <value>Must be a comma-separated list of values (ex. 1,3,5)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <value>Must be a hyphen-separated range (ex. 1-3)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}" >
+                                <property name="replacement">
+                                    <value>Must be a numerical value (ex. 3)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="validCharactersConstraint"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.multiple'}" >
+                                <property name="replacement">
+                                    <bean parent="NumericPatternConstraint">
+                                        <property name="allowComma" value="true"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="validCharactersConstraint"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <bean parent="NumericPatternConstraint">
+                                        <property name="allowDash" value="true"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Outcome-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Logistics-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add"
+          p:actionEvent="addBlankLine" p:id="CM-Proposal-Course-Logistics-AddOutcome-Multiple"/>
+
+    <bean id="CM-Proposal-Course-Logistics-Formats-Section"
+              parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
+          p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+        <property name="instructionalText"
+                  value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
+
+        <property name="header">
+            <bean parent="CM-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText"
+                          value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
+
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="CM-RequiredIndicator-Message" id="formats_required_indicator"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine">
+                <property name="actionLabel" value="Add Format"/>
+                <property name="id" value="CM-Proposal-Course-Logistics-AddFormat"/>
+                <property name="dirtyOnAction" value="true" />
+                <property name="style" value="margin-top:1em;" />
+            </bean>
+        </property>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="renderAddBlankLineButton" value="true" />
+        <property name="renderLineActions" value="false" />
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
+        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="course_format_line_header" />
+        <property name="layoutManager.id" value="course_format_table"/>
+        <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_format_table_@{#index}"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="course_format_row_@{#index}"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
+
+
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
+        <property name="layoutManager.lineGroupPrototype.header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Format-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
+                              p:actionScript="actionInvokeHandler(this);"
+                              p:render="@{!#view.readOnly}"
+                              p:ajaxReturnType="update-component"
+                              p:refreshId="CM-Proposal-Course-Logistics-Formats-Section"
+                              p:additionalCssClasses="course-format-right-group"
+                              p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean id="KS-CourseView-CourseLogisticsPage-CourseFormatActivities-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
+                      p:propertyName="activities" p:additionalCssClasses="course_format_activity_collection">
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.id" value="course_format_activities_table"/>
+                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Activity"/>
+                    <property name="addBlankLineAction.id" value="CM-Proposal-Course-Logistics-AddActivity"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
+                    <property name="renderAddBlankLineButton" value="true" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="header">
+                        <bean parent="CM-IconHeader">
+                            <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Contacted Hours:&lt;/b&gt; Sum of contact hours will validate with credits(from learning results)&lt;br&gt;
+                            &lt;b&gt;Duration Type:&lt;/b&gt; First select the duration type(term,month,week,weekend,day) then select the count of the duration for the course. Most courses will have 1 or 2 terms,for example &lt;br&gt;
+                            &lt;b&gt;Anticipated Class Size:&lt;/b&gt; This does not have to be exact - it will be used as an estimate for evaluation purposes only."/>
+                            <property name="headerLevel" value="h5"/>
+                        </bean>
+                    </property>
+                    <property name="headerText" value="Activities"/>
+                    <property name="layoutManager.renderSequenceField" value="true"/>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="CM-Proposal-Course-Logistics-Activity-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type"
+                                  p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.ActivityTypeKeyValueFinder" >
+                                <property name="control">
+                                    <bean parent="KS-Uif-DropdownControl" />
+                                </property>
+                                <!-- This is required for states Enroute and beyond -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Contact Hours"
+                                  p:required="false" p:propertyName="contactHours.unitQuantity" >
+                                <property name="fieldLabel.render" value="false"/>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint" p:propertyName="contactHours.unitTypeKey">
+                                            <property name="messageKey" value="error.cm.course.format.activities.frequency.requiredForContactHours"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="maxLength" value="9" />
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="9"  p:disabled="@{#lp.typeKey eq null}" />
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="contactHours.unitTypeKey"
+                                  p:label="Contact Frequency" p:required="false"
+                                  p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.FrequencyKeyValueFinder" >
+                                <property name="control">
+                                    <bean parent="KS-Uif-DropdownControl"  p:disabled="@{#lp.typeKey eq null}"/>
+                                </property>
+                            </bean>
+                            <bean id="CM-Proposal-Course-Logistics-Format-DurationCount" parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Duration Count" p:propertyName="duration.timeQuantity">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint" p:propertyName="duration.atpDurationTypeKey">
+                                            <property name="messageKey" value="error.cm.course.format.activities.durationType.requiredForDurationCount"/>
+                                        </bean>
+                                    </list>
+                                </property>
+
+                                <property name="maxLength" value="3" />
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:disabled="@{#lp.typeKey eq null}"/>
+                                </property>
+                            </bean>
+                            <bean id="CM-Proposal-Course-Logistics-Format-DurationType" parent="KS-Uif-InputField-LabelTop"
+                                  p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
+                                  p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
+                                <property name="fieldLabel.render" value="false"/>
+                                <property name="control">
+                                    <bean parent="KS-Uif-DropdownControl"  p:disabled="@{#lp.typeKey eq null}"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Class Size"
+                                  p:propertyName="defaultEnrollmentEstimate">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
+                                </property>
+                                <property name="maxLength" value="3" />
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:disabled="@{#lp.typeKey eq null}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

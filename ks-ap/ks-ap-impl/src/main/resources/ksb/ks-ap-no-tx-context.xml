@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+	License, Version 2.0 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0
+	Unless required by applicable law or agreed to in writing, software distributed
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for
+	the specific language governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml"/>
+
+    <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
+        <property name="ksapContext" ref="ksapContext"/>
+        <property name="ksapTextHelper" ref="ksapTextHelper"/>
+        <property name="ksapTermHelper" ref="ksapDefaultTermHelper"/>
+        <property name="ksapUserSessionHelper" ref="ksapUserSessionHelper"/>
+        <property name="ksapEnumerationHelper" ref="ksapEnumerationHelper"/>
+        <property name="ksapOrgHelper" ref="ksapOrgHelper"/>
+        <property name="ksapCourseHelper" ref="ksapDefaultCourseHelper"/>
+        <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
+        <property name="planHelper" ref="planHelper"/>
+        <property name="academicCalendarService" ref="ksEnrollAcalService"/>
+        <property name="academicRecordService" ref="ksEnrollAcademicRecordService"/>
+        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
+        <property name="courseOfferingSetService" ref="ksEnrollCourseOfferingSetService"/>
+        <property name="luiService" ref="ksEnrollLuiService"/>
+        <property name="commentService" ref="ksCoreCommentService"/>
+        <property name="schedulingService" ref="ksCoreSchedulingService"/>
+        <property name="roomService" ref="ksCoreRoomService"/>
+        <property name="enumerationManagementService" ref="enumServiceClient"/>
+        <property name="courseService" ref="ksLumCourseService"/>
+        <property name="programService" ref="ksLumProgramService"/>
+        <property name="cluService" ref="cluServiceCache"/>
+        <property name="lrcService" ref="ksLumLrcService"/>
+        <property name="organizationService" ref="orgServiceCache"/>
+        <property name="messageService" ref="ksCoreMessageService"/>
+        <property name="typeService" ref="typeClient"/>
+        <property name="atpService" ref="atpServiceCache"/>
+        <property name="academicPlanService" ref="academicPlanService"/>
+        <property name="ruleManagementService" ref="rulesManagementService"/>
+        <property name="enrollmentStatusHelper" ref="enrollStatusHelper"/>
+        <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
+        <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
+        <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
+        <property name="courseRegistrationService" ref="ksCourseRegistrationService"/>
+        <property name="courseSeatCountService" ref ="ksCourseSeatCountService"/>
+        <property name="searchService" ref ="ksSearchService"/>
+
+    </bean>
+
+    <bean id="ksSearchService" parent="searchService">
+        <property name="searchServices">
+            <list merge="true">
+                <ref bean="KsapCourseSearchCluSearchImpl"/>
+                <ref bean="KsapCourseSearchSupportCluSearchImpl"/>
+                <ref bean="KsapLuiSearchImpl"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="ksSearchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.search.service.SearchService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
+    </bean>-->
+
+    <bean id="ksLumLrcService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
+    </bean>
+
+    <bean id="ksLumProgramService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.lum.program.service.ProgramService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/program}ProgramService"/>
+    </bean>
+
+    <bean id="ksLumCluService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.lum.clu.service.CluService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/clu}CluService"/>
+    </bean>
+    <bean id="ksLumCourseService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.lum.course.service.CourseService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/course}CourseService"/>
+    </bean>
+    <bean id="ksCoreCommentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.comment.service.CommentService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/comment}CommentService"/>
+    </bean>
+    <bean id="ksCoreSchedulingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.scheduling.service.SchedulingService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/scheduling}SchedulingService"/>
+    </bean>
+    <bean id="ksCoreRoomService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.room.service.RoomService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/room}RoomService"/>
+    </bean>
+    <bean id="ksEnrollAcalService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.acal.service.AcademicCalendarService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService"/>
+    </bean>
+    <bean id="ksCoreMessageService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.common.messages.service.MessageService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/message}MessageService"/>
+    </bean>
+    <bean id="ksEnrollLuiService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.lui.service.LuiService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/lui}LuiService"/>
+    </bean>
+    <bean id="ksEnrollCourseOfferingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService"/>
+    </bean>
+    <bean id="ksEnrollCourseOfferingSetService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseOfferingSet}CourseOfferingSetService"/>
+    </bean>
+    <bean id="rulesManagementService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.rice.krms.api.repository.RuleManagementService"/>
+        <property name="serviceQName"
+                  value="{http://rice.kuali.org/krms/v2_0}ruleManagementService"/>
+    </bean>
+    <bean id="ksCourseSeatCountService"    class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseSeatCount}CourseSeatCountService"/>
+    </bean>
+    <bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+    <property name="serviceEndpointInterface"
+    value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService" />
+    <property name="serviceQName"
+    value="{http://student.kuali.org/wsdl/academicrecord}AcademicRecordService" />
+    </bean>
+
+
+    <bean id="ksCourseRegistrationService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseRegistrationService}CourseRegistrationService"/>
+    </bean>
+
+    <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext"/>
+
+    <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
+        <property name="messageGroup" value="ksap"/>
+    </bean>
+
+    <bean id="ksapDefaultTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper"/>
+    <bean id="ksapTermHelperCacheDecorator" class="org.kuali.student.ap.framework.context.decorators.TermHelperCacheDecorator">
+        <property name="nextDecorator">
+            <ref bean="ksapDefaultTermHelper"/>
+        </property>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+    <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper"/>
+
+    <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper"/>
+
+    <bean id="ksapOrgHelper" class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper"/>
+
+    <bean name="enrollStatusHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper"/>
+
+    <bean id="ksapDefaultCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper">
+        <property name="creditsFormatter">
+            <bean class="org.kuali.student.ap.coursesearch.CreditsFormatter"/>
+        </property>
+    </bean>
+
+    <bean id="ksapCourseHelperCacheDecorator" class="org.kuali.student.ap.framework.context.decorators.CourseHelperCacheDecorator">
+        <property name="nextDecorator">
+            <ref bean="ksapDefaultCourseHelper"/>
+        </property>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+    <bean name="shoppingCartHelper" class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper"/>
+
+    <bean name="planHelper" class="org.kuali.student.ap.framework.context.support.DefaultPlanHelper"/>
+
+    <bean id="academicPlanServicePersistence" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl">
+        <property name="learningPlanDao" ref="learningPlanDao"/>
+        <property name="planItemDao" ref="planItemDao"/>
+    </bean>
+
+    <bean id="academicPlanServiceValidator"
+          class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="nextDecorator" ref="academicPlanServicePersistence"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="academicPlanServiceAuthorizor"
+          class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="academicPlanServiceValidator"/>
+        <property name="permissionService" ref="permissionService"/>
+    </bean>
+
+    <!--<bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"/>-->
+    <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService"/>
+    </bean>
+    <alias name="permissionServiceClient" alias="permissionService"/>
+
+    <alias name="academicPlanServiceAuthorizor" alias="academicPlanService"/>
+
+    <bean id="ks.exp.academicPlanService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true"/>
+                <property name="service" ref="academicPlanService"/>
+                <property name="serviceInterface"
+                          value="org.kuali.student.ap.academicplan.service.AcademicPlanService"/>
+                <property name="localServiceName" value="AcademicPlanService"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acadplan"/>
+                <property name="busSecurity" value="${ks.ap.bus.security}"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="apDefaultEntityManagerFactory" abstract="true"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform"
+                          value="${ks.ap.jpa.DatabasePlatform}"/>
+                <property name="showSql" value="${ks.ap.jpa.showSql}"/>
+                <property name="generateDdl" value="${ks.ap.jpa.generateDdl}"/>
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class"
+                       value="${ks.ap.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.ap.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode"
+                       value="${ks.ap.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="LearningPlan"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
+        <property name="dataSource" ref="apDataSource"/>
+    </bean>
+
+    <bean id="lpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+          autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="lpEntityManagerFactory"/>
+    </bean>
+
+    <bean id="learningPlanDao" class="org.kuali.student.ap.academicplan.dao.LearningPlanDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="planItemDao" class="org.kuali.student.ap.academicplan.dao.PlanItemDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <!-- Exception mapping. This is needed because many operations are proxied
+        and do not throw exceptions until a later time -->
+    <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+                  value="org.kuali.student.r2.common.exceptions.OperationFailedException"/>
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
+                <entry key="org.hibernate.exception.ConstraintViolationException"
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
+            <aop:after-throwing
+                    pointcut="execution(* org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl.*(..))"
+                    method="afterThrowing" throwing="ex"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="apDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+        <property name="transactionManager" ref="userTransaction"/>
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="maxSize" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="maxWait" value="${ks.ap.datasource.maxWait}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
+    </bean>
+
+    <bean id="learningPlanReviewStrategy"
+          class="org.kuali.student.ap.plannerreview.support.MockLearningPlanReviewStrategy"/>
+    <bean id="scheduleBuildStrategy"
+          class="org.kuali.student.ap.schedulebuilder.support.DefaultScheduleBuildStrategy"/>
+
+    <bean id="shoppingCartStrategy"
+          class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy"/>
+
+    <bean id="KsapCourseSearchCluSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchCluSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapCourseSearchSupportCluSearchImpl" class="org.kuali.student.ap.search.KsapCourseSearchSupportCluSearchImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapLuiSearchImpl" class="org.kuali.student.ap.search.KsapLuiSearchServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="KsapCourseSearchCluSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchCluSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapCourseSearchCluSearchImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+    <bean id="KsapCourseSearchSupportCluSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapCourseSearchSupportCluSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapCourseSearchSupportCluSearchImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+    <bean id="KsapLuiSearchCacheDecorator" class="org.kuali.student.ap.search.decorator.KsapLuiSearchCacheDecorator">
+        <property name="nextDecorator" ref="KsapLuiSearchImpl"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
+
+    <bean id="KsapStaticUserDateUtil" class="org.kuali.student.ap.framework.util.StaticUserDateUtil">
+        <property name="userDateMap" ref="KsapRegUserMap" />
+        <property name="useStaticDates" value="true" />
+    </bean>
+
+    <util:map id="KsapRegUserMap">
+        <!-- Registration Open window for Spring 2014-->
+        <entry key="admin" value="2014-01-31@00:01" />
+        <entry key="student" value="2014-01-31@00:01" />
+        <entry key="b.joels" value="2014-01-31@00:01" />
+        <entry key="b.nanal" value="2014-01-31@00:01" />
+        <!-- Registration is closed for Spring 2014 -->
+        <entry key="b.julil" value="2014-02-08@00:01" />
+        <!-- Registration Open window for Summer1 2014-->
+        <entry key="b.amandak" value="2014-05-24@00:01" />
+    </util:map>
+
+
+</beans>

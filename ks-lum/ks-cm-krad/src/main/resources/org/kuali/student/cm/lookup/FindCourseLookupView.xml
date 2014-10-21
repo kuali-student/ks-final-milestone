@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-FindCourse" parent="KS-Uif-LookupView">
+        <property name="viewName" value="CoursesOnlyLookup"/>
+        <property name="headerText" value="Find a Course" />
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseLookupableImpl" />
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course-proposal</value>
+                <value>ks-cm-find-course</value>
+            </list>
+        </property>
+
+        <property name="applicationHeader">
+            <bean parent="KS-Uif-FormView-ApplicationHeader"/>
+        </property>
+        <!-- Rice 2.4 fix - The stickyHeader cannot be added in definitions xml since it impacts lookups everywhere -->
+        <property name="stickyHeader" value="true"/>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+            </list>
+        </property>
+
+        <property name="page">
+            <bean parent="Uif-LookupPage" p:style="padding-top: 20px;">
+                <property name="header">
+                    <null/>
+                </property>
+            </bean>
+        </property>
+
+        <property name="criteriaGroup">
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+                <property name="footer">
+                    <bean parent="Uif-LookupCriteriaFooter"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean id="CM-FindCourse-CourseCode" parent="Uif-LookupCriteriaInputField" p:propertyName="code"
+                              p:label="Course Code" p:required="true" p:fieldLabel.renderColon="true"/>
+                        <bean id="CM-FindCourse-Search" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                              p:actionLabel="Find Courses" p:performClientSideValidation="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
+            </list>
+        </property>
+
+        <property name="resultsGroup.renderLineActions" value="true"/>
+        <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
+
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumnDefs"
+                       value="[ {'aTargets':[0,1], 'bSortable':true} ]"/>
+            </map>
+        </property>
+
+        <property name="resultsGroup.lineActions">
+            <list>
+                <bean parent="KS-Uif-View-NavigationActionLink">
+                    <property name="id" value="@{#lp.code}_view"/>
+                    <property name="actionLabel" value="Course View"/>
+                    <property name="finalizeMethodToCall" value="buildViewCourseUrl"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="footer.items">
+            <list />
+        </property>
+    </bean>
+</beans>

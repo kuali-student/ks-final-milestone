@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="CM-Proposal-Course-JointlyOffered-DataObjectEntry" parent="DataObjectEntry">
+		<property name="objectLabel" value="Jointly Offered Courses Information Display" />
+		<property name="dataObjectClass"
+			value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
+	</bean>
+
+	<bean id="CM-Proposal-Course-JointlyOffered-LookupView" parent="KS-Uif-LookupView">
+		<property name="id" value="CourseJointInfoWrapperLookupView" />
+		<property name="headerText" value="Advanced Search: Courses and Proposals" />
+		<property name="dataObjectClassName"
+			value="org.kuali.student.cm.course.form.wrapper.CourseJointInfoWrapper" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.student.cm.course.service.impl.CourseJointInfoLookupableImpl" />
+		<property name="criteriaFields">
+			<list>
+                <bean id="CM-Proposal-Course-JointlyOffered-SearchBy" parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean id="CM-Proposal-Course-JointlyOffered-CourseTitleSearch" parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" p:label="Given Name" />
+                <bean id="CM-Proposal-Course-JointlyOffered-CourseCodeSearch" parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" p:label="Course Code" />
+                <bean id="CM-Proposal-Course-JointlyOffered-Descr" parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Plain Text Description" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Name" p:escapeHtmlInPropertyValue="false" />
+				<bean parent="KS-Uif-DataField" p:propertyName="courseCode"
+					p:label="Code" />
+				<bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:escapeHtmlInPropertyValue="false"
+                      p:label="Description" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

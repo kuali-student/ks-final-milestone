@@ -1,0 +1,975 @@
+<!--
+  ~ Copyright 2006-2014 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="KS-AdminRegistration" parent="KS-Uif-FormView">
+        <property name="singlePageView" value="true"/>
+        <property name="headerText" value="Admin Registration@{personHeaderInfo}" />
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>uif-viewHeader</value>
+            </list>
+        </property>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
+        <property name="topGroup">
+            <bean id="AdminRegistration-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(term eq null)? 'display:none;' : 'display:block;'}">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('AdminRegistration-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Admin Registration"/>
+                </bean>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-Page">
+                <property name="header.render" value="false"/>
+                <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                <property name="items">
+                    <list>
+                        <bean id="KS-AdminRegistration-State" parent="KS-Uif-InputField" p:showLabel="false" p:propertyName="clientState">
+                            <property name="control">
+                                <bean parent="KS-Uif-HiddenControl"/>
+                            </property>
+                        </bean>
+                        <ref bean="KS-AdminRegistration-TermEligibility-Results"/>
+                        <ref bean="KS-AdminRegistration-StudentAndTermSection"/>
+                        <ref bean="KS-AdminRegistration-RegisteredTab"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl"/>
+        <property name="formClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm"/>
+        <property name="dialogs">
+            <list>
+                <bean id="registerConfirmDialog" parent="KS-AdminRegistration-RegisterDialogResponse"/>
+                <bean id="dropCourseDialog" parent="KS-AdminRegistration-DropRegisteredDialog"/>
+                <bean id="dropWaitlistedDialog" parent="KS-AdminRegistration-DropWaitlistedDialog"/>
+                <bean id="courseEditDialog" parent="KS-AdminRegistration-RegisteredCourses-Edit"/>
+
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/register.admin.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/admin-registration.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Student Info Area-->
+    <bean id="KS-AdminRegistration-StudentAndTermSection" parent="Uif-HorizontalBoxSection">
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="personId"
+                                  p:label="Student ID" p:readOnly="false" p:id="studentIdField"
+                                  p:onDocumentReadyScript="setValidation('personId', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
+                                  p:label="Term" p:readOnly="false" p:id="termCodeField"
+                                  p:onDocumentReadyScript="setValidation('termCode', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.ready'], 'Term is required.');">
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="caseConstraint">
+                                    <bean parent="CaseConstraint">
+                                        <property name="propertyName" value="clientState"/>
+                                        <property name="whenConstraint">
+                                            <list>
+                                                <bean parent="WhenConstraint">
+                                                    <property name="values">
+                                                        <list>
+                                                            <value>kuali.admin.reg.state.open</value>
+                                                            <value>kuali.admin.reg.state.ready</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="constraint">
+                                                        <bean parent="AlphaNumericPatternConstraint"
+                                                              p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
+                                                    </property>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" />
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true"
+                                  p:actionLabel="Go" p:methodToCall="getStudentAndTermInfo"
+                                  p:actionScript="goAction(this, 'kuali.admin.reg.state.open');"
+                                  p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-TermEligibility-Results" parent="Uif-TableCollectionGroup" p:colSpan="8">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.TermResult"/>
+        <property name="propertyName" value="termIssues"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="onDocumentReadyScript" value="renderResults();"/>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:additionalCssClasses="warning-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
+                      p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
+                      p:additionalCssClasses="error-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+            </list>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Term Eligibility Results">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-ErrorImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
+                            <bean parent="KS-Uif-SuccessImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"/>
+                            <bean parent="KS-Uif-WarningImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
+                            <bean parent="Uif-DataField" p:propertyName="message" p:readOnlyListDisplayType="UL"/>
+                            <bean parent="Uif-Link" p:linkText="details" p:render="@{#line.holdIssueId!=null}" p:openInLightbox="true"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/inquiry?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class1.hold.dto.HoldIssueMaintenanceWrapper&amp;id=kuali.hold.issue.mandatory.advising&amp;renderedInLightBox=true&amp;flow=start"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--KSENROLL-14029 - remove reg tab
+    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{displayRegistrationTabs}" parent="Uif-TabSection">
+        <property name="items">
+            <list>
+                <ref bean="KS-AdminRegistration-RegisteredTab"/>
+                <ref bean="KS-AdminRegistration-HistoryTab"/>
+            </list>
+        </property>
+    </bean>
+    -->
+
+    <!--  Tabs -->
+    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection" p:render="@{displayRegistrationTab}"
+          p:headerText="Registered (@{registeredCredits}) / Waitlist (@{waitlistedCredits})">
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-AdminRegistration-RegisterGroup"/>
+                <ref bean="Uif-SpaceField"/>
+                <ref bean="KS-AdminRegistration-RegisteredHeaderText"/>
+                <ref bean="KS-AdminRegistration-Registered"/>
+                <ref bean="Uif-SpaceField"/>
+                <ref bean="KS-AdminRegistration-WaitlistedHeaderText"/>
+                <ref bean="KS-AdminRegistration-Waitlist"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--bean id="KS-AdminRegistration-HistoryTab" parent="Uif-VerticalBoxSection" p:headerText="Registration History">
+      <property name="header.render" value="false"/>
+    </bean-->
+
+    <!--  Registration Area -->
+    <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-AdminRegistration-Results"/>
+                <ref bean="KS-AdminRegistration-RegFor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-RegFor" parent="Uif-TableCollectionSection" p:colSpan="4">
+        <!--p:enterKeyAction="KS-AdminRegistration-RegFor_add"-->
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="headerText" value=" "/>
+        <property name="propertyName" value="pendingCourses"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="onDocumentReadyScript" value="startPolling(1000);"/>
+        <property name="lineActions">
+            <list>
+                <!--bean parent="KS-Uif-Delete-ActionLink" p:id="removeCourseAction" p:methodToCall="removeRegisterCourse" p:performDirtyValidation="false" p:actionLabel="Delete" p:render="@{pendingCourses.size() > 1}"/-->
+                <bean parent="Uif-DeleteLineAction" p:actionLabel=" - " p:render="@{pendingCourses.size() > 1}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code" p:id="courseCodeField"
+                      p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].code', ['kuali.admin.reg.state.ready'], 'Course Code is required.');">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
+                              p:minLength="7" p:maxLength="8"/>
+                    </property>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="#form.clientState"/>
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value>kuali.admin.reg.state.ready</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="AlphaNumericPatternConstraint"
+                                                  p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.?$"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <!-- The course code auto-complete -->
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
+                            <property name="returnFullQueryObject" value="true"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
+                                      p:queryMethodArgumentFieldList="termCode"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="3"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section" p:id="sectionField"
+                      p:onDocumentReadyScript="setValidation('pendingCourses[@{#index}].section', ['kuali.admin.reg.state.ready'], 'Section is required.');">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
+                              p:minLength="4" p:maxLength="4"/>
+                    </property>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="#form.clientState"/>
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value>kuali.admin.reg.state.ready</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="NumericPatternConstraint"
+                                                  p:messageKey="error.admin.reg.section.code.invalid" p:value="^\d{4}$"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:label="Credits" p:valign="middle">
+                    <property name="methodToCallOnRefresh" value="refresh"/>
+                    <property name="messageText"
+                              value="@{#dp.methodToCall == 'refresh' ? #ViewHelper.retrieveCourseCredits(#line, #dp.term.id) : #line.credits}"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:label="Course Title" p:valign="middle">
+                    <property name="methodToCallOnRefresh" value="refreshCourseTitle"/>
+                    <property name="messageText"
+                              value="@{#dp.methodToCall == 'refreshCourseTitle' ? #ViewHelper.retrieveCourseTitle(#line, #dp.term.id) : #line.title}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine" p:id="addLineButton"
+                              p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
+                              p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
+                              p:actionLabel=" + Add Course" p:actionEvent="addBlankLine" p:performClientSideValidation="true">
+                            <property name="actionParameters">
+                                <map>
+                                    <entry key="selectedCollectionPath" value="pendingCourses"/>
+                                    <entry key="selectedCollectionId" value="KS-AdminRegistration-RegFor"/>
+                                </map>
+                            </property>
+                        </bean>
+                        <bean id="KS-AdminRegistration-RegisterButton" parent="Uif-PrimaryActionButton" p:actionLabel="Register"
+                              p:methodToCall="register" p:refreshId="KS-AdminRegistration-RegisteredTab"
+                              p:ajaxReturnType="update-component" p:performClientSideValidation="true"
+                              p:additionalCssClasses="hide-when-polling"
+                              p:successCallback="setInputFieldFocus(['coursesInProcess[0].credits', 'coursesInProcess[0].gradingOptionId', 'coursesInProcess[0].effectiveDate']);"/>
+                        <bean id="KS-AdminRegistration-Registering" parent="Uif-ImageField" p:image.altText="Registration in progress....."
+                              p:source="@{#ConfigProperties['ks.externalizable.images.url']}/loading-bars.gif"
+                              p:additionalCssClasses="show-when-polling"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-Results" parent="Uif-TableCollectionGroup" p:colSpan="8">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationResult"/>
+        <property name="propertyName" value="registrationResults"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="onDocumentReadyScript" value="renderResults();"/>
+        <property name="lineActions">
+            <list>
+                <!--<bean parent="Uif-PrimaryActionButton" p:id="allowActionButton" p:actionLabel="Allow"-->
+                      <!--p:successCallback="setClientState('kuali.admin.reg.state.registering'); startPolling(1000);"-->
+                      <!--p:methodToCall="allowCourse" p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"-->
+                      <!--p:additionalCssClasses="hide-when-polling"/>-->
+                <!--<bean parent="Uif-DeleteLineAction" p:id="denyActionButton" p:actionLabel="Deny"-->
+                      <!--p:methodToCall="denyCourse"-->
+                      <!--p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"-->
+                      <!--p:additionalCssClasses="warning-result,hide-when-polling"/>-->
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"
+                      p:additionalCssClasses="warning-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"
+                      p:additionalCssClasses="success-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:actionLabel="Dismiss" p:methodToCall="deleteLine"
+                      p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"
+                      p:additionalCssClasses="error-result" p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..."/>
+            </list>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Registration Results">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-ErrorImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.failed'}"/>
+                            <bean parent="KS-Uif-SuccessImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.success'}"/>
+                            <bean parent="KS-Uif-WarningImage"
+                                  p:render="@{#line.level eq 'kuali.admin.reg.result.level.warning'}"/>
+                            <bean parent="Uif-Message" p:messageText="@{#line.course.code} (@{#line.course.section}) - "/>
+                            <bean parent="Uif-DataField" p:propertyName="itemDescriptions" p:readOnlyListDisplayType="UL"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Registered Courses -->
+    <bean id="KS-AdminRegistration-RegisteredHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
+          p:additionalCssClasses="ks-dottedHeaderActions">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="Registered Courses (@{registeredCredits} credits)"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-Registered" parent="KS-AdminRegistration-Collection"
+          p:propertyName="registeredCourses">
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:id="registeredEditLink" p:iconClass="ks-fontello-icon-pencil" p:title="Edit"
+                         p:methodToCall="editCourse" p:style="color:#0088CC;"
+                         p:successCallback="setInputFieldFocus(['coursesInEdit[0].credits', 'coursesInEdit[0].gradingOptionId', 'coursesInEdit[0].effectiveDate']);"/>
+                <bean parent="KS-Uif-ActionLink" p:id="registeredDropLink" p:iconClass="ks-fontello-icon-cancel" p:title="Drop"
+                      p:methodToCall="dropCourse" p:style="color:#0088CC;"
+                      p:successCallback="setInputFieldFocus(['pendingDropCourse.registeredDropDate']);"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.code} (@{#line.section})"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
+                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
+                      p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="activityDays"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Times" p:propertyName="activityTimes"
+                      p:readOnlyListDisplayType="UL" p:additionalCssClasses="nowrap"/>
+                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Effective Date" p:style="width:120px;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" p:id="effectiveDate"/>
+                            <bean parent="Uif-ImageField" p:hidden="@{#line.transactionalDateFormatted eq #line.effectiveDateFormatted}"
+                                  p:id="effectiveDateInfo" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/info.png">
+                                <property name="style" value="padding-left:3px;"/>
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                                          p:tooltipContent="Transaction Date: @{#lp.transactionalDateFormatted}"
+                                          p:render="@{#line.transactionalDateFormatted ne #line.effectiveDateFormatted}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Waitlisted Courses -->
+    <bean id="KS-AdminRegistration-WaitlistedHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
+          p:additionalCssClasses="ks-dottedHeaderActions">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="Waitlisted Courses (@{waitlistedCredits} credits)"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-Waitlist" parent="KS-AdminRegistration-Collection"
+          p:propertyName="waitlistedCourses">
+        <property name="lineActions">
+            <list>
+                <!--KSENROLL-14030 waitlisted table readonly
+                <bean parent="Uif-KS-NavigationActionLink-parentBean" p:id="waitlistedEditLink" p:iconClass="ks-fontello-icon-pencil"
+                      p:methodToCall="editCourse" p:style="color:#0088CC;"/>
+                <bean parent="KS-Uif-ActionLink" p:id="waitlistedDropLink" p:iconClass="ks-fontello-icon-cancel"
+                      p:methodToCall="dropCourse" p:style="color:#0088CC;"/-->
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.code} (@{#line.section})"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Cr" p:propertyName="credits"/>
+                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
+                      p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="activityDays"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Times" p:propertyName="activityTimes"
+                      p:additionalCssClasses="nowrap" p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
+                      p:readOnlyListDisplayType="UL"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
+                      p:readOnlyListDisplayType="UL"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Collection for Registered and Waitlisted Courses-->
+    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="headerText" value=""/>
+        <property name="renderHeader" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <!--<property name="layoutManager.applyAlternatingRowStyles" value="false" />-->
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="opir"/>
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="true"/>
+                <entry key="bInfo" value="true"/>
+            </map>
+        </property>
+        <property name="renderAddLine" value="false"/>
+    </bean>
+
+    <!-- Dialogs -->
+    <!--bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup" p:dialogCssClass="modal-md"-->
+    <bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
+        <property name="style" value="width:350px;"/>
+        <property name="items">
+            <list>
+                <!--Work around until dialog requirednes is build in 2.5-->
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(dropIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="dropIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Drop Course errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KS-AdminRegistration-DropRegisteredIssues" parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
+                                    p:renderColon="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.registeredDropDate">
+                                <property name="control">
+                                    <!--KSENROLL-14124: using Uif-DateControl instead of KS-Uif-Default-DateControl as the validation does not work on the dialog
+                                        this results in being able to enter a blank value-->
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="dropRegisteredCourse" p:actionLabel="Confirm Drop" p:id="confirmRegDropBtn"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list></list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-DropWaitlistedDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
+        <property name="style" value="width:350px;"/>
+        <property name="items">
+            <list>
+                <bean id="KS-AdminRegistration-DropWaitlistedIssues" parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Effective Drop Date" p:additionalCssClasses="nowrap"
+                                  p:renderColon="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="pendingDropCourse.waitlistedDropDate"
+                                  p:additionalCssClasses="nowrap">
+                                <property name="control">
+                                    <bean parent="KS-Uif-Default-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="removeWaitlistedCourse" p:actionLabel="Confirm Drop" p:id="confirmWaitDropBtn"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list></list>
+        </property>
+    </bean>
+
+    <!--bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup" p:modalLarge="true"-->
+    <bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup">
+        <property name="headerText" value="Confirm Registration"/>
+        <property name="style" value="width:650px;"/>
+        <property name="items">
+            <list>
+                <!--Work around until dialog requirednes is build in 2.5     p:header.style="margin-top: 0;-->
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(confirmationIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="confirmationIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Confirmation errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KS-AdminRegistration-DialogCollection" parent="Uif-TableCollectionGroup"
+                      p:layoutManager.numberOfColumns="10">
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="propertyName" value="coursesInProcess"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
+                                <property name="group.items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:style="font-weight: bold;"
+                                              p:messageText="@{#line.code} (@{#line.section})"/>
+                                        <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"  p:additionalCssClasses="nowrap"
+                                              p:readOnlyListDisplayType="UL"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Credits" p:propertyName="credits"
+                                  p:readOnly="@{#line.creditType eq 'kuali.result.values.group.type.fixed'}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
+                                  p:readOnly="@{#emptyList(#line.gradingOptions)}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder" p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Effective Reg Date" p:propertyName="effectiveDate" p:additionalCssClasses="nowrap">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:id="confirmRegistrationButton"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="submit" p:actionLabel="Confirm Registration"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                              p:actionScript="closeLightbox();" p:id="cancelRegistrationLink"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!--property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Registration" p:methodToCall="register"
+                      p:dialogResponse="true" p:performClientSideValidation="true" p:dialogDismissOption="PRESUBMIT"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel"/>
+            </list>
+        </property-->
+        <property name="availableResponses">
+            <list></list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-HistoryTab" parent="Uif-VerticalBoxSection" p:headerText="Registration History">
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+
+                <bean id="KS-AdminRegistration-HistoryTabs" parent="Uif-TabSection">
+                    <property name="header.render" value="false"/>
+                    <property name="items">
+                        <list>
+
+                            <bean id="KS-AdminRegistration-HistoryCoursesTab" parent="Uif-VerticalBoxSection"
+                                  p:headerText="Courses">
+                                <property name="header.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-AdminRegistration-HistoryCourseCollection"
+                                              p:propertyName="registeredCourses">
+                                            <property name="headerText" value="Courses"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean id="KS-AdminRegistration-HistoryTransactionsTab" parent="Uif-VerticalBoxSection"
+                                  p:headerText="Transactions">
+                                <property name="header.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-AdminRegistration-HistoryTransactionCollection"
+                                              p:propertyName="waitlistedCourses">
+                                            <property name="headerText" value="Transactions"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-HistoryCourseCollection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="10">
+
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-pencil" p:methodToCall="editCourse"/>
+                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:methodToCall="deleteLine"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)"
+                      p:messageText="@{#line.code} (@{#line.section})"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOptionId"/>
+                <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="transactionalDate"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-HistoryTransactionCollection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="10">
+
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-pencil" p:methodToCall="editCourse"/>
+                <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-trash" p:methodToCall="deleteLine"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)"
+                      p:messageText="@{#line.code} (@{#line.section})"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
+                <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="gradingOptionId"/>
+                <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="transactionalDate"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-RegisteredCourses-Edit" parent="Uif-DialogGroup">
+        <property name="headerText" value="Edit Course Details"/>
+        <property name="style" value="width:650px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ListCollectionSubSection" p:additionalCssClasses="alert,alert-danger"
+                      p:render="@{!#emptyList(editingIssues)}">
+                    <property name="collectionObjectClass" value="java.lang.String"/>
+                    <property name="propertyName" value="editingIssues"/>
+                    <property name="renderAddBlankLineButton" value="false"/>
+                    <property name="headerText" value="[id=KS-Uif-ErrorImage] Edit Course errors"/>
+                    <property name="header">
+                        <bean parent="Uif-SubSectionHeader" p:style="color:black;"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#line.toString()}"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KS-AdminRegistration-Courses-Edit" parent="Uif-TableCollectionGroup" p:colSpan="4">
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+                    <property name="propertyName" value="coursesInEdit"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Code (Section)">
+                                <property name="group.items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:style="font-weight: bold;"
+                                              p:messageText="@{#line.code} (@{#line.section})"/>
+                                        <bean parent="Uif-DataField" p:propertyName="activityTypeDateTimes"
+                                              p:additionalCssClasses="nowrap"
+                                              p:readOnlyListDisplayType="UL"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
+                                  p:readOnly="@{#line.creditType eq 'kuali.result.values.group.type.fixed'}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationCreditsOptionsFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="gradingOptionId"
+                                  p:readOnly="@{#emptyList(#line.gradingOptions)}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.registration.admin.valueFinder.RegistrationGradingOptionsFinder"
+                                          p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="effectiveDate"
+                                  p:label="Effective Date">
+                                <property name="control">
+                                    <!--KSENROLL-14124: using Uif-DateControl instead of KS-Uif-Default-DateControl as the validation does not work on the dialog
+                                        this results in being able to enter a blank value-->
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-Uif-FooterBase">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:id="saveEditCourseButton"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:methodToCall="saveEdit" p:actionLabel="Save"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                              p:methodToCall="cancelEdit"
+                                              p:preSubmitCall="closeLightbox(); return true;"
+                                              p:id="cancelEditCourseLink"
+                                              p:additionalCssClasses="cancel_link"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="promptText"
+                  value=""/>
+        <property name="availableResponses">
+            <list></list>
+        </property>
+    </bean>
+
+</beans>
+

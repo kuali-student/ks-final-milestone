@@ -1,0 +1,62 @@
+<!-- Search Details List for Mobile -->
+<div class="kscr-Search-details-list" ng-repeat="section in sections">
+    <div class="kscr-SearchDetails-label" ng-if="!selectable"
+         ng-class="{'kscr-SearchDetails-label--padded' : !$first}">{{section.header}}</div>
+    <div class="kscr-Search-details-header">
+        <div class="kscr-Search-details-tab-container" ng-repeat="tab in section.tabs"
+             ng-class="{'kscr-Search-details-tab-container--wide': tab.wide}">
+            <div id="{{section.header}}_tab_{{tab.id}}" class="kscr-Search-details-tab" ng-click="select(section, tab.id)"
+                 ng-class="{'kscr-Search-details-tab--selected': section.tab==='{{tab.id}}'}"><div class="kscr-Search-mobile-conflict" ng-if="tab.conflict">&#8226;&#x20;</div>{{tab.name}}</div>
+        </div>
+        <div class="kscr-Search-details-tab-container">
+            <div id="{{section.header}}_tab_all" class="kscr-Search-details-tab" ng-class="{'kscr-Search-details-tab--selected': section.tab==='all'}" ng-click="select(section, 'all')">All</div>
+         </div>
+    </div>
+    <div class="kscr-Search-details-grid" ng-repeat="searchResult in section.details | limitTo:limit"
+         ng-hide="searchResult.flags.hidden" ng-click="selectRow(searchResult)">
+        <div class="kscr-Search-details-selector" ng-class="{'kscr-Search-details-selector--selected' : searchResult.flags.selected}">
+            <div class="kscr-Search-details-indicator"
+                 ng-class="{'kscr-Search-details-indicator--show' : (searchResult.indicator || searchResult.flags.highlight),
+                            'kscr-Search-details-indicator--selected' : searchResult.flags.selected,
+                            'kscr-Search-details-indicator--unselectable' : !selectable && !searchResult.indicator}">&nbsp;</div>
+            <div id="select_{{searchResult.defaultField}}" class="kscr-Search-details-section"
+                ng-class="{'kscr-Search-details-section--indicator' : searchResult.indicator,
+                           'kscr-Search-details-section--selected' : searchResult.flags.selected,
+                           'kscr-Search-details-section--disabled' : searchResult.flags.disabled,
+                           'kscr-Search-details-section--unselectable' : !selectable}">
+                <span class="kscr-Search-details-container">
+                    <span class="kscr-Search-details-checkbox" ng-if="selectable"
+                          ng-class="{'kscr-Search-details-checkbox--selected' : searchResult.flags.selected,
+                          'kscr-Search-details-checkbox--disabled': searchResult.flags.disabled}"></span>
+                </span>
+                <span class="kscr-Search-details-tabs-container" ng-class="{'kscr-Search-details-tabs-container--all': section.tab==='all'}">
+                    <span ng-repeat="tab in section.tabs" class="kscr-Search-details-field-container">
+                        <span ng-repeat="field in tab.fields" ng-show="tab.selected"
+                              ng-class="{'kscr-Search-details-text--right': fieldOptions[field].right}">
+                            <div ng-if="section.tab!=='all' && fieldOptions[field].highlight
+                                            && searchResult.flags.highlight"
+                                 id="detail_{{searchResult.defaultField}}_{{field}}_highlight_tall"
+                                 class="kscr-Search-details-text--highlight-tall" compile="searchResult[field]">
+                            </div>
+                            <div ng-if="section.tab==='all' || !fieldOptions[field].highlight
+                                            || !searchResult.flags.highlight"
+                                  id="detail_{{searchResult.defaultField}}_{{field}}"
+                                  ng-class="{'kscr-Search-details-text--highlight': section.tab==='all' && ((searchResult.flags.highlight && fieldOptions[field].highlight) || (searchResult.indicator && fieldOptions[field].conflict)),
+                                             'kscr-Search-details-text--block': section.tab==='all' && fieldOptions[field].block,
+                                             'kscr-Search-details-text': !fieldOptions[field].highlight || !searchResult.flags.highlight,
+                                             'kscr-Search-details-text--tall': section.tab!=='all',
+                                             'kscr-Search-results-no-seats': section.tab==='seats' && searchResult.indicator}">
+                                <span compile="searchResult[field]"></span>
+                                <span ng-if='fieldOptions[field].append' compile="fieldOptions[field].append"></span>
+                            </div>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="kscr-Search-details-icons" ng-if="searchResult[icons]" compile="searchResult[icons]"></div>
+        <div ng-if="searchResult.indicatorIcon" class="kscr-Search-mobile-right-indicator--{{searchResult.indicatorType}}">
+            <i class="glyphicon glyphicon-{{searchResult.indicatorIconType}}"></i>
+        </div>
+    </div>
+</div>

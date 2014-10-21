@@ -1,0 +1,171 @@
+/*** Search Form Section  ***/
+
+@facetWidth: 20rem;
+
+.kscr-Search-content {
+    // Hide the sticky placeholder within the search content always
+    .util-sticky-placeholder {
+        display: none;
+    }
+
+    @media @md-Max {
+        padding-top: 1rem;
+        position: relative;
+    }
+}
+
+// Facet list container
+.kscr-SearchFacets {
+    margin: 0 0 1rem 1rem;
+    width: @facetWidth;
+
+    @media @md-Max {
+        margin: 0;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: auto !important; // Important to override the sticky styles
+        z-index: @zindex-SearchFacets; // Needs to be on top of the search results
+
+        &--expanded {
+          // Give it a box-shadow when stuck at the top
+          .box-shadow(0 0 0.3rem @lightGray);
+
+          max-width: 75%; // Max-width used in case screen width is less than @facetWidth;
+          width: @facetWidth + 4 !important; // Important to override the sticky styles
+        }
+    }
+
+    @media @wide-MinWidth-Min {
+        .util-sticky--disabled();
+        width: @facetWidth !important;
+    }
+}
+
+// Facet toggle
+.kscr-SearchFacets-toggle {
+    display: none;
+
+    & > a {
+        background: @cardBackgroundColor;
+        border: 1px solid @cardBorderColor;
+        border-left: none;
+        border-bottom-width: 2px;
+        display: block;
+        font-family: @secondaryFontFamily;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+    }
+
+    &-icon {
+        font-size: 130%;
+        line-height: 0.5;
+    }
+
+    &-hideLabel {
+        display: none;
+        float: right;
+    }
+
+    .kscr-SearchFacets--expanded & {
+        &-hideLabel {
+            display: block;
+        }
+        &-showLabel {
+            display: none;
+        }
+    }
+
+    @media @md-Max {
+        display: block;
+    }
+}
+
+// Facet header container
+.kscr-SearchFacet-headerContainer {
+    background: @cardBorderColor;
+    font-family: @secondaryFontFamily;
+    margin-bottom: 0.1rem;
+}
+
+// Facet header (chevron & text)
+.kscr-SearchFacet-header {
+    cursor: pointer;
+    padding-left: 3rem;
+    position: relative;
+
+    // Chevron icon
+    & .kscr-Card-icon {
+        left: 1rem;
+        top: 0.8rem;
+    }
+}
+
+// Heading text
+.kscr-SearchFacet-heading {
+    color: @cardTextColor;
+    font-weight: bold;
+    padding: 0.65rem 1rem 0.65rem 0;
+}
+
+// Clear button
+.kscr-SearchFacet-clearButton {
+    border-left: @horizontalLineBorder;
+    color: @optionText;
+    cursor: pointer;
+    padding: 0.65rem 1.5rem;
+}
+
+
+// Facet options container
+.kscr-SearchFacet-options {
+    list-style: none;
+    margin: 0.2rem 0.1rem 0; // Fix up the margins so the options line up with the heading
+    padding: 0;
+}
+
+// Single facet option
+.kscr-SearchFacet-option {
+    .kscr-Edit-control();
+
+    display: block;
+    padding-left: 3rem;
+    position: relative;
+
+    &:last-child {
+        // Cut the margin on the last item a bit so it sits flush against the facet below it
+        margin-bottom: 0.2rem;
+    }
+
+    // Checkbox icon styles
+    & .kscr-SearchFacet-option-icon {
+        .checkbox-icon();
+        left: 0.5rem;
+        position: absolute;
+        top: 0.8rem;
+    }
+
+    &--Selected .kscr-SearchFacet-option-icon {
+        .checkbox-icon--checked();
+    }
+}
+
+.kscr-SearchFacets-facetsContainer {
+  @media @md-Max {
+    background: @whiteBackground;
+    display: none;
+
+    .kscr-SearchFacets--expanded & {
+        display: block;
+    }
+  }
+}
+
+.kscr-SearchFacets--expanded {
+  @media @md-Max {
+    &.util-sticky--stuck {
+      max-height: 100%;
+      overflow-y: scroll;
+    }
+  }
+}

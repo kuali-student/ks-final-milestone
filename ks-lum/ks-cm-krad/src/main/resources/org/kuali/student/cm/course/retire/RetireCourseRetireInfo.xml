@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-RetireInfo-SectionBase" parent="CM-Proposal-Course-RetireInfo-SectionBase-parentBean"/>
+    <bean id="CM-Proposal-Course-RetireInfo-SectionBase-parentBean" abstract="true" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="headerText" value="Retirement Information"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+    </bean>
+
+    <!-- BELOW BEAN USED FOR RETIRE DOCUMENTS -->
+    <bean id="CM-Proposal-Course-RetireInfo-Section" parent="CM-Proposal-Course-RetireInfo-SectionBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSubSection">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-RetireCourse-ProposalTitle" parent="CM-RetireCourse-ProposalTitle"/>
+                            <bean id="CM-Proposal-RetireCourse-Rationale" parent="CM-RetireCourse-Rationale"/>
+                            <bean id="CM-Proposal-RetireCourse-StartTerm" parent="CM-RetireCourse-StartTerm"/>
+                            <bean id="CM-Proposal-RetireCourse-EndTerm" parent="CM-RetireCourse-EndTerm"/>
+                            <bean id="CM-Proposal-RetireCourse-LastTerm" parent="CM-RetireCourse-LastTerm"/>
+                            <bean id="CM-Proposal-RetireCourse-PublicationYear" parent="CM-RetireCourse-PublicationYear"/>
+                            <bean id="CM-Proposal-RetireCourse-RetirementComment" parent="CM-RetireCourse-RetirementComment"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- BELOW BEAN USED FOR MODIFY THIS VERSION DOCUMENTS ONLY -->
+    <bean id="CM-Course-Modify-RetireInfo-Section-parent" parent="CM-Proposal-Course-RetireInfo-SectionBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSubSection">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="CM-Modify-RetireCourse-Rationale" />
+                            <bean id="CM-Modify-RetireCourse-LastTerm" parent="CM-RetireCourse-LastTerm">
+                                <!-- TODO Remove this optionsFinder override when KSCM-2947 is complete as it will change parent bean to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder"
+                                          p:addBlankOption="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="CM-RetireCourse-PublicationYear">
+                                <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
+                                <!-- TODO Remove this optionsFinder override when KSCM-2947 is complete as it will change parent bean to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder"
+                                          p:addBlankOption="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="CM-RetireCourse-RetirementComment">
+                                <property name="render" value="@{#dataObject.supersededCourseFormerlyRetired}" />
+                            </bean>
+                        </list>
+                    </property>
+                    <!-- If it is a pilot Course and course state is Retired then display the rationale and last term as readonly  -->
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="items"
+                                  p:condition="@{#isRetiredCourse and #dataObject.courseInfo.pilotCourse}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="CM-RetireCourse-Rationale" parent="KS-Uif-DataField" p:propertyName="retirementRationale"
+                                              p:label="Rationale for Retirement">
+                                            <property name="fieldLabel.renderColon" value="false"/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                        </bean>
+                                        <bean id="CM-RetireCourse-Rationale" parent="KS-Uif-DataField" p:propertyName="lastTermDesc"
+                                              p:label="Last Term Offered">
+                                            <property name="fieldLabel.renderColon" value="false"/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- BELOW BEAN USED FOR MODIFY THIS VERSION DOCUMENTS ONLY -->
+    <bean id="CM-Modify-RetireCourse-Rationale" parent="CM-InputField"
+          p:label="Rationale for Retirement" p:propertyName="retirementRationale">
+        <property name="simpleConstraint">
+            <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <!-- This is to remove requiredness from the modify documents that are not on a retired course -->
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                      p:propertyName="simpleConstraint"
+                      p:condition="@{!#isRetiredCourse}">
+                    <property name="replacement">
+                        <bean parent="SimpleConstraint" p:required="false" p:maxLength="255"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-charcount-max-255</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-ProposalTitle" parent="KS-Uif-InputField" p:label="Proposal Title"
+          p:propertyName="proposalInfo.name" p:required="true">
+        <property name="fieldLabel.renderColon" value="false"/>
+        <property name="instructionalText"
+                  value="This title is used for identifying the proposal through the approval process."/>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:size="70"/>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-Rationale" parent="CM-InputField"
+          p:label="Rationale for Retirement" p:propertyName="proposalInfo.rationale.plain">
+        <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+        <property name="simpleConstraint">
+            <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
+        </property>
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-charcount-max-255</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-StartTerm" parent="KS-Uif-DataField" p:propertyName="retireStartTerm"
+          p:label="Start Term">
+        <property name="fieldLabel.renderColon" value="false"/>
+        <property name="fieldLabel.render" value="true"/>
+        <property name="fieldLabel.richLabelMessage">
+            <bean parent="CM-IconLabelMessage">
+                <property name="iconToolTipText" value="New Courses: This course will not necessarily be activated or offered this term, but will be
+                                    eligible for scheduling on or after this term. Course Modifications: Any instances of the course
+                                    offered on or after this term will reflect modifications."/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-EndTerm" parent="KS-Uif-InputField-LabelTop"
+          p:propertyName="retireEndTerm" p:label="End Term"
+          p:required="true">
+        <property name="instructionalText" value="Last term in which the course can be offered."/>
+        <property name="control">
+            <bean parent="KS-Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+                  p:addBlankOption="true"/>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-LastTerm" parent="KS-Uif-InputField-LabelTop"
+          p:propertyName="lastTerm" p:label="Last Term Offered">
+        <property name="instructionalText"
+                  value="Select the last term this course was or will be offered, if known."/>
+        <property name="control">
+            <bean parent="KS-Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+                  p:addBlankOption="true"/>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-PublicationYear" parent="KS-Uif-InputField-LabelTop"
+          p:propertyName="publicationYear" p:label="Last Course Catalog Publication Year">
+        <property name="instructionalText"
+                  value="Last academic year for which this course will be published in the course catalog."/>
+        <property name="control">
+            <bean parent="KS-Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <!-- TODO KSCM-2947 Refactor this to use proper org.kuali.student.lum.lu.ui.course.keyvalues.EndTermOptionsFinder class -->
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+                  p:addBlankOption="true"/>
+        </property>
+    </bean>
+
+    <bean id="CM-RetireCourse-RetirementComment" parent="CM-InputField"
+          p:label="Other Retire Comments" p:propertyName="retirementComment.plain">
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-charcount-max-1000</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>

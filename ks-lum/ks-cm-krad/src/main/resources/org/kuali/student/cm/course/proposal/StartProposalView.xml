@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Course-Create-Start-Page" parent="KS-Uif-Page">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+                <ref bean="CM-HomewardPathBreadcrumbs-CreateCourseStart-Page"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Create-Start-Widgets"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="CM-Proposal-Course-Create-Start-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Modify-Version-Start-Page" parent="KS-Uif-Page">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+                <ref bean="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Modify-Course-Start-Widgets"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="CM-Proposal-Course-Create-Start-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="CM-Modify-Course-Start-Widgets" parent="Uif-VerticalBoxSection" p:style="margin-top: 20px;">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-create-course-message-text</value>
+            </list>
+        </property>
+        <property name="headerText" value="Which type of modify action do you want?"/>
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Modify-Course-WithoutDraft-StartOptions"/>
+                <ref bean="CM-Modify-Course-WithDraft-StartOptions"/>
+                <ref bean="CM-Proposal-Course-Modify-Start-ReviewSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithoutDraft-StartOptions"
+          p:propertyName="startProposalCourseAction"
+          p:required="true" p:bindingInfo.bindToForm="true"
+          p:defaultValue="modifyThisVersion" p:render="@{#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+        <property name="control">
+            <bean parent="KS-Uif-VerticalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
+                        <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_WITH_A_NEW_VERSION}" p:value="Modify with a new version"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean parent="KS-Uif-InputField" id="CM-Modify-Course-WithDraft-StartOptions"
+          p:propertyName="startProposalCourseAction"
+          p:required="true" p:bindingInfo.bindToForm="true"
+          p:defaultValue="modifyThisVersion"  p:render="@{!#isModifiableCourse}" p:style="line-height: 200%;margin-top: 8px">
+        <property name="control">
+            <bean parent="KS-Uif-VerticalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                              p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ModifyCourseStartOptions).MODIFY_THIS_VERSION}" p:value="Modify this version"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="CM-Proposal-Course-Create-Start-View" parent="KS-Uif-FormView">
+        <property name="id" value="startProposalView"/>
+        <property name="header.headerText" value="@{#form.pageId eq 'CM-Modify-Version-Start-Page' ? modifyHeaderText : 'Create Course'}"/>
+        <property name="header.headerLevel" value="h2"/>
+        <property name="header.style" value="font-weight:bold;"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.StartProposalForm"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.StartProposalViewHelperServiceImpl"/>
+        <property name="viewSourceFile" value="StartProposalView.xml"/>
+        <!-- Shows up in HTML so devs can find the code -->
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Create-Start-Page"/>
+                <ref bean="CM-Modify-Version-Start-Page" />
+            </list>
+        </property>
+
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="isModifiableCourse" value="modifiableCourse"/>
+                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
+            </map>
+        </property>
+
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-Widgets" parent="Uif-VerticalBoxSection" p:style="margin-top: 20px;">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-create-course-message-text</value>
+            </list>
+        </property>
+        <property name="headerText" value="How would you like to start?"/>
+        <property name="instructionalMessage">
+            <bean parent="Uif-Message">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-home-view-instruction</value>
+                    </list>
+                </property>
+                <property name="messageText"
+                          value="You can choose to start a blank proposal with no pre-filled data, or copy an existing course/proposal and then edit the copied data to meet your needs"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField" id="CM-Proposal-Course-StartOptions"
+                      p:propertyName="startProposalCourseAction"
+                      p:required="true" p:bindingInfo.bindToForm="true"
+                      p:defaultValue="startBlankProposal" p:style="line-height: 200%;margin-top: 8px">
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="CM-Proposal-Course-StartOptions-BlankProposal" parent="Uif-KeyLabelPair"
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).BLANK_PROPOSAL}" p:value="Start a blank proposal"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyApproved" parent="Uif-KeyLabelPair"
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).COPY_APPROVED_COURSE}" p:value="Copy an approved course"/>
+                                    <bean id="CM-Proposal-Course-StartOptions-CopyProposed" parent="Uif-KeyLabelPair"
+                                          p:key="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ProposalCourseStartOptions).COPY_PROPOSED_COURSE}" p:value="Copy a proposed course"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <ref bean="CM-Proposal-Course-Create-Start-CopyFromCourse"/>
+                <ref bean="CM-Proposal-Course-Create-Start-CopyFromProposal"/>
+                <ref bean="CM-Proposal-Course-Create-Start-ReviewSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-CopyFromCourse" parent="KS-Uif-InputField" p:propertyName="courseCode"
+          p:label="Course Code" p:additionalHiddenPropertyNames="courseId" p:progressiveRender="@{startProposalCourseAction eq 'copyApprovedCourse'}">
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course</value>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
+        </property>
+
+
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
+                  p:labelPropertyName="courseCode" p:valuePropertyName="courseCode">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="searchForCourses"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                        <entry key="delay" value="0"/>
+                        <entry key="select">
+                            <value>
+                                function(event, ui) {
+                                jQuery( "input[name='courseCode']" ).val(ui.item.label);
+                                jQuery( "input[name='courseId']" ).val(ui.item.value);
+                                jQuery( "input[name='courseId']" ).removeAttr('disabled');
+                                return false;
+                                }
+                            </value>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-CopyFromProposal" parent="KS-Uif-InputField" p:propertyName="proposalTitle"
+          p:label="Proposal Title" p:additionalHiddenPropertyNames="proposalId" p:progressiveRender="@{startProposalCourseAction eq 'copyProposedCourse'}">
+        <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course</value>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="KS-Uif-TextControl" p:cssClasses="validProposalID"/>
+        </property>
+
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true"
+                  p:labelPropertyName="name" p:valuePropertyName="proposalTitle">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="suggestProposal"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                        <entry key="delay" value="0"/>
+                        <entry key="select">
+                            <value>
+                                function(event, ui) {
+                                jQuery( "input[name='proposalTitle']" ).val(ui.item.label);
+                                jQuery( "input[name='proposalId']" ).val(ui.item.value);
+                                jQuery( "input[name='proposalId']" ).removeAttr('disabled');
+                                return false;
+                                }
+                            </value>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--  Review Process for Start Proposal/Course -->
+
+    <bean id="CM-Proposal-Course-Create-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
+          p:render="@{#form.curriculumSpecialistUser}" p:style="margin-top: 35px;">
+        <property name="headerText" value="Review Process"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Start-ReviewProcess"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Start-ReviewProcess"
+          parent="KS-Uif-InputField"
+          p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
+          p:required="false">
+        <property name="control">
+            <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
+        </property>
+    </bean>
+
+    <!--  Review Process for Modify Course -->
+
+    <bean id="CM-Proposal-Course-Modify-Start-ReviewSection" parent="Uif-VerticalBoxSubSection"
+          p:progressiveRender="@{startProposalCourseAction eq 'modifyNewVersion'}" p:style="margin-top: 35px;">
+        <property name="headerText" value="Review Process"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Course-Start-ReviewProcess"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Course-Create-Start-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-Start-ContinueCreate"
+                                  parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="continueCreateCourse"
+                                  p:performClientSideValidation="true"
+                                  p:actionLabel="Continue"/>
+                            <bean id="CM-Proposal-Course-Start-Cancel"
+                                  parent="Uif-CancelAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-HomewardPathBreadcrumbs-CreateCourseStart-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Create Course"></property>
+    </bean>
+
+
+    <bean id="CM-HomewardPathBreadcrumbs-ModifyCourseStart-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#htmlUtils.htmlEscape(modifyHeaderText)}"></property>
+    </bean>
+</beans>

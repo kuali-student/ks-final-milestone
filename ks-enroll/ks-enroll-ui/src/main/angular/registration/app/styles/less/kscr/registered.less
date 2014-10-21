@@ -1,0 +1,23 @@
+/**** Registered link ****/
+
+
+.kscr-Registered {
+    background-color: @whiteBackground;
+    border: 1px solid @cardBorderColor;
+    border-bottom-width: 2px;
+    color: @secondaryTextColor;
+    cursor: pointer;
+    font-family: @secondaryFontFamily;
+    .font-size(13);
+    font-weight: normal;
+    margin: 1rem;
+    padding: 0.2rem;
+
+    // Registered courses container
+    &-container {
+        @media @lg-Min {
+          .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
+          display: block; /*show initially*/
+        }
+    }
+}

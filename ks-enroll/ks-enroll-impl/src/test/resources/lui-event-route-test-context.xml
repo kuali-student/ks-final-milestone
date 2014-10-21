@@ -1,0 +1,83 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:amq="http://activemq.apache.org/schema/core"
+        xmlns:jms="http://www.springframework.org/schema/jms"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mockito="http://www.mockito.org/spring/mockito"
+
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+            http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
+            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+            http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+    <context:annotation-config/>
+
+    <camelContext id="camelContext"  xmlns="http://camel.apache.org/schema/spring" trace="true" autoStartup="true">
+
+        <route id="route1">
+            <from uri="direct:start" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.course.offering' and ${in.body.action} == 'UPDATE'</simple>
+                <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                    <correlationExpression>
+                        <simple>body.id</simple>
+                    </correlationExpression>
+                    <to uri="mock:a"/>
+                </aggregate>
+            </filter>
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.course.offering' and ${in.body.action} == 'CREATE'</simple>
+                <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                    <correlationExpression>
+                        <simple>body.id</simple>
+                    </correlationExpression>
+                    <to uri="mock:b"/>
+                </aggregate>
+            </filter>
+
+        </route>
+
+    </camelContext>
+
+    <camelContext id="camelContextTwo"  xmlns="http://camel.apache.org/schema/spring" trace="true" autoStartup="true">
+
+        <route id="route1">
+            <from uri="direct:start2" />
+            <filter>
+                <simple>${in.body.type} contains 'kuali.lui.type.course.offering'</simple>
+                <filter>
+                    <simple>${in.body.action} == 'UPDATE' or ${in.body.action} == 'CREATE' or ${in.body.action} == 'DELETE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="mock:c"/>
+                    </aggregate>
+                </filter>
+                <!--
+                <filter>
+                    <simple>${in.body.action} == 'DELETE'</simple>
+                    <aggregate strategyRef="useLatestAggregationStrategy" completionTimeout="5000">
+                        <correlationExpression>
+                            <simple>body.id</simple>
+                        </correlationExpression>
+                        <to uri="mock:d"/>
+                    </aggregate>
+                </filter>
+                -->
+            </filter>
+
+        </route>
+
+    </camelContext>
+
+    <bean id="useLatestAggregationStrategy" class="org.apache.camel.processor.aggregate.UseLatestAggregationStrategy"/>
+
+
+</beans>

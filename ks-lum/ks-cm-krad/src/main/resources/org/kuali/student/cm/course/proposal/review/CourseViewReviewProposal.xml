@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CM-Proposal-Review-Course-Page" parent="CM-ViewCourse-View-Course-Page" class="org.kuali.student.cm.uif.view.CMReviewPage">
+
+        <!-- Initialize the page. This intervenes with the validation message behavior by removing the popovers, and
+             also sizes the text areas. -->
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();setupCharCounters();"/>
+
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Review-Course-PageSections"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="CM-Proposal-Review-Course-Footer"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list merge="true">
+                <ref bean="KS-HomewardPathBreadcrumbs-ReviewCourse"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
+            </list>
+        </property>
+        <!-- Hide the validation messages if no unknown error messages are there to display -->
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validationMessages"
+                      p:condition="@{!#dataObject.reviewProposalDisplay.showUnknownErrors}">
+                    <property name="replacement">
+                        <ref bean="KS-ValidationMessages-Off" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-PageSections" parent="CM-Proposal-Course-View-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink"/>
+                <ref bean="CM-ViewCourse-View-Course-VersionNumberColumns"/>
+                <ref bean="CM-Proposal-Review-Course-CourseSection"/>
+                <ref bean="CM-Proposal-Review-Course-GovernanceSection"/>
+                <ref bean="CM-Proposal-Review-Course-CourseLogisticsSection"/>
+                <ref bean="CM-Proposal-Review-Course-LearningObjectivesSection"/>
+                <ref bean="CM-Proposal-Review-Course-CourseRequisitesSection"/>
+                <ref bean="CM-Proposal-Review-Course-ActiveDatesSection"/>
+                <ref bean="CM-Proposal-Review-Course-FinancialsSection"/>
+                <ref bean="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection"/>
+                <ref bean="CM-Proposal-Review-Course-SupportingDocumentsSection"/>
+                <ref bean="CM-ExportHiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Compare-Modifier" parent="CM-Proposal-Review-Compare-Modifier-parentBean"/>
+    <bean id="CM-Proposal-Review-Compare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier"
+          class="org.kuali.student.cm.course.modifiers.CMCourseFieldCompareModifier">
+        <property name="headerFieldPrototype">
+          <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="comparables">
+          <list>
+            <bean parent="Uif-CompareConfig" p:headerText="Course 1" p:compareToForValueChange="true"
+                  p:bindingObjectPath="document.newMaintainableObject.dataObject" p:idSuffix="new"/>
+            <bean parent="Uif-CompareConfig" p:headerText="Course 2" p:readOnly="true"
+                  p:bindingObjectPath="document.oldMaintainableObject.dataObject" p:idSuffix="old"/>
+          </list>
+        </property>
+        <property name="generateCompareHeaders" value="false"/>
+        <!-- These are property names of items that should not be compared. -->
+        <property name="excludeProperties">
+            <list>
+                <value>proposalInfo.name</value>
+                <value>currentCourseEndTermShortName</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-Page-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
+          p:render="@{#dataObject.missingRequiredFields}" p:additionalCssClasses="ks-cm-reviewproposal-validation-spacing">
+        <property name="items">
+            <list>
+                <bean id="CM-Proposal-Course-View-AdminMessage-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                      p:showLabel="false"
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:id="CM-Proposal-Review-Error-Message"
+                                  p:messageText="This proposal is incomplete."
+                                  p:style="margin-right: 0pt; margin-top: 5px;">
+                            </bean>
+                            <bean parent="KS-Uif-ActionLink" p:id="CM-Proposal-Review-Error-Message-Expand-Option-Link"
+                                  p:actionScript="showHideReviewProposalErrorFields('CM-Proposal-Review-Course-PageSections','@{document.oldMaintainableObject.dataObject.courseInfo.id != null}');"
+                                  p:actionLabel="Hide error highlighting.">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>review_proposal_ReviewErrorMessageActionLink</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-CourseSection" parent="CM-ViewCourse-View-Course-CourseInfoSection">
+        <property name="headerText" value="Course Information"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-CourseInfo-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-CourseInfo-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-GovernanceSection" parent="CM-ViewCourse-View-Course-GovernanceSection">
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-Governance-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-Governance-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-CourseLogisticsSection" parent="CM-ViewCourse-View-Course-CourseLogisticsSection">
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-CourseLogistics-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-Logistics-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-LearningObjectivesSection" parent="CM-ViewCourse-View-Course-LearningObjectivesSection">
+        <property name="header.rightGroup.items">
+           <list>
+                <bean p:id="CM-Proposal-Review-LearningObjectives-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-LearningObjective-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-CourseRequisitesSection" parent="CM-ViewCourse-View-Course-CourseRequisitesSection">
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-Requisites-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-CourseRequisites-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="CM-Proposal-Course-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.renderColon="false" >
+                                <property name="items">
+                                    <list>
+                                        <bean parent="CM-ViewCourse-View-Course-Requisites-AgendaSection">
+                                            <property name="agendaPrototype.fieldBindingObjectPath" value="document.newMaintainableObject.dataObject"/>
+                                            <property name="bindingInfo.bindingObjectPath" value="document.newMaintainableObject.dataObject"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="CM-CurrentCourse-Requisites-CollectionSection" parent="Uif-VerticalFieldGroup" p:colSpan="3" p:fieldLabel.render="false" p:readOnly="true">
+                                <property name="render" value="@{#isCompareView}"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="CM-CurrentCourse-Requisites-AgendaSection"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="componentModifiers">
+                      <list>
+                          <bean parent="Uif-LabelSeparator-Modifier" p:runPhase="FINALIZE"/>
+                          <!-- Row highlighting when requisites do not match -->
+                          <bean class="org.kuali.student.cm.course.modifiers.RequisitesCompareModifier" p:runPhase="FINALIZE"
+                                p:runCondition="@{#isCompareView}"/>
+                      </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-CurrentCourse-Requisites-AgendaSection" parent="CM-CurrentCourse-Requisites-AgendaSection-parent"/>
+
+    <bean id="CM-CurrentCourse-Requisites-AgendaSection-parent" parent="CM-Proposal-Course-AgendaManage-Section"
+          class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+        <property name="agendaPrototype.fieldBindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+        <property name="bindingInfo.bindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+        <property name="rulePrototype">
+            <bean id="CM-Proposal-CoursePreview-AgendaManage-RulePrototype" parent="CM-Proposal-Course-AgendaManage-RulePrototype-CoursePreview">
+                <property name="items">
+                    <list>
+                        <bean id="CM-Proposal-Course-AgendaManage-ViewRule" parent="KRMS-AgendaManage-EditRule">
+                            <property name="items">
+                                <list>
+                                    <bean id="CM-Proposal-Course-ReviewTree-Group" parent="Uif-VerticalBoxGroup"
+                                          p:cssClasses="ks-form-panel">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="CM-Proposal-Course-ViewTree-Section">
+                                                    <property name="bindingInfo.bindingObjectPath" value="document.oldMaintainableObject.dataObject"/>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-ActiveDatesSection" parent="CM-ViewCourse-View-Course-ActiveDatesSection">
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-ActiveDates-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-ActiveDates-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-FinancialsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
+        <property name="headerText" value="Financials"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-Financials-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-Financial-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
+                                  id="CM-Proposal-Review-Financials-FeeJustification"
+                                  p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-AuthorsAndCollaboratorsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
+        <property name="headerText" value="Authors and Collaborators"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-AuthorsCollaborators-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-AuthorsAndCollaborator-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Review-AuthorsCollaborators-Section" parent="Uif-StackedCollectionSection"
+                                              p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
+                                              p:collectionObjectClass="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"
+                                              p:colSpan="3">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>course_detail_subsection</value>
+                                                </list>
+                                            </property>
+                                            <property name="layoutManager.lineGroupPrototype.header.headerLevel"
+                                                      value="h5"/>
+                                            <property name="layoutManager.lineGroupPrototype.header.headerTagCssClasses">
+                                                <list merge="true">
+                                                    <value>course_detail_subsection_header</value>
+                                                </list>
+                                            </property>
+                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
+                                                      value="@{(#line.author==true) ? (#line.lastName) + ', ' + (#line.firstName) + ' (Author)' : (#line.lastName) + ', ' + (#line.firstName)}"/>
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Permissions"
+                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
+                                                          p:propertyName="permission" p:colSpan="1" />
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Action Request"
+                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
+                                                          p:propertyName="action" p:colSpan="1" />
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <!-- If there are no authors and collaborators then just show a label alone -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators" id="emptyStringAuthorsAndCollaborators"
+                                              p:propertyName="reviewProposalDisplay.collaboratorSection.emptyStringAuthorAndCollaborator"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-SupportingDocumentsSection" parent="CM-ViewCourse-View-Course-VerticalBoxSection">
+        <property name="headerText" value="Supporting Documents"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CM-Proposal-Review-SupportingDocuments-Edit-Link" parent="CM-Proposal-Review-Course-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="CM-Proposal-Course-SupportingDocument-Section"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="CM-ViewCourse-View-Course-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="CM-Proposal-Review-SupportingDocuments-Section" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
+                                              p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
+                                              p:collectionObjectClass="org.kuali.student.cm.proposal.form.wrapper.SupportingDocumentInfoWrapper"
+                                              p:colSpan="3">
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="CM-Proposal-Review-SupportingDocuments-Group" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+                                                         <property name="items">
+                                                             <list>
+                                                                 <bean id="CM-Proposal-Review-SupportingDocuments_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
+                                                                       p:ajaxSubmit="false"
+                                                                       p:disableBlocking="true"
+                                                                       p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
+                                                                     <property name="fieldLabel.render" value="false"/>
+                                                                     <property name="id" value="CM-Proposal-Review-SupportingDocuments_@{#index}"/>
+                                                                     <property name="cssClasses">
+                                                                         <list merge="true">
+                                                                             <value>cm_readonly_input</value>
+                                                                         </list>
+                                                                     </property>
+                                                                 </bean>
+                                                                 <bean id="CM-Proposal-Review-SupportingDocuments-Description" parent="Uif-DataField"
+                                                                       p:propertyName="description"/>
+                                                             </list>
+                                                         </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"/>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ReviewCourse" parent="Uif-BreadcrumbItem">
+        <property name="label" value=" @{(#isCreateProposal) ? 'Create Course' : 'Modify Course'}"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-Course-Edit-Link" parent="Uif-ActionLink" abstract="true"
+          p:ajaxSubmit="false"
+          p:methodToCall="editProposalPage"
+          p:actionLabel="Edit"
+          p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]) and (!#uiHelper.pendingWorkflowAction)}"/>
+
+    <!-- FOOTER BEANS IN THIS SECTION BELOW -->
+
+    <bean id="CM-Proposal-Review-Course-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <!-- !#uiHelper.pendingWorkflowAction (render condition) should be added to all the workflow action buttons to avoid any workflow action being taken back to back-->
+                            <bean parent="CM-Proposal-Button-Submit"/>
+                            <bean parent="CM-Proposal-Button-BlanketApprove"/>
+                            <bean parent="CM-Proposal-Button-ApproveOrReSubmit" />
+                            <bean parent="CM-Proposal-Button-Reject"/>
+                            <bean parent="CM-Proposal-Button-Acknowledge"/>
+                            <bean parent="CM-Proposal-Button-Fyi"/>
+                            <bean parent="CM-Proposal-Button-Withdraw"/>
+                            <bean parent="CM-Proposal-Button-ReturnToPrevious"/>
+                            <bean parent="CM-Proposal-Button-Cancel"
+                                  p:style="margin-right: 10px;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- FOOTER BEANS IN THIS SECTION ABOVE -->
+    <!-- BUTTON BEANS IN THIS SECTION BELOW -->
+
+    <bean id="CM-Proposal-Button-Submit" parent="CM-Proposal-Button-Submit-parentBean" />
+    <bean id="CM-Proposal-Button-Submit-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Submit"/>
+        <property name="methodToCall" value="route"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <property name="render" value="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-BlanketApprove" parent="CM-Proposal-Button-BlanketApprove-parentBean" />
+    <bean id="CM-Proposal-Button-BlanketApprove-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Blanket Approve"/>
+        <property name="methodToCall" value="blanketApprove"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <!-- we do not allow blanket approve on proposals that are not using curriculum review approvals -->
+        <property name="render" value="@{(#uiHelper.useReviewProcess) and (#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Fyi" parent="CM-Proposal-Button-Fyi-parentBean" />
+    <bean id="CM-Proposal-Button-Fyi-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="FYI"/>
+        <property name="methodToCall" value="fyi"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Acknowledge" parent="CM-Proposal-Button-Acknowledge-parentBean" />
+    <bean id="CM-Proposal-Button-Acknowledge-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Acknowledge"/>
+        <property name="methodToCall" value="acknowledge"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-ApproveOrReSubmit" parent="CM-Proposal-Button-ApproveOrReSubmit-parentBean" />
+    <bean id="CM-Proposal-Button-ApproveOrReSubmit-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="@{((#workflowDoc.nodeNames.contains('PreRoute')) and (#workflowDoc.enroute))?'Resubmit':'Approve'}"/>
+        <property name="methodToCall" value="approve"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="disabled" value="@{#dataObject.missingRequiredFields}"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-Reject" parent="CM-Proposal-Button-Reject-parentBean" />
+    <bean id="CM-Proposal-Button-Reject-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-danger"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Reject"/>
+        <property name="methodToCall" value="disapprove"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <bean id="CM-Proposal-Button-ReturnToPrevious" parent="CM-Proposal-Button-ReturnToPrevious-parentBean" />
+    <bean id="CM-Proposal-Button-ReturnToPrevious-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Return to Previous"/>
+        <property name="methodToCall" value="returnToPreviousNode"/>
+        <property name="performClientSideValidation" value="true"/>
+        <property name="performDirtyValidation" value="false"/>
+        <property name="render" value="@{(!#emptyList(#workflowDoc.previousNodeNames)) and (#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]) and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <!-- parent bean structure for Cancel button which should behave the same for both CS and regular users -->
+    <bean id="CM-Proposal-Button-Cancel" parent="CM-Proposal-Button-Cancel-parentBean" />
+    <bean id="CM-Proposal-Button-Cancel-parentBean" parent="Uif-ActionLink" abstract="true">
+        <property name="actionLabel" value="Cancel"/>
+        <property name="methodToCall" value="back"/>
+        <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+    </bean>
+
+    <!-- parent bean structure for Withdraw button which should behave the same for both CS and regular users -->
+    <bean id="CM-Proposal-Button-Withdraw" parent="CM-Proposal-Button-Withdraw-parentBean" />
+    <bean id="CM-Proposal-Button-Withdraw-parentBean" parent="Uif-PrimaryActionButton" abstract="true">
+        <property name="additionalCssClasses" value="btn-success"/>
+        <property name="ajaxSubmit" value="false"/>
+        <property name="actionLabel" value="Withdraw"/>
+        <property name="methodToCall" value="withdraw"/>
+        <property name="performClientSideValidation" value="false"/>
+        <property name="render" value="@{#actionFlags[T(org.kuali.student.cm.common.util.CurriculumManagementConstants$ActionFlags).KUALI_ACTION_CAN_WITHDRAW] and (!#uiHelper.pendingWorkflowAction)}"/>
+    </bean>
+
+    <!-- BUTTON BEANS IN THIS SECTION ABOVE -->
+    <!-- DIALOG BOX BEANS IN THIS SECTION BELOW -->
+
+    <bean id="CM-DialogExplanation-DecisionRationale" parent="CM-DialogExplanation-DecisionRationale-parentBean" />
+    <bean id="CM-DialogExplanation-DecisionRationale-parentBean" parent="Uif-InputField"
+          p:label="Decision Rationale"
+          p:render="true"
+          p:readOnly="false">
+        <property name="control">
+            <bean parent="Uif-TextAreaControl">
+             <property name="cssClasses">
+                <list merge="true">
+                    <value>cm-charcount-max-1000</value>
+                </list>
+             </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-dialogExplanation</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-DecisionRationale-MessageSection" parent="Uif-HorizontalBoxSection">
+        <property name="render" value="@{#uiHelper.showMessage}"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-RequiredMessage" parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/error.png&quot;]  Decision Rationale is required." />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Dialog" parent="KS-Dialog-parentBean" />
+    <bean id="KS-Dialog-parentBean" parent="Uif-DialogGroup" class="org.kuali.student.cm.uif.container.CMDialogGroup" abstract="true" >
+        <property name="renderHeader" value="true"/>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse" p:readOnly="false"/>
+        </property>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+    </bean>
+
+    <bean id="KS-DottedHeaderTwo" parent="Uif-HeaderTwo" p:cssClasses="ks-dottedHeaderActions"/>
+
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog" parent="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" />
+    <bean id="CM-Proposal-Review-ConfirmCancelProposal-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();submitCancelDialog();"/>
+        <property name="headerText" value="Cancel Proposal"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>confirm_submit_cancel_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="Are you sure you want to cancel the proposal?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog" parent="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" />
+    <bean id="CM-Proposal-Review-ConfirmSubmit-Dialog-parentBean" parent="KS-Dialog" abstract="true" >
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('route');"/>
+        <property name="headerText" value="Submit Proposal"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>confirm_submit_cancel_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="Are you sure you want to submit the proposal to Workflow?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Submit"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog" parent="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmReturnToPreviousNode-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('returnToPreviousNode');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Return Proposal to Previous Node"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are returning the &quot;@{#uiHelper.proposalName}&quot; proposal to previous node. You must enter a Decision Rationale."/>
+        <!-- do not show the explanation because we need the route node name dropdown above it in the dialog screen -->
+        <property name="displayExplanation" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Return-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <bean id="CM-ReturnToPrevious-Dialog-NodeNamesDropdown" parent="CM-Dialog-PreviousNodeNames"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-ReturnToPrevious-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Return"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Dialog-PreviousNodeNames" parent="Uif-Dialog-PreviousNodeNames-parentBean" />
+    <bean id="Uif-Dialog-PreviousNodeNames-parentBean" parent="KS-Uif-InputField" abstract="true"
+          p:propertyName="reviewProposalDisplay.returnToPreviousNodeName" p:label="Workflow Node Name">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.PreviousNodeNamesValuesFinder" p:addBlankOption="false" />
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmApprove-Dialog" parent="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmApprove-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('approve');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Approve Proposal"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Approve-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Approve-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog" parent="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmBlanketApprove-Dialog-parentBean" parent="KS-Dialog" abstract="true" class="org.kuali.student.cm.uif.container.CMDialogGroup">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('blanketApprove');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Blanket Approve Proposal"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are blanket approving the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-BlanketApprove-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-BlanketApprove-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Approve"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmReject-Dialog" parent="CM-Proposal-Review-ConfirmReject-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmReject-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('disapprove');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Reject Proposal"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are rejecting the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Reject-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Reject-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Reject"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog" parent="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmAcknowledge-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('acknowledge');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Acknowledge Proposal"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+                <value>decisionrationale_acknowledgedialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are Acknowledging the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Acknowledge-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Acknowledge-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Acknowledge"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog" parent="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean"/>
+    <bean id="CM-Proposal-Review-ConfirmWithdraw-Dialog-parentBean" parent="KS-Dialog" abstract="true">
+        <property name="onDialogResponseScript" value="closeLightbox();ajaxSubmitForm('withdraw');"/>
+        <property name="OnShowDialogScript" value="skipDirtyChecks();" />
+        <property name="header">
+            <bean parent="KS-DottedHeaderTwo" p:headerText="Withdraw Proposal"/>
+        </property>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>decisionrationale_dialog</value>
+                <value>decisionrationale_withdrawdialog</value>
+            </list>
+        </property>
+        <property name="promptText"
+                  value="You are Withdrawing the &quot;@{#uiHelper.proposalName}&quot; proposal. You must enter a Decision Rationale."/>
+        <property name="items">
+            <list>
+                <bean id="CM-DecisionRationale-Withdraw-Message" parent="CM-DecisionRationale-MessageSection"/>
+                <!-- manually add back in the explanation field and force the render flag -->
+                <bean id="CM-Withdraw-Dialog-Explanation" parent="CM-DialogExplanation-DecisionRationale"/>
+            </list>
+        </property>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Withdraw"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- DIALOG BOX BEANS IN THIS SECTION ABOVE -->
+
+</beans>

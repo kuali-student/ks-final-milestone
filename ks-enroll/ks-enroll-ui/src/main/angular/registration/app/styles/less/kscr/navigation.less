@@ -1,0 +1,23 @@
+/*******  Navigation in Header *********/
+
+.Navigation {
+    float: right;
+    & > a {
+        color: @white;
+        .font-size(14);
+        flex: auto;
+
+        &:hover, &:focus {
+            color: tint(#999, 4%);
+            outline: none;
+            text-decoration:none;
+        }
+    }
+}
+
+.kscr-Navigation-container {
+  @media @sm-Max {
+      display: block; /* show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time */
+    }
+}
+

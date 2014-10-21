@@ -1,0 +1,39 @@
+/**** Sticky Widgets ****/
+
+.util-sticky {
+    transition: none;
+
+    &-bottom {
+        bottom: 0;
+    }
+
+    &-top {
+        top: 0;
+    }
+
+    &--stuck {
+        position: fixed;
+        width: 100%;
+        z-index: @zindex-util-sticky--stuck;
+    }
+
+    &-placeholder {
+        content: "";
+        width: 100%;
+    }
+}
+
+
+// Override class to disable the sticky via CSS
+.util-sticky--disabled(@offset: 0px) {
+    position: relative !important;
+    width: auto !important;
+    z-index: auto !important;
+
+    &.util-sticky-top {
+        top: @offset !important;
+    }
+    &.util-sticky-bottom {
+        bottom: @offset !important;
+    }
+}

@@ -1,0 +1,129 @@
+// Headings
+// --------------------------------------------------
+
+.ksap-view, .jquerypopover-ksap {
+  h1.uif-headerText {
+    font-size: 2.3077em;
+    line-height: 1.3333em;
+    padding:0;
+  }
+  h2.uif-headerText {
+    font-size: 1.8462em;
+    line-height: 1.6667em;
+  }
+  h3.uif-headerText {
+    font-size: 1.3846em;
+    line-height: 1.1111em;
+  }
+  h4.uif-headerText {
+    font-size: 1.1538em;
+    line-height: 1.3333em;
+  }
+  h5.uif-headerText {
+    font-size: 1em;
+    line-height: 1.5385em;
+  }
+  h6.uif-headerText {
+    font-size: 0.9231em;
+    line-height: 1.6667em;
+  }
+} // End .ksap-view
+
+
+// General Styles
+// --------------------------------------------------
+
+body {
+  font-size: 1.3rem;
+}
+
+a:focus {
+  outline: 0;
+  text-decoration: none;
+}
+
+pre { /*Really needed?*/
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.ksap-text-gray {
+  color: #777;
+}
+
+.ksap-text-italic { /*Really needed?*/
+  font-style: italic !important;
+}
+
+.myplan-text-align-left { /*Really needed?*/
+  text-align: left !important;
+}
+
+.ksap-text-nowrap { /*Really needed?*/
+  white-space: nowrap !important;
+}
+
+.ksap-text-wrap { /*Really needed?*/
+  white-space: normal !important;
+}
+
+.ksap-text-normal, /*Really needed?*/
+.ksap-text-normal label {
+  font-weight: normal !important;
+}
+
+.ksap-text-small {
+  font-size: 80%;
+}
+
+.ksap-source {
+  color: #666;
+  clear: both;
+  font-size: 1.1rem;
+}
+
+
+// Ellipsis
+// --------------------------------------------------
+
+.ksap-text-ellipsis,
+.ksap-text-ellipsis > span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ksap-block-ellipsis,
+.ksap-block-ellipsis > span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+}
+
+// Icons
+// --------------------------------------------------
+
+//Override KRAD icon font-smoothing
+[class*="icon-"] {
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+}
+
+//Remove underline on icon hover
+a[class*="ks-fontello-icon-"]:hover {
+  text-decoration: none;
+}
+
+//Disclosure icons
+.ks-fontello-icon-right-open:before,
+.ks-fontello-icon-down-open:before {
+  line-height: inherit;
+  margin-right: 0;
+  vertical-align: top;
+  width: 14px;
+}
+

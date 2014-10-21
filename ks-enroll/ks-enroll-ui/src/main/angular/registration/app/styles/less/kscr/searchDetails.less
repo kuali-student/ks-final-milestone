@@ -1,0 +1,471 @@
+/*** Search Details Page ***/
+
+// Mixin to make an unordered list (<ul>) an inline comma-separated list.
+.details-list-mixin() {
+    & > ul {
+        display: inline;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        & > li {
+            .util-Text-delimited(", ");
+            display: inline;
+            &:before {
+                content: " "; // Add a space before the items b/c they get scrunched up in the compiled mode
+            }
+        }
+    }
+}
+
+
+// Main container
+.kscr-SearchDetails {
+    padding: 0 1rem 1rem;
+}
+
+.kscr-SearchDetails-courseHeader {
+    // Small-format styles (Mobile)
+    @media @sm-Max {
+        .kscr-SearchDetails-header & {
+            flex-flow: column; // Put the course title below the code
+        }
+    }
+}
+
+// Top header containing 'Return to Search Results' link
+.kscr-SearchDetails-top {
+    padding: 0 1rem 1rem;
+
+    // Link itself
+    & > a {
+        font-family: @secondaryFontFamily;
+        font-weight: normal;
+        text-decoration: none;
+
+        // << Arrows in link
+        & > span {
+            font-size: 120%;
+            line-height: 0.5;
+        }
+    }
+}
+
+// Search details content container
+.kscr-SearchDetails-container {
+    background-color: @whiteBackground;
+    border: 1px solid @cardBorderColor;
+    border-bottom-width: 2px;
+    color: @cardTextColor;
+    font-family: @secondaryFontFamily;
+    padding: 1rem;
+
+    // Large-format styles
+    @media @lg-Min {
+      // Disable the sticky actions container in large-format
+       & .util-sticky-placeholder {
+          display: none;
+       }
+    }
+}
+
+
+// Details header (code, title, & credits)
+.kscr-SearchDetails-header {
+    border-bottom: @horizontalLineBorder;
+    margin: 0 0 1rem;
+    padding: 0 0 1rem;
+}
+
+.kscr-SearchDetails-courseCode {
+    font-weight: bold;
+    margin-right: 2.5rem;
+
+    &-skeleton {
+      width: 10rem;
+      .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+      .util-skeleton-animate();
+    }
+}
+
+.kscr-SearchDetails-courseTitle {
+    &-skeleton {
+      .util-skeleton-basic(2.5rem, @skeletonDarkGray);
+      .util-skeleton-animate();
+    }
+}
+
+.kscr-SearchDetails-credits {
+    margin-left: 2rem; // Don't let the title get too close
+
+    &-skeleton {
+      width: 10rem;
+      .util-skeleton-basic(0, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+}
+
+
+// Course description
+.kscr-SearchDetails-description {
+    &-skeleton1 {
+      .util-skeleton-basic(20rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+
+    &-skeleton2 {
+      .util-skeleton-basic(10rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+}
+
+// Cross-listed courses
+.kscr-SearchDetails-crosslists {
+    margin: 1rem 0 0;
+
+    // Icon (CR)
+    .kscr-SearchDetails-crosslists-icon {
+        background: @cardBorderColor;
+        font-size: 70%;
+        font-style: normal;
+        font-weight: bold;
+        padding: 3px;
+        .Rounded(10px);
+    }
+
+    .details-list-mixin();
+}
+
+// Prerequisites
+.kscr-SearchDetails-prerequisites {
+    margin: 1rem 0 0;
+
+    .kscr-SearchDetails-label {
+        font-weight: bold;
+    }
+
+    .details-list-mixin();
+
+    &-skeleton {
+      margin-top: 1rem;
+      .util-skeleton-basic(15rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+}
+
+// Grading Methods
+.kscr-SearchDetails-grading {
+    margin: 1rem 0 0;
+
+    .kscr-SearchDetails-label {
+        font-weight: bold;
+    }
+
+    .details-list-mixin();
+
+    &-skeleton {
+      margin: 1rem 0 0;
+      .util-skeleton-basic(10rem, @skeletonLightGray);
+      .util-skeleton-animate();
+    }
+}
+
+
+// Selection actions
+@selectionMessagePadding: 0.25rem;
+.kscr-SearchDetails-actionsContainer {
+    border-bottom: @horizontalLineBorder;
+    border-top: @horizontalLineBorder;
+    margin: 1rem 0 0;
+    padding: 0.5rem 0;
+
+    // Small-format styles (Mobile)
+    @media @sm-Max {
+        // Stuck actions container
+        &.util-sticky--stuck {
+          background: @whiteBackground;
+          border-top: none;
+          .box-shadow(0 0 5px @lightGray);
+          left: 0;
+          margin-top: 0;
+          padding: 0.5rem 1rem;
+        }
+    }
+
+    @media @lg-Min {
+        // Disable the sticky actions container in large-format
+        .kscr-SearchDetails-container & {
+            .util-sticky--disabled();
+        }
+    }
+
+    .kscr-SearchDetails-selectionContainer {
+        .util-Grid-cell;
+        position: relative;
+    }
+
+    // Message container
+    .kscr-SearchDetails-selection {
+        border: 1px solid transparent; // Add a transparent border so the warning state doesn't cause a pop
+        float: left;
+        padding: @selectionMessagePadding;
+
+
+        // Main label
+        &-label {}
+
+        // Sub Label (in parenthesis)
+        &-sublabel {
+            font-weight: normal;
+        }
+
+        // Clear selection link
+        &-clear {
+            clear: both;
+            padding-left: @selectionMessagePadding;
+        }
+
+        // Selection icon
+        &-icon {
+            position: absolute;
+            left: @selectionMessagePadding;
+            top: @selectionMessagePadding;
+        }
+
+        // At least 1 AO has been selected
+        &--selected {}
+
+        // Warning state || Full - show warning icon in both cases
+        &--warning,
+        &--full {
+            padding-left: 2.5rem;
+
+            &, &.kscr-SearchDetails-selection--complete { // Make sure the warning icon is used even when the selection is complete
+                .kscr-SearchDetails-selection-icon {
+                    .warning-icon;
+                }
+            }
+        }
+
+        // All AO's have been selected
+        &--complete {
+            padding-left: 2.5rem;
+
+            .kscr-SearchDetails-selection-icon {
+                .success-icon;
+            }
+            .kscr-SearchDetails-label {
+                color: @successText;
+                font-weight: bold;
+            }
+
+            // All AO's have been selected but the reg group is full
+            &.kscr-SearchDetails-selection--full {
+                .kscr-SearchDetails-label {
+                    color: @warningText;
+                }
+            }
+            .kscr-SearchDetails-single-selection {
+                font-weight: bold;
+            }
+        }
+
+        // Action was blocked - highlight the message to draw attention to it
+        &--blocked {
+            // Only apply the highlight styles when it's not complete
+            &:not(.kscr-SearchDetails-selection--complete) {
+                @highlightColor: @warningBackground;
+                border-color: @warningBorder;
+                color: @warningText;
+                .util-Text-highlight();
+            }
+
+            &-add {
+                .util-transitions-transition(background-color linear @transitionSpeed,
+                                             border-color linear @transitionSpeed,
+                                             box-shadow linear @transitionSpeed,
+                                             color linear @transitionSpeed);
+            }
+
+            &-remove {
+                @transitionSpeed: 2s;
+                .util-transitions-transition(background-color linear @transitionSpeed,
+                                             border-color linear @transitionSpeed,
+                                             box-shadow linear @transitionSpeed,
+                                             color linear @transitionSpeed);
+            }
+        }
+
+        &-skeleton {
+          border-bottom: @horizontalLineBorder;
+          border-top: @horizontalLineBorder;
+          margin-top: 1rem;
+          width: 20rem;
+          .util-skeleton-basic(5rem, @skeletonLightGray);
+          .util-skeleton-animate();
+        }
+    }
+
+    // Actions button container
+    .kscr-SearchDetails-actions {
+        padding: 0.5rem 0; // Additional padding to keep container from popping when Clear Selection link is shown
+        text-align: right;
+
+        // Button Group
+        .kscr-SearchDetails-button {
+            .flexbox();
+            justify-content: flex-end;
+
+            .kscr-Button {
+                font-weight: normal;
+            }
+        }
+
+        // Message below button of action status
+        .kscr-SearchDetails-actionMessage {
+            margin-top: 0.5rem;
+
+            // Icon (Success || Fail)
+            &-icon {
+                display: block;
+                float: left;
+                margin-right: 0.2rem;
+            }
+
+            // Remove button (X)
+            &-remove {
+                display: block;
+                float: right;
+                height: 2rem;
+                margin-left: 1rem;
+                .dismiss-icon;
+            }
+
+            // Error State
+            &--error {
+                color: @errorText;
+                .kscr-SearchDetails-actionMessage-icon {
+                    .error-icon;
+                }
+            }
+
+            // Success state
+            &--success {
+                color: @successText;
+                .kscr-SearchDetails-actionMessage-icon {
+                    .success-icon;
+                }
+            }
+        }
+    }
+
+    // Show a processing icon when the action is processing
+    &--processing&--cart {
+        .kscr-SearchDetails-button--addToCart > span {
+            background: @processingGif no-repeat left center;
+            padding-left: 2.5rem;
+        }
+    }
+}
+
+
+// Activity Offering Groups Container
+
+.kscr-SearchDetails-activityOfferings {
+    .kscr-Search-results;
+
+    @media @lg-Min {
+        margin: 0;
+    }
+
+    .kscr-Search-results-table {
+        border: none;
+        margin-bottom: 0;
+
+        @media @searchDetailsTabbed-Max {
+          display: none;
+        }
+}
+}
+
+.kscr-SearchDetails-activityOfferingGroups {
+    margin: 1rem 0 0;
+
+    &--singleRegGroup {
+        .kscr-Search-row--selected {
+            background: none;
+        }
+        .kscr-Search-details-selector.kscr-Search-details-selector--selected {
+            border: none;
+        }
+        .kscr-Search-details-section.kscr-Search-details-section--selected {
+            margin: 0;
+        }
+    }
+
+    // Single Activity Offering Group (e.g. Lecture, Discussion)
+    .kscr-SearchDetails-activityOfferingGroup {
+        margin-top: 2rem;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    // Activity Offering Type Labels
+    .kscr-SearchDetails-label {
+        color:@secondaryTextColor;
+        font-family: @secondaryFontFamily;
+        .font-size(14);
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+
+        &--padded {
+          margin-top: 2rem;
+        }
+        & a {
+            font-weight: normal;
+            margin-left: 1rem;
+        }
+    }
+
+    // Single activity offering row
+    .kscr-SearchDetails-activityOffering {
+        &--selected {
+            color: @activityOfferingSelectedColor;
+        }
+
+        // Seat count
+        &-seats {
+            &--noneAvailable { // Added when no seats are available
+                color: @noSeatAvailableColor;
+            }
+        }
+    }
+}
+
+// Icons
+.kscr-SearchDetails-icon {
+    float: left;
+    width: 2rem;
+
+    &--subterm {
+      cursor: pointer;
+      .subterm-icon();
+    }
+
+    &--requisites {
+      cursor: pointer;
+      .requisites-icon();
+    }
+
+    &--honors {
+      .honors-icon();
+    }
+}
+
+// below this breakpoint, hide the table view for search details
+.kscr-SearchDetails-selection-sublabel {
+    @media @searchDetailsTabbed-Max {
+        display: block;
+    }
+}

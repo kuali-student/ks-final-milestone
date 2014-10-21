@@ -1,0 +1,59 @@
+/******* Drop Course Section  *********/
+
+
+.kscr-DropCourse {
+     border:@horizontalLineBorder;
+     border-bottom-width: 2px;
+     background-color: white;
+     margin:auto;
+     padding: 1rem;
+     width:80%;
+}
+
+.kscr-DropCourse-header {
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+}
+
+.kscr-DropCourse-buttons {
+    border-top:1px solid @border-light-color;
+    margin-left:auto;
+    margin-top:1rem;
+    padding-right: 1rem;
+    padding-top:1rem;
+    width:100%;
+}
+
+.kscr-dropCourse-container {
+    .util-transitions-browserHelper();
+    opacity:1;
+}
+
+.kscr-dropCourse-container.ng-hide-add,
+.kscr-dropCourse-container.ng-hide-remove {
+    display:block!important;
+}
+
+.kscr-dropCourse-container.ng-hide {
+    //line-height:0;
+    opacity:0;
+}
+
+.kscr-dropCourse-background {
+    background-color: @dropCourse-background;
+    height:100%;
+    opacity: .7;
+    position:absolute;
+    width:100%;
+    z-index: @zindex-DropCourse-background;
+}
+
+.kscr-dropCourse-content {
+    //margin-top: 5%;
+    position: absolute;
+     top: 25%;
+    width:100%;
+    z-index:@zindex-DropCourse-content;
+}

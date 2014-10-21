@@ -1,0 +1,514 @@
+// Overwrite KRAD Styles
+// --------------------------------------------------
+
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.uif-boxLayoutVerticalItem { /*Really needed?*/
+  &.bold {font-weight: bold;} /*Really needed?*/
+  &.uif-link {display:inline;} /*Really needed?*/
+}
+
+.uif-page {
+  padding-top:0;
+}
+
+.uif-pageHeader {
+  margin: 0 0 1em 0;
+}
+
+.uif-viewHeader-contentWrapper {
+  border:0;
+  box-shadow: none;
+  padding-bottom: 0;
+}
+
+.uif-pageContentWrapper {
+  clear: both;
+  padding: 0;
+  width: auto;
+}
+
+.uif-pageContentWrapper,
+.uif-viewHeader,
+.uif-header {
+  margin: 0;
+}
+
+.uif-viewheader {
+  padding-top: 4px;
+}
+
+.uif-collectionGroup > div:nth-child(2) {
+  margin: 0;
+  padding: 0;
+}
+
+.uif-collectionItem.uif-boxCollectionItem {
+  background: transparent;
+  margin: 0;
+}
+
+.uif-stackedCollectionLayout,
+.uif-stackedCollectionLayout > .uif-collectionItem {
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+.uif-boxLayoutHorizontalItem,
+.uif-boxLayoutVerticalItem {
+  margin:0;
+}
+
+.uif-instructionalMessage {
+  font-size: 1em;
+  max-width: none;
+}
+
+.ksap-remove-margin .uif-boxLayoutVerticalItem,
+.ksap-remove-margin .uif-boxLayoutHorizontalItem {
+  margin: 0;
+  padding: 0;
+}
+
+
+// Common and utility Styles
+// --------------------------------------------------
+
+.ksap-hide {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.ksap-no-margin {
+  margin: 0;
+}
+
+.ksap-section {
+  width: 230px;
+}
+
+// Scheduled terms
+.scheduled > span {
+  border-radius: 3px;
+  clear: none;
+  font-size: .8em;
+  font-weight: bold;
+  line-height: 1.8em;
+  padding: 4px;
+}
+
+// Seasonal colors
+.AU,
+.FA {
+  background: #fcc !important;
+}
+
+.WI {
+  background: #cdf !important;
+}
+
+.SP {
+  background: #cfc !important;
+}
+
+.SU {
+  background: #fcf990 !important;
+}
+
+.uif-progressiveDisclosure-highlight {
+  background: transparent !important;
+}
+
+
+// Layout styles
+// --------------------------------------------------
+
+.ksap-view {
+  min-height: 600px;
+}
+.ksap-container-75 {
+  width: 75px;
+}
+
+
+// Application Sections
+// --------------------------------------------------
+
+#applicationHeading,
+#applicationNavigation,
+.ksap-view,
+#applicationFooterSection {
+  margin: 0 auto;
+  width: 950px;
+}
+
+// Header
+#applicationHeader {
+  margin: 0 0 10px 0;
+}
+
+// Header Title
+#applicationLogo {
+  font-size: 38px;
+  font-style: normal;
+  margin-top: 20px;
+  text-shadow: 0 1px 2px #cfcabf;
+}
+
+
+// App navigation styles
+// --------------------------------------------------
+
+#applicationNavigation {
+  border-bottom: 1px solid #333;
+  margin: 20px 0 5px 0;
+
+  ul, ul li {
+    list-style: none;
+  }
+  ul li {
+    display: inline-block;
+    margin: 0 0 0 60px;
+    &:first-child {margin: 0;}
+    a {
+      border-bottom: solid 4px transparent;
+      display: block;
+      font-size: 1.3846em;
+      padding: 5px 5px 0 5px;
+      text-decoration: none;
+
+      &:hover {
+        border-bottom-color: #000;
+        text-decoration: none;
+      }
+      &.active {
+        border-bottom-color: #000;
+        font-weight: bold;
+      }
+    } //End a
+  } //End ul li
+} //End #applicationNavigation
+
+
+// Bookmark Navigation
+// --------------------------------------------------
+.ksapBookmarkCount
+{
+
+//Bookmarks link when bookmarks = 0
+  a.disabled {
+    pointer-events: none;
+    color: inherit;
+    cursor: default;
+  }
+}
+
+// Footer
+// --------------------------------------------------
+
+#applicationFooter {
+  background: #fff;
+  color: #000;
+  font-size: 1em;
+  min-width: 960px;
+  width: 100%;
+
+  .smaller {
+    font-size: 0.84615384615385em;
+  }
+}
+
+#applicationFooterSection {
+  min-height: 90px;
+  position: relative;
+
+  .links {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .version {
+    color: #555;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    white-space: nowrap;
+  }
+  .host {
+    color: #555;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    white-space: nowrap;
+  }
+  ul {
+    display: block;
+    list-style: none;
+    margin: 20px auto;
+    text-align: center;
+
+    li {
+      border-left: solid 1px #7e7e7e;
+      display: inline-block;
+      list-style: none;
+      margin: 0 0 0 10px;
+      padding: 0 0 0 10px;
+
+      &:first-child {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+    } // End li
+  } //End ul
+} // End #applicationFooterSection
+
+
+// Backdoor and Advisor Banner
+// --------------------------------------------------
+
+.backdoor, .adviser-banner {
+  background-color: #f4f8fd;
+  border: solid 1px #daeaff;
+  border-radius: 3px;
+  color: #333;
+  display: block;
+  line-height: 18px;
+  margin: 20px auto;
+  padding: 8px;
+  position: relative;
+  text-shadow: 1px 1px 1px #fff;
+  width: 930px;
+}
+
+.backdoor a, .adviser-banner a {
+  text-decoration: underline;
+}
+
+
+// Tooltips
+// --------------------------------------------------
+
+.uif-tooltip {
+  border-bottom: 1px dotted #777;
+  cursor: pointer;
+}
+
+.inlineBlock.uif-tooltip {
+  vertical-align: inherit;
+}
+
+// Labels
+// --------------------------------------------------
+
+.ksap-label {
+  font-weight:bold;
+}
+
+.ksap-right-labels .uif-boxSection,
+.ksap-left-labels .uif-boxSection {
+  display: inline-block;
+}
+
+// Right aligned labels
+.ksap-right-labels .uif-boxSection {
+  float: right;
+}
+
+// Messages
+// --------------------------------------------------
+
+.uif-pageValidationMessages .uif-validationImage {
+  margin-top: 2px; // Vertically center "max result" warning message and icon
+}
+
+.uif-validationMessages .uif-verticalBoxGroup {
+  margin:0; // Fix spacing on info messages in KSAP
+}
+
+.uif-validationMessages .uif-boxLayoutHorizontalItem {
+  margin-right: 10px;
+}
+
+.ksap-feedback,
+.ksap-status {
+  background-color: #fff;
+  border: solid 1px transparent;
+  display: block;
+  float: left;
+  line-height: 18px;
+  padding: 4px 0;
+  position: relative;
+  width:100%;
+}
+
+// KSAP Status
+.ksap-status {
+  border-radius: 3px;
+  text-shadow: 1px 1px 1px #fff;
+
+  &.success {
+    border-color: #d9ffde;
+    background-color: #f4fdf5;
+  }
+  &.info {
+    border-color: #daeaff;
+    background-color: #f4f8fd;
+  }
+  &.error {
+    border-color: #fcd5e4;
+    background-color: #fce9f1;
+  }
+  &.alert {
+    border-color: #feea49;
+    background-color: #faf5ca;
+  }
+  .message {
+    margin-left: 26px;
+  }
+} // End KSAP Status
+
+// KSAP Feedback
+.ksap-feedback {
+  &.success {
+    color: #060;
+  }
+  &.info {
+    color: #333;
+  }
+  &.error {
+    color: #f00;
+  }
+  &.alert {
+    color: #333;
+  }
+  .message {
+    margin-left: 23px;
+  }
+} // End KSAP Feedback
+
+.ksap-feedback img.icon,
+.ksap-status img.icon,
+.ksap-feedback .icon .uif-image,
+.ksap-status .icon .uif-image {
+  background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px; /* TODO: KSAP-1722 Cleanup messaging and comments CSS */
+  height: 18px;
+  left: 8px;
+  position: absolute;
+  top: 8px;
+  width: 18px;
+}
+
+.ksap-feedback img.icon,
+.ksap-feedback .icon .uif-image {
+  top: 4px;
+  left: 0;
+}
+
+.ksap-feedback.success img.icon,
+.ksap-status.success img.icon,
+.ksap-feedback.success .icon .uif-image,
+.ksap-status.success .icon .uif-image {
+  background-position: 0 -115px;
+}
+
+.ksap-feedback.info img.icon,
+.ksap-status.info img.icon,
+.ksap-feedback.info .icon .uif-image,
+.ksap-status.info .icon .uif-image {
+  background-position: -18px -115px;
+}
+
+.ksap-feedback.error img.icon,
+.ksap-status.error img.icon,
+.ksap-feedback.error .icon .uif-image,
+.ksap-status.error .icon .uif-image {
+  background-position: -36px -115px;
+}
+
+.ksap-feedback.alert img.icon,
+.ksap-status.alert img.icon,
+.ksap-feedback.alert .icon .uif-image,
+.ksap-status.alert .icon .uif-image {
+  background-position: -54px -115px;
+}
+
+// Action buttons
+.uif-horizontalBoxGroup  .btn {
+  margin-right: 10px;
+}
+
+
+// KSAP Loader
+// --------------------------------------------------
+
+.ksap-loader {
+  font-size: .2rem;
+  margin: .5rem auto;
+  text-indent: -9999em;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #fff;
+  background: -moz-linear-gradient(left, #666 10%, rgba(255, 255, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, #666 10%, rgba(255, 255, 255, 0) 42%);
+  background: -o-linear-gradient(left, #666 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, #666 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, #666 10%, rgba(255, 255, 255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  overflow:hidden;
+}
+.ksap-loader:before {
+  width: 50%;
+  height: 50%;
+  background: #666;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+.ksap-loader:after {
+  background: #fff;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

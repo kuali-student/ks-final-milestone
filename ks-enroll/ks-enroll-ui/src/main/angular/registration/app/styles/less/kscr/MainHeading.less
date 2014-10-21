@@ -1,0 +1,315 @@
+/**** My Cart section ****/
+
+/** mixin for main heading **/
+.kscr-Mainheading-styles() {
+    color: @primaryTextColor;
+    font-family: @primaryFontFamily;
+    .font-size(16);
+    line-height: 1.2;
+}
+
+
+// Main heading container
+.kscr-MainHeading {
+    background-color: @sectionColor;
+    border: 0;
+    padding: 1rem;
+    .util-transitions-browserHelper();
+
+    * {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        /* Required to make elements draggable in old WebKit */
+        -khtml-user-drag: element;
+        -webkit-user-drag: element;
+    }
+
+    @media @sm-Max {
+      text-align: center;
+      padding-bottom: 2rem;
+        // Main Cart heading in small format
+       &-CartHeading {
+          padding: 0 0.5rem;
+
+          // Styles for when stuck
+          &.util-sticky--stuck {
+            padding: 0;
+          }
+
+          & .kscr-MainHeading {
+            background-color: @whiteBackground;
+            border: 1px @cardBorderColor solid;
+            border-bottom-width: 2px;
+          }
+       }
+    }
+
+    @media @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left & {
+            // Main heading container
+            padding: 0 1rem; // No top or bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar {
+            padding-bottom: 0.8rem; // Make sure the heading has enough padding in large-format
+        }
+
+        // Cart heading-specific styles in large format
+        .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading {
+            // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
+            padding-top: 1rem;
+        }
+    }
+}
+
+
+
+.kscr-MainHeading.ng-hide-remove {
+    .util-transitions-browserHelper();
+}
+
+.kscr-MainHeading.ng-hide-add.ng-hide-add-active,
+.kscr-MainHeading.ng-hide-remove {
+    opacity: 1;
+}
+
+.kscr-MainHeading.ng-hide-add,
+.kscr-MainHeading.ng-hide-remove.ng-hide-remove-active {
+    opacity: 0.8;
+}
+
+
+// Heading icons
+.kscr-MainHeading-icon-left,
+.kscr-MainHeading-icon-right {
+    display: none;
+    width: 10%;
+
+    & .glyphicon {
+        color: @darkGray;
+        .font-size(16);
+    }
+
+    // Active icon styles (Should be applied to icon corresponding to current page)
+    &.kscr-MainHeading-icon--active .glyphicon {
+        // Background shading on icons in small format
+        background: @bodyColorDark;
+        .box-shadow(0 0 0 5px @bodyColorDark);
+        .Rounded(1px);
+    }
+
+    @media @sm-Max {
+        // Main heading icons (cart & schedule)
+        // Shown only in small-format
+        display: block;
+    }
+}
+
+.kscr-MainHeading-icon-left {
+    float: left;
+}
+
+.kscr-MainHeading-icon-right {
+    float: right;
+    text-align: right;
+}
+
+// Heading text
+.kscr-MainHeading-header {
+    .kscr-Mainheading-styles();
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 80%;
+
+    & a {
+        .font-size(14);
+        text-decoration: none;
+    }
+
+    &--processing {
+        font-weight: normal;
+        padding: 1.8rem 1.8rem 1.8rem 4.5rem;
+        .kscr-Mainheading-styles();
+        .spinner-big-icon; // Processing icon mixin
+
+        @media @lg-Min {
+            .kscr-Main-sidebar .kscr-MainHeading-CartHeading .kscr-MainHeading & {
+              padding: 1rem 0.8rem 0.8rem 3.5rem;
+            }
+        }
+    }
+
+    @media @md-Max {
+        text-align: center;
+    }
+
+    @media @lg-Min {
+        text-align: left;
+
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-MainHeading & {
+              float: none;
+        }
+    }
+
+    @media @sm-Max {
+      float: none;
+      display: inline-block;
+    }
+}
+
+// Heading link icon (>>)
+.kscr-MainHeading-link-icon {
+    display: none;
+    font-size: 130%;
+    font-weight: normal;
+    line-height: 0.5; // Arbitrarily small so it doesn't get calculated into the element height
+
+    @media @lg-Min {
+        .kscr-Main-sidebar & {
+          // Show icon link text in large-format
+            display: inline;
+        }
+    }
+}
+
+.kscr-MainHeading-stickyHeader {
+    display: block;
+    float: none;
+    width: auto;
+    text-align: left !important;
+
+    .util-sticky--stuck & {
+        // Show only when stuck
+        display: block;
+    }
+
+    @media @sm-Max {
+      display: none;
+    }
+}
+
+// Credit count text in headings
+.kscr-MainHeading-support {
+    color: @secondaryTextColor;
+    font-family: @primaryFontFamily;
+    .font-size(14);
+    font-weight: normal;
+    line-height: 1.2;
+}
+
+
+// Main Heading Toggles (buttons)
+.kscr-MainHeading-toggles {
+    .kscr-MainHeading-toggle {
+        border: 1px solid @bodyColorDark;
+        color: @primaryTextColor;
+        cursor: pointer;
+        display: block;
+        float: left;
+        font-family: @secondaryFontFamily;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        .glyphicon {
+            margin-right: 0.5rem;
+        }
+
+        &:not(:first-child) {
+            border-left: none;
+        }
+
+        & > span {
+            background: @whiteBackground;
+            border: 1px solid @whiteBackground;
+            display: block;
+            padding: 0.5rem;
+        }
+
+        &--selected > span {
+            background: @toggleSelectedBgColor;
+            cursor: text;
+        }
+    }
+
+    @media @sm-Max {
+      .kscr-Main-scheduleWrapper & {
+            float: right;
+            margin: 0 0.5rem 0.5rem 0;
+        }
+    }
+
+    @media @lg-Min {
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Toggles
+              display: block;
+        }
+
+        // List/Grid toggle buttons
+        .kscr-Main-scheduleWrapper & {
+            display: none; // Hide the main buttons in large-format
+        }
+    }
+}
+
+.kscr-MainHeading-roundedText {
+    background-color: @whiteBackground;
+    border: 1px solid @border-dark-color;
+    color: @lightGray;
+    display: inline-block;
+    font: @primaryFontFamily;
+    .font-size(14);
+    height: 2.3rem;
+    position: relative;
+    text-align: center;
+    width: 2.3rem;
+    .kscr-util-vertical-align-element();
+    .Rounded(50%);
+}
+
+#kscr-CartHeading {
+    @media @lg-Min {
+        // Disable the stickiness of the main heading in large format
+        & .util-sticky-placeholder {
+          display: none;
+        }
+        & .kscr-MainHeading-CartHeading {
+          .util-sticky--disabled();
+        }
+    }
+}
+
+.kscr-MainHeading-icons {
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+          display: none;
+        }
+    }
+}
+
+
+
+#credit_count_title {
+    @media @lg-Min {
+        .kscr-Main-cart & {
+            display: none; // Don't show the small-format credit count element in large-format
+        }
+    }
+
+
+    &_large {
+      @media @sm-Max {
+        // Cart header credit count
+        .kscr-Main-cart & {
+          display: none; // Don't show the large-format credit count element in small-format
+        }
+      }
+    }
+}

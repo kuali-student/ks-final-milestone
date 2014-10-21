@@ -1,0 +1,230 @@
+// KSAP Widgets
+// --------------------------------------------------
+
+// Wrapper
+.ksap-widget {
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  line-height: 16px;
+
+// Header
+  .uif-header-upperGroup {
+    background: #dcdcdc;
+    border-bottom: solid 1px #ddd;
+    font-weight: normal;
+    margin: 0;
+    padding: 5px;
+  }
+
+  h5.uif-headerText {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+// Footer
+  .widget-footer {
+    border-top: solid 1px #ddd;
+    margin: 0;
+    min-height: 25px;
+    padding: 6px 5px;
+  }
+}
+
+/*The Your Stuff Header
+.ksap-section .uif-header.primary {
+  border: none;
+  padding: 7px 10px;
+  border-radius: 5px 5px 0 0;
+  text-shadow: 1px 1px 1px #ffffff;
+}
+
+.ksap-section.no-primary .uif-header {
+  border-top: none;
+  border-radius: 5px 5px 0 0;
+}
+
+.ksap-section .uif-header .uif-header-rightGroup {
+  position: relative;
+  right: auto;
+  top: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 5px;
+}
+
+
+.ksap-section h6.uif-headerText {
+  font-size: 13px;
+  text-transform: none;
+}
+
+.ksap-section div.blockElement {
+  left: auto !important;
+  top: 1px !important;
+  right: 0 !important;
+  border: none;
+  width: 16px;
+}
+
+.ksap-section .uif-listCollectionGroup ul li {
+  border-bottom: dotted 1px #cfcfcf;
+  display: block;
+  clear: both;
+  padding: 0;
+}
+
+.ksap-section .uif-listCollectionGroup ul li .ksap-click {
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.ksap-section .uif-listCollectionGroup ul li:hover {
+  background-color: #e3f0fe;
+} */
+
+
+// Messaging and Comments
+// --------------------------------------------------
+//TODO: KSAP-1722 Cleanup messaging and comments CSS
+
+.ksap-messages-detail .dataTables_wrapper {
+  width: 710px;
+  float: none;
+}
+
+.ksap-messages-detail .dataTables_wrapper .dataTables_info {
+  margin: 0 0 10px 0;
+}
+
+.ksap-messages-detail .dataTables_wrapper table {
+  border: solid 1px #ddd;
+  border-bottom: none;
+  margin: 0;
+  clear: both;
+  border-radius: 5px 5px 0 0;
+  width: 710px;
+  table-layout: fixed;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr {
+  background: #F6F6F6;
+  border: none;
+  border-bottom: solid 1px #ddd;
+  background-image: linear-gradient(to bottom, #F6F6F6 0%, #EBEBEB 100%);
+  border-radius: 5px 5px 0 0;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th {
+  border: none;
+  background: transparent;
+  background-image: none;
+  padding: 0;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th .DataTables_sort_wrapper {
+  display: inline-block;
+  font-size: 10px;
+  height: 26px;
+  line-height: 26px;
+  padding: 3px 10px;
+  font-weight: normal;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th[aria-sort='ascending'] .DataTables_sort_wrapper,
+.ksap-messages-detail .dataTables_wrapper table thead tr th[aria-sort='descending'] .DataTables_sort_wrapper {
+  color: #06c;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th .DataTables_sort_wrapper .ui-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 5px;
+  width: 16px;
+  height: 16px;
+  background: url('../images/ksap_icon_sprites.png') no-repeat 0 -48px transparent;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-carat-2-n-s {
+  background-position: 0 -48px;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-n {
+  background-position: -16px -48px;
+}
+
+.ksap-messages-detail .dataTables_wrapper table thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-s {
+  background-position: -32px -48px;
+}
+
+.ksap-messages-detail .dataTables_wrapper table tbody tr {
+  border: none;
+  border-top: dotted 1px #cfcfcf;
+  cursor: pointer;
+}
+
+.ksap-messages-detail .dataTables_wrapper table tbody tr:first-child,
+.ksap-messages-detail .dataTables_wrapper table tbody tr td {
+  border: none;
+}
+
+.ksap-messages-detail .dataTables_wrapper table tbody tr:hover td {
+  background-color: #e3f0fe;
+}
+
+.ksap-messages-detail .dataTables_wrapper .dataTables_paginate.paging_full_numbers {
+  line-height: normal;
+  height: auto;
+  width: 688px;
+}
+
+.ksap-messages-lightbox h6 {
+  font-weight: bold;
+  text-transform: none;
+  font-size: 1.25em;
+  line-height: 1.75em;
+}
+
+.ksap-messages-lightbox .ksap-messages-original {
+  background: #eaeaea;
+  border-top: solid 1px #a9a9a9;
+  padding: 20px;
+  margin: 0 0 20px 0;
+}
+
+.ksap-messages-lightbox .ksap-comments-list ul {
+  max-height: 125px;
+  overflow: auto;
+}
+
+.ksap-messages-lightbox .ksap-comments-list ul li {
+  overflow: hidden;
+}
+
+.ksap-messages-comments {
+  margin: 0 0 20px 0;
+}
+
+.ksap-messages-comments .ksap-messages-comments-body {
+  border: solid 1px #ececec;
+  background: #f3f3f3;
+  margin: 0;
+  padding: 10px;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ksap-comment-bubble {
+  /*
+      @TODO KSAP-2009 convert to icon font instead of image
+  */
+  background: url('../images/bkgrdCommentBubble.png') no-repeat;
+  width: 25px;
+  height: 22px;
+  line-height: 19px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 90%;
+}

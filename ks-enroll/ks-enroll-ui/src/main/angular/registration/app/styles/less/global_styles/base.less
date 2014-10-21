@@ -1,0 +1,101 @@
+/******* Global styling ******/
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+html {
+    font-size: 62.5%;
+    height: 100%;
+}
+
+body {
+    background-color: @bodyColor;
+    font-family: @primaryFontFamily;
+    height: 100%;
+}
+
+a {
+    color: @linkColor;
+    cursor: pointer;
+    cursor: hand;
+    text-decoration: none;
+  &:hover,
+  &:focus{
+    color: @linkColorHover;
+  }
+}
+
+
+input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder, /* Firefox 18- */
+::-moz-placeholder, /* Firefox 19+ */
+:-ms-input-placeholder,
+input:-moz-placeholder {
+   font-style: italic;
+}
+
+// Rounded corners
+.Rounded(@radius:@defaultRadius){
+    -webkit-border-radius:@radius;
+       -moz-border-radius:@radius;
+            border-radius:@radius;
+}
+
+.global-Base-divider {
+    width: 0.5rem;
+    height: auto;
+    display: inline-block;
+}
+
+
+.linear-gradient(@startColor, @endColor) {
+    background-color: @startColor; /* fallback color if gradients are not supported */
+
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@{startColor}', endColorstr='@{endColor}'); /* IE 5.5 - 9.0 */
+    background-image: -webkit-linear-gradient(top, @startColor, @endColor); /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image:    -moz-linear-gradient(top, @startColor, @endColor); /* For Firefox (3.6 to 15) */
+    background-image:      -o-linear-gradient(top, @startColor, @endColor); /* For old Opera (11.1 to 12.0) */
+    background-image:         linear-gradient(to bottom, @startColor, @endColor); /* Standard syntax; must be last */
+}
+
+// -----------------------------------------------
+// Misc Mixins Pulled from Bootstrap mixins.less
+// -----------------------------------------------
+
+// Single side border-radius
+.border-top-radius(@radius) {
+    border-top-right-radius: @radius;
+    border-top-left-radius: @radius;
+}
+.border-right-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-top-right-radius: @radius;
+}
+.border-bottom-radius(@radius) {
+    border-bottom-right-radius: @radius;
+    border-bottom-left-radius: @radius;
+}
+.border-left-radius(@radius) {
+    border-bottom-left-radius: @radius;
+    border-top-left-radius: @radius;
+}
+
+
+// Drop shadows
+.box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+    box-shadow: @shadow;
+}
+
+
+//bootstrap classes to be added in after bootsrap removal
+//table {
+//  border-collapse: collapse;
+//  border-spacing: 0;
+//}
+//th {
+//  text-align: left;
+//}
+

@@ -1,0 +1,146 @@
+
+// Cart result item container
+.kscr-cartResult-item {
+}
+
+
+// Transaction results sub-heading
+.kscr-Heading-sub.kscr-cartResult-responseHeading {
+    // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
+    padding: 0 0.3rem 0.3rem;
+}
+
+.kscr-cartResult-responseHeading {
+  @media @lg-Min {
+    // Hide if only successes
+    &--success {
+      display: none;
+
+      &.kscr-cartResult-responseHeading--waitlisted,
+      &.kscr-cartResult-responseHeading--waitlist,
+      &.kscr-cartResult-responseHeading--fail,
+      &.kscr-cartResult-responseHeading--info {
+        display: block;
+      }
+    }
+  }
+}
+
+// Transaction results label (e.g. Results)
+.kscr-cartResult-responseLabel {
+    float: left;
+    margin-right: 1rem;
+    text-transform: uppercase;
+}
+
+// Transaction results counts (e.g. Success {}, Fail {})
+.kscr-cartResult-responseCount {
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;
+
+    // Count items
+    & > span {
+        // Set up the space and alignment of the icons
+        background-position: left center;
+        background-repeat: no-repeat;
+        margin-left: 1rem;
+        padding-left: 2rem;
+    }
+
+    // Transaction results icons
+    &--success,
+    &--waitlisted {
+        background-image: @successImage;
+    }
+    &--fail {
+        background-image: @errorImage;
+    }
+    &--waitlist {
+        background-image: @warningImage;
+    }
+    &--info {
+        background-image: @infoImage;
+    }
+
+    // Count of successfully waitlisted courses
+    &--waitlisted {
+        display: none; // Hidden by default (only for large-format)
+    }
+    // Large-format styles
+    @media @lg-Min {
+        // Cart results response counts (e.g. Success, Fail)
+        color: @secondaryTextColor;
+        // Hide success messages in large-format
+        &--success {
+          display: none;
+        }
+
+        // Cart result heading w/ counts
+        // Response counts
+        .kscr-cartResult-responseHeading &--success {
+          display: none; // Hide success count in large-format
+        }
+
+        .kscr-cartResult-responseHeading &--waitlisted {
+          display: inline; // Show the waitlisted success count though
+        }
+    }
+}
+
+
+// Content of cart results (all but status icon, remove icon, & credit count in large-format)
+.kscr-cartResult-content {
+    border-color: @cardBorderColor;
+}
+
+// Cart result heading
+.kscr-cartResult-heading {
+    padding-right: 2rem;
+}
+
+// Remove icon (X) for cart results
+.kscr-cartResult-remove a {
+    .dismiss-icon; // Dismiss icon mixin
+}
+
+// Cart results details text content
+.kscr-cartResult-content .kscr-Card-detailsText {
+    .util-transitions-browserHelper(); // Transition to ease the text colors in with the rest of the text
+    margin-top: 0.3rem;
+    padding-bottom: 0;
+
+    .kscr-Card-text-alert {
+        margin-top: 0;
+    }
+
+    // Added to waitlist
+    &--waitlist {
+        border-color: @successBorder;
+        color: @successText;
+    }
+
+  // Small-format styles
+  @media @sm-Max {
+      &--action,
+      &--error {
+        // Add to Waitlist & Error reason messages
+        // Margin to push border down
+        margin-top: 0.3rem;
+    }
+  }
+
+  // Large-format styles
+  @media @lg-Min {
+      border-top: none;
+      margin-top: 0.3rem;
+      padding-top: 0;
+  }
+}
+
+// Credits count text in cart item
+.kscr-cartResult-supportText {
+    font-weight: normal;
+    float: right;
+}

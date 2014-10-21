@@ -1,0 +1,730 @@
+
+.kscr-Card {
+    @media @sm-Max {
+        .kscr-Main-scheduleWrapper & {
+            margin-top: 0.5rem;
+            // Clear out the float from the toggles after the heading when viewing the list
+            clear: both;
+        }
+    }
+
+    @media @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left &{
+            border: none;
+            margin-top: 0.4rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar & {
+            border: none;
+            margin: 0;
+        }
+
+        // Cart card
+        .kscr-Main-sidebar &-Cart {
+          margin-bottom: 0.1rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper & {
+            // Course card list
+            background-color: @cardBackgroundColor;
+        }
+    }
+}
+
+.kscr-Card,
+.kscr-Card-Results {
+  color: @cardTextColor;
+  .font-size(14);
+  font-family: @secondaryFontFamily;
+  margin: 0 0.5rem;
+  position: relative;
+  a {text-decoration: none;}
+}
+
+.kscr-Card-Results {
+  @media @lg-Min {
+    .kscr-Main-sidebar & {
+      background-color: @cardBackgroundColor;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}
+
+.kscr-Card-heading {
+  .kscr-Waitlisted-clockIcon{
+    margin-left: 1rem;
+  }
+}
+
+// Primary text in a card title (e.g. course code & reg group)
+.kscr-Card-title {
+  color: @cardTextColor; //#666666;
+  font-weight: bold;
+  .util-Grid;
+
+  // Alert state, used in waitlist notification
+  &-alert {
+    font-weight: bold;
+  }
+}
+
+// Primary text within a card (e.g. course title & description)
+.kscr-Card-text {
+  color: @primaryTextColor;
+  margin-top: 0.3rem;
+
+  // Alert state, used in waitlist notification
+  &-alert {
+      margin: 0.3rem 0 0;
+
+    @media @lg-Min {
+      .kscr-Main-sidebar .kscr-Card-Results .kscr-Card-detailsText &,
+      .kscr-Main-sidebar .kscr-Card-Results .kscr-cartResult-status--waitlist & {
+        display: block; // Show the detailsText element in the Add to Waitlist success
+      }
+    }
+  }
+}
+
+// Mixin for card bg & borders
+.kscr-Card-mixin() {
+    background-color: @cardBackgroundColor;
+    border: 1px solid @cardBorderColor;
+    border-bottom-width: 2px;
+    color: @cardTextColor;
+    font-family: @secondaryFontFamily;
+    padding: 1rem;
+}
+
+
+
+// Mixin for details text
+.kscr-Card-detailsText-common() {
+  border-top: @horizontalLineBorder;
+  color: @primaryTextColor;
+  .font-size(14);
+  font-family: @secondaryFontFamily;
+  font-weight: normal;
+  padding: 1rem 0 0;
+}
+
+// Card details text (e.g. Cart item failure reason), typically shown with border and padding
+.kscr-Card-detailsText {
+    .kscr-Card-detailsText-common();
+
+    &--action { // e.g. Add to Waitlist
+        .kscr-Card-detailsText-common();
+        border-color: @warningBorder;
+        color: @warningText;
+    }
+
+    &--edit { // Expand || Edit Course Options
+        .kscr-Card-detailsText-common();
+        margin-bottom: 0.5rem;
+    }
+
+    &--info { // e.g. Repeatability Info/Warning
+        .kscr-Card-detailsText-common();
+        border-color: @infoBorder;
+        color: @infoText;
+    }
+
+    &--error { // e.g. Time Conflict Warning
+        .kscr-Card-detailsText-common();
+        border-color: @errorBorder;
+        color: @errorText;
+    }
+
+    &--show { // Collapsed accordion
+        .kscr-Card-detailsText-common();
+        border-bottom: none;
+        border-top: none;
+        padding-bottom: 0;
+        padding-top: 0.3rem;
+
+        @media @lg-Min {
+            .kscr-Main-sidebar  & {
+              padding: 0;
+            }
+        }
+    }
+
+    /* Transitions for fade effect in Card Edit */
+    // Styles for hide being added
+    &.ng-hide-add,
+    &--edit.ng-hide-add {
+        display: none;
+        opacity: 0.75; // Starting opacity when element is being hidden
+
+        &.ng-hide-add-active {
+            opacity: 0; // Final opacity when element is being hidden
+        }
+    }
+
+    // Styles for hide being removed
+    &.ng-hide-remove,
+    &--edit.ng-hide-remove {
+        .util-transitions-browserHelper();
+        display: block;
+        opacity: 0; // Starting opacity when element is being shown
+
+        &.ng-hide-remove-active {
+            opacity: 0.75; // Final opacity when element is being shown
+        }
+    }
+    /* END of Transitions for fade effect in Card Edit */
+}
+
+.kscr-Card-course{
+  @media @lg-Min {
+    .kscr-Main-sidebar & {
+      // Update padding for cart, cart result, & schedule courses
+      padding-left: 3rem;
+    }
+  }
+}
+
+
+.kscr-Card-courseTimes {
+  display: inline-flex;
+  width: 100%;
+
+  &-highlighted {
+    .util-Text-highlight--withPadding(0.5rem, 0.1rem);
+  }
+
+  @media @lg-Min {
+    // Sidebar styles
+    .kscr-Main-sidebar & {
+      display: none;
+    }
+  }
+}
+
+.kscr-Card-scheduleComponent {
+  width: 100%;
+}
+
+.kscr-Card-ao-type {
+  float: left;
+  width: 3.5rem;
+
+  &--time {
+    width: 50%;
+  }
+}
+
+.kscr-Card-ao-instructor {
+  float: right;
+  text-align: right;
+}
+
+.kscr-Card-ao-schedule {
+  clear: both;
+}
+
+.kscr-Card-supportText {
+  color: @cardTextColor;
+  font-weight: normal;
+  float: right;
+}
+
+.kscr-Card-remove {
+  display: block;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+.kscr-Card-statusRemove a {
+  .dismiss-icon;
+  float: right;
+}
+
+.kscr-Card-statusUndo a {
+  .undo-icon;
+  float: right;
+  margin-right: 0.5rem;
+  padding: 1rem 1rem 0.5rem;
+
+  @media @sm-Max {
+    display: none;
+  }
+}
+
+.kscr-Card-buttons {
+  border-top: @horizontalLineBorder;
+  margin-top: 1rem;
+  padding: 1rem 0 0;
+  text-align: right;
+
+  .util-Alert--error & {
+    border-color: @errorBorder;
+  }
+  .util-Alert--information & {
+    border-color: @infoText;
+  }
+  .util-Alert--success & {
+    border-color: @successBorder;
+  }
+  .util-Alert--warning & {
+    border-color: @warningBorder;
+  }
+
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart .kscr-Card-status & {
+            // No button bar border in large-format
+            border-top: none;
+            padding-top: 0;
+
+        }
+    }
+}
+
+.kscr-Card-button {
+    display: inline;
+    margin-left: 0.5rem;
+}
+
+.kscr-Card-icon {
+    color:  @secondaryTextColor;
+    left: 0.5rem;
+    position: absolute;
+    .font-size(12);
+    top: 0.5rem;
+
+  @media @lg-Min {
+    .kscr-Main-sidebar & {
+        // Reposition the cart expand/collapse icon when it's in the sidebar
+        left: 1rem;
+    }
+
+    .kscr-Main-sidebar .kscr-Main-cart .kscr-Card-status & {
+        // No button bar border in large-format
+        background-position: 0 1rem;
+        left: 0;
+    }
+  }
+}
+
+// Container for a single course in a course card
+.kscr-Course-container {
+    position: relative;
+    width: 100%;
+
+  // Handles transition for adding and removing courses to cart
+  .util-transitions-addCard(3rem);
+  .util-transitions-removeCard(3rem);
+
+    // Applied when an update request is processing for the course
+    &--processing {
+        .kscr-Card-icon {
+            .spinner-small-icon;
+
+          & > i {
+              display: none;
+          }
+      }
+  }
+}
+
+// Card result reason text
+.kscr-Card-reason {
+    display: flex;
+
+    // Reason label (e.g. Reason)
+    &-label {}
+
+    // List of messages
+    &-messages {
+        flex: 1;
+        padding-left: 0.5rem;
+    }
+
+    // Single message
+    &-message {
+        // Space them out 5px between each element
+        margin-bottom: 0.5rem;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.kscr-Card-alert-spacing {
+  padding-right: 2rem;
+}
+
+
+// Card badge, (e.g. Grading option indicator)
+.kscr-Card-badge {
+    .Rounded(5px);
+    background-color: @badgeColor;
+    color: @badgeTextColor;
+    .font-size(11);
+    font-weight: bold;
+    margin-left: 1rem;
+    padding: 0.2rem 0.4rem;
+   .util-Text-overflow(@width: 27%);
+
+    // Edited highlighting
+    &--edited {
+        color: @textColor--highlight; //#ffff7f;
+        .util-Text-highlighter();
+
+        &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
+            .util-transitions-browserHelper(0.2s);
+        }
+        &-remove { // Styles for when the editing class is removed (added with -remove suffix by ngAnimate)
+            .util-transitions-browserHelper(2s);
+        }
+    }
+
+    // Container fading styles (Separated out from badge so highlighting can have different transitions than fade)
+    &-wrap {
+        opacity: 1; // Starting opacity
+        &.ng-hide {
+            opacity: 0; // Ending opacity
+
+            &-add, &-add-active { // Fade out
+                display: inline !important; // Important to override the display: block !important; in .ng-hide
+                .util-transitions-browserHelper(2s);
+            }
+            &-remove, &-remove-active { // Fade in
+                .util-transitions-browserHelper(0.2s);
+            }
+        }
+    }
+}
+
+// Card credits
+.kscr-Card-credits {
+    &--edited {
+        background-color: @backgroundColor--highlight;
+        .util-Text-highlighter();
+
+        &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
+            .util-transitions-browserHelper(0.2s);
+        }
+        &-remove { // Styles for when the editing class is removed (added with -remove suffix by ngAnimate)
+            .util-transitions-browserHelper(2s);
+        }
+    }
+}
+
+
+/**** Override of accordion panel for card section ****/
+
+.panel-default {
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+}
+
+.panel-default > .panel-heading {
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+    color: @cardTextColor;
+    cursor: pointer;
+    padding: 0;
+}
+
+.panel {
+    background-color: @cardBackgroundColor;
+    position: relative;
+}
+
+.panel-group .panel-heading + .panel-collapse .panel-body {
+    border-top: none;
+}
+
+.panel-body {
+    padding: 0 1rem 1rem 2.5rem;
+
+    @media @lg-Min {
+      .kscr-Main-sidebar & {
+        // Update padding for cart, cart result, & schedule courses
+        padding-left: 3rem;
+      }
+    }
+}
+
+.panel-title {
+    .font-size(14);
+    font-family: @secondaryFontFamily;
+}
+
+.panel-group {
+    margin-bottom: 0;
+}
+
+.panel-group .panel {
+    border-width: 1px 1px 2px 1px;
+    margin-bottom: 1rem;
+
+    .util-transitions-browserHelper();
+    opacity: 1;
+
+    &.ng-leave {
+        display: block !important;
+    }
+    &.ng-leave-active {
+        line-height: 0;
+        opacity: 0;
+    }
+
+    @media @lg-Min {
+        // Main content area styles
+        .kscr-Main-content--left .kscr-Main-schedule & {
+          margin: 0 0 1rem;
+        }
+
+        // Sidebar styles
+        .kscr-Main-sidebar & {
+            margin: 0;
+            border: none;
+            .box-shadow(none);
+            .Rounded(0);
+        }
+    }
+}
+/**** END of Override of accordion panel for card section ****/
+
+
+/**** BEGINNING Course card Colorings ****/
+.kscr-Course-container {
+    .panel-group .panel {
+        padding-left: 1rem;
+        position: relative;
+    }
+}
+
+.kscr-Course-legendIndicator {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1rem;
+
+    @media @lg-Min {
+        .kscr-Main-sidebar & {
+            bottom: 0.15rem;
+            top: 0.15rem;
+        }
+    }
+}
+
+.courseCardLegendIndicator(@courseCardColorCount);
+.courseCardLegendIndicator(@n, @i: 1) when (@i =< @n) {
+    // Define the course color for this iteration
+    .defineCourseColor(@i);
+
+    .kscr-Course-course@{i} .kscr-Course-legendIndicator {
+        background-color: @courseColor;
+    }
+
+    .courseCardLegendIndicator(@n, (@i + 1));
+}
+/**** END Course card Colorings ****/
+
+
+
+/* Override of accordion panel for card section to animate */
+.kscr-Card-accordion-heading {
+    padding: 0.5rem 0.5rem 1rem 2.5rem;
+    position: relative;
+    .util-transitions-browserHelper(2s);
+
+    &-fadeIn {
+        background-color: @backgroundColor--highlight;
+        .util-transitions-browserHelper(0.2s);
+        .util-Text-highlighter--inset();
+    }
+
+    @media @lg-Min {
+        .kscr-Main-sidebar & {
+            // Update padding for cart, cart result, & schedule courses
+            padding-left: 3rem;
+            padding-right: 1rem;
+        }
+    }
+}
+
+
+
+// Status styles for Cards
+.kscr-Card-status {
+    padding: 1rem 1rem 1rem 3.5rem;
+    position: relative;
+
+    // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
+    .kscr-Card-icon {
+        background-repeat: no-repeat;
+        background-position: 1rem center;
+        height: 3rem;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 3rem;
+    }
+
+    // Heading styles (Edit/Drop Changes)
+    &-heading {
+        border-bottom: @horizontalLineBorder;
+        font-weight: bold;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    // Processing styles
+    &--processing {
+        .kscr-Card-icon {
+            background-image: @processingGif;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+        .kscr-Card-text-alert {
+            // Hide the schedule info in large-format
+            display: none;
+        }
+    }
+
+    // Error styles
+    &--error {
+        .util-Alert-error-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @errorImage;
+        }
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
+            border-color: @errorBorder;
+        }
+    }
+
+    // Action styles (e.g. Add to Waitlist)
+    &--action {
+        .util-Alert-warning-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @warningImage;
+        }
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
+            border-color: @warningBorder;
+        }
+        .kscr-Card-buttons {
+            padding-bottom: 0;
+        }
+    }
+
+    // Success & Waitlist (Success) styles
+    &--success, &--waitlist {
+        .util-Alert-success-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @successImage;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
+            border-color: @successBorder;
+        }
+    }
+
+    &--info {
+        .util-Alert-information-mixin();
+        .util-transitions-browserHelper();
+
+        .kscr-Card-icon {
+            background-image: @infoImage;
+        }
+        .kscr-Card-buttons,
+        .kscr-Card-status-heading {
+            border-color: @infoBorder;
+        }
+
+        // Hide the cartResult heading text when it is an info message
+        .kscr-cartResult-supportText,
+        .kscr-cartResult-heading,
+        .kscr-cartResult-aoInfo,
+        .kscr-Card-reason-label {
+            display: none;
+        }
+        .kscr-Card-detailsText--info {
+            border-top: none;
+            padding-top: 0;
+        }
+        .kscr-Card-reason-messages {
+            padding-left: 0;
+        }
+        .kscr-cartResult-content .kscr-Card-detailsText {
+            margin-top: 0;
+        }
+    }
+
+
+    // Add removing animation here
+    .util-transitions-removeCard(4rem);
+
+    // Transition styles while styles are being added
+    &--success-add-active,
+    &--error-add-active,
+    &--action-add-active,
+    &--waitlist-add-active {
+        background-color: @cardBackgroundColor;
+        border-color: @cardBorderColor;
+        color: @cardTextColor;
+    }
+
+
+    @media @lg-Min {
+        .kscr-Main-sidebar .kscr-Main-cart & {
+            // Card result w/ status (e.g. processing, error, success)
+            // Don't show background shading when in large-format
+            background: none;
+            box-shadow: none;
+            -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
+
+            // Update items in the cart results to have a top border
+            border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Main-cart .panel-group .panel
+            padding: 1rem 0 1rem 2.5rem;
+
+            // Hide success messages in large-format
+            &--success {
+              display: none;
+            }
+        }
+
+        .kscr-Main-sidebar .kscr-Main-scheduleWrapper .kscr-Card &{
+            border: none;
+            margin-bottom: 0.1rem;
+        }
+    }
+}
+
+// Course has a conflict, show a warning icon
+.kscr-Card-conflict-icon {
+  .warning-icon;
+  background-position: 0.5rem 0;
+  height: 1.6rem;
+  width: 2.3rem;
+}
+
+.kscr-Card-conflicts {
+  border-top: @horizontalLineBorder;
+  color: @primaryTextColor;
+  padding-top: 1rem;
+
+  &-list {
+    font-weight: bold;
+  }
+}

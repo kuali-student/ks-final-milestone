@@ -1,0 +1,250 @@
+// Transition styles
+@transitionSpeed:                0.25s;
+@transition:                    all linear @transitionSpeed;
+
+/**
+ * Transition Mixin
+ * @param @speed Speed with which to perform the transition (e.g. 2s). Defaults to @transitionSpeed value.
+ */
+.util-transitions-browserHelper(@speed: @transitionSpeed) {
+    // Reset the local instance of the @transitionSpeed to the @speed parameter so it will be used in the @transition var
+    @transitionSpeed: @speed;
+    .util-transitions-transition(@transition);
+}
+
+
+/**
+ * Full transition mixin
+ * @param @transition Transition value: See https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_transitions
+ *
+ * Usage: .util-transitions-transition(background-color linear 2s, border-color linear 2s);
+ */
+.util-transitions-transition(...) { // Use varargs
+    @props: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
+
+    // @arguments contains the full list of arguments passes
+    -webkit-transition: @props;
+    -moz-transition: @props;
+    -o-transition: @props;
+    transition: @props
+}
+
+
+
+// Slide & Fade In & Out - Requires height to be set
+// Only supports ng-if & ng-repeat transitions currently
+.util-transition-slideFade(@height, @speed: @transitionSpeed) {
+
+    &.ng-enter, // Item added though ng-repeat (base styles)
+    &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
+        .util-transitions-transition(all ease-out @speed);
+
+        height: 0px;
+        opacity: 0;
+    }
+
+    &.ng-leave, // Item being removed (base styles)
+    &.ng-enter.ng-enter-active { // Item actively being added (target styles)
+        .util-transitions-transition(all ease-in @speed);
+
+        height: @height;
+        opacity: 1;
+    }
+}
+
+
+
+// Fade In & Out
+// Only supports ng-if & ng-repeat transitions currently
+.util-transition-fade(@speed: @transitionSpeed, @opacity: 1) {
+
+    &.ng-enter, // Item added though ng-repeat (base styles)
+    &.ng-leave.ng-leave-active { // Item actively being removed (target styles)
+        .util-transitions-transition(opacity ease-out @speed);
+        opacity: 0;
+    }
+
+    &.ng-leave, // Item being removed (base styles)
+    &.ng-enter.ng-enter-active { // Item actively being added (target styles)
+        .util-transitions-transition(opacity ease-in @speed);
+        opacity: @opacity;
+    }
+}
+
+// Fade in new item (200ms, ease out cubic)
+// Move existing items down (200ms, ease out cubic)
+.util-transitions-addCard(@targetHeight, @speed: 200ms) {
+  &.ng-enter // Item added through ng-repeat (base styles)
+  {
+    .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+    position: relative;
+    display: block;
+    overflow: visible;
+    opacity: 0;
+    height: 0;
+  }
+
+  &.ng-enter-active { //Item actively being added (target styles)
+    .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+    opacity: 1;
+    height: @targetHeight;
+  }
+
+}
+
+// Fade out removed item (200ms, ease out cubic)
+// Move existing items up (200ms, ease out cubic)
+.util-transitions-removeCard(@targetHeight, @speed: 200ms) {
+    &.ng-leave{ // Item being removed (base styles)
+      .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+      position: relative;
+      display: block;
+      overflow: hidden;
+      height: @targetHeight;
+      opacity: 1;
+    }
+
+    &.ng-leave-active { // Item actively being removed (target styles)
+      .util-transitions-transition(all cubic-bezier(0.215, 0.610, 0.355, 1.000) @speed);
+      opacity: 0;
+      height: 0;
+    }
+}
+
+// Page load transition
+.util-transitions-pageLoad() {
+  @pgLoadAnimationName: rippleAnimation;
+  @pgLoadAnimationDuration: 1s;
+  @pgLoadAnimationTimingFunction: linear;
+  @pgLoadAnimationIterationCount: infinite;
+  @pgLoadAnimationFillMode: forwards;
+
+  -webkit-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -moz-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -o-animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+  -animation: @pgLoadAnimationName @pgLoadAnimationDuration @pgLoadAnimationTimingFunction @pgLoadAnimationIterationCount @pgLoadAnimationFillMode;
+
+  @pgLoadAnimationDarkerColor: #f6f7f8; // Based on FB news feed animation
+  @pgLoadAnimationLighterColor: #edeef1;
+
+  background: @pgLoadAnimationDarkerColor;
+  background-image: -webkit-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%); // syntax from https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_gradients
+  background-image: -moz-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-image: -o-linear-gradient(left, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-image: linear-gradient(to right, @pgLoadAnimationDarkerColor 0%, @pgLoadAnimationLighterColor 20%, @pgLoadAnimationDarkerColor 40%, @pgLoadAnimationDarkerColor 100%);
+  background-repeat: no-repeat;
+  background-size: 80rem 1rem;
+  position: relative;
+}
+
+
+
+
+
+// ---------------- Easter Egg Transitions ------------------
+
+// Barrel Roll
+.util-transitions-barrelRoll {
+    -webkit-transition: -webkit-transform 4s ease;
+    -webkit-transform: rotate(360deg);
+    -moz-transition: -moz-transform 4s ease;
+    -moz-transform: rotate(360deg);
+    -o-transition: -o-transform 4s ease;
+    -o-transform: rotate(360deg);
+    transition: transform 4s ease;
+    transform: rotate(360deg);
+}
+
+// ----------------
+// Wobble
+.util-transitions-wobble {
+    animation: wobble 4s ease-in-out;
+}
+
+@keyframes wobble {
+    20% { transform: rotate(5deg); }
+    40% { transform: rotate(-5deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+@-webkit-keyframes wobble {
+    20% { transform: rotate(5deg); }
+    40% { transform: rotate(-5deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+
+// ----------------
+// Doctor Who scene
+.util-transitions-doctorWho {
+    &, &-tardis, &-dalek {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .util-transitions-browserHelper(10s);
+
+    &-tardis {
+        background: url('../images/animations/tardis.png') no-repeat bottom left;
+
+        .util-transitions-doctorWho-add & {
+            -webkit-animation: tardis 10s ease-in-out;
+            animation: tardis 10s ease-in-out;
+        }
+    }
+
+    &-dalek {
+        background: url('../images/animations/dalek.png') no-repeat bottom right;
+        left: 100%;
+
+        .util-transitions-doctorWho-add & {
+            -webkit-animation: dalek 10s ease-in-out;
+            animation: dalek 10s ease-in-out;
+        }
+    }
+}
+
+@keyframes tardis {
+    0%  { opacity: 0; }
+    8%  { opacity: 0.4; }
+    16% { opacity: 0.2; }
+    24% { opacity: 0.6; }
+    32% { opacity: 0.3; }
+    40% { opacity: 1; } // Fully in @ 40%
+    60% { opacity: 1; } // Start fading out @ 60%
+    68% { opacity: 0.3; }
+    76% { opacity: 0.6; }
+    84% { opacity: 0.2; }
+    92% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+@-webkit-keyframes tardis {
+    0%  { opacity: 0; }
+    8%  { opacity: 0.4; }
+    16% { opacity: 0.2; }
+    24% { opacity: 0.6; }
+    32% { opacity: 0.3; }
+    40% { opacity: 1; } // Fully in @ 40%
+    60% { opacity: 1; } // Start fading out @ 60%
+    68% { opacity: 0.3; }
+    76% { opacity: 0.6; }
+    84% { opacity: 0.2; }
+    92% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+
+@keyframes dalek {
+    40% { left: 100%; } // Stay out until 40%
+    60% { left: 0; } // Fully in @ 60%
+    90% { left: 0; } // Start left
+    100% { left: -100%; } // Moving out of frame on left at 100%
+}
+@-webkit-keyframes dalek {
+    40% { left: 100%; } // Stay out until 40%
+    60% { left: 0; } // Fully in @ 60%
+    90% { left: 0; } // Start left
+    100% { left: -100%; } // Moving out of frame on left at 100%
+}

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- This view mapped to ViewCourseController controller -->
+
+    <bean id="CM-CourseVersions-View" parent="KS-Uif-FormView">
+        <property name="id" value="CourseVersionsView" />
+        <property name="header.render" value="false"/>
+        <property name="singlePageView" value="true" />
+        <property name="unifiedHeader" value="false"/>
+        <property name="viewSourceFile" value="CourseVersionsView.xml" />  <!-- This allows the name of the view xml to be seen in the DOM -->
+        <property name="applicationHeader">
+            <null/>
+        </property>
+        <property name="formClass" value="org.kuali.student.cm.course.form.CourseVersionsForm" />
+        <property name="viewHelperService">
+            <ref bean="courseVersionsViewHelperService"/>
+        </property>
+        <property name="page">
+            <bean parent="CM-CourseVersions-Page"/>
+        </property>
+
+        <property name="stickyFooter" value="true"/>
+        <property name="footer">
+            <ref bean="CM-CourseVersion-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="CM-CourseVersions-Page" parent="Uif-Page" p:disclosure.render="false" p:headerText="@{courseTitle}">
+        <property name="header">
+            <bean id="CM-CourseVersionsPage-Header" parent="Uif-HeaderOne" p:render="true">
+            </bean>
+        </property>
+        <!-- Because the display attribute of the breadcrumb wrapper is set to 'display: block !important' we need to just remove it. -->
+        <property name="onDocumentReadyScript" value="jQuery('#Uif-BreadcrumbWrapper').remove();"/>
+        <property name="breadcrumbOptions.renderViewBreadcrumb" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="CM-CourseVersion-TableSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CM-CourseVersion-TableSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5">
+        <property name="headerText" value="Version History"/>
+        <property name="header.render" value="true"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                            p:messageText="Select two versions to compare or select one version to view."/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.wrapper.VersionWrapper"/>
+        <property name="propertyName" value="versions"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable">
+           <bean id="CM-CourseVersions-resultSet-table" parent="KS-Uif-RichTable">
+               <property name="templateOptions">
+                   <map merge="true">
+                       <entry key="aoColumnDefs" value="{ bSortable: true, aTargets: [ ] }, { bSortable: false, aTargets: [ '_all' ] }"/>
+                       <entry key="bPaginate" value="false"/>
+                   </map>
+               </property>
+           </bean>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+           <list>
+               <bean id="CM-CourseVersions-resultSet-checkbox" parent="KS-Uif-InputField"
+                     p:propertyName="checked"
+                     p:onChangeScript="courseVersions.manageWidgets(this)" >
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+               <bean id="CM-CourseVersions-resultSet-version" parent="KS-Uif-DataField" p:label="Version" p:propertyName="sequence"/>
+               <bean id="CM-CourseVersions-resultSet-courseStatus" parent="KS-Uif-DataField" p:label="Course Status" p:propertyName="courseStatus"/>
+               <bean id="CM-CourseVersions-resultSet-startTerm" parent="KS-Uif-DataField" p:label="Start Term" p:propertyName="startTerm"/>
+               <bean id="CM-CourseVersions-resultSet-endTerm" parent="KS-Uif-DataField" p:label="End Term" p:propertyName="endTerm"/>
+           </list>
+        </property>
+    </bean>
+
+    <bean id="CM-CourseVersion-Footer" parent="KS-Uif-FooterBase" p:cssClasses="cm-footer">
+        <property name="items">
+            <list>
+                <bean id="CM-CourseVersion-Button-Group" parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <!-- This button starts out disabled but the change handler on the checkboxes above
+                                 will toggle it to enabled if appropriate. -->
+                            <bean id="CM-CourseVersion-Button-ShowVersions"
+                                  parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Show Version(s)"
+                                  p:disabled="true"
+                                  p:ajaxSubmit="true"
+                                  p:clearDirtyOnAction="true"
+                                  p:methodToCall="buildViewCourseUri"
+                                  p:successCallback="courseVersions.redirectToViewCourse()" />
+
+                            <bean id="CM-CourseVersion-Footer-Button-Close" parent="Uif-ActionLink">
+                                <property name="actionLabel" value="Close"/>
+                                <property name="actionScript" value="e.preventDefault(); closeLightbox();"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- View helper service for the Course Versions view. -->
+    <bean id="courseVersionsViewHelperService" parent="courseVersionsViewHelperService-parent"/>
+    <bean id="courseVersionsViewHelperService-parent" class="org.kuali.student.cm.course.service.impl.CourseVersionsViewHelperImpl"/>
+</beans>

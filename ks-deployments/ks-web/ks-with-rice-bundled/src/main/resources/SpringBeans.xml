@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+
+	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/ks-with-rice-bundled-config.xml</value>
+                <value>classpath:META-INF/org/kuali/student/ks-with-rice-bundled/project-rice-properties.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+		<property name="arguments">
+			<list><ref bean="bootstrapConfig"/></list>
+		</property>
+	</bean>
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="bootstrapConfig" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<!-- Bootstrap Rice  -->
+	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
+        
+	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+
+	<bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
+                <property name="collectionBeanReferences" >
+			<list>
+				<value>ks-core-dictionary-file-locations</value>
+				<value>ks-enroll-dictionary-file-locations</value>
+				<value>ks-cm-dictionary-file-locations</value>
+				<value>ks-ap-dictionary-file-locations</value>			
+				<value>ks-fa-dictionary-file-locations</value>	
+			</list>
+		</property>
+	</bean>
+	
+	<!-- for diagnostic purposes to see which profiles are active -->
+	<bean class="org.kuali.student.common.spring.DisplayActiveProfiles" />
+
+
+<beans profile="ks-core">
+
+	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
+    <import resource="classpath:mq/ks-mq-context.xml"/>
+
+	<import resource="classpath:ks-core-krad-data-dictionary-config.xml"/>
+</beans>
+
+<beans profile="ks-cm">
+    <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
+    <import resource="classpath:ks-cm-krad-data-dictionary-config.xml"/>
+</beans>
+
+
+ 
+ <beans profile="ks-enroll">
+ 
+    <import resource="classpath:ksb/ks-enroll-context.xml"/>
+    
+    <import resource="classpath:ks-enroll-krad-data-dictionary-config.xml"/>
+ 
+ </beans>
+ 
+ <beans profile="ks-ap">
+ 
+    <import resource="classpath:ks-ap-ui-context.xml"/>
+    
+    <import resource="classpath:ks-ap-krad-data-dictionary-config.xml"/>
+
+</beans>
+
+<beans profile="ks-fa">
+ 
+    <import resource="classpath:ks-fa-ui-context.xml"/>
+    
+    <import resource="classpath:ks-fa-krad-data-dictionary-config.xml"/>
+
+</beans>
+
+<beans profile="ks-web">
+
+	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
+
+    <bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
+        <property name="kualiModuleService" ref="kualiModuleService" />
+    </bean>
+
+	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KS-SYS" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+		
+			<bean class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
+                <property name="collectionBeanReferences" >
+                	<list>
+                		<value>ks-core-krad-data-dictionary-config</value>
+                		<value>ks-enroll-krad-data-dictionary-config</value>
+                		<value>ks-ap-krad-data-dictionary-config</value>
+                		<value>ks-fa-krad-data-dictionary-config</value>
+                		<value>ks-cm-krad-data-dictionary-config</value>
+                	</list>
+                </property>
+			</bean>
+		</property>
+		
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.rice.student.</value>
+				<value>org.kuali.student.enrollment.</value>
+                <!-- added below 2 items for CM screen Find a Course Proposal and Open Document for Course Proposal -->
+                <value>org.kuali.student.r2.core</value>
+                <value>org.kuali.student.cm</value>
+			</list>
+		</property>
+
+        <property name="databaseRepositoryFilePaths">
+          <list>
+            <value>OJB-cm-repository.xml</value>
+          </list>
+        </property>
+
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+                       value="org.kuali.rice.student.bo.KualiStudentKimAttributes"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
+
+	
+	
+</beans>
